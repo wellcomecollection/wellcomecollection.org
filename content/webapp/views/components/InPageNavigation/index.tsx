@@ -2,6 +2,7 @@ import { FocusTrap } from 'focus-trap-react';
 import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
@@ -12,6 +13,7 @@ import Icon from '@weco/common/views/components/Icon';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import { Link } from '@weco/content/types/link';
 
+import { polygonTopAt, splitGradient } from './InPageNavigation.helpers';
 import {
   AnimatedTextContainer,
   BackgroundOverlay,
@@ -47,6 +49,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
   const listRef = useRef<HTMLUListElement>(null);
   const inPageNavigationRef = useRef<HTMLDivElement>(null);
   const navGridCellRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
@@ -181,6 +185,113 @@ const InPageNavigation: FunctionComponent<Props> = ({
     }
   }, [clickedId, observedActiveId]);
 
+  // In the new brand the desktop nav colours its text by what's behind it,
+  // switching where a dark band ends (see Root's styles). If the band ends in
+  // a wobbly edge, follow its slope under each piece of text; the edge should
+  // use `fixedUntil` so that slope is straight under the nav.
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!theme.brandUpdate || !root) return;
+
+    const band = document.querySelector('[data-in-page-nav-dark]');
+    const edge = document.querySelector<HTMLElement>(
+      '[data-in-page-nav-dark-edge] > *'
+    );
+    let frame = 0;
+    let isEdgeAnimating = false;
+
+    const update = () => {
+      frame = 0;
+
+      // Read everything first, then write, so the browser doesn't have to
+      // recalculate styles part-way through
+      const bandBottom = band ? band.getBoundingClientRect().bottom : 0;
+      const edgeStyle = edge && getComputedStyle(edge);
+      const edgeRect =
+        edge && edgeStyle?.display !== 'none'
+          ? edge.getBoundingClientRect()
+          : undefined;
+
+      const darkUntil = (x: number) => {
+        if (!edgeRect || !edgeStyle) return bandBottom;
+        const y = polygonTopAt(
+          edgeStyle.clipPath,
+          ((x - edgeRect.left) / edgeRect.width) * 100
+        );
+        return y === undefined
+          ? bandBottom
+          : edgeRect.top + (y / 100) * edgeRect.height;
+      };
+
+      const splits = [...root.querySelectorAll<HTMLElement>('h2, a')].map(
+        el => {
+          const rect = el.getBoundingClientRect();
+          return {
+            el,
+            ...splitGradient({
+              width: rect.width,
+              height: rect.height,
+              leftY: darkUntil(rect.left) - rect.top,
+              rightY: darkUntil(rect.right) - rect.top,
+            }),
+          };
+        }
+      );
+
+      splits.forEach(({ el, angle, stop }) => {
+        el.style.setProperty('--angle', `${angle.toFixed(2)}deg`);
+        el.style.setProperty('--split', `${stop.toFixed(1)}px`);
+      });
+
+      if (isEdgeAnimating) frame = requestAnimationFrame(update);
+    };
+    const scheduleUpdate = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    // Things can move without a scroll: the edge gets its shape after it's
+    // measured (and reshapes, with a transition, after scrolling), and images
+    // loading can change the band's height
+    const startEdgeAnimation = () => {
+      isEdgeAnimating = true;
+      scheduleUpdate();
+    };
+    const stopEdgeAnimation = () => {
+      isEdgeAnimating = false;
+      scheduleUpdate();
+    };
+    const edgeObserver = new MutationObserver(scheduleUpdate);
+    const layoutObserver = new ResizeObserver(scheduleUpdate);
+
+    update();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    if (edge) {
+      edgeObserver.observe(edge, { attributeFilter: ['style'] });
+      edge.addEventListener('transitionrun', startEdgeAnimation);
+      edge.addEventListener('transitionend', stopEdgeAnimation);
+      edge.addEventListener('transitioncancel', stopEdgeAnimation);
+    }
+    if (band) layoutObserver.observe(band);
+    layoutObserver.observe(document.body);
+
+    // Only switch from the blend to the split colours once they're measured
+    const navGridCell = navGridCellRef.current;
+    navGridCell?.setAttribute('data-in-page-nav-split', '');
+
+    return () => {
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      edge?.removeEventListener('transitionrun', startEdgeAnimation);
+      edge?.removeEventListener('transitionend', stopEdgeAnimation);
+      edge?.removeEventListener('transitioncancel', stopEdgeAnimation);
+      edgeObserver.disconnect();
+      layoutObserver.disconnect();
+      cancelAnimationFrame(frame);
+      navGridCell?.removeAttribute('data-in-page-nav-split');
+    };
+  }, [theme.brandUpdate]);
+
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
 
@@ -220,7 +331,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
           initialFocus: false,
         }}
       >
-        <Root $hasStuck={hasStuck} data-in-page-navigation="true">
+        <Root ref={rootRef} $hasStuck={hasStuck} data-in-page-navigation="true">
           <h2
             className={`${typography('body', 'md', 'strong')} is-hidden-s is-hidden-m`}
           >

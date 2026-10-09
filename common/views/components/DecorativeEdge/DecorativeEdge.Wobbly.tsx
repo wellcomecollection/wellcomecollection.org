@@ -5,6 +5,7 @@ import {
   PropsWithChildren,
   ReactElement,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import styled from 'styled-components';
@@ -81,6 +82,10 @@ export type Props = {
   points?: number;
   isValley?: boolean;
   isStatic?: boolean;
+  /** A selector for an element (e.g. a sidebar) the edge should be a single,
+   * unchanging slope underneath. Its angle is picked once per page load; the
+   * rest of the edge still wobbles. */
+  fixedUntil?: string;
 };
 
 const WobblyEdge: FunctionComponent<Props> = ({
@@ -90,7 +95,10 @@ const WobblyEdge: FunctionComponent<Props> = ({
   points = 5,
   isValley,
   isStatic,
+  fixedUntil,
 }: Props): ReactElement => {
+  const edgeRef = useRef<HTMLDivElement>(null);
+  const fixedHeight = useRef(randomIntFromInterval(100 - intensity, 100));
   const [isActive, setIsActive] = useState(false);
   const [styleObject, setStyleObject] = useState(
     prefixedPropertyStyleObject('clipPath', makePolygonPoints(0, 0))
@@ -98,13 +106,36 @@ const WobblyEdge: FunctionComponent<Props> = ({
   let timer;
   const { isEnhanced } = useAppContext();
 
+  // Where `fixedUntil`'s right-hand side falls across the edge, as a %
+  function getFixedX(): number | undefined {
+    const edge = edgeRef.current?.getBoundingClientRect();
+    const until =
+      fixedUntil && document.querySelector(fixedUntil)?.getBoundingClientRect();
+    if (!edge?.width || !until) return undefined;
+
+    return Math.min(
+      100,
+      Math.max(0, ((until.right - edge.left) / edge.width) * 100)
+    );
+  }
+
   function makePolygonPoints(totalPoints: number, intensity: number): string {
     // Determine whether wobbly edge should be a mountain or a valley
     const first = isValley ? '0% 100%, 0% 0%,' : '0% 100%,';
     const last = isValley ? '100% 0%, 100% 100%' : '100% 100%';
+
+    // Keep the edge a single slope up to `fixedUntil`, with the same height
+    // every time, and wobble the rest
+    const fixedX = totalPoints > 0 ? getFixedX() : undefined;
+    const start = fixedX ?? 0;
+    const fixedPoint =
+      fixedX === undefined
+        ? ''
+        : `${fixedX.toFixed(2)}% ${fixedHeight.current}%,`;
+
     const innerPoints = [...Array(totalPoints)].reduce((acc, curr, index) => {
-      const xMean = (100 / totalPoints) * index;
-      const xShift = 100 / totalPoints / 2;
+      const xMean = start + ((100 - start) / totalPoints) * index;
+      const xShift = (100 - start) / totalPoints / 2;
 
       if (index === 0) return [];
 
@@ -114,7 +145,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
       return acc.concat(`${x}% ${y}%,`);
     }, []);
 
-    return `polygon(${first.concat(innerPoints.join(''), last)})`;
+    return `polygon(${first.concat(fixedPoint, innerPoints.join(''), last)})`;
   }
 
   function updatePoints() {
@@ -156,8 +187,19 @@ const WobblyEdge: FunctionComponent<Props> = ({
     };
   }, []);
 
+  // The fixed part needs measuring, which can only happen once the edge is
+  // showing, and again if the layout changes
+  useEffect(() => {
+    if (!fixedUntil || !isEnhanced) return;
+
+    updatePoints();
+    window.addEventListener('resize', debounceUpdatePoints);
+    return () => window.removeEventListener('resize', debounceUpdatePoints);
+  }, [fixedUntil, isEnhanced]);
+
   return (
     <Edge
+      ref={edgeRef}
       $backgroundColor={backgroundColor}
       $isRotated={isRotated || false}
       $isEnhanced={isEnhanced}
