@@ -1,8 +1,12 @@
 import { Meta, StoryObj } from '@storybook/react';
+import styled, { css } from 'styled-components';
 
 import { eye } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
-import Button, { ButtonProps } from '@weco/common/views/components/Buttons';
+import Button, {
+  ButtonHierarchy,
+  ButtonProps,
+} from '@weco/common/views/components/Buttons';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -20,6 +24,16 @@ function getColor(color) {
       return theme.buttonColors.default;
   }
 }
+
+const Wrapper = styled.div<{ $isOnDark: boolean }>`
+  padding: 20px;
+
+  ${props =>
+    props.$isOnDark &&
+    css`
+      background-color: ${props.theme.color('black')};
+    `}
+`;
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Buttons/Basics/Button',
@@ -46,6 +60,14 @@ export const Basic: Story = {
     storyColors: 'Default',
     showIcon: true,
   },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'With the brandUpdate toolbar toggle on, `hierarchy` and `isOnDark` set the brand colours. Without them, the preset picked in Colors decides.',
+      },
+    },
+  },
   argTypes: {
     variant: {
       options: ['ButtonSolid', 'ButtonSolidLink'],
@@ -66,18 +88,17 @@ export const Basic: Story = {
       control: 'select',
       name: 'Colors',
     },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy (brand)',
+    },
+    isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <div
-        style={{
-          padding: '20px',
-          backgroundColor: storyColors.includes('White')
-            ? theme.color('black')
-            : undefined,
-        }}
-      >
+      <Wrapper $isOnDark={!!storyColors?.includes('White') || !!args.isOnDark}>
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
@@ -94,9 +115,63 @@ export const Basic: Story = {
           }}
           {...restOfArgs}
         />
-      </div>
+      </Wrapper>
     );
   },
+};
+
+const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+const hierarchies: ButtonHierarchy[] = ['primary', 'secondary', 'tertiary'];
+
+export const Hierarchy: Story = {
+  name: 'Hierarchy (brand)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Primary, secondary and tertiary buttons on light and dark backgrounds. Turn the brandUpdate toolbar toggle on to see them; with it off every button uses the default preset.',
+      },
+    },
+  },
+  render: () => (
+    <>
+      {[false, true].map(isOnDark => (
+        <Wrapper key={String(isOnDark)} $isOnDark={isOnDark}>
+          {hierarchies.map(hierarchy => (
+            <Row key={hierarchy}>
+              <Button
+                variant="ButtonSolid"
+                text={hierarchy}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+              <Button
+                variant="ButtonSolid"
+                text="Disabled"
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+                disabled
+              />
+              <Button
+                variant="ButtonSolidLink"
+                text="Link"
+                link="#"
+                icon={eye}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+            </Row>
+          ))}
+        </Wrapper>
+      ))}
+    </>
+  ),
 };
 
 export const DropdownButton: Story = {
@@ -110,14 +185,16 @@ export const DropdownButton: Story = {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
     hasNoOptions: { control: 'boolean', name: 'Has no options' },
     isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy (brand)',
+    },
   },
   render: args => (
-    <div
+    <Wrapper
       className={typography('body', 'sm', 'regular')}
-      style={{
-        padding: '20px',
-        backgroundColor: args.isOnDark ? theme.color('black') : undefined,
-      }}
+      $isOnDark={args.isOnDark}
     >
       <Button
         variant="DropdownButton"
@@ -128,6 +205,6 @@ export const DropdownButton: Story = {
       >
         <span>Sign in to your library account</span>
       </Button>
-    </div>
+    </Wrapper>
   ),
 };

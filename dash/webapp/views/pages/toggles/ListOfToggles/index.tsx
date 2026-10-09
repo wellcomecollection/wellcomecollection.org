@@ -3,6 +3,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
+import ToggleStarButton from '../toggles.StarButton';
 import {
   ToggleControls,
   ToggleHeadingRow,
@@ -64,16 +65,17 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateActivated={toggle.dateActivated}
                     >
                       <h3
-                        style={{ margin: 0 }}
+                        style={{ margin: 0, display: 'inline' }}
                         aria-labelledby={`heading-${toggle.id}`}
                       >
-                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>{' '}
-                        <CopyLinkIcon
-                          toggleId={toggle.id}
-                          title={toggle.title}
-                        />
+                        <span id={`heading-${toggle.id}`}>{toggle.title}</span>
                       </h3>
                     </ToggleDates>
+                    <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
+                    <ToggleStarButton
+                      toggleId={toggle.id}
+                      title={toggle.title}
+                    />
                   </ToggleHeadingRow>
 
                   <div style={{ marginBottom: tokens.spacing.xs }}>

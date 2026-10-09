@@ -2,6 +2,13 @@ import styled from 'styled-components';
 
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import { Container } from '@weco/common/views/components/styled/Container';
+import { PinnedColor } from '@weco/common/views/themes/config';
+
+// A shade darker than the page, so the header reads as its own band
+export const headerBackgroundColor: PinnedColor<'white'> = {
+  brand: 'neutral.10',
+  legacy: 'white',
+};
 
 export const NavLoginWrapper = styled.div`
   display: flex;
@@ -26,7 +33,7 @@ export const Wrapper = styled.div<WrapperProps>`
   z-index: 6;
   background-color: ${props =>
     props.theme.color(
-      props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+      props.$hasColorBackground ? 'accent.lightGreen' : headerBackgroundColor
     )};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   height: ${props => props.theme.navHeight}px;
@@ -133,7 +140,7 @@ export const HeaderNav = styled.nav<{
   $hasColorBackground?: boolean;
 }>`
   display: ${props => (props.$burgerMenuisActive ? 'block' : 'none')};
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color(headerBackgroundColor)};
   position: absolute;
   top: calc(100% + 17px); /* Accounts for the set size of the header */
   left: 0;
@@ -158,7 +165,7 @@ export const HeaderNav = styled.nav<{
     padding-left: 0;
     padding-right: 0;
       background: ${props.theme.color(
-        props.$hasColorBackground ? 'accent.lightGreen' : 'white'
+        props.$hasColorBackground ? 'accent.lightGreen' : headerBackgroundColor
       )};
   `)}
 `}
@@ -226,7 +233,8 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props =>
+      props.theme.color({ brand: 'blue.30', legacy: 'yellow' })};
     z-index: -1;
     transition: width 200ms ease;
 

@@ -1,9 +1,19 @@
-import styled, { css } from 'styled-components';
+import styled, { css, DefaultTheme } from 'styled-components';
 
 import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  BrandButtonColors,
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
-import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
+import {
+  ButtonColors,
+  ButtonHierarchy,
+  ButtonSize,
+  SolidButtonStyledProps,
+} from './Buttons.types';
 
 export const BaseButtonInner = styled.span.attrs<{
   $isInline?: boolean;
@@ -94,6 +104,71 @@ const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
   }
 };
 
+/** The brand colours for a button, or undefined if it should keep its preset
+ * colours: the toggle is off, it's a pill (styled separately), or its colours
+ * have no place in the hierarchy (e.g. `danger`).
+ */
+export const getBrandButtonColors = ({
+  theme,
+  colors,
+  hierarchy,
+  isOnDark,
+  isPill,
+}: {
+  theme: DefaultTheme;
+  colors?: ButtonColors;
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
+  isPill?: boolean;
+}): BrandButtonColors | undefined => {
+  if (!theme.brandUpdate || isPill) return undefined;
+
+  const presetColors = colors || theme.buttonColors.default;
+  const level = hierarchy || presetColors.hierarchy;
+  if (!level) return undefined;
+
+  const onDark = isOnDark ?? presetColors.isOnDark;
+  return brandButtonColors[
+    level === 'tertiary' && onDark ? 'tertiaryOnDark' : level
+  ];
+};
+
+// A dark ring with a light gap, which reads on both light and dark backgrounds
+export const brandButtonFocusStyle = css`
+  outline: 2px solid ${designSystemColor('neutral.70')};
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')};
+`;
+
+const brandButtonStyles = (colors: BrandButtonColors) => `
+  background: ${designSystemColor(colors.default.background)};
+  color: ${designSystemColor(colors.default.text)};
+  border: 2px solid ${designSystemColor(colors.default.border)};
+
+  &:not([disabled]):hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  &:not([disabled]):active,
+  &[aria-expanded='true']:not([disabled]) {
+    background: ${designSystemColor(colors.active.background)};
+    color: ${designSystemColor(colors.active.text)};
+    border-color: ${designSystemColor(colors.active.border)};
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  &[disabled],
+  &.disabled {
+    background: ${designSystemColor(colors.disabled.background)};
+    color: ${designSystemColor(colors.disabled.text)};
+    border-color: ${designSystemColor(colors.disabled.border)};
+  }
+`;
+
 export const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
@@ -120,8 +195,27 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
             : '8px 16px'
         };
 
-        &:not([disabled]):hover {
-          box-shadow: ${props.theme.focusBoxShadow};
+        ${
+          props.theme.brandUpdate
+            ? `
+              background: transparent;
+
+              &:not([disabled]):hover {
+                background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+                text-decoration: underline;
+              }
+
+              /* An open dropdown */
+              &[aria-expanded='true']:not([disabled]) {
+                background: ${props.theme.color('black')};
+                color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+              }
+            `
+            : `
+              &:not([disabled]):hover {
+                box-shadow: ${props.theme.focusBoxShadow};
+              }
+            `
         }
       `
       : `
@@ -135,6 +229,27 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
           text-decoration: underline;
         }
       `};
+
+  ${props => {
+    const brandColors = getBrandButtonColors({
+      theme: props.theme,
+      colors: props.$colors,
+      hierarchy: props.$hierarchy,
+      isOnDark: props.$isOnDark,
+      isPill: props.$isPill,
+    });
+
+    return (
+      brandColors &&
+      css`
+        ${brandButtonStyles(brandColors)}
+
+        &:focus-visible {
+          ${brandButtonFocusStyle}
+        }
+      `
+    );
+  }}
 `;
 
 export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(

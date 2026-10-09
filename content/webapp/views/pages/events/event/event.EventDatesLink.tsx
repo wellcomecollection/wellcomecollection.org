@@ -14,7 +14,7 @@ const Wrapper = styled.a.attrs({
 
 const EventDatesLink: FunctionComponent = () => (
   <Wrapper href="#dates">
-    <Icon icon={arrowSmall} iconColor="black" rotate={90} />
+    <Icon icon={arrowSmall} rotate={90} />
     <span>See all dates</span>
   </Wrapper>
 );

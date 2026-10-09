@@ -11,10 +11,10 @@
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
     "@prismicio/client": "^7.22.0",
-    "@storybook/addon-a11y": "10.5.5",
-    "@storybook/addon-docs": "10.5.5",
-    "@storybook/cli": "10.5.5",
-    "chromatic": "^18.7.1",
+    "@storybook/addon-a11y": "10.6.0",
+    "@storybook/addon-docs": "10.6.0",
+    "@storybook/cli": "10.6.0",
+    "chromatic": "^18.9.5",
     "next": "16.3.7",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -22,9 +22,9 @@
     "webpack": "^5.110.1"
   },
   "devDependencies": {
-    "@storybook/nextjs-vite": "10.5.5",
-    "eslint-plugin-storybook": "10.5.5",
-    "storybook": "10.5.5",
+    "@storybook/nextjs-vite": "10.6.0",
+    "eslint-plugin-storybook": "10.6.0",
+    "storybook": "10.6.0",
     "util": "^0.12.5",
     "vite": "^8.2.0"
   }

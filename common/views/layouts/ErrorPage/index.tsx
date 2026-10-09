@@ -67,10 +67,11 @@ const TogglesMessage: FunctionComponent = () => {
 
   useEffect(() => {
     setToggles(() => {
+      const cookies = getCookies();
       // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
       // Those prefixed with a ! have a false value and we only need to show the toggles with a value of true here
       const activeTogglesInBrowser = dangerouslyGetEnabledToggles(
-        getCookies()
+        cookies
       ).filter(v => !v.startsWith('!'));
 
       const activeModes = activeTogglesInBrowser.filter(id =>
@@ -79,22 +80,42 @@ const TogglesMessage: FunctionComponent = () => {
 
       setHasActiveMode(activeModes.length > 0);
 
-      // Get the readable name
+      // Get the readable name - for a mode or phased flag, also show which
+      // option/phase is selected (e.g. "API environment (Stage)"), since
+      // knowing one is merely "on" isn't enough to debug from - unlike a
+      // feature flag, their behaviour depends entirely on which was picked.
       if (activeTogglesInBrowser.length > 0) {
         const flattenedTogglesList = [
           ...togglesList.featureFlags,
           ...togglesList.tests,
           ...togglesList.modes,
+          ...togglesList.phasedFlags,
         ];
         const activeToggleNames = activeTogglesInBrowser
-          .map(
-            id =>
-              Object.values(flattenedTogglesList).find(
-                toggle => toggle.id === id
-              )?.title
-          )
-          .filter(f => f);
-        return activeToggleNames as string[];
+          .map(id => {
+            const toggle = Object.values(flattenedTogglesList).find(
+              t => t.id === id
+            );
+            if (!toggle) return undefined;
+
+            const mode = togglesList.modes.find(m => m.id === id);
+            const phasedFlag = togglesList.phasedFlags.find(f => f.id === id);
+            // Normalised to a plain shape rather than left as the union of
+            // ModeOption[]/PhaseDefinition[] - TS can't unify .find() across
+            // two differently-shaped readonly array types (it resolves the
+            // callback parameter to an intersection, which collapses to
+            // never once the two toggles' option literals diverge enough).
+            const options: { id: string; label: string }[] | undefined =
+              mode?.options.map(o => ({ id: o.id, label: o.label })) ??
+              phasedFlag?.phases.map(p => ({ id: p.id, label: p.label }));
+            if (!options) return toggle.title;
+
+            const optionValue = cookies[`toggle_${id}`];
+            const option = options.find(o => o.id === optionValue);
+            return `${toggle.title} (${option?.label ?? optionValue})`;
+          })
+          .filter(isNotUndefined);
+        return activeToggleNames;
       } else {
         return [];
       }

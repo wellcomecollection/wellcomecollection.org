@@ -175,6 +175,37 @@ describe('withDefaultPhaseUnmodified', () => {
     expect(newRemote).toStrictEqual([getPublishedPhasedFlag(1, null)]);
   });
 
+  it('starts a new phased flag at its initialPhase when it has one', () => {
+    const newRemote = withDefaultPhaseUnmodified(
+      [],
+      [{ ...getPhasedFlagDefinition(1), initialPhase: 'mvp' }]
+    );
+
+    expect(newRemote).toStrictEqual([getPublishedPhasedFlag(1, 'mvp')]);
+  });
+
+  it("throws when initialPhase does not match any of the flag's phases", () => {
+    expect(() =>
+      withDefaultPhaseUnmodified(
+        [],
+        [{ ...getPhasedFlagDefinition(1), initialPhase: 'not-a-real-phase' }]
+      )
+    ).toThrow(
+      'flag-1: initialPhase "not-a-real-phase" isn\'t one of this flag\'s phases (mvp, phase2).'
+    );
+  });
+
+  it('ignores initialPhase once a flag is already published', () => {
+    const remote = [getPublishedPhasedFlag(1, null)];
+    const definitions = [
+      { ...getPhasedFlagDefinition(1), initialPhase: 'mvp' },
+    ];
+
+    const newRemote = withDefaultPhaseUnmodified(remote, definitions);
+
+    expect(newRemote).toStrictEqual([getPublishedPhasedFlag(1, null)]);
+  });
+
   it('preserves an existing defaultPhase across a redeploy', () => {
     const remote = [getPublishedPhasedFlag(1, 'phase2')];
     const definitions = [

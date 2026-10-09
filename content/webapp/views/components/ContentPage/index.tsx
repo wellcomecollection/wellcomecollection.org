@@ -19,6 +19,7 @@ import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHe
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import ContentPageContext from '@weco/content/contexts/ContentPageContext';
 import { ContentApiLinkedWork } from '@weco/content/services/wellcome/content/types/api';
 import { Contributor } from '@weco/content/types/contributors';
@@ -114,7 +115,9 @@ const ContentPage = ({
 
   return (
     <ContentPageContext.Provider
-      value={{ pageBackgroundColor: isCreamy ? 'warmNeutral.300' : 'white' }}
+      value={{
+        pageBackgroundColor: isCreamy ? 'warmNeutral.300' : pageBackgroundColor,
+      }}
     >
       <article data-wio-id={id}>
         {officialLandingPagesUid.includes(uid) ? (

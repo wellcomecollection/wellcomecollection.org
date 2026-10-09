@@ -105,8 +105,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             identifiers: newOnlineWorkIds,
           },
           shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
-          pipelineCluster:
-            serverData.toggles.modes.cataloguePipeline ?? undefined,
+          pipelineCluster: serverData.toggles.modes.cataloguePipeline,
         });
 
         if (works.type !== 'Error') {

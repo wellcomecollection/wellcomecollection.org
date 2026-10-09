@@ -10,7 +10,7 @@ import Icon from '@weco/common/views/components/Icon';
 const StyledLink = styled(NextLink).attrs({
   className: typography('body', 'sm', 'regular'),
 })`
-  background-color: ${props => props.theme.color('warmNeutral.300')};
+  background-color: ${props => props.theme.color({ brand: 'teal.20', legacy: 'warmNeutral.300' })};
   padding: ${props => props.theme.spacingUnits['100']};
   text-decoration: none;
   display: flex;

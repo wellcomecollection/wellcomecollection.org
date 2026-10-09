@@ -19,6 +19,13 @@ const LimitWidth = styled.div.attrs({
   font-variant-ligatures: no-contextual;
 `;
 
+// .spaced-text only spaces its direct children, so space the paragraphs inside the HTML too
+const HtmlText = styled.div`
+  > * + * {
+    margin-top: ${props => props.theme.spacedTextTopMargin};
+  }
+`;
+
 type TextProps = BaseProps & {
   text: string | string[];
 };
@@ -52,10 +59,10 @@ const WorkDetailsText: FunctionComponent<Props> = props => {
           ))}
         {'html' in props &&
           (isString(props.html) ? (
-            <div dangerouslySetInnerHTML={{ __html: props.html }} />
+            <HtmlText dangerouslySetInnerHTML={{ __html: props.html }} />
           ) : (
             props.html.map((para, i) => (
-              <div key={i} dangerouslySetInnerHTML={{ __html: para }} />
+              <HtmlText key={i} dangerouslySetInnerHTML={{ __html: para }} />
             ))
           ))}
       </LimitWidth>

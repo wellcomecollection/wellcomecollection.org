@@ -1,5 +1,6 @@
 import { ComponentProps, FunctionComponent, ReactElement } from 'react';
 
+import { Label } from '@weco/common/model/labels';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Picture } from '@weco/common/views/components/Picture';
@@ -25,10 +26,10 @@ export const pageGridLayout: SizeMap = {
 };
 
 function addFreeLabel(labelListProps) {
-  const freeLabel = {
+  const freeLabel: Label = {
     text: 'Free',
-    labelColor: 'black',
-    textColor: 'white',
+    labelColor: { brand: 'yellow.30', legacy: 'black' },
+    textColor: { brand: 'neutral.70', legacy: 'white' },
   };
   const labels = [freeLabel, ...(labelListProps?.labels ?? [])];
   return { ...(labelListProps ?? {}), labels };

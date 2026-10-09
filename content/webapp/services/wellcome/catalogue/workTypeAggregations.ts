@@ -93,7 +93,7 @@ export function transformWorkTypeAggregations(
 
 export async function fetchWorksAggregations(
   shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): Promise<WellcomeAggregation | null> {
   try {
     const result = await catalogueQuery('works', {
@@ -126,7 +126,7 @@ export async function fetchWorksAggregations(
 
 export async function fetchImagesCount(
   shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): Promise<number | null> {
   try {
     const result = await catalogueQuery('images', {
@@ -150,7 +150,7 @@ export async function fetchImagesCount(
 
 export async function fetchCollectionStats(
   shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): Promise<CollectionStats> {
   const collectionStats = createDefaultCollectionStats();
 

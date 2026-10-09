@@ -33,7 +33,7 @@ export type ArchiveWorkData = {
 type GetWorkProps = {
   id: string;
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
   include?: string[];
 };
 
@@ -185,7 +185,7 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 export async function getArchiveWorks(
   ids: string[],
   shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): Promise<Record<string, ArchiveWorkData>> {
   const settled = await Promise.allSettled(
     ids.map(id =>
@@ -321,7 +321,7 @@ export async function getArchiveCollectionContents(
   collectionRootId: string,
   page: number,
   shouldUseStagingApi?: boolean,
-  pipelineCluster?: string
+  pipelineCluster?: string | null
 ): Promise<ArchiveCollectionContentsPage | undefined> {
   const response = await getWorks({
     params: {

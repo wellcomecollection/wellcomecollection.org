@@ -55,14 +55,21 @@ export type PhasedFlagDefinition = ToggleBase & {
   // Ordered earliest to latest. Selecting a phase in the dashboard shows
   // that phase's work plus everything from the phases before it.
   phases: readonly PhaseDefinition[];
+  // The phase that's public the first time this flag is published - for a
+  // feature whose earlier phases already shipped behind a boolean flag.
+  // Like a feature flag's initialValue, it's only read for a brand new
+  // flag; after that the public phase changes via setDefaultValueFor.
+  initialPhase?: string;
 };
 
 export type PublishedPhasedFlag = ToggleBase &
   WithLifecycleDates & {
     phases: readonly PhaseDefinition[];
-    // What's actually public. Always null the first time a phased flag is
-    // published, then set explicitly later as each phase ships,
-    // the same way PublishedFeatureFlag.defaultValue works for booleans.
+    // What's actually public. Null the first time a phased flag is
+    // published, unless its definition set an initialPhase (for a feature
+    // whose earlier phases already shipped behind a boolean flag) - either
+    // way, set explicitly from then on as each phase ships, the same way
+    // PublishedFeatureFlag.defaultValue works for booleans.
     defaultPhase: string | null;
   };
 
@@ -75,6 +82,14 @@ const toggleConfig = {
       title: 'API toolbar',
       initialValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
+      type: 'permanent',
+    },
+    {
+      id: 'toggleWidget',
+      title: 'Toggle widget',
+      initialValue: false,
+      description:
+        'A floating widget to preview a toggle a dashboard user has starred, without going through the toggles dashboard.',
       type: 'permanent',
     },
     {
@@ -142,38 +157,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'archiveCollection',
-      title: 'Archive Collection level pages',
-      initialValue: false,
-      description:
-        'Enables access to the new Archive Collection level pages, changes to the work page and search result.',
-      type: 'experimental',
-    },
-    {
-      id: 'archiveShortDescriptions',
-      title: 'Archive short descriptions',
-      initialValue: false,
-      description:
-        "Shows the catalogue API's shortDescription field on archive work pages, the archive collection hero and archive collection search results.",
-      type: 'experimental',
-    },
-    {
-      id: 'semanticSearchPrototype',
-      title: 'Semantic search prototype',
-      initialValue: false,
-      description:
-        'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
-      type: 'experimental',
-    },
-    {
-      id: 'semanticSearchComparison',
-      title: 'Semantic search comparison',
-      initialValue: false,
-      description:
-        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
-      type: 'experimental',
-    },
-    {
       id: 'itemViewerRefactor',
       title: 'Item viewer refactor',
       initialValue: false,
@@ -213,6 +196,28 @@ const toggleConfig = {
         },
       ],
     },
+    {
+      id: 'archiveCollectionPhases',
+      title: 'Archive collection',
+      description: 'Staged rollout of archive collection level pages.',
+      type: 'experimental',
+      // MVP was already public behind archiveCollection when we created it as a phased flag.
+      initialPhase: 'mvp',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description:
+            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description:
+            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
+        },
+      ],
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
@@ -237,8 +242,13 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Selects which catalogue pipeline serves works and images requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works and images API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline. There is no preview pipeline to select at the moment; add an option here when the catalogue API exposes one as an additional cluster.',
-      options: [],
+        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty.',
+      options: [
+        {
+          id: 'pipeline-2026-09-30',
+          label: '2026-09-30 pipeline (Axiell part_of trees)',
+        },
+      ],
     },
   ] as const,
 };

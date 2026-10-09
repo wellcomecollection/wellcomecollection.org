@@ -104,7 +104,7 @@ const StoriesPage: NextPage<Props> = ({
                 type="article"
                 article={firstArticle}
                 background="neutral.700"
-                textColor="white"
+                textColor={{ brand: 'neutral.10', legacy: 'white' }}
                 priority
               />
             </ContaineredLayout>

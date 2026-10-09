@@ -6,7 +6,7 @@ import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 import { Article } from '@weco/content/services/wellcome/content/types/api';
 import { ExhibitionBasic } from '@weco/content/types/exhibitions';
 import DateRange from '@weco/content/views/components/DateRange';
@@ -30,8 +30,8 @@ import {
 } from './FeaturedCard.styles';
 
 type FeaturedCardProps = PartialFeaturedCard & {
-  background: PaletteColor;
-  textColor: PaletteColor;
+  background: PinnableColor;
+  textColor: PinnableColor;
   isReversed?: boolean;
   children: React.ReactNode;
   priority?: boolean;
@@ -39,15 +39,15 @@ type FeaturedCardProps = PartialFeaturedCard & {
 
 type FeaturedCardArticleProps = {
   article: Article;
-  background: PaletteColor;
-  textColor: PaletteColor;
+  background: PinnableColor;
+  textColor: PinnableColor;
   priority?: boolean;
 };
 
 type FeaturedCardExhibitionProps = {
   exhibition: ExhibitionBasic;
-  background: PaletteColor;
-  textColor: PaletteColor;
+  background: PinnableColor;
+  textColor: PinnableColor;
   priority?: boolean;
 };
 

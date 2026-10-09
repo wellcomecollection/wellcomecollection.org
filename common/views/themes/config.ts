@@ -4,7 +4,10 @@ import {
 } from '@wellcometrust/wellcome-design-system/theme';
 import { css, keyframes } from 'styled-components';
 
-import { ButtonColors } from '@weco/common/views/components/Buttons';
+import {
+  ButtonColors,
+  ButtonHierarchy,
+} from '@weco/common/views/components/Buttons';
 import {
   HorizontalSpaceProperty,
   SpaceOverrides,
@@ -78,12 +81,33 @@ const colorValues = { ...colors, ...passthroughColors };
  * place while the `brandUpdate` toggle is off, e.g.
  * `theme.color({ brand: 'orange.30', legacy: 'neutral.400' })`.
  */
-export type PinnedColor = { brand: DesignSystemColor; legacy: PaletteColor };
+export type PinnedColor<T extends PaletteColor = PaletteColor> = {
+  brand: DesignSystemColor;
+  legacy: T;
+};
 
 /** Like PaletteColor, but also allows a pin. Separate so that widening a prop
  * is a deliberate choice: some components compare the colour to a name.
+ * Props limited to a few names can use `Pinnable<'white' | 'black'>`.
  */
-export type PinnableColor = PaletteColor | PinnedColor;
+export type Pinnable<T extends PaletteColor> = T | PinnedColor<T>;
+export type PinnableColor = Pinnable<PaletteColor>;
+
+/** The page background. Anything that needs to blend into the page (e.g. a
+ * decorative edge) should use this rather than `white`.
+ */
+export const pageBackgroundColor: PinnedColor<'white'> = {
+  brand: 'neutral.05',
+  legacy: 'white',
+};
+
+/** The near-black backdrop behind images and video (e.g. the viewer canvas).
+ * Pinned because `black` is the brand text colour, which is lighter.
+ */
+export const mediaBackgroundColor: PinnedColor<'black'> = {
+  brand: 'neutral.80',
+  legacy: 'black',
+};
 
 /** How both palettes resolve a colour, so `theme.color(...)` behaves the same
  * either way.
@@ -92,6 +116,13 @@ type ColorFunction = (name: PinnableColor) => string;
 
 const isPinnedColor = (name: PinnableColor): name is PinnedColor =>
   typeof name === 'object';
+
+/** The current-brand name of a colour, for components that compare a colour
+ * to a name (e.g. to pick a contrasting text colour).
+ */
+export const legacyColorName = <T extends PaletteColor>(
+  name: Pinnable<T>
+): T => (typeof name === 'object' ? name.legacy : name);
 
 const getColor: ColorFunction = name =>
   isPinnedColor(name) ? colorValues[name.legacy] : colorValues[name];
@@ -173,7 +204,7 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
 >;
 
 // Maps each existing colour to its nearest equivalent in the core design system
-// scales, chosen by hex distance. Used to swap palettes when the `brandUpdate`
+// scales, mostly chosen by hex distance. Used to swap palettes when the `brandUpdate`
 // toggle is on. The `Record<keyof typeof colors, ...>` type makes this
 // exhaustive: a new entry in `colors` is a type error until it's mapped here.
 //
@@ -184,7 +215,7 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
 const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
   {
     white: 'white',
-    black: 'neutral.80',
+    black: 'neutral.70',
     yellow: 'yellow.30', // FIXME: such yellow
     lightYellow: 'yellow.20',
 
@@ -195,19 +226,19 @@ const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
     'accent.blue': 'indigo.60',
     'accent.lightBlue': 'blue.30',
     'accent.green': 'teal.40',
-    'accent.lightGreen': 'neutral.30', // FIXME: nearest is a grey, not a green
+    'accent.lightGreen': 'green.40',
     'accent.salmon': 'orange.40',
     'accent.lightSalmon': 'orange.30',
 
     'neutral.200': 'neutral.05',
-    'neutral.300': 'teal.10', // FIXME: nearest is a green-tinted off-white
+    'neutral.300': 'neutral.20',
     'neutral.400': 'neutral.20',
     'neutral.500': 'neutral.40',
     'neutral.600': 'neutral.50',
     'neutral.700': 'neutral.70',
 
     'warmNeutral.200': 'yellow.10',
-    'warmNeutral.300': 'green.10', // FIXME: nearest is a green-tinted off-white
+    'warmNeutral.300': 'neutral.10',
     'warmNeutral.400': 'neutral.20',
 
     'validation.red': 'ui.red.40',
@@ -230,6 +261,13 @@ const brandUpdateColorValues = {
   ...brandUpdateColors,
   ...passthroughColors,
 };
+
+/** A design system colour by name, for brand-only styles that have no
+ * current-brand equivalent to pin to.
+ */
+export const designSystemColor = (
+  name: DesignSystemColor | 'transparent'
+): string => (name === 'transparent' ? name : designSystemColors[name]);
 
 const getBrandUpdateColor: ColorFunction = name =>
   isPinnedColor(name)
@@ -257,6 +295,7 @@ const defaultButtonColors: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
+  hierarchy: 'primary',
 };
 
 const dangerButtonColors: ButtonColors = {
@@ -272,24 +311,29 @@ const charcoalWhiteCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 const greenTransparentGreen: ButtonColors = {
   border: 'accent.green',
   background: 'transparent',
   text: 'accent.green',
+  hierarchy: 'tertiary',
 };
 
 const greenGreenWhite: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
+  hierarchy: 'primary',
 };
 
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
   background: 'transparent',
   text: 'white',
+  hierarchy: 'tertiary',
+  isOnDark: true,
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
@@ -302,18 +346,21 @@ const charcoalTransparentCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 const charcoalTransparentBlack: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'black',
+  hierarchy: 'tertiary',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 // New button style introduction
@@ -323,6 +370,7 @@ const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
   text: 'black',
+  hierarchy: 'secondary',
 };
 
 const whiteWhiteCharcoal: ButtonColors = {
@@ -347,6 +395,76 @@ const slateWhiteBlack: ButtonColors = {
   border: 'neutral.600',
   background: 'white',
   text: 'black',
+};
+
+type BrandButtonColor = DesignSystemColor | 'transparent';
+
+type BrandButtonStateColors = {
+  border: BrandButtonColor;
+  background: BrandButtonColor;
+  text: BrandButtonColor;
+};
+
+export type BrandButtonColors = {
+  default: BrandButtonStateColors;
+  active: BrandButtonStateColors;
+  disabled: BrandButtonStateColors;
+};
+
+const filledDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
+  background: 'ui.grey.40',
+  text: 'ui.grey.60',
+};
+
+const outlinedDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
+  background: 'transparent',
+  text: 'ui.grey.40',
+};
+
+// Button colours from the brand designs. Only tertiary changes on a dark
+// background; hover adds an underline rather than changing colour.
+export const brandButtonColors: Record<
+  ButtonHierarchy | 'tertiaryOnDark',
+  BrandButtonColors
+> = {
+  primary: {
+    default: {
+      border: 'indigo.50',
+      background: 'indigo.50',
+      text: 'neutral.10',
+    },
+    active: {
+      border: 'indigo.60',
+      background: 'indigo.60',
+      text: 'neutral.10',
+    },
+    disabled: filledDisabled,
+  },
+  secondary: {
+    default: { border: 'blue.30', background: 'blue.30', text: 'neutral.70' },
+    active: { border: 'blue.40', background: 'blue.40', text: 'neutral.70' },
+    disabled: filledDisabled,
+  },
+  tertiary: {
+    default: {
+      border: 'neutral.70',
+      background: 'transparent',
+      text: 'neutral.70',
+    },
+    active: {
+      border: 'neutral.80',
+      background: 'transparent',
+      text: 'neutral.80',
+    },
+    disabled: outlinedDisabled,
+  },
+  tertiaryOnDark: {
+    default: { border: 'blue.30', background: 'transparent', text: 'blue.30' },
+    active: { border: 'blue.40', background: 'transparent', text: 'blue.40' },
+    disabled: outlinedDisabled,
+  },
 };
 
 export type Size = keyof typeof sizes;
@@ -532,6 +650,9 @@ export const themeValues = {
   kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
   kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
   fontVerticalOffset: '0.15em',
+  // For the few brand changes a colour pin can't express, e.g. a style that
+  // only exists in the new brand
+  brandUpdate: false,
   colors,
   color: getColor,
   minCardHeight: 385,
@@ -582,6 +703,7 @@ export const createTheme = (brandUpdate: boolean) =>
   brandUpdate
     ? {
         ...themeValues,
+        brandUpdate: true,
         colors: brandUpdateColors,
         color: getBrandUpdateColor,
         focusBoxShadow: `0 0 0 3px ${brandUpdateColors['focus.yellow']}`,

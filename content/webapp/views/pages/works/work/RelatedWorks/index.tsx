@@ -69,7 +69,7 @@ const RelatedWorks = ({
         typesTechniques,
         date,
         shouldUseStagingApi: stagingApi,
-        pipelineCluster: cataloguePipeline ?? undefined,
+        pipelineCluster: cataloguePipeline,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);

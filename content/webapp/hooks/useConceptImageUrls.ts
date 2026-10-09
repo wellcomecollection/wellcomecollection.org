@@ -34,7 +34,7 @@ async function fetchImagesBySection({
   concept: Concept;
   limit: number;
   shouldUseStagingApi?: boolean;
-  pipelineCluster?: string;
+  pipelineCluster?: string | null;
 }): Promise<string[]> {
   const params = queryParams(sectionName, concept);
   const result = await getImages({
@@ -52,8 +52,7 @@ async function fetchImagesBySection({
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
   const { stagingApi } = useFeatureFlags();
-  const { cataloguePipeline } = useModes();
-  const pipelineCluster = cataloguePipeline ?? undefined;
+  const { cataloguePipeline: pipelineCluster } = useModes();
 
   // Include the toggle state in the key so that changing the
   // cataloguePipeline mode mid-session doesn’t serve cached

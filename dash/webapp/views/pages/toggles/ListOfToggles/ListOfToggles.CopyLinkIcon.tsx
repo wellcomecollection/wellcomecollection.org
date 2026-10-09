@@ -1,7 +1,13 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import { FunctionComponent } from 'react';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
+
+import {
+  FlashBadge,
+  IconActionButton,
+  IconActionWrapper,
+  useFlashMessage,
+} from '../toggles.FlashBadgeIconButton';
 
 const buildQuery = (props: CopyLinkIconProps): string => {
   if (props.modeValue !== undefined) {
@@ -19,66 +25,6 @@ const copyEnableLink = async (props: CopyLinkIconProps): Promise<void> => {
   await navigator.clipboard.writeText(url);
 };
 
-const IconButton = styled.button`
-  background: none;
-  border: none;
-  padding: 2px 4px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  color: ${tokens.colors.success.main};
-  border-radius: ${tokens.borderRadius.small};
-  position: relative;
-  line-height: 1;
-
-  &:hover {
-    background: ${tokens.colors.success.light};
-  }
-
-  &:focus-visible {
-    outline: ${tokens.focus.outline};
-    box-shadow: ${tokens.focus.boxShadow};
-  }
-`;
-
-const CopiedBadge = styled.span`
-  position: absolute;
-  bottom: calc(100% + 4px);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-  pointer-events: none;
-  white-space: nowrap;
-  font-size: ${tokens.typography.fontSize.small};
-  color: ${tokens.colors.success.text};
-  background: ${tokens.colors.success.light};
-  padding: 2px 6px;
-  border-radius: 10px;
-  animation: fade-in-out 2s ease forwards;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
-
-  @keyframes fade-in-out {
-    0% {
-      opacity: 0;
-    }
-
-    10% {
-      opacity: 1;
-    }
-
-    80% {
-      opacity: 1;
-    }
-
-    100% {
-      opacity: 0;
-    }
-  }
-`;
-
 export type CopyLinkIconProps = {
   toggleId: string;
   title: string;
@@ -87,39 +33,20 @@ export type CopyLinkIconProps = {
 
 const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
   const { title, modeValue } = props;
-  const [copied, setCopied] = useState(false);
   const isMode = modeValue !== undefined;
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, []);
+  const [copied, flashCopied] = useFlashMessage<true>();
 
   const onCopy = async () => {
     await copyEnableLink(props);
-    setCopied(true);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    timeoutRef.current = setTimeout(() => setCopied(false), 2000);
+    flashCopied(true);
   };
 
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        position: 'relative',
-      }}
-    >
-      <IconButton
+    <IconActionWrapper>
+      <IconActionButton
         type="button"
+        $color={tokens.colors.success.main}
+        $hoverBackground={tokens.colors.success.light}
         aria-label={
           isMode
             ? `Copy link to set mode ${title}`
@@ -147,11 +74,18 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
           <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
         </svg>
-      </IconButton>
+      </IconActionButton>
       <span role="status" aria-live="polite">
-        {copied && <CopiedBadge>Copied!</CopiedBadge>}
+        {copied && (
+          <FlashBadge
+            $color={tokens.colors.success.text}
+            $background={tokens.colors.success.light}
+          >
+            Copied!
+          </FlashBadge>
+        )}
       </span>
-    </span>
+    </IconActionWrapper>
   );
 };
 

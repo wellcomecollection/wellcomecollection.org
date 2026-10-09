@@ -48,7 +48,9 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
       : props.theme.color(
-          props.$isNewSearchBar ? 'accent.green' : 'neutral.600'
+          props.$isNewSearchBar
+            ? { brand: 'indigo.50', legacy: 'accent.green' }
+            : { brand: 'neutral.70', legacy: 'neutral.600' }
         )};
 
   &:has(:focus-visible) {
@@ -70,7 +72,8 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 
   &:hover {
     border-color: ${props =>
-      !props.$isNewSearchBar && props.theme.color('black')};
+      !props.$isNewSearchBar &&
+      props.theme.color({ brand: 'neutral.80', legacy: 'black' })};
   }
 
   ${props =>
@@ -79,7 +82,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
       : ``}
 `;
 
-const HintCopy = styled.span.attrs({
+export const HintCopy = styled.span.attrs({
   className: typography('body', 'md', 'regular'),
 })`
   display: block;
@@ -236,6 +239,13 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     }
   }, [value, isNewSearchBar, ref]);
 
+  const status =
+    !isValid && showValidity
+      ? 'error'
+      : isValid && showValidity
+        ? 'success'
+        : undefined;
+
   return (
     <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
@@ -249,13 +259,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       <TextInputWrap
         $isNewSearchBar={isNewSearchBar}
         $isDisabled={disabled}
-        $status={
-          !isValid && showValidity
-            ? 'error'
-            : isValid && showValidity
-              ? 'success'
-              : undefined
-        }
+        $status={status}
+        data-status={status}
       >
         <TextInputInput
           ref={ref}
