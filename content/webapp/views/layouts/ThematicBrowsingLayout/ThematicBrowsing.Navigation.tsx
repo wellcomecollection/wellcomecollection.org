@@ -20,7 +20,6 @@ const ThematicBrowsingNavigation: FunctionComponent<{
     },
     { id: 'types-and-techniques', label: 'Types and techniques' },
     { id: 'subjects', label: 'Subjects' },
-    { id: 'places', label: 'Places' },
   ];
 
   return (
