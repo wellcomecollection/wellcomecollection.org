@@ -157,14 +157,6 @@ const toggleConfig = {
       type: 'experimental',
     },
     {
-      id: 'itemViewerRefactor',
-      title: 'Item viewer refactor',
-      initialValue: false,
-      description:
-        'Displays the refactored item viewer instead of the current one.',
-      type: 'experimental',
-    },
-    {
       id: 'brandUpdate',
       title: 'Brand update',
       initialValue: false,
