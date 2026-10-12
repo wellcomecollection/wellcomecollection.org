@@ -9,7 +9,7 @@ import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
 import { mediaBackgroundColor } from '@weco/common/views/themes/config';
-import { ItemViewerContextRefactored as ItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
@@ -368,7 +368,6 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
   return (
     <ItemViewerContext.Provider
       value={{
-        isRefactoredContext: true,
         // DATA props:
         query: {
           page,

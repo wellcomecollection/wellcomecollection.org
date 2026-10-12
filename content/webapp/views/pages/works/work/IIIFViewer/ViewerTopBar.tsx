@@ -10,7 +10,7 @@ import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useDownloadOptions from '@weco/content/hooks/useDownloadOptions';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { hasRealLabel } from '@weco/content/utils/works';

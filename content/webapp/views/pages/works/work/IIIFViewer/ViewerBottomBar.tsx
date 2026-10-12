@@ -8,7 +8,7 @@ import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 

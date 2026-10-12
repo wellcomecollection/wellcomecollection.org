@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 
 import { maximise, minimise } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 
 import { ViewerButton } from './ViewerButton.styles';

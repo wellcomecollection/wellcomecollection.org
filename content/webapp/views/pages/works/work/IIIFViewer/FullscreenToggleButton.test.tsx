@@ -2,22 +2,16 @@ import { fireEvent, screen } from '@testing-library/react';
 
 import {
   renderWithContext,
-  RenderWithRefactoredContextOptions,
+  RenderWithContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 
 import FullscreenToggleButton from './FullscreenToggleButton';
 
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
-
 function renderButton(
   props: { className?: string } = {},
-  options: RenderWithRefactoredContextOptions = {}
+  options: RenderWithContextOptions = {}
 ) {
   return renderWithContext(<FullscreenToggleButton {...props} />, {
-    useRefactoredContext: true,
     ...options,
   });
 }

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { ReactElement } from 'react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -23,7 +23,6 @@ const render = (
 ) =>
   renderWithContext(ui, {
     contextProps: { transformedManifest: threeCanvases, ...contextProps },
-    useRefactoredContext: true,
   });
 
 describe('CanvasPositionIndicator', () => {

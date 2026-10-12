@@ -2,7 +2,7 @@ import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { useMemo } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { DownloadOption } from '@weco/content/types/manifest';
 import {
   deduplicateDownloadOptions,

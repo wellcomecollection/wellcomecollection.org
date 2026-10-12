@@ -4,9 +4,9 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import UserContext, {
   defaultUserContext,
 } from '@weco/common/contexts/UserContext';
-import ItemViewerContextRefactored, {
-  defaultItemViewerContext as defaultItemViewerContextRefactored,
-} from '@weco/content/contexts/ItemViewerContext/refactored';
+import ItemViewerContext, {
+  defaultItemViewerContext,
+} from '@weco/content/contexts/ItemViewerContext';
 import {
   createMockCanvas,
   createRestrictedPainting,
@@ -44,11 +44,11 @@ describe('useIIIFProbeService', () => {
       <UserContext.Provider
         value={{ ...defaultUserContext, userIsStaffWithRestricted }}
       >
-        <ItemViewerContextRefactored.Provider
-          value={{ ...defaultItemViewerContextRefactored, accessToken }}
+        <ItemViewerContext.Provider
+          value={{ ...defaultItemViewerContext, accessToken }}
         >
           {children}
-        </ItemViewerContextRefactored.Provider>
+        </ItemViewerContext.Provider>
       </UserContext.Provider>
     );
 
