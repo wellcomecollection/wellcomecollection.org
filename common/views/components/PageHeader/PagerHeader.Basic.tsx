@@ -38,6 +38,7 @@ import {
 
 const Heading = styled(Space)`
   background-color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('black')};
   display: inline;
   line-height: calc(1.1em + 12px);
   -webkit-box-decoration-break: clone;
@@ -86,7 +87,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   isContentTypeInfoBeforeMedia = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
-  heroImageBgColor = 'white',
+  heroImageBgColor = pageBackgroundColor,
   backgroundTexture,
   highlightHeading,
   SerialPartNumber,
@@ -118,6 +119,8 @@ const BasicPageHeader: FunctionComponent<Props> = ({
           gridSizes={fullWidth ? gridSize12() : pageGridLayout}
         >
           <Wrapper
+            // The brand update's textured headers are dark
+            $isOnDarkHeader={!!(Background || backgroundTexture)}
             $v={{
               size: isSlim ? '2xs' : 'md',
               properties:

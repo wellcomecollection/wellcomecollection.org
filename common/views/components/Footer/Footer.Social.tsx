@@ -19,8 +19,9 @@ const Cell = styled(Space).attrs({
   border-radius: 50%;
   transition: all ${props => props.theme.transitionProperties};
 
+  /* The link inside takes focus, not this div */
   &:hover,
-  &:focus {
+  &:focus-within {
     color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'neutral.200' })};
     background-color: ${props => props.theme.color('black')};
   }

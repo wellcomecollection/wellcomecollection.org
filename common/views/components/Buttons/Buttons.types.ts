@@ -2,7 +2,7 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { DataGtmProps } from '@weco/common/utils/gtm';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { PinnableColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = (
@@ -16,12 +16,23 @@ export type SolidButtonStyledProps = (
   $hasIcon?: boolean;
   $isIconAfter?: boolean;
   $isNewSearchBar?: boolean;
+  $hierarchy?: ButtonHierarchy;
+  $isOnDark?: boolean;
 };
 
+/** Where a button sits in the brand designs' hierarchy. Only used when the
+ * `brandUpdate` toggle is on.
+ */
+export type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary';
+
 export type ButtonColors = {
-  border: PaletteColor;
-  background: PaletteColor;
-  text: PaletteColor;
+  border: PinnableColor;
+  background: PinnableColor;
+  text: PinnableColor;
+  // The brand hierarchy a preset maps to, so buttons that don't pass
+  // `hierarchy` still pick up the brand styles
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
 };
 
 export enum ButtonTypes {
@@ -45,4 +56,6 @@ export type ButtonSolidBaseProps = {
   size?: ButtonSize;
   form?: string;
   isPill?: boolean;
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
 };

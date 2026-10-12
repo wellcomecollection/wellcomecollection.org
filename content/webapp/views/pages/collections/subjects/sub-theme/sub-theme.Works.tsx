@@ -199,6 +199,7 @@ const SubThemeWorks = ({
                   : { workType: [selectedTab] }),
               })}
               colors={themeValues.buttonColors.greenGreenWhite}
+              hierarchy="secondary"
             />
           </div>
         )}

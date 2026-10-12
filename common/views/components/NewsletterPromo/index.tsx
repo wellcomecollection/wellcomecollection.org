@@ -1,19 +1,54 @@
 import { FunctionComponent, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import useValidation from '@weco/common/hooks/useValidation';
 import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
+import CheckboxRadio, {
+  CheckboxRadioBox,
+} from '@weco/common/views/components/CheckboxRadio';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '@weco/common/views/components/TextInput';
+import TextInput, {
+  HintCopy,
+  TextInputWrap,
+} from '@weco/common/views/components/TextInput';
+
+const Wrapper = styled(Space).attrs({
+  className: 'is-hidden-print',
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props =>
+    props.theme.color({ brand: 'teal.50', legacy: 'lightYellow' })};
+
+  /* The new brand's promo is dark, so its text and form parts need lightening */
+  ${props =>
+    props.theme.brandUpdate &&
+    `
+    color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};
+
+    ${HintCopy} {
+      color: inherit;
+    }
+
+    /* Leave error/success and hover borders as they are */
+    ${TextInputWrap}:not([data-status]):not(:hover) {
+      border-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'neutral.600' })};
+    }
+
+    ${CheckboxRadioBox} {
+      background-color: ${props.theme.color('white')};
+      border-color: ${props.theme.color('white')};
+      color: ${props.theme.color('black')};
+    }
+  `}
+`;
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -46,7 +81,6 @@ const PrivacyNotice = () => (
 );
 
 const NewsletterPromo: FunctionComponent = () => {
-  const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
@@ -101,12 +135,7 @@ const NewsletterPromo: FunctionComponent = () => {
   }
 
   return (
-    <Space
-      data-component="newsletter-promo"
-      className="is-hidden-print"
-      style={{ backgroundColor: theme.color('lightYellow') }}
-      $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-    >
+    <Wrapper data-component="newsletter-promo">
       <Container>
         <ContaineredLayout gridSizes={gridSize8()}>
           <h2
@@ -178,6 +207,8 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="secondary"
+                  isOnDark
                   dataGtmProps={{
                     trigger: 'newsletter_promo_subscribe',
                   }}
@@ -207,7 +238,7 @@ const NewsletterPromo: FunctionComponent = () => {
           )}
         </ContaineredLayout>
       </Container>
-    </Space>
+    </Wrapper>
   );
 };
 

@@ -54,15 +54,4 @@ describe('getWorks: the cataloguePipeline mode toggle', () => {
     const [url] = mockWellcomeApiQuery.mock.calls[0];
     expect(url).not.toContain('elasticCluster');
   });
-
-  it('doesn’t override an explicit elasticCluster param', async () => {
-    await getWorks({
-      params: { query: 'sheep', elasticCluster: 'openai' },
-      pipelineCluster: 'axiell-collections-testing',
-    });
-
-    const [url] = mockWellcomeApiQuery.mock.calls[0];
-    expect(url).toContain('elasticCluster=openai');
-    expect(url).not.toContain('axiell-collections-testing');
-  });
 });

@@ -134,6 +134,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
             <Button
               variant="ButtonSolid"
               colors={theme.buttonColors.greenTransparentGreen}
+              hierarchy="secondary"
               clickHandler={onCancel}
               text="No, go back to my account"
             />

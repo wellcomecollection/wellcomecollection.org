@@ -64,7 +64,8 @@ const ShowHide = styled(Space).attrs({
     position: absolute;
     bottom: 0;
     height: 2px;
-    background: ${props => props.theme.color('yellow')};
+    background: ${props =>
+      props.theme.brandUpdate ? 'currentColor' : props.theme.color('yellow')};
     width: 0%;
     left: 0;
     transition: width ${props => props.theme.transitionProperties};

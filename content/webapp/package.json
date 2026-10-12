@@ -14,7 +14,7 @@
     "@iiif/presentation-3": "^2.2.4",
     "@koa/router": "^15.6.0",
     "@prismicio/client": "^7.22.0",
-    "@prismicio/react": "3.4.0",
+    "@prismicio/react": "3.5.0",
     "@vimeo/player": "^2.25.1",
     "@weco/common": "1.0.0",
     "@weco/toggles": "1.0.0",

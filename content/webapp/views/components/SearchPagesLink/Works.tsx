@@ -38,7 +38,6 @@ const emptyWorksProps: WorksProps = {
   'collection.root': undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
-  searchIn: undefined,
 };
 
 const codecMap = {
@@ -64,7 +63,6 @@ const codecMap = {
   'collection.root': maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
-  searchIn: maybeStringCodec,
 };
 
 export type WorksProps = FromCodecMap<typeof codecMap>;

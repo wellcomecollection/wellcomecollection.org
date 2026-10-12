@@ -26,7 +26,8 @@ const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
   width: 100%;
-  background-color: ${props => props.theme.color('warmNeutral.300')};
+  background-color: ${props =>
+    props.theme.color({ brand: 'teal.20', legacy: 'warmNeutral.300' })};
   transform: rotate(-2deg);
 `;
 
@@ -165,10 +166,7 @@ const WorkCard: FunctionComponent<Props> = ({ item, dataGtmProps }) => {
           <Space
             $v={{ size: 'sm', properties: ['margin-top'], negative: true }}
           >
-            <LabelsList
-              labels={transformedWork.labels}
-              defaultLabelColor={{ brand: 'green.20', legacy: 'yellow' }}
-            />
+            <LabelsList labels={transformedWork.labels} />
           </Space>
         </Space>
         <Title>{transformedWork.title}</Title>

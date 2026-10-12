@@ -28,13 +28,10 @@ export async function catalogueQuery<Params, Result extends ResultType>(
   const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   // The cataloguePipeline mode toggle routes the request to that pipeline's
-  // cluster, unless the caller has already selected a specific cluster
-  // (e.g. the semantic search prototypes). When the mode is unset both
-  // values are undefined and no param is added.
-  const { elasticCluster } = params as { elasticCluster?: string };
+  // cluster. When the mode is unset no param is added.
   const extendedParams = {
     ...params,
-    elasticCluster: elasticCluster ?? pipelineCluster,
+    elasticCluster: pipelineCluster,
     pageSize,
   };
 

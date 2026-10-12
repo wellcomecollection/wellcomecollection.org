@@ -11,6 +11,7 @@ import {
 } from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
 
 export type TagType = {
   textParts: string[];
@@ -77,35 +78,50 @@ const Tags: FunctionComponent<Props> = ({
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
+          const tagInner = (
+            <TagInner>
+              {textParts.map((part, i, arr) => (
+                <PartWithSeparator
+                  key={part}
+                  $separator={i === 0 ? '|' : separator}
+                  $isLast={i === arr.length - 1}
+                >
+                  <span
+                    className={
+                      i === 0 && isFirstPartBold
+                        ? typography('body', 'md', 'strong')
+                        : typography('body', 'md', 'regular')
+                    }
+                  >
+                    {part}
+                  </span>
+                </PartWithSeparator>
+              ))}
+            </TagInner>
+          );
+
           return (
             <LinkWrapper as="li" key={i}>
-              <StyledLink
-                href={linkAttributes.href}
-                $size="small"
-                $colors={
-                  buttonColors ?? theme.buttonColors.pumiceTransparentCharcoal
-                }
-              >
-                <TagInner>
-                  {textParts.map((part, i, arr) => (
-                    <PartWithSeparator
-                      key={part}
-                      $separator={i === 0 ? '|' : separator}
-                      $isLast={i === arr.length - 1}
-                    >
-                      <span
-                        className={
-                          i === 0 && isFirstPartBold
-                            ? typography('body', 'md', 'strong')
-                            : typography('body', 'md', 'regular')
-                        }
-                      >
-                        {part}
-                      </span>
-                    </PartWithSeparator>
-                  ))}
-                </TagInner>
-              </StyledLink>
+              {theme.brandUpdate ? (
+                <SelectableTagLink
+                  href={linkAttributes.href}
+                  $isSelected={false}
+                  $lineColor="black"
+                  $lineThickness={1.4}
+                >
+                  {tagInner}
+                </SelectableTagLink>
+              ) : (
+                <StyledLink
+                  href={linkAttributes.href}
+                  $size="small"
+                  $colors={
+                    buttonColors ?? theme.buttonColors.pumiceTransparentCharcoal
+                  }
+                >
+                  {tagInner}
+                </StyledLink>
+              )}
             </LinkWrapper>
           );
         })}

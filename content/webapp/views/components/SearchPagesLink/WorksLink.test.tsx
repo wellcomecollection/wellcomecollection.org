@@ -28,7 +28,6 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
-        searchIn: undefined,
       });
     });
 
@@ -67,7 +66,6 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
-        searchIn: undefined,
       });
     });
   });

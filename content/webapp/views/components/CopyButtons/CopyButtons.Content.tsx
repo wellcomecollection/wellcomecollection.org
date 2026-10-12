@@ -73,6 +73,7 @@ const CopyContent: FunctionComponent<Props> = ({
               trigger: 'copy_content',
             }}
             colors={theme.buttonColors.pumiceTransparentCharcoal}
+            hierarchy="tertiary"
             size="small"
             aria-live="assertive"
             clickHandler={handleButtonClick}

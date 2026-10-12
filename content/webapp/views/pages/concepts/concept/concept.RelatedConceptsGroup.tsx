@@ -3,9 +3,11 @@ import styled, { useTheme } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
+import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
 
 const RelatedConceptsContainer = styled.div.attrs({
   className: typography('body', 'md', 'strong'),
@@ -72,23 +74,39 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            <Space className={typography('body', 'md', 'regular')}>
-              <Button
-                {...(dataGtmTriggerName && {
-                  dataGtmProps: {
+            {theme.brandUpdate ? (
+              <SelectableTagLink
+                href={`/concepts/${item.id}`}
+                $isSelected={false}
+                $lineColor="black"
+                $lineThickness={1.4}
+                {...(dataGtmTriggerName &&
+                  dataGtmPropsToAttributes({
                     trigger: dataGtmTriggerName,
                     'position-in-list': `${index + 1}`,
-                  },
-                })}
-                variant="ButtonSolidLink"
-                colors={
-                  buttonColors || theme.buttonColors.slateTransparentBlack
-                }
-                text={item.label}
-                link={`/concepts/${item.id}`}
-                size="small"
-              ></Button>
-            </Space>
+                  }))}
+              >
+                <span>{item.label}</span>
+              </SelectableTagLink>
+            ) : (
+              <Space className={typography('body', 'md', 'regular')}>
+                <Button
+                  {...(dataGtmTriggerName && {
+                    dataGtmProps: {
+                      trigger: dataGtmTriggerName,
+                      'position-in-list': `${index + 1}`,
+                    },
+                  })}
+                  variant="ButtonSolidLink"
+                  colors={
+                    buttonColors || theme.buttonColors.slateTransparentBlack
+                  }
+                  text={item.label}
+                  link={`/concepts/${item.id}`}
+                  size="small"
+                ></Button>
+              </Space>
+            )}
             {item.relationshipType?.replace('has_', '')}
           </RelatedConceptItem>
         ))}

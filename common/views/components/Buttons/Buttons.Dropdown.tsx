@@ -13,7 +13,10 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron, IconSvg } from '@weco/common/icons';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
-import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
+import Button, {
+  ButtonHierarchy,
+  ButtonTypes,
+} from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 
 const Anchor = styled.span`
@@ -90,6 +93,7 @@ export type DropdownButtonProps = {
   isPill?: boolean;
   hasNoOptions?: boolean;
   isTight?: boolean;
+  hierarchy?: ButtonHierarchy;
 };
 
 const DropdownButton: FunctionComponent<
@@ -105,6 +109,7 @@ const DropdownButton: FunctionComponent<
   isPill,
   hasNoOptions,
   isTight,
+  hierarchy,
 }) => {
   const { isEnhanced } = useAppContext();
   const theme = useTheme();
@@ -169,6 +174,8 @@ const DropdownButton: FunctionComponent<
     ariaExpanded: isActive,
     isPill,
     disabled: hasNoOptions,
+    hierarchy,
+    isOnDark,
   };
 
   return (

@@ -95,6 +95,7 @@ const ImageSection: FunctionComponent<Props> = ({
             name="View all"
             url={getAllImagesLink(type, concept)}
             colors={theme.buttonColors.greenGreenWhite}
+            hierarchy="secondary"
           />
         )}
       </Space>
