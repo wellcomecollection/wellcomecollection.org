@@ -1,4 +1,4 @@
-import type { BrowserContext, Expect, Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 import { expect, test } from './helpers/analytics-blocking';
 import {
@@ -36,21 +36,20 @@ const accessSidebarOnMobile = async (page: Page): Promise<void> => {
   }
 };
 
-const checkDownloadsAvailable = async (page: Page, expect: Expect) => {
+const checkDownloadsAvailable = async (page: Page) => {
   await expect(page.locator('#itemDownloads')).toHaveAttribute('inert');
   await page.locator('[aria-controls="itemDownloads"]').click();
   await expect(page.locator('#itemDownloads')).not.toHaveAttribute('inert');
   await expect(page.locator('#itemDownloads a')).not.toHaveCount(0);
 };
 
-const checkInfoPanelHasHeading = async (page: Page, expect: Expect) => {
+const checkInfoPanelHasHeading = async (page: Page) => {
   await accessSidebarOnMobile(page);
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 };
 
 const checkPageIndicator = async (
   page: Page,
-  expect: Expect,
   expectedText: string,
   location: 'topbar' | 'bottombar'
 ) => {
@@ -60,7 +59,6 @@ const checkPageIndicator = async (
 
 const checkAriaSelected = async (
   page: Page,
-  expect: Expect,
   expectedText: string,
   shouldBeVisible: boolean
 ) => {
@@ -75,13 +73,7 @@ const checkAriaSelected = async (
 
 test.describe.configure({ mode: 'parallel' });
 
-test('(1) | The images can be zoomed', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(1) | The images can be zoomed', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   await page.getByRole('button', { name: 'Zoom in' }).click();
   await expect(page.locator('.openseadragon-canvas')).toBeVisible();
@@ -90,9 +82,6 @@ test('(1) | The images can be zoomed', async ({
 test('(2) | The info panel visibility can be toggled', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
   const heading = page.getByRole('heading').filter({
@@ -115,12 +104,9 @@ test('(2) | The info panel visibility can be toggled', async ({
 test('(3) | An image of the current canvas can be downloaded', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
-  await checkDownloadsAvailable(page, expect);
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
@@ -130,15 +116,9 @@ test('(3) | An image of the current canvas can be downloaded', async ({
   );
 });
 
-test('(4) | The entire item can be downloaded', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(4) | The entire item can be downloaded', async ({ page, context }) => {
   await multiVolumeItem(context, page);
-  await checkDownloadsAvailable(page, expect);
+  await checkDownloadsAvailable(page);
 
   const smallImageLink = page
     .getByRole('link')
@@ -151,9 +131,6 @@ test('(4) | The entire item can be downloaded', async ({
 test('(5) | The item has contributor information', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
@@ -162,13 +139,7 @@ test('(5) | The item has contributor information', async ({
   ).toBeVisible();
 });
 
-test('(6) | The item has date information', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(6) | The item has date information', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
   await expect(page.getByText('Date:1496[7]')).toBeVisible();
@@ -177,9 +148,6 @@ test('(6) | The item has date information', async ({
 test('(7) | The item has reference number information', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithReferenceNumber(context, page);
   await accessSidebarOnMobile(page);
@@ -189,9 +157,6 @@ test('(7) | The item has reference number information', async ({
 test('(8) | Licence information should be available', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithSearchAndStructures(context, page);
   await accessSidebarOnMobile(page);
@@ -200,13 +165,7 @@ test('(8) | Licence information should be available', async ({
   await expect(page.getByText('Credit:')).toBeVisible();
 });
 
-test('(9) | The image should rotate', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(9) | The image should rotate', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
   await page.getByRole('button', { name: 'Rotate' }).click();
   const currentIndex = await page.getByTestId('active-index').textContent();
@@ -216,13 +175,7 @@ test('(9) | The image should rotate', async ({
   ).toHaveAttribute('src', /\/90\/default\.jpg/);
 });
 
-test('(10) | The volumes should be browsable', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(10) | The volumes should be browsable', async ({ page, context }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
   await page.getByRole('button', { name: 'Volumes' }).click();
@@ -232,9 +185,6 @@ test('(10) | The volumes should be browsable', async ({
 test('(11) | The multi-volume label should be appropriate', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
@@ -247,9 +197,6 @@ test('(11) | The multi-volume label should be appropriate', async ({
 test('(12) | The structured parts should be browseable', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
@@ -264,9 +211,6 @@ test('(12) | The structured parts should be browseable', async ({
 test('(13) | The main viewer can be scrolled all the way to the last slide', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithSearchAndStructures(context, page);
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
@@ -281,13 +225,7 @@ test('(13) | The main viewer can be scrolled all the way to the last slide', asy
   await expect(page.getByTestId('image-67')).toBeInViewport();
 });
 
-test('(14) | The item should be searchable', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(14) | The item should be searchable', async ({ page, context }) => {
   await itemWithSearchAndStructures(context, page);
 
   await accessSidebarOnMobile(page);
@@ -299,9 +237,6 @@ test('(14) | The item should be searchable', async ({
 test('(15) | The location of the search results should be displayed', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await page.route(
     'https://iiif.wellcomecollection.org/search/v1/b29338062?q=darwin',
@@ -319,13 +254,7 @@ test('(15) | The location of the search results should be displayed', async ({
   ).toBeVisible();
 });
 
-test('(16) | Images should have unique alt text', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(16) | Images should have unique alt text', async ({ page, context }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   await expect(page.getByAltText('digitised image 2')).toBeVisible();
   expect(await page.getByAltText('digitised image 2').count()).toEqual(1);
@@ -334,9 +263,6 @@ test('(16) | Images should have unique alt text', async ({
 test('(17) | An item with only open access items will not display a modal and display the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithOnlyOpenAccess(context, page);
   await expect(page.getByText('Show the content')).toBeHidden();
@@ -346,9 +272,6 @@ test('(17) | An item with only open access items will not display a modal and di
 test('(18) | An item with a mix of restricted and open access items will not display a modal and display the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithRestrictedAndOpenAccess(context, page);
   await expect(page.getByText('Show the content')).toBeHidden();
@@ -358,9 +281,6 @@ test('(18) | An item with a mix of restricted and open access items will not dis
 test('(19) | An item with only restricted access images will display a modal with no option to view the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithOnlyRestrictedAccessImages(context, page);
   await expect(
@@ -373,9 +293,6 @@ test('(19) | An item with only restricted access images will display a modal wit
 test('(20) | An item with only restricted access non image items will display a modal with no option to view the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithOnlyRestrictedAccessNonImages(context, page);
   await expect(
@@ -388,9 +305,6 @@ test('(20) | An item with only restricted access non image items will display a 
 test('(21) | An item with a mix of restricted and non-restricted access items will display a modal that offers access to the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithRestrictedAndNonRestrictedAccess(context, page);
 
@@ -404,9 +318,6 @@ test('(21) | An item with a mix of restricted and non-restricted access items wi
 test('(22) | An item with a mix of non-restricted and open access items will display a modal that offers access to the content', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithNonRestrictedAndOpenAccess(context, page);
 
@@ -420,9 +331,6 @@ test('(22) | An item with a mix of non-restricted and open access items will dis
 test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
 
@@ -464,9 +372,6 @@ test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
 test('(24) | Video player is visible and renders', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithVideo(context, page);
   await expect(page.locator('video')).toBeVisible();
@@ -475,9 +380,6 @@ test('(24) | Video player is visible and renders', async ({
 test('(25) | Video playback controls are present', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithVideo(context, page);
   const video = page.locator('video');
@@ -488,31 +390,19 @@ test('(25) | Video playback controls are present', async ({
 test('(26) | Video download options are available', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithVideo(context, page);
-  await checkDownloadsAvailable(page, expect);
+  await checkDownloadsAvailable(page);
 });
 
-test('(27) | Video info panel displays heading', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(27) | Video info panel displays heading', async ({ page, context }) => {
   await itemWithVideo(context, page);
-  await checkInfoPanelHasHeading(page, expect);
+  await checkInfoPanelHasHeading(page);
 });
 
 test('(28) | Audio player is visible and renders', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithAudio(context, page);
   await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
@@ -521,9 +411,6 @@ test('(28) | Audio player is visible and renders', async ({
 test('(29) | Audio playback controls are functional', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithAudio(context, page);
   const playButton = page.getByRole('button', { name: 'Play' });
@@ -539,31 +426,19 @@ test('(29) | Audio playback controls are functional', async ({
 test('(30) | Audio download options are available', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithAudio(context, page);
-  await checkDownloadsAvailable(page, expect);
+  await checkDownloadsAvailable(page);
 });
 
-test('(31) | Audio info panel displays heading', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(31) | Audio info panel displays heading', async ({ page, context }) => {
   await itemWithAudio(context, page);
-  await checkInfoPanelHasHeading(page, expect);
+  await checkInfoPanelHasHeading(page);
 });
 
 test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithPdf(context, page);
   const pdfIframe = page.locator('iframe[title]');
@@ -579,34 +454,19 @@ test('(32) | Renders the PDF document on Desktop or an "Open" link on Mobile', a
   }
 });
 
-test('(33) | PDF download options are available', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(33) | PDF download options are available', async ({ page, context }) => {
   await itemWithPdf(context, page);
-  await checkDownloadsAvailable(page, expect);
+  await checkDownloadsAvailable(page);
 });
 
-test('(34) | PDF info panel displays heading', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(34) | PDF info panel displays heading', async ({ page, context }) => {
   await itemWithPdf(context, page);
-  await checkInfoPanelHasHeading(page, expect);
+  await checkInfoPanelHasHeading(page);
 });
 
 test('(35) | PDF file links update selected item, page indicator and pdf', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithPdf(context, page);
 
@@ -614,8 +474,8 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
     await pdfLink.click();
 
-    await checkAriaSelected(page, expect, 'Sally-Anne_Hulton.pdf', true);
-    await checkPageIndicator(page, expect, '5/27', 'topbar');
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', true);
+    await checkPageIndicator(page, '5/27', 'topbar');
 
     const pdfIframe = page.locator('iframe[title]');
     await expect(pdfIframe).toHaveAttribute(
@@ -629,8 +489,8 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
     const pdfLink = page.getByRole('link', { name: 'Sally-Anne_Hulton.pdf' });
     await pdfLink.click();
 
-    await checkAriaSelected(page, expect, 'Sally-Anne_Hulton.pdf', false);
-    await checkPageIndicator(page, expect, '5/27', 'bottombar');
+    await checkAriaSelected(page, 'Sally-Anne_Hulton.pdf', false);
+    await checkPageIndicator(page, '5/27', 'bottombar');
 
     const openLink = page.getByRole('link', { name: /open/i });
     await expect(openLink).toBeVisible({ timeout: 10000 });
@@ -643,9 +503,6 @@ test('(35) | PDF file links update selected item, page indicator and pdf', async
 test('(36) | Born digital files display and links update selected item and display media', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithMixedBornDigital(context, page);
 
@@ -657,7 +514,7 @@ test('(36) | Born digital files display and links update selected item and displ
     const audioLink = page.getByRole('link', { name: 'slide1.wav' });
     await audioLink.click();
 
-    await checkAriaSelected(page, expect, 'slide1.wav', true);
+    await checkAriaSelected(page, 'slide1.wav', true);
 
     await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
@@ -671,19 +528,13 @@ test('(36) | Born digital files display and links update selected item and displ
     const audioLink = page.getByRole('link', { name: 'slide1.wav' });
     await audioLink.click();
 
-    await checkAriaSelected(page, expect, 'slide1.wav', false);
+    await checkAriaSelected(page, 'slide1.wav', false);
 
     await expect(page.getByRole('button', { name: 'Play' })).toBeVisible();
   }
 });
 
-test('(37) | Born digital have downloads', async ({
-  page,
-  context,
-}: {
-  page: Page;
-  context: BrowserContext;
-}) => {
+test('(37) | Born digital have downloads', async ({ page, context }) => {
   await itemWithMixedBornDigital(context, page);
   const downloadLink = page.getByRole('link', { name: /download/i });
   await expect(downloadLink.first()).toBeVisible();
@@ -692,41 +543,32 @@ test('(37) | Born digital have downloads', async ({
 test('(38) | Born digital info panel displays heading', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithMixedBornDigital(context, page);
-  await checkInfoPanelHasHeading(page, expect);
+  await checkInfoPanelHasHeading(page);
 });
 
 test('(39) | Mobile pagination updates content in main viewer', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithPdf(context, page);
 
   if (isMobile(page)) {
-    await checkPageIndicator(page, expect, '1/27', 'bottombar');
+    await checkPageIndicator(page, '1/27', 'bottombar');
     const bottombar = page.locator('[data-testid="bottombar"]');
     const nextLink = bottombar.getByRole('link', { name: /next/i });
     await nextLink.click();
-    await checkPageIndicator(page, expect, '2/27', 'bottombar');
+    await checkPageIndicator(page, '2/27', 'bottombar');
     const previousLink = bottombar.getByRole('link', { name: /previous/i });
     await previousLink.click();
-    await checkPageIndicator(page, expect, '1/27', 'bottombar');
+    await checkPageIndicator(page, '1/27', 'bottombar');
   }
 });
 
 test('(40) | OCR text should be accessible to screenreaders', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithAltText({ canvasNumber: 2 }, context, page);
   const img = page.getByAltText('digitised image 2');
@@ -740,9 +582,6 @@ test('(40) | OCR text should be accessible to screenreaders', async ({
 test('(41) | Mobile sidebar toggle button text changes between Show and Hide info', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
 
@@ -764,9 +603,6 @@ test('(41) | Mobile sidebar toggle button text changes between Show and Hide inf
 test('(42) | Mobile sidebar closes automatically when navigating between canvases', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
 
@@ -790,9 +626,6 @@ test('(42) | Mobile sidebar closes automatically when navigating between canvase
 test('(43) | Page and Grid view controls hide when mobile sidebar is open', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page);
 
@@ -817,9 +650,6 @@ test('(43) | Page and Grid view controls hide when mobile sidebar is open', asyn
 test('(44) | Rapid canvas navigation does not cause state corruption', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
 
@@ -842,9 +672,6 @@ test('(44) | Rapid canvas navigation does not cause state corruption', async ({
 test('(45) | Direct URL to specific canvas loads correctly', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await multiVolumeItem(context, page, { canvasNumber: 5 });
 
@@ -859,9 +686,6 @@ test('(45) | Direct URL to specific canvas loads correctly', async ({
 test('(46) | Download tree item stays visible when clicked', async ({
   page,
   context,
-}: {
-  page: Page;
-  context: BrowserContext;
 }) => {
   await itemWithBornDigitalDownloads(context, page);
   await accessSidebarOnMobile(page);
@@ -885,9 +709,6 @@ test.describe('GTM trigger check', () => {
   test('(47) | Download tree item Download link fires GTM trigger', async ({
     page,
     context,
-  }: {
-    page: Page;
-    context: BrowserContext;
   }) => {
     await itemWithBornDigitalDownloads(context, page);
     await accessSidebarOnMobile(page);
