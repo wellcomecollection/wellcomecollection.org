@@ -75,6 +75,7 @@ const CopyUrl: FunctionComponent<Props> = ({
               trigger: 'copy_url',
             }}
             colors={theme.buttonColors.pumiceTransparentCharcoal}
+            hierarchy="tertiary"
             size="small"
             aria-live="assertive"
             clickHandler={handleButtonClick}

@@ -206,7 +206,10 @@ export const typography = css`
       transition: color ${props => props.theme.transitionProperties};
 
       &:hover {
-        color: ${props => props.theme.color('accent.green')};
+        /* The brand keeps the text colour; only the underline goes */
+        ${props =>
+          !props.theme.brandUpdate &&
+          `color: ${props.theme.color('accent.green')};`}
         text-decoration-color: transparent;
       }
     }

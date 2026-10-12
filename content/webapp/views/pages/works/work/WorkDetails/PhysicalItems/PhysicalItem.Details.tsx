@@ -186,6 +186,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.greenTransparentGreen}
+          hierarchy="secondary"
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
           text="Request item"

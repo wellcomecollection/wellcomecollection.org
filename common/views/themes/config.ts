@@ -4,7 +4,10 @@ import {
 } from '@wellcometrust/wellcome-design-system/theme';
 import { css, keyframes } from 'styled-components';
 
-import { ButtonColors } from '@weco/common/views/components/Buttons';
+import {
+  ButtonColors,
+  ButtonHierarchy,
+} from '@weco/common/views/components/Buttons';
 import {
   HorizontalSpaceProperty,
   SpaceOverrides,
@@ -259,6 +262,13 @@ const brandUpdateColorValues = {
   ...passthroughColors,
 };
 
+/** A design system colour by name, for brand-only styles that have no
+ * current-brand equivalent to pin to.
+ */
+export const designSystemColor = (
+  name: DesignSystemColor | 'transparent'
+): string => (name === 'transparent' ? name : designSystemColors[name]);
+
 const getBrandUpdateColor: ColorFunction = name =>
   isPinnedColor(name)
     ? designSystemColors[name.brand]
@@ -285,6 +295,7 @@ const defaultButtonColors: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
+  hierarchy: 'primary',
 };
 
 const dangerButtonColors: ButtonColors = {
@@ -300,24 +311,29 @@ const charcoalWhiteCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 const greenTransparentGreen: ButtonColors = {
   border: 'accent.green',
   background: 'transparent',
   text: 'accent.green',
+  hierarchy: 'tertiary',
 };
 
 const greenGreenWhite: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
+  hierarchy: 'primary',
 };
 
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
   background: 'transparent',
   text: 'white',
+  hierarchy: 'tertiary',
+  isOnDark: true,
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
@@ -330,18 +346,21 @@ const charcoalTransparentCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 const charcoalTransparentBlack: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'black',
+  hierarchy: 'tertiary',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
+  hierarchy: 'tertiary',
 };
 
 // New button style introduction
@@ -351,6 +370,7 @@ const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
   text: 'black',
+  hierarchy: 'secondary',
 };
 
 const whiteWhiteCharcoal: ButtonColors = {
@@ -375,6 +395,76 @@ const slateWhiteBlack: ButtonColors = {
   border: 'neutral.600',
   background: 'white',
   text: 'black',
+};
+
+type BrandButtonColor = DesignSystemColor | 'transparent';
+
+type BrandButtonStateColors = {
+  border: BrandButtonColor;
+  background: BrandButtonColor;
+  text: BrandButtonColor;
+};
+
+export type BrandButtonColors = {
+  default: BrandButtonStateColors;
+  active: BrandButtonStateColors;
+  disabled: BrandButtonStateColors;
+};
+
+const filledDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
+  background: 'ui.grey.40',
+  text: 'ui.grey.60',
+};
+
+const outlinedDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
+  background: 'transparent',
+  text: 'ui.grey.40',
+};
+
+// Button colours from the brand designs. Only tertiary changes on a dark
+// background; hover adds an underline rather than changing colour.
+export const brandButtonColors: Record<
+  ButtonHierarchy | 'tertiaryOnDark',
+  BrandButtonColors
+> = {
+  primary: {
+    default: {
+      border: 'indigo.50',
+      background: 'indigo.50',
+      text: 'neutral.10',
+    },
+    active: {
+      border: 'indigo.60',
+      background: 'indigo.60',
+      text: 'neutral.10',
+    },
+    disabled: filledDisabled,
+  },
+  secondary: {
+    default: { border: 'blue.30', background: 'blue.30', text: 'neutral.70' },
+    active: { border: 'blue.40', background: 'blue.40', text: 'neutral.70' },
+    disabled: filledDisabled,
+  },
+  tertiary: {
+    default: {
+      border: 'neutral.70',
+      background: 'transparent',
+      text: 'neutral.70',
+    },
+    active: {
+      border: 'neutral.80',
+      background: 'transparent',
+      text: 'neutral.80',
+    },
+    disabled: outlinedDisabled,
+  },
+  tertiaryOnDark: {
+    default: { border: 'blue.30', background: 'transparent', text: 'blue.30' },
+    active: { border: 'blue.40', background: 'transparent', text: 'blue.40' },
+    disabled: outlinedDisabled,
+  },
 };
 
 export type Size = keyof typeof sizes;

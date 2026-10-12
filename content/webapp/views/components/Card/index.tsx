@@ -52,7 +52,8 @@ const sharedCardOuter = css`
   }
 
   .card-theme.card-theme--white & {
-    background: ${props => props.theme.color('white')};
+    background: ${props =>
+      props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
   }
 
   .card-theme.card-theme--transparent & {

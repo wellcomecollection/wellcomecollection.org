@@ -1,10 +1,12 @@
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { themeValues } from '@weco/common/views/themes/config';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
+import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
 
 const RelatedConceptsContainer = styled.div.attrs({
   className: typography('body', 'md', 'strong'),
@@ -27,24 +29,41 @@ const SubThemeRelatedTopics = ({
 }: {
   relatedTopics: RelatedConcept[];
 }) => {
+  const theme = useTheme();
+
   return (
     <Space $v={{ size: 'md', properties: ['margin-top'] }}>
       <RelatedConceptsContainer>
         {relatedTopics.map((item, index) => (
           <RelatedConceptItem key={item.id}>
-            <Space className={typography('body', 'md', 'regular')}>
-              <Button
-                variant="ButtonSolidLink"
-                colors={themeValues.buttonColors.slateTransparentBlack}
-                text={item.label}
-                link={`/concepts/${item.id}`}
-                size="small"
-                dataGtmProps={{
+            {theme.brandUpdate ? (
+              <SelectableTagLink
+                href={`/concepts/${item.id}`}
+                $isSelected={false}
+                $lineColor="black"
+                $lineThickness={1.4}
+                {...dataGtmPropsToAttributes({
                   trigger: 'related_topics',
                   'position-in-list': `${index + 1}`,
-                }}
-              />
-            </Space>
+                })}
+              >
+                <span>{item.label}</span>
+              </SelectableTagLink>
+            ) : (
+              <Space className={typography('body', 'md', 'regular')}>
+                <Button
+                  variant="ButtonSolidLink"
+                  colors={themeValues.buttonColors.slateTransparentBlack}
+                  text={item.label}
+                  link={`/concepts/${item.id}`}
+                  size="small"
+                  dataGtmProps={{
+                    trigger: 'related_topics',
+                    'position-in-list': `${index + 1}`,
+                  }}
+                />
+              </Space>
+            )}
           </RelatedConceptItem>
         ))}
       </RelatedConceptsContainer>

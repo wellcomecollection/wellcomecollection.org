@@ -41,6 +41,7 @@ const SubThemeImages = ({
           'source.subjects.label': conceptsDisplayLabels,
         })}
         colors={themeValues.buttonColors.greenGreenWhite}
+        hierarchy="secondary"
       />
     </Space>
   </ThemeImagesWrapper>

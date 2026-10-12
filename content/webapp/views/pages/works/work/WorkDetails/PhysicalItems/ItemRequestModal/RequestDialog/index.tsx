@@ -204,6 +204,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.greenTransparentGreen}
+          hierarchy="secondary"
           type={ButtonTypes.button}
           text="Cancel"
           clickHandler={() => setIsActive(false)}

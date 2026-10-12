@@ -1,25 +1,14 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
-import { AnimatedUnderlineProps } from '@weco/common/views/components/styled/AnimatedUnderline';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import {
-  StyledInputCSS as SelectableTagCSS,
+  SelectableTagLink,
   SelectableTagsWrapper,
 } from '@weco/content/views/components/SelectableTags';
 
 import { ThematicBrowsingCategories } from '.';
-
-const StyledInput = styled(NextLink)<
-  AnimatedUnderlineProps & { $isSelected: boolean }
->`
-  ${SelectableTagCSS}
-
-  text-decoration: none;
-`;
 
 const ThematicBrowsingNavigation: FunctionComponent<{
   currentCategory: ThematicBrowsingCategories;
@@ -46,7 +35,7 @@ const ThematicBrowsingNavigation: FunctionComponent<{
 
           return (
             <li key={tag.id}>
-              <StyledInput
+              <SelectableTagLink
                 href={`/${prismicPageIds.collections}/${tag.id}`}
                 aria-current={currentCategory === tag.id ? 'page' : undefined}
                 {...dataGtmPropsToAttributes(dataGtmProps)}
@@ -55,7 +44,7 @@ const ThematicBrowsingNavigation: FunctionComponent<{
                 $lineThickness={1.4}
               >
                 <span>{tag.label}</span>
-              </StyledInput>
+              </SelectableTagLink>
             </li>
           );
         })}
