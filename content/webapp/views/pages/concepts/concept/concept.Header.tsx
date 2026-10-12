@@ -89,11 +89,6 @@ const getBreadcrumbParent = ({
         text: 'People and organisations',
         url: thematicBrowsingPaths.peopleAndOrganisations,
       };
-    case 'Place':
-      return {
-        text: 'Places',
-        url: thematicBrowsingPaths.places,
-      };
     default:
       return undefined;
   }

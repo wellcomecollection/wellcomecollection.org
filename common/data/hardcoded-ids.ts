@@ -66,7 +66,6 @@ export const prismicPageIds = {
 
 export const thematicBrowsingPaths = {
   peopleAndOrganisations: `/${prismicPageIds.collections}/people-and-organisations`,
-  places: `/${prismicPageIds.collections}/places`,
   typesAndTechniques: `/${prismicPageIds.collections}/types-and-techniques`,
   subjects: `/${prismicPageIds.collections}/subjects`,
 } as const;

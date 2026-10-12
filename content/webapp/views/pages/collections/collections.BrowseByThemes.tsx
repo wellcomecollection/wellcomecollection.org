@@ -25,7 +25,6 @@ type BrowseByThemeProps = {
 const BrowsableThemeCategories = [
   'People and organisations',
   'Subjects',
-  'Places',
   'Types and techniques',
 ] as const;
 export type BrowsableThemeCategoriesType =

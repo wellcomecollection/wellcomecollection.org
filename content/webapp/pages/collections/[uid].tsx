@@ -23,7 +23,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // but have their own dedicated routes
   const collectionsHiddenPages = {
     collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
-    places: ['thematic-browsing-places', 'aYYbgBIAACUA8_PS'],
     peopleAndOrganisations: ['thematic-browsing-people', 'aYYhzRIAACQA8_2V'],
     typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],
     subjects: ['thematic-browsing-subjects', 'aYYi7RIAACUA8_9m'],
