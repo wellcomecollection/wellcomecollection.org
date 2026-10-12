@@ -111,7 +111,11 @@ const WobblyEdge: FunctionComponent<Props> = ({
     const edge = edgeRef.current?.getBoundingClientRect();
     const until =
       fixedUntil && document.querySelector(fixedUntil)?.getBoundingClientRect();
-    if (!edge?.width || !until) return undefined;
+    // Only when it's a sidebar beside the edge; when it spans the page (e.g.
+    // on mobile), wobble the whole edge
+    if (!edge?.width || !until || until.width > edge.width / 2) {
+      return undefined;
+    }
 
     return Math.min(
       100,
