@@ -26,7 +26,7 @@ const Wrapper = styled(Space).attrs<{ $hasPaddingBottom?: boolean }>(props => ({
 }))``;
 
 export type ThematicBrowsingCategories =
-  'people-and-organisations' | 'types-and-techniques' | 'subjects' | 'places';
+  'people-and-organisations' | 'types-and-techniques' | 'subjects';
 
 export type ThematicBrowsingCategoryPageProps = {
   thematicBrowsingPage: Page;
