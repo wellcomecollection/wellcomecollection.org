@@ -39,13 +39,20 @@ function createMockItemViewerContext(
   overrides: ItemViewerContextOverrides = {}
 ): ItemViewerContextProps {
   // A single-image manifest is the most common baseline; override as needed.
-  const transformedManifest =
-    overrides.transformedManifest ?? createMockManifest();
+  // transformedManifest explicitly set to undefined (to model "no manifest")
+  // is honoured rather than defaulted - distinct from the key being absent
+  // from overrides altogether.
+  const transformedManifest = Object.prototype.hasOwnProperty.call(
+    overrides,
+    'transformedManifest'
+  )
+    ? overrides.transformedManifest
+    : createMockManifest();
   const query = overrides.query ?? defaultItemViewerContext.query;
   const canvasIndexById =
     overrides.canvasIndexById ?? defaultItemViewerContext.canvasIndexById;
 
-  const totalCanvases = transformedManifest.canvases.length;
+  const totalCanvases = transformedManifest?.canvases.length ?? 0;
   const currentCanvas = getCurrentCanvas({
     transformedManifest,
     canvasIndexById,
