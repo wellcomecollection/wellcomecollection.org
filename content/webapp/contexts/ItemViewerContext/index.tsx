@@ -1,35 +1,151 @@
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { createContext, RefObject, useContext } from 'react';
 
-import ItemViewerContextLegacy, {
-  ItemViewerContextProps as ItemViewerContextPropsLegacy,
-  useItemViewerContext as useLegacy,
-} from './legacy';
-import ItemViewerContextRefactored, {
-  ItemViewerContextProps as ItemViewerContextPropsRefactored,
-  useItemViewerContext as useRefactored,
-} from './refactored';
+import {
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CanvasRotatedImage,
+  ItemViewerQuery,
+  ParentManifest,
+  PartialImageService,
+} from '@weco/content/types/item-viewer';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-// This barrel exists so that both the legacy and refactored viewer trees
-// (see IIIFViewer/index.tsx for where they're switched between, per RFC 086)
-// can consume context via one import path during the item-viewer-refactor
-// migration. `legacy` is still the live implementation for anyone without
-// the `itemViewerRefactor` flag, so its context stays untouched here even as
-// `refactored`'s context is free to diverge (new fields, renamed booleans,
-// etc.) as the refactor progresses. Once legacy is fully retired, this file
-// can be deleted and consumers can import `refactored`'s context directly.
+export type ItemViewerContextProps = {
+  // DATA props:
+  query: ItemViewerQuery;
+  work: WorkBasic & Pick<Work, 'description'>;
+  transformedManifest: TransformedManifest | undefined;
+  parentManifest: ParentManifest | undefined;
+  searchResults: SearchResults | null;
+  setSearchResults: (v: SearchResults | null) => void;
+  accessToken: string | undefined;
+  tree: UiTree;
+  setTree: (v: UiTree) => void;
+  canvasIndexById: Record<string, number>;
+  currentCanvas: TransformedCanvas | undefined;
+  isCurrentCanvasRestricted: boolean;
+  totalCanvases: number;
+  hasMultipleCanvases: boolean;
+  mainImageService: PartialImageService;
 
-// Export both contexts for IIIFViewer implementations to use with .Provider
-export { ItemViewerContextLegacy, ItemViewerContextRefactored };
+  // UI props:
+  viewerRef: RefObject<HTMLDivElement | null> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement | null> | undefined;
+  mainAreaWidth: number;
+  mainAreaHeight: number;
+  gridVisible: boolean;
+  setGridVisible: (v: boolean) => void;
+  isFullscreen: boolean;
+  setIsFullscreen: (v: boolean) => void;
+  isDesktopSidebarActive: boolean;
+  setIsDesktopSidebarActive: (v: boolean) => void;
+  isMobileSidebarActive: boolean;
+  setIsMobileSidebarActive: (v: boolean) => void;
+  showZoomed: boolean;
+  setShowZoomed: (v: boolean) => void;
+  showFullscreenControl: boolean;
+  setShowFullscreenControl: (v: boolean) => void;
+  showControls: boolean;
+  setShowControls: (v: boolean) => void;
+  rotatedImages: CanvasRotatedImage[];
+  setRotatedImages: (v: CanvasRotatedImage[]) => void;
+  isResizing: boolean;
+  errorHandler?: () => void;
+  /**
+   * Indicates whether all canvases have only image resources and no `original`
+   * files (true), or if there are any non-image items or originals (false).
+   * Controls whether the viewer uses the fixed-list image layout or the
+   * paginated viewer layout.
+   */
+  hasOnlyRenderableImages: boolean;
+};
 
-// Hook that returns the correct context based on feature flag
-export function useItemViewerContext():
-  ItemViewerContextPropsLegacy | ItemViewerContextPropsRefactored {
-  const { itemViewerRefactor } = useFeatureFlags();
-  const legacyContext = useLegacy();
-  const refactoredContext = useRefactored();
+const query = {
+  canvas: 1,
+  manifest: 1,
+  query: '',
+  page: 1,
+  shouldScrollToCanvas: true,
+};
 
-  return itemViewerRefactor ? refactoredContext : legacyContext;
+const work: WorkBasic & Pick<Work, 'description'> = {
+  id: '',
+  title: '',
+  workTypeId: undefined,
+  description: undefined,
+  shortDescription: undefined,
+  languageId: undefined,
+  thumbnail: undefined,
+  referenceNumber: undefined,
+  productionDates: [],
+  archiveLabels: undefined,
+  cardLabels: [],
+  primaryContributorLabel: undefined,
+  notes: [],
+  physicalDescription: '',
+  isArchiveCollectionRoot: false,
+};
+
+export const defaultItemViewerContext: ItemViewerContextProps = {
+  // DATA props:
+  query,
+  work,
+  transformedManifest: undefined,
+  parentManifest: undefined,
+  searchResults: emptySearchResults,
+  setSearchResults: () => undefined,
+  accessToken: undefined,
+  tree: [],
+  setTree: () => undefined,
+  canvasIndexById: {},
+  currentCanvas: undefined,
+  isCurrentCanvasRestricted: false,
+  totalCanvases: 0,
+  hasMultipleCanvases: false,
+  mainImageService: { '@id': undefined },
+
+  // UI props:
+  viewerRef: undefined,
+  mainAreaRef: undefined,
+  mainAreaWidth: 1000,
+  mainAreaHeight: 500,
+  gridVisible: false,
+  setGridVisible: () => false,
+  isFullscreen: false,
+  setIsFullscreen: () => undefined,
+  isDesktopSidebarActive: true,
+  setIsDesktopSidebarActive: () => undefined,
+  isMobileSidebarActive: false,
+  setIsMobileSidebarActive: () => undefined,
+  showZoomed: false,
+  setShowZoomed: () => undefined,
+  showControls: false,
+  setShowControls: () => undefined,
+  showFullscreenControl: false,
+  setShowFullscreenControl: () => undefined,
+  rotatedImages: [],
+  setRotatedImages: () => undefined,
+  isResizing: false,
+  errorHandler: () => undefined,
+  hasOnlyRenderableImages: false,
+};
+
+const ItemViewerContext = createContext<ItemViewerContextProps>(
+  defaultItemViewerContext
+);
+
+export function useItemViewerContext(): ItemViewerContextProps {
+  return useContext(ItemViewerContext);
 }
 
-// Default export to match what the original index.tsx exported
-export { ItemViewerContextLegacy as default };
+export default ItemViewerContext;
