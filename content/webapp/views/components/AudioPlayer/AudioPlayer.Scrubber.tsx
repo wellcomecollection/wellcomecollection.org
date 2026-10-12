@@ -2,16 +2,17 @@ import { FunctionComponent, Ref } from 'react';
 import styled, { css } from 'styled-components';
 
 import { formatPlayerTime } from './AudioPlayer.formatters';
+import { controlColor } from './AudioPlayer.styles';
 
 const backgroundTransform = css<{ $isDark: boolean }>`
   background: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
   transform: scale(1.5);
 `;
 
 const thumbStyles = css<{ $isDark: boolean }>`
   background: ${props =>
-    props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
+    props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
   appearance: none;
   width: 1rem;
   height: 1rem;
@@ -82,7 +83,7 @@ const PercentComplete = styled.div<{
     content: '';
     height: 4px;
     width: ${props => props.$percentComplete}%;
-    background-color: ${props => props.theme.color('yellow')};
+    background-color: ${props => props.theme.color(controlColor('yellow'))};
     border-radius: 4px;
     transform: translateY(-50%);
     max-width: 100%;
