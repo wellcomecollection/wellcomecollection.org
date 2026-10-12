@@ -188,10 +188,10 @@ test('(11) | The multi-volume label should be appropriate', async ({
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
-  expect(page.getByText('Copy 1'));
+  await expect(page.getByText('Copy 1')).toBeVisible();
   await page.getByRole('button', { name: 'Volumes' }).click();
   await page.getByRole('link', { name: 'Copy 3' }).click();
-  expect(await page.getByText('Copy 3').count());
+  await expect(page.getByText('Copy 3')).toBeVisible();
 });
 
 test('(12) | The structured parts should be browseable', async ({
@@ -200,7 +200,7 @@ test('(12) | The structured parts should be browseable', async ({
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
-  expect(await page.getByTestId('active-index').textContent()).toEqual('1');
+  await expect(page.getByTestId('active-index')).toHaveText('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
   if (!isMobile(page)) {
@@ -216,11 +216,9 @@ test('(13) | The main viewer can be scrolled all the way to the last slide', asy
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
 
-  expect(
-    await mainScrollArea.evaluate((element: HTMLElement) => {
-      element.scrollTo(0, element.scrollHeight);
-    })
-  );
+  await mainScrollArea.evaluate((element: HTMLElement) => {
+    element.scrollTo(0, element.scrollHeight);
+  });
 
   await expect(page.getByTestId('image-67')).toBeInViewport();
 });
@@ -232,6 +230,10 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
 
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
+
+  await expect(
+    page.getByRole('link', { name: /Found on image/ }).first()
+  ).toBeVisible();
 });
 
 test('(15) | The location of the search results should be displayed', async ({
@@ -340,8 +342,6 @@ test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
   const gridButton = page.getByRole('button', { name: 'Grid' });
   await expect(gridButton).toBeVisible();
   await gridButton.click();
-
-  await page.waitForTimeout(1000);
 
   const allCanvasLinks = page.locator('a[href*="canvas="]');
 
@@ -653,13 +653,18 @@ test('(44) | Rapid canvas navigation does not cause state corruption', async ({
 }) => {
   const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
 
-  for (let i = 0; i < canvasNumbers.length - 1; i++) {
-    multiVolumeItem(context, page, { canvasNumber: canvasNumbers[i] }).catch(
-      () => {
-        // Expected - rapid navigation aborts previous navigations
-      }
-    );
-  }
+  // Deliberately not awaited inline - we want these firing in rapid
+  // succession, overlapping rather than sequential, to exercise the
+  // corruption this test is named for. The exact rejection a superseded
+  // navigation throws varies by browser engine, so this intentionally
+  // swallows all of them rather than matching a specific error - but they're
+  // tracked so we can wait for them to settle before the test ends, rather
+  // than leaving them to resolve during teardown or the next test.
+  const pendingNavigations = canvasNumbers.slice(0, -1).map(canvasNumber =>
+    multiVolumeItem(context, page, { canvasNumber }).catch(() => {
+      // Expected - rapid navigation aborts previous navigations
+    })
+  );
 
   await multiVolumeItem(context, page, {
     canvasNumber: canvasNumbers[canvasNumbers.length - 1],
@@ -667,6 +672,8 @@ test('(44) | Rapid canvas navigation does not cause state corruption', async ({
 
   await expect(page).toHaveURL(/canvas=4/);
   await expect(page.getByTestId('main-viewer')).toBeVisible();
+
+  await Promise.allSettled(pendingNavigations);
 });
 
 test('(45) | Direct URL to specific canvas loads correctly', async ({
