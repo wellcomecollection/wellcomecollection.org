@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -9,11 +9,6 @@ import {
 } from '@weco/content/test/fixtures/iiif/transformed-manifest';
 
 import ZoomedImage from './ZoomedImage';
-
-// No useFeatureFlags mock needed here: ZoomedImage imports useItemViewerContext
-// directly from the refactored context module rather than the feature-flag-aware
-// barrel, so it never consults the flag - useRefactoredContext: true below is
-// what actually selects the refactored Provider.
 
 // ZoomedImage only constructs an openseadragon viewer once its info.json
 // fetch resolves; leaving fetch pending below means it's never called, so a
@@ -25,7 +20,6 @@ const renderZoomedImage = (
 ) =>
   renderWithContext(<ZoomedImage iiifImageLocation={undefined} />, {
     contextProps,
-    useRefactoredContext: true,
   });
 
 describe('ZoomedImage', () => {

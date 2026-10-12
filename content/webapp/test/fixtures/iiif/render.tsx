@@ -15,10 +15,10 @@ import UserContext, {
   UserContextProps,
 } from '@weco/common/contexts/UserContext';
 import theme from '@weco/common/views/themes/default';
-import ItemViewerContextRefactored, {
-  defaultItemViewerContext as defaultItemViewerContextRefactored,
-  ItemViewerContextProps as ItemViewerContextPropsRefactored,
-} from '@weco/content/contexts/ItemViewerContext/refactored';
+import ItemViewerContext, {
+  defaultItemViewerContext,
+  ItemViewerContextProps,
+} from '@weco/content/contexts/ItemViewerContext';
 import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import { getCurrentCanvas } from '@weco/content/views/pages/works/work/work.helpers';
 
@@ -32,30 +32,18 @@ import { createMockManifest } from './transformed-manifest';
 // KioskContext (isKiosk, which affects PDF viewer choice and other kiosk-specific
 // behavior). `renderWithContext` wires all of these up with sensible defaults
 // so a test only has to declare the values relevant to the scenario it characterises.
-//
-// Legacy's context (and the feature-flag switch between it and refactored's)
-// is gone - RFC 086 phase 7. `useRefactoredContext` and
-// `RenderWithRefactoredContextOptions` below are now redundant rather than
-// meaningful, kept only so existing call sites don't all need editing in the
-// same change; a follow-up tidies them away.
 
-// isRefactoredContext is excluded from overrides: it's still on the context
-// type (removing it is also follow-up work), but a test should never need to
-// set it itself.
-type ItemViewerContextOverridesRefactored = Partial<
-  Omit<ItemViewerContextPropsRefactored, 'isRefactoredContext'>
->;
+type ItemViewerContextOverrides = Partial<ItemViewerContextProps>;
 
-function createMockRefactoredItemViewerContext(
-  overrides: ItemViewerContextOverridesRefactored = {}
-): ItemViewerContextPropsRefactored {
+function createMockItemViewerContext(
+  overrides: ItemViewerContextOverrides = {}
+): ItemViewerContextProps {
   // A single-image manifest is the most common baseline; override as needed.
   const transformedManifest =
     overrides.transformedManifest ?? createMockManifest();
-  const query = overrides.query ?? defaultItemViewerContextRefactored.query;
+  const query = overrides.query ?? defaultItemViewerContext.query;
   const canvasIndexById =
-    overrides.canvasIndexById ??
-    defaultItemViewerContextRefactored.canvasIndexById;
+    overrides.canvasIndexById ?? defaultItemViewerContext.canvasIndexById;
 
   const totalCanvases = transformedManifest.canvases.length;
   const currentCanvas = getCurrentCanvas({
@@ -65,7 +53,7 @@ function createMockRefactoredItemViewerContext(
   });
 
   return {
-    ...defaultItemViewerContextRefactored,
+    ...defaultItemViewerContext,
     transformedManifest,
     // Mirrors how the real provider (IIIFViewer.tsx) derives these, so tests
     // overriding transformedManifest/query still get sensible defaults without
@@ -83,38 +71,25 @@ function createMockRefactoredItemViewerContext(
   };
 }
 
-type CommonRenderWithContextOptions = {
+export type RenderWithContextOptions = {
   appContext?: Partial<AppContextProps>;
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
+  contextProps?: ItemViewerContextOverrides;
 } & Omit<RenderOptions, 'wrapper'>;
 
-export type RenderWithContextOptions = CommonRenderWithContextOptions & {
-  // No longer meaningful - every context is refactored-shaped now. Kept so
-  // existing call sites still compile; a follow-up removes it and updates them.
-  useRefactoredContext?: boolean;
-  contextProps?: ItemViewerContextOverridesRefactored;
-};
-
-// Was a narrower view onto RenderWithContextOptions for refactored-only
-// tests; identical to it now, kept as an alias for existing imports.
-export type RenderWithRefactoredContextOptions = RenderWithContextOptions;
-
 export type RenderWithContextResult = RenderResult & {
-  contextValue: ItemViewerContextPropsRefactored;
+  contextValue: ItemViewerContextProps;
 };
 
 export function renderWithContext(
   ui: ReactElement,
   options: RenderWithContextOptions = {}
 ): RenderWithContextResult {
-  const contextValue = createMockRefactoredItemViewerContext(
-    options.contextProps
-  );
+  const contextValue = createMockItemViewerContext(options.contextProps);
 
   const {
     contextProps,
-    useRefactoredContext,
     appContext,
     userContext,
     kioskContext,
@@ -135,9 +110,9 @@ export function renderWithContext(
       <AppContext.Provider value={appValue}>
         <KioskContext.Provider value={kioskValue}>
           <UserContext.Provider value={userValue}>
-            <ItemViewerContextRefactored.Provider value={contextValue}>
+            <ItemViewerContext.Provider value={contextValue}>
               {children}
-            </ItemViewerContextRefactored.Provider>
+            </ItemViewerContext.Provider>
           </UserContext.Provider>
         </KioskContext.Provider>
       </AppContext.Provider>

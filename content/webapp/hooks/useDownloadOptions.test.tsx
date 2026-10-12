@@ -2,10 +2,10 @@ import { renderHook } from '@testing-library/react';
 import { FunctionComponent, PropsWithChildren } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import ItemViewerContextRefactored, {
+import ItemViewerContext, {
   defaultItemViewerContext,
   ItemViewerContextProps,
-} from '@weco/content/contexts/ItemViewerContext/refactored';
+} from '@weco/content/contexts/ItemViewerContext';
 import {
   createMockCanvas,
   createMockManifest,
@@ -51,9 +51,9 @@ const paintingWithImageService = (
 let mockContextValue: ItemViewerContextProps = defaultItemViewerContext;
 
 const Wrapper: FunctionComponent<PropsWithChildren> = ({ children }) => (
-  <ItemViewerContextRefactored.Provider value={mockContextValue}>
+  <ItemViewerContext.Provider value={mockContextValue}>
     {children}
-  </ItemViewerContextRefactored.Provider>
+  </ItemViewerContext.Provider>
 );
 
 function renderDownloadOptions(

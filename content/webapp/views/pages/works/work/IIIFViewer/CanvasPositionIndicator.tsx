@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 
 /**
  * The label in two pieces, split where the top bar needs an element boundary

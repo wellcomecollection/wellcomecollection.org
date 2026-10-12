@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -15,14 +15,6 @@ import { installMockIntersectionObserver } from '@weco/content/test/fixtures/int
 
 import VirtualizedImageViewer from './VirtualizedImageViewer';
 
-// The refactored components read from ItemViewerContextRefactored via the
-// useItemViewerContext hook, which checks the feature flag. Mock it so the
-// hook returns the refactored context values.
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
-
 installMockIntersectionObserver();
 
 // The FixedSizeList's outer element. This viewer renders it as its own root,
@@ -33,7 +25,6 @@ const getScrollContainer = (container: HTMLElement) =>
 const renderViewer = (contextProps: Partial<ItemViewerContextProps> = {}) =>
   renderWithContext(<VirtualizedImageViewer />, {
     contextProps,
-    useRefactoredContext: true,
   });
 
 describe('VirtualizedImageViewer', () => {

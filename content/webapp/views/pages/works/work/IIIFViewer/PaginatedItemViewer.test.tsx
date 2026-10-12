@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 
-import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { ItemViewerContextProps } from '@weco/content/contexts/ItemViewerContext';
 import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockAuth,
@@ -12,14 +12,6 @@ import {
 
 import PaginatedItemViewer from './PaginatedItemViewer';
 
-// The refactored components read from ItemViewerContextRefactored via the
-// useItemViewerContext hook, which checks the feature flag. Mock it so the
-// hook returns the refactored context values.
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
-
 const createVideoCanvas = (id = 'https://example.com/video.mp4') =>
   createMockCanvas({
     painting: [{ id, type: 'Video', format: 'video/mp4' }] as never,
@@ -28,7 +20,6 @@ const createVideoCanvas = (id = 'https://example.com/video.mp4') =>
 const renderViewer = (contextProps: Partial<ItemViewerContextProps> = {}) =>
   renderWithContext(<PaginatedItemViewer />, {
     contextProps,
-    useRefactoredContext: true,
   });
 
 describe('PaginatedItemViewer', () => {

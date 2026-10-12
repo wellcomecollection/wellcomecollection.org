@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 
 import {
   renderWithContext,
-  RenderWithRefactoredContextOptions,
+  RenderWithContextOptions,
 } from '@weco/content/test/fixtures/iiif/render';
 import {
   createMockCanvas,
@@ -13,14 +13,6 @@ import {
 import { TransformedManifest } from '@weco/content/types/manifest';
 
 import ViewerTopBar from './ViewerTopBar';
-
-// The refactored components read from ItemViewerContextRefactored via the
-// useItemViewerContext hook, which checks the feature flag. Mock it so the
-// hook returns the refactored context values.
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
 
 // Mock the fullscreen hook since jsdom doesn't support fullscreen API
 jest.mock('@weco/content/hooks/useIsFullscreenEnabled', () => ({
@@ -39,10 +31,9 @@ const pdfRendering: TransformedManifest['rendering'] = [
 
 // Renders ViewerTopBar with the enhanced/full-support defaults most of these
 // characterisations need, merging in any per-test overrides.
-const renderTopBar = (options: RenderWithRefactoredContextOptions = {}) =>
+const renderTopBar = (options: RenderWithContextOptions = {}) =>
   renderWithContext(<ViewerTopBar iiifImageLocation={undefined} />, {
     appContext: { isEnhanced: true, isFullSupportBrowser: true },
-    useRefactoredContext: true,
     ...options,
   });
 
@@ -273,7 +264,6 @@ describe('ViewerTopBar enhanced-mode gate', () => {
       <ViewerTopBar iiifImageLocation={undefined} />,
       {
         appContext: { isEnhanced: false, isFullSupportBrowser: true },
-        useRefactoredContext: true,
         contextProps: {
           transformedManifest: createMockManifest({
             canvases: [createMockCanvas()],

@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext/refactored';
+import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { getDisplayItems } from '@weco/content/utils/iiif/v3/canvas';
 
 import { useCanvasPositionLabel } from './CanvasPositionIndicator';

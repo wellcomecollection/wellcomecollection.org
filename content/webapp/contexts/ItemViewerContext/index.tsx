@@ -1,15 +1,152 @@
-import ItemViewerContextRefactored, {
-  ItemViewerContextProps as ItemViewerContextPropsRefactored,
-  useItemViewerContext as useRefactored,
-} from './refactored';
+import { createContext, RefObject, useContext } from 'react';
 
-// This barrel used to switch between a legacy and a refactored context
-// depending on the `itemViewerRefactor` flag (see RFC 086). Legacy is gone
-// now, so this just re-exports the one remaining context. The barrel and
-// `refactored.tsx` will fold into a single file in a follow-up step.
+import {
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
+import {
+  Work,
+  WorkBasic,
+} from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CanvasRotatedImage,
+  ItemViewerQuery,
+  ParentManifest,
+  PartialImageService,
+} from '@weco/content/types/item-viewer';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-export { ItemViewerContextRefactored };
+export type ItemViewerContextProps = {
+  // DATA props:
+  query: ItemViewerQuery;
+  work: WorkBasic & Pick<Work, 'description'>;
+  transformedManifest: TransformedManifest | undefined;
+  parentManifest: ParentManifest | undefined;
+  searchResults: SearchResults | null;
+  setSearchResults: (v: SearchResults | null) => void;
+  accessToken: string | undefined;
+  tree: UiTree;
+  setTree: (v: UiTree) => void;
+  canvasIndexById: Record<string, number>;
+  currentCanvas: TransformedCanvas | undefined;
+  isCurrentCanvasRestricted: boolean;
+  totalCanvases: number;
+  hasMultipleCanvases: boolean;
+  mainImageService: PartialImageService;
 
-export function useItemViewerContext(): ItemViewerContextPropsRefactored {
-  return useRefactored();
+  // UI props:
+  viewerRef: RefObject<HTMLDivElement | null> | undefined;
+  mainAreaRef: RefObject<HTMLDivElement | null> | undefined;
+  mainAreaWidth: number;
+  mainAreaHeight: number;
+  gridVisible: boolean;
+  setGridVisible: (v: boolean) => void;
+  isFullscreen: boolean;
+  setIsFullscreen: (v: boolean) => void;
+  isDesktopSidebarActive: boolean;
+  setIsDesktopSidebarActive: (v: boolean) => void;
+  isMobileSidebarActive: boolean;
+  setIsMobileSidebarActive: (v: boolean) => void;
+  showZoomed: boolean;
+  setShowZoomed: (v: boolean) => void;
+  showFullscreenControl: boolean;
+  setShowFullscreenControl: (v: boolean) => void;
+  showControls: boolean;
+  setShowControls: (v: boolean) => void;
+  rotatedImages: CanvasRotatedImage[];
+  setRotatedImages: (v: CanvasRotatedImage[]) => void;
+  isResizing: boolean;
+  errorHandler?: () => void;
+  /**
+   * Indicates whether all canvases have only image resources and no `original`
+   * files (true), or if there are any non-image items or originals (false).
+   * Controls whether the viewer uses the fixed-list image layout or the
+   * paginated viewer layout.
+   */
+  hasOnlyRenderableImages: boolean;
+};
+
+const query = {
+  canvas: 1,
+  manifest: 1,
+  query: '',
+  page: 1,
+  shouldScrollToCanvas: true,
+};
+
+const work: WorkBasic & Pick<Work, 'description'> = {
+  id: '',
+  title: '',
+  workTypeId: undefined,
+  description: undefined,
+  shortDescription: undefined,
+  languageId: undefined,
+  thumbnail: undefined,
+  referenceNumber: undefined,
+  productionDates: [],
+  archiveLabels: undefined,
+  cardLabels: [],
+  primaryContributorLabel: undefined,
+  notes: [],
+  physicalDescription: '',
+  isArchiveCollectionRoot: false,
+};
+
+export const defaultItemViewerContext: ItemViewerContextProps = {
+  // DATA props:
+  query,
+  work,
+  transformedManifest: undefined,
+  parentManifest: undefined,
+  searchResults: emptySearchResults,
+  setSearchResults: () => undefined,
+  accessToken: undefined,
+  tree: [],
+  setTree: () => undefined,
+  canvasIndexById: {},
+  currentCanvas: undefined,
+  isCurrentCanvasRestricted: false,
+  totalCanvases: 0,
+  hasMultipleCanvases: false,
+  mainImageService: { '@id': undefined },
+
+  // UI props:
+  viewerRef: undefined,
+  mainAreaRef: undefined,
+  mainAreaWidth: 1000,
+  mainAreaHeight: 500,
+  gridVisible: false,
+  setGridVisible: () => false,
+  isFullscreen: false,
+  setIsFullscreen: () => undefined,
+  isDesktopSidebarActive: true,
+  setIsDesktopSidebarActive: () => undefined,
+  isMobileSidebarActive: false,
+  setIsMobileSidebarActive: () => undefined,
+  showZoomed: false,
+  setShowZoomed: () => undefined,
+  showControls: false,
+  setShowControls: () => undefined,
+  showFullscreenControl: false,
+  setShowFullscreenControl: () => undefined,
+  rotatedImages: [],
+  setRotatedImages: () => undefined,
+  isResizing: false,
+  errorHandler: () => undefined,
+  hasOnlyRenderableImages: false,
+};
+
+const ItemViewerContext = createContext<ItemViewerContextProps>(
+  defaultItemViewerContext
+);
+
+export function useItemViewerContext(): ItemViewerContextProps {
+  const contextState = useContext(ItemViewerContext);
+  return contextState;
 }
+
+export default ItemViewerContext;

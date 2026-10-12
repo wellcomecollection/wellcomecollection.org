@@ -4,14 +4,6 @@ import { renderWithContext } from '@weco/content/test/fixtures/iiif/render';
 
 import MainViewer from './MainViewer';
 
-// The refactored components read from ItemViewerContextRefactored via the
-// useItemViewerContext hook, which checks the feature flag. Mock it so the
-// hook returns the refactored context values.
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: true }),
-}));
-
 // MainViewer is a pure router, so its own tests only need to assert it picks
 // the right child - the children's own behaviour is covered by their own tests.
 jest.mock('./VirtualizedImageViewer', () => ({
@@ -27,7 +19,6 @@ jest.mock('./PaginatedItemViewer', () => ({
 const renderMainViewer = (hasOnlyRenderableImages: boolean) =>
   renderWithContext(<MainViewer />, {
     contextProps: { hasOnlyRenderableImages },
-    useRefactoredContext: true,
   });
 
 describe('MainViewer', () => {
