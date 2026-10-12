@@ -47,7 +47,7 @@ import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import BetaMessage from '@weco/content/views/components/BetaMessage';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import VideoPlayer from '@weco/content/views/components/VideoPlayer';
-import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/refactored/ImageViewer';
+import ImageViewer from '@weco/content/views/pages/works/work/IIIFViewer/ImageViewer';
 import { arrayIndexToQueryParam } from '@weco/content/views/pages/works/work/work.helpers';
 import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 
@@ -167,6 +167,7 @@ const IIIFImage: FunctionComponent<{
   const imageService = getImageServiceFromItem(item);
   const imageUrl = imageService?.['@id'] || '';
   const urlTemplate = imageUrl ? iiifImageTemplate(imageUrl) : undefined;
+
   useEffect(() => {
     const fetchOcr = async () => {
       const ocrText = await fetchCanvasOcr(canvas);
@@ -232,6 +233,7 @@ const PublicRestrictedMessage: FunctionComponent<{
           {externalAccessService.label}
         </h2>
       )}
+
       <div className={typography('body', 'md', 'regular')}>
         {externalAccessService?.description && (
           <div

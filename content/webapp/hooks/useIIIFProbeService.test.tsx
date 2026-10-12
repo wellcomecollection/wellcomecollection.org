@@ -4,9 +4,6 @@ import { FunctionComponent, PropsWithChildren } from 'react';
 import UserContext, {
   defaultUserContext,
 } from '@weco/common/contexts/UserContext';
-import ItemViewerContextLegacy, {
-  defaultItemViewerContext as defaultItemViewerContextLegacy,
-} from '@weco/content/contexts/ItemViewerContext/legacy';
 import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
 } from '@weco/content/contexts/ItemViewerContext/refactored';
@@ -21,16 +18,6 @@ import useIIIFProbeService from './useIIIFProbeService';
 // unrestricted canvases, and for restricted ones only once the auth cookie is
 // confirmed via the probe service (for a logged-in staff user with a token).
 // This exercises that matrix with mocked user state and fetch.
-//
-// The hook reads accessToken via the feature-flag-aware useItemViewerContext()
-// barrel, so the whole matrix runs against both the legacy and refactored
-// context to catch either side silently no longer supplying accessToken.
-let mockItemViewerRefactor = false;
-
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ itemViewerRefactor: mockItemViewerRefactor }),
-}));
 
 type WrapperOptions = {
   userIsStaffWithRestricted?: boolean;
@@ -47,14 +34,7 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-describe.each([
-  { name: 'legacy', itemViewerRefactor: false },
-  { name: 'refactored', itemViewerRefactor: true },
-])('useIIIFProbeService ($name context)', ({ itemViewerRefactor }) => {
-  beforeEach(() => {
-    mockItemViewerRefactor = itemViewerRefactor;
-  });
-
+describe('useIIIFProbeService', () => {
   const createWrapper =
     ({
       userIsStaffWithRestricted = false,
@@ -64,19 +44,11 @@ describe.each([
       <UserContext.Provider
         value={{ ...defaultUserContext, userIsStaffWithRestricted }}
       >
-        {itemViewerRefactor ? (
-          <ItemViewerContextRefactored.Provider
-            value={{ ...defaultItemViewerContextRefactored, accessToken }}
-          >
-            {children}
-          </ItemViewerContextRefactored.Provider>
-        ) : (
-          <ItemViewerContextLegacy.Provider
-            value={{ ...defaultItemViewerContextLegacy, accessToken }}
-          >
-            {children}
-          </ItemViewerContextLegacy.Provider>
-        )}
+        <ItemViewerContextRefactored.Provider
+          value={{ ...defaultItemViewerContextRefactored, accessToken }}
+        >
+          {children}
+        </ItemViewerContextRefactored.Provider>
       </UserContext.Provider>
     );
 

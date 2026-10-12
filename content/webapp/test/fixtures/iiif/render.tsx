@@ -15,10 +15,6 @@ import UserContext, {
   UserContextProps,
 } from '@weco/common/contexts/UserContext';
 import theme from '@weco/common/views/themes/default';
-import ItemViewerContextLegacy, {
-  defaultItemViewerContext as defaultItemViewerContextLegacy,
-  ItemViewerContextProps as ItemViewerContextPropsLegacy,
-} from '@weco/content/contexts/ItemViewerContext/legacy';
 import ItemViewerContextRefactored, {
   defaultItemViewerContext as defaultItemViewerContextRefactored,
   ItemViewerContextProps as ItemViewerContextPropsRefactored,
@@ -37,31 +33,18 @@ import { createMockManifest } from './transformed-manifest';
 // behavior). `renderWithContext` wires all of these up with sensible defaults
 // so a test only has to declare the values relevant to the scenario it characterises.
 //
-// This imports legacy's and refactored's context modules directly (rather
-// than the feature-flag-aware barrel), so each Provider below is always given
-// a value matching its own shape — the two are expected to diverge as the
-// item-viewer-refactor migration progresses.
+// Legacy's context (and the feature-flag switch between it and refactored's)
+// is gone - RFC 086 phase 7. `useRefactoredContext` and
+// `RenderWithRefactoredContextOptions` below are now redundant rather than
+// meaningful, kept only so existing call sites don't all need editing in the
+// same change; a follow-up tidies them away.
 
-// isRefactoredContext is excluded from overrides: it's the discriminant that
-// decides which Provider wraps the tree below, so it must only ever come
-// from the matching default, never from a test-supplied override.
-type ItemViewerContextOverridesLegacy = Partial<
-  Omit<ItemViewerContextPropsLegacy, 'isRefactoredContext'>
->;
+// isRefactoredContext is excluded from overrides: it's still on the context
+// type (removing it is also follow-up work), but a test should never need to
+// set it itself.
 type ItemViewerContextOverridesRefactored = Partial<
   Omit<ItemViewerContextPropsRefactored, 'isRefactoredContext'>
 >;
-
-function createMockItemViewerContext(
-  overrides: ItemViewerContextOverridesLegacy = {}
-): ItemViewerContextPropsLegacy {
-  return {
-    ...defaultItemViewerContextLegacy,
-    // A single-image manifest is the most common baseline; override as needed.
-    transformedManifest: createMockManifest(),
-    ...overrides,
-  };
-}
 
 function createMockRefactoredItemViewerContext(
   overrides: ItemViewerContextOverridesRefactored = {}
@@ -106,48 +89,28 @@ type CommonRenderWithContextOptions = {
   kioskContext?: Partial<KioskContextType>;
 } & Omit<RenderOptions, 'wrapper'>;
 
-// A discriminated union keyed on useRefactoredContext, rather than a plain
-// boolean alongside a generic legacy-or-refactored contextProps union — so
-// contextProps is narrowed to the matching shape at every call site, with no
-// `as` casts needed here or anywhere that calls renderWithContext directly.
-export type RenderWithContextOptions =
-  | (CommonRenderWithContextOptions & {
-      useRefactoredContext?: false;
-      contextProps?: ItemViewerContextOverridesLegacy;
-    })
-  | (CommonRenderWithContextOptions & {
-      // Wraps with ItemViewerContextRefactored.Provider (given a
-      // refactored-shaped context value) instead of ItemViewerContextLegacy.Provider.
-      // Use in refactored viewer tests that mock useFeatureFlags to return
-      // { itemViewerRefactor: true }.
-      useRefactoredContext: true;
-      contextProps?: ItemViewerContextOverridesRefactored;
-    });
-
-// Narrows contextProps to the refactored context's own shape (rather than
-// RenderWithContextOptions' generic legacy-or-refactored union), so a stale
-// field name is caught at compile time instead of being silently dropped.
-// For use in refactored viewer tests that always pass useRefactoredContext: true.
-export type RenderWithRefactoredContextOptions = Omit<
-  RenderWithContextOptions,
-  'contextProps' | 'useRefactoredContext'
-> & {
+export type RenderWithContextOptions = CommonRenderWithContextOptions & {
+  // No longer meaningful - every context is refactored-shaped now. Kept so
+  // existing call sites still compile; a follow-up removes it and updates them.
+  useRefactoredContext?: boolean;
   contextProps?: ItemViewerContextOverridesRefactored;
 };
 
+// Was a narrower view onto RenderWithContextOptions for refactored-only
+// tests; identical to it now, kept as an alias for existing imports.
+export type RenderWithRefactoredContextOptions = RenderWithContextOptions;
+
 export type RenderWithContextResult = RenderResult & {
-  contextValue: ItemViewerContextPropsLegacy | ItemViewerContextPropsRefactored;
+  contextValue: ItemViewerContextPropsRefactored;
 };
 
 export function renderWithContext(
   ui: ReactElement,
   options: RenderWithContextOptions = {}
 ): RenderWithContextResult {
-  // Narrowed via property access on `options` itself (rather than destructured
-  // copies) so contextProps' shape stays tied to useRefactoredContext's value.
-  const contextValue = options.useRefactoredContext
-    ? createMockRefactoredItemViewerContext(options.contextProps)
-    : createMockItemViewerContext(options.contextProps);
+  const contextValue = createMockRefactoredItemViewerContext(
+    options.contextProps
+  );
 
   const {
     contextProps,
@@ -172,15 +135,9 @@ export function renderWithContext(
       <AppContext.Provider value={appValue}>
         <KioskContext.Provider value={kioskValue}>
           <UserContext.Provider value={userValue}>
-            {contextValue.isRefactoredContext ? (
-              <ItemViewerContextRefactored.Provider value={contextValue}>
-                {children}
-              </ItemViewerContextRefactored.Provider>
-            ) : (
-              <ItemViewerContextLegacy.Provider value={contextValue}>
-                {children}
-              </ItemViewerContextLegacy.Provider>
-            )}
+            <ItemViewerContextRefactored.Provider value={contextValue}>
+              {children}
+            </ItemViewerContextRefactored.Provider>
           </UserContext.Provider>
         </KioskContext.Provider>
       </AppContext.Provider>
