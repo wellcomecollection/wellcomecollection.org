@@ -1,4 +1,4 @@
-import { getCookies } from 'cookies-next';
+import { getCookie, getCookies } from 'cookies-next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { FunctionComponent, useCallback, useEffect, useState } from 'react';
@@ -143,8 +143,12 @@ const TogglesPage: FunctionComponent = () => {
           ...tests.map(t => t.id),
           ...modeDefinitions.map(m => m.id),
         ]);
+        // getCookie rather than cookies[...] - client-side getCookies()
+        // returns raw values, but setCookie URL-encodes the commas, so a
+        // multi-star list would come back as one unrecognised id and get
+        // pruned to nothing.
         const parsedStarredIds = parseStarredToggles(
-          cookies[STARRED_TOGGLES_COOKIE]
+          getCookie(STARRED_TOGGLES_COOKIE)
         );
         const prunedStarredIds = parsedStarredIds.filter(id =>
           validIds.has(id)

@@ -1,28 +1,28 @@
-import dynamic from 'next/dynamic';
+import styled, { keyframes } from 'styled-components';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
+import IIIFViewer from './IIIFViewer';
 
-import { IIIFViewerProps as LegacyIIIFViewerProps } from './legacy/IIIFViewer';
-import { IIIFViewerProps as RefactoredIIIFViewerProps } from './refactored/IIIFViewer';
-
-// Note: dynamic() server-renders by default (ssr: true is implicit)
-// This preserves NoScriptImage functionality for users without JavaScript
-const IIIFViewerLegacy = dynamic(() => import('./legacy'));
-const IIIFViewerRefactored = dynamic(() => import('./refactored'));
-
-// This is the switch point for the item-viewer-refactor migration (RFC 086:
-// https://github.com/wellcomecollection/docs/blob/main/rfcs/086-item-viewer-refactor/README.md).
-// `legacy/` is what all users see today; `refactored/` is being built out
-// behind the `itemViewerRefactor` feature flag. Once the refactor is fully
-// rolled out, `legacy/` (and this switch) can be deleted.
-export default function IIIFViewer(
-  props: LegacyIIIFViewerProps | RefactoredIIIFViewerProps
-) {
-  const { itemViewerRefactor } = useFeatureFlags();
-
-  if (itemViewerRefactor) {
-    return <IIIFViewerRefactored {...props} />;
+const show = keyframes`
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+`;
 
-  return <IIIFViewerLegacy {...props} />;
-}
+// Certain parts of the viewer will display before the enhanced versions take their place.
+// This is necessary for them to be available to visitors without javascript,
+// but would normally result in a large and noticeable change to the page which is jarring.
+// In order to prevent that, we wrap those elements in a DelayVisibility styled component.
+// This delays the visibility of them long enough
+// that the enhanced versions will usually have replaced them, if javascript is available, and so they will never be seen.
+// The trade off is that if javascript isn't available there will be a slight delay before seeing all the parts of the viewer.
+export const DelayVisibility = styled.div`
+  opacity: 0;
+  animation: 0.2s ${show} 1.5s forwards;
+  height: 100%;
+  min-width: 0;
+`;
+
+export default IIIFViewer;
