@@ -23,6 +23,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // but have their own dedicated routes
   const collectionsHiddenPages = {
     collectionsLanding: ['collections', 'aKb_ahAAAB8AhtQC'],
+    // The Places page has been removed, but this keeps its Prismic doc from
+    // being reachable here until it's deleted in Prismic
     places: ['thematic-browsing-places', 'aYYbgBIAACUA8_PS'],
     peopleAndOrganisations: ['thematic-browsing-people', 'aYYhzRIAACQA8_2V'],
     typesAndTechniques: ['thematic-browsing-types', 'aYYiGRIAACQA8_4N'],

@@ -186,7 +186,7 @@ const toggleConfig = {
           id: 'categoryPages',
           label: 'Category pages',
           description:
-            'The four thematic browsing category pages (subjects, places, people & organisations, types & techniques) become accessible.',
+            'The three thematic browsing category pages (subjects, people & organisations, types & techniques) become accessible.',
         },
         {
           id: 'subCategoryPages',
