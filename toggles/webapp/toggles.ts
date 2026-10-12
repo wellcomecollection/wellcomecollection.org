@@ -242,13 +242,8 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty.',
-      options: [
-        {
-          id: 'pipeline-2026-09-30',
-          label: '2026-09-30 pipeline (Axiell part_of trees)',
-        },
-      ],
+        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty. There is no preview pipeline to select at the moment; add an option here when the catalogue API exposes one as an additional cluster.',
+      options: [],
     },
   ] as const,
 };
