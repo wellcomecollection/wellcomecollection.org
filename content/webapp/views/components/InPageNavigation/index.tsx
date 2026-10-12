@@ -1,4 +1,5 @@
 import { FocusTrap } from 'focus-trap-react';
+import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -185,6 +186,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
     }
   }, [clickedId, observedActiveId]);
 
+  const router = useRouter();
+  const pagePath = router?.asPath.split('#')[0];
+
   // In the new brand the desktop nav colours its text by what's behind it,
   // switching where a dark band ends (see Root's styles). If the band ends in
   // a wobbly edge, follow its slope under each piece of text; the edge should
@@ -194,9 +198,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
     if (!theme.brandUpdate || !root) return;
 
     const band = document.querySelector('[data-in-page-nav-dark]');
-    const edge = document.querySelector<HTMLElement>(
-      '[data-in-page-nav-dark-edge] > *'
-    );
+    // Without a band the edge is light on light, so there's nothing to follow
+    const edge = band
+      ? document.querySelector<HTMLElement>('[data-in-page-nav-dark-edge] > *')
+      : null;
     let frame = 0;
     let isEdgeAnimating = false;
 
@@ -290,7 +295,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
       cancelAnimationFrame(frame);
       navGridCell?.removeAttribute('data-in-page-nav-split');
     };
-  }, [theme.brandUpdate]);
+    // Next keeps this mounted between pages (e.g. one concept to another), so
+    // look for the new page's band and edge
+  }, [theme.brandUpdate, pagePath]);
 
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;
