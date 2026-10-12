@@ -2,13 +2,23 @@ import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  mediaBackgroundColor,
+  PaletteColor,
+  PinnableColor,
+} from '@weco/common/views/themes/config';
+
+// The brand makes the controls blue.30 on dark backgrounds. On light ones
+// they stay neutral.70 (black), as blue.30 isn't accessible there.
+export const controlColor = (legacy: PaletteColor): PinnableColor =>
+  legacy === 'black' ? legacy : { brand: 'blue.30', legacy };
 
 export const AudioPlayerWrapper = styled(Space).attrs({
   as: 'figure',
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })<{ $isDark: boolean }>`
   background: ${props =>
-    props.theme.color(props.$isDark ? 'black' : 'transparent')};
+    props.theme.color(props.$isDark ? mediaBackgroundColor : 'transparent')};
   margin: 0;
 `;
 
@@ -39,13 +49,15 @@ export const SkipPlayWrapper = styled.div`
 `;
 
 export const colorTransform = css<{ $isDark: boolean }>`
-  color: ${props => props.theme.color(props.$isDark ? 'yellow' : 'black')};
+  color: ${props =>
+    props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
   transform: scale(1.1);
 `;
 
 export const SkipButton = styled.button<{ $isDark: boolean }>`
   padding: ${props => props.theme.spacingUnits['200']} 0 0;
-  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
 
   transition:
     color 0.2s ease-out,
@@ -73,12 +85,13 @@ export const PlayerRateWrapper = styled.div`
 `;
 
 export const colorTransformIconFill = css<{ $isDark: boolean }>`
-  color: ${props => props.theme.color(props.$isDark ? 'yellow' : 'black')};
+  color: ${props =>
+    props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
   transform: scale(1.1);
 
   .icon__playpause {
     fill: ${props =>
-      props.theme.color(props.$isDark ? 'black' : 'transparent')};
+      props.theme.color(props.$isDark ? mediaBackgroundColor : 'transparent')};
   }
 `;
 
@@ -87,14 +100,15 @@ export const TitleWrapper = styled.span<{ $isDark: boolean }>`
 `;
 
 export const PlayPauseInner = styled.div<{ $isDark: boolean }>`
-  color: ${props => props.theme.color(props.$isDark ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
   transition:
     color 0.2s ease-out,
     transform 0.2s ease-out;
 
   .icon__playpause {
     fill: ${props =>
-      props.theme.color(props.$isDark ? 'black' : 'transparent')};
+      props.theme.color(props.$isDark ? mediaBackgroundColor : 'transparent')};
     transition: fill 0.2s ease-out;
   }
 
