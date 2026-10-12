@@ -145,8 +145,7 @@ const ItemViewerContext = createContext<ItemViewerContextProps>(
 );
 
 export function useItemViewerContext(): ItemViewerContextProps {
-  const contextState = useContext(ItemViewerContext);
-  return contextState;
+  return useContext(ItemViewerContext);
 }
 
 export default ItemViewerContext;
