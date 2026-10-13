@@ -1,16 +1,11 @@
 import { Meta, StoryObj } from '@storybook/react';
 
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 
 const meta: Meta<typeof HeaderBackground> = {
   title: 'Components/HeaderBackground',
   component: HeaderBackground,
   args: {
-    backgroundTexture: undefined,
     hasWobblyEdge: true,
     useDefaultBackgroundTexture: true,
   },
@@ -18,17 +13,7 @@ const meta: Meta<typeof HeaderBackground> = {
     hasWobblyEdge: { control: 'boolean', name: 'Has wobbly edge' },
     useDefaultBackgroundTexture: {
       control: 'boolean',
-      name: 'Use default background texture',
-    },
-    backgroundTexture: {
-      control: 'select',
-      name: 'Background texture URL (can be any URL)',
-      options: ['Header background', 'Landing header background'],
-      mapping: {
-        'Header background': headerBackgroundLs,
-        'Landing header background': landingHeaderBackgroundLs,
-      },
-      if: { arg: 'useDefaultBackgroundTexture', truthy: false },
+      name: 'Show background texture',
     },
   },
 };
