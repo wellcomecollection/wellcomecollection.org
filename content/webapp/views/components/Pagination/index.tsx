@@ -7,6 +7,7 @@ import { chevron } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 export type Props = {
   totalPages: number;
@@ -77,6 +78,35 @@ const ChevronWrapper = styled(Link)<{
       )};
     }
   `}
+
+  /* The brand outlines it, then fills it and thickens the ring on hover */
+  ${props => {
+    if (!props.theme.brandUpdate) return '';
+    const ink = designSystemColor(
+      props.$hasDarkBg ? 'neutral.10' : 'neutral.70'
+    );
+    const paper = designSystemColor(
+      props.$hasDarkBg ? 'neutral.70' : 'neutral.10'
+    );
+
+    return `
+      box-sizing: border-box;
+      color: ${ink};
+      border: 1px solid ${ink};
+
+      &:hover {
+        background-color: ${ink};
+        border: 2px solid ${paper};
+        color: ${paper};
+      }
+
+      &[disabled] {
+        background-color: ${designSystemColor('ui.grey.40')};
+        border-color: ${designSystemColor('ui.grey.60')};
+        color: ${designSystemColor('ui.grey.60')};
+      }
+    `;
+  }}
 `;
 
 export const Pagination: FunctionComponent<Props> = ({

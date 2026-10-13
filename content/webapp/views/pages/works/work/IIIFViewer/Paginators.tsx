@@ -41,6 +41,7 @@ const PaginatorButtons = ({
             <Control
               link={prevLink}
               colorScheme="light"
+              isOnDark
               icon={arrow}
               text="Previous page"
               scroll={false}
@@ -55,6 +56,7 @@ const PaginatorButtons = ({
             <Control
               link={nextLink}
               colorScheme="light"
+              isOnDark
               icon={arrow}
               text="Next page"
               scroll={false}
