@@ -89,10 +89,17 @@ const ChevronWrapper = styled(Link)<{
       props.$hasDarkBg ? 'neutral.70' : 'neutral.10'
     );
 
+    // Swap instantly, as fading inverted colours makes the chevron flicker out
     return `
       box-sizing: border-box;
       color: ${ink};
       border: 1px solid ${ink};
+      transition: none;
+
+      .icon,
+      .icon__shape {
+        transition: none;
+      }
 
       &:hover {
         background-color: ${ink};

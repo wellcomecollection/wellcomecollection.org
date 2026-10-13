@@ -25,10 +25,18 @@ const brandControlStyles = (isOnDark: boolean) => {
   const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
   const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
 
+  // Swap instantly: fading inverted colours passes through a point where the
+  // icon and fill match, so the icon flickers out
   return `
     box-sizing: border-box;
     background: ${fill};
     border: 1px solid transparent;
+    transition: none;
+
+    .icon,
+    .icon__shape {
+      transition: none;
+    }
 
     .icon__shape {
       fill: ${ink};
