@@ -36,28 +36,21 @@ import {
   Wrapper,
 } from './PageHeader.styles';
 
-// The brand update's textured headers are dark, so the title is plain light
-// text rather than black text in a white box.
+// With the brand update the title is plain text in the colour the header's
+// `Wrapper` sets (light on a dark header, dark otherwise), rather than black
+// text in a white box.
 const Heading = styled(Space)`
   display: inline;
 
   ${props =>
-    props.theme.brandUpdate
-      ? `
-        color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};
-
-        @media print {
-          /* Browsers don't print the dark header background, so go back to dark text */
-          color: ${props.theme.color('black')};
-        }
-      `
-      : `
-        background-color: ${props.theme.color('white')};
-        color: ${props.theme.color('black')};
-        line-height: calc(1.1em + 12px);
-        -webkit-box-decoration-break: clone;
-        box-decoration-break: clone;
-      `}
+    !props.theme.brandUpdate &&
+    `
+      background-color: ${props.theme.color('white')};
+      color: ${props.theme.color('black')};
+      line-height: calc(1.1em + 12px);
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    `}
 `;
 
 const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
