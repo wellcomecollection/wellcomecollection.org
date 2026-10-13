@@ -74,7 +74,7 @@ Server-only packages that try to load in the browser will cause "Cannot find mod
 
 ## E2E Testing (Playwright)
 
-Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` (or build on it, the way `playwright/test/helpers/refactored-viewer.ts` does) - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
+Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
 
 ## PR Review Guidelines
 
