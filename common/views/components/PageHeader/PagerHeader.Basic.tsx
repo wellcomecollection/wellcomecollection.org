@@ -4,7 +4,7 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { typography } from '@weco/common/utils/classnames';
@@ -36,21 +36,46 @@ import {
   Wrapper,
 } from './PageHeader.styles';
 
+// The brand update's textured headers are dark, so the title is plain light
+// text rather than black text in a white box.
 const Heading = styled(Space)`
-  background-color: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('black')};
   display: inline;
-  line-height: calc(1.1em + 12px);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
+
+  ${props =>
+    props.theme.brandUpdate
+      ? `
+        color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};
+
+        @media print {
+          /* Browsers don't print the dark header background, so go back to dark text */
+          color: ${props.theme.color('black')};
+        }
+      `
+      : `
+        background-color: ${props.theme.color('white')};
+        color: ${props.theme.color('black')};
+        line-height: calc(1.1em + 12px);
+        -webkit-box-decoration-break: clone;
+        box-decoration-break: clone;
+      `}
 `;
 
 const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
+  const { brandUpdate } = useTheme();
+
   return (
     <h1 className={typography('heading', 'xl', 'strong', 'brand')}>
       <Heading
-        $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
-        $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
+        $v={
+          brandUpdate
+            ? undefined
+            : { size: 'xs', properties: ['padding-top', 'padding-bottom'] }
+        }
+        $h={
+          brandUpdate
+            ? undefined
+            : { size: 'sm', properties: ['padding-left', 'padding-right'] }
+        }
       >
         {text}
       </Heading>
