@@ -295,12 +295,11 @@ const ToggleWidget: FunctionComponent = () => {
           ref={panelRef}
           tabIndex={-1}
           role="region"
-          aria-label="Preview toggle states"
+          aria-label="toggle states"
         >
           <PanelHeader>
-            Preview{' '}
             <a href={DASH_URL} target="_blank" rel="noopener noreferrer">
-              toggles
+              Toggles
               <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
           </PanelHeader>
