@@ -239,9 +239,13 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
 
+  // This hits the real search API rather than a mocked response,
+  // confirmed it returns a genuine "darwin" hit for this work, so
+  // the full fill-click-fetch-render round trip can just take longer than
+  // the default 5s under CI/mobile-emulation conditions.
   await expect(
     page.getByRole('link', { name: /Found on image/ }).first()
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 15000 });
 });
 
 test('(15) | The location of the search results should be displayed', async ({
