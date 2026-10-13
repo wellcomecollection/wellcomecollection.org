@@ -1,6 +1,6 @@
-// This module is imported by auth0.ts, which middleware.ts pulls into the
-// edge runtime - use the global URLSearchParams rather than importing it
-// from 'url', which isn't available there.
+// This module is imported by auth0.ts, which proxy.ts pulls in - use the
+// global URLSearchParams rather than importing it from 'url', which isn't
+// available in every runtime Next.js may bundle this for.
 
 // A brand-new signup gets a placeholder name until Auth0 next syncs from
 // Sierra (which only happens on a fresh login). We treat this placeholder

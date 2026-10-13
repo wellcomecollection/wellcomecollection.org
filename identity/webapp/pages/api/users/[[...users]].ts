@@ -1,11 +1,11 @@
 import { AccessTokenError } from '@auth0/nextjs-auth0/errors';
 import { NextApiRequest, NextApiResponse } from 'next';
-import getConfig from 'next/config';
 
+import { getConfig } from '@weco/identity/config';
 import auth0 from '@weco/identity/utils/auth0';
 import { FetchClient } from '@weco/identity/utils/fetch-helpers';
 
-const { serverRuntimeConfig: config } = getConfig();
+const config = getConfig();
 
 export const identityFetchClient: FetchClient = new FetchClient({
   baseURL: config.remoteApi.host,

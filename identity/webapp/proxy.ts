@@ -69,7 +69,7 @@ const requestOrigin = (request: NextRequest): string => {
 // The auth0 middleware mounts the auth routes (login, logout, callback - see
 // the routes config in utils/auth0.ts) and rolls the session cookie expiry
 // on every matched request.
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // v3 resolved relative logout returnTo values (eg ?returnTo=/success)
   // against the app's base URL, but v4 forwards them verbatim to Auth0,
   // which only accepts the absolute URLs in its allowed logout URLs list.

@@ -1,7 +1,5 @@
 const { createConfig } = require('@weco/common/next/next.config');
 
-const { getConfig } = require('./config');
-
 // Every URL this app serves gets '/account' added in front, e.g. the page at
 // /search is actually served at wellcomecollection.org/account/search. This
 // is how identity lives under the main site's domain instead of getting its
@@ -20,12 +18,6 @@ const baseConfig = createConfig({
   applicationName: 'identity',
   basePath,
 
-  // Passed into next.config.js here, then read back anywhere in this app's
-  // server-side code via next/config's getConfig() - not by importing
-  // ./config directly. See the serverRuntimeConfig comment in createConfig
-  // (common/next/next.config.js) for why it works this way.
-  serverRuntimeConfig: getConfig(),
-
   redirectEntries: [
     {
       // Without `basePath: false`, Next would automatically prefix
@@ -39,7 +31,10 @@ const baseConfig = createConfig({
   ],
 });
 
-module.exports = (phase, context) => ({
-  ...baseConfig(phase, context),
-  env: { NEXT_PUBLIC_BASE_PATH: basePath },
-});
+module.exports = (phase, context) => {
+  const config = baseConfig(phase, context);
+  return {
+    ...config,
+    env: { ...config.env, NEXT_PUBLIC_BASE_PATH: basePath },
+  };
+};
