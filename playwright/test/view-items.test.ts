@@ -190,11 +190,16 @@ test('(11) | The multi-volume label should be appropriate', async ({
   await accessSidebarOnMobile(page);
   await expect(page.getByTestId('multi-volume-label')).toHaveText('Copy 1');
 
-  // Switching volumes is confirmed working by hand, but every way we tried
-  // to assert its result automatically (URL, networkidle, aria-current) was
-  // flaky in a different way each run, while this initial state has been
-  // reliable every time - so that's the switch itself (covered as far as
-  // "the link exists" by test (10)), not asserted further here.
+  await page.getByRole('button', { name: 'Volumes' }).click();
+  const copyThreeLink = page.getByRole('link', { name: 'Copy 3' });
+  await expect(copyThreeLink).toBeVisible();
+  await copyThreeLink.click();
+
+  // "Copy 3" is the label on this manifest, not its array position - the
+  // link navigates to manifest=2 (see MultipleManifestList.tsx: manifest is
+  // i + 1, the array index, which doesn't always match the label's own
+  // number).
+  await expect(page.getByTestId('multi-volume-label')).toHaveText('Copy 3');
 });
 
 test('(12) | The structured parts should be browseable', async ({
