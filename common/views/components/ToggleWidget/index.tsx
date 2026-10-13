@@ -33,6 +33,7 @@ import {
 } from './ToggleWidget.styles';
 
 const STARRED_TOGGLES_COOKIE = 'starred_toggles';
+const DASH_URL = 'https://dash.wellcomecollection.org/toggles';
 
 type Option = { id: string; label: string };
 
@@ -79,6 +80,11 @@ const modeOptions = (options: readonly ModeOption[]): Option[] => [
 
 const phaseOptions = (phases: readonly PhaseDefinition[]): Option[] =>
   phases.map(phase => ({ id: phase.id, label: phase.label }));
+
+// Matches the anchor ids dash puts on each toggle's list item - modes use
+// their own prefix, everything else shares toggle-.
+const dashAnchorUrl = ({ kind, id }: StarredEntry): string =>
+  `${DASH_URL}#${kind === 'mode' ? 'mode' : 'toggle'}-${id}`;
 
 function cookieDomainOptions() {
   const isLocalhost =
@@ -291,11 +297,24 @@ const ToggleWidget: FunctionComponent = () => {
           role="region"
           aria-label="Preview toggle states"
         >
-          <PanelHeader>Preview toggles</PanelHeader>
+          <PanelHeader>
+            Preview{' '}
+            <a href={DASH_URL} target="_blank" rel="noopener noreferrer">
+              toggles
+              <span className="visually-hidden"> (opens in a new tab)</span>
+            </a>
+          </PanelHeader>
           {entries.map(entry => (
             <ToggleBlock key={entry.id}>
               <ToggleLabel>
-                {entry.title}
+                <a
+                  href={dashAnchorUrl(entry)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {entry.title}
+                  <span className="visually-hidden"> (opens in a new tab)</span>
+                </a>
                 {entry.locked && <ToggleNote>(Public)</ToggleNote>}
               </ToggleLabel>
 

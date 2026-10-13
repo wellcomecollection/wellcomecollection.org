@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ToggleWidgetWrapper = styled.div`
   position: fixed;
@@ -78,12 +78,27 @@ export const Panel = styled.div`
   }
 `;
 
+// Shared by the header's and each toggle title's dash link, so they read
+// as part of the text rather than default link blue.
+const dashLinkStyles = css`
+  a {
+    color: inherit;
+  }
+
+  a:focus-visible {
+    outline: 2px solid ${props => props.theme.color('accent.purple')};
+    outline-offset: 2px;
+  }
+`;
+
 export const PanelHeader = styled.p`
   margin: 0 0 12px;
   padding-bottom: 12px;
   font-weight: 600;
   font-size: 14px;
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
+
+  ${dashLinkStyles}
 `;
 
 export const ToggleBlock = styled.div`
@@ -98,6 +113,8 @@ export const ToggleLabel = styled.p`
   margin: 0;
   font-weight: 600;
   font-size: 14px;
+
+  ${dashLinkStyles}
 `;
 
 export const ToggleNote = styled.span`
