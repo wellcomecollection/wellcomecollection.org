@@ -52,6 +52,9 @@ const brandControlStyles = (isOnDark: boolean) => {
     }
 
     &[disabled] {
+      /* Pointer events back on, so the cursor shows; disabled stops clicks */
+      pointer-events: auto;
+      cursor: not-allowed;
       background: ${designSystemColor('ui.grey.40')};
       border-color: ${designSystemColor('ui.grey.60')};
 
