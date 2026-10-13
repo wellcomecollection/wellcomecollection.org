@@ -19,7 +19,7 @@ import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
 import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
-import { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
+import type { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
 import {
   Container,
   SectionHeading,

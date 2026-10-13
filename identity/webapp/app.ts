@@ -16,8 +16,13 @@ export async function createApp(): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';
   await initServerData();
 
+  // Next 16 defaults to Turbopack, which doesn't run the custom `webpack()`
+  // hook in common/next/next.config.js (moment-timezone swap, undici
+  // exclusion) - see --webpack in build:next too. Migrating that hook to
+  // Turbopack config is tracked separately.
   const nextApp = next({
     dev: !isProduction,
+    webpack: true,
   });
   const nextHandler = nextApp.getRequestHandler();
   await nextApp.prepare();

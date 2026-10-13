@@ -5,9 +5,12 @@ const port = Number(process.env.PORT) || 3000;
 // Defaults (ie "build") need to be set here so that there's something available
 // at build time - it never gets used
 //
-// The Auth0 SDK and session configuration lives in utils/auth0.ts, which
-// reads the environment directly: it's also loaded by middleware.ts, where
-// next/config isn't available.
+// Server-side only: this holds secrets, so only import it from API routes,
+// getServerSideProps or other server-only modules.
+//
+// The Auth0 SDK and session configuration lives separately in utils/auth0.ts,
+// which reads the environment directly because it's also loaded by
+// proxy.ts.
 const getConfig = () => {
   return {
     // Auth0 configuration.
