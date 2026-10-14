@@ -34,9 +34,9 @@ export const Wrapper = styled(Space)<{ $isOnDarkHeader?: boolean }>`
 `;
 
 export const TitleWrapper = styled.h1.attrs<{
-  $isOfficialLandingPage?: boolean;
+  $isLandingPage?: boolean;
 }>(props => ({
-  className: props.$isOfficialLandingPage
+  className: props.$isLandingPage
     ? typography('display', 'md', 'strong')
     : typography('heading', 'xxl', 'strong', 'brand'),
 }))`

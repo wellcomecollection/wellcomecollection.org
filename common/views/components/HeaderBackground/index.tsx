@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import {
   getHeaderTexture,
   headerBackgroundLs,
-  landingHeaderBackgroundLs,
 } from '@weco/common/utils/backgrounds';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { pageBackgroundColor } from '@weco/common/views/themes/config';
@@ -15,8 +14,6 @@ type Props = {
   hasWobblyEdge?: boolean;
   useDefaultBackgroundTexture?: boolean;
 };
-
-const defaultBackgroundTexture = landingHeaderBackgroundLs;
 
 const Background = styled.div<{ $texture: string | null }>`
   position: absolute;
@@ -54,7 +51,7 @@ const HeaderBackground: FunctionComponent<Props> = ({
 }: Props) => {
   const texture =
     backgroundTexture ||
-    (useDefaultBackgroundTexture ? defaultBackgroundTexture : null);
+    (useDefaultBackgroundTexture ? headerBackgroundLs : null);
 
   return (
     <Background $texture={texture}>
