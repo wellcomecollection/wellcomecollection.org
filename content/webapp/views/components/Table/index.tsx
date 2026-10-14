@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useTheme } from 'styled-components';
 
 import { arrow } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -91,6 +92,7 @@ const Table: FunctionComponent<Props> = ({
   withBorder = true,
   hasSmallerCopy = false,
 }: Props): ReactElement<Props> => {
+  const theme = useTheme();
   const leftButtonRef = useRef<HTMLDivElement>(null);
   const rightButtonRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
@@ -203,12 +205,22 @@ const Table: FunctionComponent<Props> = ({
             $isActive={isLeftActive}
           >
             <Rotator $rotate={180}>
-              <Control colorScheme="light" icon={arrow} text="" />
+              <Control
+                colorScheme="light"
+                icon={arrow}
+                text=""
+                disabled={theme.brandUpdate && !isLeftActive}
+              />
             </Rotator>
           </ScrollButtonWrap>
 
           <ScrollButtonWrap $isActive={isRightActive} ref={rightButtonRef}>
-            <Control colorScheme="light" icon={arrow} text="" />
+            <Control
+              colorScheme="light"
+              icon={arrow}
+              text=""
+              disabled={theme.brandUpdate && !isRightActive}
+            />
           </ScrollButtonWrap>
         </ScrollButtons>
 

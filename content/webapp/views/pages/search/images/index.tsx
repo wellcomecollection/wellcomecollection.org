@@ -213,7 +213,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
                       <Pagination
                         totalPages={images.totalPages}
                         ariaLabel="Image search pagination"
-                        hasDarkBg
+                        isOnDark
                         isHiddenMobile
                       />
                     </SortPaginationWrapper>
@@ -230,7 +230,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
                     <Pagination
                       totalPages={images.totalPages}
                       ariaLabel="Image search pagination"
-                      hasDarkBg
+                      isOnDark
                     />
                   </PaginationWrapper>
                 </>
