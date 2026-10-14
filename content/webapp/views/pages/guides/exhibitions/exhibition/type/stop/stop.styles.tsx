@@ -61,6 +61,13 @@ export const PrevNext = styled.div.attrs({
   background: ${props => props.theme.color('neutral.700')};
 `;
 
+export const BrandPrevNextInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: ${prevNextHeight};
+`;
+
 export const AudioPlayerNewWrapper = styled.div`
   position: fixed;
   bottom: ${prevNextHeight};

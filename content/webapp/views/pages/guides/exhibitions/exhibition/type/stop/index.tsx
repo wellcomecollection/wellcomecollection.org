@@ -2,6 +2,7 @@ import { NextPage } from 'next';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
+import { useTheme } from 'styled-components';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
 import { arrow, cross } from '@weco/common/icons';
@@ -31,10 +32,12 @@ import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/views/components/ImagePlaceholder';
+import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
 import {
   AlignCenter,
   AudioPlayerNewWrapper,
+  BrandPrevNextInner,
   FlushContainer,
   Header,
   HeaderInner,
@@ -69,6 +72,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
   // `getServerSideProps` using the Previous/Next links, because we already have
   // all the data we need and can work it out client side
   const router = useRouter();
+  const theme = useTheme();
   const [stopNumber, setStopNumber] = useState(stopNumberServerSide);
   const [currentStop, setCurrentStop] = useState(currentStopServerSide);
   const [headerEl, setHeaderEl] = useState<HTMLElement>();
@@ -225,78 +229,113 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
         )}
 
         <PrevNext>
-          <Container>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                {stopNumber > 1 && (
-                  <NextLink
-                    style={{
-                      textDecoration: 'none',
-                      display: 'inline-block',
-                    }}
-                    href={`${guideTypeUrl}/${stopNumber - 1}`}
-                    shallow
-                  >
-                    <Space
-                      $v={{
-                        size: 'xs',
-                        properties: ['padding-top', 'padding-bottom'],
-                        overrides: {
-                          zero: '150',
-                          sm: '150',
-                          md: '150',
-                        },
+          {theme.brandUpdate ? (
+            <Container>
+              <BrandPrevNextInner>
+                <PrevNextLink
+                  direction="previous"
+                  label="Previous stop"
+                  link={
+                    stopNumber > 1
+                      ? {
+                          href: {
+                            pathname: `${guideTypeUrl}/${stopNumber - 1}`,
+                          },
+                          shallow: true,
+                        }
+                      : undefined
+                  }
+                />
+                <PrevNextLink
+                  direction="next"
+                  label="Next stop"
+                  link={
+                    stopNumber < allStops.length
+                      ? {
+                          href: {
+                            pathname: `${guideTypeUrl}/${stopNumber + 1}`,
+                          },
+                          shallow: true,
+                        }
+                      : undefined
+                  }
+                />
+              </BrandPrevNextInner>
+            </Container>
+          ) : (
+            <Container>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div>
+                  {stopNumber > 1 && (
+                    <NextLink
+                      style={{
+                        textDecoration: 'none',
+                        display: 'inline-block',
                       }}
+                      href={`${guideTypeUrl}/${stopNumber - 1}`}
+                      shallow
                     >
-                      <AlignCenter>
-                        <Space
-                          $h={{ size: 'sm', properties: ['margin-right'] }}
-                          style={{ display: 'flex' }}
-                        >
-                          <Icon icon={arrow} rotate={180} />
-                        </Space>
-                        <span>Previous</span>
-                      </AlignCenter>
-                    </Space>
-                  </NextLink>
-                )}
-              </div>
-              <div>
-                {stopNumber < allStops.length && (
-                  <NextLink
-                    style={{
-                      textDecoration: 'none',
-                      display: 'inline-block',
-                    }}
-                    href={`${guideTypeUrl}/${stopNumber + 1}`}
-                    shallow
-                  >
-                    <Space
-                      $v={{
-                        size: 'xs',
-                        properties: ['padding-top', 'padding-bottom'],
-                        overrides: {
-                          zero: '150',
-                          sm: '150',
-                          md: '150',
-                        },
+                      <Space
+                        $v={{
+                          size: 'xs',
+                          properties: ['padding-top', 'padding-bottom'],
+                          overrides: {
+                            zero: '150',
+                            sm: '150',
+                            md: '150',
+                          },
+                        }}
+                      >
+                        <AlignCenter>
+                          <Space
+                            $h={{ size: 'sm', properties: ['margin-right'] }}
+                            style={{ display: 'flex' }}
+                          >
+                            <Icon icon={arrow} rotate={180} />
+                          </Space>
+                          <span>Previous</span>
+                        </AlignCenter>
+                      </Space>
+                    </NextLink>
+                  )}
+                </div>
+                <div>
+                  {stopNumber < allStops.length && (
+                    <NextLink
+                      style={{
+                        textDecoration: 'none',
+                        display: 'inline-block',
                       }}
+                      href={`${guideTypeUrl}/${stopNumber + 1}`}
+                      shallow
                     >
-                      <AlignCenter>
-                        <Space
-                          $h={{ size: 'sm', properties: ['margin-right'] }}
-                          style={{ display: 'flex' }}
-                        >
-                          <span>Next</span>
-                        </Space>
-                        <Icon icon={arrow} />
-                      </AlignCenter>
-                    </Space>
-                  </NextLink>
-                )}
+                      <Space
+                        $v={{
+                          size: 'xs',
+                          properties: ['padding-top', 'padding-bottom'],
+                          overrides: {
+                            zero: '150',
+                            sm: '150',
+                            md: '150',
+                          },
+                        }}
+                      >
+                        <AlignCenter>
+                          <Space
+                            $h={{ size: 'sm', properties: ['margin-right'] }}
+                            style={{ display: 'flex' }}
+                          >
+                            <span>Next</span>
+                          </Space>
+                          <Icon icon={arrow} />
+                        </AlignCenter>
+                      </Space>
+                    </NextLink>
+                  )}
+                </div>
               </div>
-            </div>
-          </Container>
+            </Container>
+          )}
         </PrevNext>
       </Page>
     </PageLayout>
