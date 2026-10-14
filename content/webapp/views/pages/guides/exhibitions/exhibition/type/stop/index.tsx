@@ -37,12 +37,12 @@ import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 import {
   AlignCenter,
   AudioPlayerNewWrapper,
-  BrandPrevNextInner,
   FlushContainer,
   Header,
   HeaderInner,
   Page,
   PrevNext,
+  PrevNextInner,
   StickyPlayer,
   Title,
 } from './stop.styles';
@@ -231,7 +231,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
         <PrevNext>
           {theme.brandUpdate ? (
             <Container>
-              <BrandPrevNextInner>
+              <PrevNextInner>
                 <PrevNextLink
                   direction="previous"
                   label="Previous stop"
@@ -260,7 +260,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                       : undefined
                   }
                 />
-              </BrandPrevNextInner>
+              </PrevNextInner>
             </Container>
           ) : (
             <Container>

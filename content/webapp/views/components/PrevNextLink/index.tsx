@@ -8,9 +8,6 @@ import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { designSystemColor } from '@weco/common/views/themes/config';
 
-// The brand's previous/next links, for dark bars (e.g. the item viewer and
-// exhibition guide stops). Only used while the `brandUpdate` toggle is on.
-
 const baseStyles = css`
   display: inline-flex;
   align-items: center;
