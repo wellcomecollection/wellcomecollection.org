@@ -32,34 +32,37 @@ const baseStyles = css<StyleProps>`
     align-items: center;
     ${props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
   `}
+`;
+
+const disabledStyles = css`
+  color: ${designSystemColor('ui.grey.40')};
+  cursor: not-allowed;
+`;
+
+const StyledLink = styled(NextLink)<StyleProps>`
+  ${baseStyles}
+
+  &:hover ${Label} {
+    text-decoration: underline;
+  }
+`;
+
+const StyledButton = styled.button<StyleProps>`
+  ${baseStyles}
 
   &:not(:disabled):hover ${Label} {
     text-decoration: underline;
   }
 
   &:disabled {
-    color: ${designSystemColor('ui.grey.40')};
-    cursor: not-allowed;
+    ${disabledStyles}
   }
-`;
-
-const StyledLink = styled(NextLink)<StyleProps>`
-  ${baseStyles}
-`;
-
-const StyledButton = styled.button<StyleProps>`
-  ${baseStyles}
 `;
 
 // Not a link, so it isn't focusable; screen readers hear '… unavailable'
 const Disabled = styled.span<StyleProps>`
   ${baseStyles}
-  color: ${designSystemColor('ui.grey.40')};
-  cursor: not-allowed;
-
-  &:hover ${Label} {
-    text-decoration: none;
-  }
+  ${disabledStyles}
 `;
 
 type Props = {
@@ -115,6 +118,7 @@ const PrevNextLink: FunctionComponent<Props> = ({
       <StyledButton
         {...sharedProps}
         data-component="prev-next-link"
+        type="button"
         onClick={onClick}
         disabled={disabled}
       >
