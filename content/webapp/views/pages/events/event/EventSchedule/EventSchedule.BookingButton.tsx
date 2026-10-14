@@ -52,14 +52,14 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
 };
 
 type EventBookingButtonProps = {
-  email: string;
-  title: string;
+  $email: string;
+  $title: string;
 };
 
 const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
   props => ({
     className: typography('body', 'lg', 'regular'),
-    href: `mailto:${props.email}?subject=${props.title}`,
+    href: `mailto:${props.$email}?subject=${props.$title}`,
     $v: { size: 'xs', properties: ['margin-top'] },
   })
 )<EventBookingButtonProps>`
@@ -75,7 +75,7 @@ const EventBookingButton: FunctionComponent<Props> = ({ event }) => {
       <BookingButtonLink event={event} />
       <BookingEnquiryLink event={event} />
       {team && (
-        <EventBookingButtonLink email={team.email} title={event.title}>
+        <EventBookingButtonLink $email={team.email} $title={event.title}>
           {team.email}
         </EventBookingButtonLink>
       )}
