@@ -1,11 +1,12 @@
 import { FunctionComponent, RefObject, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
 import { arrowSmall } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import useSwipeable, { SwipeDirection } from '@weco/content/hooks/useSwipeable';
+import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
 const ScrollButtonsContainer = styled(Space)<{
   $hasDarkBackground?: boolean;
@@ -18,6 +19,10 @@ const ScrollButtonsContainer = styled(Space)<{
   /* Set CSS variables based on $hasDarkBackground */
   --button-color: ${props =>
     props.theme.color(props.$hasDarkBackground ? 'white' : 'black')};
+
+  ${props =>
+    props.theme.brandUpdate &&
+    props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
 `;
 
 const ScrollButton = styled('button').attrs({
@@ -36,8 +41,7 @@ const ScrollButton = styled('button').attrs({
   }
 
   &:disabled {
-    color: ${props =>
-      props.theme.color({ brand: 'ui.grey.40', legacy: 'neutral.500' })};
+    color: ${props => props.theme.color('neutral.500')};
     cursor: not-allowed;
   }
 
@@ -56,6 +60,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   hasDarkBackground,
   hasLeftOffset,
 }: Props) => {
+  const theme = useTheme();
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -156,22 +161,45 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       $hasDarkBackground={hasDarkBackground}
       $hasLeftOffset={hasLeftOffset}
     >
-      <ScrollButton
-        disabled={!canScrollLeft}
-        onClick={() => scrollByChildImageWidth('left')}
-      >
-        <Icon icon={arrowSmall} rotate={180} />
-        <span aria-hidden="true">Prev</span>
-        <span className="visually-hidden">Previous</span>
-      </ScrollButton>
+      {theme.brandUpdate ? (
+        <>
+          <PrevNextLink
+            direction="previous"
+            label="Previous"
+            hasDarkBackground={hasDarkBackground}
+            isStacked
+            disabled={!canScrollLeft}
+            onClick={() => scrollByChildImageWidth('left')}
+          />
+          <PrevNextLink
+            direction="next"
+            label="Next"
+            hasDarkBackground={hasDarkBackground}
+            isStacked
+            disabled={!canScrollRight}
+            onClick={() => scrollByChildImageWidth('right')}
+          />
+        </>
+      ) : (
+        <>
+          <ScrollButton
+            disabled={!canScrollLeft}
+            onClick={() => scrollByChildImageWidth('left')}
+          >
+            <Icon icon={arrowSmall} rotate={180} />
+            <span aria-hidden="true">Prev</span>
+            <span className="visually-hidden">Previous</span>
+          </ScrollButton>
 
-      <ScrollButton
-        disabled={!canScrollRight}
-        onClick={() => scrollByChildImageWidth('right')}
-      >
-        <Icon icon={arrowSmall} />
-        Next
-      </ScrollButton>
+          <ScrollButton
+            disabled={!canScrollRight}
+            onClick={() => scrollByChildImageWidth('right')}
+          >
+            <Icon icon={arrowSmall} />
+            Next
+          </ScrollButton>
+        </>
+      )}
     </ScrollButtonsContainer>
   );
 };

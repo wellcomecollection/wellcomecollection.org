@@ -105,6 +105,7 @@ const CanvasNavButton: FunctionComponent<CanvasNavButtonProps> = ({
   if (theme.brandUpdate) {
     return (
       <PrevNextLink
+        hasDarkBackground
         direction={direction}
         link={link || undefined}
         label={direction === 'previous' ? 'Previous page' : 'Next page'}

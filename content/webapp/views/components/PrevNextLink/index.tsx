@@ -8,62 +8,127 @@ import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { designSystemColor } from '@weco/common/views/themes/config';
 
-// The brand's previous/next links, for dark bars (e.g. the item viewer and
-// exhibition guide stops). Only used while the `brandUpdate` toggle is on.
+// The brand's previous/next controls, e.g. in the item viewer, exhibition
+// guide stops and scrollable rows of cards. Only used while the `brandUpdate`
+// toggle is on.
 
-const baseStyles = css`
-  display: inline-flex;
-  align-items: center;
-  ${props => props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
-  color: ${designSystemColor('neutral.10')};
-  text-decoration: none;
-`;
+type StyleProps = { $hasDarkBackground: boolean; $isStacked?: boolean };
 
 const Label = styled.span``;
 
-const StyledLink = styled(NextLink)`
-  ${baseStyles}
+const baseStyles = css<StyleProps>`
+  display: inline-flex;
+  color: ${props =>
+    designSystemColor(props.$hasDarkBackground ? 'neutral.10' : 'neutral.70')};
+  text-decoration: none;
 
-  &:hover ${Label} {
+  ${props =>
+    props.$isStacked
+      ? `
+    flex-direction: column;
+    align-items: flex-start;
+  `
+      : `
+    align-items: center;
+    ${props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
+  `}
+
+  &:not(:disabled):hover ${Label} {
     text-decoration: underline;
+  }
+
+  &:disabled {
+    color: ${designSystemColor('ui.grey.40')};
+    cursor: not-allowed;
   }
 `;
 
+const StyledLink = styled(NextLink)<StyleProps>`
+  ${baseStyles}
+`;
+
+const StyledButton = styled.button<StyleProps>`
+  ${baseStyles}
+`;
+
 // Not a link, so it isn't focusable; screen readers hear '… unavailable'
-const Disabled = styled.span`
+const Disabled = styled.span<StyleProps>`
   ${baseStyles}
   color: ${designSystemColor('ui.grey.40')};
   cursor: not-allowed;
+
+  &:hover ${Label} {
+    text-decoration: none;
+  }
 `;
 
 type Props = {
   direction: 'previous' | 'next';
-  // Leave out to show the disabled state
-  link?: LinkProps;
   // What a screen reader hears instead of 'Prev'/'Next', e.g. 'Next page'
   label: string;
-};
+  hasDarkBackground?: boolean;
+  // Arrow above the label, as in scrollable rows of cards
+  isStacked?: boolean;
+} & (
+  | {
+      // Leave out to show the disabled state
+      link?: LinkProps;
+      onClick?: never;
+      disabled?: never;
+    }
+  | { link?: never; onClick: () => void; disabled?: boolean }
+);
 
-const PrevNextLink: FunctionComponent<Props> = ({ direction, link, label }) => {
+const PrevNextLink: FunctionComponent<Props> = ({
+  direction,
+  label,
+  hasDarkBackground = false,
+  isStacked,
+  link,
+  onClick,
+  disabled,
+}) => {
   const isPrevious = direction === 'previous';
+  const arrowFirst = isPrevious || isStacked;
+  const isUnavailableLink = !onClick && !link;
   const content = (
     <>
-      {isPrevious && <Icon icon={arrow} rotate={180} />}
+      {arrowFirst && (
+        <Icon icon={arrow} rotate={isPrevious ? 180 : undefined} />
+      )}
       <Label aria-hidden="true">{isPrevious ? 'Prev' : 'Next'}</Label>
+      {/* A disabled button is already announced as unavailable */}
       <span className="visually-hidden">
-        {link ? label : `${label} unavailable`}
+        {isUnavailableLink ? `${label} unavailable` : label}
       </span>
-      {!isPrevious && <Icon icon={arrow} />}
+      {!arrowFirst && <Icon icon={arrow} />}
     </>
   );
-  const className = typography('body', 'sm', 'regular');
+  const sharedProps = {
+    className: typography('body', 'sm', 'regular'),
+    $hasDarkBackground: hasDarkBackground,
+    $isStacked: isStacked,
+  };
+
+  if (onClick) {
+    return (
+      <StyledButton
+        {...sharedProps}
+        data-component="prev-next-link"
+        onClick={onClick}
+        disabled={disabled}
+      >
+        {content}
+      </StyledButton>
+    );
+  }
 
   return link ? (
-    <StyledLink {...link} className={className} data-component="prev-next-link">
+    <StyledLink {...link} {...sharedProps} data-component="prev-next-link">
       {content}
     </StyledLink>
   ) : (
-    <Disabled className={className} data-component="prev-next-link">
+    <Disabled {...sharedProps} data-component="prev-next-link">
       {content}
     </Disabled>
   );
