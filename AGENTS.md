@@ -129,6 +129,15 @@ Content is authored in Prismic. Key layers, all under `content/webapp/services/p
 
 Buildkite pipelines live in `.buildkite/` (`pipeline.yml` main, `pipeline.deployment.yml`, `pipeline.e2e-universal.yml`). To reproduce a CI build step locally, run the matching `docker compose` service (see [README.md](./README.md#running-ci-steps-locally) for the full walkthrough of mounting AWS credentials and using the `experience-ci` role).
 
+## Styled Components
+
+Keep conditional styles easy to scan:
+
+- Single-value switches stay inline, e.g. `display: ${props => (props.$isEnhanced ? 'flex' : 'inline')};`
+- When a boolean swaps mirrored properties (`left`/`right`, `top`/`bottom`), use one ternary that returns both declarations, not one ternary per property
+- For a conditional multi-line block, use the `css` helper with `cond && css\`...\``, not `cond ? \`...\` : ''`, so it gets syntax highlighting and nested interpolation
+- Inside `theme.media()` calls (which take plain strings), pull repeated expressions into small helper functions rather than repeating them
+
 ## Server vs Client Code
 
 Next.js code runs in both Node.js (server-side rendering) and the browser (client-side). When using Node.js-only APIs or packages:
