@@ -189,13 +189,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
         <CardGrid
           items={insideOurCollectionsCards}
           itemsPerRow={3}
-          itemsHaveTransparentBackground
           links={[
             {
               text: 'Read all stories',
               url: '/series/inside-our-collections',
             },
           ]}
+          itemsHaveTransparentBackground
         />
       </Space>
 

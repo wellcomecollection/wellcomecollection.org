@@ -253,9 +253,9 @@ const Footer: FunctionComponent<Props> = ({
           <PoliciesAndSocials>
             <PoliciesContainer>
               <FooterNav
-                isInline
                 type="PoliciesNavigation"
                 ariaLabel="Policies navigation"
+                isInline
               />
             </PoliciesContainer>
 

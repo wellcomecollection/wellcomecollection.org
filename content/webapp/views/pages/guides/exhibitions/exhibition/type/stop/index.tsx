@@ -233,7 +233,6 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
             <Container>
               <BrandPrevNextInner>
                 <PrevNextLink
-                  hasDarkBackground
                   direction="previous"
                   label="Previous stop"
                   link={
@@ -246,9 +245,9 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                         }
                       : undefined
                   }
+                  hasDarkBackground
                 />
                 <PrevNextLink
-                  hasDarkBackground
                   direction="next"
                   label="Next stop"
                   link={
@@ -261,6 +260,7 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                         }
                       : undefined
                   }
+                  hasDarkBackground
                 />
               </BrandPrevNextInner>
             </Container>

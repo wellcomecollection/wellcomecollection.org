@@ -179,18 +179,17 @@ export const ShortFilm: Meta<typeof PageHeader> = {
           <ContentPage
             uid="123"
             id="123"
-            isCreamy
             Header={
               <PageHeader
                 {...args}
                 variant="basic"
-                isContentTypeInfoBeforeMedia
                 ContentTypeInfo={ContentTypeInfo}
                 labels={{ labels: [{ text: 'Short film' }] }}
                 title="Audrey's archivist"
                 breadcrumbs={{
                   items: [{ text: 'Stories', url: '#' }],
                 }}
+                isContentTypeInfoBeforeMedia
               />
             }
             Body={
@@ -234,6 +233,7 @@ export const ShortFilm: Meta<typeof PageHeader> = {
                 gridSizes={gridSize8()}
               />
             }
+            isCreamy
           ></ContentPage>
         )}
         args={args}
@@ -280,7 +280,7 @@ export const Event: Meta<typeof PageHeader> = {
     ),
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground hasWobblyEdge backgroundTexture={headerBackgroundLs} />
+      <HeaderBackground backgroundTexture={headerBackgroundLs} hasWobblyEdge />
     ),
   },
 };

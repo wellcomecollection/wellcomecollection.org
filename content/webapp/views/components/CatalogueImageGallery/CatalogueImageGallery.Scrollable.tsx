@@ -32,12 +32,12 @@ const CatalogueImageGalleryScrollable: FunctionComponent<Props> = ({
 
   return (
     <ScrollContainer
-      hasDarkBackground
-      hasLeftOffset
       scrollButtonsAfter={scrollButtonsAfter}
       CopyContent={
         detailsCopy ? <DetailsCopy>{detailsCopy}</DetailsCopy> : undefined
       }
+      hasDarkBackground
+      hasLeftOffset
     >
       {images.map((image, index) => (
         <li key={image.id} style={{ maxWidth: '90vw' }}>

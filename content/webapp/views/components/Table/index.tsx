@@ -201,8 +201,8 @@ const Table: FunctionComponent<Props> = ({
         <ScrollButtons $isActive={isOverflown}>
           <ScrollButtonWrap
             ref={leftButtonRef}
-            $isLeft
             $isActive={isLeftActive}
+            $isLeft
           >
             <Rotator $rotate={180}>
               <Control
