@@ -52,11 +52,6 @@ const meta: Meta<StoryProps> = {
       options: [3, 4],
     },
   },
-  parameters: {
-    chromatic: {
-      viewports: [375, 1200],
-    },
-  },
 };
 
 export default meta;
