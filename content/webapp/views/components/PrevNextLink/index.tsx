@@ -8,14 +8,15 @@ import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { designSystemColor } from '@weco/common/views/themes/config';
 
-type StyleProps = { $hasDarkBackground: boolean; $isStacked?: boolean };
+type StyleProps = { $isOnDark: boolean; $isStacked?: boolean };
 
+// Only here so the link and button can underline it on hover
 const Label = styled.span``;
 
 const baseStyles = css<StyleProps>`
   display: inline-flex;
   color: ${props =>
-    designSystemColor(props.$hasDarkBackground ? 'neutral.10' : 'neutral.70')};
+    designSystemColor(props.$isOnDark ? 'neutral.10' : 'neutral.70')};
   text-decoration: none;
 
   ${props =>
@@ -61,27 +62,28 @@ const Disabled = styled.span<StyleProps>`
   ${disabledStyles}
 `;
 
+type AsLink = {
+  // Leave out to show the disabled state
+  link?: LinkProps;
+  onClick?: never;
+  disabled?: never;
+};
+
+type AsButton = { link?: never; onClick: () => void; disabled?: boolean };
+
 type Props = {
   direction: 'previous' | 'next';
   // What a screen reader hears instead of 'Prev'/'Next', e.g. 'Next page'
   label: string;
-  hasDarkBackground?: boolean;
+  isOnDark?: boolean;
   // Arrow above the label, as in scrollable rows of cards
   isStacked?: boolean;
-} & (
-  | {
-      // Leave out to show the disabled state
-      link?: LinkProps;
-      onClick?: never;
-      disabled?: never;
-    }
-  | { link?: never; onClick: () => void; disabled?: boolean }
-);
+} & (AsLink | AsButton);
 
 const PrevNextLink: FunctionComponent<Props> = ({
   direction,
   label,
-  hasDarkBackground = false,
+  isOnDark = false,
   isStacked,
   link,
   onClick,
@@ -105,7 +107,7 @@ const PrevNextLink: FunctionComponent<Props> = ({
   );
   const sharedProps = {
     className: typography('body', 'sm', 'regular'),
-    $hasDarkBackground: hasDarkBackground,
+    $isOnDark: isOnDark,
     $isStacked: isStacked,
   };
 

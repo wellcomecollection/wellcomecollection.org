@@ -166,7 +166,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
           <PrevNextLink
             direction="previous"
             label="Previous"
-            hasDarkBackground={hasDarkBackground}
+            isOnDark={hasDarkBackground}
             isStacked
             disabled={!canScrollLeft}
             onClick={() => scrollByChildImageWidth('left')}
@@ -174,7 +174,7 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
           <PrevNextLink
             direction="next"
             label="Next"
-            hasDarkBackground={hasDarkBackground}
+            isOnDark={hasDarkBackground}
             isStacked
             disabled={!canScrollRight}
             onClick={() => scrollByChildImageWidth('right')}
