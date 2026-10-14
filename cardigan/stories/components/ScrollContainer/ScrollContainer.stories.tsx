@@ -64,11 +64,6 @@ const meta: Meta<StoryProps> = {
     containerRef: { table: { disable: true } },
     gridSizes: { table: { disable: true } },
   },
-  parameters: {
-    chromatic: {
-      viewports: [375, 1200],
-    },
-  },
 };
 
 export default meta;
