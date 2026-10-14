@@ -202,11 +202,11 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                     dataGtmTrigger="hide_image_gallery"
                     ref={closeButtonRef}
                     colorScheme="light"
-                    isOnDark
                     text="close"
                     icon={cross}
                     clickHandler={handleCloseClicked}
                     replace
+                    isOnDark
                   />
                 </ControlContainer>
               </CloseWrapper>

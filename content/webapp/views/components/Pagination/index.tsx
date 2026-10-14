@@ -12,7 +12,7 @@ import { designSystemColor } from '@weco/common/views/themes/config';
 export type Props = {
   totalPages: number;
   ariaLabel: string;
-  hasDarkBg?: boolean;
+  isOnDark?: boolean;
   isHiddenMobile?: boolean;
 };
 
@@ -34,7 +34,7 @@ const Container = styled.nav.attrs({
 
 const ChevronWrapper = styled(Link)<{
   $isPrev?: boolean;
-  $hasDarkBg?: boolean;
+  $isOnDark?: boolean;
 }>`
   display: inline-flex;
   align-items: center;
@@ -56,17 +56,17 @@ const ChevronWrapper = styled(Link)<{
   &[disabled] {
     pointer-events: none;
     color: ${props =>
-      props.theme.color(props.$hasDarkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.$isOnDark ? 'neutral.300' : 'neutral.500')};
     border-color: ${props =>
-      props.theme.color(props.$hasDarkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.$isOnDark ? 'neutral.300' : 'neutral.500')};
   }
 
   ${props => props.$isPrev && `margin: 0 1rem 0 0;`}
 
   ${props => `
-    color: ${props.theme.color(props.$hasDarkBg ? 'white' : 'black')};
+    color: ${props.theme.color(props.$isOnDark ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
-      props.$hasDarkBg
+      props.$isOnDark
         ? 'neutral.400'
         : { brand: 'neutral.70', legacy: 'neutral.600' }
     )};
@@ -74,7 +74,7 @@ const ChevronWrapper = styled(Link)<{
 
     &:hover {
       background-color: ${props.theme.color(
-        props.$hasDarkBg ? 'neutral.600' : 'neutral.300'
+        props.$isOnDark ? 'neutral.600' : 'neutral.300'
       )};
     }
   `}
@@ -83,10 +83,10 @@ const ChevronWrapper = styled(Link)<{
   ${props => {
     if (!props.theme.brandUpdate) return '';
     const ink = designSystemColor(
-      props.$hasDarkBg ? 'neutral.10' : 'neutral.70'
+      props.$isOnDark ? 'neutral.10' : 'neutral.70'
     );
     const paper = designSystemColor(
-      props.$hasDarkBg ? 'neutral.70' : 'neutral.10'
+      props.$isOnDark ? 'neutral.70' : 'neutral.10'
     );
 
     // Swap instantly, as fading inverted colours makes the chevron flicker out
@@ -119,7 +119,7 @@ const ChevronWrapper = styled(Link)<{
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
   ariaLabel,
-  hasDarkBg,
+  isOnDark,
   isHiddenMobile,
 }) => {
   const router = useRouter();
@@ -159,7 +159,7 @@ export const Pagination: FunctionComponent<Props> = ({
       {showPrev && (
         <ChevronWrapper
           href={{ pathname, query: { ...query, page: currentPage - 1 } }}
-          $hasDarkBg={hasDarkBg}
+          $isOnDark={isOnDark}
           $isPrev
         >
           <Icon icon={chevron} />
@@ -177,7 +177,7 @@ export const Pagination: FunctionComponent<Props> = ({
       {showNext && (
         <ChevronWrapper
           href={{ pathname, query: { ...query, page: currentPage + 1 } }}
-          $hasDarkBg={hasDarkBg}
+          $isOnDark={isOnDark}
         >
           <Icon icon={chevron} />
           <span className="visually-hidden">

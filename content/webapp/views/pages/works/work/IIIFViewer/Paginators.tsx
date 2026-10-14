@@ -41,11 +41,11 @@ const PaginatorButtons = ({
             <Control
               link={prevLink}
               colorScheme="light"
-              isOnDark
               icon={arrow}
               text="Previous page"
               scroll={false}
               replace
+              isOnDark
             />
           </Rotator>
         </Space>
@@ -56,11 +56,11 @@ const PaginatorButtons = ({
             <Control
               link={nextLink}
               colorScheme="light"
-              isOnDark
               icon={arrow}
               text="Next page"
               scroll={false}
               replace
+              isOnDark
             />
           </Rotator>
         </Space>
