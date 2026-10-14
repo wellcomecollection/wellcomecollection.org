@@ -108,8 +108,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
     ${props =>
       props.theme.media('sm')(`
-      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['100']};
-      margin-right: ${props.$isHover ? props.theme.spacingUnits['100'] : 'unset'};
+      ${
+        props.$isHover
+          ? `margin-left: 0; margin-right: ${props.theme.spacingUnits['100']};`
+          : `margin-left: ${props.theme.spacingUnits['100']}; margin-right: unset;`
+      }
       width: unset;
       height: 100%;
 
