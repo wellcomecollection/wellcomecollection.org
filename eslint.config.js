@@ -44,6 +44,12 @@ const sharedRules = {
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",
+    {
+      // `${cond && '...'}` prints the text "false" (or "null"/"undefined") when cond is falsy
+      selector: "TemplateLiteral > LogicalExpression[operator='&&']",
+      message:
+        "`&&` directly inside a template literal prints 'false' when falsy. Use a ternary with an empty string fallback instead.",
+    },
   ],
   'no-return-assign': 'off',
   'object-shorthand': ['warn', 'always'],
