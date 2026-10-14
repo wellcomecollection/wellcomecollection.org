@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
 import { classNames, typography } from '@weco/common/utils/classnames';
@@ -44,7 +44,7 @@ const StyledSelect = styled.div.attrs({
         props.$darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
-    ${props => (props.$isPill ? 'line-height: 1;' : '')}
+    ${props => props.$isPill && 'line-height: 1;'}
 
     option {
       background-color: ${props => props.theme.color('white')};
@@ -60,10 +60,13 @@ const StyledSelect = styled.div.attrs({
     &:hover {
       ${props =>
         props.theme.brandUpdate && props.$isPill && !props.$darkBg
-          ? `
-            background-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-            text-decoration: underline;
-          `
+          ? css`
+              background-color: ${props.theme.color({
+                brand: 'neutral.10',
+                legacy: 'white',
+              })};
+              text-decoration: underline;
+            `
           : `box-shadow: ${props.theme.focusBoxShadow};`}
     }
   }

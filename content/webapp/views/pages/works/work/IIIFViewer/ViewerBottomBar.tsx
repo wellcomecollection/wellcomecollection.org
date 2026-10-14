@@ -53,15 +53,15 @@ const NavButton = styled.a<{ $disabled?: boolean }>`
 
   ${props =>
     props.$disabled
-      ? `
-    opacity: 0.5;
-    cursor: not-allowed;
-  `
-      : `
-    &:hover {
-      background: ${props.theme.color('neutral.500')};
-    }
-  `}
+      ? css`
+          opacity: 0.5;
+          cursor: not-allowed;
+        `
+      : css`
+          &:hover {
+            background: ${props.theme.color('neutral.500')};
+          }
+        `}
 `;
 
 // used for the enabled state; Link renders its own single <a>, so this must

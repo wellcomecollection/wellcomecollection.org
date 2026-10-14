@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -110,14 +110,13 @@ export const HeaderBrand = styled.div<{ $isMinimalHeader: boolean }>`
   flex: 1;
 
   ${props =>
-    props.$isMinimalHeader
-      ? `
-        // This is to account for the burger as we want it to be dead centre.
-        margin-left: -20px;
-        ${props.theme.media('headerMedium')(`
+    props.$isMinimalHeader &&
+    css`
+      /* This is to account for the burger as we want it to be dead centre. */
+      margin-left: -20px;
+      ${props.theme.media('headerMedium')(`
           margin-left: 0;`)};
-      `
-      : ``}
+    `}
 
   ${props => `
   ${props.theme.media('headerMedium')(`
