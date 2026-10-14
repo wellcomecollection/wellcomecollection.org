@@ -61,7 +61,7 @@ export const PrevNext = styled.div.attrs({
   background: ${props => props.theme.color('neutral.700')};
 `;
 
-export const BrandPrevNextInner = styled.div`
+export const PrevNextInner = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
