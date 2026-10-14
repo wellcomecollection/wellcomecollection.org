@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 
@@ -39,26 +39,26 @@ export const ViewerButton = styled.button.attrs({
 
   ${props =>
     props.$isDark &&
-    `
-    border: 2px solid transparent;
-    color: ${props.theme.color('white')};
-    background: transparent;
+    css`
+      border: 2px solid transparent;
+      color: ${props.theme.color('white')};
+      background: transparent;
 
-    &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
-    }
-  `}
+      &:not([disabled]):hover {
+        border: 2px solid ${props.theme.color('white')};
+      }
+    `}
 
   ${props =>
     !props.$isDark &&
-    `
-    background: ${props.theme.color('white')};
-    color: ${props.theme.color('accent.green')};
-    border: 1px solid ${props.theme.color('accent.green')};
+    css`
+      background: ${props.theme.color('white')};
+      color: ${props.theme.color('accent.green')};
+      border: 1px solid ${props.theme.color('accent.green')};
 
-    &:not([disabled]):hover {
-      background: ${props.theme.color('accent.green')};
-      color: ${props.theme.color('white')};
-    }
-  `}
+      &:not([disabled]):hover {
+        background: ${props.theme.color('accent.green')};
+        color: ${props.theme.color('white')};
+      }
+    `}
 `;

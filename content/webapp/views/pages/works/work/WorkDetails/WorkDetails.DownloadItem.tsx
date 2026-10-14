@@ -6,7 +6,7 @@ import {
 } from '@iiif/presentation-3';
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -39,7 +39,7 @@ export const DownloadTable = styled.table.attrs({
 
   ${props =>
     props.$isActive &&
-    `
+    css`
       tr {
         background: ${props.theme.color('black')};
 
@@ -73,11 +73,11 @@ export const DownloadTable = styled.table.attrs({
 
   ${props =>
     props.$padFirstHeading &&
-    `
-    th:first-child {
-      padding-left: ${controlDimensions.controlWidth}px;
-    }
-  `}
+    css`
+      th:first-child {
+        padding-left: ${controlDimensions.controlWidth}px;
+      }
+    `}
 
   th:first-child,
   td:first-child {

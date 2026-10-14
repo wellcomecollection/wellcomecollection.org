@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
@@ -52,9 +52,9 @@ const TopBar = styled.div<{
 
   ${props =>
     !props.$isDesktopSidebarActive &&
-    `
+    css`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+    `}
 
   ${props =>
     !props.$isDesktopSidebarActive &&

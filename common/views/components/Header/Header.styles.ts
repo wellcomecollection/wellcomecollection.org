@@ -86,22 +86,22 @@ export const BurgerTrigger = styled.a<{ $burgerMenuisActive: boolean }>`
 
     ${props =>
       props.$burgerMenuisActive &&
-      `
-      &:first-child {
-        top: 0.5rem;
-        transform: rotate(45deg);
-      }
+      css`
+        &:first-child {
+          top: 0.5rem;
+          transform: rotate(45deg);
+        }
 
-      &:nth-child(2) {
-        display: none;
-      }
+        &:nth-child(2) {
+          display: none;
+        }
 
-      &:last-child {
-        top: 0.5rem;
-        transform: rotate(-45deg);
-        bottom: auto;
-      }
-  `}
+        &:last-child {
+          top: 0.5rem;
+          transform: rotate(-45deg);
+          bottom: auto;
+        }
+      `}
   }
 `;
 
@@ -256,7 +256,7 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
 
   ${props =>
     props.$burgerMenuisActive &&
-    `
+    css`
       &::after {
         width: 100%;
       }

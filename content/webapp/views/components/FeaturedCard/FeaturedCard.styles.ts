@@ -107,7 +107,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   ${props =>
     props.theme.media('md')(`
       justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
-      margin-right: ${props.$isReversed ? '-16px' : undefined};
+      ${props.$isReversed ? 'margin-right: -16px;' : ''}
   `)}
 `;
 
