@@ -158,7 +158,10 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { sm: '075', md: '075' },
           }}
         >
-          <Icon icon={chat} iconColor="accent.purple" />
+          <Icon
+            icon={chat}
+            iconColor={{ brand: 'neutral.70', legacy: 'accent.purple' }}
+          />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -176,7 +179,11 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               openDialogRef.current.focus();
           }}
         >
-          <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />
+          <Icon
+            icon={clear}
+            title="Close dialog"
+            iconColor={{ brand: 'neutral.70', legacy: 'accent.purple' }}
+          />
         </PopupDialogClose>
         <Space
           $h={{
