@@ -128,10 +128,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
         max-width: 100%;
 
         ${
-          props.$isHover &&
-          `
-          min-width: 60px;
-        `
+          props.$isHover
+            ? css`
+                min-width: 60px;
+              `
+            : ''
         }
       }
     `)}

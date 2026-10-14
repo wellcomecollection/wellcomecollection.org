@@ -28,7 +28,7 @@ export const FrameGrid = styled.div<FrameGridProps>`
 
   ${props =>
     props.theme.media('md')(`
-    ${props.$isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
+    ${props.$isThreeUp ? 'grid-template-columns: 1fr 1fr 1fr;' : ''}
   `)}
 `;
 
@@ -100,8 +100,9 @@ export const Gallery = styled.div<GalleryProps>`
       );
 
       ${
-        props.$isStandalone &&
-        `background: ${props.theme.color('neutral.700')};`
+        props.$isStandalone
+          ? `background: ${props.theme.color('neutral.700')};`
+          : ''
       }
     `)}
     `}

@@ -136,6 +136,7 @@ Keep conditional styles easy to scan:
 - Single-value switches stay inline, e.g. `display: ${props => (props.$isEnhanced ? 'flex' : 'inline')};`
 - When a boolean swaps mirrored properties (`left`/`right`, `top`/`bottom`), use one ternary that returns both declarations, not one ternary per property
 - For a conditional multi-line block, use the `css` helper with `cond && css\`...\``, not `cond ? \`...\` : ''`, so it gets syntax highlighting and nested interpolation
+- Inside plain strings (e.g. what you pass to `theme.media()`), never use `cond && '...'`: it prints the text `false` into the CSS when the condition is false. Use `cond ? '...' : ''`. At the top level of a styled template `&&` is fine, because styled-components drops `false`
 - Inside `theme.media()` calls (which take plain strings), pull repeated expressions into small helper functions rather than repeating them
 
 ## Server vs Client Code
