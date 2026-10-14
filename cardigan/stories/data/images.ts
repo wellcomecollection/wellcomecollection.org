@@ -57,6 +57,22 @@ export const squareImage = (
   },
 });
 
+export const icons: ImageType[] = [
+  'unwell-stay-home.png',
+  'wash-hands.jpg',
+  'two-faces.png',
+  'mask-icon.png',
+].map(filename => {
+  const contentUrl = `${imagesBaseUrl}/icons/${filename}`;
+  return {
+    contentUrl,
+    width: 300,
+    height: 300,
+    alt: '',
+    simpleCrops: { square: { contentUrl, width: 300, height: 300 } },
+  };
+});
+
 export const captionedImage = (extraProps?: string): CaptionedImageProps => ({
   image: image(extraProps),
   caption: [

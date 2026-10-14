@@ -8,10 +8,6 @@ import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { designSystemColor } from '@weco/common/views/themes/config';
 
-// The brand's previous/next controls, e.g. in the item viewer, exhibition
-// guide stops and scrollable rows of cards. Only used while the `brandUpdate`
-// toggle is on.
-
 type StyleProps = { $hasDarkBackground: boolean; $isStacked?: boolean };
 
 const Label = styled.span``;
