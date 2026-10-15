@@ -119,7 +119,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <LabelsList
             labels={getCardLabels(work)}
-            defaultLabelColor={{ brand: 'pink.30', legacy: 'white' }}
+            defaultLabelColor={{ brand: 'green.20', legacy: 'white' }}
             // In the new brand the hero is the same colour as the "Online"
             // label, so light labels need their outline
             outlineLightLabels={theme.brandUpdate}
