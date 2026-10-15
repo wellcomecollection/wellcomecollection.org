@@ -15,25 +15,57 @@ import {
   ButtonIconWrapper,
 } from '@weco/common/views/components/Buttons/Buttons.styles';
 import Icon from '@weco/common/views/components/Icon';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
+
+const brandStyles = (isActive?: boolean) => {
+  const inverted = `
+    background: ${designSystemColor('neutral.70')};
+    color: ${designSystemColor('neutral.10')};
+  `;
+
+  return `
+    color: ${designSystemColor('neutral.70')};
+    border-radius: 22px;
+    height: 44px;
+    padding: 0 12px;
+    transition: none;
+
+    /* These negative margins prevent the header row from growing */
+    margin-top: -4px;
+    margin-bottom: -4px;
+
+    .icon__shape {
+      transition: none;
+    }
+
+    &:hover {
+      ${inverted}
+    }
+
+    ${isActive ? inverted : ''}
+  `;
+};
 
 const BorderlessClickableStyle = styled(BasicButton)<{
   $isActive?: boolean;
 }>`
   background: transparent;
-  color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
 
-  &:hover {
-    background: ${props => props.theme.color('neutral.300')};
-  }
-
   ${props =>
-    props.$isActive &&
-    `
-    background: ${props.theme.color('neutral.300')};
-  `}
+    props.theme.brandUpdate
+      ? brandStyles(props.$isActive)
+      : `
+        color: ${props.theme.color('neutral.700')};
+
+        &:hover {
+          background: ${props.theme.color('neutral.300')};
+        }
+
+        ${props.$isActive ? `background: ${props.theme.color('neutral.300')};` : ''}
+      `}
 `;
 
 type Props = {
