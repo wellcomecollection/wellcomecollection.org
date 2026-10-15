@@ -16,11 +16,11 @@ const DesktopColorFilter = ({
   return (
     <Button
       variant="DropdownButton"
-      isPill
       label="Colours"
       buttonType="inline"
       id="images.color"
       hasNoOptions={hasNoOptions}
+      isPill
     >
       <PaletteColorPicker
         name={name}

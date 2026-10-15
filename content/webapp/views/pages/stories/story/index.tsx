@@ -202,8 +202,8 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         <>
           <DecorativeEdge
             variant="wobbly"
-            isRotated
             backgroundColor="warmNeutral.300"
+            isRotated
           />
           <Container>
             <RelatedStoryContainer>

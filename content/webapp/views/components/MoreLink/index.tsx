@@ -33,12 +33,12 @@ const MoreLink: FunctionComponent<Props> = ({
       variant="ButtonSolidLink"
       ariaLabel={ariaLabel}
       colors={colors || theme.buttonColors.charcoalTransparentCharcoal}
-      isIconAfter
       text={name}
       link={url}
       icon={arrowSmall}
       hierarchy={hierarchy}
       isOnDark={isOnDark}
+      isIconAfter
     />
   );
 };

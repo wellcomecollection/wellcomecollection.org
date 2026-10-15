@@ -3,7 +3,7 @@ import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
-import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -70,7 +70,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
         variant="basic"
         breadcrumbs={{ items: [] }}
         title={props.page.title}
-        backgroundTexture={landingHeaderBackgroundLs}
+        backgroundTexture={headerBackgroundLs}
         highlightHeading
       />
       <ConditionalWrapper
