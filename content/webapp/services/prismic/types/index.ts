@@ -19,7 +19,6 @@ import {
   GuidesDocument as RawGuidesDocument,
   InterpretationTypesDocument as RawInterpretationTypesDocument,
   OrganisationsDocument as RawOrganisationsDocument,
-  PageFormatsDocument as RawPageFormatsDocument,
   PagesDocument as RawPagesDocument,
   PagesDocumentData as RawPagesDocumentData,
   PeopleDocument as RawPeopleDocument,
@@ -380,11 +379,6 @@ export const teamsFetchLinks: FetchLinks<RawTeamsDocument> = [
   'teams.subtitle',
   'teams.email',
   'teams.phone',
-];
-
-export const pageFormatsFetchLinks: FetchLinks<RawPageFormatsDocument> = [
-  'page-formats.title',
-  'page-formats.description',
 ];
 
 export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [

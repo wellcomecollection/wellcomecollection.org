@@ -9,10 +9,7 @@ import {
   image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { typography } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
@@ -53,9 +50,8 @@ const meta: Meta<typeof PageHeader> = {
       mapping: {
         None: undefined,
         'Example 1': headerBackgroundLs,
-        'Example 2': landingHeaderBackgroundLs,
       },
-      options: ['None', 'Example 1', 'Example 2'],
+      options: ['None', 'Example 1'],
     },
     isContentTypeInfoBeforeMedia: {
       control: 'boolean',
