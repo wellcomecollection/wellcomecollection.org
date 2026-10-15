@@ -21,7 +21,7 @@ type ColorSchemeType = {
 
 // The brand's round controls: dark on light backgrounds and light on dark
 // ones, inverting on hover with a thin ring
-const brandControlStyles = (isOnDark: boolean) => {
+export const brandControlStyles = (isOnDark: boolean) => {
   const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
   const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
 
