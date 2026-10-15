@@ -142,6 +142,8 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   overflow: hidden;
   padding-left: 0;
   padding-right: 0;
+  background-color: ${props =>
+    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
