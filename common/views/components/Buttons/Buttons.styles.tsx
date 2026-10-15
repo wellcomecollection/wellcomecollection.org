@@ -140,7 +140,7 @@ export const brandButtonFocusStyle = css`
   box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')};
 `;
 
-const brandButtonStyles = (colors: BrandButtonColors) => `
+export const brandButtonStyles = (colors: BrandButtonColors) => `
   background: ${designSystemColor(colors.default.background)};
   color: ${designSystemColor(colors.default.text)};
   border: 2px solid ${designSystemColor(colors.default.border)};
