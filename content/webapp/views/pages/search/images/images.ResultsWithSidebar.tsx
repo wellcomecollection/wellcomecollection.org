@@ -1,4 +1,4 @@
-import { FunctionComponent, PropsWithChildren } from 'react';
+import { FunctionComponent, PropsWithChildren, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -26,8 +26,31 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 }) => {
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
 
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const isActive = expandedImage !== undefined;
+
+  /**
+   * Escape closes the sidebar when focus is in the results or nowhere in
+   * particular (e.g. after clicking a thumbnail). Escape pressed inside a
+   * filters modal or dropdown is left to them.
+   */
+  useEffect(() => {
+    if (!isActive) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape' || event.defaultPrevented) return;
+
+      const target = event.target as Node;
+      if (target === document.body || layoutRef.current?.contains(target)) {
+        setExpandedImage(undefined);
+      }
+    };
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [isActive]);
+
   return (
-    <ResultsLayout>
+    <ResultsLayout ref={layoutRef}>
       <Results>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <Container>

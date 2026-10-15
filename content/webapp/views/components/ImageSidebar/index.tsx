@@ -1,8 +1,9 @@
-import { Dispatch, FunctionComponent, SetStateAction, useEffect } from 'react';
+import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 
 import { cross } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 
 import { CloseButton, SidebarWrapper } from './ImageSidebar.styles';
 
@@ -19,18 +20,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
   expandedImage,
   setExpandedImage,
 }) => {
-  const isActive = expandedImage !== undefined;
-
-  useEffect(() => {
-    if (!isActive) return;
-
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setExpandedImage(undefined);
-    };
-    document.addEventListener('keydown', closeOnEscape);
-    return () => document.removeEventListener('keydown', closeOnEscape);
-  }, [isActive]);
-
   if (!expandedImage) return null;
 
   return (
@@ -43,7 +32,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
         <span className="visually-hidden">Close image details</span>
         <Icon icon={cross} />
       </CloseButton>
-      <h2 id="image-sidebar-title">{expandedImage.source.title}</h2>
+      <h2 id="image-sidebar-title">
+        {removeDisplayMarkupTags(expandedImage.source.title)}
+      </h2>
     </SidebarWrapper>
   );
 };
