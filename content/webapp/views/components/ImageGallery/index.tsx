@@ -206,6 +206,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                     icon={cross}
                     clickHandler={handleCloseClicked}
                     replace
+                    isOnDark
                   />
                 </ControlContainer>
               </CloseWrapper>

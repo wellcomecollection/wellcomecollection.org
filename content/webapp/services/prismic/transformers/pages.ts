@@ -14,12 +14,7 @@ import { links as headerLinks } from '@weco/common/views/components/Header';
 import { Link } from '@weco/content/types/link';
 import { Page } from '@weco/content/types/pages';
 
-import {
-  asText,
-  transformFormat,
-  transformGenericFields,
-  transformSingleLevelGroup,
-} from '.';
+import { asText, transformGenericFields, transformSingleLevelGroup } from '.';
 import { transformContributors } from './contributors';
 import { transformSeasonsFromRelationshipGroup } from './seasons';
 
@@ -107,7 +102,6 @@ export function transformPage(document: RawPagesDocument): Page {
   return {
     type: 'pages',
     uid: document.uid,
-    format: transformFormat(document),
     ...genericFields,
     introText,
     metadataDescription,

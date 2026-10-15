@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { chevron, gridView, singlePage } from '@weco/common/icons';
@@ -11,6 +11,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
 import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
@@ -91,7 +92,7 @@ const RightZone = styled(Space).attrs({
 `;
 
 type CanvasNavButtonProps = {
-  link: LinkProps | null;
+  link?: LinkProps;
   direction: 'previous' | 'next';
 };
 
@@ -99,6 +100,19 @@ const CanvasNavButton: FunctionComponent<CanvasNavButtonProps> = ({
   link,
   direction,
 }) => {
+  const theme = useTheme();
+
+  if (theme.brandUpdate) {
+    return (
+      <PrevNextLink
+        direction={direction}
+        link={link}
+        label={direction === 'previous' ? 'Previous page' : 'Next page'}
+        isOnDark
+      />
+    );
+  }
+
   const rotate = direction === 'previous' ? 90 : 270;
   const content = (
     <>
@@ -146,10 +160,10 @@ const ViewerBottomBar: FunctionComponent = () => {
 
   const previousCanvasLink = canNavigatePrevious
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber - 1 } })
-    : null;
+    : undefined;
   const nextCanvasLink = canNavigateNext
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber + 1 } })
-    : null;
+    : undefined;
 
   const shouldShowCanvasNavigation =
     !hasOnlyRenderableImages && hasMultipleCanvases;

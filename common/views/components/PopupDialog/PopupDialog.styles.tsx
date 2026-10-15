@@ -1,7 +1,16 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
+import {
+  brandButtonFocusStyle,
+  brandButtonStyles,
+} from '@weco/common/views/components/Buttons';
+import { brandControlStyles } from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
 type PopupDialogOpenProps = {
   $shouldStartAnimation: boolean;
@@ -28,7 +37,8 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
   line-height: 1;
   display: inline-flex;
   align-items: center;
-  color: ${props => props.theme.color('accent.purple')};
+  color: ${props =>
+    props.theme.color({ brand: 'neutral.70', legacy: 'accent.purple' })};
   position: fixed;
   transform: ${props =>
     props.$isActive || !props.$shouldStartAnimation
@@ -50,11 +60,14 @@ export const PopupDialogOpen = styled(Space).attrs<PopupDialogOpenProps>(
 
   &:hover {
     border: 0;
-    color: ${props => props.theme.color('white')};
-    background: ${props => props.theme.color('accent.purple')};
+    color: ${props =>
+      props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+    background: ${props =>
+      props.theme.color({ brand: 'indigo.50', legacy: 'accent.purple' })};
 
     .icon__shape {
-      fill: ${props => props.theme.color('white')};
+      fill: ${props =>
+        props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
     }
   }
 `;
@@ -74,7 +87,8 @@ export const PopupDialogWindow = styled(Space).attrs({
   },
 })<{ $isActive: boolean }>`
   background-color: ${props => props.theme.color('white')};
-  color: ${props => props.theme.color('accent.purple')};
+  color: ${props =>
+    props.theme.color({ brand: 'neutral.70', legacy: 'accent.purple' })};
   border-radius: 20px 0;
   box-shadow: 0 2px 60px 0 rgb(0, 0, 0, 0.7);
   opacity: ${props => (props.$isActive ? 1 : 0)};
@@ -104,6 +118,22 @@ export const PopupDialogClose = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
+
+  /* The light round control, like the viewer's close button */
+  ${props =>
+    props.theme.brandUpdate &&
+    `
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    ${brandControlStyles(true)}
+
+    /* A dark outline, so the light circle shows against the white dialog */
+    &,
+    &:hover {
+      border-color: ${designSystemColor('neutral.70')};
+    }
+  `}
 `;
 
 export const PopupDialogCTA = styled(Space).attrs({
@@ -121,16 +151,29 @@ export const PopupDialogCTA = styled(Space).attrs({
   className: typography('body', 'md', 'strong'),
 })`
   display: inline-block;
-  background-color: ${props => props.theme.color('accent.purple')};
-  color: ${props => props.theme.color('white')};
-  transition: all 500ms ease;
-  border: 2px solid transparent;
-  border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
 
-  &:hover {
-    color: ${props => props.theme.color('accent.purple')};
-    border-color: ${props => props.theme.color('accent.purple')};
-    background: ${props => props.theme.color('white')};
-  }
+  /* A primary button in the brand */
+  ${props =>
+    props.theme.brandUpdate
+      ? css`
+          ${brandButtonStyles(brandButtonColors.primary)}
+
+          &:focus-visible {
+            ${brandButtonFocusStyle}
+          }
+        `
+      : `
+          background-color: ${props.theme.color('accent.purple')};
+          color: ${props.theme.color('white')};
+          transition: all 500ms ease;
+          border: 2px solid transparent;
+          border-radius: ${props.theme.borderRadiusUnit}px;
+
+          &:hover {
+            color: ${props.theme.color('accent.purple')};
+            border-color: ${props.theme.color('accent.purple')};
+            background: ${props.theme.color('white')};
+          }
+        `}
 `;

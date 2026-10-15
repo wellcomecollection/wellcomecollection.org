@@ -44,7 +44,7 @@ const LandingPageHeader: FunctionComponent<Props> = ({
         <Wrapper
           $v={{ size: 'lg', properties: ['margin-bottom', 'margin-top'] }}
         >
-          <TitleWrapper $isOfficialLandingPage>{title}</TitleWrapper>
+          <TitleWrapper $isLandingPage>{title}</TitleWrapper>
 
           {introText && introText.length > 0 && (
             <Grid>
