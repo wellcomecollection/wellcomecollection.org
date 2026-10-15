@@ -18,8 +18,9 @@ export const Overlay = styled.div`
 
 // The brand's round control colours, but only shown on hover, like the header
 // search button. On small screens it floats over the scrolling modal content,
-// so it keeps its fill there. The swap is instant, as fading inverted colours
-// makes the icon flicker out midway
+// so it keeps its fill there, inverting on hover with a ring like the
+// controls. The swap is instant, as fading inverted colours makes the icon
+// flicker out midway
 const brandCloseButtonStyles = (isOnDark: boolean) => {
   const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
   const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
@@ -29,7 +30,14 @@ const brandCloseButtonStyles = (isOnDark: boolean) => {
     height: 44px;
     background: ${fill};
     color: ${ink};
+    border: 1px solid transparent;
     transition: none;
+
+    &:hover {
+      background: ${ink};
+      color: ${fill};
+      border-color: ${fill};
+    }
 
     .icon {
       transform: translateX(-50%) translateY(-50%);
@@ -43,6 +51,7 @@ const brandCloseButtonStyles = (isOnDark: boolean) => {
       props.theme.media('sm')(`
       background: none;
       color: ${fill};
+      border: 0;
 
       &:hover {
         background: ${fill};
