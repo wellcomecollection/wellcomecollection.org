@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
@@ -30,6 +31,7 @@ import {
 import Sort from '@weco/content/views/components/Sort';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 export type Props = {
   images: CatalogueResultsList<Image>;
@@ -68,6 +70,8 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
   ({ images, imagesRouteProps, query }) => {
     const { query: queryString } = query;
     const { setLink } = useSearchContext();
+    const { imageSidebarPhases } = usePhasedFlags();
+    const showImageSidebar = phaseIsAtLeast(imageSidebarPhases, 'phase1');
 
     useEffect(() => {
       const link = toSearchImagesLink({ ...imagesRouteProps });
@@ -88,6 +92,70 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
     });
 
     const activeFiltersLabels = getActiveFiltersLabel({ filters });
+
+    // In the light area above the results when the image sidebar is on,
+    // otherwise in the dark results area.
+    const renderResultsHeader = (isOnDark: boolean) => (
+      <PaginationWrapper $verticalSpacing="md">
+        <span role="status">
+          {pluralize(images.totalResults, 'result')}
+          {activeFiltersLabels.length > 0 && (
+            <span className="visually-hidden">
+              {' '}
+              filtered with: {activeFiltersLabels.join(', ')}
+            </span>
+          )}
+        </span>
+
+        <SortPaginationWrapper>
+          <Sort
+            formId={SEARCH_PAGES_FORM_ID}
+            options={[
+              {
+                value: '',
+                text: 'Relevance',
+              },
+              {
+                value: 'source.production.dates.asc',
+                text: 'Oldest to newest',
+              },
+              {
+                value: 'source.production.dates.desc',
+                text: 'Newest to oldest',
+              },
+            ]}
+            jsLessOptions={{
+              sort: [
+                {
+                  value: '',
+                  text: 'Relevance',
+                },
+                {
+                  value: 'source.production.dates',
+                  text: 'Production dates',
+                },
+              ],
+              sortOrder: [
+                { value: 'asc', text: 'Ascending' },
+                { value: 'desc', text: 'Descending' },
+              ],
+            }}
+            defaultValues={{
+              sort: imagesRouteProps.sort,
+              sortOrder: imagesRouteProps.sortOrder,
+            }}
+            darkBg={isOnDark}
+          />
+
+          <Pagination
+            totalPages={images.totalPages}
+            ariaLabel="Image search pagination"
+            isOnDark={isOnDark}
+            isHiddenMobile
+          />
+        </SortPaginationWrapper>
+      </PaginationWrapper>
+    );
 
     return (
       <>
@@ -119,7 +187,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
         {(!hasNoResults || (hasNoResults && hasActiveFilters)) && (
           <Container>
             <Space
-              $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
+              $v={{
+                size: 'md',
+                properties: ['padding-top', 'padding-bottom'],
+              }}
             >
               <SearchFilters
                 query={queryString}
@@ -149,6 +220,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
           </Container>
         )}
 
+        {showImageSidebar && !hasNoResults && (
+          <Container>{renderResultsHeader(false)}</Container>
+        )}
+
         <Wrapper $hasNoResults={hasNoResults}>
           <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
             <Container>
@@ -159,65 +234,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
                 />
               ) : (
                 <>
-                  <PaginationWrapper $verticalSpacing="md">
-                    <span role="status">
-                      {pluralize(images.totalResults, 'result')}
-                      {activeFiltersLabels.length > 0 && (
-                        <span className="visually-hidden">
-                          {' '}
-                          filtered with: {activeFiltersLabels.join(', ')}
-                        </span>
-                      )}
-                    </span>
-
-                    <SortPaginationWrapper>
-                      <Sort
-                        formId={SEARCH_PAGES_FORM_ID}
-                        options={[
-                          {
-                            value: '',
-                            text: 'Relevance',
-                          },
-                          {
-                            value: 'source.production.dates.asc',
-                            text: 'Oldest to newest',
-                          },
-                          {
-                            value: 'source.production.dates.desc',
-                            text: 'Newest to oldest',
-                          },
-                        ]}
-                        jsLessOptions={{
-                          sort: [
-                            {
-                              value: '',
-                              text: 'Relevance',
-                            },
-                            {
-                              value: 'source.production.dates',
-                              text: 'Production dates',
-                            },
-                          ],
-                          sortOrder: [
-                            { value: 'asc', text: 'Ascending' },
-                            { value: 'desc', text: 'Descending' },
-                          ],
-                        }}
-                        defaultValues={{
-                          sort: imagesRouteProps.sort,
-                          sortOrder: imagesRouteProps.sortOrder,
-                        }}
-                        darkBg
-                      />
-
-                      <Pagination
-                        totalPages={images.totalPages}
-                        ariaLabel="Image search pagination"
-                        isOnDark
-                        isHiddenMobile
-                      />
-                    </SortPaginationWrapper>
-                  </PaginationWrapper>
+                  {!showImageSidebar && renderResultsHeader(true)}
 
                   <main>
                     <CatalogueImageGallery
