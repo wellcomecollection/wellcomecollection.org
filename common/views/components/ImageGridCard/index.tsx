@@ -94,14 +94,15 @@ const TextContent = styled(Space).attrs({
     left: 0;
     right: 0;
     bottom: 0;
-    /* stylelint-disable color-function-notation, color-function-alias-notation */
+
+    /* Same colour as CompositeGrid's background, so the gradient can't be
+    seen over a card with no image */
     background: linear-gradient(
       to top,
-      rgba(50, 50, 50, 1) 0%,
-      rgba(50, 50, 50, 1) calc(100% - 5rem),
+      ${props => props.theme.color('neutral.700')} 0%,
+      ${props => props.theme.color('neutral.700')} calc(100% - 5rem),
       transparent 100%
     );
-    /* stylelint-enable color-function-notation, color-function-alias-notation */
   }
 `;
 
@@ -111,23 +112,40 @@ const Description = styled.p.attrs({
   margin-bottom: 0;
 `;
 
+const Meta = styled(Space).attrs({
+  as: 'p',
+  className: typography('body', 'xs', 'regular'),
+  $v: { size: '2xs', properties: ['margin-top'] },
+})`
+  margin-bottom: 0;
+`;
+
 export type ImageGridCardProps = {
   images: ConceptImagesArray;
   title: string;
   description?: string;
+  // Smaller text shown under the description, e.g. a count
+  meta?: string;
   linkProps: LinkProps;
   dataGtmProps?: DataGtmProps;
+  // With no images, show a plain dark card rather than a grid of coloured
+  // placeholder blocks. The blocks suit cards whose images are still
+  // loading, but not cards that will never have one.
+  hasPlainPlaceholder?: boolean;
 };
 
 const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
   images,
   title,
   description,
+  meta,
   linkProps,
   dataGtmProps,
+  hasPlainPlaceholder,
 }) => {
   const imageCount = images.filter(Boolean).length;
-  const isSingleImage = imageCount === 1;
+  const isPlain = hasPlainPlaceholder && imageCount === 0;
+  const isSingleImage = imageCount === 1 || isPlain;
 
   // Track which images have loaded
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
@@ -180,9 +198,11 @@ const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
                   }}
                 />
               ) : (
-                <PlaceholderBlock
-                  $colorKey={placeholderBackgroundColor(index)}
-                />
+                !isPlain && (
+                  <PlaceholderBlock
+                    $colorKey={placeholderBackgroundColor(index)}
+                  />
+                )
               )}
             </ImageContainer>
           ))}
@@ -191,6 +211,7 @@ const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
         <TextContent>
           <Title>{title}</Title>
           {description && <Description>{description}</Description>}
+          {meta && <Meta>{meta}</Meta>}
         </TextContent>
       </CardWrapper>
     </Link>
