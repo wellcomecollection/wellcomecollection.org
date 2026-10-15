@@ -3,7 +3,7 @@ import { SliceZone } from '@prismicio/react';
 import { Fragment, FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
+import { isLandingPageSection } from '@weco/common/model/site-section';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
 import { classNames, typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -76,8 +76,7 @@ export type Props = {
   pageId: string;
   pageUid: string;
   gridSizes?: SizeMap;
-  hasLandingPageFormat?: boolean;
-  isOfficialLandingPage?: boolean;
+  isLandingPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
@@ -114,7 +113,7 @@ export type SliceZoneContext = {
   isShortFilm: boolean;
   pageId: string;
   pageUid: string;
-  hasLandingPageFormat: boolean;
+  isLandingPage: boolean;
   isDropCapped: boolean;
   gridSizes?: SizeMap;
   comicPreviousNext?: ComicPreviousNextProps;
@@ -134,7 +133,7 @@ export const defaultContext: SliceZoneContext = {
   isShortFilm: false,
   pageId: '',
   pageUid: '',
-  hasLandingPageFormat: false,
+  isLandingPage: false,
   isDropCapped: false,
   hasNoShim: false,
 };
@@ -148,8 +147,7 @@ const Body: FunctionComponent<Props> = ({
   pageId,
   pageUid,
   gridSizes,
-  hasLandingPageFormat = false,
-  isOfficialLandingPage = false,
+  isLandingPage = false,
   staticContent = null,
   comicPreviousNext,
   contentType,
@@ -274,9 +272,7 @@ const Body: FunctionComponent<Props> = ({
                 <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
-                    gridSize={
-                      isOfficialLandingPage ? gridSize12() : gridSize8()
-                    }
+                    gridSize={isLandingPage ? gridSize12() : gridSize8()}
                   />
                 </Space>
               )}
@@ -291,7 +287,7 @@ const Body: FunctionComponent<Props> = ({
                 <GridFactory
                   items={cards}
                   overrideGridSizes={
-                    isOfficialLandingPage ? landingPageGrid : undefined
+                    isLandingPage ? landingPageGrid : undefined
                   }
                 />
               )}
@@ -342,14 +338,14 @@ const Body: FunctionComponent<Props> = ({
         className={`content-type-${contentType}`}
         $splitBackground={isShortFilm}
       >
-        {!officialLandingPagesUid.includes(pageUid) &&
+        {!isLandingPageSection(pageUid) &&
           introText &&
           introText.length > 0 && (
-            <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
+            <ContaineredLayout gridSizes={gridSize8(!isLandingPage)}>
               <div className="body-text spaced-text">
                 <Space
                   $v={{
-                    size: isOfficialLandingPage ? 'xl' : 'md',
+                    size: isLandingPage ? 'xl' : 'md',
                     properties: ['margin-bottom'],
                   }}
                 >
@@ -361,7 +357,7 @@ const Body: FunctionComponent<Props> = ({
 
         {staticContent}
 
-        {hasLandingPageFormat && <LandingPageSections sections={sections} />}
+        {isLandingPage && <LandingPageSections sections={sections} />}
 
         <SliceZone
           slices={filteredUntransformedBody}
@@ -373,7 +369,7 @@ const Body: FunctionComponent<Props> = ({
             comicPreviousNext,
             pageId,
             pageUid,
-            hasLandingPageFormat,
+            isLandingPage,
             isDropCapped,
             contentType,
             isShortFilm,

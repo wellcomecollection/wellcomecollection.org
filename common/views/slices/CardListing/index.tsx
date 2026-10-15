@@ -160,8 +160,8 @@ const CardListingSlice: FunctionComponent<CardListingSliceProps> = ({
                     <StoryCard
                       variant="prismic"
                       article={item.data}
-                      showAllLabels
                       positionInList={positionInList}
+                      showAllLabels
                     />
                   ) : (
                     <Card item={item.data} positionInList={positionInList} />

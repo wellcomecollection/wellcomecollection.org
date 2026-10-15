@@ -92,7 +92,7 @@ const RightZone = styled(Space).attrs({
 `;
 
 type CanvasNavButtonProps = {
-  link: LinkProps | null;
+  link?: LinkProps;
   direction: 'previous' | 'next';
 };
 
@@ -106,8 +106,9 @@ const CanvasNavButton: FunctionComponent<CanvasNavButtonProps> = ({
     return (
       <PrevNextLink
         direction={direction}
-        link={link || undefined}
+        link={link}
         label={direction === 'previous' ? 'Previous page' : 'Next page'}
+        isOnDark
       />
     );
   }
@@ -159,10 +160,10 @@ const ViewerBottomBar: FunctionComponent = () => {
 
   const previousCanvasLink = canNavigatePrevious
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber - 1 } })
-    : null;
+    : undefined;
   const nextCanvasLink = canNavigateNext
     ? toWorksItemLink({ workId: work.id, props: { canvas: canvasNumber + 1 } })
-    : null;
+    : undefined;
 
   const shouldShowCanvasNavigation =
     !hasOnlyRenderableImages && hasMultipleCanvases;

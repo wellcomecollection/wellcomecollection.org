@@ -57,6 +57,10 @@ const sharedRules = {
     'warn',
     { props: 'never', children: 'never', propElementValues: 'always' },
   ],
+  'react/jsx-sort-props': [
+    'error',
+    { shorthandLast: true, noSortAlphabetically: true },
+  ],
   'react-hooks/rules-of-hooks': 'error',
   'sort-imports': [
     'error',

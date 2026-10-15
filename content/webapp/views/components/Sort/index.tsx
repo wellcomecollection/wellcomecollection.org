@@ -118,9 +118,9 @@ const Sort: FunctionComponent<Props> = ({
             setSortType(sort);
           }}
           options={options}
+          darkBg={darkBg}
           isPill
           hideLabel
-          darkBg={darkBg}
         />
       )}
     </Wrapper>

@@ -22,7 +22,7 @@ const Wrapper = styled.span.attrs({
 
   ${props =>
     props.$iconColor && `color: ${props.theme.color(props.$iconColor)};`}
-  ${props => props.$rotate && `transform: rotate(${props.$rotate}deg);`}
+  ${props => (props.$rotate ? `transform: rotate(${props.$rotate}deg);` : '')}
 
   ${props =>
     props.$matchText &&

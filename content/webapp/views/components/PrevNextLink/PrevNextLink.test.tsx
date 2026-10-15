@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
@@ -27,5 +27,28 @@ describe('PrevNextLink', () => {
 
     expect(screen.queryByRole('link')).not.toBeInTheDocument();
     expect(screen.getByText('Previous stop unavailable')).toBeInTheDocument();
+  });
+
+  it('renders a button when given a click handler', () => {
+    const onClick = jest.fn();
+    renderWithTheme(
+      <PrevNextLink direction="next" label="Next" onClick={onClick} />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+    expect(onClick).toHaveBeenCalled();
+  });
+
+  it('disables the button without adding "unavailable"', () => {
+    renderWithTheme(
+      <PrevNextLink
+        direction="previous"
+        label="Previous"
+        onClick={jest.fn()}
+        disabled
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Previous' })).toBeDisabled();
   });
 });

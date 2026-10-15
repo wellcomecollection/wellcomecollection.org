@@ -184,8 +184,8 @@ const ArchiveCollectionContents: FunctionComponent<{
                   >
                     <Icon
                       icon={plus}
-                      matchText
                       sizeOverride="height: 16px; width: 16px;"
+                      matchText
                     />
                     {isLoadingMore
                       ? 'Loading…'

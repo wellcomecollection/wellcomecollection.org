@@ -141,7 +141,6 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
               fieldState: { invalid },
             }) => (
               <TextInput
-                required
                 id={name}
                 label="New email address"
                 value={value ?? ''}
@@ -150,6 +149,7 @@ const ChangeEmail: FunctionComponent<ChangeDetailsModalContentProps> = ({
                 setIsValid={() => trigger('email')}
                 showValidity={formState.isSubmitted}
                 errorMessage={formState.errors.email?.message}
+                required
               />
             )}
           />
