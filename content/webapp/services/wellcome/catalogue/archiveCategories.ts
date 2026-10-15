@@ -68,9 +68,9 @@ const ARCHIVE_CATEGORY_FULL_DESCRIPTIONS: Record<string, string> = {
 // - TP is due to be incorporated into the WT archive
 // Their works are still in the catalogue and searchable - this only hides
 // the categories here.
-// TODO: once the PSY records have been removed and the TP ones reclassified
-// into WT upstream, the API will stop returning these buckets - delete this
-// set and the filter in fetchArchiveCategories below.
+// Once the PSY records have been removed and the TP ones reclassified into
+// WT upstream, the API will stop returning these buckets and this set and the
+// filter in fetchArchiveCategories below can be deleted - see #13675.
 const HIDDEN_ARCHIVE_CATEGORY_IDS = new Set(['PSY', 'TP']);
 
 // Composite images we make ourselves,
