@@ -19,7 +19,9 @@ import {
   itemWithSearchAndStructuresAndQuery,
   itemWithVideo,
   multiVolumeItem,
+  requiredCookies,
 } from './helpers/contexts';
+import { baseUrl } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
 
 declare global {
@@ -188,10 +190,20 @@ test('(11) | The multi-volume label should be appropriate', async ({
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
-  expect(page.getByText('Copy 1'));
+  await expect(page.getByTestId('multi-volume-label')).toHaveText('Copy 1');
+
   await page.getByRole('button', { name: 'Volumes' }).click();
-  await page.getByRole('link', { name: 'Copy 3' }).click();
-  expect(await page.getByText('Copy 3').count());
+  const copyThreeLink = page.getByRole('link', { name: 'Copy 3' });
+  await expect(copyThreeLink).toBeVisible();
+  await copyThreeLink.click();
+
+  // Not asserting the post-click state here - see #13655. Confirmed (against
+  // a real production build, mobile viewport) that the click always lands on
+  // the right link with the right href, but the resulting page sometimes
+  // reverts to "Copy 1" anyway, because a second, stray navigation with no
+  // manifest param occasionally resolves after the correct one and wins. Real
+  // app bug, not a test problem - asserting the outcome here just makes the
+  // test as flaky as the thing it would be testing.
 });
 
 test('(12) | The structured parts should be browseable', async ({
@@ -200,7 +212,7 @@ test('(12) | The structured parts should be browseable', async ({
 }) => {
   await multiVolumeItem(context, page);
   await accessSidebarOnMobile(page);
-  expect(await page.getByTestId('active-index').textContent()).toEqual('1');
+  await expect(page.getByTestId('active-index')).toHaveText('1');
   await page.getByRole('button', { name: 'Contents' }).click();
   await page.getByRole('link', { name: 'Title Page' }).click();
   if (!isMobile(page)) {
@@ -216,11 +228,9 @@ test('(13) | The main viewer can be scrolled all the way to the last slide', asy
   const mainScrollArea = page.getByTestId('main-viewer').locator('> div');
   await expect(mainScrollArea).toBeVisible();
 
-  expect(
-    await mainScrollArea.evaluate((element: HTMLElement) => {
-      element.scrollTo(0, element.scrollHeight);
-    })
-  );
+  await mainScrollArea.evaluate((element: HTMLElement) => {
+    element.scrollTo(0, element.scrollHeight);
+  });
 
   await expect(page.getByTestId('image-67')).toBeInViewport();
 });
@@ -232,6 +242,13 @@ test('(14) | The item should be searchable', async ({ page, context }) => {
 
   await page.getByLabel('Search within this item').fill('darwin');
   await page.getByRole('button', { name: 'search within' }).click();
+
+  // Not asserting the search results here - see #13655. Same root cause as
+  // test (11): the real navigation (with ?query=darwin) fires correctly, but
+  // a second, stray navigation to the bare URL (no query params at all)
+  // sometimes resolves after it and wins, resetting query.query to empty and
+  // wiping the results that had already rendered. Real app bug, not a test
+  // problem.
 });
 
 test('(15) | The location of the search results should be displayed', async ({
@@ -341,6 +358,11 @@ test('(23) | Clicking thumbnail grid items updates the main viewer', async ({
   await expect(gridButton).toBeVisible();
   await gridButton.click();
 
+  // The grid is virtualized, so its layout (column count, which cells are
+  // "visible") can still be settling right after the button click - this
+  // isn't visibility of one link, which toBeVisible() below already retries
+  // on, but the index-by-position (.first()/.nth(1)) below actually
+  // referring to stable, correct elements once the grid has laid out.
   await page.waitForTimeout(1000);
 
   const allCanvasLinks = page.locator('a[href*="canvas="]');
@@ -653,17 +675,28 @@ test('(44) | Rapid canvas navigation does not cause state corruption', async ({
 }) => {
   const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
 
-  for (let i = 0; i < canvasNumbers.length - 1; i++) {
-    multiVolumeItem(context, page, { canvasNumber: canvasNumbers[i] }).catch(
-      () => {
+  await context.addCookies(requiredCookies);
+
+  // Deliberately not awaited inline, and a plain page.goto rather than
+  // multiVolumeItem - these are meant to be interrupted, not retried, and
+  // multiVolumeItem's gotoWithoutCache would retry a stalled one and could
+  // win the race against the final navigation below.
+  const pendingNavigations = canvasNumbers.slice(0, -1).map(canvasNumber =>
+    page
+      .goto(`${baseUrl}/works/mg56yqa4/items?canvas=${canvasNumber}`)
+      .catch(() => {
         // Expected - rapid navigation aborts previous navigations
-      }
-    );
-  }
+      })
+  );
 
   await multiVolumeItem(context, page, {
     canvasNumber: canvasNumbers[canvasNumbers.length - 1],
   });
+
+  // Wait for the stragglers to finish before asserting final state - otherwise
+  // one could still land after the check below and leave the real corruption
+  // this test is meant to catch undetected.
+  await Promise.allSettled(pendingNavigations);
 
   await expect(page).toHaveURL(/canvas=4/);
   await expect(page.getByTestId('main-viewer')).toBeVisible();
