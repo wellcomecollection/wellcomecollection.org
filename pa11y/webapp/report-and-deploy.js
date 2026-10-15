@@ -42,7 +42,7 @@ const urls = [
   '/works/e7vav3ss/items?page=1&canvas=1',
   '/works/d2mach47',
   '/works/aegabdcp?toggleOverride=archiveCollectionPhases:mvp',
-  '/collections/subjects?toggleOverride=thematicBrowsingPhases:categoryPages',
+  '/collections/people-and-organisations?toggleOverride=thematicBrowsingPhases:categoryPages',
   '/series/inside-our-collections',
   '/exhibitions/heart-n-soul-s-wall-of-change',
   '/events/embracing-the-goddess',

@@ -94,5 +94,5 @@
 /collections/new-online
 
 # Thematic browsing category pages, behind the thematicBrowsingPhases toggle
-/collections/subjects?toggleOverride=thematicBrowsingPhases:categoryPages
+/collections/people-and-organisations?toggleOverride=thematicBrowsingPhases:categoryPages
 
