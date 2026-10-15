@@ -272,17 +272,17 @@ export const SearchButton = styled(BorderlessButton)`
 
   ${props =>
     props.theme.brandUpdate &&
-    `
-    border-radius: 50%;
-    width: 44px;
-    padding: 0;
-    justify-content: center;
+    css`
+      border-radius: 50%;
+      width: 44px;
+      padding: 0;
+      justify-content: center;
 
-    /* Size the inner spans to the icon, so the icon centres in the circle */
-    span:not(.icon) {
-      display: flex;
-    }
-  `}
+      /* Size the inner spans to the icon, so the icon centres in the circle */
+      span:not(.icon) {
+        display: flex;
+      }
+    `}
 
   ${props =>
     props.theme.media('headerMedium')(`

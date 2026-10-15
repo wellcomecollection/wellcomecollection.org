@@ -4,7 +4,7 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { typography } from '@weco/common/utils/classnames';
@@ -44,7 +44,7 @@ const Heading = styled(Space)`
 
   ${props =>
     !props.theme.brandUpdate &&
-    `
+    css`
       background-color: ${props.theme.color('white')};
       color: ${props.theme.color('black')};
       line-height: calc(1.1em + 12px);
