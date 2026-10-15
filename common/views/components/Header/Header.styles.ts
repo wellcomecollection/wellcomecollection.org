@@ -271,7 +271,6 @@ export const HeaderActions = styled.div`
 export const SearchButton = styled(BorderlessButton)`
   margin-right: 0;
 
-  /* Round like the controls, so the inverted hover shows as a dark circle */
   ${props =>
     props.theme.brandUpdate &&
     `
