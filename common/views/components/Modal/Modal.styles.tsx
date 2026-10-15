@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 export const Overlay = styled.div`
   z-index: 1000;
@@ -14,6 +15,42 @@ export const Overlay = styled.div`
     background: rgb(0, 0, 0, 0.7);
   `}
 `;
+
+// The brand's round control colours, but only shown on hover, like the header
+// search button. On small screens it floats over the scrolling modal content,
+// so it keeps its fill there. The swap is instant, as fading inverted colours
+// makes the icon flicker out midway
+const brandCloseButtonStyles = (isOnDark: boolean) => {
+  const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
+  const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
+
+  return css`
+    width: 44px;
+    height: 44px;
+    background: ${fill};
+    color: ${ink};
+    transition: none;
+
+    .icon {
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .icon__shape {
+      transition: none;
+    }
+
+    ${props =>
+      props.theme.media('sm')(`
+      background: none;
+      color: ${fill};
+
+      &:hover {
+        background: ${fill};
+        color: ${ink};
+      }
+    `)}
+  `;
+};
 
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
@@ -43,6 +80,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     color: ${props.theme.color('neutral.600')};
     position: absolute;
   `)}
+
+  ${props => props.theme.brandUpdate && brandCloseButtonStyles(false)}
 `;
 
 // Modal positioning is applied in three places, each building on the last:
@@ -152,6 +191,8 @@ export const VideoModal = styled(BaseModalWindow)`
 
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
+
+    ${props => props.theme.brandUpdate && brandCloseButtonStyles(true)}
   }
 `;
 
