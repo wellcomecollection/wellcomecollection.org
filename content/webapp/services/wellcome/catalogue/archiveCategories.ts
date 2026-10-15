@@ -35,17 +35,14 @@ const ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS: Record<string, string> = {
   WA: 'Documents the activities of Henry Wellcome and the organisations, museums, laboratories and institutions associated with him.',
   GRL: 'Collections relating to genome research, genome sequencing and the Wellcome Trust Sanger Institute.',
   WT: 'Documents about the formation, development and activities of the Wellcome Trust from its establishment in 1936 to the present day.',
-  TP: 'Archival collections consisting primarily of audio material.',
   PBL: 'Literature produced by universities and biotechnology companies, particularly companies associated with the Babraham Research Campus.',
   ES: 'Records and materials collected by Wellcome staff at various exhibitions and shows with themes relating to medicine, health or wellbeing.',
   WF: 'Records relating to the history and operations of the Burroughs Wellcome & Company pharmaceutical business and the Wellcome Foundation Ltd.',
-  PSY: 'Archival material relating to psychology and related disciplines including psychiatry and psychoanalysis.',
 };
 
 // As above, but the longer text shown on the category's own listing page
-// header (e.g. /collections/archives/pp). TP has no long-form text yet
-// (see ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS above) so it falls back to the short
-// description via the ?? below.
+// header (e.g. /collections/archives/pp). A category with no long-form text
+// falls back to its short description via the ?? below.
 const ARCHIVE_CATEGORY_FULL_DESCRIPTIONS: Record<string, string> = {
   PP: 'The Personal Papers (PP) collections contain the personal and professional papers of individuals connected with medicine, science, healthcare and related fields. They can include correspondence, diaries and photographs. Collections vary in size and they do not necessarily represent all the working or personal papers of the individuals.',
   GC: 'The General Collections (GC) contain smaller collections of papers relating to individuals, subjects and organisations connected with medicine and the history of medicine. They can include correspondence, research material, notes, reports and other records.',
@@ -61,8 +58,20 @@ const ARCHIVE_CATEGORY_FULL_DESCRIPTIONS: Record<string, string> = {
   PBL: 'The Published Grey Literature (PBL) collections contain literature produced by universities and biotechnology companies, particularly companies associated with the Babraham Research Campus. The material includes papers, tests, research publications, posters and promotional literature.',
   ES: 'The Exhibition and Shows (ES) collection contains records and materials collected by Wellcome staff at various exhibitions and shows with themes relating to medicine, health or wellbeing. Most of the items are printed materials, including flyers, pamphlets, brochures, product catalogues, prospectuses, reports and other publications.',
   WF: 'The Wellcome Foundation (WF) archive documents the history and operations of the Burroughs Wellcome & Company pharmaceutical business and, from 1924, the Wellcome Foundation Ltd. It includes administration, finance, marketing, production, legal and personnel records, as well as material relating to Wellcome’s research laboratories and associated companies.',
-  PSY: 'The PSY collections bring together archival material relating to psychology and related disciplines including psychiatry and psychoanalysis. They include papers of individual psychologists and cover subjects such as experimental and clinical psychology, professional practice and the development of psychology, psychiatry and psychoanalysis as a discipline. Further material related to psychology can also be found in our Personal Papers and Societies and Associations collections.',
 };
+
+// Categories the API still returns but we've agreed not to show on the
+// archive browse pages (see #13642). Filtering them out of the list also
+// means /collections/archives/{slug} 404s for them, since that page looks
+// categories up from the same list.
+// - PSY is being returned to the depositor
+// - TP is due to be incorporated into the WT archive
+// Their works are still in the catalogue and searchable - this only hides
+// the categories here.
+// TODO: once the PSY records have been removed and the TP ones reclassified
+// into WT upstream, the API will stop returning these buckets - delete this
+// set and the filter in fetchArchiveCategories below.
+const HIDDEN_ARCHIVE_CATEGORY_IDS = new Set(['PSY', 'TP']);
 
 // Composite images we make ourselves,
 // keyed by the same IDs
@@ -93,15 +102,18 @@ export async function fetchArchiveCategories(): Promise<ArchiveCategory[]> {
     throw new Error('No archive.category aggregation found in response');
   }
 
-  return archiveCategory.buckets.map(bucket => ({
-    id: bucket.data.id,
-    slug: bucket.data.id.toLowerCase(),
-    label: bucket.data.label,
-    count: bucket.count,
-    shortDescription: ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id] ?? '',
-    fullDescription:
-      ARCHIVE_CATEGORY_FULL_DESCRIPTIONS[bucket.data.id] ??
-      ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id],
-    image: ARCHIVE_CATEGORY_IMAGES[bucket.data.id],
-  }));
+  return archiveCategory.buckets
+    .filter(bucket => !HIDDEN_ARCHIVE_CATEGORY_IDS.has(bucket.data.id))
+    .map(bucket => ({
+      id: bucket.data.id,
+      slug: bucket.data.id.toLowerCase(),
+      label: bucket.data.label,
+      count: bucket.count,
+      shortDescription:
+        ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id] ?? '',
+      fullDescription:
+        ARCHIVE_CATEGORY_FULL_DESCRIPTIONS[bucket.data.id] ??
+        ARCHIVE_CATEGORY_SHORT_DESCRIPTIONS[bucket.data.id],
+      image: ARCHIVE_CATEGORY_IMAGES[bucket.data.id],
+    }));
 }
