@@ -210,6 +210,33 @@ const toggleConfig = {
         },
       ],
     },
+    {
+      id: 'imageSidebarPhases',
+      title: 'Image sidebar preview',
+      description:
+        'Staged rollout of the image sidebar preview, replacing the image modal on the image search page.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'phase1',
+          label: 'Phase 1',
+          description:
+            'Clicking an image opens its details in a sidebar instead of a modal, with the selected image highlighted in the grid.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description:
+            'Updated image results grid and a re-sizable viewing pane.',
+        },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
+          description:
+            'Larger thumbnail, plus key information and onward journey in the sidebar.',
+        },
+      ],
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
@@ -234,8 +261,8 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty. There is no preview pipeline to select at the moment; add an option here when the catalogue API exposes one as an additional cluster.',
-      options: [],
+        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty.',
+      options: [{ id: 'folio-testing', label: 'FOLIO pipeline' }],
     },
   ] as const,
 };

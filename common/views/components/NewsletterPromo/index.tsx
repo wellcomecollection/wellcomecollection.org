@@ -208,12 +208,12 @@ const NewsletterPromo: FunctionComponent = () => {
                 <Button
                   variant="ButtonSolid"
                   hierarchy="secondary"
-                  isOnDark
                   dataGtmProps={{
                     trigger: 'newsletter_promo_subscribe',
                   }}
                   text={isSubmitting ? 'Sending…' : 'Subscribe'}
                   disabled={isSubmitting}
+                  isOnDark
                 />
               </NewsletterForm>
             </>

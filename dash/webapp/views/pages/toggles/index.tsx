@@ -613,8 +613,8 @@ const TogglesPage: FunctionComponent = () => {
         {(generalFeatureFlags.length > 0 || !searchQuery) && (
           <Section
             $background="default"
-            $hasNoTopPadding
             aria-labelledby="general"
+            $hasNoTopPadding
           >
             <SectionInner>
               <ListOfToggles

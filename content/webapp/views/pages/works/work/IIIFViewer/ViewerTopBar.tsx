@@ -167,10 +167,10 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             <ViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
-              $isDark
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
+              $isDark
             >
               <Icon
                 icon={chevrons}
@@ -184,10 +184,10 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
 
             <ViewerButton
               className="viewer-mobile"
-              $isDark
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
+              $isDark
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
             </ViewerButton>

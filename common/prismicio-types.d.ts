@@ -3661,49 +3661,6 @@ export type OrganisationsDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Content for Page format documents
- */
-interface PageFormatsDocumentData {
-  /**
-   * Title field in *Page format*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page-formats.title
-   * - **Tab**: Page format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  title: prismic.RichTextField;
-
-  /**
-   * Description field in *Page format*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page-formats.description
-   * - **Tab**: Page format
-   * - **Documentation**: https://prismic.io/docs/fields/rich-text
-   */
-  description: prismic.RichTextField;
-}
-
-/**
- * Page format document from Prismic
- *
- * - **API ID**: `page-formats`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/content-modeling
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type PageFormatsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
-    Simplify<PageFormatsDocumentData>,
-    'page-formats',
-    Lang
-  >;
-
 type PagesDocumentDataBodySlice =
   | TextSlice
   | EditorialImageSlice
@@ -3865,17 +3822,6 @@ interface PagesDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/rich-text
    */
   title: prismic.RichTextField;
-
-  /**
-   * Format field in *Page*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: pages.format
-   * - **Tab**: Page
-   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
-   */
-  format: prismic.ContentRelationshipField<'page-formats'>;
 
   /**
    * Date published field in *Page*
@@ -5666,7 +5612,6 @@ export type AllDocumentTypes =
   | InterpretationTypesDocument
   | LabelsDocument
   | OrganisationsDocument
-  | PageFormatsDocument
   | PagesDocument
   | PeopleDocument
   | PlacesDocument
@@ -7836,8 +7781,6 @@ declare module '@prismicio/client' {
       OrganisationsDocument,
       OrganisationsDocumentData,
       OrganisationsDocumentDataSameAsItem,
-      PageFormatsDocument,
-      PageFormatsDocumentData,
       PagesDocument,
       PagesDocumentData,
       PagesDocumentDataBodySlice,

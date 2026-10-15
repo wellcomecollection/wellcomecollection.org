@@ -141,18 +141,6 @@ export const getNameFromCollectionVenue = id => {
   }
 };
 
-// This is different to hasLandingPageFormat on the page model,
-// which is true if there is a content list to display on the page.
-// This is a hardcoded list of pages that we want to control the layout and Header of
-export const officialLandingPagesUid = [
-  prismicPageIds.visitUs,
-  prismicPageIds.whatsOn,
-  'stories',
-  prismicPageIds.collections,
-  prismicPageIds.getInvolved,
-  prismicPageIds.aboutUs,
-];
-
 // The only series ("webcomic series") that uses the `webcomics` type.
 export const bodySquabblesSeries = 'body-squabbles';
 

@@ -32,9 +32,8 @@ const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
     onThisPage: transformOnThisPage(untransformedBody),
     showOnThisPage: true,
     isDropCapped: false,
-    isOfficialLandingPage: false,
+    isLandingPage: false,
     hasStaticContent: false,
-    hasLandingPageFormat: false,
     gridSizes: '8',
     staticContent: (
       <>
@@ -65,14 +64,11 @@ const meta: Meta<Omit<BodyStoryProps, 'gridSizes'> & { gridSizes: string }> = {
     hasStaticContent: {
       name: 'Has static content to inject',
     },
-    isOfficialLandingPage: {
-      name: 'Official landing page: applies specific layout styles such as Header',
+    isLandingPage: {
+      name: 'Landing page: applies specific layout styles such as Header, and displays a content list if there is one',
     },
     showOnThisPage: {
       name: 'Show in page navigation',
-    },
-    hasLandingPageFormat: {
-      name: 'Displays a content list if there is one',
     },
     gridSizes: {
       name: 'Grid size for layout',

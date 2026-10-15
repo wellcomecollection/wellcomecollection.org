@@ -34,15 +34,16 @@ import ImagePlaceholder, {
 } from '@weco/content/views/components/ImagePlaceholder';
 import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
+import { getStopLinks } from './stop.helpers';
 import {
   AlignCenter,
   AudioPlayerNewWrapper,
-  BrandPrevNextInner,
   FlushContainer,
   Header,
   HeaderInner,
   Page,
   PrevNext,
+  PrevNextInner,
   StickyPlayer,
   Title,
 } from './stop.styles';
@@ -119,6 +120,12 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
 
   const relatedText =
     type === 'bsl' ? currentStop.subtitles : currentStop.transcript;
+
+  const stopLinks = getStopLinks({
+    guideTypeUrl,
+    stopNumber,
+    totalStops: allStops.length,
+  });
 
   return (
     <PageLayout
@@ -229,43 +236,23 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
         )}
 
         <PrevNext>
-          {theme.brandUpdate ? (
-            <Container>
-              <BrandPrevNextInner>
+          <Container>
+            {theme.brandUpdate ? (
+              <PrevNextInner>
                 <PrevNextLink
-                  hasDarkBackground
                   direction="previous"
                   label="Previous stop"
-                  link={
-                    stopNumber > 1
-                      ? {
-                          href: {
-                            pathname: `${guideTypeUrl}/${stopNumber - 1}`,
-                          },
-                          shallow: true,
-                        }
-                      : undefined
-                  }
+                  link={stopLinks.previous}
+                  isOnDark
                 />
                 <PrevNextLink
-                  hasDarkBackground
                   direction="next"
                   label="Next stop"
-                  link={
-                    stopNumber < allStops.length
-                      ? {
-                          href: {
-                            pathname: `${guideTypeUrl}/${stopNumber + 1}`,
-                          },
-                          shallow: true,
-                        }
-                      : undefined
-                  }
+                  link={stopLinks.next}
+                  isOnDark
                 />
-              </BrandPrevNextInner>
-            </Container>
-          ) : (
-            <Container>
+              </PrevNextInner>
+            ) : (
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div>
                   {stopNumber > 1 && (
@@ -336,8 +323,8 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
                   )}
                 </div>
               </div>
-            </Container>
-          )}
+            )}
+          </Container>
         </PrevNext>
       </Page>
     </PageLayout>

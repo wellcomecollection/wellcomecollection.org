@@ -175,12 +175,12 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
       icon={
         format?.endsWith('jpeg') || format?.endsWith('gif') ? imageFile : file
       }
-      matchText
       sizeOverride={
         format?.endsWith('jpeg') || format?.endsWith('gif')
           ? undefined
           : 'height: 15px; width: 14px;'
       }
+      matchText
     />
   );
 
