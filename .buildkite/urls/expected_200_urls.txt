@@ -93,3 +93,6 @@
 # Not landing pages but useful to track
 /collections/new-online
 
+# Thematic browsing category pages, behind the thematicBrowsingPhases toggle
+/collections/subjects?toggleOverride=thematicBrowsingPhases:categoryPages
+
