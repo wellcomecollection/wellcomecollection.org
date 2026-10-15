@@ -5,8 +5,12 @@ import {
   brandButtonFocusStyle,
   brandButtonStyles,
 } from '@weco/common/views/components/Buttons';
+import { brandControlStyles } from '@weco/common/views/components/Control';
 import Space from '@weco/common/views/components/styled/Space';
-import { brandButtonColors } from '@weco/common/views/themes/config';
+import {
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
 type PopupDialogOpenProps = {
   $shouldStartAnimation: boolean;
@@ -114,6 +118,22 @@ export const PopupDialogClose = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
+
+  /* The light round control, like the viewer's close button */
+  ${props =>
+    props.theme.brandUpdate &&
+    `
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    ${brandControlStyles(true)}
+
+    /* A dark outline, so the light circle shows against the white dialog */
+    &,
+    &:hover {
+      border-color: ${designSystemColor('neutral.70')};
+    }
+  `}
 `;
 
 export const PopupDialogCTA = styled(Space).attrs({

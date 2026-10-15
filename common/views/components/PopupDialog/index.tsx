@@ -6,9 +6,10 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useTheme } from 'styled-components';
 
 import cookies from '@weco/common/data/cookies';
-import { chat, clear } from '@weco/common/icons';
+import { chat, clear, cross } from '@weco/common/icons';
 import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
 import { transformLink } from '@weco/common/services/prismic/transformers';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
@@ -31,6 +32,7 @@ type Props = {
 
 const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
   const { link, linkText, openButtonText, text, title } = document.data;
+  const { brandUpdate } = useTheme();
   const [shouldRender, setShouldRender] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const isActiveRef = useRef(isActive);
@@ -180,7 +182,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
           }}
         >
           <Icon
-            icon={clear}
+            icon={brandUpdate ? cross : clear}
             title="Close dialog"
             iconColor={{ brand: 'neutral.70', legacy: 'accent.purple' }}
           />
