@@ -32,7 +32,7 @@ const brandStyles = (isActive?: boolean) => {
     padding: 0 12px;
     transition: none;
 
-    /* Taller than the header row needs, so keep it out of the row height */
+    /* These negative margins prevent the header row from growing */
     margin-top: -4px;
     margin-bottom: -4px;
 
