@@ -11,9 +11,7 @@ import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
-import Space, {
-  VerticalSpaceProperty,
-} from '@weco/common/views/components/styled/Space';
+import Space from '@weco/common/views/components/styled/Space';
 import {
   CatalogueResultsList,
   Image,
@@ -33,6 +31,8 @@ import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 import { phaseIsAtLeast } from '@weco/toggles';
 
+import ImagesResultsWithSidebar from './images.ResultsWithSidebar';
+
 export type Props = {
   images: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
@@ -42,13 +42,13 @@ export type Props = {
 
 type WrapperProps = {
   $hasNoResults: boolean;
+  $hasSidebarLayout: boolean;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   $v: {
     size: 'xl',
-    properties: [props.$hasNoResults ? '' : 'margin-bottom'].filter(
-      Boolean
-    ) as VerticalSpaceProperty[],
+    properties:
+      props.$hasNoResults || props.$hasSidebarLayout ? [] : ['margin-bottom'],
   },
 }))<WrapperProps>`
   ${props =>
@@ -92,9 +92,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
     });
 
     const activeFiltersLabels = getActiveFiltersLabel({ filters });
+    const hasSidebarLayout = showImageSidebar && !hasNoResults;
 
-    // In the light area above the results when the image sidebar is on,
-    // otherwise in the dark results area.
+    // Sits in the dark results area normally; in the light area above it
+    // when the image sidebar is on.
     const renderResultsHeader = (isOnDark: boolean) => (
       <PaginationWrapper $verticalSpacing="md">
         <span role="status">
@@ -155,6 +156,36 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
           />
         </SortPaginationWrapper>
       </PaginationWrapper>
+    );
+
+    const bottomPagination = (
+      <PaginationWrapper $verticalSpacing="md" $alignRight>
+        <Pagination
+          totalPages={images.totalPages}
+          ariaLabel="Image search pagination"
+          isOnDark
+        />
+      </PaginationWrapper>
+    );
+
+    const resultsArea = hasNoResults ? (
+      <Container>
+        <SearchNoResults query={queryString} hasFilters={hasActiveFilters} />
+      </Container>
+    ) : hasSidebarLayout ? (
+      <ImagesResultsWithSidebar images={images.results}>
+        {bottomPagination}
+      </ImagesResultsWithSidebar>
+    ) : (
+      <Container>
+        {renderResultsHeader(true)}
+
+        <main>
+          <CatalogueImageGallery images={images.results} variant="justified" />
+        </main>
+
+        {bottomPagination}
+      </Container>
     );
 
     return (
@@ -220,39 +251,21 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
           </Container>
         )}
 
-        {showImageSidebar && !hasNoResults && (
+        {hasSidebarLayout && (
           <Container>{renderResultsHeader(false)}</Container>
         )}
 
-        <Wrapper $hasNoResults={hasNoResults}>
-          <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
-            <Container>
-              {hasNoResults ? (
-                <SearchNoResults
-                  query={queryString}
-                  hasFilters={hasActiveFilters}
-                />
-              ) : (
-                <>
-                  {!showImageSidebar && renderResultsHeader(true)}
-
-                  <main>
-                    <CatalogueImageGallery
-                      images={images.results}
-                      variant="justified"
-                    />
-                  </main>
-
-                  <PaginationWrapper $verticalSpacing="md" $alignRight>
-                    <Pagination
-                      totalPages={images.totalPages}
-                      ariaLabel="Image search pagination"
-                      isOnDark
-                    />
-                  </PaginationWrapper>
-                </>
-              )}
-            </Container>
+        <Wrapper
+          $hasNoResults={hasNoResults}
+          $hasSidebarLayout={hasSidebarLayout}
+        >
+          <Space
+            $v={{
+              size: 'md',
+              properties: hasSidebarLayout ? [] : ['padding-bottom'],
+            }}
+          >
+            {resultsArea}
           </Space>
         </Wrapper>
       </>
