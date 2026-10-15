@@ -21,13 +21,16 @@ export const Overlay = styled.div`
 // so it keeps its fill there, inverting on hover with a ring like the
 // controls. The swap is instant, as fading inverted colours makes the icon
 // flicker out midway
+const brandSize = 44;
+const legacySize = 28;
+
 const brandCloseButtonStyles = (isOnDark: boolean) => {
   const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
   const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
 
   return css`
-    width: 44px;
-    height: 44px;
+    width: ${brandSize}px;
+    height: ${brandSize}px;
     background: ${fill};
     color: ${ink};
     border: 1px solid transparent;
@@ -53,6 +56,9 @@ const brandCloseButtonStyles = (isOnDark: boolean) => {
       color: ${fill};
       border: 0;
 
+      /* Bigger than the legacy button, so keep its centre in the same place */
+      margin: ${(legacySize - brandSize) / 2}px ${(legacySize - brandSize) / 2}px 0 0;
+
       &:hover {
         background: ${fill};
         color: ${ink};
@@ -68,8 +74,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: ${legacySize}px;
+  height: ${legacySize}px;
   border-radius: 50%;
   appearance: none;
   background: rgb(0, 0, 0, 0.7);

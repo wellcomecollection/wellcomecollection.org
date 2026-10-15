@@ -98,10 +98,18 @@ const FiltersFooter = styled(Space).attrs({
   right: 0;
 `;
 
-const FiltersHeader = styled(Space).attrs({
+// The brand's close button is bigger, so the header keeps its larger-screen
+// padding at every size to leave room for it
+const FiltersHeader = styled(Space).attrs(props => ({
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
-})`
+  $v: {
+    size: 'sm',
+    properties: ['padding-top', 'padding-bottom'],
+    ...(props.theme.brandUpdate && {
+      overrides: { zero: '200', sm: '200', md: '200' },
+    }),
+  },
+}))`
   position: absolute;
   background-color: ${props => props.theme.color('white')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};

@@ -19,6 +19,11 @@ import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
 
+// The brand's hover circle and pill are taller than the legacy button (about
+// 36px), so negative margins split the difference to keep the header row height
+const brandHeight = 44;
+const legacyHeight = 36;
+
 const brandStyles = (isActive?: boolean) => {
   const inverted = `
     background: ${designSystemColor('neutral.70')};
@@ -27,14 +32,12 @@ const brandStyles = (isActive?: boolean) => {
 
   return `
     color: ${designSystemColor('neutral.70')};
-    border-radius: 22px;
-    height: 44px;
+    border-radius: ${brandHeight / 2}px;
+    height: ${brandHeight}px;
     padding: 0 12px;
     transition: none;
-
-    /* These negative margins prevent the header row from growing */
-    margin-top: -4px;
-    margin-bottom: -4px;
+    margin-top: ${(legacyHeight - brandHeight) / 2}px;
+    margin-bottom: ${(legacyHeight - brandHeight) / 2}px;
 
     .icon__shape {
       transition: none;
