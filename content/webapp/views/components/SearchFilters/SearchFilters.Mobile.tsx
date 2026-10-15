@@ -28,12 +28,6 @@ import { BooleanFilter } from './SearchFilters.BooleanFilter';
 import DateRangeFilter from './SearchFilters.DateRangeFilter';
 import { getFilterLabel } from './SearchFilters.Desktop.Modal';
 
-const SearchFiltersContainer = styled(Space).attrs({
-  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
-})`
-  background-color: ${props => props.theme.color('white')};
-`;
-
 const ShameButtonWrap = styled(Space).attrs({
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -222,7 +216,10 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
   }
 
   return (
-    <SearchFiltersContainer data-lock-scroll={isActive}>
+    <Space
+      $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
+      data-lock-scroll={isActive}
+    >
       <ShameButtonWrap>
         <StyledButton
           type={ButtonTypes.button}
@@ -330,7 +327,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
           />
         </FiltersFooter>
       </Modal>
-    </SearchFiltersContainer>
+    </Space>
   );
 };
 
