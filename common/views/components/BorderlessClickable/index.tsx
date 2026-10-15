@@ -19,8 +19,6 @@ import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
 
-// The brand inverts these on hover into a pill, like the selectable tags. The
-// swap is instant, as fading inverted colours makes the icon flicker out midway
 const brandStyles = (isActive?: boolean) => {
   const inverted = `
     background: ${designSystemColor('neutral.70')};
