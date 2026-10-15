@@ -19,7 +19,9 @@ import {
   itemWithSearchAndStructuresAndQuery,
   itemWithVideo,
   multiVolumeItem,
+  requiredCookies,
 } from './helpers/contexts';
+import { baseUrl } from './helpers/utils';
 import { apiResponse } from './mocks/search-within';
 
 declare global {
@@ -673,17 +675,18 @@ test('(44) | Rapid canvas navigation does not cause state corruption', async ({
 }) => {
   const canvasNumbers = [1, 5, 3, 7, 2, 6, 4];
 
-  // Deliberately not awaited inline - we want these firing in rapid
-  // succession, overlapping rather than sequential, to exercise the
-  // corruption this test is named for. The exact rejection a superseded
-  // navigation throws varies by browser engine, so this intentionally
-  // swallows all of them rather than matching a specific error - but they're
-  // tracked so we can wait for them to settle before the test ends, rather
-  // than leaving them to resolve during teardown or the next test.
+  await context.addCookies(requiredCookies);
+
+  // Deliberately not awaited inline, and a plain page.goto rather than
+  // multiVolumeItem - these are meant to be interrupted, not retried, and
+  // multiVolumeItem's gotoWithoutCache would retry a stalled one and could
+  // win the race against the final navigation below.
   const pendingNavigations = canvasNumbers.slice(0, -1).map(canvasNumber =>
-    multiVolumeItem(context, page, { canvasNumber }).catch(() => {
-      // Expected - rapid navigation aborts previous navigations
-    })
+    page
+      .goto(`${baseUrl}/works/mg56yqa4/items?canvas=${canvasNumber}`)
+      .catch(() => {
+        // Expected - rapid navigation aborts previous navigations
+      })
   );
 
   await multiVolumeItem(context, page, {
