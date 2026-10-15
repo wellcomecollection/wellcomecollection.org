@@ -32,9 +32,9 @@ const ArchiveCategoryPage: NextPage<Props> = ({
       openGraphType="website"
       siteSection="collections"
       headerProps={{ hasColorBackground: true }}
+      apiToolbarLinks={apiToolbarLinks}
       hideNewsletterPromo
       clipOverflowX
-      apiToolbarLinks={apiToolbarLinks}
     >
       <CollectionsHeader
         title={`${archiveCategory.label} (${archiveCategory.id})`}

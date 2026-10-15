@@ -240,8 +240,8 @@ const SearchBar: FunctionComponent<Props> = ({
           setValue={setInputValue}
           ref={inputRef || defaultInputRef}
           form={form}
-          hasClearButton
           placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
+          hasClearButton
           isNewSearchBar
         />
       </SearchInputWrapper>
