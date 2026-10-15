@@ -115,7 +115,6 @@ const RegistrationPage: NextPage<Props> = ({
                           formState,
                         }) => (
                           <TextInput
-                            required
                             id={name}
                             name={name}
                             label="First name"
@@ -125,6 +124,7 @@ const RegistrationPage: NextPage<Props> = ({
                             setIsValid={() => trigger('firstName')}
                             showValidity={formState.isSubmitted}
                             errorMessage={formState.errors.firstName?.message}
+                            required
                           />
                         )}
                       />
@@ -141,7 +141,6 @@ const RegistrationPage: NextPage<Props> = ({
                           formState,
                         }) => (
                           <TextInput
-                            required
                             id={name}
                             name={name}
                             label="Last name"
@@ -151,6 +150,7 @@ const RegistrationPage: NextPage<Props> = ({
                             setIsValid={() => trigger('lastName')}
                             showValidity={formState.isSubmitted}
                             errorMessage={formState.errors.lastName?.message}
+                            required
                           />
                         )}
                       />

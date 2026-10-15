@@ -55,12 +55,12 @@ const ControlsOverlay = styled(Space).attrs({
   $v: { size: 'xs', properties: ['bottom'] },
   $h: { size: 'xs', properties: ['left'] },
   as: 'span',
-})<{ hasDuration: boolean }>`
+})<{ $hasDuration: boolean }>`
   position: absolute;
   display: flex;
   align-items: center;
   ${props => props.theme.makeSpacePropertyValues('xs', ['column-gap'])};
-  padding: 3px ${props => (props.hasDuration ? '10px' : '3px')} 3px 3px;
+  padding: 3px ${props => (props.$hasDuration ? '10px' : '3px')} 3px 3px;
   background: ${props => props.theme.color(mediaBackgroundColor)};
   border-radius: 9999px;
 `;
@@ -122,7 +122,7 @@ const PortraitVideoEmbed: FunctionComponent<Props> = ({
               />
             </PosterImageWrapper>
           )}
-          <ControlsOverlay hasDuration={!!duration} aria-hidden="true">
+          <ControlsOverlay $hasDuration={!!duration} aria-hidden="true">
             <PlayCircle>
               <Icon
                 icon={play}

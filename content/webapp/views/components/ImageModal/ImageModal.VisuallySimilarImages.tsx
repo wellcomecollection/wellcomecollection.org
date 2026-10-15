@@ -79,7 +79,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
     return (
       <Space $v={{ size: 'xl', properties: ['margin-bottom', 'margin-top'] }}>
         <div style={{ height: '120px' }}>
-          <LL $small $position="relative" />
+          <LL $position="relative" $small />
         </div>
       </Space>
     );

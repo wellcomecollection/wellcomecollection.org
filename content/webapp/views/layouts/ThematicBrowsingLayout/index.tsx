@@ -65,7 +65,6 @@ const ThematicBrowsingLayout: FunctionComponent<
     <PageLayout
       openGraphType={'website' as const}
       jsonLd={jsonLd}
-      hideNewsletterPromo
       siteSection="collections"
       title={page.title}
       description={
@@ -77,6 +76,7 @@ const ThematicBrowsingLayout: FunctionComponent<
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
       headerProps={{ hasColorBackground: true }}
+      hideNewsletterPromo
       clipOverflowX
     >
       <CollectionsHeader

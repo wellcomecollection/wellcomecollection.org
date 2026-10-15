@@ -39,7 +39,6 @@ const nonVisibleTypes = new Set([
   'interpretation-types',
   'labels',
   'organisations',
-  'page-formats',
   'people',
   'places',
   'popup-dialog',

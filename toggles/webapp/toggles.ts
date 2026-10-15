@@ -210,6 +210,33 @@ const toggleConfig = {
         },
       ],
     },
+    {
+      id: 'imageSidebarPhases',
+      title: 'Image sidebar preview',
+      description:
+        'Staged rollout of the image sidebar preview, replacing the image modal on the image search page.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'phase1',
+          label: 'Phase 1',
+          description:
+            'Clicking an image opens its details in a sidebar instead of a modal, with the selected image highlighted in the grid.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description:
+            'Updated image results grid and a re-sizable viewing pane.',
+        },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
+          description:
+            'Larger thumbnail, plus key information and onward journey in the sidebar.',
+        },
+      ],
+    },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
