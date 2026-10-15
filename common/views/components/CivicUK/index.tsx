@@ -116,6 +116,10 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
       background-color: ${designSystemColor(primary.active.background)} !important;
       border-color: ${designSystemColor(primary.active.border)} !important;
     }
+    /* Civic gives the label span the button's background too */
+    ${primaryButtons.replaceAll(', ', ':active span, ')}:active span {
+      background-color: ${designSystemColor(primary.active.background)} !important;
+    }
     ${secondaryButton} {
       background-color: ${designSystemColor(secondary.default.background)} !important;
       border-color: ${designSystemColor(secondary.default.border)} !important;
