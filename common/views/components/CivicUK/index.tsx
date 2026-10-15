@@ -4,6 +4,10 @@ import { useTheme } from 'styled-components';
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { typography } from '@weco/common/utils/classnames';
+import {
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
@@ -68,14 +72,77 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
     fontSize: '0.9375rem',
     fontSizeHeaders: '1.175rem',
     fontColor: theme.color('black'),
-    backgroundColor: theme.color('warmNeutral.200'),
-    acceptText: theme.color('black'),
-    acceptBackground: theme.color('yellow'),
-    rejectText: theme.color('black'),
-    toggleColor: '#0055cc',
-    toggleBackground: theme.color('neutral.300'),
+    backgroundColor: theme.color({
+      brand: 'neutral.10',
+      legacy: 'warmNeutral.200',
+    }),
+    // In the brand, Accept and Essential only are equal primary buttons
+    acceptText: theme.color({ brand: 'neutral.10', legacy: 'black' }),
+    acceptBackground: theme.color({ brand: 'indigo.50', legacy: 'yellow' }),
+    rejectText: theme.color({ brand: 'neutral.10', legacy: 'black' }),
+    ...(theme.brandUpdate && {
+      rejectBackground: designSystemColor('indigo.50'),
+    }),
+    toggleColor: theme.brandUpdate ? designSystemColor('indigo.50') : '#0055cc',
+    toggleBackground: theme.color({
+      brand: 'neutral.20',
+      legacy: 'neutral.300',
+    }),
     toggleText: theme.color('black'),
   };
+
+  // What Civic's branding options can't set: button shapes and states, and
+  // Manage cookies as a secondary button. Civic uses !important, so we do too
+  const primary = brandButtonColors.primary;
+  const secondary = brandButtonColors.secondary;
+  const primaryButtons =
+    '#ccc .ccc-notify-button.ccc-accept-button, #ccc .ccc-notify-button.ccc-reject-button, #ccc .ccc-notify-button.ccc-close-button';
+  const secondaryButton =
+    '#ccc .ccc-notify-button:not(.ccc-accept-button):not(.ccc-reject-button):not(.ccc-close-button)';
+  const brandStyles = `
+    #ccc .ccc-content--light h1,
+    #ccc .ccc-content--light h2,
+    #ccc .ccc-content--light h3,
+    #ccc .ccc-content--light span {
+      color: ${designSystemColor('neutral.70')} !important;
+    }
+    #ccc .ccc-notify-button {
+      border-radius: 0 !important;
+    }
+    ${primaryButtons} {
+      border-color: ${designSystemColor(primary.default.border)} !important;
+    }
+    ${primaryButtons.replaceAll(', ', ':active, ')}:active {
+      background-color: ${designSystemColor(primary.active.background)} !important;
+      border-color: ${designSystemColor(primary.active.border)} !important;
+    }
+    /* Civic gives the label span the button's background too */
+    ${primaryButtons.replaceAll(', ', ':active span, ')}:active span {
+      background-color: ${designSystemColor(primary.active.background)} !important;
+    }
+    ${secondaryButton} {
+      background-color: ${designSystemColor(secondary.default.background)} !important;
+      border-color: ${designSystemColor(secondary.default.border)} !important;
+    }
+    ${secondaryButton}:active {
+      background-color: ${designSystemColor(secondary.active.background)} !important;
+      border-color: ${designSystemColor(secondary.active.border)} !important;
+    }
+    ${secondaryButton}, ${secondaryButton} span {
+      color: ${designSystemColor(secondary.default.text)} !important;
+    }
+    #ccc .ccc-notify-button:hover span,
+    #ccc .ccc-notify-button:active span {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.2em;
+    }
+    #ccc .ccc-notify-button:focus-visible {
+      outline: 2px solid ${designSystemColor('neutral.70')} !important;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')} !important;
+    }
+  `;
 
   const text = {
     title: `<h1 class="${typography('heading', 'xl', 'strong', 'sans')}">Manage cookies</h1>`,
@@ -179,6 +246,7 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
 
   return (
     <>
+      {theme.brandUpdate && <style>{brandStyles}</style>}
       <script
         src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
         type="text/javascript"
