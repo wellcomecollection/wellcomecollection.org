@@ -23,7 +23,7 @@ const dev = process.env.NODE_ENV !== 'production';
 // hook in common/next/next.config.js (moment-timezone swap, undici
 // exclusion) - see --webpack in the build script too. Migrating that hook to
 // Turbopack config is tracked separately. https://github.com/wellcomecollection/wellcomecollection.org/issues/13591
-const nextApp = next({ dev, webpack: true });
+const nextApp: ReturnType<typeof next> = next({ dev, webpack: true });
 const handle = nextApp.getRequestHandler();
 
 const appPromise = nextApp
@@ -125,3 +125,4 @@ const appPromise = nextApp
   });
 
 export default appPromise;
+export { nextApp };

@@ -1,6 +1,6 @@
 import { clear as clearServerDataTimers } from '@weco/common/server-data';
 
-import appPromise from './app';
+import appPromise, { nextApp } from './app';
 
 const port = process.env.PORT ?? 3000;
 
@@ -12,6 +12,13 @@ const serverPromise = appPromise.then(app => {
 
     console.log(`> ready on localhost:${port} ${inDev ? devMessage : ''}`);
   });
+
+  // Koa's app.listen() only wires up the regular HTTP request/response
+  // cycle. Next's HMR client talks to the dev server over a WebSocket
+  // (upgrade handshake), which Node only emits as a separate 'upgrade'
+  // event - without this, the handshake falls through to Next's normal
+  // page-request handler instead, which 404s since it's not a real route.
+  server.on('upgrade', nextApp.getUpgradeHandler());
 
   // We exit gracefully when we can.
   // The reason for not clearing intervals here, is we can't
