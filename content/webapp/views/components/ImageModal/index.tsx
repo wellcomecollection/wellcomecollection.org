@@ -12,6 +12,7 @@ import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import LL from '@weco/common/views/components/styled/LL';
+import PipeSeparated from '@weco/common/views/components/styled/PipeSeparated';
 import Space from '@weco/common/views/components/styled/Space';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
@@ -31,7 +32,6 @@ import {
   ImageLink,
   ImageWrapper,
   InfoWrapper,
-  Metadata,
   MetadataWrapper,
   ModalTitle,
   ViewImageButtonWrapper,
@@ -212,10 +212,12 @@ const ImageModal: FunctionComponent<Props> = ({
                   {(displayContributor || productionDates.length > 0) && (
                     <MetadataWrapper>
                       {displayContributor && (
-                        <Metadata>{displayContributor}</Metadata>
+                        <PipeSeparated>{displayContributor}</PipeSeparated>
                       )}
                       {productionDates.length > 0 && (
-                        <Metadata>Date:&nbsp;{productionDates[0]}</Metadata>
+                        <PipeSeparated>
+                          Date:&nbsp;{productionDates[0]}
+                        </PipeSeparated>
                       )}
                     </MetadataWrapper>
                   )}
