@@ -141,6 +141,17 @@ const WorkDetails: FunctionComponent<Props> = ({
 
   const holdings = getHoldings(work);
 
+  // Miro works have a iiif-image location and no iiif-presentation manifest,
+  // and their single image is built from that same location. In that case the
+  // View link already opens the image, so 'Selected images' would be a duplicate.
+  // Works with a manifest keep the section, as their images differ from it.
+  // The length check is a safeguard: if a work without a manifest ever has
+  // more than one image, they can't all be what the View link opens.
+  const selectedImageIsViewableItem =
+    shouldShowItemLink &&
+    digitalLocation?.locationType.id === 'iiif-image' &&
+    work.images?.length === 1;
+
   const renderContent = () => (
     <>
       {/* shouldShowItemLink accounts for
@@ -162,23 +173,25 @@ const WorkDetails: FunctionComponent<Props> = ({
 
       <OnlineResources work={work} />
 
-      {work.images && work.images.length > 0 && (
-        <WorkDetailsSection headingText="Selected images from this work">
-          <Button
-            variant="ButtonSolidLink"
-            dataGtmProps={{
-              trigger: 'view_selected_images',
-            }}
-            colors={theme.buttonColors.greenTransparentGreen}
-            text={
-              work.images.length > 1
-                ? `View ${work.images.length} images`
-                : 'View 1 image'
-            }
-            link={toSearchImagesLink({ query: work.id })}
-          />
-        </WorkDetailsSection>
-      )}
+      {work.images &&
+        work.images.length > 0 &&
+        !selectedImageIsViewableItem && (
+          <WorkDetailsSection headingText="Selected images from this work">
+            <Button
+              variant="ButtonSolidLink"
+              dataGtmProps={{
+                trigger: 'view_selected_images',
+              }}
+              colors={theme.buttonColors.greenTransparentGreen}
+              text={
+                work.images.length > 1
+                  ? `View ${work.images.length} images`
+                  : 'View 1 image'
+              }
+              link={toSearchImagesLink({ query: work.id })}
+            />
+          </WorkDetailsSection>
+        )}
 
       <WorkDetailsSection headingText="About this work">
         {/*
