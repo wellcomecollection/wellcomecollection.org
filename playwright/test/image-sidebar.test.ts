@@ -25,18 +25,25 @@ const enableImageSidebar = (context: BrowserContext) =>
 const resultsGrid = (page: Page) =>
   page.getByTestId('image-search-results-container');
 
+// The nth image in the results, counting from 1
 const thumbnail = (page: Page, nthChild: number) =>
-  resultsGrid(page).locator(`ul:first-child > li:nth-child(${nthChild}) a`);
+  resultsGrid(page)
+    .getByRole('link')
+    .nth(nthChild - 1);
 
 // A thumbnail's alt text is its title, possibly with display markup in it
 const thumbnailTitle = async (page: Page, nthChild: number) =>
-  ((await thumbnail(page, nthChild).locator('img').getAttribute('alt')) ?? '')
+  ((await thumbnail(page, nthChild).getByRole('img').getAttribute('alt')) ?? '')
     .replace(/<[^>]*>/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 
+// The region that holds the close button; its name differs between versions
+// (labelled by the image's title, then "Image details"), so it isn't used
 const sidebar = (page: Page) =>
-  page.locator('[data-component="image-sidebar"]');
+  page
+    .getByRole('region')
+    .filter({ has: page.getByRole('button', { name: 'Close image details' }) });
 
 const searchImages = async (
   query: string,
@@ -137,9 +144,7 @@ test.describe('Desktop', () => {
       await searchImages('art of science', context, page);
 
       // Two images with different titles, so the heading shows which is open
-      const count = await resultsGrid(page)
-        .locator('ul:first-child > li')
-        .count();
+      const count = await resultsGrid(page).getByRole('link').count();
       const titles = await Promise.all(
         Array.from({ length: Math.min(count, 4) }, (_, i) =>
           thumbnailTitle(page, i + 1)
