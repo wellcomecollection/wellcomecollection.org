@@ -78,6 +78,15 @@ const createConfig =
         return [...redirectEntries];
       },
 
+      // Next's dev server only trusts requests whose Origin header matches
+      // its own host by default. Locally we're reached via the www-dev nginx
+      // proxy instead of localhost directly, so without this it silently
+      // rejects the HMR websocket's origin and live reloading stops working,
+      // even though the page itself still loads fine.
+      ...(phase === PHASE_DEVELOPMENT_SERVER && {
+        allowedDevOrigins: ['www-dev.wellcomecollection.org'],
+      }),
+
       // Next 16 defaults to Turbopack, which ignores this hook entirely, so
       // callers (next build --webpack, and the webpack:true option passed to
       // the programmatic next() in content/identity's app.ts) force webpack
