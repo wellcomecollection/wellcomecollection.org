@@ -136,8 +136,8 @@ Keep conditional styles easy to scan:
 - Single-value switches stay inline, e.g. `display: ${props => (props.$isEnhanced ? 'flex' : 'inline')};`
 - When a boolean swaps mirrored properties (`left`/`right`, `top`/`bottom`), use one ternary that returns both declarations, not one ternary per property
 - For a conditional multi-line block, use the `css` helper with `cond && css\`...\``, not `cond ? \`...\` : ''`, so it gets syntax highlighting and nested interpolation
-- Never write `cond && '...'` directly inside a template literal (e.g. in the strings you pass to `theme.media()`): it prints the text `false` into the CSS when the condition is false. Use `cond ? '...' : ''`. Lint enforces this (`no-restricted-syntax` in `eslint.config.js`), including for a directly written `&&` in a styled template
-- `&&` inside a function interpolation is fine, e.g. `${props => props.$isActive && css\`...\`}`, because styled-components drops `false` returned from a function
+- Never write `cond && '...'` directly inside a plain template literal (e.g. in the strings you pass to `theme.media()`): it prints the text `false` into the CSS when the condition is false. Use `cond ? '...' : ''`. Lint enforces this (`no-restricted-syntax` in `eslint.config.js`)
+- `&&` is fine in a `styled` or `css` template, whether written directly or inside a function interpolation, e.g. `${props => props.$isActive && css\`...\`}`, because styled-components drops falsy interpolations
 - Inside `theme.media()` calls (which take plain strings), pull repeated expressions into small helper functions rather than repeating them
 
 ## Server vs Client Code
