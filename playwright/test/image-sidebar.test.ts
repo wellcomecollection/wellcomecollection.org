@@ -18,7 +18,7 @@ const enableImageSidebar = (context: BrowserContext) =>
       name: 'toggle_imageSidebarPhases',
       value: 'phase1',
       path: '/',
-      domain: new URL(baseUrl).host,
+      domain: new URL(baseUrl).hostname,
     },
   ]);
 
