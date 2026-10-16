@@ -31,12 +31,14 @@ const thumbnail = (page: Page, nthChild: number) =>
     .getByRole('link')
     .nth(nthChild - 1);
 
-// A thumbnail's alt text is its title, possibly with display markup in it
-const thumbnailTitle = async (page: Page, nthChild: number) =>
-  ((await thumbnail(page, nthChild).getByRole('img').getAttribute('alt')) ?? '')
-    .replace(/<[^>]*>/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+// A thumbnail's alt text is its title. Empty if the title has display markup
+// in it (<i>, <sup>), as the sidebar shows that formatted, not as the alt text.
+const plainThumbnailTitle = async (page: Page, nthChild: number) => {
+  const alt =
+    (await thumbnail(page, nthChild).getByRole('img').getAttribute('alt')) ??
+    '';
+  return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
+};
 
 // The region that holds the close button; its name differs between versions
 // (labelled by the image's title, then "Image details"), so it isn't used
@@ -143,22 +145,27 @@ test.describe('Desktop', () => {
     }) => {
       await searchImages('art of science', context, page);
 
-      // Two images with different titles, so the heading shows which is open
+      // Two images with different plain titles, so the heading shows which is open
       const count = await resultsGrid(page).getByRole('link').count();
       const titles = await Promise.all(
-        Array.from({ length: Math.min(count, 4) }, (_, i) =>
-          thumbnailTitle(page, i + 1)
+        Array.from({ length: Math.min(count, 6) }, (_, i) =>
+          plainThumbnailTitle(page, i + 1)
         )
       );
-      const other = titles.findIndex(t => t && t !== titles[0]);
+      const first = titles.findIndex(t => t);
+      const other = titles.findIndex(t => t && t !== titles[first]);
+      expect(
+        first,
+        'expected an image with a plain title'
+      ).toBeGreaterThanOrEqual(0);
       expect(
         other,
         'expected two images with different titles'
-      ).toBeGreaterThan(0);
+      ).toBeGreaterThan(first);
 
-      await openSidebar(1, page);
+      await openSidebar(first + 1, page);
       const heading = sidebar(page).getByRole('heading', { level: 2 });
-      await expect(heading).toHaveText(titles[0]);
+      await expect(heading).toHaveText(titles[first]);
 
       await thumbnail(page, other + 1).click();
 
