@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 export const Overlay = styled.div`
   z-index: 1000;
@@ -15,6 +16,57 @@ export const Overlay = styled.div`
   `}
 `;
 
+// The brand's round control colours, but only shown on hover, like the header
+// search button. On small screens it floats over the scrolling modal content,
+// so it keeps its fill there, inverting on hover with a ring like the
+// controls. The swap is instant, as fading inverted colours makes the icon
+// flicker out midway
+const brandSize = 44;
+const legacySize = 28;
+
+const brandCloseButtonStyles = (isOnDark: boolean) => {
+  const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
+  const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
+
+  return css`
+    width: ${brandSize}px;
+    height: ${brandSize}px;
+    background: ${fill};
+    color: ${ink};
+    border: 1px solid transparent;
+    transition: none;
+
+    &:hover {
+      background: ${ink};
+      color: ${fill};
+      border-color: ${fill};
+    }
+
+    .icon {
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .icon__shape {
+      transition: none;
+    }
+
+    ${props =>
+      props.theme.media('sm')(`
+      background: none;
+      color: ${fill};
+      border: 0;
+
+      /* Bigger than the legacy button, so keep its centre in the same place */
+      margin: ${(legacySize - brandSize) / 2}px ${(legacySize - brandSize) / 2}px 0 0;
+
+      &:hover {
+        background: ${fill};
+        color: ${ink};
+      }
+    `)}
+  `;
+};
+
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
   type: props.type || 'button',
@@ -22,8 +74,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: ${legacySize}px;
+  height: ${legacySize}px;
   border-radius: 50%;
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
@@ -43,6 +95,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     color: ${props.theme.color('neutral.600')};
     position: absolute;
   `)}
+
+  ${props => props.theme.brandUpdate && brandCloseButtonStyles(false)}
 `;
 
 // Modal positioning is applied in three places, each building on the last:
@@ -152,6 +206,8 @@ export const VideoModal = styled(BaseModalWindow)`
 
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
+
+    ${props => props.theme.brandUpdate && brandCloseButtonStyles(true)}
   }
 `;
 
