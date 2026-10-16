@@ -126,6 +126,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
           <VisuallySimilarImagesFromApi
             originalId={expandedImage.id}
             onClickImage={setExpandedImage}
+            variant="sidebar"
           />
         </>
       )}
