@@ -5,11 +5,11 @@ import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import useImageDetails from '@weco/content/hooks/useImageDetails';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
-import VisuallySimilarImagesFromApi from '@weco/content/views/components/ImageDetails/ImageDetails.VisuallySimilarImages';
-import useImageDetails from '@weco/content/views/components/ImageDetails/useImageDetails';
+import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
 
 import {
   CloseButton,

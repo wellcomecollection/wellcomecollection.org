@@ -11,10 +11,10 @@ jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
   getWorkClientSide: jest.fn(),
 }));
 // The visually similar images fetch their own data and have their own tests
-jest.mock(
-  '@weco/content/views/components/ImageDetails/ImageDetails.VisuallySimilarImages',
-  () => ({ __esModule: true, default: () => null })
-);
+jest.mock('@weco/content/views/components/VisuallySimilarImages', () => ({
+  __esModule: true,
+  default: () => null,
+}));
 jest.mock('@weco/content/views/components/IIIFImage', () => ({
   __esModule: true,
   default: () => null,
