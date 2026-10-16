@@ -106,7 +106,7 @@ Adding the local API configuration allows you to use the `www-dev.wellcomecollec
 
 This allows content and identity to behave correctly when running locally, as paths between the two apps are relative to the domain.
 
-**Note:** [Fast refresh](https://nextjs.org/docs/architecture/fast-refresh) is not available when using the `www-dev.wellcomecollection.org` domain.
+**Note:** [Fast refresh](https://nextjs.org/docs/architecture/fast-refresh) works when using the `www-dev.wellcomecollection.org` domain, but your local nginx config needs to be up to date - re-run `yarn config-local-apis`, then fully stop and start nginx rather than just reloading it (`sudo nginx -s stop && sudo nginx`), since a reload alone hasn't reliably picked up config changes in practice.
 
 ### Running content & identity together
 

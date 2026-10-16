@@ -41,16 +41,9 @@ async function main() {
     process.env.SESSION_KEYS = 'correct-horse-battery-staple'; // https://xkcd.com/936/
   }
 
-  const { app, nextApp } = await createApp();
+  const app = await createApp();
 
-  const server = app.listen(port);
-
-  // Koa's app.listen() only wires up the regular HTTP request/response
-  // cycle. Next's HMR client talks to the dev server over a WebSocket
-  // (upgrade handshake), which Node only emits as a separate 'upgrade'
-  // event - without this, the handshake falls through to Next's normal
-  // page-request handler instead, which 404s since it's not a real route.
-  server.on('upgrade', nextApp.getUpgradeHandler());
+  app.listen(port);
 
   if (process.env.NODE_ENV !== 'production') {
     console.log(`Server ready at: ${siteBaseUrl}/account`);

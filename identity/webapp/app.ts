@@ -12,10 +12,7 @@ import { redactUrl } from '@weco/identity/utils/logging';
 
 const startedAt = new Date().toISOString();
 
-export async function createApp(): Promise<{
-  app: Koa;
-  nextApp: ReturnType<typeof next>;
-}> {
+export async function createApp(): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';
   await initServerData();
 
@@ -136,5 +133,5 @@ export async function createApp(): Promise<{
     process.exit(0);
   });
 
-  return { app, nextApp };
+  return app;
 }
