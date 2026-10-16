@@ -1,7 +1,12 @@
+import NextLink from 'next/link';
 import styled from 'styled-components';
 
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { pageBackgroundColor } from '@weco/common/views/themes/config';
+import {
+  mediaBackgroundColor,
+  pageBackgroundColor,
+} from '@weco/common/views/themes/config';
 
 export const SidebarWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
@@ -17,7 +22,11 @@ export const SidebarWrapper = styled(Space).attrs({
   color: ${props => props.theme.color('black')};
 `;
 
-export const CloseButton = styled.button.attrs({ type: 'button' })`
+export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
+  as: 'button',
+  type: props.type || 'button',
+  $v: { size: 'md', properties: ['margin-bottom'] },
+}))`
   appearance: none;
   display: block;
   margin-left: auto;
@@ -26,4 +35,48 @@ export const CloseButton = styled.button.attrs({ type: 'button' })`
   background: transparent;
   color: inherit;
   cursor: pointer;
+`;
+
+export const LoadingWrapper = styled.div`
+  height: 350px;
+`;
+
+export const ThumbnailPanel = styled(Space).attrs({
+  $v: { size: 'md', properties: ['margin-bottom'] },
+})`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
+`;
+
+export const ThumbnailLink = styled(NextLink)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 10px;
+
+  img {
+    width: auto;
+    max-width: calc(100% - 20px);
+    max-height: 100%;
+
+    /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
+    object-fit: contain;
+  }
+`;
+
+export const Title = styled.h2.attrs({
+  className: typography('body', 'xl', 'strong'),
+})`
+  margin-bottom: 0;
+`;
+
+export const MetadataWrapper = styled(Space).attrs({
+  className: typography('body', 'md', 'regular'),
+  $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
+})`
+  color: ${props => props.theme.color('neutral.600')};
 `;

@@ -109,16 +109,31 @@ test.describe('Desktop', () => {
     }) => {
       await search(context, page, 'images');
       await searchQuerySubmitAndWait(imageWithContributor, page);
+      await expect(thumbnail(page, 1)).toHaveAttribute(
+        'title',
+        'Open modal window'
+      );
       await thumbnail(page, 1).click();
 
       await expect(page.getByTestId('image-modal')).toBeVisible();
       await expect(sidebar(page)).toHaveCount(0);
     });
+
+    test('thumbnails say they open the image details, not a modal', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+
+      await expect(thumbnail(page, 1)).toHaveAttribute(
+        'title',
+        'Open image details'
+      );
+    });
   });
 
   test.describe('Sidebar content', () => {
-    // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
-    test.fixme('shows what the modal shows: title, contributor, licence, link to the viewer and visually similar images', async ({
+    test('shows what the modal shows: title, contributor, licence, link to the viewer and visually similar images', async ({
       page,
       context,
     }) => {
@@ -174,8 +189,7 @@ test.describe('Desktop', () => {
       await expect(heading).toHaveText(titles[other]);
     });
 
-    // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
-    test.fixme('clicking a visually similar image selects it and records the click', async ({
+    test('clicking a visually similar image selects it and records the click', async ({
       page,
       context,
     }) => {
@@ -186,7 +200,7 @@ test.describe('Desktop', () => {
       await sidebar(page)
         .getByRole('heading', { name: 'Visually similar images' })
         .waitFor();
-      await sidebar(page).locator('ul button').first().click();
+      await sidebar(page).getByRole('list').getByRole('button').first().click();
 
       await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
 
