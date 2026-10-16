@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
@@ -26,6 +26,7 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
     | undefined
   >();
   const [currentImageId, setCurrentImageId] = useState<string | undefined>();
+  const latestWorkId = useRef<string | undefined>(undefined);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
@@ -40,11 +41,13 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
       // Reset information if new image ID
       setDetailedWork(undefined);
       setCurrentImageId(workId);
+      latestWorkId.current = workId;
 
       // Fetch new information
       const fetchDetailedWork = async () => {
         const res = await getWorkClientSide(workId);
-        if (res.type === 'Work') {
+        // Another image may have been selected while this was loading
+        if (latestWorkId.current === workId && res.type === 'Work') {
           setDetailedWork(res);
         }
       };
