@@ -198,9 +198,13 @@ test.describe('Desktop', () => {
       await searchImages(imageWithContributor, context, page);
       await openSidebar(1, page);
 
+      const licences = page.getByRole('button', { name: 'Licences' });
       await openFilterDropdown('Licences', page);
+      await expect(licences).toHaveAttribute('aria-expanded', 'true');
+
       await page.keyboard.press('Escape');
 
+      await expect(licences).toHaveAttribute('aria-expanded', 'false');
       await expect(sidebar(page)).toBeVisible();
     });
   });
