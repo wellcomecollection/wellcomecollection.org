@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { PinnableColor } from '@weco/common/views/themes/config';
@@ -26,16 +26,12 @@ const Wrapper = styled.span.attrs({
 
   ${props =>
     props.$matchText &&
-    `
-    height: 1em;
-    width: 1em;
-  `}
+    css`
+      height: 1em;
+      width: 1em;
+    `}
 
-  ${props =>
-    props.$sizeOverride &&
-    `
-    ${props.$sizeOverride}
-  `}
+  ${props => props.$sizeOverride}
 
 
   .icon__svg {

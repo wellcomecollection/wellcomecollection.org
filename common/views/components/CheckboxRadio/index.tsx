@@ -4,7 +4,7 @@ import {
   ReactNode,
   SyntheticEvent,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { check, indicator } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
@@ -33,14 +33,14 @@ export const CheckboxRadioBox = styled.span<{
   height: 1.3em;
   border: 1px solid ${props => props.theme.color('black')};
   border-radius: ${props => (props.$type === 'radio' ? '50%' : '0')};
-  ${props => (props.$hasErrorBorder ? `border-color: red;` : ``)}
+  ${props => props.$hasErrorBorder && 'border-color: red;'}
 
   ${props =>
-    props.$isDisabled
-      ? `background-color: ${props.theme.color('neutral.300')};
-      border-color: ${props.theme.color('neutral.400')};`
-      : ''}
-
+    props.$isDisabled &&
+    css`
+      background-color: ${props.theme.color('neutral.300')};
+      border-color: ${props.theme.color('neutral.400')};
+    `}
 
   .icon {
     position: absolute;
@@ -83,9 +83,10 @@ const CheckBoxWrapper = styled.div`
 
 const CheckboxLabel = styled.span<{ $isDisabled?: boolean }>`
   ${props =>
-    props.$isDisabled
-      ? `color: ${props.theme.color('neutral.600')}`
-      : 'inherit'}
+    props.$isDisabled &&
+    css`
+      color: ${props.theme.color('neutral.600')};
+    `}
 `;
 
 type CheckboxRadioProps = {

@@ -79,100 +79,99 @@ const ButtonStyles = css<ColorSchemeType>`
 
   ${props =>
     props.$colorScheme === 'light' &&
-    `
-    background: ${props.theme.color('white')};
-    border: 2px solid ${props.theme.color('accent.green')};
+    css`
+      background: ${props.theme.color('white')};
+      border: 2px solid ${props.theme.color('accent.green')};
 
-    .icon__shape {
-      fill: ${props.theme.color('accent.green')};
-    }
+      .icon__shape {
+        fill: ${props.theme.color('accent.green')};
+      }
 
-    &:hover {
+      &:hover {
+        background: ${props.theme.color('accent.green')};
+
+        .icon__shape {
+          fill: ${props.theme.color('white')};
+        }
+      }
+
+      &[disabled] {
+        background: transparent;
+        border-color: ${props.theme.color('neutral.500')};
+
+        .icon__shape {
+          fill: ${props.theme.color('neutral.500')};
+        }
+      }
+    `}
+
+  ${props =>
+    props.$colorScheme === 'dark' &&
+    css`
+      border: 0;
       background: ${props.theme.color('accent.green')};
 
       .icon__shape {
         fill: ${props.theme.color('white')};
       }
-    }
 
-    &[disabled] {
-      background: transparent;
-      border-color: ${props.theme.color('neutral.500')};
-
-      .icon__shape {
-        fill: ${props.theme.color('neutral.500')};
+      &:hover {
+        background: ${props.theme.color('black')};
       }
-    }
-  `}
 
-  ${props =>
-    props.$colorScheme === 'dark' &&
-    `
-    border: 0;
-    background: ${props.theme.color('accent.green')};
-
-    .icon__shape {
-      fill: ${props.theme.color('white')};
-    }
-
-    &:hover {
-      background: ${props.theme.color('black')};
-    }
-
-    &[disabled] {
-      background: ${props.theme.color('neutral.500')};
-    }
-  `}
+      &[disabled] {
+        background: ${props.theme.color('neutral.500')};
+      }
+    `}
 
   ${props =>
     props.$colorScheme === 'on-black' &&
-    `
-    border: 0;
-    border-radius: 0;
-    background: #1f1f1f;
+    css`
+      border: 0;
+      border-radius: 0;
+      background: #1f1f1f;
 
-    .icon__shape {
-      fill: ${props.theme.color('white')};
-    }
-
-    &:hover {
       .icon__shape {
-        fill: ${props.theme.color('yellow')};
+        fill: ${props.theme.color('white')};
       }
-    }
 
-
-    &[disabled] {
-      .icon__shape {
-        fill: ${props.theme.color('neutral.400')};
+      &:hover {
+        .icon__shape {
+          fill: ${props.theme.color('yellow')};
+        }
       }
-    }
-  `}
+
+      &[disabled] {
+        .icon__shape {
+          fill: ${props.theme.color('neutral.400')};
+        }
+      }
+    `}
 
   ${props =>
     props.$colorScheme === 'black-on-white' &&
-    `
-    background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-    border: none;
-
-    .icon__shape {
-      fill: ${props.theme.color('neutral.700')};
-    }
-
-    &:hover {
-      background: ${props.theme.color('yellow')};
+    css`
+      background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+      border: none;
 
       .icon__shape {
         fill: ${props.theme.color('neutral.700')};
       }
-    }
 
-    &[disabled] {
-      .icon__shape {
-        fill: ${props.theme.color('neutral.600')};
+      &:hover {
+        background: ${props.theme.color('yellow')};
+
+        .icon__shape {
+          fill: ${props.theme.color('neutral.700')};
+        }
       }
-    }
-  `}
+
+      &[disabled] {
+        .icon__shape {
+          fill: ${props.theme.color('neutral.600')};
+        }
+      }
+    `}
 
   ${props =>
     props.theme.brandUpdate &&

@@ -28,7 +28,7 @@ const Container = styled.nav.attrs({
       'sm',
       'max-width'
     )(`
-    ${props.$isHiddenMobile && 'display: none;'};
+    ${props.$isHiddenMobile ? 'display: none;' : ''}
   `)}
 `;
 

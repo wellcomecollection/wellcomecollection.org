@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { Fragment, FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { isLandingPageSection } from '@weco/common/model/site-section';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
@@ -53,13 +53,15 @@ const TwoColumnGrid = styled(Grid)`
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
     props.$splitBackground &&
-    `
-  > div:first-child {
-    background: linear-gradient(180deg, ${props.theme.color(
-      pageBackgroundColor
-    )} 50%, transparent 50%);
-  }
-`}
+    css`
+      > div:first-child {
+        background: linear-gradient(
+          180deg,
+          ${props.theme.color(pageBackgroundColor)} 50%,
+          transparent 50%
+        );
+      }
+    `}
 `;
 
 export type BodySliceContexts = {

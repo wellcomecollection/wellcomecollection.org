@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import AnimatedUnderlineCSS, {
@@ -209,9 +209,9 @@ export const Root = styled(Space).attrs<{
 
   ${props =>
     props.$hasStuck &&
-    `
-    border-bottom: 1px solid ${props.theme.color('neutral.300')};
-  `}
+    css`
+      border-bottom: 1px solid ${props.theme.color('neutral.300')};
+    `}
 
   ${props =>
     props.theme.mediaBetween(
@@ -223,19 +223,20 @@ export const Root = styled(Space).attrs<{
       padding-left: ${props.theme.containerPaddingVw};
       padding-right: ${props.theme.containerPaddingVw};
       transition: background ${props.theme.transitionProperties};
-      background: ${props.$hasStuck && props.theme.color('white')};
+      ${props.$hasStuck ? `background: ${props.theme.color('white')};` : ''}
       padding-top: 0;
 
       ${
-        props.$hasStuck &&
-        `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        margin: 0;
-      `
+        props.$hasStuck
+          ? css`
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              width: 100%;
+              margin: 0;
+            `
+          : ''
       }
     `)}
 
