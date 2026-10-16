@@ -68,6 +68,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       </Results>
 
       <ImageSidebar
+        images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
       />
