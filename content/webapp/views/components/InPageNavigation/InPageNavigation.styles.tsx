@@ -340,6 +340,68 @@ export const NavGridCell = styled(GridCell)<{
     transition: unset;
     mix-blend-mode: difference;
 
+    /* In the new brand, once the scroll handler (in index.tsx) has measured
+       where the dark band ends, swap the blend for chosen colours: each piece
+       of text is light above its --split and dark below. It's set per element,
+       as Chrome won't show a parent's text-clipped background through
+       positioned children. Until then (or without JavaScript) the blend stays */
+    &[data-in-page-nav-split] {
+      mix-blend-mode: normal;
+
+      [data-in-page-navigation] {
+        mix-blend-mode: normal;
+      }
+
+      h2,
+      a {
+        color: transparent;
+        background-image: linear-gradient(
+          var(--angle, 180deg),
+          ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })} var(--split, 0px),
+          ${props.theme.color('black')} var(--split, 0px)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      a {
+        --line-color: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+      }
+
+      a > span {
+        transform: none;
+      }
+
+      a::before {
+        background: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+      }
+
+      li::before {
+        background: transparent;
+      }
+
+      @media print {
+        h2,
+        a {
+          color: ${props.theme.color('black')};
+          background-image: none;
+        }
+      }
+
+      /* High contrast modes can drop the background the text relies on */
+      @media (forced-colors: active) {
+        h2 {
+          color: CanvasText;
+          background-image: none;
+        }
+
+        a {
+          color: LinkText;
+          background-image: none;
+        }
+      }
+    }
+
     &::before,
     &::after {
       transition: unset;
