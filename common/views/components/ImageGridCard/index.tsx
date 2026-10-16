@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
@@ -9,6 +9,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 import type { ColorSelection } from '@weco/content/types/color-selections';
 import { placeholderBackgroundColor } from '@weco/content/views/components/ImagePlaceholder';
+
+const cardBackground = ({ theme }: { theme: DefaultTheme }) =>
+  theme.color('neutral.700');
 
 const Title = styled(Space).attrs({
   className: typography('heading', 'lg', 'regular', 'brand'),
@@ -40,7 +43,7 @@ const CompositeGrid = styled.div<{ $isSingleImage?: boolean }>`
   gap: ${props => (props.$isSingleImage ? '0' : '2cqw')};
   width: 100%;
   aspect-ratio: 2 / 3;
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: ${cardBackground};
   overflow: hidden;
 `;
 
@@ -49,7 +52,7 @@ const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: ${cardBackground};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,12 +98,11 @@ const TextContent = styled(Space).attrs({
     right: 0;
     bottom: 0;
 
-    /* Same colour as CompositeGrid's background, so the gradient can't be
-    seen over a card with no image */
+    /* Fades into the card background, so it can't be seen on a card with no image */
     background: linear-gradient(
       to top,
-      ${props => props.theme.color('neutral.700')} 0%,
-      ${props => props.theme.color('neutral.700')} calc(100% - 5rem),
+      ${cardBackground} 0%,
+      ${cardBackground} calc(100% - 5rem),
       transparent 100%
     );
   }
