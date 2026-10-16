@@ -25,7 +25,7 @@ const ArchivesPage: NextPage<Props> = ({ archiveCategories }) => {
     >
       <CollectionsHeader
         title="Archives"
-        introText="Original records created by individuals and organisations."
+        introText="We hold over 950 archive collections of personal papers and organisational records, including audio-visual and born-digital material. They include collections from individuals, organisations and healthcare providers, as well as Wellcome’s own history. Archive collections are organised by type, some of which are legacy and no longer actively collected into."
       />
       <ArchiveCategoriesList archiveCategories={archiveCategories} />
     </PageLayout>

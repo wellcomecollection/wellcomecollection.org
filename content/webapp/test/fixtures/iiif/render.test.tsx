@@ -59,4 +59,15 @@ describe('renderWithContext harness', () => {
     expect(contextValue.transformedManifest).toBeUndefined();
     expect(createMockCanvas({ label: '2' }).label).toBe('2');
   });
+
+  it('derives an empty-manifest context rather than defaulting it when transformedManifest is explicitly undefined', () => {
+    const { contextValue } = renderWithContext(<Probe />, {
+      contextProps: {
+        transformedManifest: undefined,
+      },
+    });
+    expect(contextValue.totalCanvases).toBe(0);
+    expect(contextValue.currentCanvas).toBeUndefined();
+    expect(contextValue.hasMultipleCanvases).toBe(false);
+  });
 });

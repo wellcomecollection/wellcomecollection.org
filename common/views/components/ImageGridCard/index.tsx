@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
@@ -9,6 +9,9 @@ import Space from '@weco/common/views/components/styled/Space';
 import { ConceptImagesArray } from '@weco/content/hooks/useConceptImageUrls';
 import type { ColorSelection } from '@weco/content/types/color-selections';
 import { placeholderBackgroundColor } from '@weco/content/views/components/ImagePlaceholder';
+
+const cardBackground = ({ theme }: { theme: DefaultTheme }) =>
+  theme.color('neutral.700');
 
 const Title = styled(Space).attrs({
   className: typography('heading', 'lg', 'regular', 'brand'),
@@ -40,7 +43,7 @@ const CompositeGrid = styled.div<{ $isSingleImage?: boolean }>`
   gap: ${props => (props.$isSingleImage ? '0' : '2cqw')};
   width: 100%;
   aspect-ratio: 2 / 3;
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: ${cardBackground};
   overflow: hidden;
 `;
 
@@ -49,7 +52,7 @@ const ImageContainer = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background-color: ${props => props.theme.color('neutral.700')};
+  background-color: ${cardBackground};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -94,14 +97,12 @@ const TextContent = styled(Space).attrs({
     left: 0;
     right: 0;
     bottom: 0;
-    /* stylelint-disable color-function-notation, color-function-alias-notation */
     background: linear-gradient(
       to top,
-      rgba(50, 50, 50, 1) 0%,
-      rgba(50, 50, 50, 1) calc(100% - 5rem),
+      ${cardBackground} 0%,
+      ${cardBackground} calc(100% - 5rem),
       transparent 100%
     );
-    /* stylelint-enable color-function-notation, color-function-alias-notation */
   }
 `;
 
@@ -111,23 +112,40 @@ const Description = styled.p.attrs({
   margin-bottom: 0;
 `;
 
+const Meta = styled(Space).attrs({
+  as: 'p',
+  className: typography('body', 'xs', 'regular'),
+  $v: { size: '2xs', properties: ['margin-top'] },
+})`
+  margin-bottom: 0;
+`;
+
 export type ImageGridCardProps = {
   images: ConceptImagesArray;
   title: string;
   description?: string;
+  // Smaller text shown under the description, e.g. a count
+  meta?: string;
   linkProps: LinkProps;
   dataGtmProps?: DataGtmProps;
+  // With no images, show a plain dark card rather than a grid of coloured
+  // placeholder blocks. The blocks suit cards whose images are still
+  // loading, but not cards that will never have one.
+  hasPlainPlaceholder?: boolean;
 };
 
 const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
   images,
   title,
   description,
+  meta,
   linkProps,
   dataGtmProps,
+  hasPlainPlaceholder,
 }) => {
   const imageCount = images.filter(Boolean).length;
-  const isSingleImage = imageCount === 1;
+  const isPlain = hasPlainPlaceholder && imageCount === 0;
+  const isSingleImage = imageCount === 1 || isPlain;
 
   // Track which images have loaded
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
@@ -180,9 +198,11 @@ const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
                   }}
                 />
               ) : (
-                <PlaceholderBlock
-                  $colorKey={placeholderBackgroundColor(index)}
-                />
+                !isPlain && (
+                  <PlaceholderBlock
+                    $colorKey={placeholderBackgroundColor(index)}
+                  />
+                )
               )}
             </ImageContainer>
           ))}
@@ -191,6 +211,7 @@ const ImageGridCard: FunctionComponent<ImageGridCardProps> = ({
         <TextContent>
           <Title>{title}</Title>
           {description && <Description>{description}</Description>}
+          {meta && <Meta>{meta}</Meta>}
         </TextContent>
       </CardWrapper>
     </Link>
