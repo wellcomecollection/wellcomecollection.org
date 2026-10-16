@@ -28,6 +28,13 @@ const resultsGrid = (page: Page) =>
 const thumbnail = (page: Page, nthChild: number) =>
   resultsGrid(page).locator(`ul:first-child > li:nth-child(${nthChild}) a`);
 
+// A thumbnail's alt text is its title, possibly with display markup in it
+const thumbnailTitle = async (page: Page, nthChild: number) =>
+  ((await thumbnail(page, nthChild).locator('img').getAttribute('alt')) ?? '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
 const sidebar = (page: Page) =>
   page.locator('[data-component="image-sidebar"]');
 
@@ -128,15 +135,31 @@ test.describe('Desktop', () => {
       context,
     }) => {
       await searchImages('art of science', context, page);
+
+      // Two images with different titles, so the heading shows which is open
+      const count = await resultsGrid(page)
+        .locator('ul:first-child > li')
+        .count();
+      const titles = await Promise.all(
+        Array.from({ length: Math.min(count, 4) }, (_, i) =>
+          thumbnailTitle(page, i + 1)
+        )
+      );
+      const other = titles.findIndex(t => t && t !== titles[0]);
+      expect(
+        other,
+        'expected two images with different titles'
+      ).toBeGreaterThan(0);
+
       await openSidebar(1, page);
-      const firstImage = new URL(page.url()).hash;
+      const heading = sidebar(page).getByRole('heading', { level: 2 });
+      await expect(heading).toHaveText(titles[0]);
 
-      await thumbnail(page, 2).click();
+      await thumbnail(page, other + 1).click();
 
-      // Still one open sidebar, now showing the second image
-      await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
+      // Still one open sidebar, now showing the other image
       await expect(sidebar(page)).toHaveCount(1);
-      await expect(sidebar(page)).toBeVisible();
+      await expect(heading).toHaveText(titles[other]);
     });
   });
 
