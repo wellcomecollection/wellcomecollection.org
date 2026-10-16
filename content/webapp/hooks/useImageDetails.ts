@@ -40,6 +40,7 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
     if (workId && workId !== currentImageId) {
       // Reset information if new image ID
       setDetailedWork(undefined);
+      setCanvasDeeplink(undefined);
       setCurrentImageId(workId);
       latestWorkId.current = workId;
 
@@ -56,6 +57,8 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   }, [workId, currentImageId]);
 
   useEffect(() => {
+    const requestedWorkId = workId;
+
     // This downloads the IIIF manifest and tries to find the image in the canvases.
     // With upcoming work on IIIF identifiers, we should be able to provide the
     // deep link information from the API directly, but for now this is a
@@ -87,7 +90,12 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
           imageServiceId && imageServiceId.indexOf(imageLocationBase) !== -1
         );
       });
-      if (canvasIndex && canvasIndex !== -1) {
+      // Another image may have been selected while the manifest was loading
+      if (
+        latestWorkId.current === requestedWorkId &&
+        canvasIndex &&
+        canvasIndex !== -1
+      ) {
         setCanvasDeeplink({
           canvas: canvasIndex + 1,
         });
