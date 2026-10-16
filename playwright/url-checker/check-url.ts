@@ -163,15 +163,18 @@ export const urlChecker =
 
       inFlight.add(response);
       checkResponse()
-        .then(() => {
-          inFlight.delete(response);
-        })
         .catch(e => {
-          console.error(`Something went wrong checking ${url}`);
-          console.error(
-            `Request was ${response.request().method()} ${response.url()}`
-          );
-          throw e;
+          // A late response (e.g. a lazy-loaded image) can still be being read
+          // when the page closes, which isn't a problem with the page. Throwing
+          // here would be an unhandled rejection that kills the whole run.
+          if (page.isClosed()) return;
+          failures.push({
+            failureType: 'unknown',
+            description: `Something went wrong checking ${response.request().method()} ${response.url()}: ${e}`,
+          });
+        })
+        .finally(() => {
+          inFlight.delete(response);
         });
     });
 
