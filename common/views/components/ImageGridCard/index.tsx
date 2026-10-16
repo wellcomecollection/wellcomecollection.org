@@ -97,8 +97,6 @@ const TextContent = styled(Space).attrs({
     left: 0;
     right: 0;
     bottom: 0;
-
-    /* Fades into the card background, so it can't be seen on a card with no image */
     background: linear-gradient(
       to top,
       ${cardBackground} 0%,
