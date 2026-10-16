@@ -39,4 +39,24 @@ describe('fetchArchiveCategories', () => {
 
     expect(categories.map(c => c.id)).toEqual(['PP', 'WT']);
   });
+
+  it('sorts categories into the agreed order, with unlisted ones last', async () => {
+    mockCatalogueQuery.mockResolvedValue({
+      aggregations: {
+        'archive.category': {
+          buckets: [
+            bucket('SA', 'Societies and Associations', 300),
+            bucket('NEW', 'A new category', 200),
+            bucket('WT', 'Wellcome Trust', 100),
+            bucket('PP', 'Personal Papers', 50),
+          ],
+          type: 'Aggregation',
+        },
+      },
+    } as unknown as Awaited<ReturnType<typeof catalogueQuery>>);
+
+    const categories = await fetchArchiveCategories();
+
+    expect(categories.map(c => c.id)).toEqual(['PP', 'WT', 'SA', 'NEW']);
+  });
 });
