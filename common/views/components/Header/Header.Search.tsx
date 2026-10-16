@@ -23,7 +23,7 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
     props.theme.brandUpdate
       ? `${props.theme.color(mediaBackgroundColor)}99` // 60%
       : 'rgb(0, 0, 0, 0.6)'};
-  z-index: 9999;
+  z-index: ${props => props.theme.zIndex.headerSearch};
 `;
 
 const SearchBarWrapper = styled(Space).attrs({
