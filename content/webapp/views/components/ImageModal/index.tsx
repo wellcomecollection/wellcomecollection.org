@@ -24,6 +24,7 @@ import {
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
 
 import {
   Container,
@@ -36,7 +37,6 @@ import {
   ModalTitle,
   ViewImageButtonWrapper,
 } from './ImageModal.styles';
-import VisuallySimilarImagesFromApi from './ImageModal.VisuallySimilarImages';
 import useExpandedImage from './useExpandedImage';
 
 type Props = {
