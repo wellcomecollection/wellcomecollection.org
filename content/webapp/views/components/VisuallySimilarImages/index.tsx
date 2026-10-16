@@ -8,6 +8,7 @@ import { plainListStyles } from '@weco/common/views/components/styled/PlainList'
 import Space from '@weco/common/views/components/styled/Space';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 type Props = {
@@ -136,7 +137,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
                   contentUrl: related.locations[0]?.url,
                   width: 180,
                   height: 180,
-                  alt: '',
+                  alt: removeDisplayMarkupTags(related.source.title),
                 }}
                 width={180}
               />

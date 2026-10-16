@@ -184,7 +184,7 @@ test.describe('Desktop', () => {
       await sidebar(page)
         .getByRole('heading', { name: 'Visually similar images' })
         .waitFor();
-      await sidebar(page).locator('ul button').first().click();
+      await sidebar(page).getByRole('list').getByRole('button').first().click();
 
       await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
 
