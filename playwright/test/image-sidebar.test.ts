@@ -117,8 +117,7 @@ test.describe('Desktop', () => {
   });
 
   test.describe('Sidebar content', () => {
-    // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
-    test.fixme('shows what the modal shows: title, contributor, licence, link to the viewer and visually similar images', async ({
+    test('shows what the modal shows: title, contributor, licence, link to the viewer and visually similar images', async ({
       page,
       context,
     }) => {
@@ -174,8 +173,7 @@ test.describe('Desktop', () => {
       await expect(heading).toHaveText(titles[other]);
     });
 
-    // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
-    test.fixme('clicking a visually similar image selects it and records the click', async ({
+    test('clicking a visually similar image selects it and records the click', async ({
       page,
       context,
     }) => {
