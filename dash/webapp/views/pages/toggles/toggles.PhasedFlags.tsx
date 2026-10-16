@@ -4,12 +4,14 @@ import styled from 'styled-components';
 import { tokens } from '@weco/dash/views/themes/tokens';
 import { PublishedPhasedFlag } from '@weco/toggles';
 
+import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
+  ToggleHeadingRow,
   ToggleInfo,
   ToggleList,
   ToggleListItem,
@@ -148,10 +150,17 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
             <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 style={{ margin: 0 }}>
-                    <span id={`heading-${flag.id}`}>{flag.title}</span>
+                  <ToggleHeadingRow>
+                    <h3 style={{ margin: 0 }}>
+                      <span id={`heading-${flag.id}`}>{flag.title}</span>
+                    </h3>
+                    <CopyLinkIcon
+                      toggleId={flag.id}
+                      title={flag.title}
+                      anchor={`toggle-${flag.id}`}
+                    />
                     <ToggleStarButton toggleId={flag.id} title={flag.title} />
-                  </h3>
+                  </ToggleHeadingRow>
 
                   <div style={{ margin: `${tokens.spacing.xs} 0` }}>
                     <StatusBadge

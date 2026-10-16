@@ -4,7 +4,7 @@ export const ToggleWidgetWrapper = styled.div`
   position: fixed;
   right: 16px;
   bottom: 16px;
-  z-index: 9999999;
+  z-index: 999;
 `;
 
 export const ButtonRow = styled.div`

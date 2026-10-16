@@ -48,7 +48,6 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
               ? tokens.colors.text.disabled
               : tokens.colors.text.secondary
         }
-        $hoverBackground={tokens.colors.warning.light}
         $disabled={disabled}
         aria-disabled={disabled}
         aria-pressed={isStarred}
@@ -83,10 +82,7 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
       </IconActionButton>
       <span role="status" aria-live="polite">
         {justChangedCount !== null && (
-          <FlashBadge
-            $color={tokens.colors.warning.text}
-            $background={tokens.colors.warning.light}
-          >
+          <FlashBadge>
             {justChangedCount}/{MAX_STARRED_TOGGLES} starred
           </FlashBadge>
         )}
