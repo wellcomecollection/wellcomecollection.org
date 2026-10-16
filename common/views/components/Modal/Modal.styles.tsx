@@ -67,7 +67,7 @@ export const BaseModalWindow = styled(Space).attrs({
   $width?: string | null;
   $maxWidth?: string;
 }>`
-  z-index: 10001;
+  z-index: ${props => props.theme.zIndex.modalWindow};
   top: 0;
   bottom: 0;
   left: 0;
