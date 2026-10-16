@@ -1,7 +1,5 @@
 import { FunctionComponent } from 'react';
 
-import { tokens } from '@weco/dash/views/themes/tokens';
-
 import {
   FlashBadge,
   IconActionButton,
@@ -18,10 +16,11 @@ const buildQuery = (props: CopyLinkIconProps): string => {
   return `enableToggle=${encodeURIComponent(props.toggleId)}`;
 };
 
-const copyEnableLink = async (props: CopyLinkIconProps): Promise<void> => {
-  const url = `${window.location.origin}${window.location.pathname}?${buildQuery(
-    props
-  )}`;
+const copyLink = async (props: CopyLinkIconProps): Promise<void> => {
+  const base = `${window.location.origin}${window.location.pathname}`;
+  const url = props.anchor
+    ? `${base}#${props.anchor}`
+    : `${base}?${buildQuery(props)}`;
   await navigator.clipboard.writeText(url);
 };
 
@@ -29,15 +28,18 @@ export type CopyLinkIconProps = {
   toggleId: string;
   title: string;
   modeValue?: string;
+  /** Id of the page element to link to, without enabling anything. */
+  anchor?: string;
 };
 
 const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
-  const { title, modeValue } = props;
+  const { title, modeValue, anchor } = props;
+  const anchorOnly = anchor !== undefined;
   const isMode = modeValue !== undefined;
   const [copied, flashCopied] = useFlashMessage<true>();
 
   const onCopy = async () => {
-    await copyEnableLink(props);
+    await copyLink(props);
     flashCopied(true);
   };
 
@@ -45,17 +47,19 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
     <IconActionWrapper>
       <IconActionButton
         type="button"
-        $color={tokens.colors.success.main}
-        $hoverBackground={tokens.colors.success.light}
         aria-label={
-          isMode
-            ? `Copy link to set mode ${title}`
-            : `Copy link to enable toggle ${title}`
+          anchorOnly
+            ? `Copy link to ${title}`
+            : isMode
+              ? `Copy link to set mode ${title}`
+              : `Copy link to enable toggle ${title}`
         }
         title={
-          isMode
-            ? 'Click to copy a link that sets this mode'
-            : 'Click to copy a link that enables this toggle'
+          anchorOnly
+            ? 'Click to copy a link to this toggle'
+            : isMode
+              ? 'Click to copy a link that sets this mode'
+              : 'Click to copy a link that enables this toggle'
         }
         onClick={onCopy}
       >
@@ -71,19 +75,21 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
           strokeLinejoin="round"
           aria-hidden="true"
         >
-          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
+          <g transform={anchorOnly ? undefined : 'scale(0.75)'}>
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
+          </g>
+          {!anchorOnly && (
+            <polygon
+              points="18.5 13 13.5 19 18 19 17.5 23 22.5 17 18 17 18.5 13"
+              fill="currentColor"
+              strokeWidth="1"
+            />
+          )}
         </svg>
       </IconActionButton>
       <span role="status" aria-live="polite">
-        {copied && (
-          <FlashBadge
-            $color={tokens.colors.success.text}
-            $background={tokens.colors.success.light}
-          >
-            Copied!
-          </FlashBadge>
-        )}
+        {copied && <FlashBadge>Copied!</FlashBadge>}
       </span>
     </IconActionWrapper>
   );

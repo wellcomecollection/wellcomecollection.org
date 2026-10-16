@@ -5,6 +5,7 @@ import { eye } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Modal from '@weco/common/views/components/Modal';
 import LL from '@weco/common/views/components/styled/LL';
+import PipeSeparated from '@weco/common/views/components/styled/PipeSeparated';
 import Space from '@weco/common/views/components/styled/Space';
 import useImageDetails from '@weco/content/hooks/useImageDetails';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
@@ -17,7 +18,6 @@ import {
   ImageLink,
   ImageWrapper,
   InfoWrapper,
-  Metadata,
   MetadataWrapper,
   ModalTitle,
   ViewImageButtonWrapper,
@@ -98,10 +98,12 @@ const ImageModal: FunctionComponent<Props> = ({
                   {(displayContributor || productionDates.length > 0) && (
                     <MetadataWrapper>
                       {displayContributor && (
-                        <Metadata>{displayContributor}</Metadata>
+                        <PipeSeparated>{displayContributor}</PipeSeparated>
                       )}
                       {productionDates.length > 0 && (
-                        <Metadata>Date:&nbsp;{productionDates[0]}</Metadata>
+                        <PipeSeparated>
+                          Date:&nbsp;{productionDates[0]}
+                        </PipeSeparated>
                       )}
                     </MetadataWrapper>
                   )}

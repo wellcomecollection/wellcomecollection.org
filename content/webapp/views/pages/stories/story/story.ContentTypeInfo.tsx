@@ -4,6 +4,7 @@ import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
 import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
+import PipeSeparated from '@weco/common/views/components/styled/PipeSeparated';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { Article } from '@weco/content/types/articles';
@@ -17,13 +18,6 @@ const ContentTypeText = styled.p.attrs({
   className: typography('body', 'sm', 'regular'),
 })`
   margin: 0;
-`;
-
-const ContentTypeInfoSection = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
 `;
 
 const HTMLDateWrapper = styled.span.attrs({
@@ -51,7 +45,7 @@ const ContentTypeInfo = (article: Article) => (
             article.contributors
               .filter(({ role }) => role?.id !== commissioningEditorRoleId)
               .map(({ contributor, role }, i) => (
-                <ContentTypeInfoSection
+                <PipeSeparated
                   data-testid="contributor-name"
                   key={contributor.id}
                 >
@@ -66,15 +60,15 @@ const ContentTypeInfo = (article: Article) => (
                   <span className={typography('body', 'sm', 'strong')}>
                     {contributor.name}
                   </span>
-                </ContentTypeInfoSection>
+                </PipeSeparated>
               ))}
           {article.readingTime ? (
-            <ContentTypeInfoSection>
+            <PipeSeparated>
               average reading time{' '}
               <span className={typography('body', 'sm', 'strong')}>
                 {article.readingTime}
               </span>
-            </ContentTypeInfoSection>
+            </PipeSeparated>
           ) : null}
           {article.contributors.length > 0 && ' '}
 
