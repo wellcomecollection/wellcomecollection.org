@@ -161,6 +161,32 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toHaveCount(1);
       await expect(heading).toHaveText(titles[other]);
     });
+
+    // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
+    test.fixme('clicking a visually similar image selects it and records the click', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+      const firstImage = new URL(page.url()).hash;
+
+      await sidebar(page)
+        .getByRole('heading', { name: 'Visually similar images' })
+        .waitFor();
+      await sidebar(page).locator('ul button').first().click();
+
+      await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
+
+      // The page pushes this to the dataLayer itself, so it's there even with GTM blocked
+      const events = await page.evaluate(
+        () =>
+          (window as unknown as { dataLayer: { event?: string }[] }).dataLayer
+      );
+      expect(events.some(e => e.event === 'visually_similar_image_click')).toBe(
+        true
+      );
+    });
   });
 
   test.describe('Closing the sidebar', () => {
@@ -277,31 +303,6 @@ test.describe('No regression', () => {
     await expect(thumbnail(page, 1)).toHaveAttribute(
       'data-gtm-position-in-list',
       '1'
-    );
-  });
-
-  // https://github.com/wellcomecollection/wellcomecollection.org/pull/13676
-  test.fixme('clicking a visually similar image selects it and records the click', async ({
-    page,
-    context,
-  }) => {
-    await searchImages(imageWithContributor, context, page);
-    await openSidebar(1, page);
-    const firstImage = new URL(page.url()).hash;
-
-    await sidebar(page)
-      .getByRole('heading', { name: 'Visually similar images' })
-      .waitFor();
-    await sidebar(page).locator('ul button').first().click();
-
-    await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
-
-    // The page pushes this to the dataLayer itself, so it's there even with GTM blocked
-    const events = await page.evaluate(
-      () => (window as unknown as { dataLayer: { event?: string }[] }).dataLayer
-    );
-    expect(events.some(e => e.event === 'visually_similar_image_click')).toBe(
-      true
     );
   });
 });
