@@ -5,14 +5,11 @@ import {
   brandButtonFocusStyle,
   brandButtonStyles,
 } from '@weco/common/views/components/Buttons';
-import {
-  brandButtonColors,
-  designSystemColor,
-} from '@weco/common/views/themes/config';
+import { brandButtonColors } from '@weco/common/views/themes/config';
 
 export const ViewerButton = styled.button.attrs({
   className: typography('body', 'md', 'strong'),
-})<{ $isDark?: boolean }>`
+})<{ $isDark?: boolean; $isTertiary?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
@@ -47,6 +44,7 @@ export const ViewerButton = styled.button.attrs({
 
   ${props =>
     props.$isDark &&
+    !(props.$isTertiary && props.theme.brandUpdate) &&
     css`
       border: 2px solid transparent;
       color: ${props.theme.color('white')};
@@ -71,7 +69,13 @@ export const ViewerButton = styled.button.attrs({
     `}
 `;
 
-export const TertiaryViewerButton = styled(ViewerButton)`
+// A dark viewer button that's a tertiary button in the brand (in place of the
+// legacy dark styles), the same height as the Downloads button whether or not
+// it has an icon
+export const TertiaryViewerButton = styled(ViewerButton).attrs({
+  $isDark: true,
+  $isTertiary: true,
+})`
   ${props =>
     props.theme.brandUpdate &&
     css`
@@ -80,12 +84,6 @@ export const TertiaryViewerButton = styled(ViewerButton)`
       padding: 0 12px;
       line-height: 1;
       ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
-
-      &:not([disabled]):hover {
-        border-color: ${designSystemColor(
-          brandButtonColors.tertiaryOnDark.default.border
-        )};
-      }
 
       &:focus-visible {
         ${brandButtonFocusStyle}

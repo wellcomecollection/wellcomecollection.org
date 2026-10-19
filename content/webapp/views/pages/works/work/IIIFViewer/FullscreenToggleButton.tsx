@@ -16,11 +16,7 @@ const FullscreenToggleButton: FunctionComponent<Props> = ({ className }) => {
   const toggleFullscreen = useFullscreenToggle({ viewerRef, setIsFullscreen });
 
   return (
-    <TertiaryViewerButton
-      className={className}
-      onClick={toggleFullscreen}
-      $isDark
-    >
+    <TertiaryViewerButton className={className} onClick={toggleFullscreen}>
       {isFullscreen ? (
         <>
           <Icon icon={minimise} />

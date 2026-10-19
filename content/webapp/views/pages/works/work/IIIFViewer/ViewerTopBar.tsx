@@ -19,7 +19,7 @@ import Download from '@weco/content/views/components/Download';
 import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-import { TertiaryViewerButton, ViewerButton } from './ViewerButton.styles';
+import { TertiaryViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -126,7 +126,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
-  const { brandUpdate } = useTheme();
+  const { brandUpdate: showBrandUpdate } = useTheme();
   const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -165,16 +165,17 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            {brandUpdate ? (
-              <TertiaryViewerButton
-                data-gtm-trigger="toggle_side_panel"
-                className="viewer-desktop"
-                onClick={() => {
-                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
-                }}
-                $isDark
-              >
-                {isDesktopSidebarActive ? (
+            <TertiaryViewerButton
+              data-gtm-trigger="toggle_side_panel"
+              className="viewer-desktop"
+              onClick={() => {
+                setIsDesktopSidebarActive(!isDesktopSidebarActive);
+              }}
+            >
+              {/* The brand labels the button, with a chevron pointing the way
+              the sidebar will move */}
+              {showBrandUpdate ? (
+                isDesktopSidebarActive ? (
                   <>
                     <Icon icon={chevron} rotate={90} />
                     <span style={{ marginLeft: '4px' }}>Hide info</span>
@@ -184,34 +185,26 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <span style={{ marginRight: '4px' }}>Show info</span>
                     <Icon icon={chevron} rotate={270} />
                   </>
-                )}
-              </TertiaryViewerButton>
-            ) : (
-              <ViewerButton
-                data-gtm-trigger="toggle_side_panel"
-                className="viewer-desktop"
-                onClick={() => {
-                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
-                }}
-                $isDark
-              >
-                <Icon
-                  icon={chevrons}
-                  iconColor="white"
-                  rotate={isDesktopSidebarActive ? undefined : 180}
-                />
-                <span className="visually-hidden">
-                  {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-                </span>
-              </ViewerButton>
-            )}
+                )
+              ) : (
+                <>
+                  <Icon
+                    icon={chevrons}
+                    iconColor="white"
+                    rotate={isDesktopSidebarActive ? undefined : 180}
+                  />
+                  <span className="visually-hidden">
+                    {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
+                  </span>
+                </>
+              )}
+            </TertiaryViewerButton>
 
             <TertiaryViewerButton
               className="viewer-mobile"
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
-              $isDark
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
             </TertiaryViewerButton>

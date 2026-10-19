@@ -50,14 +50,19 @@ const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
       : props.theme.color({ brand: 'neutral.70', legacy: 'neutral.600' })};
 `;
 
-const TextToDisplay = styled.span<{ $isDark?: boolean }>`
+// In the brand, the styled links (e.g. the Downloads list) are underlined until
+// hovered. Links in body copy already get the normal link underline
+const TextToDisplay = styled.span<{ $isDark?: boolean; $isStyled?: boolean }>`
   margin: 0;
   text-decoration: ${props =>
-    props.$isDark || props.theme.brandUpdate ? 'underline' : 'none'};
+    props.$isDark || (props.theme.brandUpdate && props.$isStyled)
+      ? 'underline'
+      : 'none'};
   text-underline-offset: 0.1em;
 
   ${props =>
     props.theme.brandUpdate &&
+    props.$isStyled &&
     !props.$isDark &&
     css`
       a:hover & {
@@ -146,7 +151,9 @@ const DownloadLink: FunctionComponent<Props> = ({
           <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
 
-        <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
+        <TextToDisplay $isDark={isDark} $isStyled={!!linkText}>
+          {linkText || children}
+        </TextToDisplay>
 
         {readableFormat && (
           <Format as="span" $isDark={isDark}>
