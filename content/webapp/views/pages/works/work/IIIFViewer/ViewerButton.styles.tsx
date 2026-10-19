@@ -1,6 +1,14 @@
 import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
+import {
+  brandButtonFocusStyle,
+  brandButtonStyles,
+} from '@weco/common/views/components/Buttons';
+import {
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
 export const ViewerButton = styled.button.attrs({
   className: typography('body', 'md', 'strong'),
@@ -59,6 +67,31 @@ export const ViewerButton = styled.button.attrs({
       &:not([disabled]):hover {
         background: ${props.theme.color('accent.green')};
         color: ${props.theme.color('white')};
+      }
+    `}
+`;
+
+// A dark viewer button that's a tertiary button in the brand, the same height
+// as the Downloads button whether or not it has an icon
+export const TertiaryViewerButton = styled(ViewerButton)`
+  ${props =>
+    props.theme.brandUpdate &&
+    css`
+      border-radius: 0;
+      min-height: 36px;
+      padding: 0 12px;
+      line-height: 1;
+      ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
+
+      /* Override the dark viewer button's white hover border */
+      &:not([disabled]):hover {
+        border-color: ${designSystemColor(
+          brandButtonColors.tertiaryOnDark.default.border
+        )};
+      }
+
+      &:focus-visible {
+        ${brandButtonFocusStyle}
       }
     `}
 `;

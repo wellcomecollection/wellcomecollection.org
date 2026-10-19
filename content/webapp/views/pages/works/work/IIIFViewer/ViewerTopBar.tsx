@@ -4,14 +4,12 @@ import styled, { css, useTheme } from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { chevrons, gridView, singlePage } from '@weco/common/icons';
+import { chevron, chevrons, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
-import { brandControlStyles } from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-import { designSystemColor } from '@weco/common/views/themes/config';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useDownloadOptions from '@weco/content/hooks/useDownloadOptions';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
@@ -21,31 +19,7 @@ import Download from '@weco/content/views/components/Download';
 import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-import { ViewerButton } from './ViewerButton.styles';
-
-// The brand's round control on a dark background. 40px rather than the
-// controls' 46px, so the top bar keeps its height
-const SidebarToggleButton = styled(ViewerButton)`
-  ${props =>
-    props.theme.brandUpdate &&
-    css`
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      justify-content: center;
-      border-radius: 50%;
-      ${brandControlStyles(true)}
-
-      /* The chevrons icon uses currentColor rather than .icon__shape */
-      color: ${designSystemColor('neutral.70')};
-
-      /* Also overrides the dark viewer button's white hover border */
-      &:not([disabled]):hover {
-        color: ${designSystemColor('neutral.10')};
-        border: 1px solid ${designSystemColor('neutral.10')};
-      }
-    `}
-`;
+import { TertiaryViewerButton, ViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -191,25 +165,50 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <SidebarToggleButton
-              data-gtm-trigger="toggle_side_panel"
-              className="viewer-desktop"
-              onClick={() => {
-                setIsDesktopSidebarActive(!isDesktopSidebarActive);
-              }}
-              $isDark
-            >
-              <Icon
-                icon={chevrons}
-                iconColor={brandUpdate ? undefined : 'white'}
-                rotate={isDesktopSidebarActive ? undefined : 180}
-              />
-              <span className="visually-hidden">
-                {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-              </span>
-            </SidebarToggleButton>
+            {/* The brand uses a labelled tertiary button rather than the chevrons */}
+            {brandUpdate ? (
+              <TertiaryViewerButton
+                data-gtm-trigger="toggle_side_panel"
+                className="viewer-desktop"
+                onClick={() => {
+                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                }}
+                $isDark
+              >
+                {/* The chevron points the way the sidebar will move */}
+                {isDesktopSidebarActive ? (
+                  <>
+                    <Icon icon={chevron} rotate={90} />
+                    <span style={{ marginLeft: '4px' }}>Hide info</span>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ marginRight: '4px' }}>Show info</span>
+                    <Icon icon={chevron} rotate={270} />
+                  </>
+                )}
+              </TertiaryViewerButton>
+            ) : (
+              <ViewerButton
+                data-gtm-trigger="toggle_side_panel"
+                className="viewer-desktop"
+                onClick={() => {
+                  setIsDesktopSidebarActive(!isDesktopSidebarActive);
+                }}
+                $isDark
+              >
+                <Icon
+                  icon={chevrons}
+                  iconColor="white"
+                  rotate={isDesktopSidebarActive ? undefined : 180}
+                />
+                <span className="visually-hidden">
+                  {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
+                </span>
+              </ViewerButton>
+            )}
 
-            <ViewerButton
+            <TertiaryViewerButton
               className="viewer-mobile"
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
@@ -217,7 +216,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
               $isDark
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ViewerButton>
+            </TertiaryViewerButton>
           </>
         )}
       </TopBarSidebarZone>
