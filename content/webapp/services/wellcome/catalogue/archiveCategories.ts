@@ -101,7 +101,10 @@ const ARCHIVE_CATEGORY_ORDER = [
 // Card images, keyed by the same IDs. Each is the IIIF identifier of a
 // digitised catalogue image, e.g. 'b12345678_0001.jp2'
 // - the last part of its iiif.wellcomecollection.org/image/ or /thumbs/ URL.
-// An ID with no entry here
+// It must be an open (not access-restricted) image, as restricted ones 401
+// from the image service and show as broken - check by opening
+// https://iiif.wellcomecollection.org/image/{id}/full/,1100/0/default.jpg
+// in a private window. An ID with no entry here
 // renders a plain dark card instead - see ImageGridCard's hasPlainPlaceholder.
 const ARCHIVE_CATEGORY_IMAGES: Record<string, string> = {
   PP: 'b33118814_0013.jp2',
