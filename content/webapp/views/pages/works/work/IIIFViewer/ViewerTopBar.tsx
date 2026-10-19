@@ -248,6 +248,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
+                      hierarchy="secondary"
                       useDarkControl
                       isInline
                     />
