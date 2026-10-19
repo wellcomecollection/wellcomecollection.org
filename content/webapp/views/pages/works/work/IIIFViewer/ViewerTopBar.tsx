@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
@@ -8,8 +8,10 @@ import { chevrons, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
+import { brandControlStyles } from '@weco/common/views/components/Control';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useDownloadOptions from '@weco/content/hooks/useDownloadOptions';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
@@ -20,6 +22,30 @@ import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
 import { ViewerButton } from './ViewerButton.styles';
+
+// The brand's round control on a dark background. 40px rather than the
+// controls' 46px, so the top bar keeps its height
+const SidebarToggleButton = styled(ViewerButton)`
+  ${props =>
+    props.theme.brandUpdate &&
+    css`
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      justify-content: center;
+      border-radius: 50%;
+      ${brandControlStyles(true)}
+
+      /* The chevrons icon uses currentColor rather than .icon__shape */
+      color: ${designSystemColor('neutral.70')};
+
+      /* Also overrides the dark viewer button's white hover border */
+      &:not([disabled]):hover {
+        color: ${designSystemColor('neutral.10')};
+        border: 1px solid ${designSystemColor('neutral.10')};
+      }
+    `}
+`;
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -126,6 +152,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
+  const { brandUpdate } = useTheme();
   const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -164,7 +191,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ViewerButton
+            <SidebarToggleButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
               onClick={() => {
@@ -174,13 +201,13 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
             >
               <Icon
                 icon={chevrons}
-                iconColor="white"
+                iconColor={brandUpdate ? undefined : 'white'}
                 rotate={isDesktopSidebarActive ? undefined : 180}
               />
               <span className="visually-hidden">
                 {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
               </span>
-            </ViewerButton>
+            </SidebarToggleButton>
 
             <ViewerButton
               className="viewer-mobile"
