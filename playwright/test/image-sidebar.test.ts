@@ -276,7 +276,7 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toHaveCount(0);
     });
 
-    test.fixme('focus moves into the sidebar when it opens and back to the thumbnail when it closes', async ({
+    test('focus moves into the sidebar when it opens and back to the thumbnail when it closes', async ({
       page,
       context,
     }) => {
