@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
@@ -13,6 +13,36 @@ import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 
 /**
+ * Downloads the IIIF manifest and tries to find the image in its canvases,
+ * returning the canvas's index, or undefined/-1 if it isn't there.
+ * With upcoming work on IIIF identifiers, we should be able to provide the
+ * deep link information from the API directly, but for now this is a
+ * pragmatic solution.
+ */
+const fetchDeeplinkCanvasIndex = async (
+  manifestLocation: string,
+  imageUrl: string
+): Promise<number | undefined> => {
+  const imageLocationBase = imageUrl.replace('/info.json', '');
+  const iiifManifest = await fetchIIIFPresentationManifest({
+    location: manifestLocation,
+  });
+  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+  const { firstCollectionManifestLocation, canvases } = {
+    ...transformedManifest,
+  };
+
+  if (firstCollectionManifestLocation) {
+    return fetchDeeplinkCanvasIndex(firstCollectionManifestLocation, imageUrl);
+  }
+
+  return canvases?.findIndex(canvas => {
+    const { imageServiceId } = canvas;
+    return imageServiceId && imageServiceId.indexOf(imageLocationBase) !== -1;
+  });
+};
+
+/**
  * Fetches the full work behind an expanded image and works out what the
  * modal and the sidebar both show about it: its metadata, licence and the
  * link to view it.
@@ -25,8 +55,6 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
       }
     | undefined
   >();
-  const [currentImageId, setCurrentImageId] = useState<string | undefined>();
-  const latestWorkId = useRef<string | undefined>(undefined);
 
   // In the case that the modal changes the expanded image to
   // be one that isn't on this results page, this index will be -1
@@ -35,85 +63,44 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   );
 
   const workId = expandedImage?.source.id;
+  const imageUrl = expandedImage?.locations[0]?.url;
 
+  // The work is fetched per work, and dropped (with any request still in
+  // flight) when another is selected or the image is closed.
   useEffect(() => {
-    if (workId && workId !== currentImageId) {
-      // Reset information if new image ID
-      setDetailedWork(undefined);
-      setCanvasDeeplink(undefined);
-      setCurrentImageId(workId);
-      latestWorkId.current = workId;
+    setDetailedWork(undefined);
+    if (!workId) return;
 
-      // Fetch new information
-      const fetchDetailedWork = async () => {
-        const res = await getWorkClientSide(workId);
-        // Another image may have been selected while this was loading
-        if (latestWorkId.current === workId && res.type === 'Work') {
-          setDetailedWork(res);
-        }
-      };
-      fetchDetailedWork();
-    }
-  }, [workId, currentImageId]);
-
-  useEffect(() => {
-    const requestedWorkId = workId;
-
-    // This downloads the IIIF manifest and tries to find the image in the canvases.
-    // With upcoming work on IIIF identifiers, we should be able to provide the
-    // deep link information from the API directly, but for now this is a
-    // pragmatic - if ugly - solution.
-    const fetchDeeplinkCanvasIndex = async (
-      manifestLocation: string,
-      imageUrl: string
-    ) => {
-      const imageLocationBase = imageUrl.replace('/info.json', '');
-      const iiifManifest = await fetchIIIFPresentationManifest({
-        location: manifestLocation,
-      });
-      const transformedManifest =
-        iiifManifest && transformManifest(iiifManifest);
-      const { firstCollectionManifestLocation, canvases } = {
-        ...transformedManifest,
-      };
-
-      if (firstCollectionManifestLocation) {
-        return fetchDeeplinkCanvasIndex(
-          firstCollectionManifestLocation,
-          imageUrl
-        );
-      }
-
-      const canvasIndex = canvases?.findIndex(canvas => {
-        const { imageServiceId } = canvas;
-        return (
-          imageServiceId && imageServiceId.indexOf(imageLocationBase) !== -1
-        );
-      });
-      // Another image may have been selected while the manifest was loading
-      if (
-        latestWorkId.current === requestedWorkId &&
-        canvasIndex &&
-        canvasIndex !== -1
-      ) {
-        setCanvasDeeplink({
-          canvas: canvasIndex + 1,
-        });
-      }
+    let cancelled = false;
+    getWorkClientSide(workId).then(res => {
+      if (!cancelled && res.type === 'Work') setDetailedWork(res);
+    });
+    return () => {
+      cancelled = true;
     };
-    if (detailedWork) {
-      const manifestLocation = getDigitalLocationOfType(
-        detailedWork,
-        'iiif-presentation'
-      );
-      if (manifestLocation) {
-        fetchDeeplinkCanvasIndex(
-          manifestLocation.url,
-          expandedImage?.locations[0]?.url || ''
-        );
+  }, [workId]);
+
+  // The canvas is looked up per image, as several images can share a work.
+  useEffect(() => {
+    setCanvasDeeplink(undefined);
+    const manifestLocation =
+      detailedWork &&
+      getDigitalLocationOfType(detailedWork, 'iiif-presentation');
+    if (!manifestLocation || !imageUrl) return;
+
+    let cancelled = false;
+    fetchDeeplinkCanvasIndex(manifestLocation.url, imageUrl).then(
+      canvasIndex => {
+        // The first canvas (index 0) isn't deeplinked, see #13693
+        if (!cancelled && canvasIndex && canvasIndex !== -1) {
+          setCanvasDeeplink({ canvas: canvasIndex + 1 });
+        }
       }
-    }
-  }, [detailedWork]);
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [detailedWork, imageUrl]);
 
   const iiifImageLocation = expandedImage?.locations[0];
   const license =

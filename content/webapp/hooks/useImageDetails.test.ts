@@ -50,13 +50,15 @@ const work = (title: string, manifestUrl?: string) =>
     production: [],
   }) as unknown as Work;
 
-// A manifest whose second canvas shows the given image
-const manifestWithCanvasFor = (imageId: string) => ({
-  canvases: [
-    { imageServiceId: 'https://iiif.example/other' },
-    { imageServiceId: `https://iiif.example/${imageId}` },
-  ],
+// A manifest whose canvases show the given images, in order
+const manifestWith = (...imageIds: string[]) => ({
+  canvases: imageIds.map(id => ({
+    imageServiceId: `https://iiif.example/${id}`,
+  })),
 });
+
+const linkCanvas = (link: unknown) =>
+  JSON.stringify(link).match(/canvas\W+(\d+)/)?.[1];
 
 const deferred = () => {
   let resolve!: (value: Work) => void;
@@ -68,6 +70,8 @@ const deferred = () => {
 
 const imageA = image('imageA', 'workA');
 const imageB = image('imageB', 'workB');
+const page1 = image('page1', 'book');
+const page2 = image('page2', 'book');
 
 describe('useImageDetails', () => {
   beforeEach(() => {
@@ -96,7 +100,7 @@ describe('useImageDetails', () => {
     expect(result.current.detailedWork?.title).toBe('Work B');
   });
 
-  it("doesn't fetch the work again when the same image is closed and reopened", async () => {
+  it('drops the details when the image is closed and loads them again on reopening', async () => {
     mockGetWork.mockResolvedValue(work('Work A'));
 
     const { result, rerender } = renderHook(
@@ -107,11 +111,27 @@ describe('useImageDetails', () => {
     expect(result.current.detailedWork?.title).toBe('Work A');
 
     rerender({ expandedImage: undefined });
+    expect(result.current.detailedWork).toBeUndefined();
+
     rerender({ expandedImage: imageA });
     await act(async () => {});
 
-    expect(mockGetWork).toHaveBeenCalledTimes(1);
+    expect(mockGetWork).toHaveBeenCalledTimes(2);
     expect(result.current.detailedWork?.title).toBe('Work A');
+  });
+
+  it('ignores a work that arrives after the image was closed', async () => {
+    const a = deferred();
+    mockGetWork.mockReturnValue(a.promise);
+
+    const { result, rerender } = renderHook(
+      ({ expandedImage }) => useImageDetails([imageA], expandedImage),
+      { initialProps: { expandedImage: imageA as Image | undefined } }
+    );
+    rerender({ expandedImage: undefined });
+    await act(async () => a.resolve(work('Work A')));
+
+    expect(result.current.detailedWork).toBeUndefined();
   });
 
   it("doesn't send the next image to the previous image's canvas", async () => {
@@ -121,7 +141,7 @@ describe('useImageDetails', () => {
         : work('Work B')
     );
     mockFetchManifest.mockResolvedValue({});
-    mockTransformManifest.mockReturnValue(manifestWithCanvasFor('imageA'));
+    mockTransformManifest.mockReturnValue(manifestWith('other', 'imageA'));
 
     const { result, rerender } = renderHook(
       ({ expandedImage }) => useImageDetails([imageA, imageB], expandedImage),
@@ -153,7 +173,7 @@ describe('useImageDetails', () => {
         resolveManifest = r;
       })
     );
-    mockTransformManifest.mockReturnValue(manifestWithCanvasFor('imageA'));
+    mockTransformManifest.mockReturnValue(manifestWith('other', 'imageA'));
 
     const { result, rerender } = renderHook(
       ({ expandedImage }) => useImageDetails([imageA, imageB], expandedImage),
@@ -169,5 +189,58 @@ describe('useImageDetails', () => {
     expect(JSON.stringify(result.current.expandedImageLink)).not.toContain(
       'canvas'
     );
+  });
+
+  describe('images from the same work', () => {
+    const bookWork = () => work('Book', 'https://iiif.example/manifestBook');
+
+    it("looks up the canvas for each image, not just the first one's", async () => {
+      mockGetWork.mockResolvedValue(bookWork());
+      mockFetchManifest.mockResolvedValue({});
+      mockTransformManifest.mockReturnValue(
+        manifestWith('other', 'page1', 'other', 'page2')
+      );
+
+      const { result, rerender } = renderHook(
+        ({ expandedImage }) => useImageDetails([page1, page2], expandedImage),
+        { initialProps: { expandedImage: page1 as Image | undefined } }
+      );
+      await act(async () => {});
+      expect(linkCanvas(result.current.expandedImageLink)).toBe('2');
+
+      rerender({ expandedImage: page2 });
+      await act(async () => {});
+
+      expect(linkCanvas(result.current.expandedImageLink)).toBe('4');
+    });
+
+    it('ignores a manifest lookup for the image that was selected before', async () => {
+      let resolveFirst!: (value: unknown) => void;
+      mockGetWork.mockResolvedValue(bookWork());
+      mockFetchManifest
+        .mockReturnValueOnce(
+          new Promise(r => {
+            resolveFirst = r;
+          })
+        )
+        .mockResolvedValue({});
+      mockTransformManifest.mockReturnValue(
+        manifestWith('other', 'page1', 'other', 'page2')
+      );
+
+      const { result, rerender } = renderHook(
+        ({ expandedImage }) => useImageDetails([page1, page2], expandedImage),
+        { initialProps: { expandedImage: page1 as Image | undefined } }
+      );
+      await act(async () => {});
+      rerender({ expandedImage: page2 });
+      await act(async () => {});
+      expect(linkCanvas(result.current.expandedImageLink)).toBe('4');
+
+      // Page 1's lookup finishes after page 2 was selected
+      await act(async () => resolveFirst({}));
+
+      expect(linkCanvas(result.current.expandedImageLink)).toBe('4');
+    });
   });
 });
