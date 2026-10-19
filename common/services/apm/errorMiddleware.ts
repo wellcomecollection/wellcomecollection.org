@@ -24,8 +24,9 @@ function toCapturableError(error: unknown): Error | string {
 function captureErrorSafely(error: unknown): void {
   try {
     apm.captureError(toCapturableError(error));
-  } catch {
-    // Nothing useful to do, the original error is rethrown by the caller
+  } catch (captureFailure) {
+    // Log it so a broken APM agent is visible, the caller rethrows the original
+    console.error('Failed to report error to APM', captureFailure);
   }
 }
 

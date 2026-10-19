@@ -43,12 +43,20 @@ describe('apmErrorMiddleware', () => {
     expect(captureError).toHaveBeenCalledWith(expect.any(String));
   });
 
-  it('rethrows the original error when reporting itself fails', async () => {
+  it('logs and rethrows the original error when reporting itself fails', async () => {
     const error = new Error('boom');
+    const apmFailure = new Error('apm is broken');
     captureError.mockImplementation(() => {
-      throw new Error('apm is broken');
+      throw apmFailure;
     });
+    const consoleError = jest.spyOn(console, 'error').mockImplementation();
 
     await expect(run(error)).rejects.toBe(error);
+    expect(consoleError).toHaveBeenCalledWith(
+      'Failed to report error to APM',
+      apmFailure
+    );
+
+    consoleError.mockRestore();
   });
 });
