@@ -1,5 +1,5 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -18,9 +18,9 @@ const List = styled(PlainList)`
 const Item = styled.li<{ $isActive: boolean }>`
   ${props =>
     props.$isActive &&
-    `
-    background: ${props.theme.color('neutral.600')};
-  `}
+    css`
+      background: ${props.theme.color('neutral.600')};
+    `}
 `;
 
 const Button = styled.button.attrs({

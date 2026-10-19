@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Overlay = styled.div`
-  z-index: 1000;
+  z-index: 1002;
   position: fixed;
   top: 0;
   left: 0;
@@ -89,7 +89,7 @@ export const BaseModalWindow = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
-    z-index: 1001;
+    z-index: 1003;
     pointer-events: all;
   }
 

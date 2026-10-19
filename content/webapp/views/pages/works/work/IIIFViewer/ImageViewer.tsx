@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
@@ -27,15 +27,15 @@ const ImageWrapper = styled.div<{
 
     ${props =>
       props.$isFullSupportBrowser &&
-      `
-      position: relative;
-      top: 50%;
-      width: auto;
-      height: auto;
-      transform: translateY(-50%);
-      max-width: 80%;
-      max-height: 95%;
-    `}
+      css`
+        position: relative;
+        top: 50%;
+        width: auto;
+        height: auto;
+        transform: translateY(-50%);
+        max-width: 80%;
+        max-height: 95%;
+      `}
   }
 `;
 

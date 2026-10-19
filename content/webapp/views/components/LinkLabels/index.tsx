@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -38,9 +38,9 @@ const ItemText = styled(Space).attrs<LinkOrSpanSpaceAttrs>(props => ({
 }))<LinkOrSpanSpaceAttrs>`
   ${props =>
     props.$addBorder &&
-    `
-    border-left: 1px solid ${props.theme.color('neutral.500')};
-  `}
+    css`
+      border-left: 1px solid ${props.theme.color('neutral.500')};
+    `}
 `;
 
 const PlainItemList = styled(PlainList).attrs({

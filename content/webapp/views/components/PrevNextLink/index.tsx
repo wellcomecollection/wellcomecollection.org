@@ -21,14 +21,14 @@ const baseStyles = css<StyleProps>`
 
   ${props =>
     props.$isStacked
-      ? `
-    flex-direction: column;
-    align-items: flex-start;
-  `
-      : `
-    align-items: center;
-    ${props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
-  `}
+      ? css`
+          flex-direction: column;
+          align-items: flex-start;
+        `
+      : css`
+          align-items: center;
+          ${props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
+        `}
 `;
 
 const disabledStyles = css`

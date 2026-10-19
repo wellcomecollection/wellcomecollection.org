@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -15,11 +15,11 @@ const SectionWithDivider = styled(Space).attrs({
 })<{ $isArchive: boolean }>`
   ${props =>
     props.$isArchive &&
-    `
-    &:nth-child(1) {
-      padding-top: 0;
-    }
-  `}
+    css`
+      &:nth-child(1) {
+        padding-top: 0;
+      }
+    `}
   & + & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
   }

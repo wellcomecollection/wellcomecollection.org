@@ -50,12 +50,14 @@ We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common).
 
 To run a project, from the root directory:
+
 ```bash
 yarn install
 # yarn {appName = content|identity}
 # e.g.
 yarn content
 ```
+
 ### Running the app with local APIs
 
 To run the app using a local copy of the concept, content, and/or catalogue APIs you can run:
@@ -71,9 +73,8 @@ by adding the following to the `.env` file in both `./content/webapp` and `./ide
 NEXT_PUBLIC_API_ENV_OVERRIDE="dev"
 ```
 
-This will configure the local version of nginx to proxy requests to the local APIs, 
+This will configure the local version of nginx to proxy requests to the local APIs,
 see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
-
 
 #### Choosing specific APIs
 
@@ -105,8 +106,6 @@ Then run `yarn content` (which serves on `http://localhost:3000`). Only catalogu
 Adding the local API configuration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
 
 This allows content and identity to behave correctly when running locally, as paths between the two apps are relative to the domain.
-
-**Note:** [Fast refresh](https://nextjs.org/docs/architecture/fast-refresh) is not available when using the `www-dev.wellcomecollection.org` domain.
 
 ### Running content & identity together
 
@@ -166,16 +165,16 @@ source_profile=ci-agent
 If in [`pipeline.yml`](.buildkite/pipeline.yml) you have:
 
 ```yaml
-- label: "deploy edge_lambdas"
+- label: 'deploy edge_lambdas'
   if: build.branch == "main"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: edge_lambdas
-        command: [ "yarn", "deploy" ]
+        command: ['yarn', 'deploy']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
@@ -189,7 +188,7 @@ services:
   edge_lambdas:
     build:
       context: ./cache/edge_lambdas
-    command: [ "yarn", "deploy" ]
+    command: ['yarn', 'deploy']
     volumes:
       - /my/home/folder/.aws:/root/.aws:ro
     environment:
@@ -201,8 +200,8 @@ You will need to add a `command`, `volumes` and `environment` block to specify t
 Ensure you are logged in to ECR Public with the profile you have specified in the `AWS_PROFILE` environment variable. You can do this with the following command:
 
 ```shell script
- aws ecr-public get-login-password \                                                                                                                                                  
---region us-east-1 \  
+ aws ecr-public get-login-password \
+--region us-east-1 \
 --profile platform-developer | docker login \
 --username AWS \
 --password-stdin public.ecr.aws
@@ -219,7 +218,7 @@ docker compose run edge_lambdas
 
 We use [`ESLint`](https://eslint.org/) to lint the project. [The config is global](./eslintrc.js).
 
-We use [`stylelint`](https://stylelint.io/) to lint styled-components.  [The config is global](./.stylelintrc.js).
+We use [`stylelint`](https://stylelint.io/) to lint styled-components. [The config is global](./.stylelintrc.js).
 
 We extend a few configs, including prettier, [which we configure separately](./prettierrs.js).
 
@@ -230,6 +229,7 @@ It's easiest to use [Dirk Baumer's VSCode plugin](https://marketplace.visualstud
 If you have prettier (`esbenp.prettier-vscode`) set as default formatter, we'll get conflicts.
 
 Linting does not happen in CI, so to enable linting on save, you can add this to your workspace settings:
+
 ```JSON
 {
   "editor.codeActionsOnSave": {

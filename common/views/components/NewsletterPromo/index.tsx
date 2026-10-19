@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
@@ -30,24 +30,24 @@ const Wrapper = styled(Space).attrs({
   /* The new brand's promo is dark, so its text and form parts need lightening */
   ${props =>
     props.theme.brandUpdate &&
-    `
-    color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};
+    css`
+      color: ${props.theme.color({ brand: 'neutral.10', legacy: 'black' })};
 
-    ${HintCopy} {
-      color: inherit;
-    }
+      ${HintCopy} {
+        color: inherit;
+      }
 
-    /* Leave error/success and hover borders as they are */
-    ${TextInputWrap}:not([data-status]):not(:hover) {
-      border-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'neutral.600' })};
-    }
+      /* Leave error/success and hover borders as they are */
+      ${TextInputWrap}:not([data-status]):not(:hover) {
+        border-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'neutral.600' })};
+      }
 
-    ${CheckboxRadioBox} {
-      background-color: ${props.theme.color('white')};
-      border-color: ${props.theme.color('white')};
-      color: ${props.theme.color('black')};
-    }
-  `}
+      ${CheckboxRadioBox} {
+        background-color: ${props.theme.color('white')};
+        border-color: ${props.theme.color('white')};
+        color: ${props.theme.color('black')};
+      }
+    `}
 `;
 
 const NewsletterForm = styled.form.attrs({

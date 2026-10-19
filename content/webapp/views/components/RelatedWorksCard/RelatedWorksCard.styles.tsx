@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 
@@ -14,13 +14,12 @@ export const Card = styled.a<{ $isHover?: boolean }>`
 
   ${props =>
     props.$isHover &&
-    `
-    box-shadow: ${props.theme.basicBoxShadow};
+    css`
+      box-shadow: ${props.theme.basicBoxShadow};
 
-
-    height: 5.25rem;
-    width: 22rem;
-  `}
+      height: 5.25rem;
+      width: 22rem;
+    `}
 
   ${props => props.theme.media('sm')`
     max-height: 10rem;
@@ -94,7 +93,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
   ${props =>
     props.$isHover &&
-    `
+    css`
       flex: 1;
     `}
 
@@ -108,8 +107,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
     ${props =>
       props.theme.media('sm')(`
-      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['100']};
-      margin-right: ${props.$isHover ? props.theme.spacingUnits['100'] : 'unset'};
+      ${
+        props.$isHover
+          ? `margin-left: 0; margin-right: ${props.theme.spacingUnits['100']};`
+          : `margin-left: ${props.theme.spacingUnits['100']}; margin-right: unset;`
+      }
       width: unset;
       height: 100%;
 
@@ -126,10 +128,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
         max-width: 100%;
 
         ${
-          props.$isHover &&
-          `
-          min-width: 60px;
-        `
+          props.$isHover
+            ? css`
+                min-width: 60px;
+              `
+            : ''
         }
       }
     `)}

@@ -7,8 +7,8 @@ export const StyledTasl = styled.div.attrs({
   className: `${typography('caption', 'md', 'regular')} plain-text tasl`, // Need the tasl class as it's used with ImageGallery styled components
 })<{ $positionAtTop: boolean; $isEnhanced: boolean }>`
   text-align: right;
-  top: ${props => (props.$positionAtTop ? 0 : 'auto')};
-  bottom: ${props => (props.$positionAtTop ? 'auto' : 0)};
+  ${props =>
+    props.$positionAtTop ? 'top: 0; bottom: auto;' : 'top: auto; bottom: 0;'}
   left: 0;
   right: 0;
   z-index: 2;
@@ -22,8 +22,10 @@ type TaslButtonProps = {
 export const TaslButton = styled.button<TaslButtonProps>`
   position: absolute;
   right: 0;
-  top: ${props => (props.$positionAtTop ? '2px' : 'auto')};
-  bottom: ${props => (props.$positionAtTop ? 'auto' : '2px')};
+  ${props =>
+    props.$positionAtTop
+      ? 'top: 2px; bottom: auto;'
+      : 'top: auto; bottom: 2px;'}
 `;
 
 type TaslIconProps = {

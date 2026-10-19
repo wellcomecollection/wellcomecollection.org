@@ -10,6 +10,7 @@ import ToggleStarButton from './toggles.StarButton';
 import {
   ResetButton,
   ToggleControls,
+  ToggleHeadingRow,
   ToggleInfo,
   ToggleList,
   ToggleListItem,
@@ -82,10 +83,17 @@ const Modes: FunctionComponent<ModesProps> = ({
             <ToggleListItem key={mode.id}>
               <ToggleRow>
                 <ToggleInfo>
-                  <h3 style={{ margin: 0 }}>
-                    <span id={`mode-${mode.id}`}>{mode.title}</span>
+                  <ToggleHeadingRow>
+                    <h3 style={{ margin: 0 }}>
+                      <span id={`mode-${mode.id}`}>{mode.title}</span>
+                    </h3>
+                    <CopyLinkIcon
+                      toggleId={mode.id}
+                      title={mode.title}
+                      anchor={`mode-${mode.id}`}
+                    />
                     <ToggleStarButton toggleId={mode.id} title={mode.title} />
-                  </h3>
+                  </ToggleHeadingRow>
                   {mode.description.split('\n\n').map((paragraph, i) => (
                     <p
                       key={i}

@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
@@ -77,9 +77,10 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
   }
 
   ${props =>
-    props.$isDisabled
-      ? `border-color:  ${props.theme.color('neutral.500')}`
-      : ``}
+    props.$isDisabled &&
+    css`
+      border-color: ${props.theme.color('neutral.500')};
+    `}
 `;
 
 export const HintCopy = styled.span.attrs({

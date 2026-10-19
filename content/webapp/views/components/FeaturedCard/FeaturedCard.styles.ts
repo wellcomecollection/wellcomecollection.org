@@ -63,8 +63,10 @@ export const FeaturedCardRight = styled.div.attrs({
   min-height: 200px;
   position: relative;
 
-  padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
-  padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
+  ${props =>
+    props.$isReversed
+      ? `padding-left: 0; padding-right: ${props.theme.gutter.small};`
+      : `padding-left: ${props.theme.gutter.small}; padding-right: 0;`}
 
   ${props => props.theme.media('sm')`
     padding-left: 0;
@@ -105,7 +107,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   ${props =>
     props.theme.media('md')(`
       justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
-      margin-right: ${props.$isReversed ? '-16px' : undefined};
+      ${props.$isReversed ? 'margin-right: -16px;' : ''}
   `)}
 `;
 
