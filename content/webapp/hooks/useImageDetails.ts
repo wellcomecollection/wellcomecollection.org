@@ -83,9 +83,11 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   // The canvas is looked up per image, as several images can share a work.
   useEffect(() => {
     setCanvasDeeplink(undefined);
+    // detailedWork is still the previous work for a render after another is selected
     const manifestLocation =
-      detailedWork &&
-      getDigitalLocationOfType(detailedWork, 'iiif-presentation');
+      detailedWork && detailedWork.id === workId
+        ? getDigitalLocationOfType(detailedWork, 'iiif-presentation')
+        : undefined;
     if (!manifestLocation || !imageUrl) return;
 
     let cancelled = false;
@@ -100,7 +102,7 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
     return () => {
       cancelled = true;
     };
-  }, [detailedWork, imageUrl]);
+  }, [detailedWork, imageUrl, workId]);
 
   const iiifImageLocation = expandedImage?.locations[0];
   const license =

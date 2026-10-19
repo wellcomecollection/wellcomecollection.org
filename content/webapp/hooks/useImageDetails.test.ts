@@ -30,9 +30,10 @@ const image = (id: string, workId: string) =>
     locations: [{ url: `https://iiif.example/${id}/info.json` }],
   }) as unknown as Image;
 
-const work = (title: string, manifestUrl?: string) =>
+const work = (id: string, title: string, manifestUrl?: string) =>
   ({
     type: 'Work',
+    id,
     title,
     items: manifestUrl
       ? [
@@ -94,14 +95,14 @@ describe('useImageDetails', () => {
     rerender({ expandedImage: imageB });
 
     // B's work arrives first, then A's, which is now stale
-    await act(async () => b.resolve(work('Work B')));
-    await act(async () => a.resolve(work('Work A')));
+    await act(async () => b.resolve(work('workB', 'Work B')));
+    await act(async () => a.resolve(work('workA', 'Work A')));
 
     expect(result.current.detailedWork?.title).toBe('Work B');
   });
 
   it('drops the details when the image is closed and loads them again on reopening', async () => {
-    mockGetWork.mockResolvedValue(work('Work A'));
+    mockGetWork.mockResolvedValue(work('workA', 'Work A'));
 
     const { result, rerender } = renderHook(
       ({ expandedImage }) => useImageDetails([imageA], expandedImage),
@@ -129,7 +130,7 @@ describe('useImageDetails', () => {
       { initialProps: { expandedImage: imageA as Image | undefined } }
     );
     rerender({ expandedImage: undefined });
-    await act(async () => a.resolve(work('Work A')));
+    await act(async () => a.resolve(work('workA', 'Work A')));
 
     expect(result.current.detailedWork).toBeUndefined();
   });
@@ -137,8 +138,8 @@ describe('useImageDetails', () => {
   it("doesn't send the next image to the previous image's canvas", async () => {
     mockGetWork.mockImplementation(async (id: string) =>
       id === 'workA'
-        ? work('Work A', 'https://iiif.example/manifestA')
-        : work('Work B')
+        ? work('workA', 'Work A', 'https://iiif.example/manifestA')
+        : work('workB', 'Work B')
     );
     mockFetchManifest.mockResolvedValue({});
     mockTransformManifest.mockReturnValue(manifestWith('other', 'imageA'));
@@ -165,8 +166,8 @@ describe('useImageDetails', () => {
     let resolveManifest!: (value: unknown) => void;
     mockGetWork.mockImplementation(async (id: string) =>
       id === 'workA'
-        ? work('Work A', 'https://iiif.example/manifestA')
-        : work('Work B')
+        ? work('workA', 'Work A', 'https://iiif.example/manifestA')
+        : work('workB', 'Work B')
     );
     mockFetchManifest.mockReturnValue(
       new Promise(r => {
@@ -191,8 +192,32 @@ describe('useImageDetails', () => {
     );
   });
 
+  it("doesn't look for the next image in the previous work's manifest", async () => {
+    mockGetWork.mockImplementation(async (id: string) =>
+      id === 'workA'
+        ? work('workA', 'Work A', 'https://iiif.example/manifestA')
+        : work('workB', 'Work B')
+    );
+    mockFetchManifest.mockResolvedValue({});
+    mockTransformManifest.mockReturnValue(manifestWith('other', 'imageA'));
+
+    const { rerender } = renderHook(
+      ({ expandedImage }) => useImageDetails([imageA, imageB], expandedImage),
+      { initialProps: { expandedImage: imageA as Image | undefined } }
+    );
+    await act(async () => {});
+    expect(mockFetchManifest).toHaveBeenCalledTimes(1);
+
+    rerender({ expandedImage: imageB });
+    await act(async () => {});
+
+    // Only image A's lookup, in work A's manifest
+    expect(mockFetchManifest).toHaveBeenCalledTimes(1);
+  });
+
   describe('images from the same work', () => {
-    const bookWork = () => work('Book', 'https://iiif.example/manifestBook');
+    const bookWork = () =>
+      work('book', 'Book', 'https://iiif.example/manifestBook');
 
     it("looks up the canvas for each image, not just the first one's", async () => {
       mockGetWork.mockResolvedValue(bookWork());
