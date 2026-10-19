@@ -167,7 +167,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   useEffect(() => {
     if (colorState !== lastColorState.current) {
       lastColorState.current = colorState;
-      onChangeColor(color);
+      onChangeColor(colorState);
     }
   }, [colorState]);
 
