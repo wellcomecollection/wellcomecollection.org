@@ -1,4 +1,7 @@
-import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
+import {
+  iiifImageTemplate,
+  iiifImageUri,
+} from '@weco/common/utils/convert-image-uri';
 
 import { catalogueQuery } from '.';
 import { WorkAggregations } from './types/aggregations';
@@ -95,31 +98,31 @@ const ARCHIVE_CATEGORY_ORDER = [
   'AAU',
 ];
 
-// Card images, keyed by the same IDs. Each is a digitised catalogue image -
-// paste in its IIIF image service URL (with or without the trailing
-// /info.json), e.g. 'https://iiif.wellcomecollection.org/image/b12345678_0001.jp2',
-// and it's resized for the card below. An ID with no entry here renders a
-// plain dark card instead - see ImageGridCard's hasPlainPlaceholder.
+// Card images, keyed by the same IDs. Each is the IIIF identifier of a
+// digitised catalogue image, e.g. 'b12345678_0001.jp2'
+// - the last part of its iiif.wellcomecollection.org/image/ or /thumbs/ URL.
+// An ID with no entry here
+// renders a plain dark card instead - see ImageGridCard's hasPlainPlaceholder.
 const ARCHIVE_CATEGORY_IMAGES: Record<string, string> = {
-  // PP: '',
-  // GC: '',
-  // WF: '',
-  // WT: '',
-  // GP: '',
-  // SA: '',
-  // WA: '',
+  PP: 'b33118814_0013.jp2',
+  GC: 'b32241392_0001.jp2',
+  WF: 'b18620711_0001.jp2',
+  WT: 'b33227779_0001.JP2',
+  GP: 'b19168743_0001.jp2',
+  SA: 'b18848540_0011.jp2',
+  //WA: '', 'b18351657_0040.jp2'
 };
 
-// Wide enough for the card at its largest (full width on a small screen)
-// on a high-density display. Height follows the image's own aspect ratio,
-// and the card crops it to fit.
-const ARCHIVE_CATEGORY_IMAGE_WIDTH = 800;
+// Requested by height rather than width: the card is tall and narrow, so it's
+// the image's height that has to fill it. 1100px keeps it sharp at the card's
+// largest (full width on a high-resolution phone).
+const ARCHIVE_CATEGORY_IMAGE_HEIGHT = 1100;
 
 const archiveCategoryImageUrl = (id: string): string | undefined => {
-  const iiifImageService = ARCHIVE_CATEGORY_IMAGES[id];
-  return iiifImageService
-    ? iiifImageTemplate(iiifImageService)({
-        size: `${ARCHIVE_CATEGORY_IMAGE_WIDTH},`,
+  const imageIdentifier = ARCHIVE_CATEGORY_IMAGES[id];
+  return imageIdentifier
+    ? iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)({
+        size: `,${ARCHIVE_CATEGORY_IMAGE_HEIGHT}`,
       })
     : undefined;
 };
