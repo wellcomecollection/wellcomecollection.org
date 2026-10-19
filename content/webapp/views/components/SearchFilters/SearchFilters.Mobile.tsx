@@ -89,7 +89,8 @@ const FiltersFooter = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props =>
+    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   position: fixed;
   bottom: 0;
