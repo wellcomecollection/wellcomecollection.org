@@ -43,6 +43,10 @@ const FiltersHeader = styled(Space).attrs({
 })`
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
+
+  > * {
+    margin-bottom: 0;
+  }
 `;
 
 const ActiveFilters = styled(Space).attrs({
@@ -242,7 +246,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
         isActive={isActive}
         setIsActive={setIsActive}
         openButtonRef={openFiltersButtonRef}
-        modalStyle="filters"
+        modalStyle="mobileFilters"
       >
         <FiltersScrollable>
           <FiltersHeader>

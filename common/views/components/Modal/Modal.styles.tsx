@@ -199,6 +199,28 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
+// The mobile filters modal's header scrolls with its content rather than
+// sitting over the top padding, and its footer is fixed, so it needs no
+// vertical padding
+export const MobileFiltersModal = styled(FiltersModal)`
+  padding-top: 0;
+  padding-bottom: 0;
+
+  /* Centre it on the "Filters" heading, and keep it clear of a browser
+  scrollbar on the scrolling filters */
+  ${CloseButton} {
+    ${props =>
+      props.theme.brandUpdate &&
+      props.theme.mediaBetween(
+        'zero',
+        'sm'
+      )(`
+        top: 6px;
+        right: 24px;
+      `)}
+  }
+`;
+
 export const VideoModal = styled(BaseModalWindow)`
   padding: 0;
   background-color: ${props => props.theme.color('neutral.700')};
@@ -208,6 +230,12 @@ export const VideoModal = styled(BaseModalWindow)`
     color: ${props => props.theme.color('white')};
 
     ${props => props.theme.brandUpdate && brandCloseButtonStyles(true)}
+
+    /* Centre it on the BSL video's title bar, which is taller on small
+    screens in the brand */
+    ${props =>
+      props.theme.brandUpdate &&
+      props.theme.mediaBetween('zero', 'sm')('top: 13px;')}
   }
 `;
 
