@@ -10,7 +10,7 @@ async function errorMiddleware(
     await next();
   } catch (error) {
     // https://www.elastic.co/guide/en/apm/agent/nodejs/master/koa.html#koa-error-logging
-    apm.captureError(error);
+    apm.captureError(error instanceof Error ? error : String(error));
     throw error;
   }
 }
