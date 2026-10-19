@@ -69,9 +69,6 @@ export const ViewerButton = styled.button.attrs({
     `}
 `;
 
-// A dark viewer button that's a tertiary button in the brand (in place of the
-// legacy dark styles), the same height as the Downloads button whether or not
-// it has an icon
 export const TertiaryViewerButton = styled(ViewerButton).attrs({
   $isDark: true,
   $isTertiary: true,

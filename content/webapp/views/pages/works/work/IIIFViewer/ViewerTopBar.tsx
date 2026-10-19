@@ -172,8 +172,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
             >
-              {/* The brand labels the button, with a chevron pointing the way
-              the sidebar will move */}
               {showBrandUpdate ? (
                 isDesktopSidebarActive ? (
                   <>

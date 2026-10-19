@@ -50,8 +50,6 @@ const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
       : props.theme.color({ brand: 'neutral.70', legacy: 'neutral.600' })};
 `;
 
-// In the brand, the styled links (e.g. the Downloads list) are underlined until
-// hovered. Links in body copy already get the normal link underline
 const TextToDisplay = styled.span<{ $isDark?: boolean; $isStyled?: boolean }>`
   margin: 0;
   text-decoration: ${props =>
