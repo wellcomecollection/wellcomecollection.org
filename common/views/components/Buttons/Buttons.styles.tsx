@@ -140,7 +140,7 @@ export const brandButtonFocusStyle = css`
   box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')};
 `;
 
-const brandButtonStyles = (colors: BrandButtonColors) => `
+export const brandButtonStyles = (colors: BrandButtonColors) => `
   background: ${designSystemColor(colors.default.background)};
   color: ${designSystemColor(colors.default.text)};
   border: 2px solid ${designSystemColor(colors.default.border)};
@@ -184,51 +184,56 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
   ${props =>
     props.$isPill
-      ? `
-        border-radius: 20px;
-        border: 1px solid ${props.theme.color('black')};
-        padding: ${
-          props.$hasIcon
-            ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
-                props.$isIconAfter ? '16px' : '8px'
-              }`
-            : '8px 16px'
-        };
+      ? css`
+          border-radius: 20px;
+          border: 1px solid ${props.theme.color('black')};
+          padding: ${
+            props.$hasIcon
+              ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
+                  props.$isIconAfter ? '16px' : '8px'
+                }`
+              : '8px 16px'
+          };
 
-        ${
-          props.theme.brandUpdate
-            ? `
-              background: transparent;
+          ${
+            props.theme.brandUpdate
+              ? css`
+                  background: transparent;
 
-              &:not([disabled]):hover {
-                background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-                text-decoration: underline;
-              }
+                  &:not([disabled]):hover {
+                    background: ${props.theme.color({
+                      brand: 'neutral.10',
+                      legacy: 'white',
+                    })};
+                    text-decoration: underline;
+                  }
 
-              /* An open dropdown */
-              &[aria-expanded='true']:not([disabled]) {
-                background: ${props.theme.color('black')};
-                color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-              }
-            `
-            : `
-              &:not([disabled]):hover {
-                box-shadow: ${props.theme.focusBoxShadow};
-              }
-            `
-        }
-      `
-      : `
+                  /* An open dropdown */
+                  &[aria-expanded='true']:not([disabled]) {
+                    background: ${props.theme.color('black')};
+                    color: ${props.theme.color({
+                      brand: 'neutral.10',
+                      legacy: 'white',
+                    })};
+                  }
+                `
+              : css`
+                  &:not([disabled]):hover {
+                    box-shadow: ${props.theme.focusBoxShadow};
+                  }
+                `
+          }
+        `
+      : css`
+          border: 2px solid
+            ${props.theme.color(
+              props?.$colors?.border || props.theme.buttonColors.default.border
+            )};
 
-        border: 2px solid
-        ${props.theme.color(
-          props?.$colors?.border || props.theme.buttonColors.default.border
-        )};
-
-        &:not([disabled]):hover {
-          text-decoration: underline;
-        }
-      `};
+          &:not([disabled]):hover {
+            text-decoration: underline;
+          }
+        `};
 
   ${props => {
     const brandColors = getBrandButtonColors({

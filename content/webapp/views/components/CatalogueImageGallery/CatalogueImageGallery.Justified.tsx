@@ -16,11 +16,22 @@ import ImageModal, {
 
 import ImageCard from './CatalogueImageGallery.ImageCard';
 
-export type Props = {
+type BaseProps = {
   images: Image[];
   background?: string;
   targetRowHeight?: number;
 };
+
+/**
+ * Where an image's details are shown when it's clicked. The gallery handles
+ * the modal itself; for the sidebar the parent owns the selected image, so it
+ * is told which image was selected.
+ */
+export type Props = BaseProps &
+  (
+    | { imageDetails?: 'modal' }
+    | { imageDetails: 'sidebar'; onImageSelect: (image: Image) => void }
+  );
 
 type GalleryImageProps = Image & {
   src: string;
@@ -67,13 +78,17 @@ const ImageFrame = styled.div`
   height: 100%;
 `;
 
-const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
+type GridProps = BaseProps & {
+  onImageSelect: (image: Image) => void;
+};
+
+const ImageGrid: FunctionComponent<GridProps> = ({
   images,
   background,
   targetRowHeight,
-}: Props) => {
+  onImageSelect,
+}: GridProps) => {
   const { isFullSupportBrowser } = useAppContext();
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
 
   // If there's only two images or less, display them differently (not worth loading the gallery + they display too large)
   const isSmallGallery = images.length < 3;
@@ -115,7 +130,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
             }}
             onClick={event => {
               event.preventDefault();
-              setExpandedImage(photo);
+              onImageSelect(photo);
             }}
             layout="fixed"
             background={
@@ -143,6 +158,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
           />
         </GalleryContainer>
       )}
+
       {(!isFullSupportBrowser || isSmallGallery) && (
         <div data-testid="image-search-results-container">
           <ImageCardList>
@@ -165,7 +181,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
                     onClick={event => {
                       if (isSmallGallery) {
                         event.preventDefault();
-                        setExpandedImage(result);
+                        onImageSelect(result);
                       }
                     }}
                     layout="fixed"
@@ -176,14 +192,30 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = ({
           </ImageCardList>
         </div>
       )}
+    </>
+  );
+};
 
+const ImageGridWithModal: FunctionComponent<BaseProps> = props => {
+  const [expandedImage, setExpandedImage] = useExpandedImage(props.images);
+
+  return (
+    <>
+      <ImageGrid {...props} onImageSelect={setExpandedImage} />
       <ImageModal
-        images={images}
+        images={props.images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
       />
     </>
   );
 };
+
+const CatalogueImageGalleryJustified: FunctionComponent<Props> = props =>
+  props.imageDetails === 'sidebar' ? (
+    <ImageGrid {...props} onImageSelect={props.onImageSelect} />
+  ) : (
+    <ImageGridWithModal {...props} />
+  );
 
 export default CatalogueImageGalleryJustified;

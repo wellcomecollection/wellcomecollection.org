@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -13,9 +13,10 @@ export const ScrollButtonsContainer = styled(Space)<{
     props.$hasContent ? 'space-between' : 'flex-end'};
   align-items: flex-end;
   ${props =>
-    props.$scrollButtonsAfter
-      ? `margin-top: ${props.theme.spacingUnits['150']};`
-      : ''}
+    props.$scrollButtonsAfter &&
+    css`
+      margin-top: ${props.theme.spacingUnits['150']};
+    `}
 `;
 
 export const ContentContainer = styled(PlainList)<{
@@ -38,6 +39,34 @@ export const ContentContainer = styled(PlainList)<{
   }
 `;
 
+/** The item that gets the reduced "leading" width: the second one when a scroll shim takes the first slot. */
+const leadingItem = (usesShim?: boolean) =>
+  usesShim ? '&:nth-child(2)' : '&:first-child';
+
+type ItemSizeBase = { gutter: string; paddingCalc: string };
+
+/**
+ * `width` for an item taking `1 / divisor` of the space left once the page padding and the
+ * 11 gaps between 12 columns are taken out, plus the `gutters` gutters it spans.
+ */
+const itemWidth = ({
+  gutter,
+  paddingCalc,
+  divisor,
+  gutters,
+}: ItemSizeBase & { divisor: number; gutters: number }) =>
+  `calc((100vw - (${paddingCalc}) - (${gutter} * 11)) / ${divisor} + (${gutter} * ${gutters}))`;
+
+/** `max-width` for an item spanning `cols` of 12 columns plus `gutters` gutters, capped at the `lg` container. */
+const itemMaxWidth = ({
+  gutter,
+  paddingCalc,
+  lg,
+  cols,
+  gutters,
+}: ItemSizeBase & { lg: string; cols: number; gutters: number }) =>
+  `calc((${lg} - (${paddingCalc}) - (${gutter} * 11)) / 12 * ${cols} + (${gutter} * ${gutters}))`;
+
 export const ListItem = styled.li<{
   $usesShim?: boolean;
   $cols?: 3 | 4;
@@ -48,20 +77,10 @@ export const ListItem = styled.li<{
   max-width: 90vw;
   padding-left: var(--gutter-size);
 
-  ${props =>
-    props.$usesShim
-      ? `
-      &:nth-child(2) {
-        width: calc(400px - var(--gutter-size));
-        max-width: calc(90vw - var(--gutter-size));
-      }
-      `
-      : `
-      &:first-child {
-        width: calc(400px - var(--gutter-size));
-        max-width: calc(90vw - var(--gutter-size));
-      }
-      `}
+  ${props => leadingItem(props.$usesShim)} {
+    width: calc(400px - var(--gutter-size));
+    max-width: calc(90vw - var(--gutter-size));
+  }
 
   &:last-child {
     width: calc(400px + var(--gutter-size));
@@ -72,31 +91,24 @@ export const ListItem = styled.li<{
   ${props => {
     const smGutter = props.theme.gutter.medium;
     const paddingCalc = `${props.theme.containerPaddingVw} * 2`;
+    const base = { gutter: smGutter, paddingCalc };
 
     return props.theme.media('sm')(`
       --gutter-size: ${smGutter};
       /* 6 columns of 12 at sm breakpoint */
       /* Formula: ((100vw - padding) - (11 × gutter)) / 12 × 6 + (6 × gutter) */
       /* Simplified: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 6)) */
-      width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 6));
+      width: ${itemWidth({ ...base, divisor: 2, gutters: 6 })};
 
       padding: 0 0 0 var(--gutter-size);
 
-      ${
-        props.$usesShim
-          ? `
-          &:nth-child(2) {
-            width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
-          }`
-          : `
-          &:first-child {
-            padding-left: 0;
-            width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 5));
-          } `
+      ${leadingItem(props.$usesShim)} {
+        ${props.$usesShim ? '' : 'padding-left: 0;'}
+        width: ${itemWidth({ ...base, divisor: 2, gutters: 5 })};
       }
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - (${paddingCalc}) - (${smGutter} * 11)) / 2 + (${smGutter} * 7));
+        width: ${itemWidth({ ...base, divisor: 2, gutters: 7 })};
       }
     `);
   }}
@@ -109,33 +121,28 @@ export const ListItem = styled.li<{
 
     // 4col: (totalWidth - 11 × gutter) / 3 + N × gutter
     // 3col: (totalWidth - 11 × gutter) / 4 + N × gutter
-    const divisor = is3col ? '4' : '3';
-    const cols = is3col ? '3' : '4';
+    const divisor = is3col ? 4 : 3;
+    const cols = is3col ? 3 : 4;
+    const leadingGutters = is3col ? 2 : 3;
+    const lastGutters = is3col ? 4 : 5;
+    const base = { gutter: mdGutter, paddingCalc };
+    const sizes = (gutters: number) => `
+      width: ${itemWidth({ ...base, divisor, gutters })};
+      max-width: ${itemMaxWidth({ ...base, lg, cols, gutters })};
+    `;
 
     return props.theme.media('md')(`
       --gutter-size: ${mdGutter};
       /* ${cols} columns of 12 at md breakpoint */
-      width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${cols}));
-      max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${cols}));
+      ${sizes(cols)}
 
-      ${
-        props.$usesShim
-          ? `
-          &:nth-child(2) {
-            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '2' : '3'}));
-            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '2' : '3'}));
-          }`
-          : `
-          &:first-child {
-            width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '2' : '3'}));
-            max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '2' : '3'}));
-          }`
+      ${leadingItem(props.$usesShim)} {
+        ${sizes(leadingGutters)}
       }
 
       &:last-child {
         padding-right: var(--gutter-size);
-        width: calc((100vw - (${paddingCalc}) - (${mdGutter} * 11)) / ${divisor} + (${mdGutter} * ${is3col ? '4' : '5'}));
-        max-width: calc(((${lg} - (${paddingCalc})) - (${mdGutter} * 11)) / 12 * ${cols} + (${mdGutter} * ${is3col ? '4' : '5'}));
+        ${sizes(lastGutters)}
       }
     `);
   }}

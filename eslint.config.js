@@ -44,6 +44,15 @@ const sharedRules = {
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",
+    {
+      // `${cond && '...'}` in a plain (untagged) string prints the text "false" (or
+      // "null"/"undefined") when cond is falsy. Tagged templates (styled, css) are
+      // excluded: styled-components drops falsy interpolations there.
+      selector:
+        ":not(TaggedTemplateExpression) > TemplateLiteral > LogicalExpression[operator='&&']",
+      message:
+        "`&&` directly inside a plain template literal prints 'false' when falsy. Use a ternary with an empty string fallback instead.",
+    },
   ],
   'no-return-assign': 'off',
   'object-shorthand': ['warn', 'always'],

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 
@@ -28,17 +28,17 @@ export const ScrollButtonWrap = styled.div<{
 
   ${props =>
     props.$isLeft &&
-    `
-    left: 0;
-    transform: translateX(-50%) translateY(-50%) scale(0.6);
-  `}
+    css`
+      left: 0;
+      transform: translateX(-50%) translateY(-50%) scale(0.6);
+    `}
 
   ${props =>
     !props.$isLeft &&
-    `
-    right: 0;
-    transform: translateX(50%) translateY(-50%) scale(0.6);
-  `}
+    css`
+      right: 0;
+      transform: translateX(50%) translateY(-50%) scale(0.6);
+    `}
 
   ${props =>
     props.theme.media('sm')(`

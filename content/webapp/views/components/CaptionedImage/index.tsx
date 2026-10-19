@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { CaptionedImage as CaptionedImageType } from '@weco/common/model/captioned-image';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
@@ -21,14 +21,14 @@ const CaptionedImageFigure = styled.figure<{
 
   ${props =>
     props.$isBody &&
-    `
-    text-align: left;
+    css`
+      text-align: left;
 
-    .caption {
-      margin-left: 0;
-      margin-right: 0;
-    }
-  `}
+      .caption {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    `}
 `;
 
 const ImageContainerInner = styled.div<{
@@ -42,12 +42,12 @@ const ImageContainerInner = styled.div<{
 
   ${props =>
     props.$hasRoundedCorners &&
-    `
-    > div:first-child {
-      border-radius:  clamp(10px, 2vw, 26px);
-      overflow: hidden;
-    }
-  `}
+    css`
+      > div:first-child {
+        border-radius: clamp(10px, 2vw, 26px);
+        overflow: hidden;
+      }
+    `}
 
   @supports not (aspect-ratio: auto) {
     max-width: 90%;

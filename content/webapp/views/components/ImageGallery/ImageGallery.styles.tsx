@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
 import { Pinnable } from '@weco/common/views/themes/config';
@@ -28,7 +28,7 @@ export const FrameGrid = styled.div<FrameGridProps>`
 
   ${props =>
     props.theme.media('md')(`
-    ${props.$isThreeUp && `grid-template-columns: 1fr 1fr 1fr;`}
+    ${props.$isThreeUp ? 'grid-template-columns: 1fr 1fr 1fr;' : ''}
   `)}
 `;
 
@@ -70,7 +70,7 @@ export const Gallery = styled.div<GalleryProps>`
 
   ${props =>
     !props.$isActive &&
-    `
+    css`
       img:hover {
         filter: brightness(80%);
       }
@@ -78,49 +78,50 @@ export const Gallery = styled.div<GalleryProps>`
 
   ${props =>
     props.$isActive &&
-    `
-    .caption {
-      display: block;
-    }
+    css`
+      .caption {
+        display: block;
+      }
 
-    .tasl {
-      display: inherit;
-    }
+      .tasl {
+        display: inherit;
+      }
 
-    color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-    background: linear-gradient(
-      ${props.theme.color(props.$pageBackground)} 100px,
-      ${props.theme.color('neutral.700')} 100px
-    );
+      color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+      background: linear-gradient(
+        ${props.theme.color(props.$pageBackground)} 100px,
+        ${props.theme.color('neutral.700')} 100px
+      );
 
-    ${props.theme.media('sm')(`
+      ${props.theme.media('sm')(`
       background: linear-gradient(
         ${props.theme.color(props.$pageBackground)} 200px,
         ${props.theme.color('neutral.700')} 200px
       );
 
       ${
-        props.$isStandalone &&
-        `background: ${props.theme.color('neutral.700')};`
+        props.$isStandalone
+          ? `background: ${props.theme.color('neutral.700')};`
+          : ''
       }
     `)}
-  `}
+    `}
 
   transition: all 400ms ease;
 
   ${props =>
     props.$isStandalone &&
-    `
-    background: ${props.theme.color('neutral.700')};
+    css`
+      background: ${props.theme.color('neutral.700')};
 
-    &::before {
-      top: 0;
+      &::before {
+        top: 0;
 
-      ${props.theme.media('sm')`
+        ${props.theme.media('sm')`
         top: 0;
       `}
-    }
-  `}
+      }
+    `}
 
   .close {
     transform: translateX(calc((100vw - 100%) / 2));

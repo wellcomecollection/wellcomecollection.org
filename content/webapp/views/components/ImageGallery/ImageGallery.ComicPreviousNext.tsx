@@ -28,8 +28,7 @@ const Link = styled.a.attrs<LinkProps>({
 })<{ $isNext: boolean }>`
   position: absolute;
   color: ${props => props.theme.color('neutral.700')};
-  left: ${props => (props.$isNext ? undefined : 0)};
-  right: ${props => (props.$isNext ? 0 : undefined)};
+  ${props => (props.$isNext ? 'right: 0;' : 'left: 0;')}
   height: 80px;
   width: 360px;
   background: ${props => props.theme.color('warmNeutral.300')};
@@ -67,8 +66,7 @@ const Inner = styled(Space).attrs({
 
 const TextWrap = styled.div<{ $isNext: boolean }>`
   width: 300px;
-  padding-left: ${props => (props.$isNext ? '10px' : undefined)};
-  padding-right: ${props => (props.$isNext ? undefined : '10px')};
+  ${props => (props.$isNext ? 'padding-left: 10px;' : 'padding-right: 10px;')}
 `;
 
 const InSeries = styled(Space).attrs({

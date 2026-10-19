@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Overlay = styled.div`
-  z-index: 1000;
+  z-index: 1002;
   position: fixed;
   top: 0;
   left: 0;
@@ -89,7 +89,7 @@ export const BaseModalWindow = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
-    z-index: 1001;
+    z-index: 1003;
     pointer-events: all;
   }
 
@@ -142,6 +142,8 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   overflow: hidden;
   padding-left: 0;
   padding-right: 0;
+  background-color: ${props =>
+    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
