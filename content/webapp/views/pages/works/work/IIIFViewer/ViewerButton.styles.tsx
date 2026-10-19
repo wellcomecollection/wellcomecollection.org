@@ -71,8 +71,6 @@ export const ViewerButton = styled.button.attrs({
     `}
 `;
 
-// A dark viewer button that's a tertiary button in the brand, the same height
-// as the Downloads button whether or not it has an icon
 export const TertiaryViewerButton = styled(ViewerButton)`
   ${props =>
     props.theme.brandUpdate &&
@@ -83,7 +81,6 @@ export const TertiaryViewerButton = styled(ViewerButton)`
       line-height: 1;
       ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
 
-      /* Override the dark viewer button's white hover border */
       &:not([disabled]):hover {
         border-color: ${designSystemColor(
           brandButtonColors.tertiaryOnDark.default.border

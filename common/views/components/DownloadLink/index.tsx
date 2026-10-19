@@ -50,7 +50,6 @@ const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
       : props.theme.color({ brand: 'neutral.70', legacy: 'neutral.600' })};
 `;
 
-// In the brand the link text is underlined until hovered
 const TextToDisplay = styled.span<{ $isDark?: boolean }>`
   margin: 0;
   text-decoration: ${props =>

@@ -165,7 +165,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            {/* The brand uses a labelled tertiary button rather than the chevrons */}
             {brandUpdate ? (
               <TertiaryViewerButton
                 data-gtm-trigger="toggle_side_panel"
@@ -175,7 +174,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 }}
                 $isDark
               >
-                {/* The chevron points the way the sidebar will move */}
                 {isDesktopSidebarActive ? (
                   <>
                     <Icon icon={chevron} rotate={90} />
