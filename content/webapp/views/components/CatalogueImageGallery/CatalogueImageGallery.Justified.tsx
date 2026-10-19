@@ -79,6 +79,7 @@ const ImageFrame = styled.div`
 `;
 
 type GridProps = BaseProps & {
+  imageDetails: 'modal' | 'sidebar';
   onImageSelect: (image: Image) => void;
 };
 
@@ -86,6 +87,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
   images,
   background,
   targetRowHeight,
+  imageDetails,
   onImageSelect,
 }: GridProps) => {
   const { isFullSupportBrowser } = useAppContext();
@@ -122,6 +124,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
             id={photo.id}
             workId={photo.source.id}
             positionInList={layout.index + 1}
+            imageDetails={imageDetails}
             image={{
               contentUrl: photo.src,
               width: layout.width,
@@ -172,6 +175,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
                     id={result.id}
                     workId={result.source.id}
                     positionInList={index + 1}
+                    imageDetails={imageDetails}
                     image={{
                       contentUrl: result.src,
                       width: result.width * 1.57,
@@ -201,7 +205,11 @@ const ImageGridWithModal: FunctionComponent<BaseProps> = props => {
 
   return (
     <>
-      <ImageGrid {...props} onImageSelect={setExpandedImage} />
+      <ImageGrid
+        {...props}
+        imageDetails="modal"
+        onImageSelect={setExpandedImage}
+      />
       <ImageModal
         images={props.images}
         expandedImage={expandedImage}
@@ -213,7 +221,11 @@ const ImageGridWithModal: FunctionComponent<BaseProps> = props => {
 
 const CatalogueImageGalleryJustified: FunctionComponent<Props> = props =>
   props.imageDetails === 'sidebar' ? (
-    <ImageGrid {...props} onImageSelect={props.onImageSelect} />
+    <ImageGrid
+      {...props}
+      imageDetails="sidebar"
+      onImageSelect={props.onImageSelect}
+    />
   ) : (
     <ImageGridWithModal {...props} />
   );

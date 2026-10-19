@@ -16,6 +16,8 @@ type Props = {
   onClick?: (event: SyntheticEvent<HTMLAnchorElement>) => void;
   background?: string;
   positionInList: number;
+  /** Where the image's details open, which its tooltip says. */
+  imageDetails?: 'modal' | 'sidebar';
 };
 
 const StyledLink = styled(NextLink)`
@@ -32,6 +34,7 @@ const ImageCard: FunctionComponent<Props> = ({
   onClick,
   background,
   positionInList,
+  imageDetails = 'modal',
 }: Props) => {
   const { isEnhanced } = useAppContext();
 
@@ -49,7 +52,13 @@ const ImageCard: FunctionComponent<Props> = ({
         trigger: 'open_image_modal',
         'position-in-list': `${positionInList}`,
       })}
-      title={isEnhanced ? 'Open modal window' : undefined}
+      title={
+        isEnhanced
+          ? imageDetails === 'sidebar'
+            ? 'Open image details'
+            : 'Open modal window'
+          : undefined
+      }
     >
       <IIIFImage
         image={{

@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
@@ -8,19 +8,24 @@ import { plainListStyles } from '@weco/common/views/components/styled/PlainList'
 import Space from '@weco/common/views/components/styled/Space';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image as ImageType } from '@weco/content/services/wellcome/catalogue/types';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 
 type Props = {
   originalId: string;
   onClickImage: (image: ImageType) => void;
+  /** The sidebar wraps the images and divides them from the details above. */
+  variant?: 'modal' | 'sidebar';
 };
 
 type State = 'initial' | 'loading' | 'success' | 'failed';
 
+type VariantProps = { $variant: NonNullable<Props['variant']> };
+
 const Wrapper = styled(Space).attrs({
   as: 'ul',
   $v: { size: 'xs', properties: ['margin-bottom', 'margin-top'] },
-})`
+})<VariantProps>`
   ${plainListStyles}
 
   display: flex;
@@ -28,9 +33,11 @@ const Wrapper = styled(Space).attrs({
   flex-wrap: wrap;
   min-height: 120px;
 
-  ${props => props.theme.media('md')`
-    flex-wrap: nowrap;
-  `}
+  ${props =>
+    props.$variant === 'modal' &&
+    props.theme.media('md')`
+      flex-wrap: nowrap;
+    `}
 
   img {
     margin-right: 10px;
@@ -40,16 +47,30 @@ const Wrapper = styled(Space).attrs({
     /* Safari doesn't respond to max-height/width like the other browsers, we need this to ensure it's not warped. */
     object-fit: contain;
 
-    ${props => props.theme.media('md')`
-      max-width: 150px;
-      width: calc(100% - 10px);
-    `};
+    ${props =>
+      props.$variant === 'modal' &&
+      props.theme.media('md')`
+        max-width: 150px;
+        width: calc(100% - 10px);
+      `};
   }
+`;
+
+const Heading = styled.h3.attrs({
+  className: typography('heading', 'sm', 'strong', 'brand'),
+})<VariantProps>`
+  ${props =>
+    props.$variant === 'sidebar' &&
+    css`
+      border-top: 1px solid ${props.theme.color('neutral.300')};
+      ${props.theme.makeSpacePropertyValues('md', ['padding-top'])}
+    `}
 `;
 
 const VisuallySimilarImages: FunctionComponent<Props> = ({
   originalId,
   onClickImage,
+  variant = 'modal',
 }: Props) => {
   const [similarImages, setSimilarImages] = useState<ImageType[]>([]);
   const [requestState, setRequestState] = useState<State>('initial');
@@ -86,11 +107,9 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
 
   return similarImages.length === 0 ? null : (
     <>
-      <h3 className={typography('heading', 'sm', 'strong', 'brand')}>
-        Visually similar images
-      </h3>
+      <Heading $variant={variant}>Visually similar images</Heading>
 
-      <Wrapper data-component="visually-similar-images">
+      <Wrapper $variant={variant} data-component="visually-similar-images">
         {similarImages.map(related => (
           <li key={related.id}>
             <button
@@ -118,7 +137,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
                   contentUrl: related.locations[0]?.url,
                   width: 180,
                   height: 180,
-                  alt: '',
+                  alt: removeDisplayMarkupTags(related.source.title),
                 }}
                 width={180}
               />
