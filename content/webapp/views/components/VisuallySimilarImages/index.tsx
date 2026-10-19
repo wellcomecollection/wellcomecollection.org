@@ -90,7 +90,7 @@ const VisuallySimilarImages: FunctionComponent<Props> = ({
         Visually similar images
       </h3>
 
-      <Wrapper>
+      <Wrapper data-component="visually-similar-images">
         {similarImages.map(related => (
           <li key={related.id}>
             <button
