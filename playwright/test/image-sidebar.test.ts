@@ -280,13 +280,16 @@ test.describe('Desktop', () => {
       page,
       context,
     }) => {
-      await searchImages(imageWithContributor, context, page);
-      await openSidebar(1, page);
+      await searchImages('art of science', context, page);
+
+      // The fifth thumbnail is on a lower row, which moves when the sidebar
+      // closes and the grid gets its width back
+      await openSidebar(5, page);
 
       await expect(sidebar(page).locator(':focus')).toHaveCount(1);
 
       await page.keyboard.press('Escape');
-      await expect(thumbnail(page, 1)).toBeFocused();
+      await expect(thumbnail(page, 5)).toBeFocused();
     });
 
     test('an image opened from the URL moves focus into the sidebar', async ({
