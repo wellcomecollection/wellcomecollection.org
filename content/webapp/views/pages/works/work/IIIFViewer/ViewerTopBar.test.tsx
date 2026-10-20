@@ -303,6 +303,37 @@ describe('ViewerTopBar sidebar toggle labels', () => {
     // Both the desktop (visually-hidden) and mobile toggles read "Show info".
     expect(screen.getAllByText('Show info').length).toBeGreaterThan(0);
   });
+
+  describe('with the brand update', () => {
+    it('gives the desktop toggle a visible "Hide info" label when the sidebar is active', () => {
+      renderTopBar({
+        brandUpdate: true,
+        contextProps: {
+          transformedManifest: createMockManifest(),
+          isDesktopSidebarActive: true,
+        },
+      });
+
+      const toggle = screen.getByText('Hide info').closest('button');
+      expect(toggle).toHaveAttribute('data-gtm-trigger', 'toggle_side_panel');
+      expect(screen.getByText('Hide info')).not.toHaveClass('visually-hidden');
+    });
+
+    it('gives the desktop toggle a visible "Show info" label when the sidebar is inactive', () => {
+      renderTopBar({
+        brandUpdate: true,
+        contextProps: {
+          transformedManifest: createMockManifest(),
+          isDesktopSidebarActive: false,
+          isMobileSidebarActive: true,
+        },
+      });
+
+      const toggle = screen.getByText('Show info').closest('button');
+      expect(toggle).toHaveAttribute('data-gtm-trigger', 'toggle_side_panel');
+      expect(toggle).toHaveAccessibleName('Show info');
+    });
+  });
 });
 
 describe('ViewerTopBar edge cases', () => {

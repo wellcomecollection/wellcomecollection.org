@@ -19,7 +19,7 @@ const ToolbarContainer = styled.div`
   display: flex;
   background-color: ${props => props.theme.color('accent.purple')};
   color: ${props => props.theme.color('white')};
-  z-index: 100;
+  z-index: ${props => props.theme.zIndex.apiToolbar};
   overflow-x: scroll;
 `;
 
