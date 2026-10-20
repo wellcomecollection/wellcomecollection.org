@@ -13,7 +13,7 @@ const LoadingIndicatorWrapper = styled.div.attrs({
   #nprogress .bar {
     background: ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
     position: fixed;
-    z-index: 1031;
+    z-index: ${props => props.theme.zIndex.loadingIndicator};
     top: 0;
     left: 0;
     width: 100%;

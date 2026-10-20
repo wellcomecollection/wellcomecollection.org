@@ -5,7 +5,7 @@ import Icon from '@weco/common/views/components/Icon';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useFullscreenToggle from '@weco/content/hooks/useFullscreenToggle';
 
-import { ViewerButton } from './ViewerButton.styles';
+import { TertiaryViewerButton } from './ViewerButton.styles';
 
 type Props = {
   className?: string;
@@ -16,7 +16,7 @@ const FullscreenToggleButton: FunctionComponent<Props> = ({ className }) => {
   const toggleFullscreen = useFullscreenToggle({ viewerRef, setIsFullscreen });
 
   return (
-    <ViewerButton className={className} onClick={toggleFullscreen} $isDark>
+    <TertiaryViewerButton className={className} onClick={toggleFullscreen}>
       {isFullscreen ? (
         <>
           <Icon icon={minimise} />
@@ -28,7 +28,7 @@ const FullscreenToggleButton: FunctionComponent<Props> = ({ className }) => {
           <span style={{ marginLeft: '7px' }}>Full screen</span>
         </>
       )}
-    </ViewerButton>
+    </TertiaryViewerButton>
   );
 };
 

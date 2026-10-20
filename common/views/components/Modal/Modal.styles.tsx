@@ -4,7 +4,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { designSystemColor } from '@weco/common/views/themes/config';
 
 export const Overlay = styled.div`
-  z-index: 1002;
+  z-index: ${props => props.theme.zIndex.modalOverlay};
   position: fixed;
   top: 0;
   left: 0;
@@ -121,7 +121,7 @@ export const BaseModalWindow = styled(Space).attrs({
   $width?: string | null;
   $maxWidth?: string;
 }>`
-  z-index: 10001;
+  z-index: ${props => props.theme.zIndex.modalWindow};
   top: 0;
   bottom: 0;
   left: 0;
@@ -143,7 +143,7 @@ export const BaseModalWindow = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
-    z-index: 1003;
+    z-index: ${props => props.theme.zIndex.modalWindow};
     pointer-events: all;
   }
 

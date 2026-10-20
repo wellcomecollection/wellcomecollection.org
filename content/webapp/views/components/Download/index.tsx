@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { typography } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons';
+import Button, { ButtonHierarchy } from '@weco/common/views/components/Buttons';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
@@ -32,6 +32,7 @@ type Props = {
   downloadOptions: DownloadOption[];
   useDarkControl?: boolean;
   isInline?: boolean;
+  hierarchy?: ButtonHierarchy;
 };
 
 const Download: FunctionComponent<Props> = ({
@@ -39,6 +40,7 @@ const Download: FunctionComponent<Props> = ({
   downloadOptions,
   useDarkControl = false,
   isInline = false,
+  hierarchy,
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useAppContext();
@@ -54,6 +56,7 @@ const Download: FunctionComponent<Props> = ({
         label="Downloads"
         buttonType={isInline ? 'inline' : 'outlined'}
         isOnDark={useDarkControl}
+        hierarchy={hierarchy}
         id={ariaControlsId}
       >
         <DownloadOptions className={typography('body', 'md', 'strong')}>

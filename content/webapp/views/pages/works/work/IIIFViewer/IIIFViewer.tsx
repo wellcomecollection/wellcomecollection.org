@@ -8,7 +8,10 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
-import { mediaBackgroundColor } from '@weco/common/views/themes/config';
+import {
+  mediaBackgroundColor,
+  themeValues,
+} from '@weco/common/views/themes/config';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
@@ -62,7 +65,7 @@ const LoadingComponent = () => (
       position: 'absolute',
       width: '100%',
       height: '100%',
-      zIndex: 1000,
+      zIndex: themeValues.zIndex.viewerLoading,
     }}
   >
     <LL />

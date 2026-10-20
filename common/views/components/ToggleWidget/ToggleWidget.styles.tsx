@@ -4,7 +4,7 @@ export const ToggleWidgetWrapper = styled.div`
   position: fixed;
   right: 16px;
   bottom: 16px;
-  z-index: 1001;
+  z-index: ${props => props.theme.zIndex.toggleWidget};
 `;
 
 export const ButtonRow = styled.div`

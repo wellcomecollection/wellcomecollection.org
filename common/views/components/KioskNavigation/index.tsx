@@ -28,7 +28,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   right: 0;
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
-  z-index: 1000;
+  z-index: ${props => props.theme.zIndex.kioskNavigation};
   display: flex;
   align-items: center;
   justify-content: space-between;

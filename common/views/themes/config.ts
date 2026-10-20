@@ -649,6 +649,23 @@ export const themeValues = {
   navHeight: 85,
   kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
   kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
+  // The layers that decide what covers what, lowest to highest. Small values
+  // that only order things inside a single component stay local.
+  // viewerLoading and kioskNavigation share a value as they never show together.
+  zIndex: {
+    header: 6,
+    skipLink: 7, // Focused skip link, just above the header
+    headerMenuOpen: 10, // The fixed header while the mobile menu is open
+    apiToolbar: 100,
+    viewerLoading: 1000,
+    kioskNavigation: 1000,
+    toggleWidget: 1001,
+    modalOverlay: 1002,
+    modalWindow: 1003,
+    loadingIndicator: 1031,
+    headerSearch: 9999,
+    prismicPreviewBar: 2147483000,
+  },
   fontVerticalOffset: '0.15em',
   // For the few brand changes a colour pin can't express, e.g. a style that
   // only exists in the new brand

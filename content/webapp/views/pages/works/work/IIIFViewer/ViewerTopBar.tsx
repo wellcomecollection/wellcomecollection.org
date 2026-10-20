@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { chevrons, gridView, singlePage } from '@weco/common/icons';
+import { chevron, chevrons, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -19,7 +19,7 @@ import Download from '@weco/content/views/components/Download';
 import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-import { ViewerButton } from './ViewerButton.styles';
+import { TertiaryViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -126,6 +126,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
+  const { brandUpdate: showBrandUpdate } = useTheme();
   const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -164,33 +165,47 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ViewerButton
+            <TertiaryViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
-              $isDark
             >
-              <Icon
-                icon={chevrons}
-                iconColor="white"
-                rotate={isDesktopSidebarActive ? undefined : 180}
-              />
-              <span className="visually-hidden">
-                {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-              </span>
-            </ViewerButton>
+              {showBrandUpdate ? (
+                isDesktopSidebarActive ? (
+                  <>
+                    <Icon icon={chevron} rotate={90} />
+                    <span style={{ marginLeft: '4px' }}>Hide info</span>
+                  </>
+                ) : (
+                  <>
+                    <span style={{ marginRight: '4px' }}>Show info</span>
+                    <Icon icon={chevron} rotate={270} />
+                  </>
+                )
+              ) : (
+                <>
+                  <Icon
+                    icon={chevrons}
+                    iconColor="white"
+                    rotate={isDesktopSidebarActive ? undefined : 180}
+                  />
+                  <span className="visually-hidden">
+                    {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
+                  </span>
+                </>
+              )}
+            </TertiaryViewerButton>
 
-            <ViewerButton
+            <TertiaryViewerButton
               className="viewer-mobile"
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
-              $isDark
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ViewerButton>
+            </TertiaryViewerButton>
           </>
         )}
       </TopBarSidebarZone>
@@ -248,6 +263,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
+                      hierarchy="secondary"
                       useDarkControl
                       isInline
                     />
