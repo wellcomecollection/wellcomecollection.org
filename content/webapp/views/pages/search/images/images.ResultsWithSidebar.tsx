@@ -22,9 +22,9 @@ const ResultsLayout = styled.div`
 `;
 
 // Where the content of a Container starts: half of the space left either side
-// of its max width, plus its own padding
+// of its max width, plus its own padding, which is a share of the parent's width
 const containerEdge = (maxWidth: string) =>
-  `calc(max(0px, (100% - ${maxWidth}) / 2) + min(100%, ${maxWidth}) * ${parseFloat(containerPadding) / 100})`;
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 // Hidden, not removed, when the sidebar covers the screen (below `sm`): that
 // takes the results out of the tab order and away from screen readers, while
