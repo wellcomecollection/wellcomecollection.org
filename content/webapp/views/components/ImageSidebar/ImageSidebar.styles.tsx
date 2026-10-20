@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -33,25 +33,6 @@ export const SidebarWrapper = styled(Space).attrs({
       flex: 0 0 50%;
       height: 100vh;
       border-left: 1px solid ${props.theme.color('neutral.300')};
-    `)}
-`;
-
-/**
- * Stops the page scrolling behind the full screen sidebar. Overflow hidden
- * keeps the scroll position, so the results are where they were on close.
- */
-export const LockPageScroll = createGlobalStyle`
-  html,
-  body {
-    overflow: hidden;
-  }
-
-  ${props =>
-    props.theme.media('sm')(`
-      html,
-      body {
-        overflow: visible;
-      }
     `)}
 `;
 

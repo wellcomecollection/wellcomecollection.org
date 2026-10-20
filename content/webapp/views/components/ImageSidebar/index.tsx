@@ -6,6 +6,7 @@ import {
   useRef,
 } from 'react';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross, eye } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
@@ -21,7 +22,6 @@ import VisuallySimilarImagesFromApi from '@weco/content/views/components/Visuall
 import {
   CloseButton,
   LoadingWrapper,
-  LockPageScroll,
   MetadataWrapper,
   SidebarWrapper,
   ThumbnailLink,
@@ -48,6 +48,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
   const isOpen = expandedImage !== undefined;
+  const { windowSize } = useAppContext();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -75,8 +76,11 @@ const ImageSidebar: FunctionComponent<Props> = ({
       as="section"
       data-component="image-sidebar"
       aria-label="Image details"
+      // Full screen below `sm`. This uses the window's width, not a media
+      // query: locking hides the page scrollbar, which can change the width a
+      // media query sees and flip the layout back and forth.
+      data-lock-scroll={windowSize === 'zero'}
     >
-      <LockPageScroll />
       <CloseButton
         ref={closeButtonRef}
         onClick={() => setExpandedImage(undefined)}
