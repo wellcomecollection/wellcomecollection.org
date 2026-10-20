@@ -7,7 +7,6 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar from '@weco/content/views/components/ImageSidebar';
-import { belowSidebarBreakpoint } from '@weco/content/views/components/ImageSidebar/ImageSidebar.styles';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -15,9 +14,9 @@ const ResultsLayout = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
-// Hidden, not removed, when the sidebar covers the screen: that takes the
-// results out of the tab order and away from screen readers, while keeping
-// their place on the page.
+// Hidden, not removed, when the sidebar covers the screen (below `sm`): that
+// takes the results out of the tab order and away from screen readers, while
+// keeping their place on the page.
 const Results = styled.div<{ $isSidebarOpen: boolean }>`
   flex: 1 1 0;
   min-width: 0;
@@ -25,9 +24,9 @@ const Results = styled.div<{ $isSidebarOpen: boolean }>`
   ${props =>
     props.$isSidebarOpen &&
     css`
-      @media ${belowSidebarBreakpoint} {
-        visibility: hidden;
-      }
+      visibility: hidden;
+
+      ${props.theme.media('sm')(`visibility: visible;`)}
     `}
 `;
 

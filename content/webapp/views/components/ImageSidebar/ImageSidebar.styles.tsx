@@ -6,11 +6,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import {
   mediaBackgroundColor,
   pageBackgroundColor,
-  sizes,
 } from '@weco/common/views/themes/config';
-
-// The opposite of the `sm` media query that puts the sidebar beside the results
-export const belowSidebarBreakpoint = `not all and (min-width: ${sizes.sm})`;
 
 /**
  * Full screen over everything below the `sm` breakpoint, and a column beside
@@ -45,12 +41,18 @@ export const SidebarWrapper = styled(Space).attrs({
  * keeps the scroll position, so the results are where they were on close.
  */
 export const LockPageScroll = createGlobalStyle`
-  @media ${belowSidebarBreakpoint} {
-    html,
-    body {
-      overflow: hidden;
-    }
+  html,
+  body {
+    overflow: hidden;
   }
+
+  ${props =>
+    props.theme.media('sm')(`
+      html,
+      body {
+        overflow: visible;
+      }
+    `)}
 `;
 
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
