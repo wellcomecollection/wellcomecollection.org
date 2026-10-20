@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { usePhasedFlags } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
-import { pluralize } from '@weco/common/utils/grammar';
 import { linkResolver, SEARCH_PAGES_FORM_ID } from '@weco/common/utils/search';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
@@ -26,11 +25,11 @@ import {
   ImagesProps,
   toSearchImagesLink,
 } from '@weco/content/views/components/SearchPagesLink/Images';
-import Sort from '@weco/content/views/components/Sort';
 import { withSearchLayout } from '@weco/content/views/layouts/SearchPageLayout';
 import SearchNoResults from '@weco/content/views/pages/search/search.NoResults';
 import { phaseIsAtLeast } from '@weco/toggles';
 
+import ResultsHeader from './images.ResultsHeader';
 import ImagesResultsWithSidebar from './images.ResultsWithSidebar';
 
 export type Props = {
@@ -58,12 +57,6 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
         background-color: ${props.theme.color('black')};
         color: ${props.theme.color('white')};
         `}
-`;
-
-const SortPaginationWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
 `;
 
 const ImagesSearchPage: NextPage<Props> = withSearchLayout(
@@ -94,69 +87,13 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
     const activeFiltersLabels = getActiveFiltersLabel({ filters });
     const hasSidebarLayout = showImageSidebar && !hasNoResults;
 
-    // Sits in the dark results area normally; in the light area above it
-    // when the image sidebar is on.
-    const renderResultsHeader = (isOnDark: boolean) => (
-      <PaginationWrapper $verticalSpacing="md">
-        <span role="status">
-          {pluralize(images.totalResults, 'result')}
-          {activeFiltersLabels.length > 0 && (
-            <span className="visually-hidden">
-              {' '}
-              filtered with: {activeFiltersLabels.join(', ')}
-            </span>
-          )}
-        </span>
-
-        <SortPaginationWrapper>
-          <Sort
-            formId={SEARCH_PAGES_FORM_ID}
-            options={[
-              {
-                value: '',
-                text: 'Relevance',
-              },
-              {
-                value: 'source.production.dates.asc',
-                text: 'Oldest to newest',
-              },
-              {
-                value: 'source.production.dates.desc',
-                text: 'Newest to oldest',
-              },
-            ]}
-            jsLessOptions={{
-              sort: [
-                {
-                  value: '',
-                  text: 'Relevance',
-                },
-                {
-                  value: 'source.production.dates',
-                  text: 'Production dates',
-                },
-              ],
-              sortOrder: [
-                { value: 'asc', text: 'Ascending' },
-                { value: 'desc', text: 'Descending' },
-              ],
-            }}
-            defaultValues={{
-              sort: imagesRouteProps.sort,
-              sortOrder: imagesRouteProps.sortOrder,
-            }}
-            darkBg={isOnDark}
-          />
-
-          <Pagination
-            totalPages={images.totalPages}
-            ariaLabel="Image search pagination"
-            isOnDark={isOnDark}
-            isHiddenMobile
-          />
-        </SortPaginationWrapper>
-      </PaginationWrapper>
-    );
+    const resultsHeaderProps = {
+      totalResults: images.totalResults,
+      totalPages: images.totalPages,
+      activeFiltersLabels,
+      sort: imagesRouteProps.sort,
+      sortOrder: imagesRouteProps.sortOrder,
+    };
 
     const bottomPagination = (
       <PaginationWrapper $verticalSpacing="md" $alignRight>
@@ -178,7 +115,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
       </ImagesResultsWithSidebar>
     ) : (
       <Container>
-        {renderResultsHeader(true)}
+        <ResultsHeader {...resultsHeaderProps} isOnDark />
 
         <main>
           <CatalogueImageGallery images={images.results} variant="justified" />
@@ -252,7 +189,9 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
         )}
 
         {hasSidebarLayout && (
-          <Container>{renderResultsHeader(false)}</Container>
+          <Container>
+            <ResultsHeader {...resultsHeaderProps} isOnDark={false} />
+          </Container>
         )}
 
         <Wrapper
