@@ -154,17 +154,20 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
   const { isEnhanced } = useAppContext();
-  const firstRender = useRef(true);
+  const lastColorState = useRef(colorState);
 
   useEffect(() => {
     setColorState(color);
   }, [color]);
 
+  // Only report a change when the colour is different to the previous one.
+  // React can run effects again without the value changing (e.g. when hidden
+  // content is shown again), which would submit the search form as the page
+  // loads, so skipping only the first run isn't enough.
   useEffect(() => {
-    if (!firstRender.current) {
-      onChangeColor(color);
-    } else {
-      firstRender.current = false;
+    if (colorState !== lastColorState.current) {
+      lastColorState.current = colorState;
+      onChangeColor(colorState);
     }
   }, [colorState]);
 
