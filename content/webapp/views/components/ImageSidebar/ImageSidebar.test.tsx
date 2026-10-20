@@ -1,4 +1,4 @@
-import { act, screen, waitFor } from '@testing-library/react';
+import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
@@ -88,29 +88,35 @@ describe('ImageSidebar', () => {
   });
 
   describe('focus', () => {
+    // Focus is moved after a timer (see the sidebar), so the timers are ours to run
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+    const runTimers = () =>
+      act(() => {
+        jest.runAllTimers();
+      });
     const closeButton = () =>
       screen.getByRole('button', { name: 'Close image details' });
-    // Long enough for the focus timer to have fired, if it was going to
-    const wait = () => act(() => new Promise(r => setTimeout(r, 20)));
 
     it('moves to the close button when it opens', async () => {
       const { select } = await renderSidebar(undefined);
 
       await select(expandedImage);
+      await runTimers();
 
-      await waitFor(() => expect(closeButton()).toHaveFocus());
+      expect(closeButton()).toHaveFocus();
     });
 
     it("doesn't take focus back when another image is selected while it's open", async () => {
       const { select } = await renderSidebar(undefined);
       await select(expandedImage);
-      await waitFor(() => expect(closeButton()).toHaveFocus());
+      await runTimers();
 
       const elsewhere = document.createElement('button');
       document.body.appendChild(elsewhere);
       elsewhere.focus();
       await select({ ...expandedImage, id: 'imageB' } as Image);
-      await wait();
+      await runTimers();
 
       expect(elsewhere).toHaveFocus();
       elsewhere.remove();

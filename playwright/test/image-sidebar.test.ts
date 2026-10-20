@@ -1,4 +1,4 @@
-import { BrowserContext, Page } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 import { expect, test } from './helpers/analytics-blocking';
 import { isMobile, search } from './helpers/contexts';
@@ -31,14 +31,22 @@ const thumbnail = (page: Page, nthChild: number) =>
     .getByRole('link')
     .nth(nthChild - 1);
 
-// A thumbnail's alt text is its title. Empty if the title has display markup
-// in it (<i>, <sup>), as the sidebar shows that formatted, not as the alt text.
-const plainThumbnailTitle = async (page: Page, nthChild: number) => {
-  const alt =
-    (await thumbnail(page, nthChild).getByRole('img').getAttribute('alt')) ??
-    '';
-  return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
-};
+// Each thumbnail's title, from its alt text. Empty where the title has display
+// markup in it (<i>, <sup>), as the sidebar shows that formatted, so it
+// wouldn't match.
+const plainThumbnailTitles = (page: Page) =>
+  resultsGrid(page)
+    .getByRole('link')
+    .evaluateAll(links =>
+      links.map(link => {
+        const alt = link.querySelector('img')?.getAttribute('alt') ?? '';
+        return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
+      })
+    );
+
+// Something inside the element has focus
+const expectFocusInside = (element: Locator) =>
+  expect(element.locator(':focus')).toHaveCount(1);
 
 // The region that holds the close button; its name differs between versions
 // (labelled by the image's title, then "Image details"), so it isn't used
@@ -63,7 +71,8 @@ const openSidebar = async (nthChild: number, page: Page) => {
 };
 
 // An image with a contributor and visually similar images, also used in
-// search-images.test.ts
+// search-images.test.ts. The content test below checks that record's details
+// from the live catalogue, so it follows any edit to it.
 const imageWithContributor = 'fcmwqd5u';
 
 // The sidebar sits beside the grid on desktop; on small screens it becomes a
@@ -86,7 +95,7 @@ test.describe('Desktop', () => {
       expect(grid).not.toBeNull();
       expect(pane).not.toBeNull();
 
-      // Beside the grid, not on top of it
+      // Beside the grid, not on top of it (allowing a pixel of rounding)
       expect(pane!.x).toBeGreaterThanOrEqual(grid!.x + grid!.width - 1);
       await expect(resultsGrid(page)).toBeVisible();
     });
@@ -161,14 +170,9 @@ test.describe('Desktop', () => {
       await searchImages('art of science', context, page);
 
       // Two images with different plain titles, so the heading shows which is open
-      const count = await resultsGrid(page).getByRole('link').count();
-      const titles = await Promise.all(
-        Array.from({ length: Math.min(count, 6) }, (_, i) =>
-          plainThumbnailTitle(page, i + 1)
-        )
-      );
-      const first = titles.findIndex(t => t);
-      const other = titles.findIndex(t => t && t !== titles[first]);
+      const titles = await plainThumbnailTitles(page);
+      const first = titles.findIndex(Boolean);
+      const other = titles.findIndex(title => title && title !== titles[first]);
       expect(
         first,
         'expected an image with a plain title'
@@ -282,11 +286,13 @@ test.describe('Desktop', () => {
     }) => {
       await searchImages('art of science', context, page);
 
-      // The fifth thumbnail is on a lower row, which moves when the sidebar
-      // closes and the grid gets its width back
+      // In this search at the default viewport, thumbnails 5, 6, 9 and 10 change
+      // row when the sidebar closes and the grid gets its width back, which
+      // remounts them (1 to 4 don't). If the layout changes, this may need a
+      // different number.
       await openSidebar(5, page);
 
-      await expect(sidebar(page).locator(':focus')).toHaveCount(1);
+      await expectFocusInside(sidebar(page));
 
       await page.keyboard.press('Escape');
       await expect(thumbnail(page, 5)).toBeFocused();
@@ -311,23 +317,26 @@ test.describe('Desktop', () => {
 }); // Desktop
 
 test.describe('Small screens', () => {
-  test.use({ viewport: { width: 390, height: 844 } });
+  const screen = { width: 390, height: 844 };
+  const scrolledDown = 600;
+  test.use({ viewport: screen });
 
   test('the sidebar fills the screen and closing it restores the scroll position of the grid', async ({
     page,
     context,
   }) => {
     await searchImages('art of science', context, page);
-    await page.mouse.wheel(0, 600);
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(600);
+    await page.mouse.wheel(0, scrolledDown);
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBe(scrolledDown);
 
     // Choose a thumbnail that's already in view, so opening it doesn't scroll
-    const viewportHeight = page.viewportSize()!.height;
     const links = resultsGrid(page).getByRole('link');
     let visible;
     for (let i = 0; i < (await links.count()); i++) {
       const box = await links.nth(i).boundingBox();
-      if (box && box.y > 0 && box.y + box.height < viewportHeight) {
+      if (box && box.y > 0 && box.y + box.height < screen.height) {
         visible = links.nth(i);
         break;
       }
@@ -335,8 +344,9 @@ test.describe('Small screens', () => {
     await visible!.click();
 
     const pane = await sidebar(page).boundingBox();
-    expect(pane!.width).toBeGreaterThanOrEqual(389);
-    expect(pane!.height).toBeGreaterThanOrEqual(viewportHeight - 1);
+    // The whole screen, allowing a pixel of rounding
+    expect(pane!.width).toBeGreaterThanOrEqual(screen.width - 1);
+    expect(pane!.height).toBeGreaterThanOrEqual(screen.height - 1);
 
     await sidebar(page)
       .getByRole('button', { name: 'Close image details' })
@@ -344,7 +354,7 @@ test.describe('Small screens', () => {
     await expect(sidebar(page)).toHaveCount(0);
     // Scroll positions can be fractional, so allow for a pixel of rounding
     const scrollAfter = await page.evaluate(() => window.scrollY);
-    expect(Math.abs(scrollAfter - 600)).toBeLessThanOrEqual(1);
+    expect(Math.abs(scrollAfter - scrolledDown)).toBeLessThanOrEqual(1);
   });
 });
 
