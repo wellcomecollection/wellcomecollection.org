@@ -30,6 +30,7 @@ export const SidebarWrapper = styled(Space).attrs({
       inset: auto;
       top: 0;
       z-index: auto;
+      overscroll-behavior: auto;
       flex: 0 0 50%;
       height: 100vh;
       border-left: 1px solid ${props.theme.color('neutral.300')};
