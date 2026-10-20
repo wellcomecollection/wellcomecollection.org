@@ -9,6 +9,9 @@ import {
   Context,
   getTogglesFromContext,
   parseToggleOverrides,
+  parseTogglePresets,
+  togglePresetCookies,
+  validTogglePresets,
 } from './toggles';
 
 function createContext(
@@ -626,5 +629,136 @@ describe('parseToggleOverrides', () => {
 
   it('keeps an empty value (validation happens later)', () => {
     expect(parseToggleOverrides('kioskMode:')).toEqual({ kioskMode: '' });
+  });
+});
+
+describe('parseTogglePresets', () => {
+  it('returns an empty object for undefined', () => {
+    expect(parseTogglePresets(undefined)).toEqual({});
+  });
+
+  it('treats a bare id as true', () => {
+    expect(parseTogglePresets('apiToolbar')).toEqual({ apiToolbar: 'true' });
+  });
+
+  it('parses a mix of bare ids and id:value pairs', () => {
+    expect(
+      parseTogglePresets(
+        'apiToolbar,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages'
+      )
+    ).toEqual({
+      apiToolbar: 'true',
+      imageSidebarPhases: 'phase2',
+      thematicBrowsingPhases: 'categoryPages',
+    });
+  });
+
+  it('joins an array value before parsing', () => {
+    expect(parseTogglePresets(['apiToolbar', 'kioskMode:devMode'])).toEqual({
+      apiToolbar: 'true',
+      kioskMode: 'devMode',
+    });
+  });
+});
+
+describe('validTogglePresets', () => {
+  const togglesResp: TogglesResp = {
+    featureFlags: [stagingApiFlag],
+    tests: [{ id: 'someTest', title: 'Some test', range: [0, 100] }],
+    modes: [
+      {
+        id: 'kioskMode',
+        title: 'Kiosk mode',
+        description: 'Kiosk mode',
+        options: [{ id: 'devMode', label: 'Developer mode' }],
+      },
+    ],
+    phasedFlags: [
+      {
+        id: 'imageSidebarPhases',
+        title: 'Image sidebar',
+        description: 'Image sidebar, phased',
+        type: 'experimental' as const,
+        phases: [
+          { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+          { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+        ],
+        defaultPhase: null,
+      },
+    ],
+  } as unknown as TogglesResp;
+
+  it('keeps presets with a value the toggle accepts', () => {
+    expect(
+      validTogglePresets(
+        {
+          stagingApi: 'true',
+          someTest: 'false',
+          imageSidebarPhases: 'phase2',
+          kioskMode: 'devMode',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({
+      stagingApi: 'true',
+      someTest: 'false',
+      imageSidebarPhases: 'phase2',
+      kioskMode: 'devMode',
+    });
+  });
+
+  it('drops unknown ids, unknown phases/options and feature flags set to anything but true', () => {
+    expect(
+      validTogglePresets(
+        {
+          notAToggle: 'true',
+          stagingApi: 'false',
+          imageSidebarPhases: 'phase9',
+          kioskMode: 'nope',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('only accepts stage-only toggles on stage hosts', () => {
+    const stageResp = { ...togglesResp, featureFlags: [stageOnlyFlag] };
+    expect(
+      validTogglePresets({ stagingApi: 'true' }, stageResp, createContext())
+    ).toEqual({});
+    expect(
+      validTogglePresets(
+        { stagingApi: 'true' },
+        stageResp,
+        createContext({}, 'www-stage.wellcomecollection.org')
+      )
+    ).toEqual({ stagingApi: 'true' });
+  });
+});
+
+describe('togglePresetCookies', () => {
+  it('shares cookies across wellcomecollection.org, like the dashboard', () => {
+    expect(
+      togglePresetCookies(
+        { imageSidebarPhases: 'phase2' },
+        'www-dev.wellcomecollection.org'
+      )
+    ).toEqual([
+      'toggle_imageSidebarPhases=phase2; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('leaves out Domain and Secure on localhost', () => {
+    expect(
+      togglePresetCookies(
+        { apiToolbar: 'true', kioskMode: 'devMode' },
+        'localhost:3000'
+      )
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000',
+      'toggle_kioskMode=devMode; Path=/; Max-Age=31536000',
+    ]);
   });
 });
