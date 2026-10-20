@@ -321,7 +321,7 @@ test.describe('Small screens', () => {
   const scrolledDown = 600;
   test.use({ viewport: screen });
 
-  test('the sidebar fills the screen and closing it restores the scroll position of the grid', async ({
+  test('the sidebar fills the screen, keeps focus inside and closing it restores the scroll position of the grid', async ({
     page,
     context,
   }) => {
@@ -347,6 +347,19 @@ test.describe('Small screens', () => {
     // The whole screen, allowing a pixel of rounding
     expect(pane!.width).toBeGreaterThanOrEqual(screen.width - 1);
     expect(pane!.height).toBeGreaterThanOrEqual(screen.height - 1);
+
+    // Tabbing can't leave it: go once round all of its tab stops and a step
+    // past, forwards and then backwards
+    await expect(
+      sidebar(page).getByRole('heading', { level: 2 })
+    ).toBeVisible();
+    const tabStops = await sidebar(page).locator('a[href], button').count();
+    for (const key of ['Tab', 'Shift+Tab']) {
+      for (let i = 0; i <= tabStops; i++) {
+        await page.keyboard.press(key);
+        await expectFocusInside(sidebar(page));
+      }
+    }
 
     await sidebar(page)
       .getByRole('button', { name: 'Close image details' })
