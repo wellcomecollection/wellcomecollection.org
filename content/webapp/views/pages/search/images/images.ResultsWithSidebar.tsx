@@ -107,7 +107,9 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   images,
   children,
 }) => {
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const [expandedImage, setExpandedImage] = useExpandedImage(images, {
+    keepOpenOnResultsChange: true,
+  });
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);

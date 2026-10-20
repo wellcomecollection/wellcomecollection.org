@@ -11,13 +11,33 @@ import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
+/**
+ * Keeps the image open when only the page of results changes. The links to
+ * other pages don't have the image's id in them, so without this, losing it
+ * from the URL would close the image. A different query, sort or filter still
+ * closes it.
+ */
+type Options = { keepOpenOnResultsChange?: boolean };
+
+// The URL's query parameters other than the page number, to tell a new page of
+// the same results from different results
+const paramsExceptPageNumber = () => {
+  const params = new URLSearchParams(window.location.search);
+  params.delete('page');
+  return params.toString();
+};
+
 const useExpandedImage = (
-  images: Image[]
+  images: Image[],
+  { keepOpenOnResultsChange = false }: Options = {}
 ): [Image | undefined, Dispatch<SetStateAction<Image | undefined>>] => {
   const [expandedImage, setExpandedImage] = useState<Image | undefined>();
   const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
   const hasBeenExpanded = useRef(false);
+  const lastParams = useRef<string | undefined>(undefined);
+  const expandedImageRef = useRef(expandedImage);
+  expandedImageRef.current = expandedImage;
 
   const imageMap = useMemo<Record<string, Image>>(
     () => images.reduce((a, image) => ({ ...a, [image.id]: image }), {}),
@@ -29,9 +49,27 @@ const useExpandedImage = (
   };
 
   useEffect(() => {
-    const onHashChanged = async () => {
+    const onHashChanged = async (event?: HashChangeEvent) => {
       // to trim the '#' symbol
       const hash = window.location.hash.slice(1);
+
+      // No event means the results changed, not the hash
+      const openImage = expandedImageRef.current;
+      const params = paramsExceptPageNumber();
+      const isSameParams = params === lastParams.current;
+      lastParams.current = params;
+
+      if (keepOpenOnResultsChange && !event && openImage && isSameParams) {
+        if (!hash) {
+          const { pathname, search: urlSearch } = window.location;
+          window.history.replaceState(
+            window.history.state,
+            '',
+            `${pathname}${urlSearch}#${openImage.id}`
+          );
+        }
+        if (!hash || hash === openImage.id) return;
+      }
 
       if (!hash) {
         setExpandedImage(undefined);
