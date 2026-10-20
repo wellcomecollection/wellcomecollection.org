@@ -30,9 +30,6 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const layoutRef = useRef<HTMLDivElement>(null);
   const isActive = expandedImage !== undefined;
 
-  // Focus only moves when the sidebar was opened by choosing a thumbnail, not
-  // when an image is opened from the URL.
-  const openedFromGrid = useRef(false);
   const lastImageId = useRef<string | undefined>(undefined);
 
   useEffect(() => {
@@ -42,11 +39,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   // Focus goes back to the selected image's thumbnail when the sidebar closes.
   // There's none to return to if the image isn't in the results.
   useEffect(() => {
-    if (!isActive && openedFromGrid.current) {
-      openedFromGrid.current = false;
-      if (lastImageId.current) {
-        document.getElementById(lastImageId.current)?.focus();
-      }
+    if (!isActive && lastImageId.current) {
+      document.getElementById(lastImageId.current)?.focus();
     }
   }, [isActive]);
 
@@ -80,10 +74,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
                 images={images}
                 variant="justified"
                 imageDetails="sidebar"
-                onImageSelect={image => {
-                  openedFromGrid.current = true;
-                  setExpandedImage(image);
-                }}
+                onImageSelect={setExpandedImage}
               />
             </main>
             {children}
@@ -95,7 +86,6 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
-        focusOnOpen={openedFromGrid.current}
       />
     </ResultsLayout>
   );
