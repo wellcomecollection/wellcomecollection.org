@@ -288,6 +288,22 @@ test.describe('Desktop', () => {
       await page.keyboard.press('Escape');
       await expect(thumbnail(page, 1)).toBeFocused();
     });
+
+    test('an image opened from the URL moves focus into the sidebar', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+
+      // The image's id is now in the URL, so reloading opens it from there
+      await page.reload();
+
+      await expect(sidebar(page)).toBeVisible();
+      await expect(
+        sidebar(page).getByRole('button', { name: 'Close image details' })
+      ).toBeFocused();
+    });
   });
 }); // Desktop
 

@@ -33,27 +33,24 @@ type Props = {
   images: Image[];
   expandedImage?: Image;
   setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
-  focusOnOpen?: boolean;
 };
 
 /**
  * Shows the details of the selected image result next to the results grid.
- * Renders nothing until an image is selected. When `focusOnOpen` is set,
- * focus moves to the close button as it opens, not when another image is
- * selected while it's open.
+ * Renders nothing until an image is selected. Focus moves to the close button
+ * as it opens, but not when another image is selected while it's open.
  */
 const ImageSidebar: FunctionComponent<Props> = ({
   images,
   expandedImage,
   setExpandedImage,
-  focusOnOpen = false,
 }) => {
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
   const isOpen = expandedImage !== undefined;
 
   useEffect(() => {
-    if (!isOpen || !focusOnOpen) return;
+    if (!isOpen) return;
 
     // Setting the image id as the URL hash makes the browser focus the
     // thumbnail with that id, so wait until that has happened.
