@@ -19,6 +19,8 @@ function getColor(color) {
       return theme.buttonColors.whiteWhiteCharcoal;
     case 'White border':
       return theme.buttonColors.whiteTransparentWhite;
+    case 'Danger':
+      return theme.buttonColors.danger;
     case 'Default':
     default:
       return theme.buttonColors.default;
@@ -84,7 +86,14 @@ export const Basic: Story = {
     disabled: { control: 'boolean', name: 'Disabled' },
     showIcon: { control: 'boolean', name: 'Show icon' },
     storyColors: {
-      options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
+      options: [
+        'Default',
+        'Green border',
+        'Yellow',
+        'White',
+        'White border',
+        'Danger',
+      ],
       control: 'select',
       name: 'Colors',
     },
