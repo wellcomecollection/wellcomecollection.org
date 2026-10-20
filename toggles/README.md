@@ -152,6 +152,8 @@ The website takes a `?toggle=` param on any page that does the same job for sett
 - Set a mode to a specific option: `https://wellcomecollection.org/?toggle={mode_id}:{option_id}`
 - Combine them with commas: `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 
+To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`).
+
 
 ## Useful links
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
