@@ -215,6 +215,20 @@ describe('useImageDetails', () => {
     expect(mockFetchManifest).toHaveBeenCalledTimes(1);
   });
 
+  it('still finds the canvas when the work was redirected to another one', async () => {
+    // The API redirects merged works, so the work has a different id to the image's
+    mockGetWork.mockResolvedValue(
+      work('workMerged', 'Work A', 'https://iiif.example/manifestA')
+    );
+    mockFetchManifest.mockResolvedValue({});
+    mockTransformManifest.mockReturnValue(manifestWith('other', 'imageA'));
+
+    const { result } = renderHook(() => useImageDetails([imageA], imageA));
+    await act(async () => {});
+
+    expect(linkCanvas(result.current.expandedImageLink)).toBe('2');
+  });
+
   describe('images from the same work', () => {
     const bookWork = () =>
       work('book', 'Book', 'https://iiif.example/manifestBook');

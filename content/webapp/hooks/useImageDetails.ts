@@ -48,7 +48,12 @@ const fetchDeeplinkCanvasIndex = async (
  * link to view it.
  */
 const useImageDetails = (images: Image[], expandedImage?: Image) => {
-  const [detailedWork, setDetailedWork] = useState<Work | undefined>();
+  // The work comes back with the id it was requested for, as a redirect
+  // (e.g. a merged work) returns a work with a different id
+  const [loadedWork, setLoadedWork] = useState<
+    { requestedId: string; work: Work } | undefined
+  >();
+  const detailedWork = loadedWork?.work;
   const [canvasDeeplink, setCanvasDeeplink] = useState<
     | {
         canvas: number;
@@ -68,12 +73,14 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   // The work is fetched per work, and dropped (with any request still in
   // flight) when another is selected or the image is closed.
   useEffect(() => {
-    setDetailedWork(undefined);
+    setLoadedWork(undefined);
     if (!workId) return;
 
     let cancelled = false;
     getWorkClientSide(workId).then(res => {
-      if (!cancelled && res.type === 'Work') setDetailedWork(res);
+      if (!cancelled && res.type === 'Work') {
+        setLoadedWork({ requestedId: workId, work: res });
+      }
     });
     return () => {
       cancelled = true;
@@ -83,10 +90,10 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   // The canvas is looked up per image, as several images can share a work.
   useEffect(() => {
     setCanvasDeeplink(undefined);
-    // detailedWork is still the previous work for a render after another is selected
+    // loadedWork is still the previous work for a render after another is selected
     const manifestLocation =
-      detailedWork && detailedWork.id === workId
-        ? getDigitalLocationOfType(detailedWork, 'iiif-presentation')
+      loadedWork && loadedWork.requestedId === workId
+        ? getDigitalLocationOfType(loadedWork.work, 'iiif-presentation')
         : undefined;
     if (!manifestLocation || !imageUrl) return;
 
@@ -102,7 +109,7 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
     return () => {
       cancelled = true;
     };
-  }, [detailedWork, imageUrl, workId]);
+  }, [loadedWork, imageUrl, workId]);
 
   const iiifImageLocation = expandedImage?.locations[0];
   const license =
