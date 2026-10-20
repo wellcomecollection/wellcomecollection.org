@@ -14,6 +14,7 @@ import UserContext, {
   defaultUserContext,
   UserContextProps,
 } from '@weco/common/contexts/UserContext';
+import { createTheme } from '@weco/common/views/themes/config';
 import theme from '@weco/common/views/themes/default';
 import ItemViewerContext, {
   defaultItemViewerContext,
@@ -83,6 +84,7 @@ export type RenderWithContextOptions = {
   userContext?: Partial<UserContextProps>;
   kioskContext?: Partial<KioskContextType>;
   contextProps?: ItemViewerContextOverrides;
+  brandUpdate?: boolean;
 } & Omit<RenderOptions, 'wrapper'>;
 
 export type RenderWithContextResult = RenderResult & {
@@ -100,6 +102,7 @@ export function renderWithContext(
     appContext,
     userContext,
     kioskContext,
+    brandUpdate,
     ...renderOptions
   } = options;
   const appValue: AppContextProps = { ...appContextDefaults, ...appContext };
@@ -113,7 +116,7 @@ export function renderWithContext(
   };
 
   const Wrapper: FunctionComponent<PropsWithChildren> = ({ children }) => (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={brandUpdate ? createTheme(true) : theme}>
       <AppContext.Provider value={appValue}>
         <KioskContext.Provider value={kioskValue}>
           <UserContext.Provider value={userValue}>
