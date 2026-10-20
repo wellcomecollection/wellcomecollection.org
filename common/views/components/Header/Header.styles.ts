@@ -30,7 +30,7 @@ export const Wrapper = styled.div<WrapperProps>`
   align-items: stretch;
   justify-content: center;
   position: relative;
-  z-index: 6;
+  z-index: ${props => props.theme.zIndex.header};
   background-color: ${props =>
     props.theme.color(
       props.$hasColorBackground ? 'accent.lightGreen' : headerBackgroundColor
@@ -48,7 +48,7 @@ export const Wrapper = styled.div<WrapperProps>`
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: ${props.theme.zIndex.headerMenuOpen};
   `)}
 `}
 `;
