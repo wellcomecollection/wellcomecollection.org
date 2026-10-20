@@ -21,6 +21,7 @@ import VisuallySimilarImagesFromApi from '@weco/content/views/components/Visuall
 import {
   CloseButton,
   LoadingWrapper,
+  LockPageScroll,
   MetadataWrapper,
   SidebarWrapper,
   ThumbnailLink,
@@ -78,6 +79,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
       data-component="image-sidebar"
       aria-label="Image details"
     >
+      <LockPageScroll />
       <CloseButton
         ref={closeButtonRef}
         onClick={() => setExpandedImage(undefined)}

@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren, useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -7,6 +7,7 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar from '@weco/content/views/components/ImageSidebar';
+import { belowSidebarBreakpoint } from '@weco/content/views/components/ImageSidebar/ImageSidebar.styles';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -14,9 +15,20 @@ const ResultsLayout = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
-const Results = styled.div`
+// Hidden, not removed, when the sidebar covers the screen: that takes the
+// results out of the tab order and away from screen readers, while keeping
+// their place on the page.
+const Results = styled.div<{ $isSidebarOpen: boolean }>`
   flex: 1 1 0;
   min-width: 0;
+
+  ${props =>
+    props.$isSidebarOpen &&
+    css`
+      @media ${belowSidebarBreakpoint} {
+        visibility: hidden;
+      }
+    `}
 `;
 
 type Props = PropsWithChildren<{ images: Image[] }>;
@@ -45,7 +57,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     if (!isActive && openedFromGrid.current) {
       openedFromGrid.current = false;
       if (lastImageId.current) {
-        document.getElementById(lastImageId.current)?.focus();
+        // Without scrolling, so the results stay where they were
+        document
+          .getElementById(lastImageId.current)
+          ?.focus({ preventScroll: true });
       }
     }
   }, [isActive]);
@@ -72,7 +87,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 
   return (
     <ResultsLayout ref={layoutRef}>
-      <Results>
+      <Results $isSidebarOpen={isActive}>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <Container>
             <main>

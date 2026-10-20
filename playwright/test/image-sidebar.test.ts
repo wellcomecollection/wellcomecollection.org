@@ -294,22 +294,38 @@ test.describe('Desktop', () => {
 test.describe('Small screens', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test.fixme('the sidebar fills the screen and closing it restores the scroll position of the grid', async ({
+  test('the sidebar fills the screen and closing it restores the scroll position of the grid', async ({
     page,
     context,
   }) => {
     await searchImages('art of science', context, page);
     await page.mouse.wheel(0, 600);
-    const scrollBefore = await page.evaluate(() => window.scrollY);
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(600);
 
-    await thumbnail(page, 1).click();
+    // Choose a thumbnail that's already in view, so opening it doesn't scroll
+    const viewportHeight = page.viewportSize()!.height;
+    const links = resultsGrid(page).getByRole('link');
+    let visible;
+    for (let i = 0; i < (await links.count()); i++) {
+      const box = await links.nth(i).boundingBox();
+      if (box && box.y > 0 && box.y + box.height < viewportHeight) {
+        visible = links.nth(i);
+        break;
+      }
+    }
+    await visible!.click();
+
     const pane = await sidebar(page).boundingBox();
     expect(pane!.width).toBeGreaterThanOrEqual(389);
+    expect(pane!.height).toBeGreaterThanOrEqual(viewportHeight - 1);
 
     await sidebar(page)
       .getByRole('button', { name: 'Close image details' })
       .click();
-    expect(await page.evaluate(() => window.scrollY)).toBe(scrollBefore);
+    await expect(sidebar(page)).toHaveCount(0);
+    // Scroll positions can be fractional, so allow for a pixel of rounding
+    const scrollAfter = await page.evaluate(() => window.scrollY);
+    expect(Math.abs(scrollAfter - 600)).toBeLessThanOrEqual(1);
   });
 });
 

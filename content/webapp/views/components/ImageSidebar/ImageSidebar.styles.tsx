@@ -1,25 +1,56 @@
 import NextLink from 'next/link';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   mediaBackgroundColor,
   pageBackgroundColor,
+  sizes,
 } from '@weco/common/views/themes/config';
 
+// The opposite of the `sm` media query that puts the sidebar beside the results
+export const belowSidebarBreakpoint = `not all and (min-width: ${sizes.sm})`;
+
+/**
+ * Full screen over everything below the `sm` breakpoint, and a column beside
+ * the results from `sm` up.
+ */
 export const SidebarWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
-  position: sticky;
-  top: 0;
-  flex: 0 0 50%;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
   overflow-y: auto;
-  border-left: 1px solid ${props => props.theme.color('neutral.300')};
+  overscroll-behavior: contain;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
+
+  ${props =>
+    props.theme.media('sm')(`
+      position: sticky;
+      inset: auto;
+      top: 0;
+      z-index: auto;
+      flex: 0 0 50%;
+      height: 100vh;
+      border-left: 1px solid ${props.theme.color('neutral.300')};
+    `)}
+`;
+
+/**
+ * Stops the page scrolling behind the full screen sidebar. Overflow hidden
+ * keeps the scroll position, so the results are where they were on close.
+ */
+export const LockPageScroll = createGlobalStyle`
+  @media ${belowSidebarBreakpoint} {
+    html,
+    body {
+      overflow: hidden;
+    }
+  }
 `;
 
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
