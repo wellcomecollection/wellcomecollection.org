@@ -39,15 +39,11 @@ export type Props = {
   apiToolbarLinks: ApiToolbarLink[];
 };
 
-type WrapperProps = {
-  $hasNoResults: boolean;
-  $hasSidebarLayout: boolean;
-};
+type WrapperProps = { $hasNoResults: boolean };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   $v: {
     size: 'xl',
-    properties:
-      props.$hasNoResults || props.$hasSidebarLayout ? [] : ['margin-bottom'],
+    properties: props.$hasNoResults ? [] : ['margin-bottom'],
   },
 }))<WrapperProps>`
   ${props =>
@@ -194,10 +190,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
           </Container>
         )}
 
-        <Wrapper
-          $hasNoResults={hasNoResults}
-          $hasSidebarLayout={hasSidebarLayout}
-        >
+        <Wrapper $hasNoResults={hasNoResults}>
           <Space
             $v={{
               size: 'md',
