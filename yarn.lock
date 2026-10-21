@@ -1341,7 +1341,14 @@
     pirates "^4.0.6"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+"@babel/runtime-corejs3@^7.28.3":
+  version "7.29.10"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.29.10.tgz#70f3380caa436ebbc9f1eff67c4fb7efe8778a5a"
+  integrity sha512-R4FKrg4Vy0hB7PfAxf9LOorEPd5/36SCIXPXAvjlQaQmPvtrjwoDXV15jsSm2ecsqBW1Iewwb7mEnG83xIEApg==
+  dependencies:
+    core-js-pure "^3.48.0"
+
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.28.3", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.29.10"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.29.10.tgz#fe9920782f7ee34029165ac6f272984917a1641b"
   integrity sha512-NpugTzbKgGrNe45Ui32cN8vCFFMxVtP/9rtfwv0nP5FRDAjvYBxJcLVpYA9mr1jxP6cnIT7x9LUzuDTbWYYNRA==
@@ -4209,6 +4216,14 @@
   resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-design-system/-/wellcome-design-system-2.1.0.tgz#175fca379822f05bc09f7c911e1155f3c5886df1"
   integrity sha512-wqXHPwevOp2LiEoAUsykdnmM6MdrEeqNgf4Z60hn/teWWmzZka/mE2UH23tnct3owWb8ett55C8kdSbYvKDAtw==
 
+"@wellcometrust/wellcome-icons@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@wellcometrust/wellcome-icons/-/wellcome-icons-2.0.0.tgz#9fbbc6fbf883d9e3e07238d6b9e491181e1cc90c"
+  integrity sha512-6At+XbQ/T5S/3lIwh9hZBzBJ//htSyQeIxd/b137zP3lDx/sI35+HUuANUMHpXBUexIQ1SuX6b9+CgtDf/Q0oA==
+  dependencies:
+    "@babel/runtime" "^7.28.3"
+    "@babel/runtime-corejs3" "^7.28.3"
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -5193,6 +5208,11 @@ core-js-compat@^3.48.0:
   integrity sha512-XGpFGbMLHwSt74YLTKho7Ib242qi6O8MSX+sRokV4oz7iKXvQWGYZthjIhjRGMxjzVkAubBO512dKGYcefmX3Q==
   dependencies:
     browserslist "^4.28.7"
+
+core-js-pure@^3.48.0:
+  version "3.51.0"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.51.0.tgz#5b57ebf028ba61502177c27bc24a9c162c1c120b"
+  integrity sha512-NE4SFDJ+qzQeqHG2vVSNwopzS6zZNPYJ5kinIqs+OofTqGzOmICgT89E/yvS9XY7rwb3eU1utWXTJ9nVFqv74A==
 
 core-js@^2.4.0, core-js@^2.6.5:
   version "2.6.12"
