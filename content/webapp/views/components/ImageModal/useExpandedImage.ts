@@ -73,6 +73,7 @@ const useExpandedImage = (
 
       if (!hash) {
         setExpandedImage(undefined);
+        return;
       }
       // see if the new hash is already in the imageMap
       if (imageMap[hash]) {
