@@ -66,8 +66,4 @@ module "stage_wc_org_cloudfront_distribution" {
   # prod: blocks fraud that poses as a browser without self-identifying,
   # while leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
-
-  # Inert here (allowed_countries blocks the rule countries at priority 0);
-  # set for parity with e2e, where it is being trialled.
-  enable_geo_challenge = true
 }

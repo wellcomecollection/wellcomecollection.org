@@ -71,8 +71,7 @@ module "prod_wc_org_cloudfront_distribution" {
   # leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
 
-  # Geo consent rules stay on CAPTCHA until the challenge is proven on e2e
-  # (wellcomecollection.org#13665).
+  # Stays on CAPTCHA until the challenge is proven on e2e (wc.org#13665).
   enable_geo_challenge = false
 }
 

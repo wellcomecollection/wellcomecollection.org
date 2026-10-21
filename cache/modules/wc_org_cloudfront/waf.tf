@@ -126,12 +126,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
     allow {}
   }
 
-  // Tokens are otherwise bound to the issuing host, so a client that solved on
-  // wellcomecollection.org was re-challenged on content.www.* (~8k/day in the
-  // geo consent regions, 2026-10). Every alias on every distribution is a
-  // subdomain of this.
-  token_domains = ["wellcomecollection.org"]
-
   dynamic "rule" {
     for_each = length(var.allowed_countries) > 0 ? [1] : []
     content {
@@ -548,13 +542,10 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  // Geo consent rules: first-visit (no CookieControl cookie) traffic from
-  // regions that are mostly bots gets a CAPTCHA, or with enable_geo_challenge
-  // the silent challenge. 85-99% of what they catch never runs JS and fails
-  // either action; the JS-capable remainder (~31k/day over Jul-Oct 2026) passes
-  // a challenge, so watch ChallengesSolved on these rules and flip back to
-  // CAPTCHA if it climbs into the hundreds of thousands a day. Names and
-  // metric names are kept so the CloudWatch history stays comparable.
+  // Geo consent rules: first-visit traffic from mostly-bot regions gets a
+  // CAPTCHA, or the silent challenge with enable_geo_challenge. JS-capable
+  // bots pass the challenge, so watch ChallengesSolved and
+  // RequestsWithValidChallengeToken here (numbers in wc.org#13665).
   rule {
     name     = "apac-captcha-consent-block"
     priority = 10
