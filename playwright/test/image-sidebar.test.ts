@@ -193,6 +193,51 @@ test.describe('Desktop', () => {
       await expect(heading).toHaveText(titles[other]);
     });
 
+    test('the sidebar stays open on the same image when going to the next page of results', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('art of science', context, page);
+      const titles = await plainThumbnailTitles(page);
+      const first = titles.findIndex(Boolean);
+      expect(
+        first,
+        'expected an image with a plain title'
+      ).toBeGreaterThanOrEqual(0);
+
+      await openSidebar(first + 1, page);
+      const heading = sidebar(page).getByRole('heading', { level: 2 });
+      await expect(heading).toHaveText(titles[first]);
+
+      await page.getByRole('link', { name: 'Next (page 2)' }).first().click();
+      await expect(page).toHaveURL(/page=2/);
+
+      await expect(sidebar(page)).toHaveCount(1);
+      await expect(heading).toHaveText(titles[first]);
+      await expect(page).toHaveURL(/page=2.*#\w+/);
+
+      await sidebar(page)
+        .getByRole('button', { name: 'Close image details' })
+        .click();
+      await expect(sidebar(page)).toHaveCount(0);
+      await expect(page).not.toHaveURL(/#\w/);
+    });
+
+    test('the sidebar closes when the sort changes', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('art of science', context, page);
+      await openSidebar(1, page);
+
+      await page.getByRole('combobox', { name: /sort/i }).selectOption({
+        index: 1,
+      });
+      await expect(page).toHaveURL(/sort=/);
+
+      await expect(sidebar(page)).toHaveCount(0);
+    });
+
     test('clicking a visually similar image selects it and records the click', async ({
       page,
       context,

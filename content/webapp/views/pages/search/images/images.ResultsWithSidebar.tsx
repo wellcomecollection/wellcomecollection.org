@@ -7,8 +7,8 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { containerPadding } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
@@ -18,21 +18,43 @@ const ResultsLayout = styled.div`
   display: flex;
   align-items: flex-start;
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
+  border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
+
+// Where the content of a Container starts: half of the space left either side
+// of its max width, plus its own padding, which is a share of the parent's width
+const containerEdge = (maxWidth: string) =>
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 // Hidden, not removed, when the sidebar covers the screen (below `sm`): that
 // takes the results out of the tab order and away from screen readers, while
 // keeping their place on the page.
+// Keeps the pagination at the bottom of the results column, which is as tall as the sidebar
+const PaginationArea = styled.div`
+  margin-top: auto;
+`;
+
 const Results = styled.div<{ $isSidebarOpen: boolean }>`
   flex: 1 1 0;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  /* Lines the results up with the page's Container, which the sidebar isn't in because it runs to the right edge */
+  padding-left: ${props => containerEdge(props.theme.sizes.lg)};
+  padding-right: ${props =>
+    props.$isSidebarOpen ? 0 : containerEdge(props.theme.sizes.lg)};
 
   ${props =>
     props.$isSidebarOpen &&
     css`
+      align-self: stretch;
       visibility: hidden;
 
-      ${props.theme.media('sm')(`visibility: visible;`)}
+      ${props.theme.media('sm')(`
+        visibility: visible;
+        padding-right: ${containerPadding};
+      `)}
     `}
 `;
 
@@ -90,7 +112,9 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   images,
   children,
 }) => {
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const [expandedImage, setExpandedImage] = useExpandedImage(images, {
+    keepOpenOnResultsChange: true,
+  });
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -122,18 +146,16 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     <ResultsLayout ref={layoutRef}>
       <Results ref={resultsRef} $isSidebarOpen={isActive}>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-          <Container>
-            <main>
-              <CatalogueImageGallery
-                images={images}
-                variant="justified"
-                imageDetails="sidebar"
-                onImageSelect={setExpandedImage}
-              />
-            </main>
-            {children}
-          </Container>
+          <main>
+            <CatalogueImageGallery
+              images={images}
+              variant="justified"
+              imageDetails="sidebar"
+              onImageSelect={setExpandedImage}
+            />
+          </main>
         </Space>
+        <PaginationArea>{children}</PaginationArea>
       </Results>
 
       <ImageSidebar
