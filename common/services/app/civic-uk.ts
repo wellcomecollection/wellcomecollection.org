@@ -51,17 +51,18 @@ export const getConsentState = (
 };
 
 /**
- * @param resolvedKioskMode - the kiosk mode this render resolved to, if known.
- * It can be set by `?toggle=` or `?toggleOverride=` before any cookie exists,
- * and _app hides the consent banner based on it, so consent needs to follow it
- * too or the landing page would start with analytics denied and no banner.
+ * @param presetKioskMode - a kiosk mode being saved by `?toggle=` on this
+ * request, before its cookie exists. Without it the landing page would hide
+ * the consent banner (kiosk mode) but start with analytics denied. Don't pass
+ * a `?toggleOverride=` kiosk mode here: that lasts one render, and nothing in
+ * the browser revokes the grant when the next page leaves kiosk mode.
  */
 export const getAllConsentStates = (
   context?: GetServerSidePropsContext,
-  resolvedKioskMode?: string | null
+  presetKioskMode?: string
 ): ConsentStatusProps => {
   // Kiosk mode overrides consent and always allows analytics and marketing
-  if (isValidKioskMode(resolvedKioskMode)) {
+  if (isValidKioskMode(presetKioskMode)) {
     return { analytics: true, marketing: true, cookieExists: true };
   }
 

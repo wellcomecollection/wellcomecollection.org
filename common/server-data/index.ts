@@ -188,8 +188,10 @@ export const getServerData = async (
     ]);
   }
 
-  // Read cookie consent status (analytics, marketing)
-  const consentStatus = getAllConsentStates(context, modes.kioskMode);
+  // Read cookie consent status (analytics, marketing). A kiosk mode from
+  // ?toggle= counts, as it's saved and lasts beyond this page; one from
+  // ?toggleOverride= doesn't, as the grant would outlive it in the browser.
+  const consentStatus = getAllConsentStates(context, presets.kioskMode);
 
   const toggles: Toggles = { featureFlags, phasedFlags, tests, modes };
 
