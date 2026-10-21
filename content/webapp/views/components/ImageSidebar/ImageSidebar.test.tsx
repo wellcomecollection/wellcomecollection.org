@@ -1,6 +1,7 @@
-import { act, screen } from '@testing-library/react';
+import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
@@ -35,15 +36,23 @@ const work = {
 
 const renderSidebar = async (image?: Image, setExpandedImage = jest.fn()) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
-  const view = renderWithTheme(
+  const sidebar = (expandedImage?: Image) => (
     <ImageSidebar
-      images={image ? [image] : []}
-      expandedImage={image}
+      images={expandedImage ? [expandedImage] : []}
+      expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
     />
   );
+  const view = renderWithTheme(sidebar(image));
   await act(async () => {});
-  return { ...view, setExpandedImage };
+  return {
+    ...view,
+    setExpandedImage,
+    select: async (next?: Image) => {
+      view.rerender(sidebar(next));
+      await act(async () => {});
+    },
+  };
 };
 
 describe('ImageSidebar', () => {
@@ -77,5 +86,48 @@ describe('ImageSidebar', () => {
     );
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  describe('focus', () => {
+    const closeButton = () =>
+      screen.getByRole('button', { name: 'Close image details' });
+    // Long enough for the focus timer to have fired, if it was going to
+    const wait = () => act(() => new Promise(r => setTimeout(r, 20)));
+
+    it('moves to the close button when it opens', async () => {
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+
+      await waitFor(() => expect(closeButton()).toHaveFocus());
+    });
+
+    it('leaves focus alone while the cookie banner is showing', async () => {
+      const banner = document.createElement('div');
+      banner.id = ACTIVE_COOKIE_BANNER_ID;
+      document.body.appendChild(banner);
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+      await wait();
+
+      expect(closeButton()).not.toHaveFocus();
+      banner.remove();
+    });
+
+    it("doesn't take focus back when another image is selected while it's open", async () => {
+      const { select } = await renderSidebar(undefined);
+      await select(expandedImage);
+      await waitFor(() => expect(closeButton()).toHaveFocus());
+
+      const elsewhere = document.createElement('button');
+      document.body.appendChild(elsewhere);
+      elsewhere.focus();
+      await select({ ...expandedImage, id: 'imageB' } as Image);
+      await wait();
+
+      expect(elsewhere).toHaveFocus();
+      elsewhere.remove();
+    });
   });
 });

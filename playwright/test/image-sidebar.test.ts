@@ -212,6 +212,12 @@ test.describe('Desktop', () => {
       expect(events.some(e => e.event === 'visually_similar_image_click')).toBe(
         true
       );
+
+      // It isn't one of the results, so closing goes back to the first image's thumbnail
+      const similarImageId = new URL(page.url()).hash.slice(1);
+      await expect(page.locator(`a[id="${similarImageId}"]`)).toHaveCount(0);
+      await page.keyboard.press('Escape');
+      await expect(thumbnail(page, 1)).toBeFocused();
     });
   });
 
@@ -276,17 +282,36 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toHaveCount(0);
     });
 
-    test.fixme('focus moves into the sidebar when it opens and back to the thumbnail when it closes', async ({
+    test('focus moves into the sidebar when it opens and back to the thumbnail when it closes', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('art of science', context, page);
+
+      // The fifth thumbnail is on a lower row, which moves when the sidebar
+      // closes and the grid gets its width back
+      await openSidebar(5, page);
+
+      await expect(sidebar(page).locator(':focus')).toHaveCount(1);
+
+      await page.keyboard.press('Escape');
+      await expect(thumbnail(page, 5)).toBeFocused();
+    });
+
+    test('an image opened from the URL moves focus into the sidebar', async ({
       page,
       context,
     }) => {
       await searchImages(imageWithContributor, context, page);
       await openSidebar(1, page);
 
-      await expect(sidebar(page).locator(':focus')).toHaveCount(1);
+      // The image's id is now in the URL, so reloading opens it from there
+      await page.reload();
 
-      await page.keyboard.press('Escape');
-      await expect(thumbnail(page, 1)).toBeFocused();
+      await expect(sidebar(page)).toBeVisible();
+      await expect(
+        sidebar(page).getByRole('button', { name: 'Close image details' })
+      ).toBeFocused();
     });
   });
 }); // Desktop
