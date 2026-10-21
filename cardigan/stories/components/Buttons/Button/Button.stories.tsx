@@ -61,12 +61,13 @@ export const Basic: Story = {
     disabled: false,
     storyColors: 'Default',
     showIcon: true,
+    hierarchy: 'primary',
   },
   parameters: {
     docs: {
       description: {
         story:
-          'With the brandUpdate toolbar toggle on, `hierarchy` and `isOnDark` set the brand colours. Without them, the preset picked in Colors decides.',
+          'With the brandUpdate toolbar toggle on, `hierarchy` and `isOnDark` set the brand colours. With it off, or with no hierarchy, the preset picked in Colors decides.',
       },
     },
   },

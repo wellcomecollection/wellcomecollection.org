@@ -29,10 +29,6 @@ export type ButtonColors = {
   border: PinnableColor;
   background: PinnableColor;
   text: PinnableColor;
-  // The brand hierarchy a preset maps to, so buttons that don't pass
-  // `hierarchy` still pick up the brand styles
-  hierarchy?: ButtonHierarchy;
-  isOnDark?: boolean;
   // A destructive action, e.g. deleting an account. Outside the hierarchy
   isDanger?: boolean;
 };

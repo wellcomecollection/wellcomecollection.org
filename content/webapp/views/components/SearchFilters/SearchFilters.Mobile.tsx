@@ -227,6 +227,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
     >
       <ShameButtonWrap>
         <StyledButton
+          $hierarchy="primary"
           type={ButtonTypes.button}
           ref={openFiltersButtonRef}
           onClick={handleOpenFiltersButtonClick}
@@ -325,6 +326,7 @@ const SearchFiltersMobile: FunctionComponent<SearchFiltersSharedProps> = ({
 
           <Button
             variant="ButtonSolid"
+            hierarchy="primary"
             ref={okFiltersButtonRef}
             type={ButtonTypes.button}
             clickHandler={handleOkFiltersButtonClick}

@@ -35,6 +35,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       <CTAs>
         <Button
           variant="ButtonSolidLink"
+          hierarchy="primary"
           text="View your library account"
           link="/account"
         />

@@ -45,6 +45,7 @@ const NoEvents: FunctionComponent<Props> = ({ isPastListing, hasFilters }) => {
           <ClearFiltersText>Clear your filters and try again</ClearFiltersText>
           <Buttons
             variant="ButtonSolidLink"
+            hierarchy="primary"
             link={`/events${isPastListing ? '/past' : ''}`}
             text="Clear all filters"
           />

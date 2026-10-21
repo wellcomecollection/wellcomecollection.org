@@ -127,6 +127,7 @@ class Iframe extends Component<Props, State> {
                 <span className="launch">
                   <Button
                     variant="ButtonSolid"
+                    hierarchy="primary"
                     text="Launch"
                     ariaLive="polite"
                   />
