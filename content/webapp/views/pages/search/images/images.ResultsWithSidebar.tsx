@@ -5,7 +5,7 @@ import {
   useEffect,
   useRef,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
@@ -20,9 +20,20 @@ const ResultsLayout = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
-const Results = styled.div`
+// Hidden, not removed, when the sidebar covers the screen (below `sm`): that
+// takes the results out of the tab order and away from screen readers, while
+// keeping their place on the page.
+const Results = styled.div<{ $isSidebarOpen: boolean }>`
   flex: 1 1 0;
   min-width: 0;
+
+  ${props =>
+    props.$isSidebarOpen &&
+    css`
+      visibility: hidden;
+
+      ${props.theme.media('sm')(`visibility: visible;`)}
+    `}
 `;
 
 /**
@@ -109,7 +120,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 
   return (
     <ResultsLayout ref={layoutRef}>
-      <Results ref={resultsRef}>
+      <Results ref={resultsRef} $isSidebarOpen={isActive}>
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <Container>
             <main>

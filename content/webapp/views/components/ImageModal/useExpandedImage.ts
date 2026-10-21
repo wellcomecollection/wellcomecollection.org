@@ -64,9 +64,10 @@ const useExpandedImage = (
   }, [imageMap]);
 
   useEffect(() => {
+    // Store the current scroll position, before the hash changes
+    const scrollY = window.scrollY;
+
     if (expandedImage !== undefined) {
-      // Store the current scroll position
-      const scrollY = window.scrollY;
       hasBeenExpanded.current = true;
       setImageIdInURL(expandedImage?.id || '');
       // The browser will try to scroll to the #id but we
