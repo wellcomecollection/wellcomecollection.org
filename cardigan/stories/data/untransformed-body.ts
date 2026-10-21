@@ -398,11 +398,11 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                     },
                   ],
                   image: {
-                    dimensions: { width: 4000, height: 2250 },
+                    dimensions: { width: 1600, height: 900 },
                     alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
                     copyright:
                       'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                    url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                    url: florenceWinterfloodImageUrl('1600x900'),
                     id: 'WypmzyYAAIxc07Hn',
                     edit: { x: 0, y: 0, zoom: 1, background: '#fff' },
                     '32:15': {
@@ -410,7 +410,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
                       copyright:
                         'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      url: florenceWinterfloodImageUrl('3200x1500'),
                       id: 'WypmzyYAAIxc07Hn',
                       edit: { x: 0, y: -150, zoom: 0.8, background: '#fff' },
                     },
@@ -419,7 +419,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
                       copyright:
                         'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      url: florenceWinterfloodImageUrl('3200x1800'),
                       id: 'WypmzyYAAIxc07Hn',
                       edit: { x: 0, y: 0, zoom: 0.8, background: '#fff' },
                     },
@@ -428,7 +428,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of a young man and woman using an iPad in the Medicine Man gallery to film each other talking to camera.',
                       copyright:
                         'Saturday Studio video journalism | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F8ea8bf8a-4a9f-4c04-9926-de4b978848dc_btg180517200023.jpg?auto=format,compress',
+                      url: florenceWinterfloodImageUrl('3200x3200'),
                       id: 'WypmzyYAAIxc07Hn',
                       edit: {
                         x: -1244,
@@ -470,11 +470,11 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                     },
                   ],
                   image: {
-                    dimensions: { width: 4000, height: 2250 },
+                    dimensions: { width: 1600, height: 900 },
                     alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
                     copyright:
                       'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                    url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                    url: darkCloudImageUrl('1600x900'),
                     id: 'W1s5-CYAACUAvgbP',
                     edit: { x: 0, y: 0, zoom: 1, background: '#fff' },
                     '32:15': {
@@ -482,7 +482,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
                       copyright:
                         'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      url: darkCloudImageUrl('3200x1500'),
                       id: 'W1s5-CYAACUAvgbP',
                       edit: { x: 0, y: -150, zoom: 0.8, background: '#fff' },
                     },
@@ -491,7 +491,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
                       copyright:
                         'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      url: darkCloudImageUrl('3200x1800'),
                       id: 'W1s5-CYAACUAvgbP',
                       edit: { x: 0, y: 0, zoom: 0.8, background: '#fff' },
                     },
@@ -500,7 +500,7 @@ const untransformedbody: prismic.SliceZone<PagesDocumentDataBodySlice> = [
                       alt: 'Photograph of young students examining a skeleton as part of a Wellcome Collection school study day.',
                       copyright:
                         'School study day at Wellcome Collection  | Benjamin Gilbert | Wellcome Collection | | CC-BY-NC | |',
-                      url: 'https://images.prismic.io/wellcomecollection%2F104acf6e-b667-4989-88e5-cf00985863af_c0093071.jpg?auto=format,compress',
+                      url: darkCloudImageUrl('3200x3200'),
                       id: 'W1s5-CYAACUAvgbP',
                       edit: {
                         x: -1244,

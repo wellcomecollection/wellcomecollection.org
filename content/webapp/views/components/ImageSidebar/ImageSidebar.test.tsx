@@ -1,6 +1,7 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
@@ -105,6 +106,19 @@ describe('ImageSidebar', () => {
       await runTimers();
 
       expect(closeButton()).toHaveFocus();
+    });
+
+    it('leaves focus alone while the cookie banner is showing', async () => {
+      const banner = document.createElement('div');
+      banner.id = ACTIVE_COOKIE_BANNER_ID;
+      document.body.appendChild(banner);
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+      await runTimers();
+
+      expect(closeButton()).not.toHaveFocus();
+      banner.remove();
     });
 
     it("doesn't take focus back when another image is selected while it's open", async () => {

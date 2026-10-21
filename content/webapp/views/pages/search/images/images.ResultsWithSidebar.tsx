@@ -59,18 +59,23 @@ const Results = styled.div<{ $isSidebarOpen: boolean }>`
 `;
 
 /**
- * Returns focus to the selected image's thumbnail when the sidebar closes.
- * There's none to return to if the image isn't in the results.
+ * Returns focus to the selected image's thumbnail when the sidebar closes. If
+ * the selected image isn't in the results, it goes to the last one that was.
  */
 const useReturnFocusOnClose = (
+  images: Image[],
   expandedImage: Image | undefined,
   resultsRef: RefObject<HTMLElement | null>
 ) => {
   const isActive = expandedImage !== undefined;
   const lastImageId = useRef<string | undefined>(undefined);
 
+  // Only images in the results have a thumbnail to go back to, so an image
+  // chosen from the visually similar ones leaves the last thumbnail as it was
   useEffect(() => {
-    if (expandedImage) lastImageId.current = expandedImage.id;
+    if (expandedImage && images.some(({ id }) => id === expandedImage.id)) {
+      lastImageId.current = expandedImage.id;
+    }
   }, [expandedImage]);
 
   useEffect(() => {
@@ -115,7 +120,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const resultsRef = useRef<HTMLDivElement>(null);
   const isActive = expandedImage !== undefined;
 
-  useReturnFocusOnClose(expandedImage, resultsRef);
+  useReturnFocusOnClose(images, expandedImage, resultsRef);
 
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in

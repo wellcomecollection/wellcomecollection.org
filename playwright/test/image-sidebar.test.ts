@@ -261,6 +261,12 @@ test.describe('Desktop', () => {
       expect(events.some(e => e.event === 'visually_similar_image_click')).toBe(
         true
       );
+
+      // It isn't one of the results, so closing goes back to the first image's thumbnail
+      const similarImageId = new URL(page.url()).hash.slice(1);
+      await expect(page.locator(`a[id="${similarImageId}"]`)).toHaveCount(0);
+      await page.keyboard.press('Escape');
+      await expect(thumbnail(page, 1)).toBeFocused();
     });
   });
 
