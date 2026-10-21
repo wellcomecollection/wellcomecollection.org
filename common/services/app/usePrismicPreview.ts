@@ -4,6 +4,7 @@ import {
   PrismicData,
   SimplifiedPrismicData,
 } from '@weco/common/server-data/prismic';
+import { themeValues } from '@weco/common/views/themes/config';
 
 declare global {
   interface Window {
@@ -30,7 +31,9 @@ const usePrismicPreview = (shouldDisplay: () => boolean): void =>
         validationBar.style.bottom = '0';
         validationBar.style.right = '0';
         validationBar.style.fontSize = '12px';
-        validationBar.style.zIndex = '2147483000';
+        validationBar.style.zIndex = String(
+          themeValues.zIndex.prismicPreviewBar
+        );
 
         const validationFails: string[] = [];
 

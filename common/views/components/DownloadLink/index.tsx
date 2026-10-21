@@ -1,11 +1,12 @@
 import { FunctionComponent, ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { download } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { PinnableColor } from '@weco/common/views/themes/config';
 
 const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
   className: props.$isDark
@@ -14,18 +15,21 @@ const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
 }))<{ $isDark?: boolean }>`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => (props.$isDark ? 'none' : props.theme.color('white'))};
+  background: ${props =>
+    props.$isDark || props.theme.brandUpdate
+      ? 'none'
+      : props.theme.color('white')};
   color: ${props =>
     props.$isDark
       ? props.theme.color('white')
-      : props.theme.color('accent.green')};
+      : props.theme.color({ brand: 'neutral.70', legacy: 'accent.green' })};
   transition: color ${props => props.theme.transitionProperties};
 
   &:hover {
     color: ${props =>
       props.$isDark
         ? props.theme.color('white')
-        : props.theme.color('accent.green')};
+        : props.theme.color({ brand: 'neutral.70', legacy: 'accent.green' })};
     text-decoration-color: transparent;
   }
 `;
@@ -43,13 +47,26 @@ const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
   color: ${props =>
     props.$isDark
       ? props.theme.color('white')
-      : props.theme.color('neutral.600')};
+      : props.theme.color({ brand: 'neutral.70', legacy: 'neutral.600' })};
 `;
 
-const TextToDisplay = styled.span<{ $isDark?: boolean }>`
+const TextToDisplay = styled.span<{ $isDark?: boolean; $isStyled?: boolean }>`
   margin: 0;
-  text-decoration: ${props => (props.$isDark ? 'underline' : 'none')};
+  text-decoration: ${props =>
+    props.$isDark || (props.theme.brandUpdate && props.$isStyled)
+      ? 'underline'
+      : 'none'};
   text-underline-offset: 0.1em;
+
+  ${props =>
+    props.theme.brandUpdate &&
+    props.$isStyled &&
+    !props.$isDark &&
+    css`
+      a:hover & {
+        text-decoration: none;
+      }
+    `}
 `;
 
 const IconWrapper = styled(Space).attrs<{
@@ -104,7 +121,9 @@ const DownloadLink: FunctionComponent<Props> = ({
   isDark,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
-  const iconColor = isDark ? 'yellow' : 'accent.green';
+  const iconColor: PinnableColor = isDark
+    ? 'yellow'
+    : { brand: 'neutral.70', legacy: 'accent.green' };
   const readableFormat = format ? getFormatString(format) : undefined;
 
   return (
@@ -130,7 +149,9 @@ const DownloadLink: FunctionComponent<Props> = ({
           <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
 
-        <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
+        <TextToDisplay $isDark={isDark} $isStyled={!!linkText}>
+          {linkText || children}
+        </TextToDisplay>
 
         {readableFormat && (
           <Format as="span" $isDark={isDark}>

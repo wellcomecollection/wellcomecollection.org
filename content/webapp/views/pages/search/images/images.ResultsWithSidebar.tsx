@@ -11,6 +11,7 @@ import ImageSidebar from '@weco/content/views/components/ImageSidebar';
 const ResultsLayout = styled.div`
   display: flex;
   align-items: flex-start;
+  border-top: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
 const Results = styled.div`
@@ -68,6 +69,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       </Results>
 
       <ImageSidebar
+        images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
       />

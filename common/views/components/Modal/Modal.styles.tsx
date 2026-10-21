@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 export const Overlay = styled.div`
-  z-index: 1002;
+  z-index: ${props => props.theme.zIndex.modalOverlay};
   position: fixed;
   top: 0;
   left: 0;
@@ -15,6 +16,57 @@ export const Overlay = styled.div`
   `}
 `;
 
+// The brand's round control colours, but only shown on hover, like the header
+// search button. On small screens it floats over the scrolling modal content,
+// so it keeps its fill there, inverting on hover with a ring like the
+// controls. The swap is instant, as fading inverted colours makes the icon
+// flicker out midway
+const brandSize = 44;
+const legacySize = 28;
+
+const brandCloseButtonStyles = (isOnDark: boolean) => {
+  const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
+  const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
+
+  return css`
+    width: ${brandSize}px;
+    height: ${brandSize}px;
+    background: ${fill};
+    color: ${ink};
+    border: 1px solid transparent;
+    transition: none;
+
+    &:hover {
+      background: ${ink};
+      color: ${fill};
+      border-color: ${fill};
+    }
+
+    .icon {
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .icon__shape {
+      transition: none;
+    }
+
+    ${props =>
+      props.theme.media('sm')(`
+      background: none;
+      color: ${fill};
+      border: 0;
+
+      /* Bigger than the legacy button, so keep its centre in the same place */
+      margin: ${(legacySize - brandSize) / 2}px ${(legacySize - brandSize) / 2}px 0 0;
+
+      &:hover {
+        background: ${fill};
+        color: ${ink};
+      }
+    `)}
+  `;
+};
+
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
   type: props.type || 'button',
@@ -22,8 +74,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: ${legacySize}px;
+  height: ${legacySize}px;
   border-radius: 50%;
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
@@ -43,6 +95,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     color: ${props.theme.color('neutral.600')};
     position: absolute;
   `)}
+
+  ${props => props.theme.brandUpdate && brandCloseButtonStyles(false)}
 `;
 
 // Modal positioning is applied in three places, each building on the last:
@@ -67,7 +121,7 @@ export const BaseModalWindow = styled(Space).attrs({
   $width?: string | null;
   $maxWidth?: string;
 }>`
-  z-index: 10001;
+  z-index: ${props => props.theme.zIndex.modalWindow};
   top: 0;
   bottom: 0;
   left: 0;
@@ -89,7 +143,7 @@ export const BaseModalWindow = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
-    z-index: 1003;
+    z-index: ${props => props.theme.zIndex.modalWindow};
     pointer-events: all;
   }
 
@@ -147,6 +201,28 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
+// The mobile filters modal's header scrolls with its content rather than
+// sitting over the top padding, and its footer is fixed, so it needs no
+// vertical padding
+export const MobileFiltersModal = styled(FiltersModal)`
+  padding-top: 0;
+  padding-bottom: 0;
+
+  /* Centre it on the "Filters" heading, and keep it clear of a browser
+  scrollbar on the scrolling filters */
+  ${CloseButton} {
+    ${props =>
+      props.theme.brandUpdate &&
+      props.theme.mediaBetween(
+        'zero',
+        'sm'
+      )(`
+        top: 6px;
+        right: 24px;
+      `)}
+  }
+`;
+
 export const VideoModal = styled(BaseModalWindow)`
   padding: 0;
   background-color: ${props => props.theme.color('neutral.700')};
@@ -154,6 +230,14 @@ export const VideoModal = styled(BaseModalWindow)`
 
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
+
+    ${props => props.theme.brandUpdate && brandCloseButtonStyles(true)}
+
+    /* Centre it on the BSL video's title bar, which is taller on small
+    screens in the brand */
+    ${props =>
+      props.theme.brandUpdate &&
+      props.theme.mediaBetween('zero', 'sm')('top: 13px;')}
   }
 `;
 
