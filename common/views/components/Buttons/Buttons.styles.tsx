@@ -106,7 +106,7 @@ const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
 
 /** The brand colours for a button, or undefined if it should keep its preset
  * colours: the toggle is off, it's a pill (styled separately), or its colours
- * have no place in the hierarchy (e.g. `danger`).
+ * have no place in the hierarchy and aren't `danger`.
  */
 export const getBrandButtonColors = ({
   theme,
@@ -124,6 +124,8 @@ export const getBrandButtonColors = ({
   if (!theme.brandUpdate || isPill) return undefined;
 
   const presetColors = colors || theme.buttonColors.default;
+  if (presetColors.isDanger) return brandButtonColors.danger;
+
   const level = hierarchy || presetColors.hierarchy;
   if (!level) return undefined;
 

@@ -302,6 +302,7 @@ const dangerButtonColors: ButtonColors = {
   border: 'validation.red',
   background: 'validation.red',
   text: 'white',
+  isDanger: true,
 };
 
 // Button color naming convention: [border][Background][Text]
@@ -426,7 +427,7 @@ const outlinedDisabled: BrandButtonStateColors = {
 // Button colours from the brand designs. Only tertiary changes on a dark
 // background; hover adds an underline rather than changing colour.
 export const brandButtonColors: Record<
-  ButtonHierarchy | 'tertiaryOnDark',
+  ButtonHierarchy | 'tertiaryOnDark' | 'danger',
   BrandButtonColors
 > = {
   primary: {
@@ -464,6 +465,13 @@ export const brandButtonColors: Record<
     default: { border: 'blue.30', background: 'transparent', text: 'blue.30' },
     active: { border: 'blue.40', background: 'transparent', text: 'blue.40' },
     disabled: outlinedDisabled,
+  },
+  // Pure black rather than neutral.70, which doesn't have enough contrast on
+  // ui.red.40. There's no mid red, so pressing adds a darker stroke instead
+  danger: {
+    default: { border: 'ui.red.40', background: 'ui.red.40', text: 'black' },
+    active: { border: 'ui.red.60', background: 'ui.red.40', text: 'black' },
+    disabled: filledDisabled,
   },
 };
 
