@@ -115,7 +115,7 @@ describe('ImageSidebar', () => {
       const { select } = await renderSidebar(undefined);
 
       await select(expandedImage);
-      await wait();
+      await runTimers();
 
       expect(closeButton()).not.toHaveFocus();
       banner.remove();
