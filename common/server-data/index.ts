@@ -189,7 +189,7 @@ export const getServerData = async (
   }
 
   // Read cookie consent status (analytics, marketing)
-  const consentStatus = getAllConsentStates(context);
+  const consentStatus = getAllConsentStates(context, modes.kioskMode);
 
   const toggles: Toggles = { featureFlags, phasedFlags, tests, modes };
 
