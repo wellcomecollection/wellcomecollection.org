@@ -7,6 +7,7 @@ import {
 } from 'react';
 
 import { cross, eye } from '@weco/common/icons';
+import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
@@ -53,7 +54,11 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
     // Setting the image id as the URL hash makes the browser focus the
     // thumbnail with that id, so wait until that has happened.
-    const timeout = setTimeout(() => closeButtonRef.current?.focus());
+    const timeout = setTimeout(() => {
+      // Leave focus alone if the cookie banner is showing, as the modal does
+      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
+      closeButtonRef.current?.focus();
+    });
     return () => clearTimeout(timeout);
   }, [isOpen]);
 
