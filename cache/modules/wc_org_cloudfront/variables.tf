@@ -94,7 +94,7 @@ variable "enable_items_challenge" {
 variable "enable_geo_challenge" {
   type        = bool
   default     = false
-  description = "Serve the silent JS challenge instead of a CAPTCHA on the apac and latam consent rules, reusing search_challenge_immunity_seconds. Stage cannot exercise these rules (its allowed_countries block fires first), so prove on e2e from a geolocated client before enabling on prod."
+  description = "Serve the silent JS challenge instead of a CAPTCHA on the geo consent rules, reusing search_challenge_immunity_seconds. Prove on e2e before enabling elsewhere; stage's allowed_countries block keeps these rules from firing there."
 }
 
 variable "enable_search_legacy_ua_block" {
