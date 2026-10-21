@@ -26,6 +26,7 @@ import togglesHandler, {
   parseToggleOverrides,
   parseTogglePresets,
   togglePresetCookies,
+  validToggleOverrides,
   validTogglePresets,
 } from './toggles';
 import { ServerData } from './types';
@@ -160,7 +161,11 @@ export const getServerData = async (
   // Support ?toggleOverride=id:value,id:value to override toggle state for this
   // render only, without writing any cookie. Lets two browser tabs render the
   // same page with different toggle states side by side.
-  const overrides = parseToggleOverrides(context.query.toggleOverride);
+  const overrides = validToggleOverrides(
+    parseToggleOverrides(context.query.toggleOverride),
+    togglesResp,
+    context
+  );
 
   // Resolve toggle values from the cached config + user's cookies. Presets go
   // in as overrides too, so this render reflects them before the cookies land.

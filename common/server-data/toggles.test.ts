@@ -11,6 +11,7 @@ import {
   parseToggleOverrides,
   parseTogglePresets,
   togglePresetCookies,
+  validToggleOverrides,
   validTogglePresets,
 } from './toggles';
 
@@ -735,6 +736,71 @@ describe('validTogglePresets', () => {
         createContext({}, 'www-stage.wellcomecollection.org')
       )
     ).toEqual({ stagingApi: 'true' });
+  });
+  describe('validToggleOverrides', () => {
+    it('accepts false for a feature flag, unlike presets', () => {
+      expect(
+        validToggleOverrides(
+          { stagingApi: 'false' },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({ stagingApi: 'false' });
+    });
+
+    it('drops unknown ids and unknown phases/options', () => {
+      expect(
+        validToggleOverrides(
+          {
+            notAToggle: 'true',
+            imageSidebarPhases: 'phase9',
+            kioskMode: 'nope',
+          },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({});
+    });
+
+    it('leaves a valid preset in place when the override for the same id is invalid', () => {
+      const context = createContext({
+        toggle_imageSidebarPhases: 'phase1',
+      });
+      const presets = validTogglePresets(
+        { imageSidebarPhases: 'phase2' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { imageSidebarPhases: 'phase9' },
+        togglesResp,
+        context
+      );
+      const { phasedFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(phasedFlags.imageSidebarPhases.current).toBe('phase2');
+    });
+
+    it('lets a valid false override beat a true preset for a feature flag', () => {
+      const context = createContext();
+      const presets = validTogglePresets(
+        { stagingApi: 'true' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { stagingApi: 'false' },
+        togglesResp,
+        context
+      );
+      const { featureFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(featureFlags.stagingApi).toBe(false);
+    });
   });
 });
 
