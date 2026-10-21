@@ -39,6 +39,18 @@ export type KioskModeOptionId = Extract<
   { id: 'kioskMode' }
 >['options'][number]['id'];
 
+// Fails `yarn tsc` if a phase or mode option id is TOGGLE_RESET_VALUE: the
+// website reads `?toggle=id:reset` as a reset, so that phase/option could
+// never be picked by link. deploy.ts checks the same at runtime, since
+// `yarn deploy` runs via tsx without type checking.
+type PhaseOrModeOptionId =
+  | (typeof toggleConfig.phasedFlags)[number]['phases'][number]['id']
+  | (typeof toggleConfig.modes)[number]['options'][number]['id'];
+type AssertNotReserved<T extends true> = T;
+export type NoReservedPhaseOrModeOptionIds = AssertNotReserved<
+  typeof TOGGLE_RESET_VALUE extends PhaseOrModeOptionId ? false : true
+>;
+
 // Extracts the experience prefix from a kiosk option ID.
 // e.g. 'RR-iPad1' -> 'RR', 'devMode' -> 'devMode'
 type ExtractPrefix<T extends string> = T extends `${infer Prefix}-${string}`

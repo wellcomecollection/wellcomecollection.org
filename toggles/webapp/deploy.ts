@@ -1,7 +1,7 @@
 import { S3Client } from '@aws-sdk/client-s3';
 import { info } from 'console';
 
-import { TogglesResp } from '.';
+import { TOGGLE_RESET_VALUE, TogglesResp } from '.';
 import { dateActivatedFor, dateCreatedFor } from './lifecycleDates';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
 import localToggles, {
@@ -129,6 +129,27 @@ export const withDefaultPhaseUnmodified = (
   });
 };
 
+/**
+ * Phases and mode options whose id is TOGGLE_RESET_VALUE, as `id: value`
+ * strings - the website would read `?toggle=id:reset` as a reset rather than
+ * as picking that phase/option, so it could never be selected by link.
+ */
+export const findReservedValueIds = (
+  phasedFlags: readonly { id: string; phases: readonly { id: string }[] }[],
+  modes: readonly { id: string; options: readonly { id: string }[] }[]
+): string[] => [
+  ...phasedFlags.flatMap(flag =>
+    flag.phases
+      .filter(phase => phase.id === TOGGLE_RESET_VALUE)
+      .map(phase => `${flag.id}: ${phase.id}`)
+  ),
+  ...modes.flatMap(mode =>
+    mode.options
+      .filter(option => option.id === TOGGLE_RESET_VALUE)
+      .map(option => `${mode.id}: ${option.id}`)
+  ),
+];
+
 export async function deploy(client: S3Client): Promise<void> {
   // Check for duplicate IDs across feature flags, phased flags, tests, and modes
   const allIds = [
@@ -142,6 +163,16 @@ export async function deploy(client: S3Client): Promise<void> {
     throw new Error(
       `Duplicate toggle IDs found across feature flags, phased flags, tests, and modes: ${duplicates.join(', ')}. ` +
         `All IDs must be unique because they share the toggle_ cookie prefix.`
+    );
+  }
+
+  const reservedValueIds = findReservedValueIds(
+    localToggles.phasedFlags,
+    localToggles.modes
+  );
+  if (reservedValueIds.length > 0) {
+    throw new Error(
+      `"${TOGGLE_RESET_VALUE}" is reserved for resetting a toggle via ?toggle=id:${TOGGLE_RESET_VALUE}, so it can't be a phase or mode option id: ${reservedValueIds.join(', ')}.`
     );
   }
 
