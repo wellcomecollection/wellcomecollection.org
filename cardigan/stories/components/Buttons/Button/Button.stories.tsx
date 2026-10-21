@@ -67,7 +67,7 @@ export const Basic: Story = {
     docs: {
       description: {
         story:
-          'With the brandUpdate toolbar toggle on, `hierarchy` and `isOnDark` set the brand colours. With it off, or with no hierarchy, the preset picked in Colors decides.',
+          'With the brandUpdate toolbar toggle on, `hierarchy`, `isOnDark` and `isDanger` set the brand colours. With it off, or with no hierarchy, the preset picked in Colors decides.',
       },
     },
   },
@@ -104,6 +104,7 @@ export const Basic: Story = {
       name: 'Hierarchy (brand)',
     },
     isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
+    isDanger: { control: 'boolean', name: 'Is danger (brand)' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;

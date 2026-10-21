@@ -301,7 +301,6 @@ const dangerButtonColors: ButtonColors = {
   border: 'validation.red',
   background: 'validation.red',
   text: 'white',
-  isDanger: true,
 };
 
 // Button color naming convention: [border][Background][Text]
