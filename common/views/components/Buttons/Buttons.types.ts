@@ -33,6 +33,8 @@ export type ButtonColors = {
   // `hierarchy` still pick up the brand styles
   hierarchy?: ButtonHierarchy;
   isOnDark?: boolean;
+  // A destructive action, e.g. deleting an account. Outside the hierarchy
+  isDanger?: boolean;
 };
 
 export enum ButtonTypes {
