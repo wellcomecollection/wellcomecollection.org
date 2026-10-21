@@ -750,6 +750,20 @@ describe('togglePresetCookies', () => {
     ]);
   });
 
+  it('treats the apex domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'wellcomecollection.org')
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('does not treat a lookalike domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'notwellcomecollection.org')
+    ).toEqual(['toggle_apiToolbar=true; Path=/; Max-Age=31536000']);
+  });
+
   it('leaves out Domain and Secure on localhost', () => {
     expect(
       togglePresetCookies(

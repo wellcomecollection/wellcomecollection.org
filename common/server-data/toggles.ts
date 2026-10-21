@@ -168,8 +168,10 @@ export function togglePresetCookies(
   presets: Record<string, string>,
   host: string | undefined
 ): string[] {
+  const hostname = host?.split(':')[0];
   const isWellcomeHost =
-    host?.split(':')[0].endsWith('wellcomecollection.org') ?? false;
+    hostname === 'wellcomecollection.org' ||
+    (hostname?.endsWith('.wellcomecollection.org') ?? false);
   const attributes = [
     'Path=/',
     `Max-Age=${oneYearInSeconds}`,
