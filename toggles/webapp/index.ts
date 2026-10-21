@@ -18,6 +18,14 @@ export type {
   PublishedPhasedFlag,
 };
 
+/**
+ * The `?toggle=id:reset` value the website uses to delete a toggle's cookie,
+ * so the person follows the public value again (including any later changes
+ * to it) rather than being pinned to whatever they last set. Reserved, so
+ * deploy refuses a phase or mode option with this id.
+ */
+export const TOGGLE_RESET_VALUE = 'reset';
+
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type PhasedFlagId = (typeof toggleConfig.phasedFlags)[number]['id'];
 
