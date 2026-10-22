@@ -152,6 +152,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
               variant="justified"
               imageDetails="sidebar"
               onImageSelect={setExpandedImage}
+              selectedImageId={expandedImage?.id}
             />
           </main>
         </Space>
