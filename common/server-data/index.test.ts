@@ -75,6 +75,12 @@ function createContext(
   } as unknown as GetServerSidePropsContext;
 }
 
+const consentDenied = {
+  analytics: false,
+  marketing: false,
+  cookieExists: false,
+};
+
 describe('getServerData', () => {
   describe('?toggle= and ?toggleOverride=', () => {
     const phase1Cookie =
@@ -154,11 +160,7 @@ describe('getServerData', () => {
 
       expect(serverData.toggles.modes.kioskMode).toBeNull();
       expect(context.res.getHeader('Set-Cookie')).toBeUndefined();
-      expect(serverData.consentStatus).toEqual({
-        analytics: false,
-        marketing: false,
-        cookieExists: false,
-      });
+      expect(serverData.consentStatus).toEqual(consentDenied);
     });
 
     // ?toggleOverride= lasts one render. Granting consent for it would leave
@@ -170,11 +172,7 @@ describe('getServerData', () => {
       );
 
       expect(serverData.toggles.modes.kioskMode).toBe('devMode');
-      expect(serverData.consentStatus).toEqual({
-        analytics: false,
-        marketing: false,
-        cookieExists: false,
-      });
+      expect(serverData.consentStatus).toEqual(consentDenied);
     });
   });
 
