@@ -2,6 +2,7 @@ import { FocusTrap } from 'focus-trap-react';
 import {
   Dispatch,
   FunctionComponent,
+  KeyboardEvent,
   RefObject,
   SetStateAction,
   useEffect,
@@ -45,13 +46,20 @@ type Props = {
  * Moves focus to the close button each time an image is chosen, not only when
  * the sidebar opens, as choosing an image is asking for its details. The same
  * image staying open (e.g. across pages of results) doesn't count.
+ *
+ * Returns a function to call once the person starts moving focus themselves,
+ * so it's left alone from then on.
  */
 const useFocusCloseButtonOnSelect = (
   imageId: string | undefined,
   closeButtonRef: RefObject<HTMLElement | null>
 ) => {
+  const hasTakenOver = useRef(false);
+
   useEffect(() => {
     if (!imageId) return;
+
+    hasTakenOver.current = false;
 
     const focusCloseButton = () => {
       // Leave focus alone if the cookie banner is showing, as the modal does
@@ -66,6 +74,8 @@ const useFocusCloseButtonOnSelect = (
     // the sidebar. It's watched for on the document, as the grid laying out
     // again can remount the thumbnail.
     const onFocusIn = (event: FocusEvent) => {
+      if (hasTakenOver.current) return;
+
       if ((event.target as HTMLElement).id === imageId) focusCloseButton();
     };
     const stopWatching = () =>
@@ -83,6 +93,10 @@ const useFocusCloseButtonOnSelect = (
       stopWatching();
     };
   }, [imageId]);
+
+  return () => {
+    hasTakenOver.current = true;
+  };
 };
 
 /**
@@ -100,7 +114,10 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const { windowSize } = useAppContext();
   const isFullScreen = windowSize === 'zero';
 
-  useFocusCloseButtonOnSelect(expandedImage?.id, closeButtonRef);
+  const stopRefocusing = useFocusCloseButtonOnSelect(
+    expandedImage?.id,
+    closeButtonRef
+  );
 
   const {
     detailedWork,
@@ -113,6 +130,31 @@ const ImageSidebar: FunctionComponent<Props> = ({
   } = useImageDetails(images, expandedImage);
 
   if (!expandedImage) return null;
+
+  // Shift+Tab from the close button, the first thing in the sidebar, goes to
+  // the selected thumbnail rather than the end of the results. Full screen, the
+  // results are hidden and focus stays in the sidebar, so it's left alone.
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Tab') return;
+
+    stopRefocusing();
+
+    const isLeavingBackwards =
+      event.shiftKey && event.target === closeButtonRef.current;
+    if (!isLeavingBackwards || isFullScreen) return;
+
+    // The id is checked against the results as well as the page, as an
+    // element elsewhere could share it
+    const isInResults = images.some(({ id }) => id === expandedImage.id);
+    const thumbnail = isInResults
+      ? document.getElementById(expandedImage.id)
+      : null;
+
+    if (thumbnail) {
+      event.preventDefault();
+      thumbnail.focus();
+    }
+  };
 
   return (
     // Full screen below `sm`, so focus stays inside it and the page doesn't
@@ -132,6 +174,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
         data-component="image-sidebar"
         aria-label="Image details"
         data-lock-scroll={isFullScreen}
+        onKeyDown={handleKeyDown}
       >
         <CloseButton
           ref={closeButtonRef}

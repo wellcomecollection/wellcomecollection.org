@@ -351,6 +351,11 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toBeVisible();
       await expectFocusInside(sidebar(page));
 
+      // Going backwards from the sidebar lands on the selected thumbnail, not
+      // at the end of the results
+      await page.keyboard.press('Shift+Tab');
+      await expect(thumbnail(page, 1)).toBeFocused();
+
       await page.keyboard.press('Escape');
       await expect(sidebar(page)).toHaveCount(0);
     });
