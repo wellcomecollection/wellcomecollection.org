@@ -18,7 +18,7 @@ import { GetServerSidePropsContext } from 'next';
 import path from 'path';
 
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
-import { Toggles, TogglesResp } from '@weco/toggles';
+import { TOGGLE_RESET_VALUE, Toggles, TogglesResp } from '@weco/toggles';
 
 import prismicHandler from './prismic';
 import togglesHandler, {
@@ -151,11 +151,18 @@ export const getServerData = async (
   const prismic = await read('prismic', handlers.prismic.defaultValue);
 
   // Support ?toggle=someFlag,somePhasedFlag:phase2,someMode:option to set
-  // toggles via query param - saved as cookies, so they stick for later visits
+  // toggles via query param - saved as cookies, so they stick for later visits.
+  // ?toggle=id:reset resets one by deleting its cookie.
   const presets = validTogglePresets(
     parseTogglePresets(context.query.toggle),
     togglesResp,
     context
+  );
+  const resetIds = Object.keys(presets).filter(
+    id => presets[id] === TOGGLE_RESET_VALUE
+  );
+  const presetValues = Object.fromEntries(
+    Object.entries(presets).filter(([, value]) => value !== TOGGLE_RESET_VALUE)
   );
 
   // Support ?toggleOverride=id:value,id:value to override toggle state for this
@@ -172,7 +179,8 @@ export const getServerData = async (
   const { featureFlags, phasedFlags, tests, modes } = getTogglesFromContext(
     togglesResp,
     context,
-    { ...presets, ...overrides }
+    { ...presetValues, ...overrides },
+    resetIds
   );
 
   const presetCookies = togglePresetCookies(presets, context.req.headers.host);

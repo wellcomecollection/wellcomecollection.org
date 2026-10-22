@@ -51,14 +51,20 @@ jest.mock('fs', () => ({
 
 function createContext(
   query: Record<string, string>,
+  cookies: Record<string, string> = {},
   existingHeaders: Record<string, string | string[]> = {}
 ): GetServerSidePropsContext {
   const headers: Record<string, string | string[]> = { ...existingHeaders };
   return {
     query,
     req: {
-      headers: { host: 'www-dev.wellcomecollection.org', cookie: '' },
-      cookies: {},
+      headers: {
+        host: 'www-dev.wellcomecollection.org',
+        cookie: Object.entries(cookies)
+          .map(([k, v]) => `${k}=${v}`)
+          .join('; '),
+      },
+      cookies,
     },
     res: {
       getHeader: (name: string) => headers[name],
@@ -68,6 +74,12 @@ function createContext(
     },
   } as unknown as GetServerSidePropsContext;
 }
+
+const consentDenied = {
+  analytics: false,
+  marketing: false,
+  cookieExists: false,
+};
 
 describe('getServerData', () => {
   describe('?toggle= and ?toggleOverride=', () => {
@@ -99,6 +111,7 @@ describe('getServerData', () => {
     it('keeps a Set-Cookie header that was already on the response', async () => {
       const context = createContext(
         { toggle: 'imageSidebarPhases:phase1' },
+        {},
         { 'Set-Cookie': 'existing=1; Path=/' }
       );
       await getServerData(context);
@@ -147,11 +160,7 @@ describe('getServerData', () => {
 
       expect(serverData.toggles.modes.kioskMode).toBeNull();
       expect(context.res.getHeader('Set-Cookie')).toBeUndefined();
-      expect(serverData.consentStatus).toEqual({
-        analytics: false,
-        marketing: false,
-        cookieExists: false,
-      });
+      expect(serverData.consentStatus).toEqual(consentDenied);
     });
 
     // ?toggleOverride= lasts one render. Granting consent for it would leave
@@ -163,11 +172,36 @@ describe('getServerData', () => {
       );
 
       expect(serverData.toggles.modes.kioskMode).toBe('devMode');
-      expect(serverData.consentStatus).toEqual({
-        analytics: false,
-        marketing: false,
-        cookieExists: false,
-      });
+      expect(serverData.consentStatus).toEqual(consentDenied);
+    });
+  });
+
+  describe('?toggle=id:reset', () => {
+    it('deletes the cookie and renders the public value on the same request', async () => {
+      const context = createContext(
+        { toggle: 'imageSidebarPhases:reset' },
+        { toggle_imageSidebarPhases: 'phase1' }
+      );
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.phasedFlags.imageSidebarPhases.current).toBe(
+        null
+      );
+      expect(context.res.getHeader('Set-Cookie')).toEqual([
+        'toggle_imageSidebarPhases=; Path=/; Max-Age=0; Domain=.wellcomecollection.org; Secure',
+        'toggle_imageSidebarPhases=; Path=/; Max-Age=0',
+      ]);
+    });
+
+    it('ignores a kiosk mode reset, which is left to the dash', async () => {
+      const context = createContext(
+        { toggle: 'kioskMode:reset' },
+        { toggle_kioskMode: 'devMode' }
+      );
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.modes.kioskMode).toBe('devMode');
+      expect(context.res.getHeader('Set-Cookie')).toBeUndefined();
     });
   });
 });
