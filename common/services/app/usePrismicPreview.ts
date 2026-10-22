@@ -9,7 +9,7 @@ const usePrismicPreview = (shouldDisplay: () => boolean): void =>
       // nothing without it (so the preview cookie wouldn't get set)
       const prismicScript = document.createElement('script');
       prismicScript.src =
-        'https://static.cdn.prismic.io/prismic.js?new=true&repo=wellcomecollection';
+        'https://static.cdn.prismic.io/prismic.js?repo=wellcomecollection';
       document.head && document.head.appendChild(prismicScript);
       (function () {
         const validationBar = document.createElement('div');
