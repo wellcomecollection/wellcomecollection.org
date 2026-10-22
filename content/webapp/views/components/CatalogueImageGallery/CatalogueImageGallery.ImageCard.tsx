@@ -1,10 +1,12 @@
+import { theme as designSystemTheme } from '@wellcometrust/wellcome-design-system/theme';
 import NextLink from 'next/link';
 import { FunctionComponent, SyntheticEvent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { ImageType } from '@weco/common/model/image';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
 
@@ -18,12 +20,32 @@ type Props = {
   positionInList: number;
   /** Where the image's details open, which its tooltip says. */
   imageDetails?: 'modal' | 'sidebar';
+  /** This is the image open in the sidebar. */
+  isSelected?: boolean;
 };
 
-const StyledLink = styled(NextLink)`
+// Drawn in the space around the image, so nothing moves when it's selected
+const SelectedFrame = css`
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    z-index: -1;
+    border: 2px solid ${props => props.theme.color(pageBackgroundColor)};
+    border-radius: ${designSystemTheme['border-radius'].md};
+    background-color: ${props =>
+      props.theme.color({ brand: 'neutral.50', legacy: 'neutral.600' })};
+  }
+`;
+
+const StyledLink = styled(NextLink)<{ $isSelected: boolean }>`
   position: relative;
   display: block;
   max-width: 100%;
+
+  ${props => props.$isSelected && SelectedFrame}
 `;
 
 const ImageCard: FunctionComponent<Props> = ({
@@ -35,6 +57,7 @@ const ImageCard: FunctionComponent<Props> = ({
   background,
   positionInList,
   imageDetails = 'modal',
+  isSelected = false,
 }: Props) => {
   const { isEnhanced } = useAppContext();
 
@@ -48,6 +71,8 @@ const ImageCard: FunctionComponent<Props> = ({
         }
       }}
       id={id}
+      $isSelected={isSelected}
+      aria-current={isSelected ? 'true' : undefined}
       {...dataGtmPropsToAttributes({
         trigger: 'open_image_modal',
         'position-in-list': `${positionInList}`,
