@@ -203,6 +203,10 @@ test.describe('Desktop', () => {
 
       // Choosing another image moves focus into the sidebar again
       await expectFocusInside(sidebar(page));
+
+      // Choosing the image that's open closes it
+      await thumbnail(page, other + 1).click();
+      await expect(sidebar(page)).toHaveCount(0);
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({

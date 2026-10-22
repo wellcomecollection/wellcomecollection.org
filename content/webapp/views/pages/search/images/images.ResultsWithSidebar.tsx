@@ -122,6 +122,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 
   useReturnFocusOnClose(images, expandedImage, resultsRef);
 
+  // Choosing the image that's already open closes it
+  const selectImage = (image: Image) =>
+    setExpandedImage(image.id === expandedImage?.id ? undefined : image);
+
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in
    * particular (e.g. after clicking a thumbnail). Escape pressed inside a
@@ -151,7 +155,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
               images={images}
               variant="justified"
               imageDetails="sidebar"
-              onImageSelect={setExpandedImage}
+              onImageSelect={selectImage}
               selectedImageId={expandedImage?.id}
             />
           </main>
