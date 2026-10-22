@@ -172,6 +172,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
               <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                 <Button
                   variant="ButtonSolidLink"
+                  hierarchy="primary"
                   text="View image"
                   icon={eye}
                   link={expandedImageLink}

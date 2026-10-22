@@ -340,6 +340,7 @@ const ModalMoreFilters: FunctionComponent<ModalMoreFiltersProps> = ({
 
             <Button
               variant="ButtonSolid"
+              hierarchy="primary"
               ref={undefined}
               type={ButtonTypes.button}
               clickHandler={() => {
