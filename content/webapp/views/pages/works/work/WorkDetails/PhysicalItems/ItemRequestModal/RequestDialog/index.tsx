@@ -194,6 +194,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         <ConfirmRequestButtonWrapper>
           <Button
             variant="ButtonSolid"
+            hierarchy="primary"
             text="Confirm request"
             dataGtmProps={{
               trigger: 'requesting_confirm',

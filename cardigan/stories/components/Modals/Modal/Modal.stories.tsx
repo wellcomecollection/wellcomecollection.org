@@ -30,6 +30,7 @@ const Template = args => {
     <div style={{ padding: '50px' }}>
       <Button
         variant="ButtonSolid"
+        hierarchy="primary"
         ref={openButtonRef}
         text="Show modal"
         clickHandler={() => setIsActive(true)}

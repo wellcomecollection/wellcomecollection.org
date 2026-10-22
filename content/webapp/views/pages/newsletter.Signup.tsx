@@ -340,6 +340,7 @@ const NewsletterSignup: FunctionComponent<Props> = ({
           <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             <Button
               variant="ButtonSolid"
+              hierarchy="primary"
               text={`Subscribe to your newsletter${checkedInputs.length > 1 ? 's' : ''}`}
               dataGtmProps={{
                 trigger: 'newsletter_signup_subscribe',

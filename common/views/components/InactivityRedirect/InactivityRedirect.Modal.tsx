@@ -71,6 +71,7 @@ const InactivityRedirectModal: FunctionComponent<Props> = ({
       <ButtonRow>
         <Button
           variant="ButtonSolid"
+          hierarchy="primary"
           text="Continue reading"
           clickHandler={onKeepBrowsing}
           colors={themeValues.buttonColors.greenGreenWhite}

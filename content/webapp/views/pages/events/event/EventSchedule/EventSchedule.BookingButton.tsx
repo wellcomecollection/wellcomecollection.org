@@ -22,6 +22,7 @@ const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
       <div data-eventbrite-ticket-id={event.eventbriteId}>
         <Button
           variant="ButtonSolidLink"
+          hierarchy="primary"
           link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
           icon={ticketAvailable}
           text="Book free tickets"
@@ -40,6 +41,7 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
     return (
       <Button
         variant="ButtonSolidLink"
+        hierarchy="primary"
         link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon={email}
         text="Email to book"

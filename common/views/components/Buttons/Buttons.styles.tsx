@@ -9,7 +9,6 @@ import {
 } from '@weco/common/views/themes/config';
 
 import {
-  ButtonColors,
   ButtonHierarchy,
   ButtonSize,
   SolidButtonStyledProps,
@@ -105,33 +104,29 @@ const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
 };
 
 /** The brand colours for a button, or undefined if it should keep its preset
- * colours: the toggle is off, it's a pill (styled separately), or its colours
- * have no place in the hierarchy and aren't `danger`.
+ * colours: the toggle is off, it's a pill (styled separately), or it has no
+ * `hierarchy` and isn't `isDanger`.
  */
 export const getBrandButtonColors = ({
   theme,
-  colors,
   hierarchy,
   isOnDark,
   isPill,
+  isDanger,
 }: {
   theme: DefaultTheme;
-  colors?: ButtonColors;
   hierarchy?: ButtonHierarchy;
   isOnDark?: boolean;
   isPill?: boolean;
+  isDanger?: boolean;
 }): BrandButtonColors | undefined => {
   if (!theme.brandUpdate || isPill) return undefined;
 
-  const presetColors = colors || theme.buttonColors.default;
-  if (presetColors.isDanger) return brandButtonColors.danger;
+  if (isDanger) return brandButtonColors.danger;
+  if (!hierarchy) return undefined;
 
-  const level = hierarchy || presetColors.hierarchy;
-  if (!level) return undefined;
-
-  const onDark = isOnDark ?? presetColors.isOnDark;
   return brandButtonColors[
-    level === 'tertiary' && onDark ? 'tertiaryOnDark' : level
+    hierarchy === 'tertiary' && isOnDark ? 'tertiaryOnDark' : hierarchy
   ];
 };
 
@@ -240,10 +235,10 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
   ${props => {
     const brandColors = getBrandButtonColors({
       theme: props.theme,
-      colors: props.$colors,
       hierarchy: props.$hierarchy,
       isOnDark: props.$isOnDark,
       isPill: props.$isPill,
+      isDanger: props.$isDanger,
     });
 
     return (
