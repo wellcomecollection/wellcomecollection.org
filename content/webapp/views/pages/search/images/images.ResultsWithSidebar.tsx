@@ -21,6 +21,21 @@ const ResultsLayout = styled.div`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
+const PanelGap = styled.div`
+  display: none;
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: block;
+      flex: 0 0 8px;
+      align-self: stretch;
+      background-color: ${props.theme.color({
+        brand: 'neutral.10',
+        legacy: 'warmNeutral.300',
+      })};
+    `)}
+`;
+
 // Where the content of a Container starts: half of the space left either side
 // of its max width, plus its own padding, which is a share of the parent's width
 const containerEdge = (maxWidth: string) =>
@@ -158,6 +173,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         </Space>
         <PaginationArea>{children}</PaginationArea>
       </Results>
+
+      {isActive && <PanelGap />}
 
       <ImageSidebar
         images={images}
