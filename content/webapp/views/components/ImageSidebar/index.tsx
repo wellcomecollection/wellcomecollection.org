@@ -2,6 +2,7 @@ import { FocusTrap } from 'focus-trap-react';
 import {
   Dispatch,
   FunctionComponent,
+  RefObject,
   SetStateAction,
   useEffect,
   useRef,
@@ -31,6 +32,9 @@ import {
   Title,
 } from './ImageSidebar.styles';
 
+// How long after an image is chosen the browser may still focus its thumbnail
+const THUMBNAIL_FOCUS_WINDOW_MS = 500;
+
 type Props = {
   images: Image[];
   expandedImage?: Image;
@@ -38,9 +42,53 @@ type Props = {
 };
 
 /**
+ * Moves focus to the close button each time an image is chosen, not only when
+ * the sidebar opens, as choosing an image is asking for its details. The same
+ * image staying open (e.g. across pages of results) doesn't count.
+ */
+const useFocusCloseButtonOnSelect = (
+  imageId: string | undefined,
+  closeButtonRef: RefObject<HTMLElement | null>
+) => {
+  useEffect(() => {
+    if (!imageId) return;
+
+    const focusCloseButton = () => {
+      // Leave focus alone if the cookie banner is showing, as the modal does
+      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
+
+      closeButtonRef.current?.focus();
+    };
+
+    // Setting the image id as the URL hash can make the browser focus the
+    // thumbnail with that id a moment later, after the timeout below has moved
+    // focus. So if the thumbnail is focused shortly after, move focus back into
+    // the sidebar. It's watched for on the document, as the grid laying out
+    // again can remount the thumbnail.
+    const onFocusIn = (event: FocusEvent) => {
+      if ((event.target as HTMLElement).id === imageId) focusCloseButton();
+    };
+    const stopWatching = () =>
+      document.removeEventListener('focusin', onFocusIn);
+
+    document.addEventListener('focusin', onFocusIn);
+
+    const timeouts = [
+      setTimeout(focusCloseButton),
+      setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
+    ];
+
+    return () => {
+      timeouts.forEach(clearTimeout);
+      stopWatching();
+    };
+  }, [imageId]);
+};
+
+/**
  * Shows the details of the selected image result next to the results grid.
  * Renders nothing until an image is selected. Focus moves to the close button
- * as it opens, but not when another image is selected while it's open.
+ * each time an image is chosen.
  */
 const ImageSidebar: FunctionComponent<Props> = ({
   images,
@@ -49,22 +97,10 @@ const ImageSidebar: FunctionComponent<Props> = ({
 }) => {
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
-  const isOpen = expandedImage !== undefined;
   const { windowSize } = useAppContext();
   const isFullScreen = windowSize === 'zero';
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    // Setting the image id as the URL hash makes the browser focus the
-    // thumbnail with that id, so wait until that has happened.
-    const timeout = setTimeout(() => {
-      // Leave focus alone if the cookie banner is showing, as the modal does
-      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
-      closeButtonRef.current?.focus();
-    });
-    return () => clearTimeout(timeout);
-  }, [isOpen]);
+  useFocusCloseButtonOnSelect(expandedImage?.id, closeButtonRef);
 
   const {
     detailedWork,
