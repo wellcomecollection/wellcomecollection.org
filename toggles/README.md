@@ -149,7 +149,7 @@ Query params were added to allow automatic turning on/off of toggles (e.g. when 
 The website takes a `?toggle=` param on any page that does the same job for setting toggles (not resetting them), and can set several at once. It saves the same cookies the dashboard does, so the dashboard can reset them afterwards:
 - Enable a feature flag: `https://wellcomecollection.org/?toggle={toggle_id}`
 - Set a phased flag to a specific phase: `https://wellcomecollection.org/search/images?toggle={toggle_id}:{phase_id}`
-- Set a mode to a specific option: `https://wellcomecollection.org/?toggle={mode_id}:{option_id}`
+- Set a mode to a specific option: `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` - except kiosk mode, which grants analytics and marketing consent, so it can only be set from the dashboard
 - Combine them with commas: `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 
 To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`).

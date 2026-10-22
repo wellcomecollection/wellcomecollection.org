@@ -158,6 +158,14 @@ function validToggleValues(
 }
 
 /**
+ * Toggles `?toggle=` can't set. Kiosk mode grants analytics and marketing
+ * consent with no banner, on the basis that the device is ours - a link that
+ * looks like any other site link shouldn't switch that on in someone's own
+ * browser. Kiosk devices are set up from the toggles dashboard instead.
+ */
+const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
+
+/**
  * Keeps only the presets that name a toggle available on this host, with a
  * value that toggle accepts - so a typo'd id or phase never gets written to a
  * cookie. Feature flags only accept 'true': a 'false' cookie resolves to the
@@ -168,7 +176,16 @@ export const validTogglePresets = (
   togglesResp: TogglesResp,
   context: Context
 ): Record<string, string> =>
-  validToggleValues(presets, togglesResp, context, ['true']);
+  validToggleValues(
+    Object.fromEntries(
+      Object.entries(presets).filter(
+        ([id]) => !TOGGLE_PRESET_BLOCKED_IDS.includes(id)
+      )
+    ),
+    togglesResp,
+    context,
+    ['true']
+  );
 
 /**
  * Keeps only the overrides a toggle accepts. Filtering before they're merged

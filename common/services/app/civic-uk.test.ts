@@ -58,28 +58,6 @@ describe('Civic UK consent functions', () => {
         cookieExists: true,
       });
     });
-
-    it('returns all true when a preset kiosk mode is valid but there is no cookie yet', () => {
-      mockGetCookies.mockReturnValue({});
-      mockIsValidKioskMode.mockImplementation(value => value === 'devMode');
-
-      expect(getAllConsentStates(undefined, 'devMode')).toEqual({
-        analytics: true,
-        marketing: true,
-        cookieExists: true,
-      });
-    });
-
-    it('falls back to cookies when there is no preset kiosk mode', () => {
-      mockGetCookies.mockReturnValue({});
-      mockIsValidKioskMode.mockImplementation(value => value === 'devMode');
-
-      expect(getAllConsentStates(undefined, undefined)).toEqual({
-        analytics: false,
-        marketing: false,
-        cookieExists: false,
-      });
-    });
   });
 
   describe('getErrorPageConsent', () => {

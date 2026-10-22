@@ -673,6 +673,12 @@ describe('validTogglePresets', () => {
         description: 'Kiosk mode',
         options: [{ id: 'devMode', label: 'Developer mode' }],
       },
+      {
+        id: 'cataloguePipeline',
+        title: 'Catalogue pipeline',
+        description: 'Catalogue pipeline',
+        options: [{ id: 'folio-testing', label: 'FOLIO pipeline' }],
+      },
     ],
     phasedFlags: [
       {
@@ -696,7 +702,7 @@ describe('validTogglePresets', () => {
           stagingApi: 'true',
           someTest: 'false',
           imageSidebarPhases: 'phase2',
-          kioskMode: 'devMode',
+          cataloguePipeline: 'folio-testing',
         },
         togglesResp,
         createContext()
@@ -705,8 +711,14 @@ describe('validTogglePresets', () => {
       stagingApi: 'true',
       someTest: 'false',
       imageSidebarPhases: 'phase2',
-      kioskMode: 'devMode',
+      cataloguePipeline: 'folio-testing',
     });
+  });
+
+  it('never accepts kiosk mode, as it grants consent', () => {
+    expect(
+      validTogglePresets({ kioskMode: 'devMode' }, togglesResp, createContext())
+    ).toEqual({});
   });
 
   it('drops unknown ids, unknown phases/options and feature flags set to anything but true', () => {
@@ -716,7 +728,7 @@ describe('validTogglePresets', () => {
           notAToggle: 'true',
           stagingApi: 'false',
           imageSidebarPhases: 'phase9',
-          kioskMode: 'nope',
+          cataloguePipeline: 'nope',
         },
         togglesResp,
         createContext()

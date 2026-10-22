@@ -48,17 +48,17 @@ function createContext(
 }
 
 describe('getServerData', () => {
-  describe('kiosk mode consent with no consent cookie', () => {
-    it('grants consent when ?toggle= saves a kiosk mode', async () => {
-      const serverData = await getServerData(
-        createContext({ toggle: 'kioskMode:devMode' })
-      );
+  describe('kiosk mode with no consent cookie', () => {
+    it('ignores ?toggle= for kiosk mode, so no cookie or consent is granted', async () => {
+      const context = createContext({ toggle: 'kioskMode:devMode' });
+      const serverData = await getServerData(context);
 
-      expect(serverData.toggles.modes.kioskMode).toBe('devMode');
+      expect(serverData.toggles.modes.kioskMode).toBeNull();
+      expect(context.res.getHeader('Set-Cookie')).toBeUndefined();
       expect(serverData.consentStatus).toEqual({
-        analytics: true,
-        marketing: true,
-        cookieExists: true,
+        analytics: false,
+        marketing: false,
+        cookieExists: false,
       });
     });
 
