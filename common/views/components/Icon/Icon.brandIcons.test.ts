@@ -8,6 +8,8 @@ import { brandIcons } from './Icon.brandIcons';
 const intentionallyUnmapped: Record<string, string> = {
   clock: 'waiting to be added to the shared icon set',
   check: 'waiting to be added to the shared icon set',
+  rotateRight:
+    'no clockwise rotate icon in the shared set yet (Action/Update turns the other way)',
   chevrons: 'only rendered with brandUpdate off',
   indicator: 'only rendered with brandUpdate off (CheckboxRadio has its own)',
 };
