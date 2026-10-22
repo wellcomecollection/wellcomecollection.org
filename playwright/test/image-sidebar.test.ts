@@ -100,8 +100,7 @@ test.describe('Desktop', () => {
       await expect(resultsGrid(page)).toBeVisible();
     });
 
-    // https://github.com/wellcomecollection/wellcomecollection.org/issues/13534
-    test.fixme('the selected thumbnail shows it is the one open in the sidebar', async ({
+    test('the selected thumbnail shows it is the one open in the sidebar', async ({
       page,
       context,
     }) => {
@@ -191,6 +190,13 @@ test.describe('Desktop', () => {
       // Still one open sidebar, now showing the other image
       await expect(sidebar(page)).toHaveCount(1);
       await expect(heading).toHaveText(titles[other]);
+      await expect(thumbnail(page, other + 1)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+      await expect(thumbnail(page, first + 1)).not.toHaveAttribute(
+        'aria-current'
+      );
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({
@@ -262,9 +268,11 @@ test.describe('Desktop', () => {
         true
       );
 
-      // It isn't one of the results, so closing goes back to the first image's thumbnail
+      // It isn't one of the results, so none of them is marked as open, and
+      // closing goes back to the first image's thumbnail
       const similarImageId = new URL(page.url()).hash.slice(1);
       await expect(page.locator(`a[id="${similarImageId}"]`)).toHaveCount(0);
+      await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(0);
       await page.keyboard.press('Escape');
       await expect(thumbnail(page, 1)).toBeFocused();
     });
@@ -284,6 +292,7 @@ test.describe('Desktop', () => {
         .click();
 
       await expect(sidebar(page)).toHaveCount(0);
+      await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(0);
       await expect
         .poll(async () => (await resultsGrid(page).boundingBox())!.width)
         .toBeGreaterThan(widthWithSidebar);

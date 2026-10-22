@@ -1,6 +1,6 @@
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
-import { isArchiveCollectionRoot } from './works';
+import { getLanguageId, isArchiveCollectionRoot } from './works';
 
 type PredicateWork = Pick<Work, 'collection' | 'workType' | 'identifiers'>;
 
@@ -96,5 +96,34 @@ describe('isArchiveCollectionRoot', () => {
     expect(isArchiveCollectionRoot({ ...work(), workType: undefined })).toBe(
       false
     );
+  });
+});
+
+describe('getLanguageId', () => {
+  const withLanguages = (...ids: string[]) => ({
+    languages: ids.map(id => ({
+      id,
+      label: id,
+      type: 'Language' as const,
+    })),
+  });
+
+  it('shortens three-letter catalogue codes to the form lang expects', () => {
+    expect(getLanguageId(withLanguages('eng'))).toBe('en');
+    expect(getLanguageId(withLanguages('fre'))).toBe('fr');
+    expect(getLanguageId(withLanguages('ger'))).toBe('de');
+  });
+
+  it('keeps codes that have no shorter form', () => {
+    expect(getLanguageId(withLanguages('enm'))).toBe('enm');
+  });
+
+  it('returns undefined unless there is exactly one language', () => {
+    expect(getLanguageId(withLanguages())).toBeUndefined();
+    expect(getLanguageId(withLanguages('eng', 'fre'))).toBeUndefined();
+  });
+
+  it('returns undefined for an id that is not a valid language tag', () => {
+    expect(getLanguageId(withLanguages('not a language'))).toBeUndefined();
   });
 });

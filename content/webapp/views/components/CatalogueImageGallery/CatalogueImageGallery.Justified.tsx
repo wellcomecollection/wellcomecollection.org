@@ -30,7 +30,12 @@ type BaseProps = {
 export type Props = BaseProps &
   (
     | { imageDetails?: 'modal' }
-    | { imageDetails: 'sidebar'; onImageSelect: (image: Image) => void }
+    | {
+        imageDetails: 'sidebar';
+        onImageSelect: (image: Image) => void;
+        /** The image open in the sidebar, which is marked in the grid. */
+        selectedImageId?: string;
+      }
   );
 
 type GalleryImageProps = Image & {
@@ -81,6 +86,7 @@ const ImageFrame = styled.div`
 type GridProps = BaseProps & {
   imageDetails: 'modal' | 'sidebar';
   onImageSelect: (image: Image) => void;
+  selectedImageId?: string;
 };
 
 const ImageGrid: FunctionComponent<GridProps> = ({
@@ -89,6 +95,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
   targetRowHeight,
   imageDetails,
   onImageSelect,
+  selectedImageId,
 }: GridProps) => {
   const { isFullSupportBrowser } = useAppContext();
 
@@ -125,6 +132,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
             workId={photo.source.id}
             positionInList={layout.index + 1}
             imageDetails={imageDetails}
+            isSelected={photo.id === selectedImageId}
             image={{
               contentUrl: photo.src,
               width: layout.width,
@@ -176,6 +184,7 @@ const ImageGrid: FunctionComponent<GridProps> = ({
                     workId={result.source.id}
                     positionInList={index + 1}
                     imageDetails={imageDetails}
+                    isSelected={result.id === selectedImageId}
                     image={{
                       contentUrl: result.src,
                       width: result.width * 1.57,
@@ -225,6 +234,7 @@ const CatalogueImageGalleryJustified: FunctionComponent<Props> = props =>
       {...props}
       imageDetails="sidebar"
       onImageSelect={props.onImageSelect}
+      selectedImageId={props.selectedImageId}
     />
   ) : (
     <ImageGridWithModal {...props} />

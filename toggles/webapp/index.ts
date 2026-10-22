@@ -18,6 +18,14 @@ export type {
   PublishedPhasedFlag,
 };
 
+/**
+ * The `?toggle=id:reset` value the website uses to delete a toggle's cookie,
+ * so the person follows the public value again (including any later changes
+ * to it) rather than being pinned to whatever they last set. Reserved, so
+ * no phase or mode option can use it as an id (see below).
+ */
+export const TOGGLE_RESET_VALUE = 'reset';
+
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type PhasedFlagId = (typeof toggleConfig.phasedFlags)[number]['id'];
 
@@ -30,6 +38,18 @@ export type KioskModeOptionId = Extract<
   (typeof toggleConfig.modes)[number],
   { id: 'kioskMode' }
 >['options'][number]['id'];
+
+// Fails `yarn tsc` if a phase or mode option id is TOGGLE_RESET_VALUE: the
+// website reads `?toggle=id:reset` as a reset, so that phase/option could
+// never be picked by link. `yarn deploy` runs via tsx without type checking,
+// so run `yarn tsc` before deploying a new phase or mode option.
+type PhaseOrModeOptionId =
+  | (typeof toggleConfig.phasedFlags)[number]['phases'][number]['id']
+  | (typeof toggleConfig.modes)[number]['options'][number]['id'];
+type AssertNotReserved<T extends true> = T;
+export type NoReservedPhaseOrModeOptionIds = AssertNotReserved<
+  typeof TOGGLE_RESET_VALUE extends PhaseOrModeOptionId ? false : true
+>;
 
 // Extracts the experience prefix from a kiosk option ID.
 // e.g. 'RR-iPad1' -> 'RR', 'devMode' -> 'devMode'

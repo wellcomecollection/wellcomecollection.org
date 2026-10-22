@@ -43,13 +43,21 @@ export function getProductionDates(work: Work): string[] {
 /**
  * Returns work's language id, but only if it has exactly one - better no
  * language than a wrong guess.
+ *
+ * The catalogue uses three-letter MARC codes (e.g. `eng`, `fre`), but `lang`
+ * attributes expect the shortest form (`en`, `fr`), so we canonicalise them.
  */
 export function getLanguageId(
   work: Pick<Work, 'languages'>
 ): string | undefined {
-  return work.languages && work.languages.length === 1
-    ? work.languages[0].id
-    : undefined;
+  if (work.languages?.length !== 1) return undefined;
+
+  try {
+    return Intl.getCanonicalLocales(work.languages[0].id)[0];
+  } catch {
+    // Not a valid language tag, so leave it out
+    return undefined;
+  }
 }
 
 type DownloadImage = {
