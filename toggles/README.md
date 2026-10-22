@@ -138,13 +138,14 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Preset links
-Query params let you turn toggles on and off from a link, e.g. when sharing a feature with other teams. They cover feature flags, phased flags and modes (not A/B tests, which are randomly assigned).
+Query params let you turn toggles on and off from a link, e.g. when sharing a feature with other teams. They cover feature flags, phased flags and modes. The website links can also put you in a particular A/B test group; the dashboard links can't.
 
 ### Sharing a toggle: website links
 When sharing a toggle with someone, use a `?toggle=` link on the website. It works on any page, so it can take people straight to the page you want them to look at, and one link can set several toggles. The cookies it saves last a year and are the same ones the dashboard writes, so they can also be reset from the dashboard:
 - Enable a feature flag: `https://wellcomecollection.org/?toggle={toggle_id}`
 - Set a phased flag to a specific phase: `https://wellcomecollection.org/search/images?toggle={toggle_id}:{phase_id}`
 - Set a mode to a specific option: `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` - except kiosk mode, which grants analytics and marketing consent, so it can only be set or reset from the dashboard
+- Choose an A/B test group: `https://wellcomecollection.org/?toggle={test_id}` for the test group, or `?toggle={test_id}:false` for the control group
 - Reset any toggle to its public value: `https://wellcomecollection.org/?toggle={toggle_id}:reset` - this deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
 - Combine them with commas: `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 
