@@ -3,12 +3,16 @@
  */
 import { IncomingMessage } from 'http';
 
-import { TogglesResp } from '@weco/toggles';
+import { TOGGLE_RESET_VALUE, TogglesResp } from '@weco/toggles';
 
 import {
   Context,
   getTogglesFromContext,
   parseToggleOverrides,
+  parseTogglePresets,
+  togglePresetCookies,
+  validToggleOverrides,
+  validTogglePresets,
 } from './toggles';
 
 function createContext(
@@ -626,5 +630,308 @@ describe('parseToggleOverrides', () => {
 
   it('keeps an empty value (validation happens later)', () => {
     expect(parseToggleOverrides('kioskMode:')).toEqual({ kioskMode: '' });
+  });
+});
+
+describe('parseTogglePresets', () => {
+  it('returns an empty object for undefined', () => {
+    expect(parseTogglePresets(undefined)).toEqual({});
+  });
+
+  it('keeps id:reset as a reset', () => {
+    expect(parseTogglePresets('imageSidebarPhases:reset')).toEqual({
+      imageSidebarPhases: TOGGLE_RESET_VALUE,
+    });
+  });
+
+  it('treats a bare id as true', () => {
+    expect(parseTogglePresets('apiToolbar')).toEqual({ apiToolbar: 'true' });
+  });
+
+  it('parses a mix of bare ids and id:value pairs', () => {
+    expect(
+      parseTogglePresets(
+        'apiToolbar,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages'
+      )
+    ).toEqual({
+      apiToolbar: 'true',
+      imageSidebarPhases: 'phase2',
+      thematicBrowsingPhases: 'categoryPages',
+    });
+  });
+
+  it('joins an array value before parsing', () => {
+    expect(parseTogglePresets(['apiToolbar', 'kioskMode:devMode'])).toEqual({
+      apiToolbar: 'true',
+      kioskMode: 'devMode',
+    });
+  });
+});
+
+describe('validTogglePresets', () => {
+  const togglesResp: TogglesResp = {
+    featureFlags: [stagingApiFlag],
+    tests: [{ id: 'someTest', title: 'Some test', range: [0, 100] }],
+    modes: [
+      {
+        id: 'kioskMode',
+        title: 'Kiosk mode',
+        description: 'Kiosk mode',
+        options: [{ id: 'devMode', label: 'Developer mode' }],
+      },
+      {
+        id: 'cataloguePipeline',
+        title: 'Catalogue pipeline',
+        description: 'Catalogue pipeline',
+        options: [{ id: 'folio-testing', label: 'FOLIO pipeline' }],
+      },
+    ],
+    phasedFlags: [
+      {
+        id: 'imageSidebarPhases',
+        title: 'Image sidebar',
+        description: 'Image sidebar, phased',
+        type: 'experimental' as const,
+        phases: [
+          { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+          { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+        ],
+        defaultPhase: null,
+      },
+    ],
+  } as unknown as TogglesResp;
+
+  it('keeps presets with a value the toggle accepts', () => {
+    expect(
+      validTogglePresets(
+        {
+          stagingApi: 'true',
+          someTest: 'false',
+          imageSidebarPhases: 'phase2',
+          cataloguePipeline: 'folio-testing',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({
+      stagingApi: 'true',
+      someTest: 'false',
+      imageSidebarPhases: 'phase2',
+      cataloguePipeline: 'folio-testing',
+    });
+  });
+
+  it('never accepts kiosk mode, as it grants consent', () => {
+    expect(
+      validTogglePresets({ kioskMode: 'devMode' }, togglesResp, createContext())
+    ).toEqual({});
+    expect(
+      validTogglePresets(
+        { kioskMode: TOGGLE_RESET_VALUE },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('drops unknown ids, unknown phases/options and feature flags set to anything but true', () => {
+    expect(
+      validTogglePresets(
+        {
+          notAToggle: 'true',
+          stagingApi: 'false',
+          imageSidebarPhases: 'phase9',
+          cataloguePipeline: 'nope',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('only accepts stage-only toggles on stage hosts', () => {
+    const stageResp = { ...togglesResp, featureFlags: [stageOnlyFlag] };
+    expect(
+      validTogglePresets({ stagingApi: 'true' }, stageResp, createContext())
+    ).toEqual({});
+    expect(
+      validTogglePresets(
+        { stagingApi: 'true' },
+        stageResp,
+        createContext({}, 'www-stage.wellcomecollection.org')
+      )
+    ).toEqual({ stagingApi: 'true' });
+  });
+
+  it('accepts a reset for any kind of toggle', () => {
+    expect(
+      validTogglePresets(
+        {
+          stagingApi: TOGGLE_RESET_VALUE,
+          someTest: TOGGLE_RESET_VALUE,
+          imageSidebarPhases: TOGGLE_RESET_VALUE,
+          cataloguePipeline: TOGGLE_RESET_VALUE,
+          notAToggle: TOGGLE_RESET_VALUE,
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({
+      stagingApi: TOGGLE_RESET_VALUE,
+      someTest: TOGGLE_RESET_VALUE,
+      imageSidebarPhases: TOGGLE_RESET_VALUE,
+      cataloguePipeline: TOGGLE_RESET_VALUE,
+    });
+  });
+
+  it('does not accept a reset as an override', () => {
+    expect(
+      validToggleOverrides(
+        { imageSidebarPhases: TOGGLE_RESET_VALUE },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('ignores the cookie of a toggle being reset, so the public value renders', () => {
+    const context = createContext({
+      toggle_imageSidebarPhases: 'phase2',
+      toggle_stagingApi: 'true',
+    });
+    const { phasedFlags, featureFlags } = getTogglesFromContext(
+      togglesResp,
+      context,
+      {},
+      ['imageSidebarPhases']
+    );
+    expect(phasedFlags.imageSidebarPhases.current).toBeNull();
+    expect(featureFlags.stagingApi).toBe(true);
+  });
+
+  describe('validToggleOverrides', () => {
+    it('accepts false for a feature flag, unlike presets', () => {
+      expect(
+        validToggleOverrides(
+          { stagingApi: 'false' },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({ stagingApi: 'false' });
+    });
+
+    it('drops unknown ids and unknown phases/options', () => {
+      expect(
+        validToggleOverrides(
+          {
+            notAToggle: 'true',
+            imageSidebarPhases: 'phase9',
+            kioskMode: 'nope',
+          },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({});
+    });
+
+    it('leaves a valid preset in place when the override for the same id is invalid', () => {
+      const context = createContext({
+        toggle_imageSidebarPhases: 'phase1',
+      });
+      const presets = validTogglePresets(
+        { imageSidebarPhases: 'phase2' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { imageSidebarPhases: 'phase9' },
+        togglesResp,
+        context
+      );
+      const { phasedFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(phasedFlags.imageSidebarPhases.current).toBe('phase2');
+    });
+
+    it('lets a valid false override beat a true preset for a feature flag', () => {
+      const context = createContext();
+      const presets = validTogglePresets(
+        { stagingApi: 'true' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { stagingApi: 'false' },
+        togglesResp,
+        context
+      );
+      const { featureFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(featureFlags.stagingApi).toBe(false);
+    });
+  });
+});
+
+describe('togglePresetCookies', () => {
+  it('shares cookies across wellcomecollection.org, like the dashboard', () => {
+    expect(
+      togglePresetCookies(
+        { imageSidebarPhases: 'phase2' },
+        'www-dev.wellcomecollection.org'
+      )
+    ).toEqual([
+      'toggle_imageSidebarPhases=phase2; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('treats the apex domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'wellcomecollection.org')
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('does not treat a lookalike domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'notwellcomecollection.org')
+    ).toEqual(['toggle_apiToolbar=true; Path=/; Max-Age=31536000']);
+  });
+
+  it('deletes a reset toggle, clearing both the shared and any host-only cookie', () => {
+    expect(
+      togglePresetCookies(
+        { imageSidebarPhases: TOGGLE_RESET_VALUE },
+        'www-dev.wellcomecollection.org'
+      )
+    ).toEqual([
+      'toggle_imageSidebarPhases=; Path=/; Max-Age=0; Domain=.wellcomecollection.org; Secure',
+      'toggle_imageSidebarPhases=; Path=/; Max-Age=0',
+    ]);
+  });
+
+  it('deletes a reset toggle once on localhost', () => {
+    expect(
+      togglePresetCookies(
+        { cataloguePipeline: TOGGLE_RESET_VALUE },
+        'localhost:3000'
+      )
+    ).toEqual(['toggle_cataloguePipeline=; Path=/; Max-Age=0']);
+  });
+
+  it('leaves out Domain and Secure on localhost', () => {
+    expect(
+      togglePresetCookies(
+        { apiToolbar: 'true', kioskMode: 'devMode' },
+        'localhost:3000'
+      )
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000',
+      'toggle_kioskMode=devMode; Path=/; Max-Age=31536000',
+    ]);
   });
 });
