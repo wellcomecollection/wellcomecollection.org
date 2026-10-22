@@ -5,6 +5,7 @@ const {
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const pa11y = require('pa11y');
+const puppeteer = require('puppeteer');
 const { setTimeout } = require('timers');
 const { styleText } = require('util');
 const yargs = require('yargs');
@@ -72,27 +73,44 @@ const urls = [
 // still run concurrently.
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const runPa11y = async url => {
-  return pa11y(url, {
-    timeout: 120000,
-    chromeLaunchConfig: {
-      args: ['--no-sandbox'],
-    },
-    ignore: [
-      // Iframe element requires a non-empty title attribute that identifies the frame.
-      // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
-      'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
-    ],
-    // Hide InPageNavigation components from accessibility testing
-    // The component uses mix-blend-mode: difference which causes false positive
-    // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
-    hideElements: '[data-component="in-page-navigation"]',
-    log: {
-      debug: console.log,
-      error: console.error,
-      info: console.info,
-    },
-  });
+const runPa11y = async (browser, url) => {
+  const page = await browser.newPage();
+
+  try {
+    // Consenting up front means the cookie banner isn't rendered. axe measures
+    // contrast from what's painted, so the banner's backdrop would otherwise
+    // count as the background of all the text behind it.
+    await page.setCookie({ name: 'CookieControl', value: '{}', url });
+
+    return await pa11y(url, {
+      browser,
+      page,
+      // axe rather than the default HTML_CodeSniffer, which only looks at a
+      // text's ancestors for its background, so it misses absolutely
+      // positioned backgrounds (e.g. HeaderBackground)
+      runners: ['axe'],
+      // Report what axe can't decide (e.g. text on a background image) as
+      // warnings rather than errors
+      levelCapWhenNeedsReview: 'warning',
+      timeout: 120000,
+      ignore: [
+        // Iframe element requires a non-empty title attribute that identifies the frame.
+        // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
+        'frame-title',
+      ],
+      // Hide InPageNavigation components from accessibility testing
+      // The component uses mix-blend-mode: difference which causes false positive
+      // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
+      hideElements: '[data-component="in-page-navigation"]',
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.info,
+      },
+    });
+  } finally {
+    await page.close();
+  }
 };
 
 /**
@@ -102,17 +120,29 @@ const runPa11y = async url => {
  * navigates while that injection is in flight the execution context is
  * destroyed and pa11y throws, so a single attempt is not reliable.
  */
-const runPa11yWithRetry = async url => {
+const runPa11yWithRetry = async (browser, url) => {
   try {
-    return await runPa11y(url);
+    return await runPa11y(browser, url);
   } catch (error) {
     console.info(`Retrying ${url} after error: ${error.message}`);
-    return runPa11y(url);
+    return runPa11y(browser, url);
   }
 };
 
 // Run pa11y in batches to avoid rate limiting while keeping reasonable speed
 async function runAllTests() {
+  // One browser for every URL, so each page can have the consent cookie set
+  // before it loads
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+
+  try {
+    return await runBatches(browser);
+  } finally {
+    await browser.close();
+  }
+}
+
+async function runBatches(browser) {
   const results = [];
   const batchSize = 3;
   const delayBetweenBatches = 1000; // 1 second between batches
@@ -124,7 +154,7 @@ async function runAllTests() {
 
     const batch = urls.slice(i, i + batchSize);
     const batchResults = await Promise.allSettled(
-      batch.map(url => runPa11yWithRetry(url))
+      batch.map(url => runPa11yWithRetry(browser, url))
     );
 
     // Keep a placeholder for URLs that errored, so results stay aligned with

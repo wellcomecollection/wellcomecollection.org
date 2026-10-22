@@ -3,7 +3,10 @@
 pa11y is [an open-source tool][pa11y] for automated accessibility testing.
 We use it to detect accessibility issues on wellcomecollection.org.
 
+We run it with [axe][axe] rather than pa11y's default runner (HTML_CodeSniffer), which misreads text over absolutely positioned backgrounds and doesn't check ARIA values. Each page is loaded with the cookie consent already set, so the cookie banner doesn't get in the way of the contrast checks. Anything axe can't decide (e.g. text on a background image) is reported as a warning rather than an error.
+
 [pa11y]: https://pa11y.org/
+[axe]: https://github.com/dequelabs/axe-core
 
 ## Getting pa11y results
 
