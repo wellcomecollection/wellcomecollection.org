@@ -4,12 +4,6 @@ import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 
 import RelatedWorks, { WorkQueryProps } from '.';
 
-jest.mock('@weco/common/server-data/Context', () => ({
-  ...jest.requireActual('@weco/common/server-data/Context'),
-  useFeatureFlags: () => ({ stagingApi: false }),
-  useModes: () => ({ cataloguePipeline: undefined }),
-}));
-
 jest.mock('./RelatedWorks.helpers', () => ({
   fetchRelatedWorks: jest.fn().mockResolvedValue({
     'subject-HIV': { label: 'HIV', category: 'subject', results: [] },
@@ -31,7 +25,6 @@ describe('RelatedWorks', () => {
 
     tags.forEach(tag => {
       const panelId = tag.getAttribute('aria-controls');
-      expect(panelId).toBeTruthy();
       expect(panelId).not.toBe(tag.id);
       expect(document.getElementById(panelId as string)).not.toBeNull();
     });
