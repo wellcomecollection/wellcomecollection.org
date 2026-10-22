@@ -7,6 +7,7 @@ import {
 import styled, { css, useTheme } from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { typography } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb';
@@ -121,6 +122,22 @@ const BasicPageHeader: FunctionComponent<Props> = ({
 
   const hasMedia = FeaturedMedia || HeroPicture;
   const { isKiosk } = useKiosk();
+  const { brandUpdate } = useTheme();
+
+  // The Background stops short so media can overlap its bottom edge. Without
+  // media, that leaves the brand's light text on the page, so texture the whole
+  // header instead (as guides do).
+  const isTexturingWholeHeader = brandUpdate && !!Background && !hasMedia;
+  const containerTexture = isTexturingWholeHeader
+    ? backgroundTexture || headerBackgroundLs
+    : backgroundTexture;
+
+  // The Background's wobbly edge is gone too, so add the header's own edge,
+  // with room for it below the content
+  const hasBottomEdge =
+    !hasMedia &&
+    !isSlim &&
+    (!isContentTypeInfoBeforeMedia || isTexturingWholeHeader);
 
   // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true,
   // this checks whether or not there are actually any visible items.
@@ -131,8 +148,8 @@ const BasicPageHeader: FunctionComponent<Props> = ({
 
   return (
     <>
-      <Container $backgroundTexture={backgroundTexture}>
-        {Background}
+      <Container $backgroundTexture={containerTexture}>
+        {!isTexturingWholeHeader && Background}
         <ContaineredLayout
           gridSizes={fullWidth ? gridSize12() : pageGridLayout}
         >
@@ -142,9 +159,9 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             $v={{
               size: isSlim ? '2xs' : 'md',
               properties:
-                isContentTypeInfoBeforeMedia || hasMedia
-                  ? ['margin-bottom']
-                  : ['margin-bottom', 'padding-bottom'],
+                hasBottomEdge || (!isContentTypeInfoBeforeMedia && !hasMedia)
+                  ? ['margin-bottom', 'padding-bottom']
+                  : ['margin-bottom'],
             }}
           >
             {hasBreadcrumbItems && (
@@ -215,7 +232,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         )}
       </Container>
 
-      {!hasMedia && !isContentTypeInfoBeforeMedia && !isSlim && (
+      {hasBottomEdge && (
         <DecorativeEdge
           variant="wobbly"
           backgroundColor={pageBackgroundColor}
