@@ -24,6 +24,10 @@ import prismicHandler from './prismic';
 import togglesHandler, {
   getTogglesFromContext,
   parseToggleOverrides,
+  parseTogglePresets,
+  togglePresetCookies,
+  validToggleOverrides,
+  validTogglePresets,
 } from './toggles';
 import { ServerData } from './types';
 
@@ -146,34 +150,42 @@ export const getServerData = async (
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
 
-  // Support ?toggle=someToggleName in the URL to enable a toggle via query param
-  const { toggle } = context.query;
-  const enableToggle: string | undefined =
-    typeof toggle === 'string' ? toggle : undefined;
+  // Support ?toggle=someFlag,somePhasedFlag:phase2,someMode:option to set
+  // toggles via query param - saved as cookies, so they stick for later visits
+  const presets = validTogglePresets(
+    parseTogglePresets(context.query.toggle),
+    togglesResp,
+    context
+  );
 
   // Support ?toggleOverride=id:value,id:value to override toggle state for this
   // render only, without writing any cookie. Lets two browser tabs render the
   // same page with different toggle states side by side.
-  const overrides = parseToggleOverrides(context.query.toggleOverride);
+  const overrides = validToggleOverrides(
+    parseToggleOverrides(context.query.toggleOverride),
+    togglesResp,
+    context
+  );
 
-  // Resolve toggle values from the cached config + user's cookies
+  // Resolve toggle values from the cached config + user's cookies. Presets go
+  // in as overrides too, so this render reflects them before the cookies land.
   const { featureFlags, phasedFlags, tests, modes } = getTogglesFromContext(
     togglesResp,
     context,
-    overrides
+    { ...presets, ...overrides }
   );
 
-  // If a valid toggle was requested via query param, set a cookie and enable it
-  const allToggleIds = [...Object.keys(featureFlags), ...Object.keys(tests)];
-  const isEnableToggleValid = allToggleIds.some(id => id === enableToggle);
-
-  if (enableToggle && isEnableToggleValid) {
-    context.res.setHeader('Set-Cookie', `toggle_${enableToggle}=true; Path=/`);
-    if (enableToggle in featureFlags) {
-      featureFlags[enableToggle] = true;
-    } else {
-      tests[enableToggle] = true;
-    }
+  const presetCookies = togglePresetCookies(presets, context.req.headers.host);
+  if (presetCookies.length > 0) {
+    const existing = context.res.getHeader('Set-Cookie');
+    context.res.setHeader('Set-Cookie', [
+      ...(Array.isArray(existing)
+        ? existing
+        : existing !== undefined
+          ? [String(existing)]
+          : []),
+      ...presetCookies,
+    ]);
   }
 
   // Read cookie consent status (analytics, marketing)

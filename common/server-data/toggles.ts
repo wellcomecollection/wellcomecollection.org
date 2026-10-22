@@ -80,6 +80,156 @@ export function parseToggleOverrides(
 }
 
 /**
+ * Parse a `?toggle=id,id:value` query param into a map of raw string values.
+ * A bare id means 'true', so the long-standing `?toggle=someFlag` form still
+ * works; `id:value` picks a phased flag's phase or a mode's option. Pairs are
+ * comma-separated, so one link can set several toggles at once.
+ */
+export function parseTogglePresets(
+  raw: string | string[] | undefined
+): Record<string, string> {
+  const value = Array.isArray(raw) ? raw.join(',') : raw;
+  if (!value) return {};
+  return value.split(',').reduce(
+    (acc, pair) => {
+      const separatorIndex = pair.indexOf(':');
+      const id = (
+        separatorIndex === -1 ? pair : pair.slice(0, separatorIndex)
+      ).trim();
+      const val =
+        separatorIndex === -1 ? 'true' : pair.slice(separatorIndex + 1).trim();
+      if (id) acc[id] = val;
+      return acc;
+    },
+    // Null-prototype map for the same reason as parseToggleOverrides.
+    Object.create(null) as Record<string, string>
+  );
+}
+
+const isStageHost = (context: Context): boolean =>
+  context.req.headers.host?.startsWith('www-stage') ?? false;
+
+/**
+ * Keeps only the values that name a toggle available on this host, with a
+ * value that toggle accepts. Feature flags accept only the values listed in
+ * `featureFlagValues`, since presets and overrides differ there.
+ */
+function validToggleValues(
+  values: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context,
+  featureFlagValues: string[]
+): Record<string, string> {
+  const isStage = isStageHost(context);
+  const isAvailable = (toggle: { type: string }) =>
+    isStage || toggle.type !== 'stage';
+
+  const acceptsValue = (id: string, value: string): boolean => {
+    const featureFlag = togglesResp.featureFlags.find(f => f.id === id);
+    if (featureFlag) {
+      return isAvailable(featureFlag) && featureFlagValues.includes(value);
+    }
+
+    if (togglesResp.tests.some(t => t.id === id)) {
+      return value === 'true' || value === 'false';
+    }
+
+    const phasedFlag = togglesResp.phasedFlags?.find(f => f.id === id);
+    if (phasedFlag) {
+      return (
+        isAvailable(phasedFlag) &&
+        phasedFlag.phases.some(phase => phase.id === value)
+      );
+    }
+
+    const mode = togglesResp.modes?.find(m => m.id === id);
+    if (mode) return mode.options.some(option => option.id === value);
+
+    return false;
+  };
+
+  return Object.entries(values).reduce(
+    (acc, [id, value]) => {
+      if (acceptsValue(id, value)) acc[id] = value;
+      return acc;
+    },
+    Object.create(null) as Record<string, string>
+  );
+}
+
+/**
+ * Toggles `?toggle=` can't set. Kiosk mode grants analytics and marketing
+ * consent with no banner, on the basis that the device is ours - a link that
+ * looks like any other site link shouldn't switch that on in someone's own
+ * browser. Kiosk devices are set up from the toggles dashboard instead.
+ */
+const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
+
+/**
+ * Keeps only the presets that name a toggle available on this host, with a
+ * value that toggle accepts - so a typo'd id or phase never gets written to a
+ * cookie. Feature flags only accept 'true': a 'false' cookie resolves to the
+ * flag's defaultValue, not false, so writing one would be misleading.
+ */
+export const validTogglePresets = (
+  presets: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context
+): Record<string, string> =>
+  validToggleValues(
+    Object.fromEntries(
+      Object.entries(presets).filter(
+        ([id]) => !TOGGLE_PRESET_BLOCKED_IDS.includes(id)
+      )
+    ),
+    togglesResp,
+    context,
+    ['true']
+  );
+
+/**
+ * Keeps only the overrides a toggle accepts. Filtering before they're merged
+ * over presets matters: an invalid override would otherwise replace a valid
+ * preset for the same id, and the resolver would then reject it and fall back
+ * to the cookie, so the page wouldn't show the preset it just saved. Unlike
+ * presets, feature flags accept 'false' here, since nothing gets persisted.
+ */
+export const validToggleOverrides = (
+  overrides: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context
+): Record<string, string> =>
+  validToggleValues(overrides, togglesResp, context, ['true', 'false']);
+
+const oneYearInSeconds = 365 * 24 * 60 * 60;
+
+/**
+ * `Set-Cookie` values for validated presets. These match what the toggles
+ * dashboard writes (a year long, shared across *.wellcomecollection.org), so
+ * a link from either place sets the same cookie and the dashboard can reset
+ * it - a host-only cookie of the same name would sit alongside the dashboard's
+ * one and leave it ambiguous which the server reads.
+ */
+export function togglePresetCookies(
+  presets: Record<string, string>,
+  host: string | undefined
+): string[] {
+  const hostname = host?.split(':')[0];
+  const isWellcomeHost =
+    hostname === 'wellcomecollection.org' ||
+    (hostname?.endsWith('.wellcomecollection.org') ?? false);
+  const attributes = [
+    'Path=/',
+    `Max-Age=${oneYearInSeconds}`,
+    ...(isWellcomeHost ? ['Domain=.wellcomecollection.org', 'Secure'] : []),
+  ].join('; ');
+
+  return Object.entries(presets).map(
+    ([id, value]) => `toggle_${id}=${encodeURIComponent(value)}; ${attributes}`
+  );
+}
+
+/**
  * Resolves the current value of a toggle whose value is one of a list of
  * named option ids - a mode's option, or a phased flag's phase. Shared by
  * both, since "which one is currently picked" is the same operation for
@@ -115,7 +265,7 @@ export function getTogglesFromContext(
   // These take precedence over cookies for this render and are never persisted.
   overrides: Record<string, string> = {}
 ): Toggles {
-  const isStage = context.req.headers.host?.startsWith('www-stage');
+  const isStage = isStageHost(context);
   const allCookies = getCookies(context);
   const featureFlagsList = togglesResp.featureFlags ?? [];
   const featureFlags = featureFlagsList
