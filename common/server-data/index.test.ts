@@ -8,8 +8,29 @@ import { TogglesResp } from '@weco/toggles';
 import { getServerData } from '.';
 
 const togglesResp: TogglesResp = {
-  featureFlags: [],
+  featureFlags: [
+    {
+      id: 'apiToolbar',
+      title: 'API toolbar',
+      description: 'API toolbar',
+      defaultValue: false,
+      type: 'permanent',
+    },
+  ],
   tests: [],
+  phasedFlags: [
+    {
+      id: 'imageSidebarPhases',
+      title: 'Image sidebar',
+      description: 'Image sidebar, phased',
+      type: 'experimental',
+      phases: [
+        { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+        { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+      ],
+      defaultPhase: null,
+    },
+  ],
   modes: [
     {
       id: 'kioskMode',
@@ -29,9 +50,10 @@ jest.mock('fs', () => ({
 }));
 
 function createContext(
-  query: Record<string, string>
+  query: Record<string, string>,
+  existingHeaders: Record<string, string | string[]> = {}
 ): GetServerSidePropsContext {
-  const headers: Record<string, string | string[]> = {};
+  const headers: Record<string, string | string[]> = { ...existingHeaders };
   return {
     query,
     req: {
@@ -48,6 +70,76 @@ function createContext(
 }
 
 describe('getServerData', () => {
+  describe('?toggle= and ?toggleOverride=', () => {
+    const phase1Cookie =
+      'toggle_imageSidebarPhases=phase1; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure';
+
+    it('saves a ?toggle= value as a cookie and renders with it', async () => {
+      const context = createContext({ toggle: 'imageSidebarPhases:phase1' });
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.phasedFlags.imageSidebarPhases.current).toBe(
+        'phase1'
+      );
+      expect(context.res.getHeader('Set-Cookie')).toEqual([phase1Cookie]);
+    });
+
+    it('renders a ?toggleOverride= value without saving a cookie', async () => {
+      const context = createContext({
+        toggleOverride: 'imageSidebarPhases:phase1',
+      });
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.phasedFlags.imageSidebarPhases.current).toBe(
+        'phase1'
+      );
+      expect(context.res.getHeader('Set-Cookie')).toBeUndefined();
+    });
+
+    it('keeps a Set-Cookie header that was already on the response', async () => {
+      const context = createContext(
+        { toggle: 'imageSidebarPhases:phase1' },
+        { 'Set-Cookie': 'existing=1; Path=/' }
+      );
+      await getServerData(context);
+
+      expect(context.res.getHeader('Set-Cookie')).toEqual([
+        'existing=1; Path=/',
+        phase1Cookie,
+      ]);
+    });
+
+    it('renders a valid override over a preset, but still saves the preset', async () => {
+      const context = createContext({
+        toggle: 'imageSidebarPhases:phase1,apiToolbar',
+        toggleOverride: 'imageSidebarPhases:phase2,apiToolbar:false',
+      });
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.phasedFlags.imageSidebarPhases.current).toBe(
+        'phase2'
+      );
+      expect(serverData.toggles.featureFlags.apiToolbar).toBe(false);
+      expect(context.res.getHeader('Set-Cookie')).toEqual([
+        phase1Cookie,
+        'toggle_apiToolbar=true; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+      ]);
+    });
+
+    it('keeps the preset when the override for the same toggle is invalid', async () => {
+      const context = createContext({
+        toggle: 'imageSidebarPhases:phase1',
+        toggleOverride: 'imageSidebarPhases:phase9',
+      });
+      const serverData = await getServerData(context);
+
+      expect(serverData.toggles.phasedFlags.imageSidebarPhases.current).toBe(
+        'phase1'
+      );
+      expect(context.res.getHeader('Set-Cookie')).toEqual([phase1Cookie]);
+    });
+  });
+
   describe('kiosk mode with no consent cookie', () => {
     it('ignores ?toggle= for kiosk mode, so no cookie or consent is granted', async () => {
       const context = createContext({ toggle: 'kioskMode:devMode' });
