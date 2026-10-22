@@ -149,7 +149,7 @@ When sharing a toggle with someone, use a `?toggle=` link on the website. It wor
 - Reset any toggle to its public value: `https://wellcomecollection.org/?toggle={toggle_id}:reset` - this deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
 - Combine them with commas: `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 
-Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard.
+Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard. Because `reset` has this special meaning, it can't be used as a phase or mode option id - `yarn tsc` fails if one is added.
 
 To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`).
 

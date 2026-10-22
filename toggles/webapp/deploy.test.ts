@@ -1,5 +1,4 @@
 import {
-  findReservedValueIds,
   withDefaultPhaseUnmodified,
   withDefaultValuesUnmodified,
 } from './deploy';
@@ -287,30 +286,5 @@ describe('withDefaultPhaseUnmodified', () => {
 
     expect('dateCreated' in newRemote[0]).toBe(false);
     expect('dateActivated' in newRemote[0]).toBe(false);
-  });
-});
-
-describe('findReservedValueIds', () => {
-  it('finds a phase or mode option using the reserved reset value', () => {
-    expect(
-      findReservedValueIds(
-        [
-          {
-            id: 'flag-1',
-            phases: [{ id: 'mvp' }, { id: 'reset' }],
-          },
-        ],
-        [{ id: 'someMode', options: [{ id: 'reset' }, { id: 'other' }] }]
-      )
-    ).toEqual(['flag-1: reset', 'someMode: reset']);
-  });
-
-  it('returns nothing when no phase or option uses it', () => {
-    expect(
-      findReservedValueIds(
-        [{ id: 'flag-1', phases: [{ id: 'mvp' }] }],
-        [{ id: 'someMode', options: [{ id: 'other' }] }]
-      )
-    ).toEqual([]);
   });
 });
