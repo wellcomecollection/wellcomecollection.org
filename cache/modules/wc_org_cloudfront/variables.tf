@@ -91,6 +91,12 @@ variable "enable_items_challenge" {
   description = "Serve a silent JS challenge to token-less clients on /works/<id>/items pages, reusing search_challenge_immunity_seconds. High-risk: prove on stage before enabling elsewhere."
 }
 
+variable "enable_geo_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve the silent JS challenge instead of a CAPTCHA on the geo consent rules, reusing search_challenge_immunity_seconds. Prove on e2e before enabling elsewhere; stage's allowed_countries block keeps these rules from firing there."
+}
+
 variable "enable_search_legacy_ua_block" {
   type        = bool
   default     = false
@@ -123,7 +129,7 @@ variable "bot_control_inspection_level" {
 variable "search_challenge_immunity_seconds" {
   type        = number
   default     = 300
-  description = "How long a solved challenge token stays valid; applies to both the search and items challenge rules, since tokens are per web ACL. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
+  description = "How long a solved challenge token stays valid; applies to the search and items challenge rules and, with enable_geo_challenge, the geo consent rules, since tokens are per web ACL. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
 
   validation {
     condition     = var.search_challenge_immunity_seconds >= 60 && var.search_challenge_immunity_seconds <= 259200 && floor(var.search_challenge_immunity_seconds) == var.search_challenge_immunity_seconds
