@@ -24,7 +24,7 @@
   "devDependencies": {
     "@storybook/nextjs-vite": "10.6.0",
     "eslint-plugin-storybook": "10.6.0",
-    "storybook": "10.6.0",
+    "storybook": "10.6.2",
     "util": "^0.12.5",
     "vite": "^8.2.0"
   }
