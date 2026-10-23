@@ -13,7 +13,7 @@ const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
 
 // This format is required by Civic UK
-export const policyUpdatedDate = '01/10/2026';
+export const policyUpdatedDate = '21/10/2026';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
@@ -46,12 +46,17 @@ const necessaryCookies = () => {
   // Auth0 related
   const auth0 = ['wecoIdentitySession*'];
 
+  // AWS WAF challenge token. Without this Cookie Control deletes it on load
+  // and visitors who have not consented are re-challenged on every page.
+  const wafToken = ['aws-waf-token'];
+
   return [
     ...wcCookies,
     ...featureFlags,
     ...prismicPreview,
     ...digiratiCookies,
     ...auth0,
+    ...wafToken,
   ];
 };
 
