@@ -238,8 +238,13 @@ export const ShortFilm: Meta<typeof PageHeader> = {
   },
 };
 
-export const Event: Meta<typeof PageHeader> = {
+type EventStory = ComponentProps<typeof PageHeader> & {
+  hasFeaturedMedia?: boolean;
+};
+
+export const Event: Meta<EventStory> = {
   argTypes: {
+    hasFeaturedMedia: { name: 'Has featured media', control: 'boolean' },
     variant: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
@@ -251,6 +256,7 @@ export const Event: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
+    hasFeaturedMedia: true,
     FeaturedMedia: (
       <PrismicImage
         image={image(florenceWinterfloodImageUrl('3200x1800'))}
@@ -279,6 +285,12 @@ export const Event: Meta<typeof PageHeader> = {
       <HeaderBackground backgroundTexture={headerBackgroundLs} hasWobblyEdge />
     ),
   },
+  render: ({ hasFeaturedMedia, FeaturedMedia, ...args }) => (
+    <PageHeader
+      {...args}
+      FeaturedMedia={hasFeaturedMedia ? FeaturedMedia : undefined}
+    />
+  ),
 };
 
 export const Exhibition: Meta<typeof PageHeader> = {
