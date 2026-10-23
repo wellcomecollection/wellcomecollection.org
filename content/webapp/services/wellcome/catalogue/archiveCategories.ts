@@ -113,7 +113,7 @@ const ARCHIVE_CATEGORY_IMAGES: Record<string, string> = {
   WT: 'b33227779_0001.JP2',
   GP: 'b19168743_0001.jp2',
   SA: 'b18848540_0011.jp2',
-  //WA: '', awaiting an appropriate image
+  WA: 'L0025358',
 };
 
 // Requested by height rather than width: the card is tall and narrow, so it's
