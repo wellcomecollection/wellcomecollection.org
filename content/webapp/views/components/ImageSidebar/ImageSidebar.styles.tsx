@@ -8,18 +8,33 @@ import {
   pageBackgroundColor,
 } from '@weco/common/views/themes/config';
 
+/**
+ * Full screen over everything below the `sm` breakpoint, and a column beside
+ * the results from `sm` up.
+ */
 export const SidebarWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
-  position: sticky;
-  top: 0;
-  flex: 0 0 50%;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
   overflow-y: auto;
-  border-left: 1px solid ${props => props.theme.color('neutral.300')};
+  overscroll-behavior: contain;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
+
+  ${props =>
+    props.theme.media('sm')(`
+      position: sticky;
+      inset: auto;
+      top: 0;
+      z-index: auto;
+      overscroll-behavior: auto;
+      flex: 0 0 50%;
+      height: 100vh;
+      border-left: 1px solid ${props.theme.color('neutral.300')};
+    `)}
 `;
 
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({

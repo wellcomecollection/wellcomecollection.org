@@ -35,15 +35,23 @@ const work = {
 
 const renderSidebar = async (image?: Image, setExpandedImage = jest.fn()) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
-  const view = renderWithTheme(
+  const sidebar = (expandedImage?: Image) => (
     <ImageSidebar
-      images={image ? [image] : []}
-      expandedImage={image}
+      images={expandedImage ? [expandedImage] : []}
+      expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
     />
   );
+  const view = renderWithTheme(sidebar(image));
   await act(async () => {});
-  return { ...view, setExpandedImage };
+  return {
+    ...view,
+    setExpandedImage,
+    select: async (next?: Image) => {
+      view.rerender(sidebar(next));
+      await act(async () => {});
+    },
+  };
 };
 
 describe('ImageSidebar', () => {
@@ -77,5 +85,52 @@ describe('ImageSidebar', () => {
     );
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  describe('focus', () => {
+    // Focus is moved after a timer (see the sidebar), so the timers are ours to run
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+    // The fake thumbnail below is on the page, not in what's rendered
+    afterEach(() => document.getElementById(expandedImage.id)?.remove());
+    const runTimers = () =>
+      act(() => {
+        jest.runAllTimers();
+      });
+    const closeButton = () =>
+      screen.getByRole('button', { name: 'Close image details' });
+
+    it('moves to the close button when it opens', async () => {
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+      await runTimers();
+
+      expect(closeButton()).toHaveFocus();
+    });
+
+    // Some browsers focus the thumbnail the URL hash points at a moment after
+    // the sidebar has moved focus, and the sidebar takes it back. That can't be
+    // seen in the browsers the e2e tests run in, so it's imitated here by
+    // focusing the thumbnail ourselves.
+    it('takes focus back if the browser then focuses the thumbnail', async () => {
+      const thumbnail = document.createElement('a');
+      thumbnail.id = expandedImage.id;
+      thumbnail.href = '#';
+      document.body.appendChild(thumbnail);
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+      // Only the timer that focuses the close button, not the one that stops
+      // watching for the thumbnail being focused
+      act(() => {
+        jest.advanceTimersToNextTimer();
+      });
+      expect(closeButton()).toHaveFocus();
+
+      act(() => thumbnail.focus());
+
+      expect(closeButton()).toHaveFocus();
+    });
   });
 });

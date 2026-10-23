@@ -295,14 +295,12 @@ const defaultButtonColors: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
-  hierarchy: 'primary',
 };
 
 const dangerButtonColors: ButtonColors = {
   border: 'validation.red',
   background: 'validation.red',
   text: 'white',
-  isDanger: true,
 };
 
 // Button color naming convention: [border][Background][Text]
@@ -312,29 +310,24 @@ const charcoalWhiteCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
 };
 
 const greenTransparentGreen: ButtonColors = {
   border: 'accent.green',
   background: 'transparent',
   text: 'accent.green',
-  hierarchy: 'tertiary',
 };
 
 const greenGreenWhite: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
-  hierarchy: 'primary',
 };
 
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
   background: 'transparent',
   text: 'white',
-  hierarchy: 'tertiary',
-  isOnDark: true,
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
@@ -347,21 +340,18 @@ const charcoalTransparentCharcoal: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
 };
 
 const charcoalTransparentBlack: ButtonColors = {
   border: 'neutral.700', // legacy charcoal color
   background: 'transparent',
   text: 'black',
-  hierarchy: 'tertiary',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
 };
 
 // New button style introduction
@@ -371,7 +361,6 @@ const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
   text: 'black',
-  hierarchy: 'secondary',
 };
 
 const whiteWhiteCharcoal: ButtonColors = {

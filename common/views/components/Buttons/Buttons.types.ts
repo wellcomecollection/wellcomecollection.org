@@ -18,6 +18,7 @@ export type SolidButtonStyledProps = (
   $isNewSearchBar?: boolean;
   $hierarchy?: ButtonHierarchy;
   $isOnDark?: boolean;
+  $isDanger?: boolean;
 };
 
 /** Where a button sits in the brand designs' hierarchy. Only used when the
@@ -29,12 +30,6 @@ export type ButtonColors = {
   border: PinnableColor;
   background: PinnableColor;
   text: PinnableColor;
-  // The brand hierarchy a preset maps to, so buttons that don't pass
-  // `hierarchy` still pick up the brand styles
-  hierarchy?: ButtonHierarchy;
-  isOnDark?: boolean;
-  // A destructive action, e.g. deleting an account. Outside the hierarchy
-  isDanger?: boolean;
 };
 
 export enum ButtonTypes {
@@ -60,4 +55,6 @@ export type ButtonSolidBaseProps = {
   isPill?: boolean;
   hierarchy?: ButtonHierarchy;
   isOnDark?: boolean;
+  // A destructive action, e.g. deleting an account. Outside the hierarchy
+  isDanger?: boolean;
 };

@@ -23,7 +23,7 @@ const MoreLink: FunctionComponent<Props> = ({
   name,
   colors,
   ariaLabel,
-  hierarchy,
+  hierarchy = 'tertiary',
   isOnDark,
 }) => {
   const theme = useTheme();
