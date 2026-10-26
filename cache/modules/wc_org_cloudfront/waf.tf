@@ -542,12 +542,32 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Geo consent rules: first-visit traffic from mostly-bot regions gets a
+  // CAPTCHA, or the silent challenge with enable_geo_challenge. JS-capable
+  // bots pass the challenge, so watch ChallengesSolved and
+  // RequestsWithValidChallengeToken here (numbers in wc.org#13665).
   rule {
     name     = "apac-captcha-consent-block"
     priority = 10
 
     action {
-      captcha {}
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
     }
 
     statement {
@@ -597,7 +617,23 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 11
 
     action {
-      captcha {}
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
     }
 
     statement {

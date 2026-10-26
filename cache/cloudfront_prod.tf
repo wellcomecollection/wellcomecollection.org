@@ -70,6 +70,9 @@ module "prod_wc_org_cloudfront_distribution" {
   # Blocks fabricated-browser fraud on the indexable catalogue pages while
   # leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
+
+  # Stays on CAPTCHA until the challenge is proven on e2e (wc.org#13665).
+  enable_geo_challenge = false
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

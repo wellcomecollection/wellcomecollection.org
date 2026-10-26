@@ -21,6 +21,21 @@ const ResultsLayout = styled.div`
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
 
+const PanelGap = styled.div`
+  display: none;
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: block;
+      flex: 0 0 8px;
+      align-self: stretch;
+      background-color: ${props.theme.color({
+        brand: 'neutral.10',
+        legacy: 'warmNeutral.300',
+      })};
+    `)}
+`;
+
 // Where the content of a Container starts: half of the space left either side
 // of its max width, plus its own padding, which is a share of the parent's width
 const containerEdge = (maxWidth: string) =>
@@ -122,6 +137,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 
   useReturnFocusOnClose(images, expandedImage, resultsRef);
 
+  // Choosing the image that's already open closes it
+  const selectImage = (image: Image) =>
+    setExpandedImage(image.id === expandedImage?.id ? undefined : image);
+
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in
    * particular (e.g. after clicking a thumbnail). Escape pressed inside a
@@ -151,13 +170,15 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
               images={images}
               variant="justified"
               imageDetails="sidebar"
-              onImageSelect={setExpandedImage}
+              onImageSelect={selectImage}
               selectedImageId={expandedImage?.id}
             />
           </main>
         </Space>
         <PaginationArea>{children}</PaginationArea>
       </Results>
+
+      {isActive && <PanelGap />}
 
       <ImageSidebar
         images={images}
