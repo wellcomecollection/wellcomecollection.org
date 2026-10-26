@@ -219,6 +219,7 @@ const RegistrationPage: NextPage<Props> = ({
                       <FullWidthButton>
                         <Button
                           variant="ButtonSolid"
+                          hierarchy="primary"
                           dataGtmProps={{
                             trigger: 'create_library_account',
                           }}

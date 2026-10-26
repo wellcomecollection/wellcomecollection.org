@@ -179,6 +179,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsSection headingText="Selected images from this work">
             <Button
               variant="ButtonSolidLink"
+              hierarchy="tertiary"
               dataGtmProps={{
                 trigger: 'view_selected_images',
               }}
