@@ -21,15 +21,25 @@ import {
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
-import { Description, OriginalPageLink, Pre } from './pa11y.styles';
+import {
+  Description,
+  OriginalPageLink,
+  Pre,
+  SelectorLabel,
+  WarningSummary,
+} from './pa11y.styles';
 
 type ErrorState = { failed: true; message: string };
 
 type IssueType = {
   type: 'error' | 'warning' | 'notice' | 'success';
+  code?: string;
   message: string;
   selector: string;
   context: string;
+  // Added by our pa11y script: the nearest data-component, or the element's
+  // tag outside one. Missing from older reports.
+  component?: string | null;
 };
 
 type IssueGroup = Pick<IssueType, 'type' | 'message' | 'selector'>;
@@ -69,6 +79,25 @@ function groupIssues(
   }
 
   return result;
+}
+
+// Warnings mostly repeat the same few patterns, so group them by rule and
+// component rather than by element
+function groupWarnings(
+  warnings: IssueType[]
+): { label: string; message: string; issues: IssueType[] }[] {
+  const groups = new Map<string, { message: string; issues: IssueType[] }>();
+
+  for (const warning of warnings) {
+    const label = `${warning.code ?? 'warning'} in ${warning.component ?? '(unknown)'}`;
+    const group = groups.get(label) ?? { message: warning.message, issues: [] };
+    group.issues.push(warning);
+    groups.set(label, group);
+  }
+
+  return [...groups]
+    .map(([label, group]) => ({ label, ...group }))
+    .sort((a, b) => b.issues.length - a.issues.length);
 }
 
 const Pa11yPage: FunctionComponent = () => {
@@ -122,10 +151,16 @@ const Pa11yPage: FunctionComponent = () => {
 
       return { ...r, score, errors, warnings, notices };
     })
-    .sort((a, b) => b.score - a.score);
+    // Pages with errors first, however many warnings other pages have
+    .sort((a, b) => b.errors.length - a.errors.length || b.score - a.score);
 
   const successes = results.filter(({ score }) => score === 0);
   const failures = results.filter(({ score }) => score > 0);
+  // Warnings are for checking by hand, so they don't make a page fail
+  const pagesWithErrors = results.filter(({ errors }) => errors.length > 0);
+  const pagesWithOnlyWarnings = results.filter(
+    ({ errors, warnings }) => errors.length === 0 && warnings.length > 0
+  );
 
   return (
     <>
@@ -144,12 +179,18 @@ const Pa11yPage: FunctionComponent = () => {
 
           <div role="status" aria-live="polite">
             <SectionHeading>Detected issues</SectionHeading>
-            {failures.length > 0 ? (
+            {pagesWithErrors.length > 0 ? (
               <Issue $type="error">
-                {pluralise(failures.length, 'page')} with issues
+                {pluralise(pagesWithErrors.length, 'page')} with errors
               </Issue>
             ) : (
               <Issue $type="success">All pages pass accessibility checks</Issue>
+            )}
+            {pagesWithOnlyWarnings.length > 0 && (
+              <Issue $type="warning">
+                {pluralise(pagesWithOnlyWarnings.length, 'page')} with only
+                warnings to check by hand
+              </Issue>
             )}
           </div>
 
@@ -191,7 +232,9 @@ const Pa11yPage: FunctionComponent = () => {
                         </div>
                       )}
 
-                      {groupIssues(issues).map(({ group, issues }) => {
+                      {groupIssues(
+                        issues.filter(({ type }) => type !== 'warning')
+                      ).map(({ group, issues }) => {
                         return (
                           <Issue
                             $type={group.type}
@@ -221,6 +264,27 @@ const Pa11yPage: FunctionComponent = () => {
                           </Issue>
                         );
                       })}
+
+                      {groupWarnings(warnings).map(
+                        ({ label, message, issues }) => (
+                          <Issue $type="warning" key={label}>
+                            <details>
+                              <WarningSummary>
+                                warning: {label} (&times; {issues.length})
+                              </WarningSummary>
+                              <p>{message}</p>
+                              {issues.map((issue, i) => (
+                                <div key={`${issue.selector}-${i}`}>
+                                  <Pre>{issue.context}</Pre>
+                                  <SelectorLabel>
+                                    Selector: <code>{issue.selector}</code>
+                                  </SelectorLabel>
+                                </div>
+                              ))}
+                            </details>
+                          </Issue>
+                        )
+                      )}
                     </ReportSection>
                   );
                 }
