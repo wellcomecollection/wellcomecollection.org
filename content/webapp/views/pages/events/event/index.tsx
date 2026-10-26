@@ -267,6 +267,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                   <>
                     <Button
                       variant="ButtonSolid"
+                      hierarchy="primary"
                       text="Fully booked"
                       disabled
                     />
@@ -275,6 +276,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                   <>
                     <Button
                       variant="ButtonSolidLink"
+                      hierarchy="primary"
                       link={event.thirdPartyBooking.url}
                       icon={ticket}
                       text="Check for tickets"
@@ -300,6 +302,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                     icon={email}
                     text="Email to book"

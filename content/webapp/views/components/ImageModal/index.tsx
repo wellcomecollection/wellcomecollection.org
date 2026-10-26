@@ -126,6 +126,7 @@ const ImageModal: FunctionComponent<Props> = ({
                   <ViewImageButtonWrapper>
                     <Button
                       variant="ButtonSolidLink"
+                      hierarchy="primary"
                       text="View image"
                       icon={eye}
                       link={expandedImageLink}

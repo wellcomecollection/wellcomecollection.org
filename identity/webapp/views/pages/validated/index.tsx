@@ -79,6 +79,7 @@ const ValidatedPage: NextPage<Props> = ({ success, message, isNewSignUp }) => {
 
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link="/account"
                     text={
                       userState === 'signedin'

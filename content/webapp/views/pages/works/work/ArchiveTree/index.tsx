@@ -211,6 +211,7 @@ const ArchiveTree: FunctionComponent<{ work: Work }> = ({
           <ButtonWrap>
             <Button
               variant="ButtonSolid"
+              hierarchy="primary"
               text="Collection contents"
               clickHandler={() => setShowArchiveTreeModal(true)}
               aria-controls="collection-contents-modal"
