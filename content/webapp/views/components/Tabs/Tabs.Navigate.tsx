@@ -36,7 +36,9 @@ const TabsNavigate: FunctionComponent<Props> = ({
   isWhite,
 }: Props) => {
   return (
-    <TabsContainer aria-label={label}>
+    // These tabs are links to other pages, so a labelled nav (a plain div
+    // can't take an aria-label)
+    <TabsContainer as="nav" aria-label={label}>
       {items.map(item => {
         const isSelected = currentSection === item.id;
         return (
