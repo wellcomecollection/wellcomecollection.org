@@ -90,13 +90,20 @@ const runPa11y = async (browser, url) => {
       // positioned backgrounds (e.g. HeaderBackground)
       runners: ['axe'],
       // Report what axe can't decide (e.g. text on a background image) as
-      // warnings rather than errors
+      // warnings rather than errors, and keep warnings in the results (pa11y
+      // drops them by default) so they can be checked by hand
       levelCapWhenNeedsReview: 'warning',
+      includeWarnings: true,
       timeout: 120000,
       ignore: [
         // Iframe element requires a non-empty title attribute that identifies the frame.
         // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
         'frame-title',
+        // axe best-practice rules (not WCAG) that pa11y runs by default. They
+        // only ever give warnings, and would bury the contrast ones we want
+        'region',
+        'heading-order',
+        'landmark-unique',
       ],
       // Hide InPageNavigation components from accessibility testing
       // The component uses mix-blend-mode: difference which causes false positive
@@ -239,14 +246,20 @@ try {
           .flat();
 
         if (resultsLog.length > 0) {
-          console.error(
-            `!!! ${styleText('redBright', 'Fix these before merging')}`
-          );
-          console.log(...resultsLog);
-
           const hasErrors = results.find(result =>
             result.issues.find(issue => issue.type === 'error')
           );
+
+          // Warnings alone don't fail the run, so only call for fixes on errors
+          console.error(
+            hasErrors
+              ? `!!! ${styleText('redBright', 'Fix these before merging')}`
+              : styleText(
+                  'yellowBright',
+                  'No errors, but these warnings need checking by hand'
+                )
+          );
+          console.log(...resultsLog);
 
           process.exit(hasErrors ? 1 : 0);
         } else {
