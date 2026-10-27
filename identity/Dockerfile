@@ -1,10 +1,12 @@
 # This image should be built with the parent directory as context
 FROM public.ecr.aws/docker/library/node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
 
-# We add awscli so that we can run the app locally in a container using creds
-# from AWS
-RUN apt-get update
-RUN apt-get -y install awscli
+# awscli is only for running the app locally in a container (see README);
+# keeping it out of deployed images drops its Python and system libraries.
+ARG INSTALL_AWSCLI=false
+RUN if [ "$INSTALL_AWSCLI" = "true" ]; then \
+      apt-get update && apt-get -y install awscli && rm -rf /var/lib/apt/lists/*; \
+    fi
 
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
 
