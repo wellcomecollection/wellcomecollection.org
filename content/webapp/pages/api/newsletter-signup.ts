@@ -17,7 +17,7 @@ async function createSubscription({
   marketingPermissions,
 }: {
   emailAddress: string;
-  addressBookId: string;
+  addressBookId: number;
   marketingPermissions: boolean;
 }): Promise<Status> {
   const newsletterApiUrl = 'https://r1-api.dotmailer.com/v2';
@@ -108,25 +108,27 @@ const validAddressBookIds = [
 ].map(addressbook => addressbook.id);
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  // making sure addressBookId is legit to prevent server-side request forgery
-  if (!validAddressBookIds.includes(Number(req.body.addressBookId))) {
-    res.status(400).send('Bad request');
+  if (req.method !== 'POST') {
+    return res.status(405).send('Method Not Allowed');
   }
-  if (req.method === 'POST') {
-    try {
-      const { addressBookId, emailAddress, marketingPermissions } = req.body;
-      const result = await createSubscription({
-        emailAddress,
-        addressBookId,
-        marketingPermissions,
-      });
 
-      res.status(200).json({ result });
-    } catch {
-      res.status(500).json({ error: 'failed to load data' });
-    }
-  } else {
-    res.status(405).send('Method Not Allowed');
+  // Only the parsed id reaches the dotdigital URL, to prevent server-side request forgery
+  const addressBookId = Number(req.body?.addressBookId);
+  if (!validAddressBookIds.includes(addressBookId)) {
+    return res.status(400).send('Bad request');
+  }
+
+  try {
+    const { emailAddress, marketingPermissions } = req.body;
+    const result = await createSubscription({
+      emailAddress,
+      addressBookId,
+      marketingPermissions,
+    });
+
+    res.status(200).json({ result });
+  } catch {
+    res.status(500).json({ error: 'failed to load data' });
   }
 };
 
