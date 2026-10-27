@@ -1,5 +1,5 @@
 # This image should be built with the parent directory as context
-FROM public.ecr.aws/docker/library/node:24.13.0-bookworm-slim
+FROM public.ecr.aws/docker/library/node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205
 
 ARG NEXT_PUBLIC_CIVICUK_API_KEY
 
@@ -17,6 +17,9 @@ RUN yarn --frozen-lockfile && yarn cache clean
 COPY content/webapp .
 
 RUN NODE_OPTIONS=--max-old-space-size=4096 yarn build && yarn cache clean
+
+# The app runs under yarn; the base image's bundled npm only adds scanner findings.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
 # The following are from https://nextjs.org/docs/deployment#docker-image
 RUN addgroup --system --gid 1001 nodejs
