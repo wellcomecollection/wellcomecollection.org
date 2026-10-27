@@ -217,6 +217,15 @@ test.describe('Desktop', () => {
       await page.goBack();
       await expect(sidebar(page)).toHaveCount(0);
       expect(page.url()).not.toContain('#');
+
+      // And Forward goes through them again, as going Back mustn't have added an
+      // entry that cuts them off
+      await page.goForward();
+      await expect(heading).toHaveText(titles[first]);
+      await page.goForward();
+      await expect(heading).toHaveText(titles[other]);
+      await page.goForward();
+      await expect(sidebar(page)).toHaveCount(0);
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({
