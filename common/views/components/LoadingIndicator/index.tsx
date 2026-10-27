@@ -57,14 +57,11 @@ const LoadingIndicator: FunctionComponent = () => {
   NProgress.configure({
     showSpinner: false,
     parent: '.loading-indicator-wrapper',
-    // NProgress's default markup uses role="bar", which isn't a valid ARIA
-    // role, so find the bar by a data attribute instead
     template:
       '<div class="bar" data-nprogress-bar><div class="peg"></div></div>',
     barSelector: '[data-nprogress-bar]',
   });
 
-  // The bar is purely visual
   return (
     <LoadingIndicatorWrapper data-component="loading-indicator" aria-hidden />
   );
