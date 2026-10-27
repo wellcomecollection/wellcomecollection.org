@@ -36,7 +36,7 @@ const TabsNavigate: FunctionComponent<Props> = ({
   isWhite,
 }: Props) => {
   return (
-    <TabsContainer aria-label={label}>
+    <TabsContainer as="nav" aria-label={label}>
       {items.map(item => {
         const isSelected = currentSection === item.id;
         return (

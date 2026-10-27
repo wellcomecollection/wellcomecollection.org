@@ -223,7 +223,7 @@ export const Root = styled(Space).attrs<{
       padding-left: ${props.theme.containerPaddingVw};
       padding-right: ${props.theme.containerPaddingVw};
       transition: background ${props.theme.transitionProperties};
-      ${props.$hasStuck ? `background: ${props.theme.color('white')};` : ''}
+      ${props.$hasStuck ? `background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};` : ''}
       padding-top: 0;
 
       ${
@@ -295,7 +295,9 @@ export const NavGridCell = styled(GridCell)<{
   $isOnWhite: boolean;
 }>`
   --nav-grid-cell-background-color: ${props =>
-    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+    props.$isOnWhite && props.theme.brandUpdate
+      ? 'transparent'
+      : props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
   transition: background-color ${props => props.theme.transitionProperties};
   background-color: var(--nav-grid-cell-background-color);
   z-index: 3;
