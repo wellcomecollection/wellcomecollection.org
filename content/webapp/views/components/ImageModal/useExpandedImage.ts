@@ -36,6 +36,7 @@ const useExpandedImage = (
   const { cataloguePipeline } = useModes();
   const hasBeenExpanded = useRef(false);
   const lastParams = useRef<string | undefined>(undefined);
+  const lastSearch = useRef<string | undefined>(undefined);
   const expandedImageRef = useRef(expandedImage);
   expandedImageRef.current = expandedImage;
 
@@ -45,7 +46,27 @@ const useExpandedImage = (
   );
 
   const setImageIdInURL = (id: string) => {
-    window.location.hash = id;
+    if (id) {
+      window.location.hash = id;
+      return;
+    }
+
+    // Setting the hash to nothing leaves a '#' on the end of the URL, so add
+    // an entry for the URL without one instead. Not when there's no hash to
+    // clear (e.g. after Back), as that would drop the entries ahead of this one.
+    const { pathname, search, hash } = window.location;
+    if (hash) {
+      // Next keeps the URL it thinks the entry has in its state, which has the
+      // image's id on it. Left there, going Back to this entry would put it back.
+      const { state } = window.history;
+      window.history.pushState(
+        typeof state?.as === 'string'
+          ? { ...state, as: state.as.split('#')[0] }
+          : state,
+        '',
+        `${pathname}${search}`
+      );
+    }
   };
 
   useEffect(() => {
@@ -59,13 +80,24 @@ const useExpandedImage = (
       const isSameParams = params === lastParams.current;
       lastParams.current = params;
 
-      if (keepOpenOnResultsChange && !event && openImage && isSameParams) {
+      // Going Back to an entry without an image also gives new results, but
+      // the page is the same, and that should close the image
+      const { search } = window.location;
+      const isNewPage = lastSearch.current !== search;
+      lastSearch.current = search;
+
+      if (
+        keepOpenOnResultsChange &&
+        !event &&
+        openImage &&
+        isSameParams &&
+        isNewPage
+      ) {
         if (!hash) {
-          const { pathname, search: urlSearch } = window.location;
           window.history.replaceState(
             window.history.state,
             '',
-            `${pathname}${urlSearch}#${openImage.id}`
+            `${window.location.pathname}${search}#${openImage.id}`
           );
         }
         if (!hash || hash === openImage.id) return;
@@ -113,11 +145,8 @@ const useExpandedImage = (
       // want to keep it where it is
       window.scroll(0, scrollY);
     } else if (hasBeenExpanded.current) {
-      // clear the url of the fragments and also removes the # symbol
+      // clear the id, and the # symbol with it
       setImageIdInURL('');
-      // The url now has an empty hash so the browser will try to scroll
-      // to the top but we want to keep it where it is
-      window.scroll(0, scrollY);
     }
   }, [expandedImage]);
 

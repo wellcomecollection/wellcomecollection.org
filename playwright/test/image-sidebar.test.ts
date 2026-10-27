@@ -207,6 +207,16 @@ test.describe('Desktop', () => {
       // Choosing the image that's open closes it
       await thumbnail(page, other + 1).click();
       await expect(sidebar(page)).toHaveCount(0);
+
+      // Back goes through the images in the order they were viewed, then to the
+      // results without an image
+      await page.goBack();
+      await expect(heading).toHaveText(titles[other]);
+      await page.goBack();
+      await expect(heading).toHaveText(titles[first]);
+      await page.goBack();
+      await expect(sidebar(page)).toHaveCount(0);
+      expect(page.url()).not.toContain('#');
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({
