@@ -22,6 +22,9 @@ const createConfig =
       // Are you having problems with this? Make sure CloudFront is forwarding Accept-Encoding headers to our apps!
       compress: false,
 
+      // Don't advertise the framework in an X-Powered-By header
+      poweredByHeader: false,
+
       images: options.images || {},
 
       // Every URL in this app gets this prefix added in front, e.g. '/account'
