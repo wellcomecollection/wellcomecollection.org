@@ -21,18 +21,25 @@ import {
 } from '@weco/dash/views/components/PageLayout';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
-import { Description, OriginalPageLink, Pre } from './pa11y.styles';
+import {
+  Description,
+  OriginalPageLink,
+  Pre,
+  SelectorLabel,
+  WarningSummary,
+} from './pa11y.styles';
 
 type ErrorState = { failed: true; message: string };
 
 type IssueType = {
   type: 'error' | 'warning' | 'notice' | 'success';
+  code?: string;
   message: string;
   selector: string;
   context: string;
+  // Added by our pa11y script for grouping warnings
+  groupLabel?: string;
 };
-
-type IssueGroup = Pick<IssueType, 'type' | 'message' | 'selector'>;
 
 type Pa11yResult = {
   documentTitle: string;
@@ -45,30 +52,19 @@ type Pa11yReport = {
   timestamp?: string;
 };
 
-function groupIssues(
-  issues: IssueType[]
-): { group: IssueGroup; issues: IssueType[] }[] {
-  const result: { group: IssueGroup; issues: IssueType[] }[] = [];
+// Groups items by key, keeping the order each key first appears in
+function groupBy<T>(
+  items: T[],
+  keyOf: (item: T) => string
+): { key: string; items: T[] }[] {
+  const groups = new Map<string, T[]>();
 
-  for (const i of issues) {
-    const matchingGroup = result.find(
-      r =>
-        r.group.type === i.type &&
-        r.group.message === i.message &&
-        r.group.selector === i.selector
-    );
-
-    if (matchingGroup) {
-      matchingGroup.issues.push(i);
-    } else {
-      result.push({
-        group: { type: i.type, message: i.message, selector: i.selector },
-        issues: [i],
-      });
-    }
+  for (const item of items) {
+    const key = keyOf(item);
+    groups.set(key, [...(groups.get(key) ?? []), item]);
   }
 
-  return result;
+  return [...groups].map(([key, items]) => ({ key, items }));
 }
 
 const Pa11yPage: FunctionComponent = () => {
@@ -122,10 +118,16 @@ const Pa11yPage: FunctionComponent = () => {
 
       return { ...r, score, errors, warnings, notices };
     })
-    .sort((a, b) => b.score - a.score);
+    // Pages with errors first, however many warnings other pages have
+    .sort((a, b) => b.errors.length - a.errors.length || b.score - a.score);
 
   const successes = results.filter(({ score }) => score === 0);
-  const failures = results.filter(({ score }) => score > 0);
+  const pagesWithIssues = results.filter(({ score }) => score > 0);
+  // Warnings are for checking by hand, so they don't make a page fail
+  const pagesWithErrors = results.filter(({ errors }) => errors.length > 0);
+  const pagesWithOnlyWarnings = results.filter(
+    ({ errors, warnings }) => errors.length === 0 && warnings.length > 0
+  );
 
   return (
     <>
@@ -144,18 +146,24 @@ const Pa11yPage: FunctionComponent = () => {
 
           <div role="status" aria-live="polite">
             <SectionHeading>Detected issues</SectionHeading>
-            {failures.length > 0 ? (
+            {pagesWithErrors.length > 0 ? (
               <Issue $type="error">
-                {pluralise(failures.length, 'page')} with issues
+                {pluralise(pagesWithErrors.length, 'page')} with errors
               </Issue>
             ) : (
               <Issue $type="success">All pages pass accessibility checks</Issue>
             )}
+            {pagesWithOnlyWarnings.length > 0 && (
+              <Issue $type="warning">
+                {pluralise(pagesWithOnlyWarnings.length, 'page')} with only
+                warnings to check by hand
+              </Issue>
+            )}
           </div>
 
-          {failures.length > 0 && (
+          {pagesWithIssues.length > 0 && (
             <>
-              {failures.map(
+              {pagesWithIssues.map(
                 ({
                   documentTitle,
                   pageUrl,
@@ -191,12 +199,14 @@ const Pa11yPage: FunctionComponent = () => {
                         </div>
                       )}
 
-                      {groupIssues(issues).map(({ group, issues }) => {
+                      {groupBy(
+                        issues.filter(({ type }) => type !== 'warning'),
+                        ({ type, message, selector }) =>
+                          `${type}-${message}-${selector}`
+                      ).map(({ key, items: issues }) => {
+                        const group = issues[0];
                         return (
-                          <Issue
-                            $type={group.type}
-                            key={`${group.type}-${group.message}-${group.selector}`}
-                          >
+                          <Issue $type={group.type} key={key}>
                             <Description>
                               {group.type}: {group.message}
                               {issues.length > 1 ? (
@@ -221,6 +231,32 @@ const Pa11yPage: FunctionComponent = () => {
                           </Issue>
                         );
                       })}
+
+                      {groupBy(
+                        warnings,
+                        warning => warning.groupLabel ?? '(unlabelled)'
+                      )
+                        // Warnings mostly repeat a few patterns, so show the
+                        // biggest groups first
+                        .sort((a, b) => b.items.length - a.items.length)
+                        .map(({ key: label, items: issues }) => (
+                          <Issue $type="warning" key={label}>
+                            <details>
+                              <WarningSummary>
+                                warning: {label} (&times; {issues.length})
+                              </WarningSummary>
+                              <p>{issues[0].message}</p>
+                              {issues.map((issue, i) => (
+                                <div key={`${issue.selector}-${i}`}>
+                                  <Pre>{issue.context}</Pre>
+                                  <SelectorLabel>
+                                    Selector: <code>{issue.selector}</code>
+                                  </SelectorLabel>
+                                </div>
+                              ))}
+                            </details>
+                          </Issue>
+                        ))}
                     </ReportSection>
                   );
                 }
