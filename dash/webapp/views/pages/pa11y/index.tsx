@@ -37,10 +37,7 @@ type IssueType = {
   message: string;
   selector: string;
   context: string;
-  // Added by our pa11y script: the nearest data-component, or the element's
-  // tag outside one, and the label it groups warnings by. Missing from older
-  // reports.
-  component?: string | null;
+  // Added by our pa11y script for grouping warnings
   groupLabel?: string;
 };
 
@@ -69,12 +66,6 @@ function groupBy<T>(
 
   return [...groups].map(([key, items]) => ({ key, items }));
 }
-
-// Older reports don't have groupLabel, so work it out the same way the script
-// does
-const warningGroupLabel = (warning: IssueType) =>
-  warning.groupLabel ??
-  `${warning.code} in ${warning.component ?? '(unknown)'}`;
 
 const Pa11yPage: FunctionComponent = () => {
   const [resultsList, setResultsList] = useState<
@@ -241,7 +232,10 @@ const Pa11yPage: FunctionComponent = () => {
                         );
                       })}
 
-                      {groupBy(warnings, warningGroupLabel)
+                      {groupBy(
+                        warnings,
+                        warning => warning.groupLabel ?? '(unlabelled)'
+                      )
                         // Warnings mostly repeat a few patterns, so show the
                         // biggest groups first
                         .sort((a, b) => b.items.length - a.items.length)
