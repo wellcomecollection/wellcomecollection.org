@@ -99,7 +99,8 @@ const ARCHIVE_CATEGORY_ORDER = [
 ];
 
 // Card images, keyed by the same IDs. Each is the IIIF identifier of a
-// digitised catalogue image, e.g. 'b12345678_0001.jp2'
+// digitised catalogue image, e.g. 'b12345678_0001.jp2' or, for pictures
+// with no b number, an L number like 'L0012345'
 // - the last part of its iiif.wellcomecollection.org/image/ or /thumbs/ URL.
 // It must be an open (not access-restricted) image, as restricted ones 401
 // from the image service and show as broken - check by opening
