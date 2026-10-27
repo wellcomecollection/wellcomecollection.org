@@ -4,9 +4,10 @@ import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 export const PageGrid = styled(Grid)`
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color(pageBackgroundColor)};
   row-gap: 0;
 `;
 
