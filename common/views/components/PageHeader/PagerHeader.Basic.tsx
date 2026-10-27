@@ -132,12 +132,14 @@ const BasicPageHeader: FunctionComponent<Props> = ({
     ? backgroundTexture || headerBackgroundLs
     : backgroundTexture;
 
-  // The Background's wobbly edge is gone too, so add the header's own edge,
-  // with room for it below the content
+  // Not rendering the Background also drops the wobbly edge it draws, so show
+  // the header's own edge instead, with room for it below the content
   const hasBottomEdge =
     !hasMedia &&
     !isSlim &&
     (!isContentTypeInfoBeforeMedia || isTexturingWholeHeader);
+  const hasBottomPadding =
+    hasBottomEdge || (!hasMedia && !isContentTypeInfoBeforeMedia);
 
   // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true,
   // this checks whether or not there are actually any visible items.
@@ -158,10 +160,9 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             $isOnDarkHeader={!!(Background || backgroundTexture)}
             $v={{
               size: isSlim ? '2xs' : 'md',
-              properties:
-                hasBottomEdge || (!isContentTypeInfoBeforeMedia && !hasMedia)
-                  ? ['margin-bottom', 'padding-bottom']
-                  : ['margin-bottom'],
+              properties: hasBottomPadding
+                ? ['margin-bottom', 'padding-bottom']
+                : ['margin-bottom'],
             }}
           >
             {hasBreadcrumbItems && (
