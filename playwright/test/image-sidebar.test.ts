@@ -55,6 +55,9 @@ const sidebar = (page: Page) =>
     .getByRole('region')
     .filter({ has: page.getByRole('button', { name: 'Close image details' }) });
 
+const closeButton = (page: Page) =>
+  sidebar(page).getByRole('button', { name: 'Close image details' });
+
 const searchImages = async (
   query: string,
   context: BrowserContext,
@@ -100,8 +103,7 @@ test.describe('Desktop', () => {
       await expect(resultsGrid(page)).toBeVisible();
     });
 
-    // https://github.com/wellcomecollection/wellcomecollection.org/issues/13534
-    test.fixme('the selected thumbnail shows it is the one open in the sidebar', async ({
+    test('the selected thumbnail shows it is the one open in the sidebar', async ({
       page,
       context,
     }) => {
@@ -191,6 +193,20 @@ test.describe('Desktop', () => {
       // Still one open sidebar, now showing the other image
       await expect(sidebar(page)).toHaveCount(1);
       await expect(heading).toHaveText(titles[other]);
+      await expect(thumbnail(page, other + 1)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+      await expect(thumbnail(page, first + 1)).not.toHaveAttribute(
+        'aria-current'
+      );
+
+      // Choosing another image moves focus into the sidebar again
+      await expectFocusInside(sidebar(page));
+
+      // Choosing the image that's open closes it
+      await thumbnail(page, other + 1).click();
+      await expect(sidebar(page)).toHaveCount(0);
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({
@@ -245,6 +261,9 @@ test.describe('Desktop', () => {
       await searchImages(imageWithContributor, context, page);
       await openSidebar(1, page);
       const firstImage = new URL(page.url()).hash;
+      const heading = sidebar(page).getByRole('heading', { level: 2 });
+      await expect(heading).toBeVisible();
+      const firstTitle = await heading.textContent();
 
       await sidebar(page)
         .getByRole('heading', { name: 'Visually similar images' })
@@ -252,6 +271,11 @@ test.describe('Desktop', () => {
       await sidebar(page).getByRole('list').getByRole('button').first().click();
 
       await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
+
+      // The sidebar re-renders for the new image, which replaces the button that
+      // was pressed, so focus goes to the close button and isn't lost
+      await expect(heading).not.toHaveText(firstTitle!);
+      await expect(closeButton(page)).toBeFocused();
 
       // The page pushes this to the dataLayer itself, so it's there even with GTM blocked
       const events = await page.evaluate(
@@ -262,9 +286,11 @@ test.describe('Desktop', () => {
         true
       );
 
-      // It isn't one of the results, so closing goes back to the first image's thumbnail
+      // It isn't one of the results, so none of them is marked as open, and
+      // closing goes back to the first image's thumbnail
       const similarImageId = new URL(page.url()).hash.slice(1);
       await expect(page.locator(`a[id="${similarImageId}"]`)).toHaveCount(0);
+      await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(0);
       await page.keyboard.press('Escape');
       await expect(thumbnail(page, 1)).toBeFocused();
     });
@@ -284,6 +310,7 @@ test.describe('Desktop', () => {
         .click();
 
       await expect(sidebar(page)).toHaveCount(0);
+      await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(0);
       await expect
         .poll(async () => (await resultsGrid(page).boundingBox())!.width)
         .toBeGreaterThan(widthWithSidebar);
@@ -326,6 +353,12 @@ test.describe('Desktop', () => {
       await thumbnail(page, 1).focus();
       await page.keyboard.press('Enter');
       await expect(sidebar(page)).toBeVisible();
+      await expectFocusInside(sidebar(page));
+
+      // Going backwards from the sidebar lands on the selected thumbnail, not
+      // at the end of the results
+      await page.keyboard.press('Shift+Tab');
+      await expect(thumbnail(page, 1)).toBeFocused();
 
       await page.keyboard.press('Escape');
       await expect(sidebar(page)).toHaveCount(0);
@@ -363,6 +396,30 @@ test.describe('Desktop', () => {
       await expect(
         sidebar(page).getByRole('button', { name: 'Close image details' })
       ).toBeFocused();
+    });
+
+    test('focus stays on the thumbnail while the cookie banner is showing', async ({
+      page,
+      context,
+    }) => {
+      // No consent cookie, so the real banner shows
+      await enableImageSidebar(context);
+      await page.goto(`${baseUrl}/search/images?query=${imageWithContributor}`);
+      await expect(
+        page.getByRole('button', { name: 'Accept all' })
+      ).toBeVisible();
+
+      // The banner covers the page, so this is by keyboard rather than a click
+      await thumbnail(page, 1).focus();
+      await page.keyboard.press('Enter');
+      await expect(sidebar(page)).toBeVisible();
+
+      // The sidebar shows the image once it's loaded, which is after focus
+      // would have moved
+      await expect(
+        sidebar(page).getByRole('heading', { level: 2 })
+      ).toBeVisible();
+      await expect(thumbnail(page, 1)).toBeFocused();
     });
   });
 }); // Desktop

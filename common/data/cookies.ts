@@ -101,6 +101,11 @@ export const cookiesTableCopy = {
       `Set by Wellcome to remember which toggle_* cookies above a user has chosen to preview using the on-site toggle widget`,
       `1 year`,
     ],
+    [
+      `aws-waf-token`,
+      `Set by our web firewall once a browser has passed its bot check, so the check is not repeated on every page`,
+      `4 days`,
+    ],
     [`__cf_bm`, `Used to read and filter requests from bots`, `30 mins`],
     [`Prismic-auth`, `Allows requests to Prismic API`, `Session`],
     [`Ar_debug`, `Used by Google Ad Services to debug ads`, `1 year`],

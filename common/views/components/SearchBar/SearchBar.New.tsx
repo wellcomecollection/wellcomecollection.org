@@ -248,6 +248,7 @@ const SearchBar: FunctionComponent<Props> = ({
       <SearchButtonWrapper>
         <Button
           variant="ButtonSolid"
+          hierarchy="primary"
           text="Search"
           type={ButtonTypes.submit}
           form={form}

@@ -221,6 +221,7 @@ const WorkItemPage: NextPage<Props> = ({
               >
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="primary"
                   dataGtmProps={{ trigger: 'show_the_content' }}
                   text="Show the content"
                   clickHandler={() => {

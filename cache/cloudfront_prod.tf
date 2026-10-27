@@ -70,6 +70,9 @@ module "prod_wc_org_cloudfront_distribution" {
   # Blocks fabricated-browser fraud on the indexable catalogue pages while
   # leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
+
+  # Silent challenge rather than a CAPTCHA for the geo consent rules (wc.org#13665).
+  enable_geo_challenge = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

@@ -146,9 +146,11 @@ const BannerCard: FunctionComponent<Props> = ({
         <p className={typography('body', 'md', 'regular')}>{description}</p>
         <Button
           variant="ButtonSolid"
+          hierarchy="tertiary"
           colors={theme.buttonColors.whiteTransparentWhite}
           icon={arrowSmall}
           text={`Explore ${type}`}
+          isOnDark
           isIconAfter
         />
       </TextWrapper>

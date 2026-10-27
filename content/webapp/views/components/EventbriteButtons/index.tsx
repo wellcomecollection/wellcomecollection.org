@@ -30,7 +30,12 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   return (
     <div data-component="eventbrite-buttons">
       {event.isCompletelySoldOut ? (
-        <Button variant="ButtonSolid" text="Fully booked" disabled />
+        <Button
+          variant="ButtonSolid"
+          hierarchy="primary"
+          text="Fully booked"
+          disabled
+        />
       ) : (
         <>
           {event.eventbriteId && (
@@ -45,10 +50,16 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 }}
               >
                 {event.inVenueSoldOut ? (
-                  <Button variant="ButtonSolid" text="Fully booked" disabled />
+                  <Button
+                    variant="ButtonSolid"
+                    hierarchy="primary"
+                    text="Fully booked"
+                    disabled
+                  />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
                     icon={ticket}
                     dataGtmProps={{
@@ -67,10 +78,16 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
               {isHybridEvent && <Location>Livestream event</Location>}
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                 {event.onlineSoldOut ? (
-                  <Button variant="ButtonSolid" text="Fully booked" disabled />
+                  <Button
+                    variant="ButtonSolid"
+                    hierarchy="primary"
+                    text="Fully booked"
+                    disabled
+                  />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
                     icon={ticket}
                     dataGtmProps={{

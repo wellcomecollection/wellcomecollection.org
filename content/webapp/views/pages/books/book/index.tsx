@@ -103,6 +103,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
         {book.orderLink && (
           <Button
             variant="ButtonSolidLink"
+            hierarchy="primary"
             link={book.orderLink}
             text="Buy the book"
           />

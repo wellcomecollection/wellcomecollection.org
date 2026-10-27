@@ -110,7 +110,7 @@ const DropdownButton: FunctionComponent<
   isPill,
   hasNoOptions,
   isTight,
-  hierarchy,
+  hierarchy = 'tertiary',
 }) => {
   const { isEnhanced } = useAppContext();
   const theme = useTheme();

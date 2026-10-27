@@ -215,7 +215,6 @@ const BottomBar = styled.div`
   z-index: 6;
 `;
 
-// TODO: check that we can't reach thumbnails by keyboard/screenreader
 const ThumbnailsWrapper = styled.div<{
   $isActive: boolean;
   $isDesktopSidebarActive: boolean;
@@ -506,6 +505,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
             {hasOnlyRenderableImages && (
               <ThumbnailsWrapper
+                // When closed, the grid only slides out of view, so also take
+                // it out of the tab order and away from screen readers
+                inert={!gridVisible}
+                data-testid="grid-viewer"
                 $isActive={gridVisible}
                 $isDesktopSidebarActive={isDesktopSidebarActive}
               >

@@ -62,6 +62,7 @@ const ErrorPage: NextPage<Props> = ({ errorDescription }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                   $colors={theme.buttonColors.greenTransparentGreen}
+                  $hierarchy="tertiary"
                 >
                   Contact us
                 </StyledButton>

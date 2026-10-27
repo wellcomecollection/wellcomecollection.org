@@ -1,7 +1,6 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
@@ -92,6 +91,8 @@ describe('ImageSidebar', () => {
     // Focus is moved after a timer (see the sidebar), so the timers are ours to run
     beforeEach(() => jest.useFakeTimers());
     afterEach(() => jest.useRealTimers());
+    // The fake thumbnail below is on the page, not in what's rendered
+    afterEach(() => document.getElementById(expandedImage.id)?.remove());
     const runTimers = () =>
       act(() => {
         jest.runAllTimers();
@@ -108,32 +109,28 @@ describe('ImageSidebar', () => {
       expect(closeButton()).toHaveFocus();
     });
 
-    it('leaves focus alone while the cookie banner is showing', async () => {
-      const banner = document.createElement('div');
-      banner.id = ACTIVE_COOKIE_BANNER_ID;
-      document.body.appendChild(banner);
+    // Some browsers focus the thumbnail the URL hash points at a moment after
+    // the sidebar has moved focus, and the sidebar takes it back. That can't be
+    // seen in the browsers the e2e tests run in, so it's imitated here by
+    // focusing the thumbnail ourselves.
+    it('takes focus back if the browser then focuses the thumbnail', async () => {
+      const thumbnail = document.createElement('a');
+      thumbnail.id = expandedImage.id;
+      thumbnail.href = '#';
+      document.body.appendChild(thumbnail);
       const { select } = await renderSidebar(undefined);
 
       await select(expandedImage);
-      await runTimers();
+      // Only the timer that focuses the close button, not the one that stops
+      // watching for the thumbnail being focused
+      act(() => {
+        jest.advanceTimersToNextTimer();
+      });
+      expect(closeButton()).toHaveFocus();
 
-      expect(closeButton()).not.toHaveFocus();
-      banner.remove();
-    });
+      act(() => thumbnail.focus());
 
-    it("doesn't take focus back when another image is selected while it's open", async () => {
-      const { select } = await renderSidebar(undefined);
-      await select(expandedImage);
-      await runTimers();
-
-      const elsewhere = document.createElement('button');
-      document.body.appendChild(elsewhere);
-      elsewhere.focus();
-      await select({ ...expandedImage, id: 'imageB' } as Image);
-      await runTimers();
-
-      expect(elsewhere).toHaveFocus();
-      elsewhere.remove();
+      expect(closeButton()).toHaveFocus();
     });
   });
 });

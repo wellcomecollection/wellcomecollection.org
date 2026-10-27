@@ -54,15 +54,16 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isPill,
   hierarchy,
   isOnDark,
+  isDanger,
 }) => {
   const theme = useTheme();
   const isNextLink = typeof link === 'object';
   const hasBrandFocus = !!getBrandButtonColors({
     theme,
-    colors,
     hierarchy,
     isOnDark,
     isPill,
+    isDanger,
   });
 
   return (
@@ -88,6 +89,7 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
         $isPill={isPill}
         $hierarchy={hierarchy}
         $isOnDark={isOnDark}
+        $isDanger={isDanger}
       >
         <BaseButtonInner $isPill={isPill} $isInline={size === 'small'}>
           {isIconAfter && (

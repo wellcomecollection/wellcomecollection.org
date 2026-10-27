@@ -112,6 +112,23 @@ describe('IIIFViewer', () => {
     expect(screen.getByTestId('topbar')).toHaveTextContent('/3');
   });
 
+  it('keeps the grid away from keyboard and screen reader users until it is opened', () => {
+    renderViewer(
+      createMockManifest({
+        canvases: [createMockCanvas(), createMockCanvas()],
+      })
+    );
+
+    const grid = screen.getByTestId('grid-viewer');
+    expect(grid).toHaveAttribute('inert');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Grid' }));
+    expect(grid).not.toHaveAttribute('inert');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Page' }));
+    expect(grid).toHaveAttribute('inert');
+  });
+
   it('renders no page indicator for a single-canvas manifest', () => {
     renderViewer(
       createMockManifest({ canvases: [createMockCanvas({ label: '1' })] })
