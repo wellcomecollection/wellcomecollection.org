@@ -66,6 +66,10 @@ const useExpandedImage = (
         '',
         `${pathname}${search}`
       );
+
+      // pushState doesn't fire this, and other instances of the hook on the
+      // page (e.g. each gallery's) need it to know the image has been closed
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
     }
   };
 
