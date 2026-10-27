@@ -57,9 +57,14 @@ const LoadingIndicator: FunctionComponent = () => {
   NProgress.configure({
     showSpinner: false,
     parent: '.loading-indicator-wrapper',
+    template:
+      '<div class="bar" data-nprogress-bar><div class="peg"></div></div>',
+    barSelector: '[data-nprogress-bar]',
   });
 
-  return <LoadingIndicatorWrapper data-component="loading-indicator" />;
+  return (
+    <LoadingIndicatorWrapper data-component="loading-indicator" aria-hidden />
+  );
 };
 
 export default LoadingIndicator;
