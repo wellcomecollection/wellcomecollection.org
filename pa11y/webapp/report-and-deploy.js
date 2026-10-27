@@ -123,33 +123,42 @@ const runPa11y = async (browser, url) => {
 
     // pa11y doesn't say which component an issue is in, so look it up while
     // the page is still open. Used to group warnings in the summary.
-    const components = await page.evaluate(
-      selectors =>
-        selectors.map(selector => {
-          try {
-            const element = document.querySelector(selector);
-            const component = element
-              ?.closest('[data-component]')
-              ?.getAttribute('data-component');
-            // Fall back to the element itself, so unrelated issues outside
-            // any component don't all land in one group
-            return (
-              component ??
-              (element ? `<${element.tagName.toLowerCase()}>` : null)
-            );
-          } catch {
-            return null;
-          }
-        }),
-      result.issues.map(issue => issue.selector)
-    );
+    const components = await page
+      .evaluate(
+        selectors =>
+          selectors.map(selector => {
+            try {
+              const element = document.querySelector(selector);
+              const component = element
+                ?.closest('[data-component]')
+                ?.getAttribute('data-component');
+              // Fall back to the element itself, so unrelated issues outside
+              // any component don't all land in one group
+              return (
+                component ??
+                (element ? `<${element.tagName.toLowerCase()}>` : null)
+              );
+            } catch {
+              return null;
+            }
+          }),
+        result.issues.map(issue => issue.selector)
+      )
+      // Only a label, so if the page has navigated or closed, go without
+      // rather than failing the page
+      .catch(() => []);
 
     return {
       ...result,
-      issues: result.issues.map((issue, i) => ({
-        ...issue,
-        component: components[i],
-      })),
+      issues: result.issues.map((issue, i) => {
+        const component = components[i] ?? null;
+        return {
+          ...issue,
+          component,
+          // Written once here so the PR log and the dashboard group alike
+          groupLabel: `${issue.code} in ${component ?? '(unknown)'}`,
+        };
+      }),
     };
   } finally {
     await page.close();
@@ -220,21 +229,21 @@ async function runBatches(browser) {
   return results;
 }
 
+const issuesOfType = (result, type) =>
+  result.issues.filter(issue => issue.type === type);
+
 // The pages with issues of the given type, listing each issue
 const issuesLog = (results, type) =>
   results
     .map(result => ({
       title: result.documentTitle,
       url: result.pageUrl,
-      issues: result.issues
-        .filter(issue => issue.type === type)
-        .map(issue => ({
-          type: issue.type,
-          code: issue.code,
-          message: issue.message,
-          selector: issue.selector,
-          context: issue.context,
-        })),
+      issues: issuesOfType(result, type).map(issue => ({
+        code: issue.code,
+        message: issue.message,
+        selector: issue.selector,
+        context: issue.context,
+      })),
     }))
     .filter(page => page.issues.length > 0);
 
@@ -245,15 +254,15 @@ const warningsSummary = results => {
   results.forEach(result => {
     const path = result.pageUrl ? new URL(result.pageUrl).pathname : '?';
 
-    result.issues
-      .filter(issue => issue.type === 'warning')
-      .forEach(issue => {
-        const key = `${issue.code} in ${issue.component ?? '(unknown)'}`;
-        const group = groups.get(key) ?? { count: 0, pages: new Set() };
-        group.count += 1;
-        group.pages.add(path);
-        groups.set(key, group);
-      });
+    issuesOfType(result, 'warning').forEach(issue => {
+      const group = groups.get(issue.groupLabel) ?? {
+        count: 0,
+        pages: new Set(),
+      };
+      group.count += 1;
+      group.pages.add(path);
+      groups.set(issue.groupLabel, group);
+    });
   });
 
   return [...groups]
@@ -310,12 +319,9 @@ try {
 
       if (isPullRequestRun) {
         const errorsLog = issuesLog(results, 'error');
-        const warningsCount = results.reduce(
-          (count, result) =>
-            count +
-            result.issues.filter(issue => issue.type === 'warning').length,
-          0
-        );
+        const warningsCount = results.flatMap(result =>
+          issuesOfType(result, 'warning')
+        ).length;
 
         if (errorsLog.length > 0) {
           console.error(
