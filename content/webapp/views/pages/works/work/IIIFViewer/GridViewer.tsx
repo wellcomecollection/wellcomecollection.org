@@ -35,7 +35,6 @@ const ThumbnailSpacer = styled(Space).attrs({
 type CellProps = GridChildComponentProps<{
   scrollVelocity: number;
   columnCount: number;
-  gridVisible: boolean;
   setGridVisible: (value: boolean) => void;
   canvases: TransformedCanvas[];
   searchResults: SearchResults | null;
@@ -48,7 +47,6 @@ type CellProps = GridChildComponentProps<{
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
     columnCount,
-    gridVisible,
     setGridVisible,
     scrollVelocity,
     canvases,
@@ -92,7 +90,6 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
               onClick={() => {
                 setGridVisible(false);
               }}
-              tabIndex={gridVisible ? 0 : -1}
               replace
             >
               <IIIFCanvasThumbnail
@@ -126,7 +123,6 @@ const GridViewer: FunctionComponent = () => {
   const {
     mainAreaHeight,
     mainAreaWidth,
-    gridVisible,
     setGridVisible,
     transformedManifest,
     searchResults,
@@ -182,7 +178,6 @@ const GridViewer: FunctionComponent = () => {
         width={mainAreaWidth}
         itemData={{
           columnCount,
-          gridVisible,
           setGridVisible,
           scrollVelocity,
           canvases: canvases || [],
