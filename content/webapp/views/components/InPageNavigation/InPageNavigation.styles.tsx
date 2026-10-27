@@ -294,8 +294,6 @@ export const AnimatedTextContainer = styled.div`
 export const NavGridCell = styled(GridCell)<{
   $isOnWhite: boolean;
 }>`
-  /* On light pages the inline nav shows whatever section it sits on (neutral.05
-     or neutral.10). Dark pages keep a solid band */
   --nav-grid-cell-background-color: ${props =>
     props.$isOnWhite && props.theme.brandUpdate
       ? 'transparent'
