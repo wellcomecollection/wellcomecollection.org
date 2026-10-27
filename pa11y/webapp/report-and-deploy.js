@@ -7,6 +7,7 @@ const events = require('events');
 const pa11y = require('pa11y');
 const puppeteer = require('puppeteer');
 const { setTimeout } = require('timers');
+const { URL } = require('url');
 const { styleText } = require('util');
 const yargs = require('yargs');
 
@@ -15,10 +16,14 @@ const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
 
 events.EventEmitter.defaultMaxListeners = 25;
 
-const { isPullRequestRun } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --isPullRequestRun [boolean]')
+const { isPullRequestRun, allWarnings } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --isPullRequestRun [boolean] --allWarnings [boolean]')
   .options({
     isPullRequestRun: { type: 'boolean' },
+    allWarnings: {
+      type: 'boolean',
+      description: 'List every warning, not just the summary',
+    },
   })
   .parseSync();
 
@@ -82,7 +87,7 @@ const runPa11y = async (browser, url) => {
     // count as the background of all the text behind it.
     await page.setCookie({ name: 'CookieControl', value: '{}', url });
 
-    return await pa11y(url, {
+    const result = await pa11y(url, {
       browser,
       page,
       // axe rather than the default HTML_CodeSniffer, which only looks at a
@@ -115,6 +120,46 @@ const runPa11y = async (browser, url) => {
         info: console.info,
       },
     });
+
+    // pa11y doesn't say which component an issue is in, so look it up while
+    // the page is still open. Used to group warnings in the summary.
+    const components = await page
+      .evaluate(
+        selectors =>
+          selectors.map(selector => {
+            try {
+              const element = document.querySelector(selector);
+              const component = element
+                ?.closest('[data-component]')
+                ?.getAttribute('data-component');
+              // Fall back to the element itself, so unrelated issues outside
+              // any component don't all land in one group
+              return (
+                component ??
+                (element ? `<${element.tagName.toLowerCase()}>` : null)
+              );
+            } catch {
+              return null;
+            }
+          }),
+        result.issues.map(issue => issue.selector)
+      )
+      // Only a label, so if the page has navigated or closed, go without
+      // rather than failing the page
+      .catch(() => []);
+
+    return {
+      ...result,
+      issues: result.issues.map((issue, i) => {
+        const component = components[i] ?? null;
+        return {
+          ...issue,
+          component,
+          // Written once here so the PR log and the dashboard group alike
+          groupLabel: `${issue.code} in ${component ?? '(unknown)'}`,
+        };
+      }),
+    };
   } finally {
     await page.close();
   }
@@ -184,6 +229,53 @@ async function runBatches(browser) {
   return results;
 }
 
+const issuesOfType = (result, type) =>
+  result.issues.filter(issue => issue.type === type);
+
+// The pages with issues of the given type, listing each issue
+const issuesLog = (results, type) =>
+  results
+    .map(result => ({
+      title: result.documentTitle,
+      url: result.pageUrl,
+      issues: issuesOfType(result, type).map(issue => ({
+        code: issue.code,
+        message: issue.message,
+        selector: issue.selector,
+        context: issue.context,
+      })),
+    }))
+    .filter(page => page.issues.length > 0);
+
+// One line per rule and component, with a count and the pages it's on
+const warningsSummary = results => {
+  const groups = new Map();
+
+  results.forEach(result => {
+    const path = result.pageUrl ? new URL(result.pageUrl).pathname : '?';
+
+    issuesOfType(result, 'warning').forEach(issue => {
+      const group = groups.get(issue.groupLabel) ?? {
+        count: 0,
+        pages: new Set(),
+      };
+      group.count += 1;
+      group.pages.add(path);
+      groups.set(issue.groupLabel, group);
+    });
+  });
+
+  return [...groups]
+    .sort(([, a], [, b]) => b.count - a.count)
+    .map(([key, { count, pages }]) => {
+      const pageList = [...pages];
+      const shown = pageList.slice(0, 3).join(', ');
+      const more = pageList.length > 3 ? `, +${pageList.length - 3} more` : '';
+      return `  ${count} x ${key} (${shown}${more})`;
+    })
+    .join('\n');
+};
+
 try {
   console.info('Pa11y: Starting report');
 
@@ -226,46 +318,41 @@ try {
       }
 
       if (isPullRequestRun) {
-        const resultsLog = results
-          .map(result => {
-            return result.issues.length > 0
-              ? {
-                  title: result.documentTitle,
-                  url: result.pageUrl,
-                  errors: result.issues.map(issue => ({
-                    type: issue.type,
-                    code: issue.code,
-                    message: issue.message,
-                    selector: issue.selector,
-                    context: issue.context,
-                  })),
-                }
-              : undefined;
-          })
-          .filter(f => f)
-          .flat();
+        const errorsLog = issuesLog(results, 'error');
+        const warningsCount = results.flatMap(result =>
+          issuesOfType(result, 'warning')
+        ).length;
 
-        if (resultsLog.length > 0) {
-          const hasErrors = results.find(result =>
-            result.issues.find(issue => issue.type === 'error')
-          );
-
-          // Warnings alone don't fail the run, so only call for fixes on errors
+        if (errorsLog.length > 0) {
           console.error(
-            hasErrors
-              ? `!!! ${styleText('redBright', 'Fix these before merging')}`
-              : styleText(
-                  'yellowBright',
-                  'No errors, but these warnings need checking by hand'
-                )
+            `!!! ${styleText('redBright', 'Fix these before merging')}`
           );
-          console.log(...resultsLog);
-
-          process.exit(hasErrors ? 1 : 0);
-        } else {
-          console.log(styleText('greenBright', 'Report done, no errors found'));
-          process.exit(0);
+          console.log(...errorsLog);
         }
+
+        // Warnings don't fail the run, and mostly repeat the same few
+        // patterns, so summarise them unless asked for the full list
+        if (warningsCount > 0) {
+          console.log(
+            styleText(
+              'yellowBright',
+              `${warningsCount} warning(s) for checking by hand:`
+            )
+          );
+          console.log(warningsSummary(results));
+
+          if (allWarnings) {
+            console.log(...issuesLog(results, 'warning'));
+          } else {
+            console.log('Run with --allWarnings to list each one');
+          }
+        }
+
+        if (errorsLog.length === 0) {
+          console.log(styleText('greenBright', 'Report done, no errors found'));
+        }
+
+        process.exit(errorsLog.length > 0 ? 1 : 0);
       } else {
         console.info(styleText('greenBright', 'Reporting done!'));
 
