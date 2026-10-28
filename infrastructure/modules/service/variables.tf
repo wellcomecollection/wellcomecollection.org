@@ -74,3 +74,9 @@ variable "nginx_memory_reservation" {
   default = 50
 
 }
+
+variable "app_user" {
+  description = "User the app container runs as; the ECS module defaults to root, overriding the image's USER"
+  type        = string
+  default     = "0"
+}

@@ -45,6 +45,7 @@ module "identity-service-18012021" {
   allow_scaling_to_zero = var.env_suffix != "prod"
 
   desired_task_count            = var.desired_task_count
+  app_user                      = var.app_user
   use_fargate_spot              = var.use_fargate_spot
   turn_off_outside_office_hours = var.turn_off_outside_office_hours
 }

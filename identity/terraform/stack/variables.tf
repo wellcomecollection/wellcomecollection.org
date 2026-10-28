@@ -44,3 +44,8 @@ variable "cloudfront_header_secrets" {
   type    = list(string)
   default = []
 }
+
+variable "app_user" {
+  type    = string
+  default = "0"
+}
