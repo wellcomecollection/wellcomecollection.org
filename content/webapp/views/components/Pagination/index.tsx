@@ -8,12 +8,15 @@ import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon';
 import { designSystemColor } from '@weco/common/views/themes/config';
+import useUrlHash from '@weco/content/hooks/useUrlHash';
 
 export type Props = {
   totalPages: number;
   ariaLabel: string;
   isOnDark?: boolean;
   isHiddenMobile?: boolean;
+  /** Keeps the current URL's hash on the links, e.g. the open image's id. */
+  keepHash?: boolean;
 };
 
 const Container = styled.nav.attrs({
@@ -121,9 +124,12 @@ export const Pagination: FunctionComponent<Props> = ({
   ariaLabel,
   isOnDark,
   isHiddenMobile,
+  keepHash,
 }) => {
   const router = useRouter();
   const { query, pathname } = router;
+  const currentHash = useUrlHash(router.asPath);
+  const hash = keepHash ? currentHash : undefined;
 
   const pageNumber = query.page ? Number(query.page) : 1;
   const [currentPage, setCurrentPage] = useState(pageNumber);
@@ -163,7 +169,7 @@ export const Pagination: FunctionComponent<Props> = ({
     >
       {showPrev && (
         <ChevronWrapper
-          href={{ pathname, query: { ...query, page: currentPage - 1 } }}
+          href={{ pathname, query: { ...query, page: currentPage - 1 }, hash }}
           $isOnDark={isOnDark}
           $isPrev
         >
@@ -181,7 +187,7 @@ export const Pagination: FunctionComponent<Props> = ({
 
       {showNext && (
         <ChevronWrapper
-          href={{ pathname, query: { ...query, page: currentPage + 1 } }}
+          href={{ pathname, query: { ...query, page: currentPage + 1 }, hash }}
           $isOnDark={isOnDark}
         >
           <Icon icon={chevron} />
