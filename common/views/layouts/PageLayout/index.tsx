@@ -25,11 +25,11 @@ import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { serialiseForInlineScript } from '@weco/common/utils/json';
 import {
   libraryLd,
   museumLd,
   openingHoursLd,
-  serialiseJsonLd,
 } from '@weco/common/utils/json-ld';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ApiToolbar, {
@@ -266,19 +266,21 @@ const PageLayoutComponent: NextPage<Props> = ({
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(jsonLd),
+          __html: serialiseForInlineScript(jsonLd),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(museumLd(wellcomeCollectionGalleryWithHours)),
+          __html: serialiseForInlineScript(
+            museumLd(wellcomeCollectionGalleryWithHours)
+          ),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: serialiseJsonLd(libraryLd(wellcomeLibraryWithHours)),
+          __html: serialiseForInlineScript(libraryLd(wellcomeLibraryWithHours)),
         }}
       />
 
