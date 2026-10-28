@@ -10,6 +10,11 @@ import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { convertImageUri } from './convert-image-uri';
 import { formatDate } from './format-date';
 
+// Escaping `<` stops content like `</script>` closing the inline script tag early.
+export function serialiseJsonLd(obj: unknown): string {
+  return JSON.stringify(obj).replace(/</g, '\\u003c');
+}
+
 type ObjToJsonLdProps = { type: string; root?: boolean };
 
 export function objToJsonLd<T>(

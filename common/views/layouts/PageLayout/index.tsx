@@ -29,6 +29,7 @@ import {
   libraryLd,
   museumLd,
   openingHoursLd,
+  serialiseJsonLd,
 } from '@weco/common/utils/json-ld';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import ApiToolbar, {
@@ -265,19 +266,19 @@ const PageLayoutComponent: NextPage<Props> = ({
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
+          __html: serialiseJsonLd(jsonLd),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(museumLd(wellcomeCollectionGalleryWithHours)),
+          __html: serialiseJsonLd(museumLd(wellcomeCollectionGalleryWithHours)),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+          __html: serialiseJsonLd(libraryLd(wellcomeLibraryWithHours)),
         }}
       />
 

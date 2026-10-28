@@ -3,7 +3,7 @@ import { FunctionComponent } from 'react';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { BreadcrumbItems, Breadcrumbs } from '@weco/common/model/breadcrumbs';
 import { classNames, typography } from '@weco/common/utils/classnames';
-import { breadcrumbsLd } from '@weco/common/utils/json-ld';
+import { breadcrumbsLd, serialiseJsonLd } from '@weco/common/utils/json-ld';
 import { links } from '@weco/common/views/components/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -93,7 +93,7 @@ const Breadcrumb: FunctionComponent<BreadcrumbItems> = ({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbsLd({ items })),
+          __html: serialiseJsonLd(breadcrumbsLd({ items })),
         }}
       />
     </div>
