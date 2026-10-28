@@ -133,12 +133,17 @@ export const Pagination: FunctionComponent<Props> = ({
     if (currentPage !== pageNumber) {
       setCurrentPage(pageNumber);
 
-      // Remove page from query if it's the first page
+      // Remove page from query if it's the first page, e.g. `?page=1`, keeping
+      // any hash (like an open image's id)
       // Using router.replace won't add this URL change to the browser history
-      if (pageNumber === 1) {
+      if (pageNumber === 1 && query.page !== undefined) {
         const { page, ...rest } = query;
         router.replace(
-          { pathname: router.pathname, query: { ...rest } },
+          {
+            pathname: router.pathname,
+            query: { ...rest },
+            hash: router.asPath.split('#')[1],
+          },
           undefined,
           { shallow: true }
         );
