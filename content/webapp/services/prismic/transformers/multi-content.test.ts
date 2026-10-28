@@ -19,3 +19,16 @@ test('search for multiple tags and multiple ids', () => {
   expect(structuredQuery.tag.length).toBe(tagCount);
   expect(structuredQuery.id.length).toBe(idCount);
 });
+
+test('caps pageSize and ignores orderings', () => {
+  const structuredQuery = parseQuery(
+    'tag:test pageSize:1000 orderings:[document.id]'
+  );
+
+  expect(structuredQuery.pageSize).toBe(100);
+  expect(structuredQuery).not.toHaveProperty('orderings');
+});
+
+test('reads pageSize as a number', () => {
+  expect(parseQuery('tag:test pageSize:16').pageSize).toBe(16);
+});

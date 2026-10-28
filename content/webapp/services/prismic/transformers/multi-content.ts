@@ -1,5 +1,6 @@
 import searchQueryParser from 'search-query-parser';
 
+import { parsePageSize } from '@weco/content/services/prismic/fetch/client-side-params';
 import {
   MultiContentPrismicDocument,
   StructuredSearchQuery,
@@ -25,7 +26,6 @@ export function parseQuery(query: string): StructuredSearchQuery {
       'tags',
       'tag',
       'pageSize',
-      'orderings',
       // content type specific
       'article-series',
     ],
@@ -41,7 +41,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
       return acc;
     },
     {}
-  ) as StructuredSearchQuery;
+  ) as Record<string, string[] | undefined>;
 
   return {
     types: arrayedStructuredQuery.types || [],
@@ -50,8 +50,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
     id: arrayedStructuredQuery.id || [],
     tags: arrayedStructuredQuery.tags || [],
     tag: arrayedStructuredQuery.tag || [],
-    orderings: arrayedStructuredQuery.orderings || [],
-    pageSize: arrayedStructuredQuery.pageSize,
+    pageSize: parsePageSize(arrayedStructuredQuery.pageSize?.[0]),
     'article-series': arrayedStructuredQuery['article-series'] || [],
   };
 }

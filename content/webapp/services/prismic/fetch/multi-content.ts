@@ -30,8 +30,7 @@ export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<prismic.Query<MultiContentPrismicDocument>> => {
-  const { types, type, id, ids, tags, tag, pageSize, orderings } =
-    structuredSearchQuery;
+  const { types, type, id, ids, tags, tag, pageSize } = structuredSearchQuery;
 
   const idsFilter =
     ids.length > 0 ? prismic.filter.at('document.id', ids) : undefined;
@@ -81,7 +80,6 @@ export const fetchMultiContent = async (
     ],
     filters,
     pageSize: pageSize || 100,
-    orderings: orderings || [],
   });
 };
 
