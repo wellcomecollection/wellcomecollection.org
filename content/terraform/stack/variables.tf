@@ -40,3 +40,8 @@ variable "desired_task_count" {
   type   = number
   default = 3
 }
+
+variable "app_user" {
+  type    = string
+  default = "0"
+}
