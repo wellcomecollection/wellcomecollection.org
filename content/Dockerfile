@@ -23,7 +23,9 @@ RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 
 # The following are from https://nextjs.org/docs/deployment#docker-image
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --gid 1001 nextjs
+RUN adduser --system --uid 1001 --gid 1001 nextjs
+# Server data is cached here at runtime; the rest of the app stays root-owned.
+RUN mkdir -p .server-data && chown nextjs:nodejs .server-data
 USER nextjs
 
 # Exposed at /management/manifest so deploy tooling can see which commit is live.
