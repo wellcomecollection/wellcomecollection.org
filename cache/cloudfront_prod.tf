@@ -43,6 +43,10 @@ module "prod_wc_org_cloudfront_distribution" {
   enable_unrecognised_host_block = true
   extra_allowed_hosts            = ["preview.wellcomecollection.org"]
 
+  # Logs allowed preview requests too, to tell editor sessions from the
+  # crawler before restricting preview.
+  count_hosts = ["preview.wellcomecollection.org"]
+
   # Proven on stage; see the search-challenge rule in the module for why this
   # is high-risk.
   enable_search_challenge = true
