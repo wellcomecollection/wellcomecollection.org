@@ -8,14 +8,18 @@ import {
   pageBackgroundColor,
 } from '@weco/common/views/themes/config';
 
+const TRANSITION_MS = 300;
+const PANEL_GAP = '8px';
+
 /**
- * Full screen over everything below the `sm` breakpoint, and a column beside
- * the results from `sm` up.
+ * Full screen over everything below the `sm` breakpoint, sliding up from the
+ * bottom, and a column beside the results from `sm` up, sliding in from the
+ * right over space the results have already given up.
  */
 export const SidebarWrapper = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})`
+})<{ $isOpen: boolean; $isInstant: boolean }>`
   position: fixed;
   inset: 0;
   z-index: 1001;
@@ -23,6 +27,9 @@ export const SidebarWrapper = styled(Space).attrs({
   overscroll-behavior: contain;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
+  transform: ${props => (props.$isOpen ? 'none' : 'translateY(100%)')};
+  transition: ${props =>
+    props.$isInstant ? 'none' : `transform ${TRANSITION_MS}ms ease-in-out`};
 
   ${props =>
     props.theme.media('sm')(`
@@ -31,10 +38,19 @@ export const SidebarWrapper = styled(Space).attrs({
       top: 0;
       z-index: auto;
       overscroll-behavior: auto;
-      flex: 0 0 50%;
+      transform: ${props.$isOpen ? 'none' : 'translateX(100%)'};
+      flex: 0 0 calc(50% + ${PANEL_GAP});
       height: 100vh;
-      border-left: 1px solid ${props.theme.color('neutral.300')};
+      border-left: ${PANEL_GAP} solid ${props.theme.color({
+        brand: 'neutral.10',
+        legacy: 'warmNeutral.300',
+      })};
+      box-shadow: inset 1px 0 0 ${props.theme.color('neutral.300')};
     `)}
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
 `;
 
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({

@@ -33,13 +33,18 @@ const work = {
   production: [],
 } as unknown as Work;
 
-const renderSidebar = async (image?: Image, setExpandedImage = jest.fn()) => {
+const renderSidebar = async (
+  image?: Image,
+  setExpandedImage = jest.fn(),
+  onStatusChange = jest.fn()
+) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
     <ImageSidebar
       images={expandedImage ? [expandedImage] : []}
       expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
+      onStatusChange={onStatusChange}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -85,6 +90,82 @@ describe('ImageSidebar', () => {
     );
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  describe('sliding in and out', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+    afterEach(() => window.history.replaceState(null, '', '/'));
+    const sidebar = () => screen.getByRole('region', { name: 'Image details' });
+
+    it('says when it starts and finishes opening and closing', async () => {
+      const onStatusChange = jest.fn();
+      const { select } = await renderSidebar(
+        undefined,
+        jest.fn(),
+        onStatusChange
+      );
+
+      const finishSlide = () =>
+        act(async () => {
+          jest.runAllTimers();
+        });
+
+      await select(expandedImage);
+      await finishSlide();
+      await select(undefined);
+      await finishSlide();
+
+      expect(onStatusChange.mock.calls.map(([status]) => status)).toEqual([
+        'opening',
+        'open',
+        'closing',
+        'closed',
+      ]);
+    });
+
+    it('says it is open if it already is when it mounts', async () => {
+      const onStatusChange = jest.fn();
+      await renderSidebar(expandedImage, jest.fn(), onStatusChange);
+
+      expect(onStatusChange.mock.calls).toEqual([['open']]);
+    });
+
+    it('keeps the image while it slides out, then renders nothing', async () => {
+      const { container, select } = await renderSidebar(expandedImage);
+
+      await select(undefined);
+      expect(
+        screen.getByRole('link', { name: 'View image: A title with markup' })
+      ).toBeInTheDocument();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      expect(container).toBeEmptyDOMElement();
+    });
+
+    it('slides in an image that is chosen', async () => {
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+
+      expect(getComputedStyle(sidebar()).transition).toBe(
+        'transform 300ms ease-in-out'
+      );
+    });
+
+    it('just appears for an image that was in the URL when the page loaded', async () => {
+      window.history.replaceState(null, '', `/#${expandedImage.id}`);
+      const { select } = await renderSidebar(undefined);
+
+      await select(expandedImage);
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      expect(getComputedStyle(sidebar()).transition).toBe('none');
+    });
   });
 
   describe('focus', () => {
