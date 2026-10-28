@@ -67,7 +67,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -89,7 +89,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -113,7 +113,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     // never send responses meant for one user to another
     cache_policy_id            = var.cache_policies["Managed-CachingDisabled"]
     origin_request_policy_id   = var.request_policies["Managed-AllViewer"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     # Note: we deliberately omit the Lambda function association here; this avoids the
     # Edge Lambdas having access to access tokens or other potentially sensitive information.
@@ -134,7 +134,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -156,7 +156,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -178,7 +178,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
 
     dynamic "lambda_function_association" {
       for_each = local.lambda_associations
@@ -203,7 +203,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     # Use e2e-specific policy for test environment to ensure fresh data
     cache_policy_id            = var.namespace == "e2e" ? var.cache_policies[local.cache_policy_name] : var.cache_policies["weco-apps-all-params"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 
   # Static next routes
@@ -217,7 +217,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies["static-content"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 
   # Events
@@ -239,7 +239,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 
   ordered_cache_behavior {
@@ -274,7 +274,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     viewer_protocol_policy = "redirect-to-https"
 
     cache_policy_id            = var.cache_policies["static-content"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 
   ordered_cache_behavior {
@@ -286,7 +286,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     viewer_protocol_policy = "redirect-to-https"
 
     cache_policy_id            = var.cache_policies["static-content"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 
   # This is used to verify that we own the domain in
@@ -302,7 +302,7 @@ resource "aws_cloudfront_distribution" "wc_org" {
     viewer_protocol_policy = "redirect-to-https"
 
     cache_policy_id            = var.cache_policies["static-content"]
-    response_headers_policy_id = var.response_policies["weco-security"]
+    response_headers_policy_id = var.response_policies[local.response_policy_name]
   }
 }
 
