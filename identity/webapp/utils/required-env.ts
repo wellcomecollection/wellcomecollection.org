@@ -1,5 +1,5 @@
-// config.js and utils/auth0.ts fall back to placeholders so `next build` works
-// without secrets; a deployed server must never run on those placeholders.
+// config.js and utils/auth0.ts fall back to placeholders (and localhost) so
+// `next build` works without them; a deployed server must never use those.
 const requiredEnvVars = [
   'AUTH0_DOMAIN',
   'AUTH0_CLIENT_ID',
@@ -8,6 +8,7 @@ const requiredEnvVars = [
   'SESSION_KEYS',
   'IDENTITY_API_HOST',
   'IDENTITY_API_KEY',
+  'SITE_BASE_URL',
 ] as const;
 
 export function missingRequiredEnvVars(

@@ -8,6 +8,7 @@ const completeEnv = {
   SESSION_KEYS: 'test-session-key',
   IDENTITY_API_HOST: 'https://api.example.com',
   IDENTITY_API_KEY: 'test-api-key',
+  SITE_BASE_URL: 'https://www.example.com',
 };
 
 describe('missingRequiredEnvVars', () => {
