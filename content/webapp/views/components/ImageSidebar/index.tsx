@@ -1,10 +1,8 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
-  Dispatch,
   FunctionComponent,
   KeyboardEvent,
   RefObject,
-  SetStateAction,
   useEffect,
   useRef,
 } from 'react';
@@ -39,7 +37,7 @@ const THUMBNAIL_FOCUS_WINDOW_MS = 500;
 type Props = {
   images: Image[];
   expandedImage?: Image;
-  setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
+  setExpandedImage: (image: Image | undefined) => void;
 };
 
 /**
