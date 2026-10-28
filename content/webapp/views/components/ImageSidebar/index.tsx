@@ -154,6 +154,10 @@ const ImageSidebar: FunctionComponent<Props> = ({
     closeButtonRef
   );
 
+  useEffect(() => {
+    if (expandedImage && sidebarRef.current) sidebarRef.current.scrollTop = 0;
+  }, [expandedImage?.id]);
+
   const {
     detailedWork,
     iiifImageLocation,
