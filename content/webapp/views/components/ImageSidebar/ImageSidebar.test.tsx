@@ -6,6 +6,7 @@ import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 
 import ImageSidebar from '.';
+import { TRANSITION_MS } from './ImageSidebar.styles';
 
 jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
   getWorkClientSide: jest.fn(),
@@ -151,7 +152,7 @@ describe('ImageSidebar', () => {
       await select(expandedImage);
 
       expect(getComputedStyle(sidebar()).transition).toBe(
-        'transform 300ms ease-in-out'
+        `transform ${TRANSITION_MS}ms ease-in-out`
       );
     });
 

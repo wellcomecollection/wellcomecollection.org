@@ -8,7 +8,7 @@ import {
   pageBackgroundColor,
 } from '@weco/common/views/themes/config';
 
-const TRANSITION_MS = 300;
+export const TRANSITION_MS = 300;
 const PANEL_GAP = '8px';
 
 /**

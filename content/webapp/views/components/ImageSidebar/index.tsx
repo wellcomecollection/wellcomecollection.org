@@ -18,6 +18,7 @@ import LL from '@weco/common/views/components/styled/LL';
 import PipeSeparated from '@weco/common/views/components/styled/PipeSeparated';
 import Space from '@weco/common/views/components/styled/Space';
 import useImageDetails from '@weco/content/hooks/useImageDetails';
+import { readUrlHash } from '@weco/content/hooks/useUrlHash';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
@@ -126,7 +127,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const isOpen = expandedImage !== undefined;
 
   const linkedImageId = useRef(
-    typeof window === 'undefined' ? undefined : window.location.hash.slice(1)
+    typeof window === 'undefined' ? undefined : readUrlHash()
   );
   const [isInstant, setIsInstant] = useState(false);
 
@@ -167,12 +168,32 @@ const ImageSidebar: FunctionComponent<Props> = ({
   } = useImageDetails(images, shownImage);
 
   const addEndListener = (done: () => void) => {
-    const duration = sidebarRef.current
-      ? getComputedStyle(sidebarRef.current).transitionDuration
+    const sidebar = sidebarRef.current;
+    const duration = sidebar
+      ? getComputedStyle(sidebar).transitionDuration
       : '';
     const ms =
       (parseFloat(duration) || 0) * (duration.endsWith('ms') ? 1 : 1000);
-    setTimeout(done, ms);
+    if (!sidebar || ms === 0) {
+      setTimeout(done);
+      return;
+    }
+
+    // When the slide ends, or a little after it should have, in case the
+    // browser never says so. Transition ignores the second call.
+    const listening = new AbortController();
+    const finish = () => {
+      listening.abort();
+      done();
+    };
+    sidebar.addEventListener(
+      'transitionend',
+      event => {
+        if (event.target === sidebar) finish();
+      },
+      { signal: listening.signal }
+    );
+    setTimeout(finish, ms + 100);
   };
 
   // Shift+Tab from the close button, the first thing in the sidebar, goes to

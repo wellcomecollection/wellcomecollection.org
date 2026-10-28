@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+export const readUrlHash = (): string | undefined =>
+  window.location.hash.slice(1) || undefined;
+
 /**
  * The current URL's hash, without the `#`. Next's router changes the URL
  * without telling the browser, so it's read again when the router's path
@@ -11,7 +14,7 @@ const useUrlHash = (routerPath?: string): string | undefined => {
   const [hash, setHash] = useState<string | undefined>();
 
   useEffect(() => {
-    const readHash = () => setHash(window.location.hash.slice(1) || undefined);
+    const readHash = () => setHash(readUrlHash());
 
     readHash();
     window.addEventListener('hashchange', readHash);
