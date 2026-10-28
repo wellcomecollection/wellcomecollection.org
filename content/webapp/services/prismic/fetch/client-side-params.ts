@@ -12,15 +12,31 @@ export type ClientSideListParams = {
 const isPositiveInteger = (v: unknown): v is number =>
   Number.isInteger(v) && (v as number) > 0;
 
-/** Narrows params parsed from a client request to the query options the
- * /api list routes accept, so a request can't pass anything else (refs,
- * orderings, oversized pages) to Prismic with the server's token.
- *
- * Returns undefined if the params can't be used.
- */
+function parseJsonParam(param: unknown): unknown {
+  if (!isString(param)) return;
+
+  try {
+    return JSON.parse(param);
+  } catch {
+    return undefined;
+  }
+}
+
+/** Returns a positive page size, capped at Prismic's maximum. */
+export function parsePageSize(value: unknown): number | undefined {
+  const pageSize = isString(value) ? Number(value) : value;
+
+  return isPositiveInteger(pageSize)
+    ? Math.min(pageSize, maxPageSize)
+    : undefined;
+}
+
+/** Keeps only page, pageSize and filters from a client's JSON `params`. */
 export function parseClientSideListParams(
-  params: unknown
+  param: unknown
 ): ClientSideListParams | undefined {
+  const params = parseJsonParam(param);
+
   if (typeof params !== 'object' || params === null || Array.isArray(params)) {
     return;
   }
@@ -35,21 +51,21 @@ export function parseClientSideListParams(
     return;
   }
 
+  const parsedPageSize = parsePageSize(pageSize);
+
   return {
     ...(isPositiveInteger(page) && { page }),
-    ...(isPositiveInteger(pageSize) && {
-      pageSize: Math.min(pageSize, maxPageSize),
-    }),
+    ...(parsedPageSize && { pageSize: parsedPageSize }),
     ...(parsedFilters && { filters: parsedFilters }),
   };
 }
 
-/** Returns the document IDs from client params if they're a list of strings
- * no longer than a single page of Prismic results.
- */
+/** Returns document IDs from a client's JSON `params`, up to one page's worth. */
 export function parseClientSideDocumentIds(
-  params: unknown
+  param: unknown
 ): string[] | undefined {
+  const params = parseJsonParam(param);
+
   if (
     Array.isArray(params) &&
     params.length <= maxPageSize &&

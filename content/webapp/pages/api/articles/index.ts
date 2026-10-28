@@ -1,10 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import {
-  isJson,
-  serialiseDates as serialiseJsonDates,
-} from '@weco/common/utils/json';
-import { isString } from '@weco/common/utils/type-guards';
+import { serialiseDates as serialiseJsonDates } from '@weco/common/utils/json';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchArticles } from '@weco/content/services/prismic/fetch/articles';
 import { parseClientSideListParams } from '@weco/content/services/prismic/fetch/client-side-params';
@@ -20,14 +16,8 @@ export default async (
   req: NextApiRequest,
   res: NextApiResponse<string | NotFound>
 ): Promise<void> => {
-  const { params } = req.query;
-
   // Reject anybody trying to send nonsense to the API
-  if (!isString(params) || !isJson(params)) {
-    return res.status(404).json({ notFound: true });
-  }
-
-  const parsedParams = parseClientSideListParams(JSON.parse(params));
+  const parsedParams = parseClientSideListParams(req.query.params);
   if (!parsedParams) {
     return res.status(404).json({ notFound: true });
   }
