@@ -25,6 +25,7 @@ import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { serialiseForInlineScript } from '@weco/common/utils/json';
 import {
   libraryLd,
   museumLd,
@@ -265,19 +266,21 @@ const PageLayoutComponent: NextPage<Props> = ({
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
+          __html: serialiseForInlineScript(jsonLd),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(museumLd(wellcomeCollectionGalleryWithHours)),
+          __html: serialiseForInlineScript(
+            museumLd(wellcomeCollectionGalleryWithHours)
+          ),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+          __html: serialiseForInlineScript(libraryLd(wellcomeLibraryWithHours)),
         }}
       />
 
