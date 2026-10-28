@@ -60,9 +60,20 @@ const useExpandedImage = (
       (fetchedImage?.id === imageId ? fetchedImage : undefined))
     : undefined;
 
+  // Callbacks registered once, like the Escape listeners, keep an old
+  // `setExpandedImage`, so it reads the latest router and id from here
+  const latest = useRef({ router, imageId });
+  latest.current = { router, imageId };
+
   const setExpandedImage = (image: Image | undefined) => {
+    const { router, imageId } = latest.current;
+
     // Already open: pushing the same URL again would add a history entry
     if (image?.id === imageId) return;
+
+    // Keeps an image we already have (e.g. a visually similar one) open while
+    // the URL changes, rather than fetching it again
+    if (image) seenImages.current[image.id] = image;
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
