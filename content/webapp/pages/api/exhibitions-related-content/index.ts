@@ -6,6 +6,7 @@ import {
 } from '@weco/common/utils/json';
 import { isString } from '@weco/common/utils/type-guards';
 import { createClient } from '@weco/content/services/prismic/fetch';
+import { parseClientSideDocumentIds } from '@weco/content/services/prismic/fetch/client-side-params';
 import { fetchExhibitionRelatedContent } from '@weco/content/services/prismic/fetch/exhibitions';
 import { transformExhibitionRelatedContent } from '@weco/content/services/prismic/transformers/exhibitions';
 
@@ -20,7 +21,10 @@ export default async (
     return res.status(404).json({ notFound: true });
   }
 
-  const parsedParams = JSON.parse(params);
+  const parsedParams = parseClientSideDocumentIds(JSON.parse(params));
+  if (!parsedParams) {
+    return res.status(404).json({ notFound: true });
+  }
   const client = createClient({ req });
 
   if (parsedParams.length === 0) {
