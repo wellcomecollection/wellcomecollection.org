@@ -24,6 +24,10 @@ RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx
 # The following are from https://nextjs.org/docs/deployment#docker-image
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --gid 1001 nextjs
+
+# The server caches toggles and Prismic data in .server-data at runtime, so
+# nextjs needs to own it - the rest of the working directory belongs to root.
+RUN mkdir -p .server-data && chown nextjs:nodejs .server-data
 USER nextjs
 
 # Exposed at /management/manifest so deploy tooling can see which commit is live.
