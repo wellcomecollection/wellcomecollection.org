@@ -77,6 +77,7 @@ const ImagesResultsHeader: FunctionComponent<Props> = ({
         ariaLabel="Image search pagination"
         isOnDark={isOnDark}
         isHiddenMobile
+        keepHash
       />
     </SortPaginationWrapper>
   </PaginationWrapper>

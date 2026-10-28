@@ -1,10 +1,8 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
-  Dispatch,
   FunctionComponent,
   KeyboardEvent,
   RefObject,
-  SetStateAction,
   useEffect,
   useRef,
   useState,
@@ -43,7 +41,7 @@ export type SidebarStatus = 'closed' | 'opening' | 'open' | 'closing';
 type Props = {
   images: Image[];
   expandedImage?: Image;
-  setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
+  setExpandedImage: (image: Image | undefined) => void;
   // As it slides in and out, for laying out what's beside it
   onStatusChange?: (status: SidebarStatus) => void;
 };

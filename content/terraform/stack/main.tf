@@ -13,6 +13,8 @@ module "content-service-17092020" {
 
   desired_task_count = var.desired_task_count
 
+  app_user = var.app_user
+
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend"
     container_tag = "db63674d25832955b2127ecdc0d8ec3c2129fcab"

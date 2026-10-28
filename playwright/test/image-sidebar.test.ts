@@ -207,6 +207,25 @@ test.describe('Desktop', () => {
       // Choosing the image that's open closes it
       await thumbnail(page, other + 1).click();
       await expect(sidebar(page)).toHaveCount(0);
+
+      // Back goes through the images in the order they were viewed, then to the
+      // results without an image
+      await page.goBack();
+      await expect(heading).toHaveText(titles[other]);
+      await page.goBack();
+      await expect(heading).toHaveText(titles[first]);
+      await page.goBack();
+      await expect(sidebar(page)).toHaveCount(0);
+      expect(page.url()).not.toContain('#');
+
+      // And Forward goes through them again, as going Back mustn't have added an
+      // entry that cuts them off
+      await page.goForward();
+      await expect(heading).toHaveText(titles[first]);
+      await page.goForward();
+      await expect(heading).toHaveText(titles[other]);
+      await page.goForward();
+      await expect(sidebar(page)).toHaveCount(0);
     });
 
     test('the sidebar stays open on the same image when going to the next page of results', async ({
@@ -232,11 +251,18 @@ test.describe('Desktop', () => {
       await expect(heading).toHaveText(titles[first]);
       await expect(page).toHaveURL(/page=2.*#\w+/);
 
-      await sidebar(page)
-        .getByRole('button', { name: 'Close image details' })
-        .click();
-      await expect(sidebar(page)).toHaveCount(0);
-      await expect(page).not.toHaveURL(/#\w/);
+      // It stays open going Back to the first page and Forward again, once each
+      // page has loaded
+      await page.goBack();
+      await expect(page.getByTestId('current-page').first()).toHaveText('1');
+      await page.waitForLoadState('networkidle');
+      await expect(heading).toHaveText(titles[first]);
+      await expect(page).toHaveURL(/#\w+/);
+      await page.goForward();
+      await expect(page.getByTestId('current-page').first()).toHaveText('2');
+      await page.waitForLoadState('networkidle');
+      await expect(heading).toHaveText(titles[first]);
+      await expect(page).toHaveURL(/page=2.*#\w+/);
     });
 
     test('the sidebar closes when the sort changes', async ({

@@ -213,3 +213,25 @@ test.describe('(5) | a Concept representing a Genre that is only used as a genre
     );
   });
 });
+
+test.describe('(6) | opening an image on a Concept page', () => {
+  test('an image can be opened, closed and opened again', async ({
+    armyPage,
+    page,
+  }) => {
+    const image = armyPage.imagesSection
+      .getByTitle('Open modal window')
+      .first();
+    const closeButton = page.getByTestId('close-modal-button');
+
+    await image.click();
+    await expect(closeButton).toBeVisible();
+
+    await closeButton.click();
+    await expect(closeButton).toBeHidden();
+
+    // The same image, which used to do nothing the second time
+    await image.click();
+    await expect(closeButton).toBeVisible();
+  });
+});

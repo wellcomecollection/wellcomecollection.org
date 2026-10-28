@@ -52,6 +52,7 @@ module "app_container" {
 
   environment = var.env_vars
   secrets     = var.secret_env_vars
+  user        = var.app_user
 
   log_configuration = module.log_router_container.container_log_configuration
 }

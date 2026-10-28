@@ -1364,6 +1364,44 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Count every request for these hosts that reaches the end of the ACL, so
+  // the allowed ones land in the WAF logs (the logging filter drops plain
+  // allows). Used to see real editor traffic on preview before restricting it.
+  dynamic "rule" {
+    for_each = length(var.count_hosts) > 0 ? [1] : []
+    content {
+      name     = "host-count"
+      priority = 27
+
+      action {
+        count {}
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^(${join("|", [for h in var.count_hosts : replace(h, ".", "\\.")])})(:[0-9]+)?$"
+
+          field_to_match {
+            single_header {
+              name = "host"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "LOWERCASE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "host-count-${var.namespace}"
+      }
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
