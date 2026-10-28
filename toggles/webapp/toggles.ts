@@ -211,6 +211,25 @@ const toggleConfig = {
       ],
     },
     {
+      id: 'archiveBrowsingPhases',
+      title: 'Archive browsing',
+      description: 'Staged rollout of archive browsing.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description:
+            "The archives landing page, archive category pages, and the 'Browse archives' link on the archive card list.",
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description: "A 'Browse other types of archives' section.",
+        },
+      ],
+    },
+    {
       id: 'imageSidebarPhases',
       title: 'Image sidebar preview',
       description:
