@@ -24,7 +24,8 @@ output "request_policies" {
 output "response_policies" {
   value = {
     for policy in [
-      aws_cloudfront_response_headers_policy.weco_security
+      aws_cloudfront_response_headers_policy.weco_security,
+      aws_cloudfront_response_headers_policy.weco_security_v2
     ]
     : policy.name => policy.id
   }

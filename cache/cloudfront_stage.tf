@@ -38,6 +38,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # 2026-08-12/13). Nothing legitimate uses that hostname.
   enable_unrecognised_host_block = true
 
+  # Trialling nosniff and Referrer-Policy here before prod, e2e and rss
+  enable_extra_security_headers = true
+
   # Trialling the /search challenge here before prod (see the search-challenge
   # rule in the module for why this is high-risk).
   enable_search_challenge = true
