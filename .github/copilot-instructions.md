@@ -76,9 +76,15 @@ Server-only packages that try to load in the browser will cause "Cannot find mod
 
 Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
 
+## Analytics Tracking (GTM)
+
+Our analyst's GTM tags and reports depend on `data-gtm-*` attributes (`data-gtm-trigger`, `data-gtm-label` etc.), set either directly or via `dataGtmPropsToAttributes` / `dataGtmProps` from `@weco/common/utils/gtm`. GTM listens for these on specific elements, so moving an attribute to a different element (e.g. off an `<a>` onto a wrapper) silently breaks tracking, even if the attribute still exists.
+
+Don't add, remove, rename or move these attributes, change their values, or restructure the element that carries one, without flagging it to the user so they can let the analyst know. When reviewing, call out any diff that does this.
+
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions, e2e analytics-blocking).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
 
 ### TODOs and Technical Debt
 
