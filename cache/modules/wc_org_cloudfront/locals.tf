@@ -9,8 +9,6 @@ locals {
   # This eliminates the need for CloudFront cache invalidation before test runs
   cache_policy_name = var.namespace == "e2e" ? "Managed-CachingDisabled" : "weco-apps"
 
-  response_policy_name = var.enable_extra_security_headers ? "weco-security-v2" : "weco-security"
-
   lambda_associations = [
     {
       event_type = "origin-request"

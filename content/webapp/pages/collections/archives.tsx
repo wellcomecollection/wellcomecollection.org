@@ -11,6 +11,7 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import ArchivesPage, {
   Props as ArchivesPageProps,
 } from '@weco/content/views/pages/collections/archives';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const Page: NextPage<ArchivesPageProps> = props => {
   return <ArchivesPage {...props} />;
@@ -24,7 +25,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   setCacheControl(context.res);
   const serverData = await getServerData(context);
 
-  if (!serverData.toggles.featureFlags.archiveBrowsing) {
+  if (
+    !phaseIsAtLeast(serverData.toggles.phasedFlags.archiveBrowsingPhases, 'mvp')
+  ) {
     return {
       notFound: true,
     };
