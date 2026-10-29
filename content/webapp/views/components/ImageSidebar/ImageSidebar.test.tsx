@@ -125,13 +125,6 @@ describe('ImageSidebar', () => {
       ]);
     });
 
-    it('says it is open if it already is when it mounts', async () => {
-      const onStatusChange = jest.fn();
-      await renderSidebar(expandedImage, jest.fn(), onStatusChange);
-
-      expect(onStatusChange.mock.calls).toEqual([['open']]);
-    });
-
     it('keeps the image while it slides out, then renders nothing', async () => {
       const { container, select } = await renderSidebar(expandedImage);
 
@@ -146,25 +139,20 @@ describe('ImageSidebar', () => {
       expect(container).toBeEmptyDOMElement();
     });
 
-    it('slides in an image that is chosen', async () => {
-      const { select } = await renderSidebar(undefined);
-
-      await select(expandedImage);
-
+    it('slides in an image chosen after the page loads, but not one that was in the URL', async () => {
+      const chosen = await renderSidebar(undefined);
+      await chosen.select(expandedImage);
       expect(getComputedStyle(sidebar()).transition).toBe(
         `transform ${TRANSITION_MS}ms ease-in-out`
       );
-    });
+      chosen.unmount();
 
-    it('just appears for an image that was in the URL when the page loaded', async () => {
       window.history.replaceState(null, '', `/#${expandedImage.id}`);
-      const { select } = await renderSidebar(undefined);
-
-      await select(expandedImage);
+      const linked = await renderSidebar(undefined);
+      await linked.select(expandedImage);
       await act(async () => {
         jest.runAllTimers();
       });
-
       expect(getComputedStyle(sidebar()).transition).toBe('none');
     });
   });

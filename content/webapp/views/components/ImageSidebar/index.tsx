@@ -39,6 +39,15 @@ const THUMBNAIL_FOCUS_WINDOW_MS = 500;
 
 export type SidebarStatus = 'closed' | 'opening' | 'open' | 'closing';
 
+/**
+ * The element's computed transition duration in milliseconds, which is 0 when
+ * it has no transition (e.g. with reduced motion).
+ */
+const getTransitionMs = (element: HTMLElement): number => {
+  const duration = getComputedStyle(element).transitionDuration;
+  return (parseFloat(duration) || 0) * (duration.endsWith('ms') ? 1 : 1000);
+};
+
 type Props = {
   images: Image[];
   expandedImage?: Image;
@@ -131,6 +140,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   );
   const [isInstant, setIsInstant] = useState(false);
 
+  // The expanded image, or the last one while the sidebar slides out
   const [shownImage, setShownImage] = useState<Image | undefined>();
   if (expandedImage && expandedImage !== shownImage) {
     setShownImage(expandedImage);
@@ -138,15 +148,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
       setIsInstant(expandedImage.id === linkedImageId.current);
     }
   }
-
-  // The Transition only reports opening and closing, so one that's already
-  // open when this mounts is reported here
-  useEffect(() => {
-    if (isOpen) {
-      linkedImageId.current = undefined;
-      onStatusChange?.('open');
-    }
-  }, []);
 
   const stopRefocusing = useFocusCloseButtonOnSelect(
     expandedImage?.id,
@@ -169,11 +170,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;
-    const duration = sidebar
-      ? getComputedStyle(sidebar).transitionDuration
-      : '';
-    const ms =
-      (parseFloat(duration) || 0) * (duration.endsWith('ms') ? 1 : 1000);
+    const ms = sidebar ? getTransitionMs(sidebar) : 0;
     if (!sidebar || ms === 0) {
       setTimeout(done);
       return;

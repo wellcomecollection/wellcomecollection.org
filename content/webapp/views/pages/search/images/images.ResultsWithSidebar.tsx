@@ -58,6 +58,7 @@ const Results = styled.div<{
       `)}
     `}
 
+  /* Hidden rather than removed under the full screen sidebar, so they keep their place but leave the tab order */
   ${props =>
     props.$isCovered &&
     css`

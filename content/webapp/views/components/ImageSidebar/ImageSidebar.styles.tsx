@@ -9,7 +9,6 @@ import {
 } from '@weco/common/views/themes/config';
 
 export const TRANSITION_MS = 300;
-const PANEL_GAP = '8px';
 
 /**
  * Full screen over everything below the `sm` breakpoint, sliding up from the
@@ -31,22 +30,25 @@ export const SidebarWrapper = styled(Space).attrs({
   transition: ${props =>
     props.$isInstant ? 'none' : `transform ${TRANSITION_MS}ms ease-in-out`};
 
-  ${props =>
-    props.theme.media('sm')(`
+  ${props => {
+    const gap = props.theme.spacingUnits['100'];
+
+    return props.theme.media('sm')(`
       position: sticky;
       inset: auto;
       top: 0;
       z-index: auto;
       overscroll-behavior: auto;
       transform: ${props.$isOpen ? 'none' : 'translateX(100%)'};
-      flex: 0 0 calc(50% + ${PANEL_GAP});
+      flex: 0 0 calc(50% + ${gap});
       height: 100vh;
-      border-left: ${PANEL_GAP} solid ${props.theme.color({
+      border-left: ${gap} solid ${props.theme.color({
         brand: 'neutral.10',
         legacy: 'warmNeutral.300',
       })};
       box-shadow: inset 1px 0 0 ${props.theme.color('neutral.300')};
-    `)}
+    `);
+  }}
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
