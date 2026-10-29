@@ -100,15 +100,12 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
   });
   const shownColumns = clampColumns(columns, measured.maxColumns);
 
-  // What's in state, to go back to if a drag is cancelled
-  const savedColumns = useRef(columns);
-  savedColumns.current = columns;
-
   const drag = useRef<
     Measured & {
       startX: number;
       startColumns: number;
-      lastX: number;
+      // What's in state, to go back to if the drag is cancelled
+      savedColumns: number;
       hasMoved: boolean;
       columns: number;
       frame?: number;
@@ -131,16 +128,6 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
         : next
     );
 
-    // Carries on from where the pointer is, with the new measurements, unless
-    // there's nothing to go on
-    const current = drag.current;
-    if (current && next.columnPx > 0) {
-      Object.assign(current, next, {
-        startX: current.lastX,
-        startColumns: clampColumns(current.columns, next.maxColumns),
-      });
-    }
-
     return next;
   };
 
@@ -155,9 +142,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
   };
 
   // Measures again once the layout has stopped changing width, which a window
-  // resize or the page's scrollbar coming and going can do. If the handle goes
-  // mid-drag (e.g. the sidebar going full screen), the width goes back to what
-  // was kept.
+  // resize or the page's scrollbar coming and going can do
   useEffect(() => {
     measure();
 
@@ -179,7 +164,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     return () => {
       observer?.disconnect();
       clearTimeout(timeout);
-      if (stopDragging()) setSidebarColumns(savedColumns.current);
+      stopDragging();
     };
   }, []);
 
@@ -206,26 +191,13 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
         keyEvent.preventDefault();
         keyEvent.stopPropagation();
-        if (stopDragging()) setSidebarColumns(savedColumns.current);
+        const cancelled = stopDragging();
+        if (cancelled) setSidebarColumns(cancelled.savedColumns);
         if (handle.hasPointerCapture(pointerId)) {
           handle.releasePointerCapture(pointerId);
         }
       },
       { capture: true, signal: listening.signal }
-    );
-
-    // So text isn't selected as the pointer passes over it, with Safari's
-    // prefixed property too
-    const bodyStyle = document.body.style;
-    const userSelect = ['user-select', '-webkit-user-select'].map(property => {
-      const value = bodyStyle.getPropertyValue(property);
-      bodyStyle.setProperty(property, 'none');
-      return { property, value };
-    });
-    listening.signal.addEventListener('abort', () =>
-      userSelect.forEach(({ property, value }) =>
-        bodyStyle.setProperty(property, value)
-      )
     );
 
     // From what's shown, so a width that doesn't fit doesn't leave a stretch
@@ -234,9 +206,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     drag.current = {
       ...next,
       startX: event.clientX,
-      lastX: event.clientX,
       hasMoved: false,
       startColumns,
+      savedColumns: columns,
       columns: startColumns,
       listening,
     };
@@ -249,7 +221,6 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     // A wobble while clicking isn't a drag
     current.hasMoved ||=
       Math.abs(event.clientX - current.startX) >= CLICK_TOLERANCE_PX;
-    current.lastX = event.clientX;
     if (!current.hasMoved) return;
 
     // Dragging left makes the sidebar wider
@@ -273,10 +244,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     if (!current) return;
 
     // A click without moving keeps the width chosen, even if it doesn't fit
-    if (!current.hasMoved) {
-      setSidebarColumns(savedColumns.current);
-      return;
-    }
+    if (!current.hasMoved) return;
 
     // To a hundredth, so the arrow keys then move to the nearest whole column
     const rounded = roundColumns(current.columns);
