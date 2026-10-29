@@ -48,6 +48,33 @@ jobs:
             echo "changes=true" >> $GITHUB_OUTPUT
           fi
 
+      - name: Install Node
+        if: steps.changes.outputs.changes == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: content-api/.nvmrc
+
+      # The tests run against snapshots of real Prismic data, so refresh them
+      # (and the Jest snapshots) for the new types and review them in the same PR.
+      - name: Commit Prismic types
+        if: steps.changes.outputs.changes == 'true'
+        run: |
+          cd content-api
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "auto-sync/prismic-types-$(date +%Y%m%d-%H%M%S)"
+          git add .
+          git commit -m "Update Prismic types from wellcomecollection.org"
+
+      - name: Refresh test data
+        if: steps.changes.outputs.changes == 'true'
+        run: |
+          cd content-api
+          yarn install
+          yarn --cwd pipeline refresh-test-data
+          git add pipeline/test
+          git diff --cached --quiet || git commit -m "Refresh Prismic test data and Jest snapshots"
+
       - name: Create Pull Request
         if: steps.changes.outputs.changes == 'true'
         env:
@@ -56,18 +83,7 @@ jobs:
         run: |
           cd content-api
 
-          # Configure git
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Create and switch to new branch with timestamp
-          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-          BRANCH_NAME="auto-sync/prismic-types-$TIMESTAMP"
-          git checkout -b $BRANCH_NAME
-
-          # Commit changes
-          git add .
-          git commit -m "Update Prismic types from wellcomecollection.org"
+          BRANCH_NAME=$(git branch --show-current)
 
           # Push branch
           git push origin $BRANCH_NAME
@@ -77,6 +93,8 @@ jobs:
 
           **Source:** `wellcomecollection.org/common/prismicio-types.d.ts`
           **Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`
+
+          The test data (`pipeline/test/prismic-snapshots`) and Jest snapshots are refreshed from live Prismic in a second commit, so some changes may come from content edits rather than the types. Check the Jest snapshot diff for how they change what we index.
 
           Please review the changes and merge if everything looks correct.
           EOF
