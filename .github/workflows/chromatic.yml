@@ -34,6 +34,8 @@ permissions:
 
 jobs:
   chromatic-deployment:
+    # Fork PRs don't get the Chromatic token, so skip them rather than fail
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
