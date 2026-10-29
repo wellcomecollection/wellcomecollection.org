@@ -150,13 +150,6 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
-      id: 'archiveBrowsing',
-      title: 'Archive browsing',
-      initialValue: false,
-      description: 'Enables access to new archive browsing features/pages',
-      type: 'experimental',
-    },
-    {
       id: 'brandUpdate',
       title: 'Brand update',
       initialValue: false,
@@ -207,6 +200,25 @@ const toggleConfig = {
           label: 'Phase 2',
           description:
             "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
+        },
+      ],
+    },
+    {
+      id: 'archiveBrowsingPhases',
+      title: 'Archive browsing',
+      description: 'Staged rollout of archive browsing.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'MVP',
+          description:
+            "The archives landing page, archive category pages, and the 'Browse archives' link on the archive card list.",
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description: "A 'Browse other types of archives' section.",
         },
       ],
     },

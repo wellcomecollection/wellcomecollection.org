@@ -27,9 +27,6 @@ module "content-stage" {
 
   subdomain = "content.www-stage"
 
-  // Trialled on stage before prod and e2e
-  app_user = "nextjs"
-
   use_fargate_spot              = true
   turn_off_outside_office_hours = true
 
