@@ -78,7 +78,7 @@ Playwright tests (`playwright/test/**/*.test.ts`) run against real environments,
 
 ## Analytics Tracking (GTM)
 
-Our analyst's GTM tags and reports depend on `data-gtm-*` attributes (`data-gtm-trigger`, `data-gtm-label` etc.), set either directly or via `dataGtmPropsToAttributes` / `dataGtmProps` from `@weco/common/utils/gtm`. GTM listens for these on specific elements, so moving an attribute to a different element (e.g. off an `<a>` onto a wrapper) silently breaks tracking, even if the attribute still exists.
+Our analyst's GTM tags and reports depend on `data-gtm-*` attributes (`data-gtm-trigger`, `data-gtm-label` etc.), set either directly or via `dataGtmPropsToAttributes` (taking a `DataGtmProps` object) from `@weco/common/utils/gtm`. GTM listens for these on specific elements, so moving an attribute to a different element (e.g. off an `<a>` onto a wrapper) silently breaks tracking, even if the attribute still exists.
 
 Don't add, remove, rename or move these attributes, change their values, or restructure the element that carries one, without flagging it to the user so they can let the analyst know. When reviewing, call out any diff that does this.
 
