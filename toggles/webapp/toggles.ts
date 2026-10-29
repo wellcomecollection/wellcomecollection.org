@@ -150,13 +150,6 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
-      id: 'archiveBrowsing',
-      title: 'Archive browsing',
-      initialValue: false,
-      description: 'Enables access to new archive browsing features/pages',
-      type: 'experimental',
-    },
-    {
       id: 'brandUpdate',
       title: 'Brand update',
       initialValue: false,
