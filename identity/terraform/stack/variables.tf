@@ -47,5 +47,5 @@ variable "cloudfront_header_secrets" {
 
 variable "app_user" {
   type    = string
-  default = "0"
+  default = "nextjs"
 }

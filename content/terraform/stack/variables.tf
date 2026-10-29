@@ -43,5 +43,5 @@ variable "desired_task_count" {
 
 variable "app_user" {
   type    = string
-  default = "0"
+  default = "nextjs"
 }

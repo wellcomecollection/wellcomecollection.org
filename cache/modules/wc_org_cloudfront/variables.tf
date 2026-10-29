@@ -148,9 +148,3 @@ variable "enable_waf_logging" {
   default     = false
   description = "Log non-allowed (blocked/counted/challenged) WAF requests to CloudWatch Logs"
 }
-
-variable "enable_extra_security_headers" {
-  type        = bool
-  default     = false
-  description = "Use the weco-security-v2 response headers policy, which adds X-Content-Type-Options: nosniff and Referrer-Policy: strict-origin-when-cross-origin. Prove on stage before enabling elsewhere."
-}
