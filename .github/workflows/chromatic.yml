@@ -1,25 +1,41 @@
 name: 'Chromatic'
 # We get one Storybook per branch at https://<branch>--<appid>.chromatic.com
 # https://www.chromatic.com/docs/permalinks
+# Runs on every push to a branch with an open PR, plus main to keep baselines up to date.
 on:
-  push:
-    paths-ignore:
+  pull_request:
+    paths-ignore: &paths-ignore
       - '.buildkite/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '**/*.md'
       - 'assets/**'
       - 'cache/**'
       - 'content/terraform/**'
+      - 'dash/**'
+      - 'deploy/**'
       - 'docs/**'
+      - 'eslint-local-rules/**'
       - 'identity/terraform/**'
       - 'infrastructure/**'
+      - 'pa11y/**'
       - 'playwright/**'
       - 'prismic-model/**'
       - 'preview/**'
+      - 'scripts/**'
+      - 'static/**'
+      - 'toggles/**'
+  push:
+    branches:
+      - main
+    paths-ignore: *paths-ignore
 
 permissions:
   contents: read
 
 jobs:
   chromatic-deployment:
+    # Fork PRs don't get the Chromatic token, so skip them rather than fail
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
