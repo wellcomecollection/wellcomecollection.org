@@ -49,6 +49,8 @@ export const SidebarWrapper = styled.section<{
       z-index: auto;
       transform: ${props.$isOpen ? 'none' : 'translateX(100%)'};
       flex: 0 0 calc(${edge} + ${columns} * (100% - 2 * ${edge}) / ${GRID_COLUMNS} + ${gap});
+      /* Otherwise a long title or wide image could stop it getting narrower */
+      min-width: 0;
       max-width: calc(100% - ${edge} - ${containerPadding} - ${MIN_GRID_WIDTH}px);
       height: 100vh;
       border-left: ${gap} solid ${props.theme.color({

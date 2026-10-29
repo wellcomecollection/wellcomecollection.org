@@ -102,6 +102,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
   const drag = useRef<
     Measured & {
+      // The pointer that started it, as another finger on the handle shouldn't
+      // move or end it
+      pointerId: number;
       startX: number;
       startColumns: number;
       // What's in state, to go back to if the drag is cancelled
@@ -205,6 +208,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     const startColumns = clampColumns(columns, next.maxColumns);
     drag.current = {
       ...next,
+      pointerId,
       startX: event.clientX,
       hasMoved: false,
       startColumns,
@@ -216,7 +220,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
   const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
     const current = drag.current;
-    if (!current) return;
+    if (current?.pointerId !== event.pointerId) return;
 
     // A wobble while clicking isn't a drag
     current.hasMoved ||=
@@ -239,7 +243,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
   // Also called when the handle loses the pointer without hearing it let go
   // (e.g. switching window mid-drag), so the drag doesn't carry on
-  const endDrag = () => {
+  const endDrag = (event: PointerEvent<HTMLDivElement>) => {
+    if (drag.current?.pointerId !== event.pointerId) return;
+
     const current = stopDragging();
     if (!current) return;
 
