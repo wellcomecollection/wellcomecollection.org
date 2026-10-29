@@ -16,32 +16,3 @@ resource "aws_cloudfront_response_headers_policy" "weco_security" {
     }
   }
 }
-
-# weco-security plus nosniff and Referrer-Policy, proving on stage before the other distributions move over
-resource "aws_cloudfront_response_headers_policy" "weco_security_v2" {
-  name    = "weco-security-v2"
-  comment = "Security headers for wellcomecollection.org, with nosniff and Referrer-Policy"
-
-  security_headers_config {
-    strict_transport_security {
-      access_control_max_age_sec = 2 * local.one_year
-      include_subdomains         = false
-      override                   = true
-      preload                    = false
-    }
-
-    frame_options {
-      frame_option = "DENY"
-      override     = true
-    }
-
-    content_type_options {
-      override = true
-    }
-
-    referrer_policy {
-      referrer_policy = "strict-origin-when-cross-origin"
-      override        = true
-    }
-  }
-}
