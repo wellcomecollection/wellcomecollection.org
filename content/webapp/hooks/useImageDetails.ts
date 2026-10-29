@@ -53,12 +53,8 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   const [loadedWork, setLoadedWork] = useState<
     { requestedId: string; work: Work } | undefined
   >();
-  const detailedWork = loadedWork?.work;
-  const [canvasDeeplink, setCanvasDeeplink] = useState<
-    | {
-        canvas: number;
-      }
-    | undefined
+  const [loadedDeeplink, setLoadedDeeplink] = useState<
+    { imageUrl: string; canvas: number } | undefined
   >();
 
   // In the case that the modal changes the expanded image to
@@ -69,6 +65,15 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
 
   const workId = expandedImage?.source.id;
   const imageUrl = expandedImage?.locations[0]?.url;
+
+  const detailedWork =
+    loadedWork && loadedWork.requestedId === workId
+      ? loadedWork.work
+      : undefined;
+  const canvasDeeplink =
+    loadedDeeplink && loadedDeeplink.imageUrl === imageUrl
+      ? { canvas: loadedDeeplink.canvas }
+      : undefined;
 
   // The work is fetched per work, and dropped (with any request still in
   // flight) when another is selected or the image is closed.
@@ -89,12 +94,10 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
 
   // The canvas is looked up per image, as several images can share a work.
   useEffect(() => {
-    setCanvasDeeplink(undefined);
-    // loadedWork is still the previous work for a render after another is selected
+    setLoadedDeeplink(undefined);
     const manifestLocation =
-      loadedWork && loadedWork.requestedId === workId
-        ? getDigitalLocationOfType(loadedWork.work, 'iiif-presentation')
-        : undefined;
+      detailedWork &&
+      getDigitalLocationOfType(detailedWork, 'iiif-presentation');
     if (!manifestLocation || !imageUrl) return;
 
     let cancelled = false;
@@ -102,14 +105,14 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
       canvasIndex => {
         // The first canvas (index 0) isn't deeplinked, see #13693
         if (!cancelled && canvasIndex && canvasIndex !== -1) {
-          setCanvasDeeplink({ canvas: canvasIndex + 1 });
+          setLoadedDeeplink({ imageUrl, canvas: canvasIndex + 1 });
         }
       }
     );
     return () => {
       cancelled = true;
     };
-  }, [loadedWork, imageUrl, workId]);
+  }, [detailedWork, imageUrl]);
 
   const iiifImageLocation = expandedImage?.locations[0];
   const license =

@@ -4,6 +4,7 @@ import {
   RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import styled, { css } from 'styled-components';
 
@@ -12,28 +13,16 @@ import { containerPadding } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
-import ImageSidebar from '@weco/content/views/components/ImageSidebar';
+import ImageSidebar, {
+  SidebarStatus,
+} from '@weco/content/views/components/ImageSidebar';
 
 const ResultsLayout = styled.div`
   display: flex;
   align-items: flex-start;
+  overflow-x: clip;
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
-`;
-
-const PanelGap = styled.div`
-  display: none;
-
-  ${props =>
-    props.theme.media('sm')(`
-      display: block;
-      flex: 0 0 8px;
-      align-self: stretch;
-      background-color: ${props.theme.color({
-        brand: 'neutral.10',
-        legacy: 'warmNeutral.300',
-      })};
-    `)}
 `;
 
 // Where the content of a Container starts: half of the space left either side
@@ -41,15 +30,15 @@ const PanelGap = styled.div`
 const containerEdge = (maxWidth: string) =>
   `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
-// Hidden, not removed, when the sidebar covers the screen (below `sm`): that
-// takes the results out of the tab order and away from screen readers, while
-// keeping their place on the page.
 // Keeps the pagination at the bottom of the results column, which is as tall as the sidebar
 const PaginationArea = styled.div`
   margin-top: auto;
 `;
 
-const Results = styled.div<{ $isSidebarOpen: boolean }>`
+const Results = styled.div<{
+  $hasSidebar: boolean;
+  $isCovered: boolean;
+}>`
   flex: 1 1 0;
   min-width: 0;
   display: flex;
@@ -57,18 +46,26 @@ const Results = styled.div<{ $isSidebarOpen: boolean }>`
 
   /* Lines the results up with the page's Container, which the sidebar isn't in because it runs to the right edge */
   padding-left: ${props => containerEdge(props.theme.sizes.lg)};
-  padding-right: ${props =>
-    props.$isSidebarOpen ? 0 : containerEdge(props.theme.sizes.lg)};
+  padding-right: ${props => containerEdge(props.theme.sizes.lg)};
 
   ${props =>
-    props.$isSidebarOpen &&
+    props.$hasSidebar &&
     css`
       align-self: stretch;
+
+      ${props.theme.media('sm')(`
+        padding-right: ${containerPadding};
+      `)}
+    `}
+
+  /* Hidden rather than removed under the full screen sidebar, so they keep their place but leave the tab order */
+  ${props =>
+    props.$isCovered &&
+    css`
       visibility: hidden;
 
       ${props.theme.media('sm')(`
         visibility: visible;
-        padding-right: ${containerPadding};
       `)}
     `}
 `;
@@ -133,6 +130,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const resultsRef = useRef<HTMLDivElement>(null);
   const isActive = expandedImage !== undefined;
 
+  const [sidebarStatus, setSidebarStatus] = useState<SidebarStatus>('closed');
+
   useReturnFocusOnClose(images, expandedImage, resultsRef);
 
   // Choosing the image that's already open closes it
@@ -161,7 +160,11 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 
   return (
     <ResultsLayout ref={layoutRef}>
-      <Results ref={resultsRef} $isSidebarOpen={isActive}>
+      <Results
+        ref={resultsRef}
+        $hasSidebar={sidebarStatus !== 'closed'}
+        $isCovered={isActive && sidebarStatus === 'open'}
+      >
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <main>
             <CatalogueImageGallery
@@ -176,12 +179,11 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         <PaginationArea>{children}</PaginationArea>
       </Results>
 
-      {isActive && <PanelGap />}
-
       <ImageSidebar
         images={images}
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
+        onStatusChange={setSidebarStatus}
       />
     </ResultsLayout>
   );
