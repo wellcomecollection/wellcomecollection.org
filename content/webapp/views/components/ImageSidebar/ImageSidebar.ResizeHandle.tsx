@@ -167,7 +167,10 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     return () => {
       observer?.disconnect();
       clearTimeout(timeout);
-      stopDragging();
+      // If the handle goes mid-drag (e.g. the sidebar going full screen), the
+      // width goes back to what's in state
+      const cancelled = stopDragging();
+      if (cancelled) setSidebarColumns(cancelled.savedColumns);
     };
   }, []);
 
