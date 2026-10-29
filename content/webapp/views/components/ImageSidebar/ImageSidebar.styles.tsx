@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import {
+  containerEdge,
   containerPadding,
   mediaBackgroundColor,
   pageBackgroundColor,
@@ -13,10 +14,9 @@ export const TRANSITION_MS = 300;
 export const GRID_COLUMNS = 12;
 export const SIDEBAR_COLUMNS = { default: 6, min: 3, max: 9 };
 
-// Where the content of a Container starts: half of the space left either side
-// of its max width, plus its own padding, which is a share of the parent's width
-export const containerEdge = (maxWidth: string) =>
-  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
+// The narrowest the results grid gets, inside its padding, so on narrower
+// screens the sidebar can't reach 9 columns
+export const MIN_GRID_WIDTH = 200;
 
 /**
  * Full screen over everything below the `sm` breakpoint, sliding up from the
@@ -40,7 +40,7 @@ export const SidebarWrapper = styled.section<{
   ${props => {
     const gap = props.theme.spacingUnits['100'];
     const edge = containerEdge(props.theme.sizes.lg);
-    const columns = `var(--sidebar-columns, ${SIDEBAR_COLUMNS.default})`;
+    const columns = 'var(--sidebar-columns)';
 
     return props.theme.media('sm')(`
       position: sticky;
@@ -49,6 +49,7 @@ export const SidebarWrapper = styled.section<{
       z-index: auto;
       transform: ${props.$isOpen ? 'none' : 'translateX(100%)'};
       flex: 0 0 calc(${edge} + ${columns} * (100% - 2 * ${edge}) / ${GRID_COLUMNS} + ${gap});
+      max-width: calc(100% - ${edge} - ${containerPadding} - ${MIN_GRID_WIDTH}px);
       height: 100vh;
       border-left: ${gap} solid ${props.theme.color({
         brand: 'neutral.10',

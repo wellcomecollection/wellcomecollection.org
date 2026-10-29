@@ -26,7 +26,9 @@ import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
 
-import ResizeHandle, { COLUMNS_PROPERTY } from './ImageSidebar.ResizeHandle';
+import ImageSidebarResizeHandle, {
+  COLUMNS_PROPERTY,
+} from './ImageSidebar.ResizeHandle';
 import {
   CloseButton,
   LoadingWrapper,
@@ -277,7 +279,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             $isInstant={isInstant}
           >
             {!isFullScreen && (
-              <ResizeHandle
+              <ImageSidebarResizeHandle
                 ref={resizeHandleRef}
                 sidebarRef={sidebarRef}
                 sidebarId={sidebarId}

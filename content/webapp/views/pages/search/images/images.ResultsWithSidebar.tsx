@@ -9,14 +9,16 @@ import {
 import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import { containerPadding } from '@weco/common/views/themes/config';
+import {
+  containerEdge,
+  containerPadding,
+} from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
 } from '@weco/content/views/components/ImageSidebar';
-import { containerEdge } from '@weco/content/views/components/ImageSidebar/ImageSidebar.styles';
 
 const ResultsLayout = styled.div`
   display: flex;

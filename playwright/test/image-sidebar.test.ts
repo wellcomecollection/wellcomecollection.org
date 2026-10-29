@@ -58,6 +58,9 @@ const sidebar = (page: Page) =>
 const closeButton = (page: Page) =>
   sidebar(page).getByRole('button', { name: 'Close image details' });
 
+const resizeHandle = (page: Page) =>
+  page.getByRole('separator', { name: 'Resize image details' });
+
 const searchImages = async (
   query: string,
   context: BrowserContext,
@@ -369,6 +372,78 @@ test.describe('Desktop', () => {
     });
   });
 
+  // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13537
+  test.describe('Resizing the sidebar', () => {
+    const width = async (locator: Locator) =>
+      (await locator.boundingBox())!.width;
+
+    test('dragging the handle resizes the sidebar and the grid', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+      const sidebarBefore = await width(sidebar(page));
+      const gridBefore = await width(resultsGrid(page));
+      // Once it's slid in, so the handle is where it stays
+      await expect(sidebar(page)).toHaveCSS('transform', 'none');
+
+      const handle = (await resizeHandle(page).boundingBox())!;
+      const x = handle.x + handle.width / 2;
+      const y = handle.y + 50;
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x - 100, y, { steps: 5 });
+      await page.mouse.up();
+
+      // The sidebar's edge follows the pointer (allowing a pixel of rounding)
+      await expect
+        .poll(() => width(sidebar(page)))
+        .toBeCloseTo(sidebarBefore + 100, 0);
+      expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
+    });
+
+    test('the arrow keys on the handle resize the sidebar a column at a time', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '6');
+      const sidebarBefore = await width(sidebar(page));
+
+      await resizeHandle(page).focus();
+      await page.keyboard.press('ArrowLeft');
+
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '7');
+      await expect
+        .poll(() => width(sidebar(page)))
+        .toBeGreaterThan(sidebarBefore);
+
+      await page.keyboard.press('Home');
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '3');
+    });
+
+    test('keeps its width when another image is chosen, and goes back to the default once closed', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+      await resizeHandle(page).focus();
+      await page.keyboard.press('Home');
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '3');
+
+      await thumbnail(page, 2).click();
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '3');
+
+      await closeButton(page).click();
+      await expect(sidebar(page)).toHaveCount(0);
+      await openSidebar(1, page);
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '6');
+    });
+  });
+
   test.describe('Accessibility', () => {
     test('the sidebar can be opened and closed with the keyboard', async ({
       page,
@@ -381,8 +456,10 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toBeVisible();
       await expectFocusInside(sidebar(page));
 
-      // Going backwards from the sidebar lands on the selected thumbnail, not
-      // at the end of the results
+      // Going backwards from the sidebar passes its resize handle, then lands
+      // on the selected thumbnail, not at the end of the results
+      await page.keyboard.press('Shift+Tab');
+      await expect(resizeHandle(page)).toBeFocused();
       await page.keyboard.press('Shift+Tab');
       await expect(thumbnail(page, 1)).toBeFocused();
 
