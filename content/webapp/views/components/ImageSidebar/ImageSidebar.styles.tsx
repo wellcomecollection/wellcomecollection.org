@@ -4,26 +4,33 @@ import styled from 'styled-components';
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import {
+  containerPadding,
   mediaBackgroundColor,
   pageBackgroundColor,
 } from '@weco/common/views/themes/config';
 
 export const TRANSITION_MS = 300;
+export const GRID_COLUMNS = 12;
+export const SIDEBAR_COLUMNS = { default: 6, min: 3, max: 9 };
+
+// Where the content of a Container starts: half of the space left either side
+// of its max width, plus its own padding, which is a share of the parent's width
+export const containerEdge = (maxWidth: string) =>
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 /**
  * Full screen over everything below the `sm` breakpoint, sliding up from the
  * bottom, and a column beside the results from `sm` up, sliding in from the
- * right over space the results have already given up.
+ * right over space the results have already given up. From `sm` up it covers
+ * `--sidebar-columns` of the grid, plus the space to the right of the grid.
  */
-export const SidebarWrapper = styled(Space).attrs({
-  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
-  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})<{ $isOpen: boolean; $isInstant: boolean }>`
+export const SidebarWrapper = styled.section<{
+  $isOpen: boolean;
+  $isInstant: boolean;
+}>`
   position: fixed;
   inset: 0;
   z-index: 1001;
-  overflow-y: auto;
-  overscroll-behavior: contain;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
   transform: ${props => (props.$isOpen ? 'none' : 'translateY(100%)')};
@@ -32,15 +39,16 @@ export const SidebarWrapper = styled(Space).attrs({
 
   ${props => {
     const gap = props.theme.spacingUnits['100'];
+    const edge = containerEdge(props.theme.sizes.lg);
+    const columns = `var(--sidebar-columns, ${SIDEBAR_COLUMNS.default})`;
 
     return props.theme.media('sm')(`
       position: sticky;
       inset: auto;
       top: 0;
       z-index: auto;
-      overscroll-behavior: auto;
       transform: ${props.$isOpen ? 'none' : 'translateX(100%)'};
-      flex: 0 0 calc(50% + ${gap});
+      flex: 0 0 calc(${edge} + ${columns} * (100% - 2 * ${edge}) / ${GRID_COLUMNS} + ${gap});
       height: 100vh;
       border-left: ${gap} solid ${props.theme.color({
         brand: 'neutral.10',
@@ -52,6 +60,42 @@ export const SidebarWrapper = styled(Space).attrs({
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+`;
+
+// Inside the wrapper, so the resize handle can sit over the wrapper's border
+// without scrolling with the content or being clipped by it
+export const SidebarScroller = styled(Space).attrs({
+  $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
+  $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
+})`
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  ${props =>
+    props.theme.media('sm')(`
+      overscroll-behavior: auto;
+    `)}
+`;
+
+/**
+ * Over the gap to the left of the sidebar, and a little either side of it, so
+ * it's at least 24px wide to grab, and wider for touch.
+ */
+export const ResizeHandle = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(-${props => props.theme.spacingUnits['100']} - 8px);
+  z-index: 1;
+  width: 24px;
+  cursor: col-resize;
+  touch-action: none;
+
+  @media (pointer: coarse) {
+    left: calc(-${props => props.theme.spacingUnits['100']} - 18px);
+    width: 44px;
   }
 `;
 

@@ -1,9 +1,11 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
+  CSSProperties,
   FunctionComponent,
   KeyboardEvent,
   RefObject,
   useEffect,
+  useId,
   useRef,
   useState,
 } from 'react';
@@ -24,10 +26,13 @@ import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
 
+import ResizeHandle, { COLUMNS_PROPERTY } from './ImageSidebar.ResizeHandle';
 import {
   CloseButton,
   LoadingWrapper,
   MetadataWrapper,
+  SIDEBAR_COLUMNS,
+  SidebarScroller,
   SidebarWrapper,
   ThumbnailLink,
   ThumbnailPanel,
@@ -130,7 +135,10 @@ const ImageSidebar: FunctionComponent<Props> = ({
 }) => {
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const resizeHandleRef = useRef<HTMLDivElement>(null);
+  const sidebarId = useId();
   const { windowSize } = useAppContext();
   const isFullScreen = windowSize === 'zero';
   const isOpen = expandedImage !== undefined;
@@ -139,6 +147,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
     typeof window === 'undefined' ? undefined : readUrlHash()
   );
   const [isInstant, setIsInstant] = useState(false);
+
+  // Kept while other images are chosen, and back to the default once it closes
+  const [columns, setColumns] = useState(SIDEBAR_COLUMNS.default);
 
   // The expanded image, or the last one while the sidebar slides out
   const [shownImage, setShownImage] = useState<Image | undefined>();
@@ -155,7 +166,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   );
 
   useEffect(() => {
-    if (expandedImage && sidebarRef.current) sidebarRef.current.scrollTop = 0;
+    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
   }, [expandedImage?.id]);
 
   const {
@@ -193,7 +204,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
     setTimeout(finish, ms + 100);
   };
 
-  // Shift+Tab from the close button, the first thing in the sidebar, goes to
+  // Shift+Tab from the resize handle, the first thing in the sidebar, goes to
   // the selected thumbnail rather than the end of the results. Full screen, the
   // results are hidden and focus stays in the sidebar, so it's left alone.
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -202,7 +213,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
     stopRefocusing();
 
     const isLeavingBackwards =
-      event.shiftKey && event.target === closeButtonRef.current;
+      event.shiftKey && event.target === resizeHandleRef.current;
     if (!isLeavingBackwards || isFullScreen || !expandedImage) return;
 
     // The id is checked against the results as well as the page, as an
@@ -238,6 +249,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
       }}
       onExited={() => {
         setShownImage(undefined);
+        setColumns(SIDEBAR_COLUMNS.default);
         onStatusChange?.('closed');
       }}
       mountOnEnter
@@ -254,7 +266,8 @@ const ImageSidebar: FunctionComponent<Props> = ({
         >
           <SidebarWrapper
             ref={sidebarRef}
-            as="section"
+            id={sidebarId}
+            style={{ [COLUMNS_PROPERTY]: columns } as CSSProperties}
             data-component="image-sidebar"
             aria-label="Image details"
             data-lock-scroll={isFullScreen && state !== 'exited'}
@@ -263,101 +276,112 @@ const ImageSidebar: FunctionComponent<Props> = ({
             $isOpen={state === 'entering' || state === 'entered'}
             $isInstant={isInstant}
           >
-            <CloseButton
-              ref={closeButtonRef}
-              onClick={() => setExpandedImage(undefined)}
-            >
-              <span className="visually-hidden">Close image details</span>
-              <Icon icon={cross} />
-            </CloseButton>
-
-            {!detailedWork ? (
-              <LoadingWrapper>
-                <LL />
-              </LoadingWrapper>
-            ) : (
-              <>
-                {iiifImageLocation && expandedImageLink && (
-                  <ThumbnailPanel>
-                    <ThumbnailLink
-                      {...expandedImageLink}
-                      aria-label={
-                        displayTitle
-                          ? `View image: ${removeDisplayMarkupTags(displayTitle)}`
-                          : 'View image'
-                      }
-                    >
-                      <IIIFImage
-                        layout="raw"
-                        image={{
-                          contentUrl: iiifImageLocation.url,
-                          width: 400,
-                          height: 400,
-                          alt: '',
-                        }}
-                        width={400}
-                      />
-                    </ThumbnailLink>
-                  </ThumbnailPanel>
-                )}
-
-                {(displayTitle || displayContributor || license) && (
-                  <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                    {displayTitle && (
-                      <Title
-                        dangerouslySetInnerHTML={{ __html: displayTitle }}
-                      />
-                    )}
-
-                    {(displayContributor || productionDates.length > 0) && (
-                      <MetadataWrapper>
-                        {displayContributor && (
-                          <PipeSeparated>{displayContributor}</PipeSeparated>
-                        )}
-                        {productionDates.length > 0 && (
-                          <PipeSeparated>
-                            Date:&nbsp;{productionDates[0]}
-                          </PipeSeparated>
-                        )}
-                      </MetadataWrapper>
-                    )}
-
-                    {license && (
-                      <MetadataWrapper>
-                        Licence:&nbsp;
-                        {license.url && (
-                          <a rel="license" href={license.url}>
-                            {license.label}
-                          </a>
-                        )}
-                        {!license.url && license.label}
-                      </MetadataWrapper>
-                    )}
-                  </Space>
-                )}
-
-                {expandedImageLink && (
-                  <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                    <Button
-                      variant="ButtonSolidLink"
-                      hierarchy="primary"
-                      text="View image"
-                      icon={eye}
-                      link={expandedImageLink}
-                      ariaLabel="View expanded image"
-                    />
-                  </Space>
-                )}
-
-                {shownImage && (
-                  <VisuallySimilarImagesFromApi
-                    originalId={shownImage.id}
-                    onClickImage={setExpandedImage}
-                    variant="sidebar"
-                  />
-                )}
-              </>
+            {!isFullScreen && (
+              <ResizeHandle
+                ref={resizeHandleRef}
+                sidebarRef={sidebarRef}
+                sidebarId={sidebarId}
+                columns={columns}
+                setColumns={setColumns}
+              />
             )}
+            <SidebarScroller ref={scrollerRef}>
+              <CloseButton
+                ref={closeButtonRef}
+                onClick={() => setExpandedImage(undefined)}
+              >
+                <span className="visually-hidden">Close image details</span>
+                <Icon icon={cross} />
+              </CloseButton>
+
+              {!detailedWork ? (
+                <LoadingWrapper>
+                  <LL />
+                </LoadingWrapper>
+              ) : (
+                <>
+                  {iiifImageLocation && expandedImageLink && (
+                    <ThumbnailPanel>
+                      <ThumbnailLink
+                        {...expandedImageLink}
+                        aria-label={
+                          displayTitle
+                            ? `View image: ${removeDisplayMarkupTags(displayTitle)}`
+                            : 'View image'
+                        }
+                      >
+                        <IIIFImage
+                          layout="raw"
+                          image={{
+                            contentUrl: iiifImageLocation.url,
+                            width: 400,
+                            height: 400,
+                            alt: '',
+                          }}
+                          width={400}
+                        />
+                      </ThumbnailLink>
+                    </ThumbnailPanel>
+                  )}
+
+                  {(displayTitle || displayContributor || license) && (
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+                      {displayTitle && (
+                        <Title
+                          dangerouslySetInnerHTML={{ __html: displayTitle }}
+                        />
+                      )}
+
+                      {(displayContributor || productionDates.length > 0) && (
+                        <MetadataWrapper>
+                          {displayContributor && (
+                            <PipeSeparated>{displayContributor}</PipeSeparated>
+                          )}
+                          {productionDates.length > 0 && (
+                            <PipeSeparated>
+                              Date:&nbsp;{productionDates[0]}
+                            </PipeSeparated>
+                          )}
+                        </MetadataWrapper>
+                      )}
+
+                      {license && (
+                        <MetadataWrapper>
+                          Licence:&nbsp;
+                          {license.url && (
+                            <a rel="license" href={license.url}>
+                              {license.label}
+                            </a>
+                          )}
+                          {!license.url && license.label}
+                        </MetadataWrapper>
+                      )}
+                    </Space>
+                  )}
+
+                  {expandedImageLink && (
+                    <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+                      <Button
+                        variant="ButtonSolidLink"
+                        hierarchy="primary"
+                        text="View image"
+                        icon={eye}
+                        link={expandedImageLink}
+                        ariaLabel="View expanded image"
+                      />
+                    </Space>
+                  )}
+
+                  {shownImage && (
+                    <VisuallySimilarImagesFromApi
+                      originalId={shownImage.id}
+                      onClickImage={setExpandedImage}
+                      variant="sidebar"
+                    />
+                  )}
+                </>
+              )}
+            </SidebarScroller>
           </SidebarWrapper>
         </FocusTrap>
       )}

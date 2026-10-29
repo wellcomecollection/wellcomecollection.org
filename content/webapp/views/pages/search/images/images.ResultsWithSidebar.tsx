@@ -16,6 +16,7 @@ import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
 } from '@weco/content/views/components/ImageSidebar';
+import { containerEdge } from '@weco/content/views/components/ImageSidebar/ImageSidebar.styles';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -24,11 +25,6 @@ const ResultsLayout = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
-
-// Where the content of a Container starts: half of the space left either side
-// of its max width, plus its own padding, which is a share of the parent's width
-const containerEdge = (maxWidth: string) =>
-  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 // Keeps the pagination at the bottom of the results column, which is as tall as the sidebar
 const PaginationArea = styled.div`
