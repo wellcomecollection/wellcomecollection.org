@@ -19,6 +19,12 @@ import {
 
 export const COLUMNS_PROPERTY = '--sidebar-columns';
 
+// How far the pointer can move and still be a click, not a drag
+const CLICK_TOLERANCE_PX = 3;
+
+// How long the layout's width has to stay the same before it's measured again
+const MEASURE_DELAY_MS = 100;
+
 const roundColumns = (columns: number) => Math.round(columns * 100) / 100;
 
 // To one decimal place, for what's announced, so a change of half a column is
@@ -56,6 +62,8 @@ const measureColumns = (sidebar: HTMLElement) => {
   return { columnPx, maxColumns };
 };
 
+type Measured = ReturnType<typeof measureColumns>;
+
 const clampColumns = (columns: number, maxColumns: number) =>
   Math.min(maxColumns, Math.max(SIDEBAR_COLUMNS.min, columns));
 
@@ -91,60 +99,158 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     maxColumns: SIDEBAR_COLUMNS.max,
   });
   const shownColumns = clampColumns(columns, measured.maxColumns);
-  const drag = useRef<{
-    startX: number;
-    startColumns: number;
-    columnPx: number;
-    maxColumns: number;
-    columns: number;
-    frame?: number;
-  }>(undefined);
+
+  // What's in state, to go back to if a drag is cancelled
+  const savedColumns = useRef(columns);
+  savedColumns.current = columns;
+
+  const drag = useRef<
+    Measured & {
+      startX: number;
+      startColumns: number;
+      lastX: number;
+      hasMoved: boolean;
+      columns: number;
+      frame?: number;
+      listening: AbortController;
+    }
+  >(undefined);
+
+  const setSidebarColumns = (n: number) =>
+    sidebarRef.current?.style.setProperty(COLUMNS_PROPERTY, String(n));
 
   const measure = () => {
     const sidebar = sidebarRef.current;
     if (!sidebar) return;
 
     const next = measureColumns(sidebar);
-    setMeasured(next);
+    setMeasured(previous =>
+      previous.columnPx === next.columnPx &&
+      previous.maxColumns === next.maxColumns
+        ? previous
+        : next
+    );
+
+    // Carries on from where the pointer is, with the new measurements, unless
+    // there's nothing to go on
+    const current = drag.current;
+    if (current && next.columnPx > 0) {
+      Object.assign(current, next, {
+        startX: current.lastX,
+        startColumns: clampColumns(current.columns, next.maxColumns),
+      });
+    }
+
     return next;
   };
 
+  const stopDragging = () => {
+    const current = drag.current;
+    if (!current) return;
+
+    if (current.frame) cancelAnimationFrame(current.frame);
+    current.listening.abort();
+    drag.current = undefined;
+    return current;
+  };
+
+  // Measures again once the layout has stopped changing width, which a window
+  // resize or the page's scrollbar coming and going can do. If the handle goes
+  // mid-drag (e.g. the sidebar going full screen), the width goes back to what
+  // was kept.
   useEffect(() => {
     measure();
-    window.addEventListener('resize', measure);
+
+    const layout = sidebarRef.current?.parentElement;
+    let timeout: ReturnType<typeof setTimeout> | undefined;
+    let lastWidth = layout?.clientWidth;
+    const observer =
+      layout && typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(([entry]) => {
+            if (entry.contentRect.width === lastWidth) return;
+
+            lastWidth = entry.contentRect.width;
+            clearTimeout(timeout);
+            timeout = setTimeout(measure, MEASURE_DELAY_MS);
+          })
+        : undefined;
+    if (layout) observer?.observe(layout);
 
     return () => {
-      window.removeEventListener('resize', measure);
-      if (drag.current?.frame) cancelAnimationFrame(drag.current.frame);
+      observer?.disconnect();
+      clearTimeout(timeout);
+      if (stopDragging()) setSidebarColumns(savedColumns.current);
     };
   }, []);
 
-  const setSidebarColumns = (n: number) =>
-    sidebarRef.current?.style.setProperty(COLUMNS_PROPERTY, String(n));
-
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    if (!event.isPrimary || event.button !== 0) return;
+    // One drag at a time, even with a mouse and a touch screen
+    if (drag.current || !event.isPrimary || event.button !== 0) return;
 
     const next = measure();
     if (!next || next.columnPx <= 0) return;
 
     event.preventDefault();
-    event.currentTarget.setPointerCapture(event.pointerId);
+    const handle = event.currentTarget;
+    const { pointerId } = event;
+    handle.setPointerCapture(pointerId);
+
+    const listening = new AbortController();
+
+    // Escape puts the width back rather than closing the sidebar, which the
+    // results listen for, so it's caught first and marked as handled
+    document.addEventListener(
+      'keydown',
+      keyEvent => {
+        if (keyEvent.key !== 'Escape') return;
+
+        keyEvent.preventDefault();
+        keyEvent.stopPropagation();
+        if (stopDragging()) setSidebarColumns(savedColumns.current);
+        if (handle.hasPointerCapture(pointerId)) {
+          handle.releasePointerCapture(pointerId);
+        }
+      },
+      { capture: true, signal: listening.signal }
+    );
+
+    // So text isn't selected as the pointer passes over it, with Safari's
+    // prefixed property too
+    const bodyStyle = document.body.style;
+    const userSelect = ['user-select', '-webkit-user-select'].map(property => {
+      const value = bodyStyle.getPropertyValue(property);
+      bodyStyle.setProperty(property, 'none');
+      return { property, value };
+    });
+    listening.signal.addEventListener('abort', () =>
+      userSelect.forEach(({ property, value }) =>
+        bodyStyle.setProperty(property, value)
+      )
+    );
 
     // From what's shown, so a width that doesn't fit doesn't leave a stretch
     // of dragging where nothing moves
     const startColumns = clampColumns(columns, next.maxColumns);
     drag.current = {
+      ...next,
       startX: event.clientX,
+      lastX: event.clientX,
+      hasMoved: false,
       startColumns,
       columns: startColumns,
-      ...next,
+      listening,
     };
   };
 
   const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
     const current = drag.current;
     if (!current) return;
+
+    // A wobble while clicking isn't a drag
+    current.hasMoved ||=
+      Math.abs(event.clientX - current.startX) >= CLICK_TOLERANCE_PX;
+    current.lastX = event.clientX;
+    if (!current.hasMoved) return;
 
     // Dragging left makes the sidebar wider
     current.columns = clampColumns(
@@ -163,11 +269,14 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
   // Also called when the handle loses the pointer without hearing it let go
   // (e.g. switching window mid-drag), so the drag doesn't carry on
   const endDrag = () => {
-    const current = drag.current;
+    const current = stopDragging();
     if (!current) return;
 
-    if (current.frame) cancelAnimationFrame(current.frame);
-    drag.current = undefined;
+    // A click without moving keeps the width chosen, even if it doesn't fit
+    if (!current.hasMoved) {
+      setSidebarColumns(savedColumns.current);
+      return;
+    }
 
     // To a hundredth, so the arrow keys then move to the nearest whole column
     const rounded = roundColumns(current.columns);
@@ -175,9 +284,8 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     setColumns(rounded);
   };
 
-  // Uses the measurement from when the handle was focused, which the window
-  // resizing also updates, so holding a key down doesn't lay the page out
-  // again for each repeat
+  // Uses the last measurement, kept up to date as the layout changes width, so
+  // holding a key down doesn't lay the page out again for each repeat
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const { maxColumns } = measured;
     const nextColumns: Record<string, number> = {
@@ -206,7 +314,6 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
       aria-valuemin={SIDEBAR_COLUMNS.min}
       aria-valuemax={announcedColumns(measured.maxColumns)}
       aria-valuetext={`${announced} of ${GRID_COLUMNS} columns`}
-      onFocus={measure}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}

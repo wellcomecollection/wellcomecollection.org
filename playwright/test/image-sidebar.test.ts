@@ -398,9 +398,41 @@ test.describe('Desktop', () => {
 
       // The sidebar's edge follows the pointer (allowing a pixel of rounding)
       await expect
-        .poll(() => width(sidebar(page)))
-        .toBeCloseTo(sidebarBefore + 100, 0);
+        .poll(async () =>
+          Math.abs((await width(sidebar(page))) - (sidebarBefore + 100))
+        )
+        .toBeLessThanOrEqual(1);
       expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
+    });
+
+    test('Escape while dragging puts the width back and leaves the sidebar open', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page);
+      await openSidebar(1, page);
+      await expect(sidebar(page)).toHaveCSS('transform', 'none');
+      const sidebarBefore = await width(sidebar(page));
+
+      const handle = (await resizeHandle(page).boundingBox())!;
+      const x = handle.x + handle.width / 2;
+      const y = handle.y + 50;
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x - 100, y, { steps: 5 });
+      await expect
+        .poll(() => width(sidebar(page)))
+        .toBeGreaterThan(sidebarBefore);
+
+      await page.keyboard.press('Escape');
+      await page.mouse.up();
+
+      await expect(sidebar(page)).toBeVisible();
+      await expect
+        .poll(async () =>
+          Math.abs((await width(sidebar(page))) - sidebarBefore)
+        )
+        .toBeLessThanOrEqual(1);
     });
 
     test('the arrow keys on the handle resize the sidebar a column at a time', async ({
