@@ -82,7 +82,7 @@ variable "extra_allowed_hosts" {
 variable "blocked_user_agent_patterns" {
   type        = list(string)
   default     = []
-  description = "Regular expressions matched against the User-Agent; matches are blocked at the end of the ACL and kept out of the WAF logs. Prove on stage before enabling elsewhere."
+  description = "Regular expressions matched against the User-Agent; matches are blocked at the end of the ACL. Prove on stage before enabling elsewhere."
 }
 
 variable "count_hosts" {
