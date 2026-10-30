@@ -36,6 +36,8 @@ export const tokens = {
       light: '#fdf6e3',
       text: '#704c00',
     },
+    // The selected star on a starred toggle, dark enough to read as a graphic on white
+    star: '#a8740a',
     error: {
       main: '#e72343', // ui.red.40
       light: '#fff0f2', // ui.red.10
