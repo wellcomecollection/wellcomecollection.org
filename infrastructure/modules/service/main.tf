@@ -25,6 +25,8 @@ resource "aws_lb_target_group" "http" {
 module "log_router_container" {
   source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v4.0.0"
   namespace = var.namespace
+
+  container_tag = var.log_router_container_tag
 }
 
 module "log_router_container_secrets_permissions" {

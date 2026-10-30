@@ -19,6 +19,9 @@ module "content-prod" {
 module "content-stage" {
   source = "./stack"
 
+  # Canary for aws-for-fluent-bit 3.5.5 (wellcomecollection/platform-infrastructure#612).
+  log_router_container_tag = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
+
   environment = data.terraform_remote_state.experience_shared.outputs.stage
   cloudfront_header_secrets = local.cloudfront_header_secrets
 
@@ -39,6 +42,9 @@ module "content-stage" {
 
 module "content-e2e" {
   source = "./stack"
+
+  # Canary for aws-for-fluent-bit 3.5.5 (wellcomecollection/platform-infrastructure#612).
+  log_router_container_tag = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
 
   environment = data.terraform_remote_state.experience_shared.outputs.e2e
   cloudfront_header_secrets = local.cloudfront_header_secrets
