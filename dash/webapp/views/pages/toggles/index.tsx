@@ -34,10 +34,14 @@ import {
   ResetButton,
   SearchInput,
   Section,
+  SectionHeading,
   SectionInner,
+  Subsection,
   TableOfContentsList,
+  TableOfContentsSublist,
 } from './toggles.styles';
 
+// Permanent flags useful to everyone, listed before the Digital team ones.
 const GENERAL_FEATURE_FLAG_IDS = [
   'apiToolbar',
   'toggleWidget',
@@ -475,6 +479,14 @@ const TogglesPage: FunctionComponent = () => {
       })
     : modes;
 
+  const hasPermanent =
+    generalFeatureFlags.length > 0 || permanentFeatureFlags.length > 0;
+  const hasWorkInProgress =
+    experimentalFeatureFlags.length > 0 ||
+    stageFeatureFlags.length > 0 ||
+    filteredPhasedFlags.length > 0 ||
+    filteredAbTests.length > 0;
+
   const totalResults =
     generalFeatureFlags.length +
     permanentFeatureFlags.length +
@@ -537,32 +549,6 @@ const TogglesPage: FunctionComponent = () => {
             </MessageBox>
           )}
 
-          <nav aria-label="Table of contents">
-            <TableOfContentsList role="list">
-              <li>
-                <a href="#general">General</a>
-              </li>
-              <li>
-                <a href="#permanent">Permanent</a>
-              </li>
-              <li>
-                <a href="#wip">Work in progress</a>
-              </li>
-              <li>
-                <a href="#staging">Staging</a>
-              </li>
-              <li>
-                <a href="#phased-flags">Phased flags</a>
-              </li>
-              <li>
-                <a href="#ab-tests">A/B tests</a>
-              </li>
-              <li>
-                <a href="#modes">Modes</a>
-              </li>
-            </TableOfContentsList>
-          </nav>
-
           <label
             htmlFor="toggles-search"
             style={{
@@ -590,6 +576,42 @@ const TogglesPage: FunctionComponent = () => {
             {searchQuery && `Found ${pluralise(totalResults, 'result')}`}
           </p>
 
+          <nav aria-label="Table of contents">
+            <TableOfContentsList role="list">
+              <li>
+                <a href="#permanent">Permanent</a>
+                <TableOfContentsSublist role="list">
+                  <li>
+                    <a href="#general">General</a>
+                  </li>
+                  <li>
+                    <a href="#digital-team">Digital team</a>
+                  </li>
+                </TableOfContentsSublist>
+              </li>
+              <li>
+                <a href="#wip">Work in progress</a>
+                <TableOfContentsSublist role="list">
+                  <li>
+                    <a href="#feature-flags">Feature flags</a>
+                  </li>
+                  <li>
+                    <a href="#phased-flags">Phased flags</a>
+                  </li>
+                  <li>
+                    <a href="#ab-tests">A/B tests</a>
+                  </li>
+                  <li>
+                    <a href="#staging">Staging</a>
+                  </li>
+                </TableOfContentsSublist>
+              </li>
+              <li>
+                <a href="#modes">Modes</a>
+              </li>
+            </TableOfContentsList>
+          </nav>
+
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
             {featureFlags.some(
               flag => toggleStates[flag.id] !== flag.defaultValue
@@ -610,98 +632,116 @@ const TogglesPage: FunctionComponent = () => {
           </div>
         </PageContainer>
 
-        {(generalFeatureFlags.length > 0 || !searchQuery) && (
-          <Section
-            $background="default"
-            aria-labelledby="general"
-            $hasNoTopPadding
-          >
-            <SectionInner>
-              <ListOfToggles
-                title="Feature flags for general use"
-                anchorId="general"
-                description="Permanent flags useful to all users."
-                featureFlags={generalFeatureFlags}
-                toggleStates={toggleStates}
-                setToggleStates={setToggleStates}
-              />
-            </SectionInner>
-          </Section>
-        )}
-
-        {(permanentFeatureFlags.length > 0 || !searchQuery) && (
+        {(hasPermanent || !searchQuery) && (
           <Section $background="light" aria-labelledby="permanent">
             <SectionInner>
-              <ListOfToggles
-                title="Feature flags for Digital team - Permanent"
-                anchorId="permanent"
-                description="Long-lived flags that control established features."
-                featureFlags={permanentFeatureFlags}
-                toggleStates={toggleStates}
-                setToggleStates={setToggleStates}
-              />
+              <SectionHeading id="permanent">
+                Permanent
+                <a href="#permanent" aria-label="Link to Permanent section">
+                  <span aria-hidden="true">#</span>
+                </a>
+              </SectionHeading>
+              <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
+                Long-lived flags that control established features.
+              </p>
+
+              {(generalFeatureFlags.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={generalFeatureFlags.length === 0}>
+                  <ListOfToggles
+                    title="General"
+                    anchorId="general"
+                    description="Useful to all users."
+                    featureFlags={generalFeatureFlags}
+                    toggleStates={toggleStates}
+                    setToggleStates={setToggleStates}
+                  />
+                </Subsection>
+              )}
+
+              {(permanentFeatureFlags.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={permanentFeatureFlags.length === 0}>
+                  <ListOfToggles
+                    title="Digital team"
+                    anchorId="digital-team"
+                    description="For the Digital team's own work."
+                    featureFlags={permanentFeatureFlags}
+                    toggleStates={toggleStates}
+                    setToggleStates={setToggleStates}
+                  />
+                </Subsection>
+              )}
             </SectionInner>
           </Section>
         )}
 
-        {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
+        {(hasWorkInProgress || !searchQuery) && (
           <Section $background="alt" aria-labelledby="wip">
             <SectionInner>
-              <ListOfToggles
-                title="Feature flags for Digital team - Work in progress"
-                anchorId="wip"
-                description="Experimental flags for features currently in development."
-                featureFlags={experimentalFeatureFlags}
-                toggleStates={toggleStates}
-                setToggleStates={setToggleStates}
-              />
-            </SectionInner>
-          </Section>
-        )}
+              <SectionHeading id="wip">
+                Work in progress
+                <a href="#wip" aria-label="Link to Work in progress section">
+                  <span aria-hidden="true">#</span>
+                </a>
+              </SectionHeading>
+              <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
+                Everything still being built or tested, before it becomes
+                permanent.
+              </p>
 
-        {(stageFeatureFlags.length > 0 || !searchQuery) && (
-          <Section $background="light" aria-labelledby="staging">
-            <SectionInner>
-              <ListOfToggles
-                title="Feature flags for Digital team - Staging"
-                anchorId="staging"
-                description="These flags are only active on the staging environment (www-stage)."
-                featureFlags={stageFeatureFlags}
-                toggleStates={toggleStates}
-                setToggleStates={setToggleStates}
-              />
-            </SectionInner>
-          </Section>
-        )}
+              {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={experimentalFeatureFlags.length === 0}>
+                  <ListOfToggles
+                    title="Feature flags"
+                    anchorId="feature-flags"
+                    description="Experimental flags for features currently in development."
+                    featureFlags={experimentalFeatureFlags}
+                    toggleStates={toggleStates}
+                    setToggleStates={setToggleStates}
+                  />
+                </Subsection>
+              )}
 
-        {(filteredPhasedFlags.length > 0 || !searchQuery) && (
-          <Section $background="alt" aria-labelledby="phased-flags">
-            <SectionInner>
-              <PhasedFlags
-                phasedFlags={filteredPhasedFlags}
-                phasedFlagStates={phasedFlagStates}
-                setPhasedFlagStates={setPhasedFlagStates}
-                onReset={resetPhasedFlags}
-              />
-            </SectionInner>
-          </Section>
-        )}
+              {(stageFeatureFlags.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={stageFeatureFlags.length === 0}>
+                  <ListOfToggles
+                    title="Staging"
+                    anchorId="staging"
+                    description="These flags are only active on the staging environment (www-stage)."
+                    emptyMessage="No staging-only flags right now."
+                    featureFlags={stageFeatureFlags}
+                    toggleStates={toggleStates}
+                    setToggleStates={setToggleStates}
+                  />
+                </Subsection>
+              )}
 
-        {(filteredAbTests.length > 0 || !searchQuery) && (
-          <Section $background="light" aria-labelledby="ab-tests">
-            <SectionInner>
-              <ABTests
-                filteredAbTests={filteredAbTests}
-                toggleStates={toggleStates}
-                setToggleStates={setToggleStates}
-                onReset={resetAbTests}
-              />
+              {(filteredPhasedFlags.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={filteredPhasedFlags.length === 0}>
+                  <PhasedFlags
+                    phasedFlags={filteredPhasedFlags}
+                    phasedFlagStates={phasedFlagStates}
+                    setPhasedFlagStates={setPhasedFlagStates}
+                    onReset={resetPhasedFlags}
+                  />
+                </Subsection>
+              )}
+
+              {(filteredAbTests.length > 0 || !searchQuery) && (
+                <Subsection $isEmpty={filteredAbTests.length === 0}>
+                  <ABTests
+                    filteredAbTests={filteredAbTests}
+                    toggleStates={toggleStates}
+                    setToggleStates={setToggleStates}
+                    onReset={resetAbTests}
+                  />
+                </Subsection>
+              )}
             </SectionInner>
           </Section>
         )}
 
         {(filteredModes.length > 0 || !searchQuery) && (
-          <Section $background="alt" aria-labelledby="modes">
+          <Section $background="light" aria-labelledby="modes">
             <SectionInner>
               <Modes
                 modes={filteredModes}

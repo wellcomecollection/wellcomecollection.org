@@ -8,7 +8,14 @@ import {
   ToggleStates,
 } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
-import { ResetButton, ToggleList, ToggleListItem } from './toggles.styles';
+import {
+  EmptyGroup,
+  ResetButton,
+  SectionHeading,
+  ToggleList,
+  ToggleListItem,
+  ToggleTitle,
+} from './toggles.styles';
 
 const RadioGroup = styled.fieldset`
   border: none;
@@ -52,6 +59,20 @@ const ABTests = ({
   setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
   onReset: () => void;
 }) => {
+  if (filteredAbTests.length === 0) {
+    return (
+      <EmptyGroup>
+        <SectionHeading as="h3" id="ab-tests" $isSubsection $isCompact>
+          A/B tests
+          <a href="#ab-tests" aria-label="Link to this section">
+            #
+          </a>
+        </SectionHeading>
+        <span>No A/B tests running right now.</span>
+      </EmptyGroup>
+    );
+  }
+
   return (
     <>
       <div
@@ -61,12 +82,12 @@ const ABTests = ({
           alignItems: 'center',
         }}
       >
-        <h2 id="ab-tests">
+        <SectionHeading as="h3" id="ab-tests" $isSubsection>
           A/B tests
           <a href="#ab-tests" aria-label="Link to this section">
             #
           </a>
-        </h2>
+        </SectionHeading>
         {filteredAbTests.some(test => toggleStates[test.id] !== undefined) && (
           <ResetButton
             onClick={onReset}
@@ -90,7 +111,8 @@ const ABTests = ({
                 key={toggle.id}
                 style={{ paddingTop: tokens.spacing.sm }}
               >
-                <h3
+                <ToggleTitle
+                  as="h4"
                   style={{
                     marginRight: tokens.spacing.sm,
                     marginBottom: tokens.spacing.xs,
@@ -108,7 +130,7 @@ const ABTests = ({
                     </span>
                   </span>{' '}
                   <ToggleStarButton toggleId={toggle.id} title={toggle.title} />
-                </h3>
+                </ToggleTitle>
 
                 <p>{toggle.description}</p>
 
@@ -166,7 +188,7 @@ const ABTests = ({
           })}
         </ToggleList>
       ) : (
-        <p>None for now, check back later…</p>
+        <p>No A/B tests running right now.</p>
       )}
     </>
   );
