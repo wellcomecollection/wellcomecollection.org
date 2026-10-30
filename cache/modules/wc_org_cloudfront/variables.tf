@@ -79,6 +79,12 @@ variable "extra_allowed_hosts" {
   description = "Hostnames beyond this distribution's aliases that the unrecognised-host block must accept. A web ACL evaluates traffic for every distribution associated with it, so any other distribution sharing this ACL must have its aliases listed here or the rule will 403 them."
 }
 
+variable "blocked_user_agent_patterns" {
+  type        = list(string)
+  default     = []
+  description = "Regular expressions matched against the User-Agent; matches are blocked at the end of the ACL and kept out of the WAF logs. Prove on stage before enabling elsewhere."
+}
+
 variable "count_hosts" {
   type        = set(string)
   default     = []
