@@ -3,6 +3,30 @@ import { createGlobalStyle } from 'styled-components';
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 const GlobalStyles = createGlobalStyle`
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-Regular.woff')
+        format('woff');
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    src:
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-SemiBold.woff2')
+        format('woff2'),
+      url('https://i.wellcomecollection.org/assets/fonts/Inter-SemiBold.woff')
+        format('woff');
+    font-display: swap;
+  }
+
   * {
     box-sizing: border-box;
   }

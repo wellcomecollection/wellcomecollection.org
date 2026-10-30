@@ -1,70 +1,82 @@
 /**
  * Design tokens for dash webapp
- * Colors match the main wellcomecollection.org content app
+ * Colors, font and radii follow the design system's brand update, as
+ * used by the main wellcomecollection.org content app
  * All colors meet WCAG AA contrast requirements (4.5:1 for normal text)
  */
 
 export const tokens = {
   colors: {
-    // Core (from content app)
+    // Core
     white: '#ffffff',
-    black: '#121212',
-    yellow: '#ffce3c',
+    black: '#111a1c', // neutral.80
 
-    // Primary (workspace theme)
-    primary: {
-      main: '#ffce3c', // Workspace yellow
-      dark: '#323232', // Dark text, not yellow-based
-      contrast: '#121212', // Text on yellow background
+    // The menu stays a dark band, in the brand's colours
+    header: {
+      background: '#223438', // neutral.70
+      accent: '#8fc7ff', // blue.30, as the site's nav highlight
     },
 
-    // Semantic colors - using content app validation colors
+    // Primary
+    primary: {
+      main: '#ffee00', // yellow.30
+      dark: '#223438', // neutral.70
+      contrast: '#111a1c', // neutral.80, text on yellow
+    },
+
+    // Semantic colors
     success: {
-      main: '#0b7051', // validation.green from content app
-      light: '#e6f4f1',
-      text: '#0b7051',
+      main: '#2a5250', // teal.50
+      light: '#e9f5f4', // teal.10
+      text: '#2a5250', // teal.50
     },
     warning: {
-      main: '#995200', // Darker orange for contrast
-      light: '#fff0e6',
-      text: '#995200',
+      // A muted amber, so warnings don't read as red or as bright yellow
+      main: '#c4912a',
+      light: '#fdf6e3',
+      text: '#704c00',
     },
+    // The selected star on a starred toggle, dark enough to read as a graphic on white
+    star: '#a8740a',
     error: {
-      main: '#e01b2f', // validation.red from content app
-      light: '#ffebee',
-      text: '#e01b2f',
+      main: '#e72343', // ui.red.40
+      light: '#fff0f2', // ui.red.10
+      text: '#6c131d', // ui.red.60, darker than main for contrast on light
     },
     info: {
-      main: '#27476e', // accent.blue from content app
-      light: '#e1f5fe',
-      text: '#27476e',
+      main: '#0c4783', // blue.60
+      light: '#edf6ff', // blue.10
+      text: '#0c4783', // blue.60
     },
 
-    // UI colors - using content app neutrals
+    // UI colors
     text: {
-      primary: '#121212', // black from content app
-      secondary: '#6a6a6a', // neutral.600 from content app
-      disabled: '#8f8f8f', // neutral.500 from content app
+      primary: '#223438', // neutral.70
+      secondary: '#445254', // neutral.60
+      disabled: '#8c9593', // neutral.40
     },
     background: {
       default: '#ffffff',
-      paper: '#fbfaf4', // neutral.200 from content app
-      section: '#edece4', // warmNeutral.300 from content app
+      paper: '#fafbf7', // neutral.05
+      section: '#f5f6ee', // neutral.10
+
+      // Sections alternate between this and `section`
+      tinted: '#d9e3b3', // green.20
     },
     border: {
-      default: '#d9d8d0', // warmNeutral.400 from content app
-      focus: '#ffea00', // focus.yellow from content app
+      default: '#d2d6d0', // neutral.20
+      focus: '#ffee00', // yellow.30
     },
 
     // Status colors
     status: {
-      active: '#0b7051', // validation.green
-      inactive: '#8f8f8f', // neutral.500
+      active: '#2a5250', // teal.50
+      inactive: '#8c9593', // neutral.40
     },
   },
 
   typography: {
-    fontFamily: 'Gadget, sans-serif',
+    fontFamily: 'Inter, sans-serif',
     fontSize: {
       small: '0.875rem', // 14px
       base: '1rem', // 16px
@@ -83,14 +95,14 @@ export const tokens = {
   },
 
   borderRadius: {
-    small: '2px',
-    medium: '4px',
-    large: '8px',
+    small: '0.25rem', // border-radius.sm
+    medium: '0.5rem', // border-radius.md
+    large: '1rem', // border-radius.lg
     full: '50%',
   },
 
   focus: {
-    outline: '0.3rem double #121212',
+    outline: '0.3rem double #223438', // neutral.70
     boxShadow: '0 0 0 0.3rem #ffffff',
   },
 } as const;
