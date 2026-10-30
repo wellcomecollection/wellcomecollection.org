@@ -9,7 +9,10 @@ import {
 import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import { containerPadding } from '@weco/common/views/themes/config';
+import {
+  containerEdge,
+  containerPadding,
+} from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
@@ -24,11 +27,6 @@ const ResultsLayout = styled.div`
   border-top: 1px solid ${props => props.theme.color('neutral.300')};
   border-bottom: 1px solid ${props => props.theme.color('neutral.300')};
 `;
-
-// Where the content of a Container starts: half of the space left either side
-// of its max width, plus its own padding, which is a share of the parent's width
-const containerEdge = (maxWidth: string) =>
-  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 // Keeps the pagination at the bottom of the results column, which is as tall as the sidebar
 const PaginationArea = styled.div`

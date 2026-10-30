@@ -157,6 +157,75 @@ describe('ImageSidebar', () => {
     });
   });
 
+  describe('resizing', () => {
+    afterEach(() => jest.useRealTimers());
+    afterEach(() => document.getElementById(expandedImage.id)?.remove());
+    const handle = () =>
+      screen.getByRole('separator', { name: 'Resize image details' });
+    const sidebarColumns = () =>
+      screen
+        .getByRole('region', { name: 'Image details' })
+        .style.getPropertyValue('--sidebar-columns');
+
+    it('starts at 6 of the 12 columns', async () => {
+      await renderSidebar(expandedImage);
+
+      expect(handle()).toHaveAttribute('aria-valuetext', '6 of 12 columns');
+      expect(sidebarColumns()).toBe('6');
+    });
+
+    it('the arrow keys move it a column at a time, from 3 to 9 columns', async () => {
+      await renderSidebar(expandedImage);
+      act(() => handle().focus());
+
+      await userEvent.keyboard('{ArrowLeft}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '7');
+      expect(sidebarColumns()).toBe('7');
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '5');
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '3');
+
+      await userEvent.keyboard('{End}{ArrowLeft}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '9');
+
+      await userEvent.keyboard('{Home}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '3');
+    });
+
+    it('keeps its width when another image is chosen, and goes back to the default once closed', async () => {
+      jest.useFakeTimers();
+      const { select } = await renderSidebar(expandedImage);
+      act(() => handle().focus());
+      await userEvent.keyboard('{ArrowLeft}', { delay: null });
+
+      await select({ ...expandedImage, id: 'imageB' });
+      expect(sidebarColumns()).toBe('7');
+
+      await select(undefined);
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      await select(expandedImage);
+      expect(sidebarColumns()).toBe('6');
+    });
+
+    it('Shift+Tab from it goes to the selected thumbnail', async () => {
+      const thumbnail = document.createElement('a');
+      thumbnail.id = expandedImage.id;
+      thumbnail.href = '#';
+      document.body.appendChild(thumbnail);
+      await renderSidebar(expandedImage);
+      act(() => handle().focus());
+
+      await userEvent.tab({ shift: true });
+
+      expect(thumbnail).toHaveFocus();
+    });
+  });
+
   describe('focus', () => {
     // Focus is moved after a timer (see the sidebar), so the timers are ours to run
     beforeEach(() => jest.useFakeTimers());

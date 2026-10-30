@@ -496,6 +496,11 @@ const breakpointNames = ['zero', 'sm', 'md'];
 export const containerPadding = '5%';
 const containerPaddingVw = '5vw';
 
+// Where the content of a Container starts: half of the space left either side
+// of its max width, plus its own padding, which is a share of the parent's width
+export const containerEdge = (maxWidth: string) =>
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
+
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
 const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
