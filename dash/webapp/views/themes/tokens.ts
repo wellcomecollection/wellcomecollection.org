@@ -69,7 +69,6 @@ export const tokens = {
       small: '0.875rem', // 14px
       base: '1rem', // 16px
       large: '1.125rem', // 18px
-      h4: '1.25rem', // 20px
       h3: '1.25rem', // 20px
       h2: '1.75rem', // 28px
     },

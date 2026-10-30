@@ -31,15 +31,19 @@ import PhasedFlags from './toggles.PhasedFlags';
 import { ToggleStarProvider } from './toggles.StarContext';
 import {
   MessageBox,
+  MessageClose,
+  MessageRegion,
+  MessageTimer,
   ResetButton,
   SearchInput,
   Section,
   SectionHeading,
   SectionInner,
-  Subsection,
   TableOfContentsList,
   TableOfContentsSublist,
 } from './toggles.styles';
+
+const MESSAGE_TIMEOUT_MS = 20_000;
 
 // Permanent flags useful to everyone, listed before the Digital team ones.
 const GENERAL_FEATURE_FLAG_IDS = [
@@ -171,6 +175,20 @@ const TogglesPage: FunctionComponent = () => {
         })
       );
   }, []);
+
+  // Changes with each new message so the timer line on it starts over
+  const [messageKey, setMessageKey] = useState(0);
+  useEffect(() => {
+    setMessageKey(key => key + 1);
+  }, [message]);
+
+  // Messages float, so clear them after a while. Errors stay until
+  // dismissed - e.g. a failed load would otherwise leave a blank page.
+  useEffect(() => {
+    if (!message || message.isError) return;
+    const timeout = setTimeout(() => setMessage(null), MESSAGE_TIMEOUT_MS);
+    return () => clearTimeout(timeout);
+  }, [message]);
 
   // Scroll to hash anchor after data loads (sections aren't in the DOM on first render)
   useEffect(() => {
@@ -324,6 +342,24 @@ const TogglesPage: FunctionComponent = () => {
     [featureFlags]
   );
 
+  const resetFlagGroup = useCallback(
+    (flags: FeatureFlag[], groupTitle: string) => {
+      setToggleStates(prev => {
+        const next = { ...prev };
+        for (const { id, defaultValue } of flags) {
+          deleteCookieCustom(id);
+          next[id] = defaultValue;
+        }
+        return next;
+      });
+      setMessage({
+        text: `${groupTitle} flags have been reset to their default values.`,
+        isError: false,
+      });
+    },
+    []
+  );
+
   const resetAbTests = useCallback(() => {
     setToggleStates(prev => {
       const next = { ...prev };
@@ -347,6 +383,26 @@ const TogglesPage: FunctionComponent = () => {
       isError: false,
     });
   }, [phasedFlags]);
+
+  const resetModes = useCallback(() => {
+    modes.forEach(mode => deleteCookieCustom(mode.id));
+    setModeStates({});
+    setMessage({
+      text: 'All modes have been reset.',
+      isError: false,
+    });
+  }, [modes]);
+
+  const resetEverything = useCallback(() => {
+    reset();
+    resetAbTests();
+    resetPhasedFlags();
+    resetModes();
+    setMessage({
+      text: 'Everything has been reset to its default.',
+      isError: false,
+    });
+  }, [reset, resetAbTests, resetPhasedFlags, resetModes]);
 
   const resetFeatureAndPhasedFlags = useCallback(() => {
     reset();
@@ -501,6 +557,12 @@ const TogglesPage: FunctionComponent = () => {
   // default if they haven't set one.
   const toggleWidgetEnabled = toggleStates['toggleWidget'] ?? false;
 
+  const hasOverrides =
+    featureFlags.some(flag => toggleStates[flag.id] !== flag.defaultValue) ||
+    abTests.some(test => toggleStates[test.id] !== undefined) ||
+    Object.keys(phasedFlagStates).length > 0 ||
+    Object.keys(modeStates).length > 0;
+
   const handleToggleStar = useCallback((id: string) => {
     setStarredIds(prev => {
       const isRemoving = prev.includes(id);
@@ -537,17 +599,6 @@ const TogglesPage: FunctionComponent = () => {
               a script.
             </PageDescription>
           </PageHeader>
-
-          {message && (
-            <MessageBox
-              $isError={message.isError}
-              $isEnabled={message.isEnabled}
-              role="status"
-              aria-live="polite"
-            >
-              {message.text}
-            </MessageBox>
-          )}
 
           <label
             htmlFor="toggles-search"
@@ -613,75 +664,67 @@ const TogglesPage: FunctionComponent = () => {
           </nav>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {featureFlags.some(
-              flag => toggleStates[flag.id] !== flag.defaultValue
-            ) && (
+            {hasOverrides && (
               <ResetButton
-                onClick={() => {
-                  reset();
-                  setMessage({
-                    text: 'All feature flags have been reset to their default values.',
-                    isError: false,
-                  });
-                }}
-                aria-label="Reset all feature flags to default values"
+                onClick={resetEverything}
+                aria-label="Reset all toggles to their defaults"
               >
-                Reset feature flags to defaults
+                Reset everything to defaults
               </ResetButton>
             )}
           </div>
         </PageContainer>
 
         {(hasPermanent || !searchQuery) && (
-          <Section $background="light" aria-labelledby="permanent">
+          <Section
+            $background={tokens.colors.background.paper}
+            aria-labelledby="permanent"
+          >
             <SectionInner>
               <SectionHeading id="permanent">
-                Permanent
-                <a href="#permanent" aria-label="Link to Permanent section">
-                  <span aria-hidden="true">#</span>
-                </a>
+                <a href="#permanent">Permanent</a>
               </SectionHeading>
               <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
                 Long-lived flags that control established features.
               </p>
 
               {(generalFeatureFlags.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={generalFeatureFlags.length === 0}>
-                  <ListOfToggles
-                    title="General"
-                    anchorId="general"
-                    description="Useful to all users."
-                    featureFlags={generalFeatureFlags}
-                    toggleStates={toggleStates}
-                    setToggleStates={setToggleStates}
-                  />
-                </Subsection>
+                <ListOfToggles
+                  title="General"
+                  onReset={() => resetFlagGroup(generalFeatureFlags, 'General')}
+                  anchorId="general"
+                  description="Useful to all users."
+                  featureFlags={generalFeatureFlags}
+                  toggleStates={toggleStates}
+                  setToggleStates={setToggleStates}
+                />
               )}
 
               {(permanentFeatureFlags.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={permanentFeatureFlags.length === 0}>
-                  <ListOfToggles
-                    title="Digital team"
-                    anchorId="digital-team"
-                    description="For the Digital team's own work."
-                    featureFlags={permanentFeatureFlags}
-                    toggleStates={toggleStates}
-                    setToggleStates={setToggleStates}
-                  />
-                </Subsection>
+                <ListOfToggles
+                  title="Digital team"
+                  onReset={() =>
+                    resetFlagGroup(permanentFeatureFlags, 'Digital team')
+                  }
+                  anchorId="digital-team"
+                  description="For the Digital team's own work."
+                  featureFlags={permanentFeatureFlags}
+                  toggleStates={toggleStates}
+                  setToggleStates={setToggleStates}
+                />
               )}
             </SectionInner>
           </Section>
         )}
 
         {(hasWorkInProgress || !searchQuery) && (
-          <Section $background="alt" aria-labelledby="wip">
+          <Section
+            $background={tokens.colors.background.section}
+            aria-labelledby="wip"
+          >
             <SectionInner>
               <SectionHeading id="wip">
-                Work in progress
-                <a href="#wip" aria-label="Link to Work in progress section">
-                  <span aria-hidden="true">#</span>
-                </a>
+                <a href="#wip">Work in progress</a>
               </SectionHeading>
               <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
                 Everything still being built or tested, before it becomes
@@ -689,73 +732,93 @@ const TogglesPage: FunctionComponent = () => {
               </p>
 
               {(experimentalFeatureFlags.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={experimentalFeatureFlags.length === 0}>
-                  <ListOfToggles
-                    title="Feature flags"
-                    anchorId="feature-flags"
-                    description="Experimental flags for features currently in development."
-                    featureFlags={experimentalFeatureFlags}
-                    toggleStates={toggleStates}
-                    setToggleStates={setToggleStates}
-                  />
-                </Subsection>
+                <ListOfToggles
+                  title="Feature flags"
+                  onReset={() =>
+                    resetFlagGroup(experimentalFeatureFlags, 'Feature')
+                  }
+                  anchorId="feature-flags"
+                  description="Experimental flags for features currently in development."
+                  featureFlags={experimentalFeatureFlags}
+                  toggleStates={toggleStates}
+                  setToggleStates={setToggleStates}
+                />
               )}
 
               {(stageFeatureFlags.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={stageFeatureFlags.length === 0}>
-                  <ListOfToggles
-                    title="Staging"
-                    anchorId="staging"
-                    description="These flags are only active on the staging environment (www-stage)."
-                    emptyMessage="No staging-only flags right now."
-                    featureFlags={stageFeatureFlags}
-                    toggleStates={toggleStates}
-                    setToggleStates={setToggleStates}
-                  />
-                </Subsection>
+                <ListOfToggles
+                  title="Staging"
+                  onReset={() => resetFlagGroup(stageFeatureFlags, 'Staging')}
+                  anchorId="staging"
+                  description="These flags are only active on the staging environment (www-stage)."
+                  emptyMessage="No staging-only flags right now."
+                  featureFlags={stageFeatureFlags}
+                  toggleStates={toggleStates}
+                  setToggleStates={setToggleStates}
+                />
               )}
 
               {(filteredPhasedFlags.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={filteredPhasedFlags.length === 0}>
-                  <PhasedFlags
-                    phasedFlags={filteredPhasedFlags}
-                    phasedFlagStates={phasedFlagStates}
-                    setPhasedFlagStates={setPhasedFlagStates}
-                    onReset={resetPhasedFlags}
-                  />
-                </Subsection>
+                <PhasedFlags
+                  phasedFlags={filteredPhasedFlags}
+                  phasedFlagStates={phasedFlagStates}
+                  setPhasedFlagStates={setPhasedFlagStates}
+                  onReset={resetPhasedFlags}
+                />
               )}
 
               {(filteredAbTests.length > 0 || !searchQuery) && (
-                <Subsection $isEmpty={filteredAbTests.length === 0}>
-                  <ABTests
-                    filteredAbTests={filteredAbTests}
-                    toggleStates={toggleStates}
-                    setToggleStates={setToggleStates}
-                    onReset={resetAbTests}
-                  />
-                </Subsection>
+                <ABTests
+                  filteredAbTests={filteredAbTests}
+                  toggleStates={toggleStates}
+                  setToggleStates={setToggleStates}
+                  onReset={resetAbTests}
+                />
               )}
             </SectionInner>
           </Section>
         )}
 
         {(filteredModes.length > 0 || !searchQuery) && (
-          <Section $background="light" aria-labelledby="modes">
+          <Section
+            $background={tokens.colors.background.paper}
+            aria-labelledby="modes"
+          >
             <SectionInner>
               <Modes
                 modes={filteredModes}
                 modeStates={modeStates}
                 setModeStates={setModeStates}
-                onReset={() => {
-                  modes.forEach(mode => deleteCookieCustom(mode.id));
-                  setModeStates({});
-                }}
+                onReset={resetModes}
               />
             </SectionInner>
           </Section>
         )}
       </main>
+
+      <MessageRegion role="status" aria-live="polite">
+        {message && (
+          <MessageBox
+            key={messageKey}
+            $isError={message.isError}
+            $isEnabled={message.isEnabled}
+          >
+            <span>{message.text}</span>
+            <MessageClose
+              onClick={() => setMessage(null)}
+              aria-label="Dismiss message"
+            >
+              <span aria-hidden="true">×</span>
+            </MessageClose>
+            {!message.isError && (
+              <MessageTimer
+                $durationMs={MESSAGE_TIMEOUT_MS}
+                aria-hidden="true"
+              />
+            )}
+          </MessageBox>
+        )}
+      </MessageRegion>
     </ToggleStarProvider>
   );
 };
