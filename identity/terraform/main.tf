@@ -23,6 +23,9 @@ module "identity-prod" {
 module "identity-stage" {
   source = "./stack"
 
+  # Canary for aws-for-fluent-bit 3.5.5 (wellcomecollection/platform-infrastructure#612).
+  log_router_container_tag = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
+
   container_image = local.stage_app_image
   env_suffix      = "stage"
 
@@ -50,6 +53,9 @@ module "identity-stage" {
 
 module "identity-e2e" {
   source = "./stack"
+
+  # Canary for aws-for-fluent-bit 3.5.5 (wellcomecollection/platform-infrastructure#612).
+  log_router_container_tag = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
 
   container_image = local.e2e_app_image
   env_suffix      = "e2e"
