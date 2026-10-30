@@ -5,12 +5,16 @@ import { tokens } from '@weco/dash/views/themes/tokens';
 import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
 import ToggleStarButton from '../toggles.StarButton';
 import {
+  EmptyGroup,
+  SectionHeading,
+  ToggleBadge,
   ToggleControls,
   ToggleHeadingRow,
   ToggleInfo,
   ToggleList,
   ToggleListItem,
   ToggleRow,
+  ToggleTitle,
 } from '../toggles.styles';
 import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles.StatusBadge';
@@ -21,6 +25,7 @@ type ListOfTogglesProps = {
   title: string;
   anchorId: string;
   description?: string;
+  emptyMessage?: string;
   featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
@@ -30,23 +35,38 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   title,
   anchorId,
   description,
+  emptyMessage = 'None for now, check back later…',
   featureFlags,
   toggleStates,
   setToggleStates,
-}) => (
-  <>
-    <h2 id={anchorId}>
+}) => {
+  const isEmpty = featureFlags.length === 0;
+  const heading = (
+    <SectionHeading as="h3" $isCompact={isEmpty} id={anchorId} $isSubsection>
       {title}
       <a href={`#${anchorId}`} aria-label={`Link to ${title} section`}>
         <span aria-hidden="true">#</span>
       </a>
-    </h2>
-    {description && (
-      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-        {description}
-      </p>
-    )}
-    {featureFlags.length > 0 ? (
+    </SectionHeading>
+  );
+
+  if (isEmpty) {
+    return (
+      <EmptyGroup>
+        {heading}
+        <span>{emptyMessage}</span>
+      </EmptyGroup>
+    );
+  }
+
+  return (
+    <>
+      {heading}
+      {description && (
+        <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
+          {description}
+        </p>
+      )}
       <ToggleList role="list">
         {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
@@ -64,27 +84,27 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateCreated={toggle.dateCreated}
                       dateActivated={toggle.dateActivated}
                     >
-                      <h3
-                        style={{ margin: 0, display: 'inline' }}
+                      <ToggleTitle
+                        as="h4"
+                        style={{ display: 'inline' }}
                         aria-labelledby={`heading-${toggle.id}`}
                       >
                         <span id={`heading-${toggle.id}`}>{toggle.title}</span>
-                      </h3>
+                      </ToggleTitle>
                     </ToggleDates>
                     <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
                     <ToggleStarButton
                       toggleId={toggle.id}
                       title={toggle.title}
                     />
+                    <ToggleBadge>
+                      <StatusBadge
+                        active={toggle.defaultValue}
+                        activeLabel="Public"
+                        inactiveLabel="Internal"
+                      />
+                    </ToggleBadge>
                   </ToggleHeadingRow>
-
-                  <div style={{ marginBottom: tokens.spacing.xs }}>
-                    <StatusBadge
-                      active={toggle.defaultValue}
-                      activeLabel="Public"
-                      inactiveLabel="Internal"
-                    />
-                  </div>
 
                   <p
                     style={{
@@ -142,10 +162,8 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
           );
         })}
       </ToggleList>
-    ) : (
-      <p>None for now, check back later…</p>
-    )}
-  </>
-);
+    </>
+  );
+};
 
 export default ListOfToggles;

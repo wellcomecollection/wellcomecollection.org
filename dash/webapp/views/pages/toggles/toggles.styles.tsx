@@ -1,15 +1,39 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 export const TableOfContentsList = styled.ul`
   list-style: none;
-  margin: 0 0 ${tokens.spacing.lg} 0;
+  margin: 0 0 ${tokens.spacing.md};
   padding: 0;
   display: flex;
-  gap: ${tokens.spacing.md};
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: ${tokens.spacing.xs};
+  font-size: ${tokens.typography.fontSize.small};
+
+  > li > a {
+    font-weight: 600;
+  }
+`;
+
+/** The subsection links that follow a top-level one, inline and dot-separated. */
+export const TableOfContentsSublist = styled.ul`
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: inline;
+  }
+
+  > li::before {
+    content: ' · ';
+  }
+
+  &::before {
+    content: ': ';
+  }
 `;
 
 export const ResetButton = styled.button`
@@ -95,45 +119,92 @@ export const SectionInner = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 0 ${tokens.spacing.xl};
+`;
 
-  h2 {
-    margin-top: 0;
-    margin-bottom: ${tokens.spacing.md};
-    font-size: ${tokens.typography.fontSize.h4};
-    scroll-margin-top: 60px;
+/** A group within a section, boxed so it stands apart from its siblings. */
+export const Subsection = styled.div<{ $isEmpty?: boolean }>`
+  ${props =>
+    props.$isEmpty
+      ? css`
+          padding: ${tokens.spacing.sm} ${tokens.spacing.lg};
+        `
+      : css`
+          background: ${tokens.colors.background.default};
+          border: 1px solid ${tokens.colors.border.default};
+          border-radius: ${tokens.borderRadius.large};
+          padding: ${tokens.spacing.lg};
+        `}
 
-    a {
-      color: ${tokens.colors.info.main};
-      text-decoration: none;
-      margin-left: ${tokens.spacing.xs};
+  & + & {
+    margin-top: ${tokens.spacing.md};
+  }
+`;
 
-      &:hover {
-        text-decoration: underline;
-      }
+/** A group with nothing in it: its heading and a short message on one line. */
+export const EmptyGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: ${tokens.spacing.xs} ${tokens.spacing.md};
+  color: ${tokens.colors.text.secondary};
+`;
+
+/**
+ * A section (h2) or subsection (h3) heading with an anchor link. Render with
+ * `as` to set the heading level.
+ */
+export const SectionHeading = styled.h2<{
+  $isSubsection?: boolean;
+  $isCompact?: boolean;
+}>`
+  margin-top: 0;
+  margin-bottom: ${props => (props.$isCompact ? '0' : tokens.spacing.md)};
+  font-size: ${props => {
+    if (props.$isCompact) return tokens.typography.fontSize.base;
+    return props.$isSubsection
+      ? tokens.typography.fontSize.h3
+      : tokens.typography.fontSize.h2;
+  }};
+  scroll-margin-top: 60px;
+
+  a {
+    color: ${tokens.colors.info.main};
+    text-decoration: none;
+    margin-left: ${tokens.spacing.xs};
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 `;
 
+/** The name of an individual toggle. Render with `as` to set the heading level. */
+export const ToggleTitle = styled.h3`
+  margin: 0;
+  font-size: ${tokens.typography.fontSize.base};
+`;
+
 export const ToggleRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: ${tokens.spacing.md};
+  flex-direction: column;
+  gap: ${tokens.spacing.sm};
   margin-bottom: ${tokens.spacing.md};
 `;
 
 export const ToggleInfo = styled.div`
-  flex: 1;
   min-width: 0;
-  max-width: 500px;
+
+  /* Keep prose a readable length while the heading row (and its badge) spans the card */
+  p {
+    max-width: 70ch;
+  }
 `;
 
 export const ToggleControls = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: ${tokens.spacing.xs};
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${tokens.spacing.sm};
 `;
 
 export const ToggleList = styled.ul`
@@ -150,9 +221,15 @@ export const ToggleListItem = styled.li`
 
 export const ToggleHeadingRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: ${tokens.spacing.sm};
   margin-bottom: ${tokens.spacing.xs};
+`;
+
+/** Pushes a toggle's status badge to the right of its heading row. */
+export const ToggleBadge = styled.div`
+  margin-left: auto;
 `;
 
 export const MessageBox = styled.p<{
