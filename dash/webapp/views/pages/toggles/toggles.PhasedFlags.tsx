@@ -162,7 +162,7 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
       Object.keys(phasedFlagStates).length > 0
         ? {
             label: 'Reset all phases to defaults',
-            ariaLabel: 'Reset all phased flags to their public phase',
+            ariaLabel: 'Reset all phases to defaults for phased flags',
             onClick: onReset,
           }
         : undefined
