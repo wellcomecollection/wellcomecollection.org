@@ -647,13 +647,13 @@ const TogglesPage: FunctionComponent = () => {
                     <a href="#feature-flags">Feature flags</a>
                   </li>
                   <li>
+                    <a href="#staging">Staging</a>
+                  </li>
+                  <li>
                     <a href="#phased-flags">Phased flags</a>
                   </li>
                   <li>
                     <a href="#ab-tests">A/B tests</a>
-                  </li>
-                  <li>
-                    <a href="#staging">Staging</a>
                   </li>
                 </TableOfContentsSublist>
               </li>
