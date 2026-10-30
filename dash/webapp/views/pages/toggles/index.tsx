@@ -647,10 +647,10 @@ const TogglesPage: FunctionComponent = () => {
                     <a href="#feature-flags">Feature flags</a>
                   </li>
                   <li>
-                    <a href="#staging">Staging</a>
+                    <a href="#phased-flags">Phased flags</a>
                   </li>
                   <li>
-                    <a href="#phased-flags">Phased flags</a>
+                    <a href="#staging">Staging</a>
                   </li>
                   <li>
                     <a href="#ab-tests">A/B tests</a>
@@ -745,6 +745,15 @@ const TogglesPage: FunctionComponent = () => {
                 />
               )}
 
+              {(filteredPhasedFlags.length > 0 || !searchQuery) && (
+                <PhasedFlags
+                  phasedFlags={filteredPhasedFlags}
+                  phasedFlagStates={phasedFlagStates}
+                  setPhasedFlagStates={setPhasedFlagStates}
+                  onReset={resetPhasedFlags}
+                />
+              )}
+
               {(stageFeatureFlags.length > 0 || !searchQuery) && (
                 <ListOfToggles
                   title="Staging"
@@ -755,15 +764,6 @@ const TogglesPage: FunctionComponent = () => {
                   featureFlags={stageFeatureFlags}
                   toggleStates={toggleStates}
                   setToggleStates={setToggleStates}
-                />
-              )}
-
-              {(filteredPhasedFlags.length > 0 || !searchQuery) && (
-                <PhasedFlags
-                  phasedFlags={filteredPhasedFlags}
-                  phasedFlagStates={phasedFlagStates}
-                  setPhasedFlagStates={setPhasedFlagStates}
-                  onReset={resetPhasedFlags}
                 />
               )}
 
