@@ -6,12 +6,10 @@ import { PublishedPhasedFlag } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
+import Group from './toggles.Group';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
 import {
-  EmptyGroup,
-  ResetButton,
-  SectionHeading,
   ToggleBadge,
   ToggleHeadingRow,
   ToggleInfo,
@@ -154,194 +152,164 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
   phasedFlagStates,
   setPhasedFlagStates,
   onReset,
-}) =>
-  phasedFlags.length === 0 ? (
-    <EmptyGroup>
-      <SectionHeading as="h3" id="phased-flags" $isSubsection $isCompact>
-        Phased flags
-        <a href="#phased-flags" aria-label="Link to this section">
-          <span aria-hidden="true">#</span>
-        </a>
-      </SectionHeading>
-      <span>None for now, check back later…</span>
-    </EmptyGroup>
-  ) : (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <SectionHeading as="h3" id="phased-flags" $isSubsection>
-          Phased flags
-          <a href="#phased-flags" aria-label="Link to this section">
-            <span aria-hidden="true">#</span>
-          </a>
-        </SectionHeading>
-        {Object.keys(phasedFlagStates).length > 0 && (
-          <ResetButton
-            onClick={onReset}
-            aria-label="Reset all phased flags to their public phase"
-          >
-            Reset all phases to defaults
-          </ResetButton>
-        )}
-      </div>
-      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-        Like a feature flag, but with an ordered set of phases instead of on/off
-        - selecting a phase always includes every phase before it.
-      </p>
-      {phasedFlags.length > 0 ? (
-        <ToggleList role="list">
-          {phasedFlags.map(flag => {
-            const currentPhase = currentPhaseFor(flag, phasedFlagStates);
-            const publicPhase = flag.phases.find(
-              phase => phase.id === flag.defaultPhase
-            );
-            const currentPhaseIndex = flag.phases.findIndex(
-              phase => phase.id === currentPhase
-            );
-            // Distinct from "currentPhase happens to match flag.defaultPhase" -
-            // this tracks whether an override cookie actually exists, so an
-            // explicit pin to the public phase doesn't look identical to never
-            // having overridden it at all.
-            const hasOverride = flag.id in phasedFlagStates;
+}) => (
+  <Group
+    id="phased-flags"
+    title="Phased flags"
+    description="Like a feature flag, but with an ordered set of phases instead of on/off - selecting a phase always includes every phase before it."
+    isEmpty={phasedFlags.length === 0}
+    reset={
+      Object.keys(phasedFlagStates).length > 0
+        ? {
+            label: 'Reset all phases to defaults',
+            ariaLabel: 'Reset all phased flags to their public phase',
+            onClick: onReset,
+          }
+        : undefined
+    }
+  >
+    <ToggleList role="list">
+      {phasedFlags.map(flag => {
+        const currentPhase = currentPhaseFor(flag, phasedFlagStates);
+        const publicPhase = flag.phases.find(
+          phase => phase.id === flag.defaultPhase
+        );
+        const currentPhaseIndex = flag.phases.findIndex(
+          phase => phase.id === currentPhase
+        );
+        // Distinct from "currentPhase happens to match flag.defaultPhase" -
+        // this tracks whether an override cookie actually exists, so an
+        // explicit pin to the public phase doesn't look identical to never
+        // having overridden it at all.
+        const hasOverride = flag.id in phasedFlagStates;
 
-            return (
-              <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
-                <ToggleRow>
-                  <ToggleInfo>
-                    <ToggleHeadingRow>
-                      <ToggleTitle as="h4">
-                        <span id={`heading-${flag.id}`}>{flag.title}</span>
-                      </ToggleTitle>
-                      <CopyLinkIcon
-                        toggleId={flag.id}
-                        title={flag.title}
-                        anchor={`toggle-${flag.id}`}
-                      />
-                      <ToggleStarButton toggleId={flag.id} title={flag.title} />
-                      <ToggleBadge>
-                        <StatusBadge
-                          active={flag.defaultPhase !== null}
-                          activeLabel={`Public: ${publicPhase?.label ?? flag.defaultPhase}`}
-                          inactiveLabel="Not yet public"
-                        />
-                      </ToggleBadge>
-                    </ToggleHeadingRow>
+        return (
+          <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
+            <ToggleRow>
+              <ToggleInfo>
+                <ToggleHeadingRow>
+                  <ToggleTitle as="h4">
+                    <span id={`heading-${flag.id}`}>{flag.title}</span>
+                  </ToggleTitle>
+                  <CopyLinkIcon
+                    toggleId={flag.id}
+                    title={flag.title}
+                    anchor={`toggle-${flag.id}`}
+                  />
+                  <ToggleStarButton toggleId={flag.id} title={flag.title} />
+                  <ToggleBadge>
+                    <StatusBadge
+                      active={flag.defaultPhase !== null}
+                      activeLabel={`Public: ${publicPhase?.label ?? flag.defaultPhase}`}
+                      inactiveLabel="Not yet public"
+                    />
+                  </ToggleBadge>
+                </ToggleHeadingRow>
 
-                    <p
-                      style={{
-                        margin: `${tokens.spacing.xs} 0`,
-                        color: tokens.colors.text.secondary,
-                      }}
+                <p
+                  style={{
+                    margin: `${tokens.spacing.xs} 0`,
+                    color: tokens.colors.text.secondary,
+                  }}
+                >
+                  {flag.description}
+                </p>
+
+                {flag.documentationLink && (
+                  <p style={{ margin: `${tokens.spacing.xs} 0` }}>
+                    <a
+                      href={flag.documentationLink}
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      {flag.description}
-                    </p>
+                      Documentation
+                    </a>
+                  </p>
+                )}
+              </ToggleInfo>
 
-                    {flag.documentationLink && (
-                      <p style={{ margin: `${tokens.spacing.xs} 0` }}>
-                        <a
-                          href={flag.documentationLink}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Documentation
-                        </a>
-                      </p>
-                    )}
-                  </ToggleInfo>
+              <PhaseList aria-labelledby={`heading-${flag.id}`}>
+                <PhaseOption $isSelected={!hasOverride}>
+                  <PhaseMarker $state={hasOverride ? 'inactive' : 'current'} />
+                  <span>
+                    <PhaseLabel>Default view</PhaseLabel>
+                    <PhaseDescription>
+                      {publicPhase
+                        ? `What everyone sees: ${publicPhase.label}`
+                        : 'What everyone sees: nothing yet'}
+                    </PhaseDescription>
+                  </span>
+                  <input
+                    type="radio"
+                    name={`phase-${flag.id}`}
+                    checked={!hasOverride}
+                    onChange={() => {
+                      deleteCookieCustom(flag.id);
+                      setPhasedFlagStates(prev => {
+                        const next = { ...prev };
+                        delete next[flag.id];
+                        return next;
+                      });
+                    }}
+                  />
+                </PhaseOption>
 
-                  <PhaseList aria-labelledby={`heading-${flag.id}`}>
-                    <PhaseOption $isSelected={!hasOverride}>
-                      <PhaseMarker
-                        $state={hasOverride ? 'inactive' : 'current'}
-                      />
+                {flag.phases.map((phase, index) => {
+                  const isSelected = hasOverride && currentPhase === phase.id;
+                  // Phases are cumulative - reaching phase 2 means phase 1
+                  // shipped too, so every phase up to and including the
+                  // current one counts as included, and the line between
+                  // markers fills in as far as the next included phase.
+                  const state: PhaseState = isSelected
+                    ? 'current'
+                    : index <= currentPhaseIndex
+                      ? 'included'
+                      : 'inactive';
+                  const isLast = index === flag.phases.length - 1;
+
+                  return (
+                    <PhaseOption
+                      key={phase.id}
+                      $isSelected={isSelected}
+                      $line={
+                        isLast
+                          ? undefined
+                          : index + 1 <= currentPhaseIndex
+                            ? 'active'
+                            : 'inactive'
+                      }
+                    >
+                      <PhaseMarker $state={state} />
                       <span>
-                        <PhaseLabel>Default view</PhaseLabel>
-                        <PhaseDescription>
-                          {publicPhase
-                            ? `What everyone sees: ${publicPhase.label}`
-                            : 'What everyone sees: nothing yet'}
-                        </PhaseDescription>
+                        <PhaseLabel>{phase.label}</PhaseLabel>
+                        {phase.description && (
+                          <PhaseDescription>
+                            {phase.description}
+                          </PhaseDescription>
+                        )}
                       </span>
                       <input
                         type="radio"
                         name={`phase-${flag.id}`}
-                        checked={!hasOverride}
+                        checked={isSelected}
                         onChange={() => {
-                          deleteCookieCustom(flag.id);
-                          setPhasedFlagStates(prev => {
-                            const next = { ...prev };
-                            delete next[flag.id];
-                            return next;
-                          });
+                          setCookieCustom(flag.id, phase.id);
+                          setPhasedFlagStates(prev => ({
+                            ...prev,
+                            [flag.id]: phase.id,
+                          }));
                         }}
                       />
                     </PhaseOption>
-
-                    {flag.phases.map((phase, index) => {
-                      const isSelected =
-                        hasOverride && currentPhase === phase.id;
-                      // Phases are cumulative - reaching phase 2 means phase 1
-                      // shipped too, so every phase up to and including the
-                      // current one counts as included, and the line between
-                      // markers fills in as far as the next included phase.
-                      const state: PhaseState = isSelected
-                        ? 'current'
-                        : index <= currentPhaseIndex
-                          ? 'included'
-                          : 'inactive';
-                      const isLast = index === flag.phases.length - 1;
-
-                      return (
-                        <PhaseOption
-                          key={phase.id}
-                          $isSelected={isSelected}
-                          $line={
-                            isLast
-                              ? undefined
-                              : index + 1 <= currentPhaseIndex
-                                ? 'active'
-                                : 'inactive'
-                          }
-                        >
-                          <PhaseMarker $state={state} />
-                          <span>
-                            <PhaseLabel>{phase.label}</PhaseLabel>
-                            {phase.description && (
-                              <PhaseDescription>
-                                {phase.description}
-                              </PhaseDescription>
-                            )}
-                          </span>
-                          <input
-                            type="radio"
-                            name={`phase-${flag.id}`}
-                            checked={isSelected}
-                            onChange={() => {
-                              setCookieCustom(flag.id, phase.id);
-                              setPhasedFlagStates(prev => ({
-                                ...prev,
-                                [flag.id]: phase.id,
-                              }));
-                            }}
-                          />
-                        </PhaseOption>
-                      );
-                    })}
-                  </PhaseList>
-                </ToggleRow>
-              </ToggleListItem>
-            );
-          })}
-        </ToggleList>
-      ) : (
-        <p>None for now, check back later…</p>
-      )}
-    </>
-  );
+                  );
+                })}
+              </PhaseList>
+            </ToggleRow>
+          </ToggleListItem>
+        );
+      })}
+    </ToggleList>
+  </Group>
+);
 
 export default PhasedFlags;

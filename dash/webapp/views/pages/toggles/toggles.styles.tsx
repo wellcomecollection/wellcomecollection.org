@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
@@ -97,22 +97,9 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const Section = styled.section<{
-  $background?: 'default' | 'light' | 'alt';
-  $hasNoTopPadding?: boolean;
-}>`
-  padding: ${props => (props.$hasNoTopPadding ? '0' : tokens.spacing.xl)} 0
-    ${tokens.spacing.xl};
-  background: ${props => {
-    switch (props.$background) {
-      case 'light':
-        return tokens.colors.background.paper;
-      case 'alt':
-        return tokens.colors.background.section;
-      default:
-        return 'transparent';
-    }
-  }};
+export const Section = styled.section<{ $background?: string }>`
+  padding: ${tokens.spacing.xl} 0;
+  background: ${props => props.$background ?? 'transparent'};
 `;
 
 export const SectionInner = styled.div`
@@ -167,13 +154,26 @@ export const SectionHeading = styled.h2<{
   }};
   scroll-margin-top: 60px;
 
+  /* The heading is its own anchor link; a # shows on hover or focus to say so */
   a {
-    color: ${tokens.colors.info.main};
+    color: inherit;
     text-decoration: none;
-    margin-left: ${tokens.spacing.xs};
 
-    &:hover {
-      text-decoration: underline;
+    &::after {
+      content: '#' / '';
+      margin-left: ${tokens.spacing.xs};
+      color: ${tokens.colors.info.main};
+      opacity: 0;
+      transition: opacity 150ms ease;
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      opacity: 1;
     }
   }
 `;
@@ -232,14 +232,62 @@ export const ToggleBadge = styled.div`
   margin-left: auto;
 `;
 
-export const MessageBox = styled.p<{
+/**
+ * Where messages appear, fixed to the bottom of the viewport so they're seen
+ * wherever the page is scrolled to. Always rendered so screen readers pick up
+ * messages added to it.
+ */
+export const MessageRegion = styled.div`
+  position: fixed;
+  bottom: ${tokens.spacing.lg};
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, calc(100vw - ${tokens.spacing.xl}));
+  z-index: 20;
+  pointer-events: none;
+`;
+
+const shrink = keyframes`
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+`;
+
+/** A line along the bottom of a message that runs out as the message's time does. */
+export const MessageTimer = styled.span<{ $durationMs: number }>`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.4;
+  transform-origin: left;
+  animation: ${shrink} ${props => props.$durationMs}ms linear forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+`;
+
+export const MessageBox = styled.div<{
   $isError?: boolean;
   $isEnabled?: boolean;
 }>`
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: ${tokens.spacing.md};
   padding: ${tokens.spacing.sm} ${tokens.spacing.md};
   margin: 0;
-  border-radius: ${tokens.borderRadius.small};
-  margin-bottom: ${tokens.spacing.md};
+  border-radius: ${tokens.borderRadius.medium};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
   font-weight: bold;
   border: 1px solid
     ${props => {
@@ -260,4 +308,16 @@ export const MessageBox = styled.p<{
       ? tokens.colors.success.text
       : tokens.colors.info.text;
   }};
+`;
+
+export const MessageClose = styled.button`
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 ${tokens.spacing.xs};
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  cursor: pointer;
 `;

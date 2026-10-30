@@ -2,20 +2,14 @@ import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+import Group from './toggles.Group';
 import {
   deleteCookieCustom,
   setCookieCustom,
   ToggleStates,
 } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
-import {
-  EmptyGroup,
-  ResetButton,
-  SectionHeading,
-  ToggleList,
-  ToggleListItem,
-  ToggleTitle,
-} from './toggles.styles';
+import { ToggleList, ToggleListItem, ToggleTitle } from './toggles.styles';
 
 const RadioGroup = styled.fieldset`
   border: none;
@@ -59,138 +53,112 @@ const ABTests = ({
   setToggleStates: React.Dispatch<React.SetStateAction<ToggleStates>>;
   onReset: () => void;
 }) => {
-  if (filteredAbTests.length === 0) {
-    return (
-      <EmptyGroup>
-        <SectionHeading as="h3" id="ab-tests" $isSubsection $isCompact>
-          A/B tests
-          <a href="#ab-tests" aria-label="Link to this section">
-            #
-          </a>
-        </SectionHeading>
-        <span>No A/B tests running right now.</span>
-      </EmptyGroup>
-    );
-  }
+  const hasOverrides = filteredAbTests.some(
+    test => toggleStates[test.id] !== undefined
+  );
 
   return (
-    <>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <SectionHeading as="h3" id="ab-tests" $isSubsection>
-          A/B tests
-          <a href="#ab-tests" aria-label="Link to this section">
-            #
-          </a>
-        </SectionHeading>
-        {filteredAbTests.some(test => toggleStates[test.id] !== undefined) && (
-          <ResetButton
-            onClick={onReset}
-            aria-label="Reset all A/B tests to random allocation"
-          >
-            Reset to random allocation
-          </ResetButton>
-        )}
-      </div>
-      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-        You can opt in to a test, explicitly opt out, or be randomly allocated
-        according to our A/B decision rules.
-      </p>
-
-      {filteredAbTests.length > 0 ? (
-        <ToggleList>
-          {filteredAbTests.map(toggle => {
-            const value = toggleStates[toggle.id];
-            return (
-              <ToggleListItem
-                key={toggle.id}
-                style={{ paddingTop: tokens.spacing.sm }}
+    <Group
+      id="ab-tests"
+      title="A/B tests"
+      description="You can opt in to a test, explicitly opt out, or be randomly allocated according to our A/B decision rules."
+      isEmpty={filteredAbTests.length === 0}
+      emptyMessage="No A/B tests running right now."
+      reset={
+        hasOverrides
+          ? {
+              label: 'Reset to random allocation',
+              ariaLabel: 'Reset all A/B tests to random allocation',
+              onClick: onReset,
+            }
+          : undefined
+      }
+    >
+      <ToggleList>
+        {filteredAbTests.map(toggle => {
+          const value = toggleStates[toggle.id];
+          return (
+            <ToggleListItem
+              key={toggle.id}
+              style={{ paddingTop: tokens.spacing.sm }}
+            >
+              <ToggleTitle
+                as="h4"
+                style={{
+                  marginRight: tokens.spacing.sm,
+                  marginBottom: tokens.spacing.xs,
+                }}
               >
-                <ToggleTitle
-                  as="h4"
-                  style={{
-                    marginRight: tokens.spacing.sm,
-                    marginBottom: tokens.spacing.xs,
-                  }}
-                >
-                  <span id={`toggle-${toggle.id}`}>
-                    {toggle.title}{' '}
-                    <span
-                      style={{
-                        fontSize: tokens.typography.fontSize.small,
-                        color: tokens.colors.text.secondary,
-                      }}
-                    >
-                      ({toggle.range[0]} - {toggle.range[1]})
-                    </span>
-                  </span>{' '}
-                  <ToggleStarButton toggleId={toggle.id} title={toggle.title} />
-                </ToggleTitle>
+                <span id={`toggle-${toggle.id}`}>
+                  {toggle.title}{' '}
+                  <span
+                    style={{
+                      fontSize: tokens.typography.fontSize.small,
+                      color: tokens.colors.text.secondary,
+                    }}
+                  >
+                    ({toggle.range[0]} - {toggle.range[1]})
+                  </span>
+                </span>{' '}
+                <ToggleStarButton toggleId={toggle.id} title={toggle.title} />
+              </ToggleTitle>
 
-                <p>{toggle.description}</p>
+              <p>{toggle.description}</p>
 
-                <RadioGroup aria-labelledby={`toggle-${toggle.id}`}>
-                  <RadioLabel>
-                    <input
-                      type="radio"
-                      name={`ab-${toggle.id}`}
-                      checked={value === true}
-                      onChange={() => {
-                        setCookieCustom(toggle.id, 'true');
-                        setToggleStates(prev => ({
-                          ...prev,
-                          [toggle.id]: true,
-                        }));
-                      }}
-                    />
-                    Count me in
-                  </RadioLabel>
+              <RadioGroup aria-labelledby={`toggle-${toggle.id}`}>
+                <RadioLabel>
+                  <input
+                    type="radio"
+                    name={`ab-${toggle.id}`}
+                    checked={value === true}
+                    onChange={() => {
+                      setCookieCustom(toggle.id, 'true');
+                      setToggleStates(prev => ({
+                        ...prev,
+                        [toggle.id]: true,
+                      }));
+                    }}
+                  />
+                  Count me in
+                </RadioLabel>
 
-                  <RadioLabel>
-                    <input
-                      type="radio"
-                      name={`ab-${toggle.id}`}
-                      checked={value === false}
-                      onChange={() => {
-                        setCookieCustom(toggle.id, 'false');
-                        setToggleStates(prev => ({
-                          ...prev,
-                          [toggle.id]: false,
-                        }));
-                      }}
-                    />
-                    No thanks
-                  </RadioLabel>
+                <RadioLabel>
+                  <input
+                    type="radio"
+                    name={`ab-${toggle.id}`}
+                    checked={value === false}
+                    onChange={() => {
+                      setCookieCustom(toggle.id, 'false');
+                      setToggleStates(prev => ({
+                        ...prev,
+                        [toggle.id]: false,
+                      }));
+                    }}
+                  />
+                  No thanks
+                </RadioLabel>
 
-                  <RadioLabel>
-                    <input
-                      type="radio"
-                      name={`ab-${toggle.id}`}
-                      checked={value === undefined}
-                      onChange={() => {
-                        deleteCookieCustom(toggle.id);
-                        setToggleStates(prev => ({
-                          ...prev,
-                          [toggle.id]: undefined,
-                        }));
-                      }}
-                    />
-                    Randomly allocate me
-                  </RadioLabel>
-                </RadioGroup>
-              </ToggleListItem>
-            );
-          })}
-        </ToggleList>
-      ) : (
-        <p>No A/B tests running right now.</p>
-      )}
-    </>
+                <RadioLabel>
+                  <input
+                    type="radio"
+                    name={`ab-${toggle.id}`}
+                    checked={value === undefined}
+                    onChange={() => {
+                      deleteCookieCustom(toggle.id);
+                      setToggleStates(prev => ({
+                        ...prev,
+                        [toggle.id]: undefined,
+                      }));
+                    }}
+                  />
+                  Randomly allocate me
+                </RadioLabel>
+              </RadioGroup>
+            </ToggleListItem>
+          );
+        })}
+      </ToggleList>
+    </Group>
   );
 };
 

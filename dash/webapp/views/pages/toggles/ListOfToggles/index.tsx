@@ -2,11 +2,10 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+import Group from '../toggles.Group';
 import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
 import ToggleStarButton from '../toggles.StarButton';
 import {
-  EmptyGroup,
-  SectionHeading,
   ToggleBadge,
   ToggleControls,
   ToggleHeadingRow,
@@ -24,8 +23,9 @@ import ToggleSwitch from './ListOfToggles.ToggleSwitch';
 type ListOfTogglesProps = {
   title: string;
   anchorId: string;
-  description?: string;
+  description: string;
   emptyMessage?: string;
+  onReset: () => void;
   featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
@@ -35,38 +35,33 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   title,
   anchorId,
   description,
-  emptyMessage = 'None for now, check back later…',
+  emptyMessage,
+  onReset,
   featureFlags,
   toggleStates,
   setToggleStates,
 }) => {
-  const isEmpty = featureFlags.length === 0;
-  const heading = (
-    <SectionHeading as="h3" $isCompact={isEmpty} id={anchorId} $isSubsection>
-      {title}
-      <a href={`#${anchorId}`} aria-label={`Link to ${title} section`}>
-        <span aria-hidden="true">#</span>
-      </a>
-    </SectionHeading>
+  const hasOverrides = featureFlags.some(
+    flag => toggleStates[flag.id] !== flag.defaultValue
   );
 
-  if (isEmpty) {
-    return (
-      <EmptyGroup>
-        {heading}
-        <span>{emptyMessage}</span>
-      </EmptyGroup>
-    );
-  }
-
   return (
-    <>
-      {heading}
-      {description && (
-        <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-          {description}
-        </p>
-      )}
+    <Group
+      id={anchorId}
+      title={title}
+      description={description}
+      isEmpty={featureFlags.length === 0}
+      emptyMessage={emptyMessage}
+      reset={
+        hasOverrides
+          ? {
+              label: 'Reset to defaults',
+              ariaLabel: `Reset ${title} flags to their default values`,
+              onClick: onReset,
+            }
+          : undefined
+      }
+    >
       <ToggleList role="list">
         {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
@@ -162,7 +157,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
           );
         })}
       </ToggleList>
-    </>
+    </Group>
   );
 };
 

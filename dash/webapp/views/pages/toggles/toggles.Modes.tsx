@@ -96,10 +96,7 @@ const Modes: FunctionComponent<ModesProps> = ({
       }}
     >
       <SectionHeading id="modes">
-        Modes
-        <a href="#modes" aria-label="Link to this section">
-          <span aria-hidden="true">#</span>
-        </a>
+        <a href="#modes">Modes</a>
       </SectionHeading>
       <ResetButton
         onClick={onReset}
