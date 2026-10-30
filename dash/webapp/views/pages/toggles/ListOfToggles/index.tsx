@@ -56,7 +56,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
         hasOverrides
           ? {
               label: 'Reset to defaults',
-              ariaLabel: `Reset ${title} flags to their default values`,
+              ariaLabel: `Reset to defaults for ${title}`,
               onClick: onReset,
             }
           : undefined
