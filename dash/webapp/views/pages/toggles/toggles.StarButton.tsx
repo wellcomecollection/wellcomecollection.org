@@ -43,7 +43,7 @@ const ToggleStarButton: FunctionComponent<ToggleStarButtonProps> = ({
         type="button"
         $color={
           isStarred
-            ? tokens.colors.warning.main
+            ? tokens.colors.star
             : disabled
               ? tokens.colors.text.disabled
               : tokens.colors.text.secondary
