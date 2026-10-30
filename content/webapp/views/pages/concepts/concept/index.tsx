@@ -143,7 +143,7 @@ const ConceptPage: NextPage<Props> = ({
 
             <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [10] }}>
               {shouldDisplayImages && (
-                <StretchWrapper>
+                <StretchWrapper data-in-page-nav-dark>
                   <ImagesResults
                     sectionsData={sectionsData}
                     concept={conceptResponse}
