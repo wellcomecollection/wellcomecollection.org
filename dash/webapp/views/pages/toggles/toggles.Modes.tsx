@@ -5,11 +5,10 @@ import { tokens } from '@weco/dash/views/themes/tokens';
 import { ModeDefinition } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
+import Group from './toggles.Group';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
 import {
-  ResetButton,
-  SectionHeading,
   ToggleControls,
   ToggleHeadingRow,
   ToggleInfo,
@@ -87,141 +86,127 @@ const Modes: FunctionComponent<ModesProps> = ({
   setModeStates,
   onReset,
 }) => (
-  <>
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}
-    >
-      <SectionHeading id="modes">
-        <a href="#modes">Modes</a>
-      </SectionHeading>
-      <ResetButton
-        onClick={onReset}
-        aria-label="Reset all modes to off"
-        disabled={Object.keys(modeStates).length === 0}
-        style={{
-          visibility: Object.keys(modeStates).length > 0 ? 'visible' : 'hidden',
-        }}
-      >
-        Reset all modes
-      </ResetButton>
-    </div>
-    <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-      Modes carry structured data beyond a simple on/off, they might represent
-      different levels of a feature, or a choice between multiple options.
-    </p>
-    {modes.length > 0 ? (
-      <ToggleList>
-        {modes.map(mode => {
-          const rawValue = modeStates[mode.id];
-          const currentValue = mode.options.some(opt => opt.id === rawValue)
-            ? rawValue
-            : '';
+  <Group
+    id="modes"
+    title="Modes"
+    description="Modes carry structured data beyond a simple on/off, they might represent different levels of a feature, or a choice between multiple options."
+    isEmpty={modes.length === 0}
+    reset={
+      Object.keys(modeStates).length > 0
+        ? {
+            label: 'Reset all modes',
+            ariaLabel: 'Reset all modes to defaults',
+            onClick: onReset,
+          }
+        : undefined
+    }
+    isSection
+  >
+    <ToggleList>
+      {modes.map(mode => {
+        const rawValue = modeStates[mode.id];
+        const currentValue = mode.options.some(opt => opt.id === rawValue)
+          ? rawValue
+          : '';
 
-          const selectedOptionDescription = mode.options.find(
-            opt => opt.id === currentValue
-          )?.description;
+        const selectedOptionDescription = mode.options.find(
+          opt => opt.id === currentValue
+        )?.description;
 
-          return (
-            <ToggleListItem key={mode.id}>
-              <ToggleRow>
-                <ToggleInfo>
-                  <ToggleHeadingRow>
-                    <ToggleTitle>
-                      <span id={`mode-${mode.id}`}>{mode.title}</span>
-                    </ToggleTitle>
+        return (
+          <ToggleListItem key={mode.id}>
+            <ToggleRow>
+              <ToggleInfo>
+                <ToggleHeadingRow>
+                  <ToggleTitle>
+                    <span id={`mode-${mode.id}`}>{mode.title}</span>
+                  </ToggleTitle>
+                  <CopyLinkIcon
+                    toggleId={mode.id}
+                    title={mode.title}
+                    anchor={`mode-${mode.id}`}
+                  />
+                  <ToggleStarButton toggleId={mode.id} title={mode.title} />
+                </ToggleHeadingRow>
+              </ToggleInfo>
+
+              <ToggleControls>
+                <ModeControlRow>
+                  <ModeSelect
+                    aria-labelledby={`mode-${mode.id}`}
+                    value={currentValue}
+                    onChange={e => {
+                      const value = e.target.value;
+                      if (value) {
+                        setModeStates(prev => ({
+                          ...prev,
+                          [mode.id]: value,
+                        }));
+                        setCookieCustom(mode.id, value);
+                      } else {
+                        setModeStates(prev => {
+                          const next = { ...prev };
+                          delete next[mode.id];
+                          return next;
+                        });
+                        deleteCookieCustom(mode.id);
+                      }
+                    }}
+                  >
+                    <option value="">
+                      Select a {mode.title.toLowerCase()}
+                    </option>
+                    {mode.options.map(opt => (
+                      <option key={opt.id} value={opt.id}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </ModeSelect>
+                  <span
+                    style={{
+                      visibility: currentValue ? 'visible' : 'hidden',
+                    }}
+                  >
                     <CopyLinkIcon
                       toggleId={mode.id}
                       title={mode.title}
-                      anchor={`mode-${mode.id}`}
+                      modeValue={currentValue}
                     />
-                    <ToggleStarButton toggleId={mode.id} title={mode.title} />
-                  </ToggleHeadingRow>
-                </ToggleInfo>
+                  </span>
+                </ModeControlRow>
+              </ToggleControls>
 
-                <ToggleControls>
-                  <ModeControlRow>
-                    <ModeSelect
-                      aria-labelledby={`mode-${mode.id}`}
-                      value={currentValue}
-                      onChange={e => {
-                        const value = e.target.value;
-                        if (value) {
-                          setModeStates(prev => ({
-                            ...prev,
-                            [mode.id]: value,
-                          }));
-                          setCookieCustom(mode.id, value);
-                        } else {
-                          setModeStates(prev => {
-                            const next = { ...prev };
-                            delete next[mode.id];
-                            return next;
-                          });
-                          deleteCookieCustom(mode.id);
-                        }
-                      }}
-                    >
-                      <option value="">
-                        Select a {mode.title.toLowerCase()}
-                      </option>
-                      {mode.options.map(opt => (
-                        <option key={opt.id} value={opt.id}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </ModeSelect>
-                    <span
-                      style={{
-                        visibility: currentValue ? 'visible' : 'hidden',
-                      }}
-                    >
-                      <CopyLinkIcon
-                        toggleId={mode.id}
-                        title={mode.title}
-                        modeValue={currentValue}
-                      />
-                    </span>
-                  </ModeControlRow>
-                </ToggleControls>
+              {selectedOptionDescription && (
+                <p
+                  style={{
+                    margin: 0,
+                    maxWidth: '70ch',
+                    color: tokens.colors.text.secondary,
+                  }}
+                >
+                  {selectedOptionDescription}
+                </p>
+              )}
 
-                {selectedOptionDescription && (
+              <MoreInfo>
+                <summary>About this {mode.title.toLowerCase()}</summary>
+                {mode.description.split('\n\n').map((paragraph, i) => (
                   <p
+                    key={i}
                     style={{
-                      margin: 0,
-                      maxWidth: '70ch',
+                      margin: `${tokens.spacing.xs} 0`,
                       color: tokens.colors.text.secondary,
                     }}
-                  >
-                    {selectedOptionDescription}
-                  </p>
-                )}
-
-                <MoreInfo>
-                  <summary>About this {mode.title.toLowerCase()}</summary>
-                  {mode.description.split('\n\n').map((paragraph, i) => (
-                    <p
-                      key={i}
-                      style={{
-                        margin: `${tokens.spacing.xs} 0`,
-                        color: tokens.colors.text.secondary,
-                      }}
-                      dangerouslySetInnerHTML={{ __html: paragraph }}
-                    />
-                  ))}
-                </MoreInfo>
-              </ToggleRow>
-            </ToggleListItem>
-          );
-        })}
-      </ToggleList>
-    ) : (
-      <p>None for now, check back later…</p>
-    )}
-  </>
+                    dangerouslySetInnerHTML={{ __html: paragraph }}
+                  />
+                ))}
+              </MoreInfo>
+            </ToggleRow>
+          </ToggleListItem>
+        );
+      })}
+    </ToggleList>
+  </Group>
 );
 
 export default Modes;

@@ -24,6 +24,8 @@ type GroupProps = {
   emptyMessage?: string;
   /** Only pass when there's something to reset */
   reset?: { label: string; ariaLabel: string; onClick: () => void };
+  /** A section's own heading (h2) with no box, rather than a boxed group (h3) */
+  isSection?: boolean;
   children: ReactNode;
 };
 
@@ -38,38 +40,46 @@ const Group: FunctionComponent<GroupProps> = ({
   isEmpty,
   emptyMessage = 'None for now, check back later…',
   reset,
+  isSection,
   children,
 }) => {
   const heading = (
-    <SectionHeading as="h3" id={id} $isCompact={isEmpty} $isSubsection>
+    <SectionHeading
+      as={isSection ? 'h2' : 'h3'}
+      id={id}
+      $isCompact={isEmpty}
+      $isSubsection={!isSection}
+    >
       <a href={`#${id}`}>{title}</a>
     </SectionHeading>
   );
 
-  return (
-    <Subsection $isEmpty={isEmpty}>
-      {isEmpty ? (
-        <EmptyGroup>
-          {heading}
-          <span>{emptyMessage}</span>
-        </EmptyGroup>
-      ) : (
-        <>
-          <GroupHeader>
-            {heading}
-            {reset && (
-              <ResetButton onClick={reset.onClick} aria-label={reset.ariaLabel}>
-                {reset.label}
-              </ResetButton>
-            )}
-          </GroupHeader>
-          <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-            {description}
-          </p>
-          {children}
-        </>
-      )}
-    </Subsection>
+  const content = isEmpty ? (
+    <EmptyGroup>
+      {heading}
+      <span>{emptyMessage}</span>
+    </EmptyGroup>
+  ) : (
+    <>
+      <GroupHeader>
+        {heading}
+        {reset && (
+          <ResetButton onClick={reset.onClick} aria-label={reset.ariaLabel}>
+            {reset.label}
+          </ResetButton>
+        )}
+      </GroupHeader>
+      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
+        {description}
+      </p>
+      {children}
+    </>
+  );
+
+  return isSection ? (
+    content
+  ) : (
+    <Subsection $isEmpty={isEmpty}>{content}</Subsection>
   );
 };
 
