@@ -59,6 +59,7 @@ const TogglesPage: FunctionComponent = () => {
     disableToggle,
     resetToggles,
     enableMode,
+    disableMode,
     modeValue,
     phaseValue,
   } = router.query;
@@ -290,6 +291,62 @@ const TogglesPage: FunctionComponent = () => {
     [phasedFlags]
   );
 
+  const handleAbTest = useCallback(
+    (testId: string, action: 'enable' | 'disable') => {
+      const test = abTests.find(t => t.id === testId);
+      if (!test) {
+        setMessage({
+          text: `A/B test "${testId}" does not exist.`,
+          isError: true,
+        });
+        return;
+      }
+      if (action === 'enable') {
+        setCookieCustom(testId, 'true');
+        setToggleStates(prev => ({ ...prev, [testId]: true }));
+        setMessage({
+          text: `You're now in A/B test "${test.title}".`,
+          isError: false,
+          isEnabled: true,
+        });
+      } else {
+        deleteCookieCustom(testId);
+        setToggleStates(prev => ({ ...prev, [testId]: undefined }));
+        setMessage({
+          text: `A/B test "${test.title}" has been reset to random allocation.`,
+          isError: false,
+          isEnabled: false,
+        });
+      }
+    },
+    [abTests]
+  );
+
+  const handleModeReset = useCallback(
+    (modeId: string) => {
+      const mode = modes.find(m => m.id === modeId);
+      if (!mode) {
+        setMessage({
+          text: `Mode "${modeId}" does not exist.`,
+          isError: true,
+        });
+        return;
+      }
+      deleteCookieCustom(modeId);
+      setModeStates(prev => {
+        const next = { ...prev };
+        delete next[modeId];
+        return next;
+      });
+      setMessage({
+        text: `Mode "${mode.title}" has been reset.`,
+        isError: false,
+        isEnabled: false,
+      });
+    },
+    [modes]
+  );
+
   const handleMode = useCallback(
     (modeId: string, optionId: string) => {
       const mode = modes.find(m => m.id === modeId);
@@ -416,6 +473,7 @@ const TogglesPage: FunctionComponent = () => {
       featureFlags.some(f => f.id === id);
     const isKnownPhasedFlag = (id: string) =>
       phasedFlags.some(f => f.id === id);
+    const isKnownAbTest = (id: string) => abTests.some(t => t.id === id);
 
     if (resetToggles !== undefined) {
       resetEverything();
@@ -425,6 +483,8 @@ const TogglesPage: FunctionComponent = () => {
         handleFeatureFlag(id, 'enable');
       } else if (isKnownPhasedFlag(id)) {
         handlePhasedFlag(id, 'enable', phaseValue as string | undefined);
+      } else if (isKnownAbTest(id)) {
+        handleAbTest(id, 'enable');
       } else {
         setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
       }
@@ -434,25 +494,33 @@ const TogglesPage: FunctionComponent = () => {
         handleFeatureFlag(id, 'disable');
       } else if (isKnownPhasedFlag(id)) {
         handlePhasedFlag(id, 'disable');
+      } else if (isKnownAbTest(id)) {
+        handleAbTest(id, 'disable');
       } else {
         setMessage({ text: `Toggle "${id}" does not exist.`, isError: true });
       }
     } else if (enableMode) {
       handleMode(enableMode as string, (modeValue as string) ?? '');
+    } else if (disableMode) {
+      handleModeReset(disableMode as string);
     }
   }, [
     enableToggle,
     disableToggle,
     resetToggles,
     enableMode,
+    disableMode,
     modeValue,
     phaseValue,
     handleFeatureFlag,
     handlePhasedFlag,
+    handleAbTest,
     handleMode,
+    handleModeReset,
     resetEverything,
     featureFlags,
     phasedFlags,
+    abTests,
     modes,
   ]);
 
