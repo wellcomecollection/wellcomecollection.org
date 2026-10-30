@@ -68,7 +68,7 @@ const ABTests = ({
         hasOverrides
           ? {
               label: 'Reset to random allocation',
-              ariaLabel: 'Reset all A/B tests to random allocation',
+              ariaLabel: 'Reset to random allocation for all A/B tests',
               onClick: onReset,
             }
           : undefined
