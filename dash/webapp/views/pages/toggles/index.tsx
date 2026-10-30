@@ -650,10 +650,10 @@ const TogglesPage: FunctionComponent = () => {
                     <a href="#phased-flags">Phased flags</a>
                   </li>
                   <li>
-                    <a href="#ab-tests">A/B tests</a>
+                    <a href="#staging">Staging</a>
                   </li>
                   <li>
-                    <a href="#staging">Staging</a>
+                    <a href="#ab-tests">A/B tests</a>
                   </li>
                 </TableOfContentsSublist>
               </li>
@@ -667,7 +667,7 @@ const TogglesPage: FunctionComponent = () => {
             {hasOverrides && (
               <ResetButton
                 onClick={resetEverything}
-                aria-label="Reset all toggles to their defaults"
+                aria-label="Reset everything to defaults"
               >
                 Reset everything to defaults
               </ResetButton>
@@ -745,6 +745,15 @@ const TogglesPage: FunctionComponent = () => {
                 />
               )}
 
+              {(filteredPhasedFlags.length > 0 || !searchQuery) && (
+                <PhasedFlags
+                  phasedFlags={filteredPhasedFlags}
+                  phasedFlagStates={phasedFlagStates}
+                  setPhasedFlagStates={setPhasedFlagStates}
+                  onReset={resetPhasedFlags}
+                />
+              )}
+
               {(stageFeatureFlags.length > 0 || !searchQuery) && (
                 <ListOfToggles
                   title="Staging"
@@ -755,15 +764,6 @@ const TogglesPage: FunctionComponent = () => {
                   featureFlags={stageFeatureFlags}
                   toggleStates={toggleStates}
                   setToggleStates={setToggleStates}
-                />
-              )}
-
-              {(filteredPhasedFlags.length > 0 || !searchQuery) && (
-                <PhasedFlags
-                  phasedFlags={filteredPhasedFlags}
-                  phasedFlagStates={phasedFlagStates}
-                  setPhasedFlagStates={setPhasedFlagStates}
-                  onReset={resetPhasedFlags}
                 />
               )}
 
