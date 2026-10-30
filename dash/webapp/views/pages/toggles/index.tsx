@@ -667,7 +667,7 @@ const TogglesPage: FunctionComponent = () => {
             {hasOverrides && (
               <ResetButton
                 onClick={resetEverything}
-                aria-label="Reset all toggles to their defaults"
+                aria-label="Reset everything to defaults"
               >
                 Reset everything to defaults
               </ResetButton>
