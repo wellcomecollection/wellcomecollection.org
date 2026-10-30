@@ -66,4 +66,8 @@ module "stage_wc_org_cloudfront_distribution" {
   # prod: blocks fraud that poses as a browser without self-identifying,
   # while leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
+
+  # Lightpanda harvests item pages from rotating IPv6 proxies and solves the
+  # challenge. Stage first, then prod.
+  blocked_user_agent_patterns = ["Lightpanda/"]
 }
