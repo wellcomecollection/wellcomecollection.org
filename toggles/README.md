@@ -160,7 +160,7 @@ The dashboard links show a confirmation (or an error for a typo) along with all 
 - Set a phased flag to a specific phase: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}`
 - Reset a phased flag to its default view: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
 - Set a mode to a specific option: `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`
-- Reset all feature flags and phased flags: `https://dash.wellcomecollection.org/toggles/?resetToggles`
+- Reset everything (feature flags, phased flags, A/B tests and modes): `https://dash.wellcomecollection.org/toggles/?resetToggles`
 
 
 ## Useful links

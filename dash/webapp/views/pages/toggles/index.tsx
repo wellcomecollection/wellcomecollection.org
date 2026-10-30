@@ -404,15 +404,6 @@ const TogglesPage: FunctionComponent = () => {
     });
   }, [reset, resetAbTests, resetPhasedFlags, resetModes]);
 
-  const resetFeatureAndPhasedFlags = useCallback(() => {
-    reset();
-    resetPhasedFlags();
-    setMessage({
-      text: 'All feature flags and phased flags have been reset to their defaults.',
-      isError: false,
-    });
-  }, [reset, resetPhasedFlags]);
-
   useEffect(() => {
     if (
       featureFlags.length === 0 &&
@@ -427,7 +418,7 @@ const TogglesPage: FunctionComponent = () => {
       phasedFlags.some(f => f.id === id);
 
     if (resetToggles !== undefined) {
-      resetFeatureAndPhasedFlags();
+      resetEverything();
     } else if (enableToggle) {
       const id = enableToggle as string;
       if (isKnownFeatureFlag(id)) {
@@ -459,7 +450,7 @@ const TogglesPage: FunctionComponent = () => {
     handleFeatureFlag,
     handlePhasedFlag,
     handleMode,
-    resetFeatureAndPhasedFlags,
+    resetEverything,
     featureFlags,
     phasedFlags,
     modes,
