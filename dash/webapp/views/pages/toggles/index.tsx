@@ -208,7 +208,7 @@ const TogglesPage: FunctionComponent = () => {
 
         {(hasPermanent || !searchQuery) && (
           <Section
-            $background={tokens.colors.background.paper}
+            $background={tokens.colors.background.tinted}
             aria-labelledby="permanent"
           >
             <SectionInner>
@@ -312,7 +312,7 @@ const TogglesPage: FunctionComponent = () => {
 
         {(filteredModes.length > 0 || !searchQuery) && (
           <Section
-            $background={tokens.colors.background.paper}
+            $background={tokens.colors.background.tinted}
             aria-labelledby="modes"
           >
             <SectionInner>
