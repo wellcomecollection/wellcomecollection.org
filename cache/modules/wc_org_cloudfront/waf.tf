@@ -1404,8 +1404,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   // Blocks self-identifying automation that solves the challenge and loads
   // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
-  // Last, so it only sees what every other rule would allow; labelled so the
-  // blocks can be left out of the WAF logs.
+  // Last, so it only sees what every other rule would allow.
   dynamic "rule" {
     for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
     content {

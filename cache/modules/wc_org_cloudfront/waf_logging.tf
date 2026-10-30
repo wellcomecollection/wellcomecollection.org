@@ -18,21 +18,6 @@ resource "aws_wafv2_web_acl_logging_configuration" "wc_org" {
   logging_filter {
     default_behavior = "DROP"
 
-    // Volume blocks we already understand; the rule's metrics still count them.
-    dynamic "filter" {
-      for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
-      content {
-        behavior    = "DROP"
-        requirement = "MEETS_ANY"
-
-        condition {
-          label_name_condition {
-            label_name = "awswaf:${split(":", aws_wafv2_web_acl.wc_org.arn)[4]}:webacl:${aws_wafv2_web_acl.wc_org.name}:blocked-user-agent"
-          }
-        }
-      }
-    }
-
     filter {
       behavior    = "KEEP"
       requirement = "MEETS_ANY"
