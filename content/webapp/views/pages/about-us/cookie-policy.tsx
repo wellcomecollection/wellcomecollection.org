@@ -1,6 +1,7 @@
 import { asText } from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import styled from 'styled-components';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -18,9 +19,15 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import Table from '@weco/content/views/components/Table';
+
+const PageGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
+`;
 
 const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
@@ -77,7 +84,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
         condition={isTwoColumns}
         wrapper={children => (
           <Container>
-            <Grid style={{ background: 'white', rowGap: 0 }}>
+            <PageGrid>
               <InPageNavigation
                 links={onThisPage!}
                 sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
@@ -89,7 +96,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
                   {children}
                 </Space>
               </GridCell>
-            </Grid>
+            </PageGrid>
           </Container>
         )}
       >

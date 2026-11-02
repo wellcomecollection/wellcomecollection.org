@@ -30,6 +30,8 @@ volumes:
 Then run:
 
 ```console
-$ docker compose build identity
-$ docker compose run -p 3003:3003 identity yarn start:dev
+$ docker compose build --build-arg INSTALL_AWSCLI=true identity
+$ docker compose run --user root -p 3003:3003 identity yarn start:dev
 ```
+
+The image runs as a non-root user, but `yarn start:dev` needs root to write Next.js dev files and to read the mounted `/root/.aws`.

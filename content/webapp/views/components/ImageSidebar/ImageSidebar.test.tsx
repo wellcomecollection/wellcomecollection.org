@@ -6,6 +6,7 @@ import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 
 import ImageSidebar from '.';
+import { TRANSITION_MS } from './ImageSidebar.styles';
 
 jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
   getWorkClientSide: jest.fn(),
@@ -33,13 +34,18 @@ const work = {
   production: [],
 } as unknown as Work;
 
-const renderSidebar = async (image?: Image, setExpandedImage = jest.fn()) => {
+const renderSidebar = async (
+  image?: Image,
+  setExpandedImage = jest.fn(),
+  onStatusChange = jest.fn()
+) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
     <ImageSidebar
       images={expandedImage ? [expandedImage] : []}
       expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
+      onStatusChange={onStatusChange}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -85,6 +91,70 @@ describe('ImageSidebar', () => {
     );
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  describe('sliding in and out', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+    afterEach(() => window.history.replaceState(null, '', '/'));
+    const sidebar = () => screen.getByRole('region', { name: 'Image details' });
+
+    it('says when it starts and finishes opening and closing', async () => {
+      const onStatusChange = jest.fn();
+      const { select } = await renderSidebar(
+        undefined,
+        jest.fn(),
+        onStatusChange
+      );
+
+      const finishSlide = () =>
+        act(async () => {
+          jest.runAllTimers();
+        });
+
+      await select(expandedImage);
+      await finishSlide();
+      await select(undefined);
+      await finishSlide();
+
+      expect(onStatusChange.mock.calls.map(([status]) => status)).toEqual([
+        'opening',
+        'open',
+        'closing',
+        'closed',
+      ]);
+    });
+
+    it('keeps the image while it slides out, then renders nothing', async () => {
+      const { container, select } = await renderSidebar(expandedImage);
+
+      await select(undefined);
+      expect(
+        screen.getByRole('link', { name: 'View image: A title with markup' })
+      ).toBeInTheDocument();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      expect(container).toBeEmptyDOMElement();
+    });
+
+    it('slides in an image chosen after the page loads, but not one that was in the URL', async () => {
+      const chosen = await renderSidebar(undefined);
+      await chosen.select(expandedImage);
+      expect(getComputedStyle(sidebar()).transition).toBe(
+        `transform ${TRANSITION_MS}ms ease-in-out`
+      );
+      chosen.unmount();
+
+      window.history.replaceState(null, '', `/#${expandedImage.id}`);
+      const linked = await renderSidebar(undefined);
+      await linked.select(expandedImage);
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      expect(getComputedStyle(sidebar()).transition).toBe('none');
+    });
   });
 
   describe('focus', () => {

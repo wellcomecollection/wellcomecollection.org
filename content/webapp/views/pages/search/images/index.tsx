@@ -97,6 +97,7 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
           totalPages={images.totalPages}
           ariaLabel="Image search pagination"
           isOnDark
+          keepHash
         />
       </PaginationWrapper>
     );
