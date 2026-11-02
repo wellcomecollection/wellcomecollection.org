@@ -1,0 +1,26 @@
+name: 'Backplane: validate manifest'
+
+on:
+  pull_request:
+    paths:
+      - '**/manifest.yml'
+      - '**/rfcs.yml'
+      - '.github/workflows/backplane.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - '**/manifest.yml'
+      - '**/rfcs.yml'
+      - '.github/workflows/backplane.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: wellcometrust/backplane-validate@v0
