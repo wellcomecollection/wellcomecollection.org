@@ -1,6 +1,8 @@
 module "content-service-17092020" {
   source = "../../../infrastructure/modules/service"
 
+  log_router_container_tag = var.log_router_container_tag
+
   namespace = "content-17092020-${var.env_suffix}"
 
   namespace_id = var.environment["namespace_id"]
@@ -12,6 +14,8 @@ module "content-service-17092020" {
   container_port  = 3000
 
   desired_task_count = var.desired_task_count
+
+  app_user = var.app_user
 
   nginx_container_config = {
     image_name    = "uk.ac.wellcome/nginx_frontend"

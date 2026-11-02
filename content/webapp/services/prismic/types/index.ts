@@ -436,8 +436,8 @@ export type StructuredSearchQuery = {
   id: string[];
   tags: string[];
   tag: string[];
-  pageSize: number;
-  orderings: prismic.Ordering[];
+  orderings: string[];
+  pageSize?: number;
   // content type specific
   'article-series': string[];
 };

@@ -72,7 +72,7 @@ steps:
   - label: "Trigger prod deployment"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     plugins:
-      - wellcomecollection/github-deployments#v0.3.0:
+      - wellcomecollection/github-deployments#v0.4.1:
           assume_role: "arn:aws:iam::130871440101:role/experience-ci"
           environment: prod
           ref: "${BUILDKITE_COMMIT}"

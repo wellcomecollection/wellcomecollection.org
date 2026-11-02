@@ -28,3 +28,13 @@ export const Description = styled.p`
   margin-top: 0;
   font-weight: bold;
 `;
+
+export const WarningSummary = styled.summary`
+  cursor: pointer;
+  font-weight: bold;
+`;
+
+export const SelectorLabel = styled.div`
+  margin-bottom: ${tokens.spacing.md};
+  word-break: break-all;
+`;

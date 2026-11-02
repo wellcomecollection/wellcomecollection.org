@@ -17,6 +17,7 @@ import {
   GoogleTagManager,
 } from '@weco/common/services/app/analytics-scripts';
 import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
+import { serialiseForInlineScript } from '@weco/common/utils/json';
 import { Toggles } from '@weco/toggles';
 
 type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
@@ -28,9 +29,9 @@ type DocumentInitialPropsWithTogglesAndGa = DocumentInitialProps & {
 // runtime, and the result is picked up in the browser by ApmContextProvider.
 // Escaping `<` stops a value from closing the script tag early.
 const serialisedApmConfig = () =>
-  JSON.stringify(
+  serialiseForInlineScript(
     apmConfig.client(process.env.NEXT_PUBLIC_APM_SERVICE_NAME)
-  ).replace(/</g, '\\u003c');
+  );
 class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
   static async getInitialProps(
     ctx: DocumentContext

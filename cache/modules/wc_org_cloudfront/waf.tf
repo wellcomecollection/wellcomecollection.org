@@ -542,12 +542,32 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Geo consent rules: first-visit traffic from mostly-bot regions gets a
+  // CAPTCHA, or the silent challenge with enable_geo_challenge. JS-capable
+  // bots pass the challenge, so watch ChallengesSolved and
+  // RequestsWithValidChallengeToken here (numbers in wc.org#13665).
   rule {
     name     = "apac-captcha-consent-block"
     priority = 10
 
     action {
-      captcha {}
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
     }
 
     statement {
@@ -597,7 +617,23 @@ resource "aws_wafv2_web_acl" "wc_org" {
     priority = 11
 
     action {
-      captcha {}
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
     }
 
     statement {
@@ -1325,6 +1361,86 @@ resource "aws_wafv2_web_acl" "wc_org" {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
       metric_name                = "seo-user-agent-block-${var.namespace}"
+    }
+  }
+
+  // Count every request for these hosts that reaches the end of the ACL, so
+  // the allowed ones land in the WAF logs (the logging filter drops plain
+  // allows). Used to see real editor traffic on preview before restricting it.
+  dynamic "rule" {
+    for_each = length(var.count_hosts) > 0 ? [1] : []
+    content {
+      name     = "host-count"
+      priority = 27
+
+      action {
+        count {}
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^(${join("|", [for h in var.count_hosts : replace(h, ".", "\\.")])})(:[0-9]+)?$"
+
+          field_to_match {
+            single_header {
+              name = "host"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "LOWERCASE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "host-count-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks self-identifying automation that solves the challenge and loads
+  // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
+  // Last, so it only sees what every other rule would allow.
+  dynamic "rule" {
+    for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
+    content {
+      name     = "blocked-user-agent"
+      priority = 28
+
+      action {
+        block {}
+      }
+
+      rule_label {
+        name = "blocked-user-agent"
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = join("|", var.blocked_user_agent_patterns)
+
+          field_to_match {
+            single_header {
+              name = "user-agent"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "blocked-user-agent-${var.namespace}"
+      }
     }
   }
 

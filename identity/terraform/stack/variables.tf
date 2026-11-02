@@ -44,3 +44,13 @@ variable "cloudfront_header_secrets" {
   type    = list(string)
   default = []
 }
+
+variable "app_user" {
+  type    = string
+  default = "nextjs"
+}
+
+variable "log_router_container_tag" {
+  type    = string
+  default = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
+}

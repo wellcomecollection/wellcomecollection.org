@@ -46,12 +46,17 @@ const necessaryCookies = () => {
   // Auth0 related
   const auth0 = ['wecoIdentitySession*'];
 
+  // AWS WAF challenge token. Without this Cookie Control deletes it on load
+  // and visitors who have not consented are re-challenged on every page.
+  const wafToken = ['aws-waf-token'];
+
   return [
     ...wcCookies,
     ...featureFlags,
     ...prismicPreview,
     ...digiratiCookies,
     ...auth0,
+    ...wafToken,
   ];
 };
 

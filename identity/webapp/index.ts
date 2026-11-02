@@ -1,4 +1,5 @@
 import { port } from '@weco/identity/config';
+import { missingRequiredEnvVars } from '@weco/identity/utils/required-env';
 
 import { createApp } from './app';
 
@@ -39,6 +40,13 @@ async function main() {
     process.env.AUTH0_CLIENT_SECRET = credentials.client_secret;
     process.env.IDENTITY_API_KEY = credentials.api_key;
     process.env.SESSION_KEYS = 'correct-horse-battery-staple'; // https://xkcd.com/936/
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    const missing = missingRequiredEnvVars(process.env);
+    if (missing.length > 0) {
+      throw new Error(`Missing required env vars: ${missing.join(', ')}`);
+    }
   }
 
   const app = await createApp();

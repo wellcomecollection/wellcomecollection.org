@@ -14,11 +14,32 @@ export const identityFetchClient: FetchClient = new FetchClient({
   },
 });
 
+// Identity API routes for the signed-in user, so nothing else is reachable with
+// their token and our API key. A Map so request values can't hit inherited keys.
+const allowedRoutes = new Map<string, string[]>([
+  ['me', ['GET', 'PUT']],
+  ['me/password', ['PUT']],
+  ['me/deletion-request', ['PUT']],
+  ['me/send-verification-email', ['POST']],
+  ['me/validate', ['POST']],
+  ['me/item-requests', ['GET', 'POST']],
+]);
+
 const handleIdentityApiRequest = auth0.withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse) => {
+    const route = ((req.query.users as string[] | undefined) || []).join('/');
+    const method = req.method || 'GET';
+    const allowedMethods = allowedRoutes.get(route);
+    if (!allowedMethods) {
+      return res.status(404).json({ message: 'Not found' });
+    }
+    if (!allowedMethods.includes(method)) {
+      return res.status(405).json({ message: 'Method not allowed' });
+    }
+
     try {
       const { token } = await auth0.getAccessToken(req, res);
-      const path = `/users/${(req.query.users as string[]).join('/')}`;
+      const path = `/users/${route}`;
 
       // req.body is '' (not undefined) when the original request had no body
       // at all - Next.js's parseBody falls back to text/plain and yields ''
@@ -29,7 +50,6 @@ const handleIdentityApiRequest = auth0.withApiAuthRequired(
       const body = req.body === '' ? undefined : req.body;
 
       // GET and HEAD requests cannot have a body
-      const method = req.method || 'GET';
       const remoteResponse = await identityFetchClient
         .request({
           url: path,

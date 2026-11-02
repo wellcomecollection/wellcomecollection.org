@@ -5,7 +5,9 @@ const {
 const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const events = require('events');
 const pa11y = require('pa11y');
+const puppeteer = require('puppeteer');
 const { setTimeout } = require('timers');
+const { URL } = require('url');
 const { styleText } = require('util');
 const yargs = require('yargs');
 
@@ -14,10 +16,14 @@ const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
 
 events.EventEmitter.defaultMaxListeners = 25;
 
-const { isPullRequestRun } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --isPullRequestRun [boolean]')
+const { isPullRequestRun, allWarnings } = yargs(process.argv.slice(2))
+  .usage('Usage: $0 --isPullRequestRun [boolean] --allWarnings [boolean]')
   .options({
     isPullRequestRun: { type: 'boolean' },
+    allWarnings: {
+      type: 'boolean',
+      description: 'List every warning, not just the summary',
+    },
   })
   .parseSync();
 
@@ -72,27 +78,91 @@ const urls = [
 // still run concurrently.
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const runPa11y = async url => {
-  return pa11y(url, {
-    timeout: 120000,
-    chromeLaunchConfig: {
-      args: ['--no-sandbox'],
-    },
-    ignore: [
-      // Iframe element requires a non-empty title attribute that identifies the frame.
-      // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
-      'WCAG2AA.Principle2.Guideline2_4.2_4_1.H64.1',
-    ],
-    // Hide InPageNavigation components from accessibility testing
-    // The component uses mix-blend-mode: difference which causes false positive
-    // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
-    hideElements: '[data-component="in-page-navigation"]',
-    log: {
-      debug: console.log,
-      error: console.error,
-      info: console.info,
-    },
-  });
+const runPa11y = async (browser, url) => {
+  const page = await browser.newPage();
+
+  try {
+    // Consenting up front means the cookie banner isn't rendered. axe measures
+    // contrast from what's painted, so the banner's backdrop would otherwise
+    // count as the background of all the text behind it.
+    await page.setCookie({ name: 'CookieControl', value: '{}', url });
+
+    const result = await pa11y(url, {
+      browser,
+      page,
+      // axe rather than the default HTML_CodeSniffer, which only looks at a
+      // text's ancestors for its background, so it misses absolutely
+      // positioned backgrounds (e.g. HeaderBackground)
+      runners: ['axe'],
+      // Report what axe can't decide (e.g. text on a background image) as
+      // warnings rather than errors, and keep warnings in the results (pa11y
+      // drops them by default) so they can be checked by hand
+      levelCapWhenNeedsReview: 'warning',
+      includeWarnings: true,
+      timeout: 120000,
+      ignore: [
+        // Iframe element requires a non-empty title attribute that identifies the frame.
+        // https://github.com/wellcomecollection/wellcomecollection.org/issues/11269
+        'frame-title',
+        // axe best-practice rules (not WCAG) that pa11y runs by default. They
+        // only ever give warnings, and would bury the contrast ones we want
+        'region',
+        'heading-order',
+        'landmark-unique',
+      ],
+      // Hide InPageNavigation components from accessibility testing
+      // The component uses mix-blend-mode: difference which causes false positive
+      // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
+      hideElements: '[data-component="in-page-navigation"]',
+      log: {
+        debug: console.log,
+        error: console.error,
+        info: console.info,
+      },
+    });
+
+    // pa11y doesn't say which component an issue is in, so look it up while
+    // the page is still open. Used to group warnings in the summary.
+    const components = await page
+      .evaluate(
+        selectors =>
+          selectors.map(selector => {
+            try {
+              const element = document.querySelector(selector);
+              const component = element
+                ?.closest('[data-component]')
+                ?.getAttribute('data-component');
+              // Fall back to the element itself, so unrelated issues outside
+              // any component don't all land in one group
+              return (
+                component ??
+                (element ? `<${element.tagName.toLowerCase()}>` : null)
+              );
+            } catch {
+              return null;
+            }
+          }),
+        result.issues.map(issue => issue.selector)
+      )
+      // Only a label, so if the page has navigated or closed, go without
+      // rather than failing the page
+      .catch(() => []);
+
+    return {
+      ...result,
+      issues: result.issues.map((issue, i) => {
+        const component = components[i] ?? null;
+        return {
+          ...issue,
+          component,
+          // Written once here so the PR log and the dashboard group alike
+          groupLabel: `${issue.code} in ${component ?? '(unknown)'}`,
+        };
+      }),
+    };
+  } finally {
+    await page.close();
+  }
 };
 
 /**
@@ -102,17 +172,29 @@ const runPa11y = async url => {
  * navigates while that injection is in flight the execution context is
  * destroyed and pa11y throws, so a single attempt is not reliable.
  */
-const runPa11yWithRetry = async url => {
+const runPa11yWithRetry = async (browser, url) => {
   try {
-    return await runPa11y(url);
+    return await runPa11y(browser, url);
   } catch (error) {
     console.info(`Retrying ${url} after error: ${error.message}`);
-    return runPa11y(url);
+    return runPa11y(browser, url);
   }
 };
 
 // Run pa11y in batches to avoid rate limiting while keeping reasonable speed
 async function runAllTests() {
+  // One browser for every URL, so each page can have the consent cookie set
+  // before it loads
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+
+  try {
+    return await runBatches(browser);
+  } finally {
+    await browser.close();
+  }
+}
+
+async function runBatches(browser) {
   const results = [];
   const batchSize = 3;
   const delayBetweenBatches = 1000; // 1 second between batches
@@ -124,7 +206,7 @@ async function runAllTests() {
 
     const batch = urls.slice(i, i + batchSize);
     const batchResults = await Promise.allSettled(
-      batch.map(url => runPa11yWithRetry(url))
+      batch.map(url => runPa11yWithRetry(browser, url))
     );
 
     // Keep a placeholder for URLs that errored, so results stay aligned with
@@ -146,6 +228,53 @@ async function runAllTests() {
 
   return results;
 }
+
+const issuesOfType = (result, type) =>
+  result.issues.filter(issue => issue.type === type);
+
+// The pages with issues of the given type, listing each issue
+const issuesLog = (results, type) =>
+  results
+    .map(result => ({
+      title: result.documentTitle,
+      url: result.pageUrl,
+      issues: issuesOfType(result, type).map(issue => ({
+        code: issue.code,
+        message: issue.message,
+        selector: issue.selector,
+        context: issue.context,
+      })),
+    }))
+    .filter(page => page.issues.length > 0);
+
+// One line per rule and component, with a count and the pages it's on
+const warningsSummary = results => {
+  const groups = new Map();
+
+  results.forEach(result => {
+    const path = result.pageUrl ? new URL(result.pageUrl).pathname : '?';
+
+    issuesOfType(result, 'warning').forEach(issue => {
+      const group = groups.get(issue.groupLabel) ?? {
+        count: 0,
+        pages: new Set(),
+      };
+      group.count += 1;
+      group.pages.add(path);
+      groups.set(issue.groupLabel, group);
+    });
+  });
+
+  return [...groups]
+    .sort(([, a], [, b]) => b.count - a.count)
+    .map(([key, { count, pages }]) => {
+      const pageList = [...pages];
+      const shown = pageList.slice(0, 3).join(', ');
+      const more = pageList.length > 3 ? `, +${pageList.length - 3} more` : '';
+      return `  ${count} x ${key} (${shown}${more})`;
+    })
+    .join('\n');
+};
 
 try {
   console.info('Pa11y: Starting report');
@@ -189,40 +318,41 @@ try {
       }
 
       if (isPullRequestRun) {
-        const resultsLog = results
-          .map(result => {
-            return result.issues.length > 0
-              ? {
-                  title: result.documentTitle,
-                  url: result.pageUrl,
-                  errors: result.issues.map(issue => ({
-                    type: issue.type,
-                    code: issue.code,
-                    message: issue.message,
-                    selector: issue.selector,
-                    context: issue.context,
-                  })),
-                }
-              : undefined;
-          })
-          .filter(f => f)
-          .flat();
+        const errorsLog = issuesLog(results, 'error');
+        const warningsCount = results.flatMap(result =>
+          issuesOfType(result, 'warning')
+        ).length;
 
-        if (resultsLog.length > 0) {
+        if (errorsLog.length > 0) {
           console.error(
             `!!! ${styleText('redBright', 'Fix these before merging')}`
           );
-          console.log(...resultsLog);
-
-          const hasErrors = results.find(result =>
-            result.issues.find(issue => issue.type === 'error')
-          );
-
-          process.exit(hasErrors ? 1 : 0);
-        } else {
-          console.log(styleText('greenBright', 'Report done, no errors found'));
-          process.exit(0);
+          console.log(...errorsLog);
         }
+
+        // Warnings don't fail the run, and mostly repeat the same few
+        // patterns, so summarise them unless asked for the full list
+        if (warningsCount > 0) {
+          console.log(
+            styleText(
+              'yellowBright',
+              `${warningsCount} warning(s) for checking by hand:`
+            )
+          );
+          console.log(warningsSummary(results));
+
+          if (allWarnings) {
+            console.log(...issuesLog(results, 'warning'));
+          } else {
+            console.log('Run with --allWarnings to list each one');
+          }
+        }
+
+        if (errorsLog.length === 0) {
+          console.log(styleText('greenBright', 'Report done, no errors found'));
+        }
+
+        process.exit(errorsLog.length > 0 ? 1 : 0);
       } else {
         console.info(styleText('greenBright', 'Reporting done!'));
 

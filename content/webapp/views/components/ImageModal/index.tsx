@@ -1,5 +1,5 @@
 // eslint-data-component: intentionally omitted
-import { Dispatch, FunctionComponent, SetStateAction, useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 
 import { eye } from '@weco/common/icons';
 import Button from '@weco/common/views/components/Buttons';
@@ -27,7 +27,7 @@ import useExpandedImage from './useExpandedImage';
 type Props = {
   images: Image[];
   expandedImage?: Image;
-  setExpandedImage: Dispatch<SetStateAction<Image | undefined>>;
+  setExpandedImage: (image: Image | undefined) => void;
 };
 
 const ImageModal: FunctionComponent<Props> = ({

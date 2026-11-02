@@ -74,3 +74,15 @@ variable "nginx_memory_reservation" {
   default = 50
 
 }
+
+variable "app_user" {
+  description = "User the app container runs as; the ECS module defaults to root, overriding the image's USER"
+  type        = string
+  default     = "0"
+}
+
+# The fluentbit image in platform-infrastructure/images/dockerfiles/fluentbit.
+variable "log_router_container_tag" {
+  type    = string
+  default = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
+}

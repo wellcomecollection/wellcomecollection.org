@@ -61,6 +61,13 @@ const ImageCard: FunctionComponent<Props> = ({
 }: Props) => {
   const { isEnhanced } = useAppContext();
 
+  // Choosing the image that's open in the sidebar closes it
+  const sidebarTooltip = isSelected
+    ? 'Close image details'
+    : 'Open image details';
+  const tooltip =
+    imageDetails === 'sidebar' ? sidebarTooltip : 'Open modal window';
+
   return (
     <StyledLink
       {...toWorksImagesLink({ id, workId })}
@@ -77,13 +84,7 @@ const ImageCard: FunctionComponent<Props> = ({
         trigger: 'open_image_modal',
         'position-in-list': `${positionInList}`,
       })}
-      title={
-        isEnhanced
-          ? imageDetails === 'sidebar'
-            ? 'Open image details'
-            : 'Open modal window'
-          : undefined
-      }
+      title={isEnhanced ? tooltip : undefined}
     >
       <IIIFImage
         image={{

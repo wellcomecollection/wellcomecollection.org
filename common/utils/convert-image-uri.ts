@@ -1,7 +1,7 @@
 import urlTemplate from 'url-template';
 
 const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
-const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
+export const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
 export const iiifThumbsUri = 'https://iiif.wellcomecollection.org/thumbs/';
 
 function determineSrc(url: string): string {

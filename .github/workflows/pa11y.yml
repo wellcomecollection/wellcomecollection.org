@@ -14,7 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: aws-actions/configure-aws-credentials@v6
+      # pa11y 10 needs Node 22.13 or later
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
