@@ -23,7 +23,7 @@ export const COLUMNS_PROPERTY = '--sidebar-columns';
 const CLICK_TOLERANCE_PX = 3;
 
 // How long the layout's width has to stay the same before it's measured again
-const MEASURE_DELAY_MS = 100;
+const MEASURE_DEBOUNCE_MS = 100;
 
 const roundColumns = (columns: number) => Math.round(columns * 100) / 100;
 
@@ -32,10 +32,11 @@ const roundColumns = (columns: number) => Math.round(columns * 100) / 100;
 const announcedColumns = (columns: number) => Math.round(columns * 10) / 10;
 
 /**
- * Measures the sidebar at a few widths, rather than repeating the sums in its
- * styles: its two narrowest give the width of a column, and its widest, which
- * its max-width stops short of the results' minimum, gives the most columns
- * it can cover. Puts its width back as it was afterwards.
+ * Asks the browser how wide the sidebar is at 3, 4 and 12 columns, rather
+ * than repeating the sums in its styles. 3 to 4 gives a column's width in px.
+ * 12 columns never fits, so the sidebar stops at its max-width, which leaves
+ * the results their minimum. Counting how many columns that width is gives
+ * the most the sidebar can have. Puts the width back after.
  */
 const measureColumns = (sidebar: HTMLElement) => {
   const current = sidebar.style.getPropertyValue(COLUMNS_PROPERTY);
@@ -124,12 +125,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     if (!sidebar) return;
 
     const next = measureColumns(sidebar);
-    setMeasured(previous =>
-      previous.columnPx === next.columnPx &&
-      previous.maxColumns === next.maxColumns
-        ? previous
-        : next
-    );
+    setMeasured(next);
 
     return next;
   };
@@ -159,7 +155,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
             lastWidth = entry.contentRect.width;
             clearTimeout(timeout);
-            timeout = setTimeout(measure, MEASURE_DELAY_MS);
+            timeout = setTimeout(measure, MEASURE_DEBOUNCE_MS);
           })
         : undefined;
     if (layout) observer?.observe(layout);
@@ -225,7 +221,6 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     const current = drag.current;
     if (current?.pointerId !== event.pointerId) return;
 
-    // A wobble while clicking isn't a drag
     current.hasMoved ||=
       Math.abs(event.clientX - current.startX) >= CLICK_TOLERANCE_PX;
     if (!current.hasMoved) return;
@@ -244,15 +239,11 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     });
   };
 
-  // Also called when the handle loses the pointer without hearing it let go
-  // (e.g. switching window mid-drag), so the drag doesn't carry on
   const endDrag = (event: PointerEvent<HTMLDivElement>) => {
     if (drag.current?.pointerId !== event.pointerId) return;
 
     const current = stopDragging();
     if (!current) return;
-
-    // A click without moving keeps the width chosen, even if it doesn't fit
     if (!current.hasMoved) return;
 
     // To a hundredth, so the arrow keys then move to the nearest whole column
@@ -261,8 +252,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     setColumns(rounded);
   };
 
-  // Uses the last measurement, kept up to date as the layout changes width, so
-  // holding a key down doesn't lay the page out again for each repeat
+  // Uses the stored maximum rather than measuring, since measuring lays the
+  // page out three times and a held-down key repeats many times a second. The
+  // stored one is kept current as the window resizes.
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const { maxColumns } = measured;
     const nextColumns: Record<string, number> = {
