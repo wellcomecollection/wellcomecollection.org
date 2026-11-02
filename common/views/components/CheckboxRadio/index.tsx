@@ -4,12 +4,24 @@ import {
   ReactNode,
   SyntheticEvent,
 } from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
-import { check, indicator } from '@weco/common/icons';
+import { check, IconSvg, indicator } from '@weco/common/icons';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
+
+const RadioDot: IconSvg = props => (
+  <svg viewBox="0 0 24 24" {...props}>
+    <circle
+      cx={12}
+      cy={12}
+      r={10}
+      fill="currentColor"
+      className="icon__shape"
+    />
+  </svg>
+);
 
 const CheckboxRadioLabel = styled.label<{ $isDisabled?: boolean }>`
   display: inline-flex;
@@ -112,6 +124,9 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
   disabled,
   ...inputProps
 }: CheckboxRadioProps): ReactElement<CheckboxRadioProps> => {
+  const theme = useTheme();
+  const radioIcon = theme.brandUpdate ? RadioDot : indicator;
+
   return (
     <CheckboxRadioLabel
       data-component="checkbox-radio"
@@ -130,7 +145,7 @@ const CheckboxRadio: FunctionComponent<CheckboxRadioProps> = ({
           $hasErrorBorder={hasErrorBorder}
           $isDisabled={disabled}
         >
-          <Icon icon={type === 'checkbox' ? check : indicator} />
+          <Icon icon={type === 'checkbox' ? check : radioIcon} />
         </CheckboxRadioBox>
       </CheckBoxWrapper>
       <Space $h={{ size: 'xs', properties: ['margin-left'] }}>

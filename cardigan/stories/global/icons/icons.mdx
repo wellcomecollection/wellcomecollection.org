@@ -1,6 +1,12 @@
-import {Icons} from './icons';
+import {BrandIconComparison, Icons} from './icons';
 import {Meta} from '@storybook/addon-docs/blocks';
 
 <Meta title="Global/Icons" />
 
 <Icons />
+
+## Brand update comparison
+
+With the `brandUpdate` toggle on, the `Icon` component swaps each legacy icon for its match from [`@wellcometrust/wellcome-icons`](https://icons.frontend-wellcome.org/). Icons without a match keep the legacy version. This table shows both regardless of the toolbar setting. In the overlay column the legacy icon is pink and the brand icon is blue, so differences in size and padding show up as coloured edges.
+
+<BrandIconComparison />
