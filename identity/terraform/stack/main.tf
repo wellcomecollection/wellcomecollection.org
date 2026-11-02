@@ -1,6 +1,8 @@
 module "identity-service-18012021" {
   source = "../../../infrastructure/modules/service"
 
+  log_router_container_tag = var.log_router_container_tag
+
   namespace = "identity-18012021-${var.env_suffix}"
 
   namespace_id = var.environment["namespace_id"]

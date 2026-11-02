@@ -47,6 +47,9 @@ module "prod_wc_org_cloudfront_distribution" {
   # crawler before restricting preview.
   count_hosts = ["preview.wellcomecollection.org"]
 
+  # Proven on stage 2026-10-30: Lightpanda gets 403, browsers unaffected.
+  blocked_user_agent_patterns = ["Lightpanda/"]
+
   # Proven on stage; see the search-challenge rule in the module for why this
   # is high-risk.
   enable_search_challenge = true
