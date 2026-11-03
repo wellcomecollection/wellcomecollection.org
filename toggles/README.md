@@ -20,6 +20,8 @@ Types of feature flag:
 - **Permanent** — used to make certain features available to people, but generally turned off for the public (e.g. an API toolbar).
 - **Stage** — only applied on the staging environment.
 
+You can override a feature flag for your own browser, including turning an experimental one off once it's public. See [Overriding toggles for yourself](#overriding-toggles-for-yourself).
+
 To add a new feature flag:
 * Go to `toggles/webapp/toggles.ts`.
 * Add a new entry to the `featureFlags` array with `initialValue: false`.
@@ -74,6 +76,21 @@ You can read more about it there.
 
 We replicate the tests in [the Lambda@Edge](../cache/edge_lambdas/src/toggler.ts) here to allow
 people to explicitly set which cohort they would like to be in.
+
+## Overriding toggles for yourself
+
+Any toggle can be overridden in your own browser with a `toggle_{toggle_id}` cookie. Set it from the [dashboard](https://dash.wellcomecollection.org/toggles/), the on-site toggle widget, or a [`?toggle=` link](#preset-links). It never changes what the public sees.
+
+| Toggle | Cookie value | No cookie, or anything else |
+|---|---|---|
+| Feature flag | `true` turns it on for you. `off` turns it off for you (experimental flags only) | The public value |
+| Phased flag | A phase id | The public phase |
+| Mode | An option id | Inactive |
+| A/B test | `true` (test group) or `false` (control group) | Randomly assigned |
+
+- `off` lets you see the version from before an experimental flag was released, once it's public. On any other feature flag it's ignored, so a public permanent or stage flag can't be turned off for yourself.
+- A `false` cookie on a feature flag means no preference, so the public value applies. Older versions of the dashboard wrote it when you switched a flag off, which is why it's still ignored.
+- Resetting deletes the cookie, so you'll follow any later change to the public value.
 
 ## Accessing toggles in code
 
@@ -148,12 +165,14 @@ The links below use the home page, but the `?toggle=` part works on any page, e.
 | Toggle | Set | Reset |
 |---|---|---|
 | Feature flag | `https://wellcomecollection.org/?toggle={toggle_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Feature flag, off for you (experimental flags only) | `https://wellcomecollection.org/?toggle={toggle_id}:off` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
 | Phased flag | `https://wellcomecollection.org/?toggle={toggle_id}:{phase_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
 | Mode | `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` | `https://wellcomecollection.org/?toggle={mode_id}:reset` |
 | A/B test (test group) | `https://wellcomecollection.org/?toggle={test_id}` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
 | A/B test (control group) | `https://wellcomecollection.org/?toggle={test_id}:false` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
 
 - Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
+- `:off` only works on experimental feature flags. On any other flag it's ignored, like any other invalid value
 - Kiosk mode grants analytics and marketing consent, so it can only be set or reset from the dashboard
 - `:reset` deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
 - Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard
@@ -173,7 +192,7 @@ Copy a whole link and swap in the ids:
 | A/B test | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in) | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation) |
 | Everything | | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
 
-There's no dashboard link for the A/B test control group - use the website link or the dashboard's "No thanks" option.
+There's no dashboard link for the A/B test control group, or for turning an experimental feature flag off for yourself - use the website link or the dashboard's switch.
 
 ## Useful links
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
