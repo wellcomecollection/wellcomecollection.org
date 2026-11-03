@@ -8,6 +8,7 @@ different cohorts of people and stakeholders safely and incrementally.
 There is [a great article by Martin Fowler][martin-fowler-feature-toggles] on the subject.
 
 ## Categories
+
 We currently use four categories of toggles:
 
 ### 1. Feature flags
@@ -16,6 +17,7 @@ Feature flags control the visibility of features. They have a `defaultValue` (tr
 that determines whether the feature is on or off for the public.
 
 Types of feature flag:
+
 - **Experimental** — used to release a feature early, generally internally, while it's being developed.
 - **Permanent** — used to make certain features available to people, but generally turned off for the public (e.g. an API toolbar).
 - **Stage** — only applied on the staging environment.
@@ -23,15 +25,16 @@ Types of feature flag:
 You can override a feature flag for your own browser, including turning an experimental one off once it's public. See [Overriding toggles for yourself](#overriding-toggles-for-yourself).
 
 To add a new feature flag:
-* Go to `toggles/webapp/toggles.ts`.
-* Add a new entry to the `featureFlags` array with `initialValue: false`.
-* Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
-* If required, create a PR. Ensure you merge your code in `main`.
-* Let internal users know they can turn this feature on via the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
-* Iterate!
-* Once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`.
-* If anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`.
-* Once you're completely happy with it, remove the toggle from the code.
+
+- Go to `toggles/webapp/toggles.ts`.
+- Add a new entry to the `featureFlags` array with `initialValue: false`.
+- Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
+- If required, create a PR. Ensure you merge your code in `main`.
+- Let internal users know they can turn this feature on via the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
+- Iterate!
+- Once you're happy with releasing the feature publicly, run `yarn setDefaultValueFor --{toggle_id}=true`.
+- If anything goes wrong, you can run `yarn setDefaultValueFor --{toggle_id}=false`.
+- Once you're completely happy with it, remove the toggle from the code.
 
 ### 2. Phased flags
 
@@ -41,17 +44,18 @@ Use a phased flag instead of two (or more) feature flags combined by hand in cod
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
-`defaultPhase` (what's actually public) only exists on the *published* shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — a new phased flag starts with nothing public, the same starting point a feature flag gets from `initialValue: false`, so there's nothing to set until a phase actually ships. The exception is a feature whose earlier phases already shipped behind a boolean flag: give the definition an `initialPhase` and the flag is born with that phase public, so replacing the boolean doesn't take the live feature away. Like `initialValue`, it's only read the first time the flag is published.
+`defaultPhase` (what's actually public) only exists on the _published_ shape (`PublishedPhasedFlag` in `toggles/webapp/index.ts`), not on the authored `PhasedFlagDefinition` in `toggles.ts` — a new phased flag starts with nothing public, the same starting point a feature flag gets from `initialValue: false`, so there's nothing to set until a phase actually ships. The exception is a feature whose earlier phases already shipped behind a boolean flag: give the definition an `initialPhase` and the flag is born with that phase public, so replacing the boolean doesn't take the live feature away. Like `initialValue`, it's only read the first time the flag is published.
 
 To add a new phased flag:
-* Go to `toggles/webapp/toggles.ts`.
-* Add a new entry to the `phasedFlags` array, with an ordered `phases` list.
-* Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
-* Iterate! Preview a phase by overriding it via the dashboard cookie, same as a feature flag.
-* Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --archiveCollectionPhases=phase2`.
-* If anything goes wrong, run `yarn setDefaultValueFor --{toggle_id}=null` to make nothing public again.
-* Once a phase has been public for a while and nothing's gone wrong, delete the code that checks for it — that part of the feature is now permanent — and remove that phase from the list.
-* Once every phase has shipped this way, remove the phased flag from the code entirely.
+
+- Go to `toggles/webapp/toggles.ts`.
+- Add a new entry to the `phasedFlags` array, with an ordered `phases` list.
+- Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
+- Iterate! Preview a phase by overriding it via the dashboard cookie, same as a feature flag.
+- Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --archiveCollectionPhases=phase2`.
+- If anything goes wrong, run `yarn setDefaultValueFor --{toggle_id}=null` to make nothing public again.
+- Once a phase has been public for a while and nothing's gone wrong, delete the code that checks for it — that part of the feature is now permanent — and remove that phase from the list.
+- Once every phase has shipped this way, remove the phased flag from the code entirely.
 
 As with feature flags, the dashboard toggle only sets your own preview cookie — it never changes what's actually public. `defaultPhase` only ever changes via `yarn setDefaultValueFor`.
 
@@ -62,9 +66,10 @@ Modes are like a feature flag, but instead of picking on/off, you pick one optio
 Modes have no `defaultValue` — with no cookie set, a mode is simply inactive (`null`).
 
 To add a new mode:
-* Go to `toggles/webapp/toggles.ts`.
-* Add a new entry to the `modes` array with its `options`.
-* Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
+
+- Go to `toggles/webapp/toggles.ts`.
+- Add a new entry to the `modes` array with its `options`.
+- Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 
 ### 4. A/B tests
 
@@ -81,12 +86,12 @@ people to explicitly set which cohort they would like to be in.
 
 Any toggle can be overridden in your own browser with a `toggle_{toggle_id}` cookie. Set it from the [dashboard](https://dash.wellcomecollection.org/toggles/), the on-site toggle widget, or a [`?toggle=` link](#preset-links). It never changes what the public sees.
 
-| Toggle | Cookie value | No cookie, or anything else |
-|---|---|---|
-| Feature flag | `true` turns it on for you. `off` turns it off for you (experimental flags only) | The public value |
-| Phased flag | A phase id | The public phase |
-| Mode | An option id | Inactive |
-| A/B test | `true` (test group) or `false` (control group) | Randomly assigned |
+| Toggle       | Cookie value                                                                     | No cookie, or anything else |
+| ------------ | -------------------------------------------------------------------------------- | --------------------------- |
+| Feature flag | `true` turns it on for you. `off` turns it off for you (experimental flags only) | The public value            |
+| Phased flag  | A phase id                                                                       | The public phase            |
+| Mode         | An option id                                                                     | Inactive                    |
+| A/B test     | `true` (test group) or `false` (control group)                                   | Randomly assigned           |
 
 - `off` lets you see the version from before an experimental flag was released, once it's public. On any other feature flag it's ignored, so a public permanent or stage flag can't be turned off for yourself.
 - A `false` cookie on a feature flag means no preference, so the public value applies. Older versions of the dashboard wrote it when you switched a flag off, which is why it's still ignored.
@@ -95,6 +100,7 @@ Any toggle can be overridden in your own browser with a `toggle_{toggle_id}` coo
 ## Accessing toggles in code
 
 Client-side, use the following hooks:
+
 - `useFeatureFlags()` — returns feature flag values
 - `usePhasedFlags()` — returns each phased flag's current phase, bundled with its ordered phase list
 - `useModes()` — returns mode values (the selected option id, or `null` if inactive)
@@ -131,7 +137,6 @@ webapp is running locally. A toggle that only exists in `toggles/webapp/toggles.
 will not resolve from its cookie until the toggles package has been deployed with
 `yarn deploy`.
 
-
 ## Deployment
 
 The toggles are compiled from [TypeScript](./webapp/toggles.ts) to JSON, stored in an [S3 bucket](./terraform/main.tf)
@@ -155,21 +160,23 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Preset links
+
 Query params let you turn toggles on and off from a link, e.g. when sharing a feature with other teams. They cover every kind of toggle. There are two sets of links: ones on the website, for sharing with someone, and ones on the dashboard, for checking or resetting your own.
 
 ### Sharing a toggle: website links
+
 When sharing a toggle with someone, use a `?toggle=` link on the website. It works on any page, so it can take people straight to the page you want them to look at, and one link can set several toggles. The cookies it saves last a year and are the same ones the dashboard writes, so they can also be reset from the dashboard.
 
 The links below use the home page, but the `?toggle=` part works on any page, e.g. `https://wellcomecollection.org/search/images?toggle={toggle_id}`. Copy a whole link and swap in the ids:
 
-| Toggle | Set | Reset |
-|---|---|---|
-| Feature flag | `https://wellcomecollection.org/?toggle={toggle_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
-| Feature flag, off for you (experimental flags only) | `https://wellcomecollection.org/?toggle={toggle_id}:off` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
-| Phased flag | `https://wellcomecollection.org/?toggle={toggle_id}:{phase_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
-| Mode | `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` | `https://wellcomecollection.org/?toggle={mode_id}:reset` |
-| A/B test (test group) | `https://wellcomecollection.org/?toggle={test_id}` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
-| A/B test (control group) | `https://wellcomecollection.org/?toggle={test_id}:false` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
+| Toggle                                              | Set                                                             | Reset                                                      |
+| --------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------------- |
+| Feature flag                                        | `https://wellcomecollection.org/?toggle={toggle_id}`            | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Feature flag, off for you (experimental flags only) | `https://wellcomecollection.org/?toggle={toggle_id}:off`        | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Phased flag                                         | `https://wellcomecollection.org/?toggle={toggle_id}:{phase_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Mode                                                | `https://wellcomecollection.org/?toggle={mode_id}:{option_id}`  | `https://wellcomecollection.org/?toggle={mode_id}:reset`   |
+| A/B test (test group)                               | `https://wellcomecollection.org/?toggle={test_id}`              | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
+| A/B test (control group)                            | `https://wellcomecollection.org/?toggle={test_id}:false`        | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 
 - Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 - `:off` only works on experimental feature flags. On any other flag it's ignored, like any other invalid value
@@ -180,24 +187,25 @@ The links below use the home page, but the `?toggle=` part works on any page, e.
 - To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`)
 
 ### Checking or resetting your own toggles: dashboard links
+
 The dashboard links show a confirmation (or an error for a typo) along with all your current toggle states. They're also what the dashboard's copy-link buttons generate for feature flags and modes.
 
 Copy a whole link and swap in the ids:
 
-| Toggle | Set | Reset |
-|---|---|---|
-| Feature flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to its default value) |
-| Phased flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase) |
-| Mode | `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}` | `https://dash.wellcomecollection.org/toggles/?disableMode={mode_id}` |
-| A/B test | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in) | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation) |
-| Everything | | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
+| Toggle       | Set                                                                                           | Reset                                                                                                          |
+| ------------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Feature flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`                       | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to its default value)           |
+| Phased flag  | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase)            |
+| Mode         | `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`     | `https://dash.wellcomecollection.org/toggles/?disableMode={mode_id}`                                           |
+| A/B test     | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in)           | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation)             |
+| Everything   |                                                                                               | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
 
 There's no dashboard link for the A/B test control group, or for turning an experimental feature flag off for yourself - use the website link or the dashboard's switch.
 
 ## Useful links
+
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]
 - [Toggles Dashboard](https://dash.wellcomecollection.org/toggles)
 - [Toggles JSON](https://toggles.wellcomecollection.org/toggles.json)
 
 [martin-fowler-feature-toggles]: https://martinfowler.com/articles/feature-toggles.html
-
