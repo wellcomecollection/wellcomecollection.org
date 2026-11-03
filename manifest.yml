@@ -1,17 +1,17 @@
-# Backstage-format description of this repository's software, gathered into
-# https://github.com/wellcomecollection/catalog. Component names match the
-# checkpoint names in .deploy-tracker.yml.
-apiVersion: backstage.io/v1alpha1
+# Backplane (backplane/v1) description of this repository's software, read by
+# the deploy tracker and gathered into https://github.com/wellcomecollection/catalog.
+# Component names match the checkpoint names in .deploy-tracker.yml.
+apiVersion: backplane/v1
 kind: System
 metadata:
-  name: wellcomecollection.org
+  name: wellcomecollection-org
   description: The Wellcome Collection website
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
 spec:
-  owner: digital-experience
+  owner: team:default/digital-experience
 ---
-apiVersion: backstage.io/v1alpha1
+apiVersion: backplane/v1
 kind: Component
 metadata:
   name: content
@@ -23,11 +23,11 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: digital-experience
-  system: wellcomecollection.org
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
 ---
-apiVersion: backstage.io/v1alpha1
+apiVersion: backplane/v1
 kind: Component
 metadata:
   name: identity
@@ -39,11 +39,11 @@ metadata:
 spec:
   type: service
   lifecycle: production
-  owner: digital-experience
-  system: wellcomecollection.org
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
 ---
-apiVersion: backstage.io/v1alpha1
+apiVersion: backplane/v1
 kind: Component
 metadata:
   name: wellcomecollection-org-common
@@ -54,5 +54,5 @@ metadata:
 spec:
   type: library
   lifecycle: production
-  owner: digital-experience
-  system: wellcomecollection.org
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org

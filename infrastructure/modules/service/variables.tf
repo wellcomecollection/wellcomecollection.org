@@ -84,5 +84,5 @@ variable "app_user" {
 # The fluentbit image in platform-infrastructure/images/dockerfiles/fluentbit.
 variable "log_router_container_tag" {
   type    = string
-  default = "e0fd0a21b26600e07ca0748bd64819f058d5e40c"
+  default = "0b9948b83bfb68e4481ed988f15ede80239e4879"
 }
