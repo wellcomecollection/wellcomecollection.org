@@ -13,6 +13,7 @@ import { Transition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross, eye } from '@weco/common/icons';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
@@ -25,6 +26,7 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 import ImageSidebarResizeHandle, {
   COLUMNS_PROPERTY,
@@ -144,6 +146,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const { windowSize } = useAppContext();
   const isFullScreen = windowSize === 'zero';
   const isOpen = expandedImage !== undefined;
+  const { imageSidebarPhases } = usePhasedFlags();
+  const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
+  const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
 
   const linkedImageId = useRef(
     typeof window === 'undefined' ? undefined : readUrlHash()
@@ -206,16 +211,17 @@ const ImageSidebar: FunctionComponent<Props> = ({
     setTimeout(finish, ms + 100);
   };
 
-  // Shift+Tab from the resize handle, the first thing in the sidebar, goes to
-  // the selected thumbnail rather than the end of the results. Full screen, the
-  // results are hidden and focus stays in the sidebar, so it's left alone.
+  // Shift+Tab from the first thing in the sidebar (the resize handle, or the
+  // close button without one) goes to the selected thumbnail rather than the
+  // end of the results. Full screen, the results are hidden and focus stays in
+  // the sidebar, so it's left alone.
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== 'Tab') return;
 
     stopRefocusing();
 
-    const isLeavingBackwards =
-      event.shiftKey && event.target === resizeHandleRef.current;
+    const first = hasResizeHandle ? resizeHandleRef : closeButtonRef;
+    const isLeavingBackwards = event.shiftKey && event.target === first.current;
     if (!isLeavingBackwards || isFullScreen || !expandedImage) return;
 
     // The id is checked against the results as well as the page, as an
@@ -278,7 +284,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             $isOpen={state === 'entering' || state === 'entered'}
             $isInstant={isInstant}
           >
-            {!isFullScreen && (
+            {hasResizeHandle && (
               <ImageSidebarResizeHandle
                 ref={resizeHandleRef}
                 sidebarRef={sidebarRef}

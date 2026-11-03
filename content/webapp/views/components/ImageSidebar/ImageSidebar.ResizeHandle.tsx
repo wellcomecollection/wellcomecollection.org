@@ -140,6 +140,12 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     return current;
   };
 
+  // Stops dragging and puts the width back to what's in state
+  const cancelDrag = () => {
+    const cancelled = stopDragging();
+    if (cancelled) setSidebarColumns(cancelled.savedColumns);
+  };
+
   // Measures again once the layout has stopped changing width, which a window
   // resize or the page's scrollbar coming and going can do
   useEffect(() => {
@@ -165,8 +171,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
       clearTimeout(timeout);
       // If the handle goes mid-drag (e.g. the sidebar going full screen), the
       // width goes back to what's in state
-      const cancelled = stopDragging();
-      if (cancelled) setSidebarColumns(cancelled.savedColumns);
+      cancelDrag();
     };
   }, []);
 
@@ -193,8 +198,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
 
         keyEvent.preventDefault();
         keyEvent.stopPropagation();
-        const cancelled = stopDragging();
-        if (cancelled) setSidebarColumns(cancelled.savedColumns);
+        cancelDrag();
         if (handle.hasPointerCapture(pointerId)) {
           handle.releasePointerCapture(pointerId);
         }

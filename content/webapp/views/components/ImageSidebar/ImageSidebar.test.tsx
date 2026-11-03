@@ -1,9 +1,11 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { PhaseValue } from '@weco/toggles';
 
 import ImageSidebar from '.';
 import { TRANSITION_MS } from './ImageSidebar.styles';
@@ -33,6 +35,20 @@ const work = {
   items: [],
   production: [],
 } as unknown as Work;
+
+const mockImageSidebarPhase = (current: PhaseValue) =>
+  jest.spyOn(Context, 'usePhasedFlags').mockImplementation(
+    () =>
+      ({
+        imageSidebarPhases: {
+          current,
+          phases: [
+            { id: 'phase1', label: 'Phase 1', description: '' },
+            { id: 'phase2', label: 'Phase 2', description: '' },
+          ],
+        },
+      }) as unknown as ReturnType<typeof Context.usePhasedFlags>
+  );
 
 const renderSidebar = async (
   image?: Image,
@@ -158,14 +174,23 @@ describe('ImageSidebar', () => {
   });
 
   describe('resizing', () => {
+    beforeEach(() => mockImageSidebarPhase('phase2'));
+    afterEach(() => jest.restoreAllMocks());
     afterEach(() => jest.useRealTimers());
-    afterEach(() => document.getElementById(expandedImage.id)?.remove());
     const handle = () =>
       screen.getByRole('separator', { name: 'Resize image details' });
+    const focusHandle = () => act(() => handle().focus());
     const sidebarColumns = () =>
       screen
         .getByRole('region', { name: 'Image details' })
         .style.getPropertyValue('--sidebar-columns');
+
+    it('has no handle before Phase 2', async () => {
+      mockImageSidebarPhase('phase1');
+      await renderSidebar(expandedImage);
+
+      expect(screen.queryByRole('separator')).not.toBeInTheDocument();
+    });
 
     it('starts at 6 of the 12 columns', async () => {
       await renderSidebar(expandedImage);
@@ -176,7 +201,7 @@ describe('ImageSidebar', () => {
 
     it('the arrow keys move it a column at a time, from 3 to 9 columns', async () => {
       await renderSidebar(expandedImage);
-      act(() => handle().focus());
+      focusHandle();
 
       await userEvent.keyboard('{ArrowLeft}');
       expect(handle()).toHaveAttribute('aria-valuenow', '7');
@@ -198,7 +223,7 @@ describe('ImageSidebar', () => {
     it('keeps its width when another image is chosen, and goes back to the default once closed', async () => {
       jest.useFakeTimers();
       const { select } = await renderSidebar(expandedImage);
-      act(() => handle().focus());
+      focusHandle();
       await userEvent.keyboard('{ArrowLeft}', { delay: null });
 
       await select({ ...expandedImage, id: 'imageB' });
@@ -210,19 +235,6 @@ describe('ImageSidebar', () => {
       });
       await select(expandedImage);
       expect(sidebarColumns()).toBe('6');
-    });
-
-    it('Shift+Tab from it goes to the selected thumbnail', async () => {
-      const thumbnail = document.createElement('a');
-      thumbnail.id = expandedImage.id;
-      thumbnail.href = '#';
-      document.body.appendChild(thumbnail);
-      await renderSidebar(expandedImage);
-      act(() => handle().focus());
-
-      await userEvent.tab({ shift: true });
-
-      expect(thumbnail).toHaveFocus();
     });
   });
 

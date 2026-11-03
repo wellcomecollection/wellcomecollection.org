@@ -7,16 +7,22 @@ import { baseUrl } from './helpers/utils';
 
 // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13529
 //
-// These run with the imageSidebarPhases toggle at Phase 1. A test marked
+// These run with the imageSidebarPhases toggle at Phase 1, apart from the
+// resizing ones, which are Phase 2. A test marked
 // `fixme` covers a criterion a later PR delivers; take the `fixme` off in
 // that PR.
 test.describe.configure({ mode: 'parallel' });
 
-const enableImageSidebar = (context: BrowserContext) =>
+type ImageSidebarPhase = 'phase1' | 'phase2';
+
+const enableImageSidebar = (
+  context: BrowserContext,
+  phase: ImageSidebarPhase = 'phase1'
+) =>
   context.addCookies([
     {
       name: 'toggle_imageSidebarPhases',
-      value: 'phase1',
+      value: phase,
       path: '/',
       domain: new URL(baseUrl).hostname,
     },
@@ -64,9 +70,10 @@ const resizeHandle = (page: Page) =>
 const searchImages = async (
   query: string,
   context: BrowserContext,
-  page: Page
+  page: Page,
+  phase?: ImageSidebarPhase
 ) => {
-  await enableImageSidebar(context);
+  await enableImageSidebar(context, phase);
   await search(context, page, 'images');
   await searchQuerySubmitAndWait(query, page);
 };
@@ -381,7 +388,7 @@ test.describe('Desktop', () => {
       page,
       context,
     }) => {
-      await searchImages(imageWithContributor, context, page);
+      await searchImages(imageWithContributor, context, page, 'phase2');
       await openSidebar(1, page);
       const sidebarBefore = await width(sidebar(page));
       const gridBefore = await width(resultsGrid(page));
@@ -404,6 +411,46 @@ test.describe('Desktop', () => {
         .toBeLessThanOrEqual(1);
       expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
     });
+
+    test('keeps the chosen width when the window is too narrow for it', async ({
+      page,
+      context,
+    }) => {
+      await page.setViewportSize({ width: 1400, height: 900 });
+      await searchImages(imageWithContributor, context, page, 'phase2');
+      await openSidebar(1, page);
+      await resizeHandle(page).focus();
+      await page.keyboard.press('End');
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '9');
+
+      // Remeasuring is debounced, so these wait for it
+      await page.setViewportSize({ width: 768, height: 900 });
+      await expect
+        .poll(async () =>
+          Number(await resizeHandle(page).getAttribute('aria-valuenow'))
+        )
+        .toBeLessThan(9);
+
+      await page.setViewportSize({ width: 1400, height: 900 });
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '9');
+    });
+
+    test('Shift+Tab from the sidebar passes the handle, then goes to the selected thumbnail', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page, 'phase2');
+
+      await thumbnail(page, 1).focus();
+      await page.keyboard.press('Enter');
+      await expect(sidebar(page)).toBeVisible();
+      await expectFocusInside(sidebar(page));
+
+      await page.keyboard.press('Shift+Tab');
+      await expect(resizeHandle(page)).toBeFocused();
+      await page.keyboard.press('Shift+Tab');
+      await expect(thumbnail(page, 1)).toBeFocused();
+    });
   });
 
   test.describe('Accessibility', () => {
@@ -418,10 +465,8 @@ test.describe('Desktop', () => {
       await expect(sidebar(page)).toBeVisible();
       await expectFocusInside(sidebar(page));
 
-      // Going backwards from the sidebar passes its resize handle, then lands
-      // on the selected thumbnail, not at the end of the results
-      await page.keyboard.press('Shift+Tab');
-      await expect(resizeHandle(page)).toBeFocused();
+      // Going backwards from the sidebar lands on the selected thumbnail, not
+      // at the end of the results
       await page.keyboard.press('Shift+Tab');
       await expect(thumbnail(page, 1)).toBeFocused();
 
