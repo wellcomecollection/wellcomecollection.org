@@ -45,10 +45,10 @@ type StarredEntry = {
   title: string;
   current: string;
   options: Option[];
-  // Feature flags only: true once a flag's defaultValue is true (Public) -
-  // the cookie resolver only ever checks for 'true', so a 'false' override
-  // can never turn a Public flag off, same as the dashboard's own
-  // disabled-switch-when-Public behaviour.
+  // Feature flags only: true once a non-experimental flag's defaultValue is
+  // true (Public) - the cookie resolver only ever checks for 'true' for those,
+  // so a 'false' override can never turn a Public flag off, same as the
+  // dashboard's own disabled-switch-when-Public behaviour.
   locked?: boolean;
   // Phased flags only: whether a toggle_<id> override cookie actually exists,
   // so the segmented control's own "Default view" pill can show as selected -
@@ -71,6 +71,13 @@ const AB_TEST_OPTIONS: Option[] = [
 const FEATURE_FLAG_OPTIONS: Option[] = [
   { id: 'true', label: 'On' },
   { id: 'false', label: 'Off' },
+];
+
+// An experimental flag's personal "off" is its own cookie value, since a
+// 'false' cookie means no preference (see getTogglesFromContext)
+const EXPERIMENTAL_FEATURE_FLAG_OPTIONS: Option[] = [
+  { id: 'true', label: 'On' },
+  { id: 'off', label: 'Off' },
 ];
 
 const modeOptions = (options: readonly ModeOption[]): Option[] => [
@@ -192,6 +199,7 @@ const ToggleWidget: FunctionComponent = () => {
             const hasOverride =
               typeof rawOverride === 'string' &&
               phasedFlag.phases.some(phase => phase.id === rawOverride);
+
             return {
               kind: 'phasedFlag',
               id,
@@ -207,13 +215,18 @@ const ToggleWidget: FunctionComponent = () => {
             const current = (
               featureFlags as Record<string, boolean | undefined>
             )[id];
+            const isExperimental = featureFlag.type === 'experimental';
+            const isOn = current ?? featureFlag.defaultValue;
+
             return {
               kind: 'featureFlag',
               id,
               title: featureFlag.title,
-              current: (current ?? featureFlag.defaultValue) ? 'true' : 'false',
-              options: FEATURE_FLAG_OPTIONS,
-              locked: featureFlag.defaultValue === true,
+              current: isOn ? 'true' : isExperimental ? 'off' : 'false',
+              options: isExperimental
+                ? EXPERIMENTAL_FEATURE_FLAG_OPTIONS
+                : FEATURE_FLAG_OPTIONS,
+              locked: featureFlag.defaultValue === true && !isExperimental,
             };
           }
 

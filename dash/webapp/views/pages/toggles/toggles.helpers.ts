@@ -38,6 +38,21 @@ export const deleteCookieCustom = (key: string) =>
     domain: isLocalhost() ? undefined : '.wellcomecollection.org',
   });
 
+/**
+ * Saves a feature flag's switch. An experimental flag only keeps a cookie
+ * while it differs from what everyone sees (`off` for a public one), so
+ * matching it clears the cookie. The rest always write `true` or `false`.
+ */
+export const setFeatureFlagCookie = (flag: FeatureFlag, isOn: boolean) => {
+  if (flag.type !== 'experimental') {
+    setCookieCustom(flag.id, isOn ? 'true' : 'false');
+  } else if (isOn === flag.defaultValue) {
+    deleteCookieCustom(flag.id);
+  } else {
+    setCookieCustom(flag.id, isOn ? 'true' : 'off');
+  }
+};
+
 // Which toggles (of any kind) show up in the on-site ToggleWidget. Not a
 // toggle_<id> override cookie itself - a plain list of ids, read by the
 // widget on wellcomecollection.org as well as written here.

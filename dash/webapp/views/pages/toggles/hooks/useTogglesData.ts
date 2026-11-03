@@ -53,10 +53,22 @@ export const useTogglesData = (
         // Feature flags: cookie value or default
         for (const toggle of flags) {
           const cookieKey = `toggle_${toggle.id}`;
-          initialStates[toggle.id] =
-            cookieKey in cookies
-              ? cookies[cookieKey] === 'true'
-              : toggle.defaultValue;
+          const cookieValue = cookies[cookieKey];
+          // Same rule as the site: only experimental flags read `off`, and
+          // anything but `true`/`off` is no preference
+          if (toggle.type === 'experimental') {
+            initialStates[toggle.id] =
+              cookieValue === 'true'
+                ? true
+                : cookieValue === 'off'
+                  ? false
+                  : toggle.defaultValue;
+          } else {
+            initialStates[toggle.id] =
+              cookieKey in cookies
+                ? cookieValue === 'true'
+                : toggle.defaultValue;
+          }
         }
 
         // Phased flags: only record a state when the cookie is a phase that
