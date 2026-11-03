@@ -39,17 +39,16 @@ export const deleteCookieCustom = (key: string) =>
   });
 
 /**
- * Saves a feature flag's switch. An experimental flag only keeps a cookie
- * while it differs from what everyone sees (`off` for a public one), so
- * matching it clears the cookie. The rest always write `true` or `false`.
+ * Saves a feature flag's switch. A flag only keeps a cookie while it differs
+ * from what everyone sees, so matching it clears the cookie. Only experimental
+ * flags can be off while public, and they store that as `off`.
  */
 export const setFeatureFlagCookie = (flag: FeatureFlag, isOn: boolean) => {
-  if (flag.type !== 'experimental') {
-    setCookieCustom(flag.id, isOn ? 'true' : 'false');
-  } else if (isOn === flag.defaultValue) {
+  if (isOn === flag.defaultValue) {
     deleteCookieCustom(flag.id);
   } else {
-    setCookieCustom(flag.id, isOn ? 'true' : 'off');
+    const offValue = flag.type === 'experimental' ? 'off' : 'false';
+    setCookieCustom(flag.id, isOn ? 'true' : offValue);
   }
 };
 
