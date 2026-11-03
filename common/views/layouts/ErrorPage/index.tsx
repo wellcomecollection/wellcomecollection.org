@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 import {
   DefaultErrorText,
   errorMessages,
@@ -41,7 +42,7 @@ const MessageBar = styled(Space).attrs({
 
 /** This shows the user a list of toggles they currently have enabled, e.g.
  *
- *      You have the following toggles enabled: apiToolbar, stagingApi
+ *      You have the following toggles set: apiToolbar, stagingApi
  *
  * Sometimes toggles may cause errors on the site which aren't visible to
  * the public (e.g. the staging API toggle).
@@ -63,9 +64,10 @@ const TogglesMessage: FunctionComponent = () => {
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
   const [toggles, setToggles] = useState<string[]>([]);
-  const [hasActiveMode, setHasActiveMode] = useState(false);
+  const [isKioskDevice, setIsKioskDevice] = useState(false);
 
   useEffect(() => {
+    setIsKioskDevice(isValidKioskMode(getCookies().toggle_kioskMode));
     setToggles(() => {
       const cookies = getCookies();
       // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
@@ -73,12 +75,6 @@ const TogglesMessage: FunctionComponent = () => {
       const activeTogglesInBrowser = dangerouslyGetEnabledToggles(
         cookies
       ).filter(v => !v.startsWith('!'));
-
-      const activeModes = activeTogglesInBrowser.filter(id =>
-        togglesList.modes.some(mode => mode.id === id)
-      );
-
-      setHasActiveMode(activeModes.length > 0);
 
       // Get the readable name - for a mode or phased flag, also show which
       // option/phase is selected (e.g. "API environment (Stage)"), since
@@ -108,9 +104,17 @@ const TogglesMessage: FunctionComponent = () => {
             const options: { id: string; label: string }[] | undefined =
               mode?.options.map(o => ({ id: o.id, label: o.label })) ??
               phasedFlag?.phases.map(p => ({ id: p.id, label: p.label }));
-            if (!options) return toggle.title;
-
             const optionValue = cookies[`toggle_${id}`];
+            if (!options) {
+              // A personal "off" on an experimental flag means seeing a
+              // different version from the public, so it's worth listing
+              const isPersonalOff =
+                'type' in toggle &&
+                toggle.type === 'experimental' &&
+                optionValue === 'off';
+              return isPersonalOff ? `${toggle.title} (off)` : toggle.title;
+            }
+
             const option = options.find(o => o.id === optionValue);
             return `${toggle.title} (${option?.label ?? optionValue})`;
           })
@@ -130,7 +134,7 @@ const TogglesMessage: FunctionComponent = () => {
             <Icon icon={underConstruction} />
           </Space>
           <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-            You have the following toggles enabled:
+            You have the following toggles set:
             <ul>
               {toggles.map(t => (
                 <li key={t}>
@@ -138,28 +142,29 @@ const TogglesMessage: FunctionComponent = () => {
                 </li>
               ))}
             </ul>
-            This could be what is causing this page to error,{' '}
-            <a
-              href="https://dash.wellcomecollection.org/toggles"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              please try resetting your toggles
-            </a>
-            .
-            {hasActiveMode && (
-              <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
-                <strong>You are also not using the default view mode</strong>,
-                which could be changing the default experience.{' '}
+            {/* Kiosk devices are set up and reset from the dashboard only, so there's nothing for a visitor to link to or reset */}
+            {isKioskDevice ? (
+              <>This could be what is causing this page to error.</>
+            ) : (
+              <>
+                This could be what is causing this page to error. You can{' '}
                 <a
-                  href="https://dash.wellcomecollection.org/toggles/#modes"
+                  href="https://dash.wellcomecollection.org/toggles/?resetToggles"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  You can reset them here
+                  reset all your toggles
+                </a>
+                , or{' '}
+                <a
+                  href="https://dash.wellcomecollection.org/toggles"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  choose which to change in the dashboard
                 </a>
                 .
-              </Space>
+              </>
             )}
           </Space>
         </MessageBar>
