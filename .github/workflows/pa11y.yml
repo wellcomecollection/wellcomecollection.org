@@ -23,4 +23,8 @@ jobs:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
       - name: Write pa11y report and deploy it
-        run: cd pa11y/webapp && yarn && yarn report-and-deploy 
+        env:
+          # Only the daily run alerts. Deploys and manual runs still write the
+          # report, and the script says nothing without a webhook URL.
+          PA11Y_SLACK_WEBHOOK_URL: ${{ github.event_name == 'schedule' && secrets.SLACK_WEBHOOK_GA_PA11Y_ERRORS_URL || '' }}
+        run: cd pa11y/webapp && yarn && yarn report-and-deploy
