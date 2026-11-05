@@ -55,6 +55,8 @@ const Label = styled.span<{ $disabled: boolean }>`
 `;
 
 type ToggleSwitchProps = {
+  /** Lets other controls move focus here, e.g. a reset link that disappears when used */
+  id?: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
@@ -63,6 +65,7 @@ type ToggleSwitchProps = {
 };
 
 const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
+  id,
   checked,
   onChange,
   disabled = false,
@@ -84,6 +87,7 @@ const ToggleSwitch: FunctionComponent<ToggleSwitchProps> = ({
 
   return (
     <SwitchContainer
+      id={id}
       $disabled={disabled}
       onClick={handleChange}
       onKeyDown={handleKeyDown}

@@ -174,6 +174,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
 
                 <ToggleControls>
                   <ToggleSwitch
+                    id={`switch-${toggle.id}`}
                     checked={isOn}
                     disabled={isLockedOn}
                     onChange={checked => {
@@ -197,8 +198,12 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       {hasPersonalSetting && (
                         <ResetLink
                           type="button"
-                          aria-label={`Reset ${toggle.title} to its default`}
+                          aria-label={`Reset to default for ${toggle.title}`}
                           onClick={() => {
+                            // This link disappears once used, so keep focus on the switch
+                            document
+                              .getElementById(`switch-${toggle.id}`)
+                              ?.focus();
                             deleteCookieCustom(toggle.id);
                             setToggleStates(prev => ({
                               ...prev,
