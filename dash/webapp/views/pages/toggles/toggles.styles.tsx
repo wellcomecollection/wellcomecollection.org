@@ -1,15 +1,39 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
 export const TableOfContentsList = styled.ul`
   list-style: none;
-  margin: 0 0 ${tokens.spacing.lg} 0;
+  margin: 0 0 ${tokens.spacing.md};
   padding: 0;
   display: flex;
-  gap: ${tokens.spacing.md};
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
+  gap: ${tokens.spacing.xs};
+  font-size: ${tokens.typography.fontSize.small};
+
+  > li > a {
+    font-weight: 600;
+  }
+`;
+
+/** The subsection links that follow a top-level one, inline and dot-separated. */
+export const TableOfContentsSublist = styled.ul`
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  > li {
+    display: inline;
+  }
+
+  > li::before {
+    content: ' · ';
+  }
+
+  &::before {
+    content: ': ';
+  }
 `;
 
 export const ResetButton = styled.button`
@@ -73,67 +97,114 @@ export const SearchInput = styled.input`
   }
 `;
 
-export const Section = styled.section<{
-  $background?: 'default' | 'light' | 'alt';
-  $hasNoTopPadding?: boolean;
-}>`
-  padding: ${props => (props.$hasNoTopPadding ? '0' : tokens.spacing.xl)} 0
-    ${tokens.spacing.xl};
-  background: ${props => {
-    switch (props.$background) {
-      case 'light':
-        return tokens.colors.background.paper;
-      case 'alt':
-        return tokens.colors.background.section;
-      default:
-        return 'transparent';
-    }
-  }};
+export const Section = styled.section<{ $background?: string }>`
+  padding: ${tokens.spacing.xl} 0;
+  background: ${props => props.$background ?? 'transparent'};
 `;
 
 export const SectionInner = styled.div`
   max-width: 800px;
   margin: 0 auto;
   padding: 0 ${tokens.spacing.xl};
+`;
 
-  h2 {
-    margin-top: 0;
-    margin-bottom: ${tokens.spacing.md};
-    font-size: ${tokens.typography.fontSize.h4};
-    scroll-margin-top: 60px;
+/** A group within a section, boxed so it stands apart from its siblings. */
+export const Subsection = styled.div<{ $isEmpty?: boolean }>`
+  ${props =>
+    props.$isEmpty
+      ? css`
+          padding: ${tokens.spacing.sm} ${tokens.spacing.lg};
+        `
+      : css`
+          background: ${tokens.colors.background.default};
+          border: 1px solid ${tokens.colors.border.default};
+          border-radius: ${tokens.borderRadius.large};
+          padding: ${tokens.spacing.lg};
+        `}
 
-    a {
-      color: ${tokens.colors.info.main};
-      text-decoration: none;
+  & + & {
+    margin-top: ${tokens.spacing.md};
+  }
+`;
+
+/** A group with nothing in it: its heading and a short message on one line. */
+export const EmptyGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: ${tokens.spacing.xs} ${tokens.spacing.md};
+  color: ${tokens.colors.text.secondary};
+`;
+
+/**
+ * A section (h2) or subsection (h3) heading with an anchor link. Render with
+ * `as` to set the heading level.
+ */
+export const SectionHeading = styled.h2<{
+  $isSubsection?: boolean;
+  $isCompact?: boolean;
+}>`
+  margin-top: 0;
+  margin-bottom: ${props => (props.$isCompact ? '0' : tokens.spacing.md)};
+  font-size: ${props => {
+    if (props.$isCompact) return tokens.typography.fontSize.base;
+    return props.$isSubsection
+      ? tokens.typography.fontSize.h3
+      : tokens.typography.fontSize.h2;
+  }};
+  scroll-margin-top: 60px;
+
+  /* The heading is its own anchor link; a # shows on hover or focus to say so */
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      content: '#' / '';
       margin-left: ${tokens.spacing.xs};
+      color: ${tokens.colors.info.main};
+      opacity: 0;
+      transition: opacity 150ms ease;
 
-      &:hover {
-        text-decoration: underline;
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
       }
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      opacity: 1;
     }
   }
 `;
 
+/** The name of an individual toggle. Render with `as` to set the heading level. */
+export const ToggleTitle = styled.h3`
+  margin: 0;
+  font-size: ${tokens.typography.fontSize.base};
+`;
+
 export const ToggleRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: ${tokens.spacing.md};
+  flex-direction: column;
+  gap: ${tokens.spacing.sm};
   margin-bottom: ${tokens.spacing.md};
 `;
 
 export const ToggleInfo = styled.div`
-  flex: 1;
   min-width: 0;
-  max-width: 500px;
+
+  /* Keep prose a readable length while the heading row (and its badge) spans the card */
+  p {
+    max-width: 70ch;
+  }
 `;
 
 export const ToggleControls = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: ${tokens.spacing.xs};
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: ${tokens.spacing.sm};
 `;
 
 export const ToggleList = styled.ul`
@@ -150,19 +221,73 @@ export const ToggleListItem = styled.li`
 
 export const ToggleHeadingRow = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: ${tokens.spacing.sm};
   margin-bottom: ${tokens.spacing.xs};
 `;
 
-export const MessageBox = styled.p<{
+/** Pushes a toggle's status badge to the right of its heading row. */
+export const ToggleBadge = styled.div`
+  margin-left: auto;
+`;
+
+/**
+ * Where messages appear, fixed to the bottom of the viewport so they're seen
+ * wherever the page is scrolled to. Always rendered so screen readers pick up
+ * messages added to it.
+ */
+export const MessageRegion = styled.div`
+  position: fixed;
+  bottom: ${tokens.spacing.lg};
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, calc(100vw - ${tokens.spacing.xl}));
+  z-index: 20;
+  pointer-events: none;
+`;
+
+const shrink = keyframes`
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+`;
+
+/** A line along the bottom of a message that runs out as the message's time does. */
+export const MessageTimer = styled.span<{ $durationMs: number }>`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: currentColor;
+  opacity: 0.4;
+  transform-origin: left;
+  animation: ${shrink} ${props => props.$durationMs}ms linear forwards;
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+`;
+
+export const MessageBox = styled.div<{
   $isError?: boolean;
   $isEnabled?: boolean;
 }>`
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: ${tokens.spacing.md};
   padding: ${tokens.spacing.sm} ${tokens.spacing.md};
   margin: 0;
-  border-radius: ${tokens.borderRadius.small};
-  margin-bottom: ${tokens.spacing.md};
+  border-radius: ${tokens.borderRadius.medium};
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  pointer-events: auto;
   font-weight: bold;
   border: 1px solid
     ${props => {
@@ -183,4 +308,16 @@ export const MessageBox = styled.p<{
       ? tokens.colors.success.text
       : tokens.colors.info.text;
   }};
+`;
+
+export const MessageClose = styled.button`
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 ${tokens.spacing.xs};
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  cursor: pointer;
 `;
