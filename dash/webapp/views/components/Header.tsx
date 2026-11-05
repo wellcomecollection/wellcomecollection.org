@@ -7,7 +7,7 @@ import { tokens } from '@weco/dash/views/themes/tokens';
 const MOBILE_BREAKPOINT = '768px';
 
 const Wrapper = styled.header`
-  background: ${tokens.colors.primary.dark};
+  background: ${tokens.colors.header.background};
   border-bottom: 1px solid ${tokens.colors.black};
   height: 85px;
   display: flex;
@@ -85,7 +85,7 @@ const LogoLink = styled(Link)`
 
 const DashBadge = styled.span`
   background: ${tokens.colors.white};
-  color: ${tokens.colors.primary.dark};
+  color: ${tokens.colors.header.background};
   padding: 2px 8px;
   border-radius: ${tokens.borderRadius.small};
   font-size: 0.75rem;
@@ -166,7 +166,7 @@ const Nav = styled.nav<{ $isOpen: boolean }>`
     top: 85px;
     left: 0;
     right: 0;
-    background: ${tokens.colors.primary.dark};
+    background: ${tokens.colors.header.background};
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     border-bottom: 1px solid ${tokens.colors.black};
     padding: ${tokens.spacing.sm} 0;
@@ -224,7 +224,7 @@ const NavLink = styled(Link)<{ $isActive: boolean }>`
     left: 0;
     width: ${props => (props.$isActive ? '100%' : '0')};
     height: 3px;
-    background: ${tokens.colors.yellow};
+    background: ${tokens.colors.header.accent};
     transition: width 200ms ease;
 
     @media (prefers-reduced-motion: reduce) {
