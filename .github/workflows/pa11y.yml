@@ -28,3 +28,24 @@ jobs:
           # report, and the script says nothing without a webhook URL.
           PA11Y_SLACK_WEBHOOK_URL: ${{ github.event_name == 'schedule' && secrets.SLACK_WEBHOOK_GA_PA11Y_ERRORS_URL || '' }}
         run: cd pa11y/webapp && yarn && yarn report-and-deploy
+  on-failure:
+    runs-on: ubuntu-latest
+    # Only the daily run, like the error alert. A manual run can be started from
+    # any branch, and whoever started it is already watching it.
+    if: ${{ always() && github.event_name == 'schedule' && (needs.pa11y_report.result == 'failure' || needs.pa11y_report.result == 'timed_out') }}
+    needs:
+      - pa11y_report
+    steps:
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+        with:
+          payload: |
+            {
+              "action_name": "Pa11y action",
+              "status": "${{ needs.pa11y_report.result }}",
+              "link": "https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/pa11y.yml"
+            }
+          webhook-type: webhook-trigger
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_GA_ACTION_URL }}
