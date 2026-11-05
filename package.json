@@ -7,6 +7,7 @@
     "setupCommon": "yarn install --production",
     "identity": "yarn workspace @weco/identity run start:dev",
     "cardigan": "yarn workspace @weco/cardigan run dev",
+    "dash": "yarn --cwd dash/webapp dev",
     "content": "yarn workspace @weco/content run dev",
     "slicemachine": "yarn workspace @weco/common start-slicemachine",
     "build-webapps": "echo '@weco/content @weco/identity' | xargs -n 1 | xargs -I% yarn workspace % run build",
