@@ -32,7 +32,7 @@ export const tokens = {
     },
     warning: {
       // A muted amber, so warnings don't read as red or as bright yellow
-      main: '#c4912a',
+      main: '#a8740a',
       light: '#fdf6e3',
       text: '#704c00',
     },
