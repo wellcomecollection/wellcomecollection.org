@@ -132,7 +132,8 @@ test.describe('Desktop', () => {
       await searchQuerySubmitAndWait(imageWithContributor, page);
 
       // Once Phase 1 is public there's no way to turn the sidebar off, so
-      // there's no modal to check. Remove this test with the toggle.
+      // there's no modal to check. Remove this test once we've moved
+      // permanently to the sidebar.
       test.skip(
         (await thumbnail(page, 1).getAttribute('title')) ===
           'Open image details',

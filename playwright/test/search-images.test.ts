@@ -15,8 +15,8 @@ test.describe.configure({ mode: 'parallel' });
 
 // The image details open in a modal, or in a sidebar once the imageSidebarPhases
 // toggle is public. This finds whichever is showing, so these tests pass either
-// way. Once the toggle is removed, the sidebar tests in image-sidebar.test.ts
-// cover the same things, so tests (2) and (3) can go.
+// way. Once we've moved permanently to the sidebar, the sidebar tests in
+// image-sidebar.test.ts cover the same things, so tests (2) and (3) can go.
 const imageDetails = (page: Page) =>
   page.getByTestId('image-modal').or(
     page.getByRole('region').filter({
