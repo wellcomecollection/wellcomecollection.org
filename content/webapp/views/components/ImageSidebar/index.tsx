@@ -15,6 +15,7 @@ import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross, eye } from '@weco/common/icons';
 import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
@@ -295,6 +296,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             )}
             <SidebarScroller ref={scrollerRef}>
               <CloseButton
+                {...dataGtmPropsToAttributes({ trigger: 'close-modal-button' })}
                 ref={closeButtonRef}
                 onClick={() => setExpandedImage(undefined)}
               >
