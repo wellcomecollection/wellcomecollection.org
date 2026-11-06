@@ -130,6 +130,15 @@ test.describe('Desktop', () => {
     }) => {
       await search(context, page, 'images');
       await searchQuerySubmitAndWait(imageWithContributor, page);
+
+      // Once Phase 1 is public there's no way to turn the sidebar off, so
+      // there's no modal to check. Remove this test with the toggle.
+      test.skip(
+        (await thumbnail(page, 1).getAttribute('title')) ===
+          'Open image details',
+        'imageSidebarPhases is public, so there is no modal'
+      );
+
       await expect(thumbnail(page, 1)).toHaveAttribute(
         'title',
         'Open modal window'
@@ -172,6 +181,18 @@ test.describe('Desktop', () => {
       ).toBeVisible();
       await expect(
         pane.getByRole('heading', { name: 'Visually similar images' })
+      ).toBeVisible();
+    });
+
+    test('images without contributors still show a title', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('kd9h6gr3', context, page);
+      await openSidebar(1, page);
+
+      await expect(
+        sidebar(page).getByText('Fish. Watercolour drawing.')
       ).toBeVisible();
     });
 
