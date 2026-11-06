@@ -56,6 +56,15 @@ const conceptsSearchFlag = {
   type: 'permanent' as const,
 };
 
+// An experimental flag that's already public, which can be turned off for yourself
+const brandUpdateFlag = {
+  id: 'brandUpdate',
+  title: 'Brand update',
+  defaultValue: true,
+  description: 'Shows the new brand values.',
+  type: 'experimental' as const,
+};
+
 // Use a real stage-type flag to test stage filtering
 const stageOnlyFlag = {
   id: 'stagingApi',
@@ -126,6 +135,63 @@ describe('getTogglesFromContext', () => {
       );
 
       expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('returns false when an experimental flag\'s cookie is "off"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [brandUpdateFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_brandUpdate: 'off' })
+      );
+
+      expect(result.featureFlags.brandUpdate).toBe(false);
+    });
+
+    it('ignores "off" on a flag that is not experimental', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [conceptsSearchFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_conceptsSearch: 'off' })
+      );
+
+      expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('returns defaultValue when an experimental flag\'s cookie is "false"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [brandUpdateFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_brandUpdate: 'false' })
+      );
+
+      expect(result.featureFlags.brandUpdate).toBe(true);
+    });
+
+    it('lets an override beat an "off" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [brandUpdateFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_brandUpdate: 'off' }),
+        { brandUpdate: 'true' }
+      );
+
+      expect(result.featureFlags.brandUpdate).toBe(true);
     });
 
     it('excludes stage-only flags on non-stage hosts', () => {
@@ -747,6 +813,20 @@ describe('validTogglePresets', () => {
         createContext()
       )
     ).toEqual({});
+  });
+
+  it('accepts "off" for experimental feature flags only', () => {
+    const resp = {
+      ...togglesResp,
+      featureFlags: [stagingApiFlag, brandUpdateFlag],
+    };
+    expect(
+      validTogglePresets(
+        { brandUpdate: 'off', stagingApi: 'off' },
+        resp,
+        createContext()
+      )
+    ).toEqual({ brandUpdate: 'off' });
   });
 
   it('only accepts stage-only toggles on stage hosts', () => {
