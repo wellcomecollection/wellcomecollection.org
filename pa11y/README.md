@@ -23,6 +23,10 @@ Alternatively, we re-run pa11y on every deployment to prod.
 
 The results are shown in a dashboard at <https://dash.wellcomecollection.org/pa11y>
 
+If the daily scheduled run finds any errors, it alerts #wc-platform-alerts. Warnings don't alert, as they're there to be checked by hand, and neither do the deployment and manual runs - they'd mostly repeat what the daily run has already said.
+
+A run that fails outright is reported separately by the workflow, as it writes no report and so can't alert on errors either.
+
 ## How we choose what pages to test
 
 We have to specify a list of URLs for pa11y to check – it doesn't crawl the site looking for content.
