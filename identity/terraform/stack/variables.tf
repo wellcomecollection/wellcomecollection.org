@@ -49,8 +49,3 @@ variable "app_user" {
   type    = string
   default = "nextjs"
 }
-
-variable "log_router_container_tag" {
-  type    = string
-  default = "0b9948b83bfb68e4481ed988f15ede80239e4879"
-}

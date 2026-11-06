@@ -1,7 +1,7 @@
 module "content-service-17092020" {
   source = "../../../infrastructure/modules/service"
 
-  log_router_container_tag = var.log_router_container_tag
+  sidecar_tier = var.env_suffix == "prod" ? "prod" : "stage"
 
   namespace = "content-17092020-${var.env_suffix}"
 
@@ -17,10 +17,7 @@ module "content-service-17092020" {
 
   app_user = var.app_user
 
-  nginx_container_config = {
-    image_name    = "uk.ac.wellcome/nginx_frontend"
-    container_tag = "a7ebe942849d2368af6de85fa1c4ca639a293bf3"
-  }
+  nginx_image_name = "uk.ac.wellcome/nginx_frontend"
 
   cpu    = var.env_suffix == "prod" ? 2048 : 512
   memory = var.env_suffix == "prod" ? 4096 : 1024
