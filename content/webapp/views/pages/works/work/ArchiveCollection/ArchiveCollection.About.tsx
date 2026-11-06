@@ -1,6 +1,8 @@
+import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import {
@@ -14,6 +16,7 @@ import CopyButtons from '@weco/content/views/components/CopyButtons';
 import WorkDetailsList from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.List';
 import WorkDetailsSection from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Section';
 import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Text';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const mainSizeMap: SizeMap = { s: [12], m: [12], l: [8], xl: [8] };
 const sideSizeMap: SizeMap = { s: [12], m: [12], l: [4], xl: [4] };
@@ -30,7 +33,10 @@ const SideColumn = styled(GridCell)`
 const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
   work,
 }) => {
+  const { archiveBrowsingPhases } = usePhasedFlags();
+  const showArchiveBrowsing = phaseIsAtLeast(archiveBrowsingPhases, 'mvp');
   const { orderedNotes, remainingNotes } = getOrderedNotes(work);
+  const archiveCategory = work.archive?.category;
 
   const accessionNumberIdentifiers = work.identifiers.filter(
     id => id.identifierType.id === 'wellcome-accession-number'
@@ -70,6 +76,25 @@ const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
         </GridCell>
 
         <SideColumn $sizeMap={sideSizeMap}>
+          {archiveCategory && (
+            <WorkDetailsText
+              title="Type"
+              contents={
+                // The category pages only exist once archive browsing is on,
+                // so until then show the label without a link
+                showArchiveBrowsing ? (
+                  <NextLink
+                    href={`/collections/archives/${archiveCategory.id.toLowerCase()}`}
+                  >
+                    {archiveCategory.label}
+                  </NextLink>
+                ) : (
+                  <span>{archiveCategory.label}</span>
+                )
+              }
+            />
+          )}
+
           {work.physicalDescription && (
             <WorkDetailsText
               title="Physical description"
