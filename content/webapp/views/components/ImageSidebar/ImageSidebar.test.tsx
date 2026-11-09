@@ -1,11 +1,14 @@
 import { act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import { PhaseValue } from '@weco/toggles';
 
 import ImageSidebar from '.';
+import { TRANSITION_MS } from './ImageSidebar.styles';
 
 jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
   getWorkClientSide: jest.fn(),
@@ -33,13 +36,32 @@ const work = {
   production: [],
 } as unknown as Work;
 
-const renderSidebar = async (image?: Image, setExpandedImage = jest.fn()) => {
+const mockImageSidebarPhase = (current: PhaseValue) =>
+  jest.spyOn(Context, 'usePhasedFlags').mockImplementation(
+    () =>
+      ({
+        imageSidebarPhases: {
+          current,
+          phases: [
+            { id: 'phase1', label: 'Phase 1', description: '' },
+            { id: 'phase2', label: 'Phase 2', description: '' },
+          ],
+        },
+      }) as unknown as ReturnType<typeof Context.usePhasedFlags>
+  );
+
+const renderSidebar = async (
+  image?: Image,
+  setExpandedImage = jest.fn(),
+  onStatusChange = jest.fn()
+) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
     <ImageSidebar
       images={expandedImage ? [expandedImage] : []}
       expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
+      onStatusChange={onStatusChange}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -79,12 +101,147 @@ describe('ImageSidebar', () => {
 
   it('the close button clears the selected image', async () => {
     const { setExpandedImage } = await renderSidebar(expandedImage);
+    const closeButton = screen.getByRole('button', {
+      name: 'Close image details',
+    });
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Close image details' })
+    expect(closeButton).toHaveAttribute(
+      'data-gtm-trigger',
+      'close-modal-button'
     );
 
+    await userEvent.click(closeButton);
+
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  describe('sliding in and out', () => {
+    beforeEach(() => jest.useFakeTimers());
+    afterEach(() => jest.useRealTimers());
+    afterEach(() => window.history.replaceState(null, '', '/'));
+    const sidebar = () => screen.getByRole('region', { name: 'Image details' });
+
+    it('says when it starts and finishes opening and closing', async () => {
+      const onStatusChange = jest.fn();
+      const { select } = await renderSidebar(
+        undefined,
+        jest.fn(),
+        onStatusChange
+      );
+
+      const finishSlide = () =>
+        act(async () => {
+          jest.runAllTimers();
+        });
+
+      await select(expandedImage);
+      await finishSlide();
+      await select(undefined);
+      await finishSlide();
+
+      expect(onStatusChange.mock.calls.map(([status]) => status)).toEqual([
+        'opening',
+        'open',
+        'closing',
+        'closed',
+      ]);
+    });
+
+    it('keeps the image while it slides out, then renders nothing', async () => {
+      const { container, select } = await renderSidebar(expandedImage);
+
+      await select(undefined);
+      expect(
+        screen.getByRole('link', { name: 'View image: A title with markup' })
+      ).toBeInTheDocument();
+
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      expect(container).toBeEmptyDOMElement();
+    });
+
+    it('slides in an image chosen after the page loads, but not one that was in the URL', async () => {
+      const chosen = await renderSidebar(undefined);
+      await chosen.select(expandedImage);
+      expect(getComputedStyle(sidebar()).transition).toBe(
+        `transform ${TRANSITION_MS}ms ease-in-out`
+      );
+      chosen.unmount();
+
+      window.history.replaceState(null, '', `/#${expandedImage.id}`);
+      const linked = await renderSidebar(undefined);
+      await linked.select(expandedImage);
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      expect(getComputedStyle(sidebar()).transition).toBe('none');
+    });
+  });
+
+  describe('resizing', () => {
+    beforeEach(() => mockImageSidebarPhase('phase2'));
+    afterEach(() => jest.restoreAllMocks());
+    afterEach(() => jest.useRealTimers());
+    const handle = () =>
+      screen.getByRole('separator', { name: 'Resize image details' });
+    const focusHandle = () => act(() => handle().focus());
+    const sidebarColumns = () =>
+      screen
+        .getByRole('region', { name: 'Image details' })
+        .style.getPropertyValue('--sidebar-columns');
+
+    it('has no handle before Phase 2', async () => {
+      mockImageSidebarPhase('phase1');
+      await renderSidebar(expandedImage);
+
+      expect(screen.queryByRole('separator')).not.toBeInTheDocument();
+    });
+
+    it('starts at 6 of the 12 columns', async () => {
+      await renderSidebar(expandedImage);
+
+      expect(handle()).toHaveAttribute('aria-valuetext', '6 of 12 columns');
+      expect(sidebarColumns()).toBe('6');
+    });
+
+    it('the arrow keys move it a column at a time, from 3 to 9 columns', async () => {
+      await renderSidebar(expandedImage);
+      focusHandle();
+
+      await userEvent.keyboard('{ArrowLeft}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '7');
+      expect(sidebarColumns()).toBe('7');
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '5');
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '3');
+
+      await userEvent.keyboard('{End}{ArrowLeft}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '9');
+
+      await userEvent.keyboard('{Home}');
+      expect(handle()).toHaveAttribute('aria-valuenow', '3');
+    });
+
+    it('keeps its width when another image is chosen, and goes back to the default once closed', async () => {
+      jest.useFakeTimers();
+      const { select } = await renderSidebar(expandedImage);
+      focusHandle();
+      await userEvent.keyboard('{ArrowLeft}', { delay: null });
+
+      await select({ ...expandedImage, id: 'imageB' });
+      expect(sidebarColumns()).toBe('7');
+
+      await select(undefined);
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      await select(expandedImage);
+      expect(sidebarColumns()).toBe('6');
+    });
   });
 
   describe('focus', () => {

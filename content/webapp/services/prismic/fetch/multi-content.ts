@@ -26,11 +26,18 @@ import {
   GetServerSidePropsPrismicClient,
 } from '.';
 
+/** Converts e.g. 'my.pages.datePublished desc' to the object form Prismic expects. */
+const toOrdering = (ordering: string): prismic.Ordering => {
+  const [field, direction] = ordering.split(' ');
+  return direction === 'desc' ? { field, direction } : { field };
+};
+
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
   structuredSearchQuery: StructuredSearchQuery
 ): Promise<prismic.Query<MultiContentPrismicDocument>> => {
-  const { types, type, id, ids, tags, tag, pageSize } = structuredSearchQuery;
+  const { types, type, id, ids, tags, tag, pageSize, orderings } =
+    structuredSearchQuery;
 
   const idsFilter =
     ids.length > 0 ? prismic.filter.at('document.id', ids) : undefined;
@@ -80,6 +87,7 @@ export const fetchMultiContent = async (
     ],
     filters,
     pageSize: pageSize || 100,
+    orderings: orderings.map(toOrdering),
   });
 };
 

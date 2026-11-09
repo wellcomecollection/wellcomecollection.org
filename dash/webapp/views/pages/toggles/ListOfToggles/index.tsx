@@ -2,15 +2,18 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+import Group from '../toggles.Group';
 import { FeatureFlag, setCookieCustom, ToggleStates } from '../toggles.helpers';
 import ToggleStarButton from '../toggles.StarButton';
 import {
+  ToggleBadge,
   ToggleControls,
   ToggleHeadingRow,
   ToggleInfo,
   ToggleList,
   ToggleListItem,
   ToggleRow,
+  ToggleTitle,
 } from '../toggles.styles';
 import CopyLinkIcon from './ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles.StatusBadge';
@@ -20,7 +23,9 @@ import ToggleSwitch from './ListOfToggles.ToggleSwitch';
 type ListOfTogglesProps = {
   title: string;
   anchorId: string;
-  description?: string;
+  description: string;
+  emptyMessage?: string;
+  onReset: () => void;
   featureFlags: FeatureFlag[];
   toggleStates: ToggleStates;
   setToggleStates: Dispatch<SetStateAction<ToggleStates>>;
@@ -30,23 +35,33 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
   title,
   anchorId,
   description,
+  emptyMessage,
+  onReset,
   featureFlags,
   toggleStates,
   setToggleStates,
-}) => (
-  <>
-    <h2 id={anchorId}>
-      {title}
-      <a href={`#${anchorId}`} aria-label={`Link to ${title} section`}>
-        <span aria-hidden="true">#</span>
-      </a>
-    </h2>
-    {description && (
-      <p style={{ marginTop: 0, color: tokens.colors.text.secondary }}>
-        {description}
-      </p>
-    )}
-    {featureFlags.length > 0 ? (
+}) => {
+  const hasOverrides = featureFlags.some(
+    flag => toggleStates[flag.id] !== flag.defaultValue
+  );
+
+  return (
+    <Group
+      id={anchorId}
+      title={title}
+      description={description}
+      isEmpty={featureFlags.length === 0}
+      emptyMessage={emptyMessage}
+      reset={
+        hasOverrides
+          ? {
+              label: 'Reset to defaults',
+              ariaLabel: `Reset to defaults for ${title}`,
+              onClick: onReset,
+            }
+          : undefined
+      }
+    >
       <ToggleList role="list">
         {featureFlags.map(toggle => {
           const isPublicOn = toggle.defaultValue === true;
@@ -64,27 +79,27 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
                       dateCreated={toggle.dateCreated}
                       dateActivated={toggle.dateActivated}
                     >
-                      <h3
-                        style={{ margin: 0, display: 'inline' }}
+                      <ToggleTitle
+                        as="h4"
+                        style={{ display: 'inline' }}
                         aria-labelledby={`heading-${toggle.id}`}
                       >
                         <span id={`heading-${toggle.id}`}>{toggle.title}</span>
-                      </h3>
+                      </ToggleTitle>
                     </ToggleDates>
                     <CopyLinkIcon toggleId={toggle.id} title={toggle.title} />
                     <ToggleStarButton
                       toggleId={toggle.id}
                       title={toggle.title}
                     />
+                    <ToggleBadge>
+                      <StatusBadge
+                        active={toggle.defaultValue}
+                        activeLabel="Public"
+                        inactiveLabel="Internal"
+                      />
+                    </ToggleBadge>
                   </ToggleHeadingRow>
-
-                  <div style={{ marginBottom: tokens.spacing.xs }}>
-                    <StatusBadge
-                      active={toggle.defaultValue}
-                      activeLabel="Public"
-                      inactiveLabel="Internal"
-                    />
-                  </div>
 
                   <p
                     style={{
@@ -142,10 +157,8 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
           );
         })}
       </ToggleList>
-    ) : (
-      <p>None for now, check back later…</p>
-    )}
-  </>
-);
+    </Group>
+  );
+};
 
 export default ListOfToggles;

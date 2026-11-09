@@ -16,6 +16,12 @@ import { transformExhibition } from './exhibitions';
 import { transformPage } from './pages';
 import { transformSeries } from './series';
 
+// The orderings a search-results query may ask for. A bare field is ascending.
+const allowedOrderings = [
+  'my.pages.datePublished',
+  'my.pages.datePublished desc',
+];
+
 export function parseQuery(query: string): StructuredSearchQuery {
   const structuredQuery = searchQueryParser.parse(query, {
     keywords: [
@@ -26,6 +32,7 @@ export function parseQuery(query: string): StructuredSearchQuery {
       'tags',
       'tag',
       'pageSize',
+      'orderings',
       // content type specific
       'article-series',
     ],
@@ -50,6 +57,9 @@ export function parseQuery(query: string): StructuredSearchQuery {
     id: arrayedStructuredQuery.id || [],
     tags: arrayedStructuredQuery.tags || [],
     tag: arrayedStructuredQuery.tag || [],
+    orderings: (arrayedStructuredQuery.orderings || []).filter(ordering =>
+      allowedOrderings.includes(ordering)
+    ),
     pageSize: parsePageSize(arrayedStructuredQuery.pageSize?.[0]),
     'article-series': arrayedStructuredQuery['article-series'] || [],
   };

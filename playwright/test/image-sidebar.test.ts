@@ -7,16 +7,22 @@ import { baseUrl } from './helpers/utils';
 
 // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13529
 //
-// These run with the imageSidebarPhases toggle at Phase 1. A test marked
+// These run with the imageSidebarPhases toggle at Phase 1, apart from the
+// resizing ones, which are Phase 2. A test marked
 // `fixme` covers a criterion a later PR delivers; take the `fixme` off in
 // that PR.
 test.describe.configure({ mode: 'parallel' });
 
-const enableImageSidebar = (context: BrowserContext) =>
+type ImageSidebarPhase = 'phase1' | 'phase2';
+
+const enableImageSidebar = (
+  context: BrowserContext,
+  phase: ImageSidebarPhase = 'phase1'
+) =>
   context.addCookies([
     {
       name: 'toggle_imageSidebarPhases',
-      value: 'phase1',
+      value: phase,
       path: '/',
       domain: new URL(baseUrl).hostname,
     },
@@ -58,12 +64,16 @@ const sidebar = (page: Page) =>
 const closeButton = (page: Page) =>
   sidebar(page).getByRole('button', { name: 'Close image details' });
 
+const resizeHandle = (page: Page) =>
+  page.getByRole('separator', { name: 'Resize image details' });
+
 const searchImages = async (
   query: string,
   context: BrowserContext,
-  page: Page
+  page: Page,
+  phase?: ImageSidebarPhase
 ) => {
-  await enableImageSidebar(context);
+  await enableImageSidebar(context, phase);
   await search(context, page, 'images');
   await searchQuerySubmitAndWait(query, page);
 };
@@ -120,6 +130,16 @@ test.describe('Desktop', () => {
     }) => {
       await search(context, page, 'images');
       await searchQuerySubmitAndWait(imageWithContributor, page);
+
+      // Once Phase 1 is public there's no way to turn the sidebar off, so
+      // there's no modal to check. Remove this test once we've moved
+      // permanently to the sidebar.
+      test.skip(
+        (await thumbnail(page, 1).getAttribute('title')) ===
+          'Open image details',
+        'imageSidebarPhases is public, so there is no modal'
+      );
+
       await expect(thumbnail(page, 1)).toHaveAttribute(
         'title',
         'Open modal window'
@@ -162,6 +182,18 @@ test.describe('Desktop', () => {
       ).toBeVisible();
       await expect(
         pane.getByRole('heading', { name: 'Visually similar images' })
+      ).toBeVisible();
+    });
+
+    test('images without contributors still show a title', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('kd9h6gr3', context, page);
+      await openSidebar(1, page);
+
+      await expect(
+        sidebar(page).getByText('Fish. Watercolour drawing.')
       ).toBeVisible();
     });
 
@@ -366,6 +398,80 @@ test.describe('Desktop', () => {
 
       await expect(licences).toHaveAttribute('aria-expanded', 'false');
       await expect(sidebar(page)).toBeVisible();
+    });
+  });
+
+  // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13537
+  test.describe('Resizing the sidebar', () => {
+    const width = async (locator: Locator) =>
+      (await locator.boundingBox())!.width;
+
+    test('dragging the handle resizes the sidebar and the grid', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page, 'phase2');
+      await openSidebar(1, page);
+      const sidebarBefore = await width(sidebar(page));
+      const gridBefore = await width(resultsGrid(page));
+      // Once it's slid in, so the handle is where it stays
+      await expect(sidebar(page)).toHaveCSS('transform', 'none');
+
+      const handle = (await resizeHandle(page).boundingBox())!;
+      const x = handle.x + handle.width / 2;
+      const y = handle.y + 50;
+      await page.mouse.move(x, y);
+      await page.mouse.down();
+      await page.mouse.move(x - 100, y, { steps: 5 });
+      await page.mouse.up();
+
+      // The sidebar's edge follows the pointer (allowing a pixel of rounding)
+      await expect
+        .poll(async () =>
+          Math.abs((await width(sidebar(page))) - (sidebarBefore + 100))
+        )
+        .toBeLessThanOrEqual(1);
+      expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
+    });
+
+    test('keeps the chosen width when the window is too narrow for it', async ({
+      page,
+      context,
+    }) => {
+      await page.setViewportSize({ width: 1400, height: 900 });
+      await searchImages(imageWithContributor, context, page, 'phase2');
+      await openSidebar(1, page);
+      await resizeHandle(page).focus();
+      await page.keyboard.press('End');
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '9');
+
+      // Remeasuring is debounced, so these wait for it
+      await page.setViewportSize({ width: 768, height: 900 });
+      await expect
+        .poll(async () =>
+          Number(await resizeHandle(page).getAttribute('aria-valuenow'))
+        )
+        .toBeLessThan(9);
+
+      await page.setViewportSize({ width: 1400, height: 900 });
+      await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '9');
+    });
+
+    test('Shift+Tab from the sidebar passes the handle, then goes to the selected thumbnail', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page, 'phase2');
+
+      await thumbnail(page, 1).focus();
+      await page.keyboard.press('Enter');
+      await expect(sidebar(page)).toBeVisible();
+      await expectFocusInside(sidebar(page));
+
+      await page.keyboard.press('Shift+Tab');
+      await expect(resizeHandle(page)).toBeFocused();
+      await page.keyboard.press('Shift+Tab');
+      await expect(thumbnail(page, 1)).toBeFocused();
     });
   });
 

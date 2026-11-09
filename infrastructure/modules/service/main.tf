@@ -22,9 +22,19 @@ resource "aws_lb_target_group" "http" {
   }
 }
 
+data "aws_ssm_parameter" "fluentbit_tag" {
+  name = "/platform/sidecars/fluentbit/${var.sidecar_tier}"
+}
+
+data "aws_ssm_parameter" "nginx_tag" {
+  name = "/platform/sidecars/nginx/${var.sidecar_tier}"
+}
+
 module "log_router_container" {
   source    = "git::github.com/wellcomecollection/terraform-aws-ecs-service.git//modules/firelens?ref=v4.0.0"
   namespace = var.namespace
+
+  container_tag = coalesce(var.fluentbit_tag_override, data.aws_ssm_parameter.fluentbit_tag.insecure_value)
 }
 
 module "log_router_container_secrets_permissions" {
@@ -40,8 +50,8 @@ module "nginx_container" {
   log_configuration  = module.log_router_container.container_log_configuration
   memory_reservation = var.nginx_memory_reservation
 
-  container_tag = var.nginx_container_config["container_tag"]
-  image_name    = var.nginx_container_config["image_name"]
+  container_tag = coalesce(var.nginx_tag_override, data.aws_ssm_parameter.nginx_tag.insecure_value)
+  image_name    = var.nginx_image_name
 }
 
 module "app_container" {

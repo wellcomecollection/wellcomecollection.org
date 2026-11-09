@@ -1402,6 +1402,48 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Blocks self-identifying automation that solves the challenge and loads
+  // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
+  // Last, so it only sees what every other rule would allow.
+  dynamic "rule" {
+    for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
+    content {
+      name     = "blocked-user-agent"
+      priority = 28
+
+      action {
+        block {}
+      }
+
+      rule_label {
+        name = "blocked-user-agent"
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = join("|", var.blocked_user_agent_patterns)
+
+          field_to_match {
+            single_header {
+              name = "user-agent"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "blocked-user-agent-${var.namespace}"
+      }
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true

@@ -436,6 +436,7 @@ export type StructuredSearchQuery = {
   id: string[];
   tags: string[];
   tag: string[];
+  orderings: string[];
   pageSize?: number;
   // content type specific
   'article-series': string[];
