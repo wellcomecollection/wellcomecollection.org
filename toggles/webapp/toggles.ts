@@ -171,13 +171,13 @@ const toggleConfig = {
       phases: [
         {
           id: 'categoryPages',
-          label: 'Category pages',
+          label: 'Phase 1',
           description:
             'The three thematic browsing category pages (subjects, people & organisations, types & techniques) become accessible.',
         },
         {
           id: 'subCategoryPages',
-          label: 'Sub-category pages',
+          label: 'Phase 2',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
         },
@@ -193,7 +193,7 @@ const toggleConfig = {
       phases: [
         {
           id: 'mvp',
-          label: 'MVP',
+          label: 'Phase 1',
           description:
             'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
         },
@@ -213,14 +213,9 @@ const toggleConfig = {
       phases: [
         {
           id: 'mvp',
-          label: 'MVP',
+          label: 'Phase 1',
           description:
             "The archives landing page, archive category pages, and the 'Browse archives' link on the archive card list.",
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description: "A 'Browse other types of archives' section.",
         },
       ],
     },
@@ -242,12 +237,6 @@ const toggleConfig = {
           label: 'Phase 2',
           description:
             'Updated image results grid and a re-sizable viewing pane.',
-        },
-        {
-          id: 'phase3',
-          label: 'Phase 3',
-          description:
-            'Larger thumbnail, plus key information and onward journey in the sidebar.',
         },
       ],
     },
