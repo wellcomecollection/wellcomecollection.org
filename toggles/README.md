@@ -90,7 +90,7 @@ Combine `usePhasedFlags()` with `phaseIsAtLeast()` (from `@weco/toggles`) rather
 ```typescript
 const { archiveCollectionPhases } = usePhasedFlags();
 if (phaseIsAtLeast(archiveCollectionPhases, 'phase2')) {
-  // Phase 2 (and everything from MVP) is showing
+  // Phase 2 (and everything from Phase 1) is showing
 }
 ```
 
