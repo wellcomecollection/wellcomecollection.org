@@ -86,15 +86,23 @@ people to explicitly set which cohort they would like to be in.
 
 Any toggle can be overridden in your own browser with a `toggle_{toggle_id}` cookie. Set it from the [dashboard](https://dash.wellcomecollection.org/toggles/), the on-site toggle widget, or a [`?toggle=` link](#preset-links). It never changes what the public sees.
 
-| Toggle       | Cookie value                                                                     | No cookie, or anything else |
-| ------------ | -------------------------------------------------------------------------------- | --------------------------- |
-| Feature flag | `true` turns it on for you. `off` turns it off for you (experimental flags only) | The public value            |
-| Phased flag  | A phase id                                                                       | The public phase            |
-| Mode         | An option id                                                                     | Inactive                    |
-| A/B test     | `true` (test group) or `false` (control group)                                   | Randomly assigned           |
+| Toggle      | Cookie value                                   | No cookie, or anything else |
+| ----------- | ---------------------------------------------- | --------------------------- |
+| Phased flag | A phase id                                     | The public phase            |
+| Mode        | An option id                                   | Inactive                    |
+| A/B test    | `true` (test group) or `false` (control group) | Randomly assigned           |
 
-- `off` lets you see the version from before an experimental flag was released, once it's public. On any other feature flag it's ignored, so a public permanent or stage flag can't be turned off for yourself.
-- A `false` cookie on a feature flag means no preference, so the public value applies. Older versions of the dashboard wrote it when you switched a flag off, which is why it's still ignored.
+Feature flags depend on their type and on whether they're public (`defaultValue: true`). What you see for each cookie value:
+
+| Feature flag                                             | `true` | `off`                                        | `false` or no cookie |
+| -------------------------------------------------------- | ------ | -------------------------------------------- | -------------------- |
+| Experimental, not public                                 | On     | Off                                          | Off                  |
+| Experimental, public (e.g. `brandUpdate`)                | On     | Off, the version from before it was released | On                   |
+| Permanent or stage, not public                           | On     | Ignored, so off                              | Off                  |
+| Permanent or stage, public (e.g. `aggregationsInSearch`) | On     | Ignored, so on                               | On                   |
+
+- `off` only works on experimental flags, so a public permanent or stage flag can't be turned off for yourself.
+- `false` means no preference, so the public value applies. Older versions of the dashboard wrote it when you switched a flag off, which is why it's still accepted.
 - Resetting deletes the cookie, so you'll follow any later change to the public value.
 
 ## Accessing toggles in code
