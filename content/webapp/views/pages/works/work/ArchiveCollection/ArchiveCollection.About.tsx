@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import {
@@ -16,7 +15,6 @@ import CopyButtons from '@weco/content/views/components/CopyButtons';
 import WorkDetailsList from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.List';
 import WorkDetailsSection from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Section';
 import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Text';
-import { phaseIsAtLeast } from '@weco/toggles';
 
 const mainSizeMap: SizeMap = { s: [12], m: [12], l: [8], xl: [8] };
 const sideSizeMap: SizeMap = { s: [12], m: [12], l: [4], xl: [4] };
@@ -30,11 +28,10 @@ const SideColumn = styled(GridCell)`
     `)}
 `;
 
-const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
-  work,
-}) => {
-  const { archiveBrowsingPhases } = usePhasedFlags();
-  const showArchiveBrowsing = phaseIsAtLeast(archiveBrowsingPhases, 'mvp');
+const ArchiveCollectionAbout: FunctionComponent<{
+  work: WorkType;
+  archiveCategorySlug?: string;
+}> = ({ work, archiveCategorySlug }) => {
   const { orderedNotes, remainingNotes } = getOrderedNotes(work);
   const archiveCategory = work.archive?.category;
 
@@ -80,11 +77,11 @@ const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
             <WorkDetailsText
               title="Type"
               contents={
-                // The category pages only exist once archive browsing is on,
-                // so until then show the label without a link
-                showArchiveBrowsing ? (
+                // No slug means there's no category page to link to (archive
+                // browsing is off, or the category is left out of browsing)
+                archiveCategorySlug ? (
                   <NextLink
-                    href={`/collections/archives/${archiveCategory.id.toLowerCase()}`}
+                    href={`/collections/archives/${archiveCategorySlug}`}
                   >
                     {archiveCategory.label}
                   </NextLink>
