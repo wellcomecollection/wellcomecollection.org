@@ -1,4 +1,3 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
@@ -11,6 +10,7 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import { getOrderedNotes } from '@weco/content/utils/works';
+import ArchiveCategoryLink from '@weco/content/views/components/ArchiveCategoryLink';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
 import WorkDetailsList from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.List';
 import WorkDetailsSection from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Section';
@@ -80,11 +80,9 @@ const ArchiveCollectionAbout: FunctionComponent<{
                 // No slug means there's no category page to link to (archive
                 // browsing is off, or the category is left out of browsing)
                 archiveCategorySlug ? (
-                  <NextLink
-                    href={`/collections/archives/${archiveCategorySlug}`}
-                  >
+                  <ArchiveCategoryLink slug={archiveCategorySlug}>
                     {archiveCategory.label}
-                  </NextLink>
+                  </ArchiveCategoryLink>
                 ) : (
                   <span>{archiveCategory.label}</span>
                 )
