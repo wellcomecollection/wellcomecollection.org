@@ -1,4 +1,4 @@
-/* global fetch */
+/* global fetch, AbortSignal */
 
 const {
   CloudFrontClient,
@@ -277,11 +277,15 @@ const alertOnErrors = async results => {
         errorInfo: pluralize(errorCount, 'error'),
         pageInfo: pluralize(countsByPage.length, 'page'),
       }),
+      // Without this a silent webhook holds the step open for undici's
+      // five-minute default, for an alert that's no use late anyway
+      signal: AbortSignal.timeout(10000),
     });
 
-    // Slack answers a rejected payload (e.g. a variable the workflow doesn't
-    // declare) with a 4xx rather than an error, so without this the alert
-    // would go missing quietly
+    // Slack answers a bad request with a 4xx rather than an error, so without
+    // this the alert would go missing quietly. Note it still returns 200 for a
+    // variable the workflow doesn't declare, posting the message with that
+    // field blank, so this won't catch a rename there.
     if (!response.ok) {
       throw new Error(
         `${response.status} ${response.statusText}: ${await response.text()}`
