@@ -1,7 +1,11 @@
 import { getCookie, getCookies } from 'cookies-next';
 import { useCallback, useEffect, useState } from 'react';
 
-import { ModeDefinition, PublishedPhasedFlag } from '@weco/toggles';
+import {
+  ModeDefinition,
+  personalFeatureFlagValue,
+  PublishedPhasedFlag,
+} from '@weco/toggles';
 
 import { AbTest } from '../toggles.ABTests';
 import {
@@ -52,23 +56,10 @@ export const useTogglesData = (
 
         // Feature flags: cookie value or default
         for (const toggle of flags) {
-          const cookieKey = `toggle_${toggle.id}`;
-          const cookieValue = cookies[cookieKey];
-          // Same rule as the site: only experimental flags read `off`, and
-          // anything but `true`/`off` is no preference
-          if (toggle.type === 'experimental') {
-            initialStates[toggle.id] =
-              cookieValue === 'true'
-                ? true
-                : cookieValue === 'off'
-                  ? false
-                  : toggle.defaultValue;
-          } else {
-            initialStates[toggle.id] =
-              cookieKey in cookies
-                ? cookieValue === 'true'
-                : toggle.defaultValue;
-          }
+          // Same rule as the site
+          initialStates[toggle.id] =
+            personalFeatureFlagValue(toggle, cookies[`toggle_${toggle.id}`]) ??
+            toggle.defaultValue;
         }
 
         // Phased flags: only record a state when the cookie is a phase that

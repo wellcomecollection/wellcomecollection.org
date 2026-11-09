@@ -25,6 +25,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { personalFeatureFlagValue } from '@weco/toggles';
 import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({
@@ -110,8 +111,7 @@ const TogglesMessage: FunctionComponent = () => {
               // different version from the public, so it's worth listing
               const isPersonalOff =
                 'type' in toggle &&
-                toggle.type === 'experimental' &&
-                optionValue === 'off';
+                personalFeatureFlagValue(toggle, optionValue) === false;
               return isPersonalOff ? `${toggle.title} (off)` : toggle.title;
             }
 

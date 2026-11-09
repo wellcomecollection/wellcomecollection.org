@@ -4,6 +4,7 @@ import { IncomingMessage } from 'http';
 import {
   FeatureFlags,
   Modes,
+  personalFeatureFlagValue,
   PhasedFlags,
   Tests,
   TOGGLE_RESET_VALUE,
@@ -299,11 +300,11 @@ function resolveOptionValue(
 }
 
 /**
- * Resolves a feature flag, first match wins: a render-only override, a `true`
- * cookie, then the default. An experimental flag also reads an `off` cookie
- * as a real personal "off", so someone can keep the version from before the
- * flag went public. Every other flag only reads `true`: for them a `false`
- * cookie (what the dashboard wrote before) means no preference.
+ * Resolves a feature flag, first match wins: a render-only override, then a
+ * personal cookie, then the default. Presets from `?toggle=` links come in as
+ * overrides too, so the first render after a link already reflects it. What
+ * counts as a personal value, such as `off` for an experimental flag, is in
+ * personalFeatureFlagValue.
  */
 function resolveFeatureFlag(
   toggle: { id: string; type: string; defaultValue: boolean },
@@ -311,14 +312,14 @@ function resolveFeatureFlag(
   cookies: Partial<Record<string, string>>
 ): boolean {
   const override = overrides[toggle.id];
-  if (override === 'true') return true;
+  // `?toggleOverride=id:false` can turn any flag off for one render
   if (override === 'false') return false;
 
-  const cookie = cookies[`toggle_${toggle.id}`];
-  if (cookie === 'true') return true;
-  if (cookie === 'off' && toggle.type === 'experimental') return false;
-
-  return toggle.defaultValue;
+  return (
+    personalFeatureFlagValue(toggle, override) ??
+    personalFeatureFlagValue(toggle, cookies[`toggle_${toggle.id}`]) ??
+    toggle.defaultValue
+  );
 }
 
 /**

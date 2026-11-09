@@ -10,6 +10,7 @@ import {
 } from '@weco/common/server-data/Context';
 import Icon from '@weco/common/views/components/Icon';
 import {
+  featureFlagCookieValue,
   ModeOption,
   PhaseDefinition,
   ResolvedPhasedFlag,
@@ -68,16 +69,14 @@ const AB_TEST_OPTIONS: Option[] = [
   { id: 'random', label: 'Randomly allocate me' },
 ];
 
-const FEATURE_FLAG_OPTIONS: Option[] = [
-  { id: 'true', label: 'On' },
-  { id: 'false', label: 'Off' },
-];
-
-// An experimental flag's personal "off" is its own cookie value, since a
-// 'false' cookie means no preference (see getTogglesFromContext)
-const EXPERIMENTAL_FEATURE_FLAG_OPTIONS: Option[] = [
-  { id: 'true', label: 'On' },
-  { id: 'off', label: 'Off' },
+// The option that matches what everyone sees has the empty id, which clears the
+// cookie (see applyOverride), so going back to the public value keeps no cookie
+const featureFlagOptions = (flag: {
+  type: string;
+  defaultValue: boolean;
+}): Option[] => [
+  { id: featureFlagCookieValue(flag, true) ?? '', label: 'On' },
+  { id: featureFlagCookieValue(flag, false) ?? '', label: 'Off' },
 ];
 
 const modeOptions = (options: readonly ModeOption[]): Option[] => [
@@ -222,10 +221,8 @@ const ToggleWidget: FunctionComponent = () => {
               kind: 'featureFlag',
               id,
               title: featureFlag.title,
-              current: isOn ? 'true' : isExperimental ? 'off' : 'false',
-              options: isExperimental
-                ? EXPERIMENTAL_FEATURE_FLAG_OPTIONS
-                : FEATURE_FLAG_OPTIONS,
+              current: featureFlagCookieValue(featureFlag, isOn) ?? '',
+              options: featureFlagOptions(featureFlag),
               locked: featureFlag.defaultValue === true && !isExperimental,
             };
           }

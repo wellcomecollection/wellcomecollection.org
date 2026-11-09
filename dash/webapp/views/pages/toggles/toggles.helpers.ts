@@ -1,5 +1,7 @@
 import { deleteCookie, setCookie } from 'cookies-next';
 
+import { featureFlagCookieValue } from '@weco/toggles';
+
 export type FeatureFlag = {
   id: string;
   title: string;
@@ -40,15 +42,14 @@ export const deleteCookieCustom = (key: string) =>
 
 /**
  * Saves a feature flag's switch. A flag only keeps a cookie while it differs
- * from what everyone sees, so matching it clears the cookie. Only experimental
- * flags can be off while public, and they store that as `off`.
+ * from what everyone sees, so matching it clears the cookie.
  */
 export const setFeatureFlagCookie = (flag: FeatureFlag, isOn: boolean) => {
-  if (isOn === flag.defaultValue) {
+  const value = featureFlagCookieValue(flag, isOn);
+  if (value === undefined) {
     deleteCookieCustom(flag.id);
   } else {
-    const offValue = flag.type === 'experimental' ? 'off' : 'false';
-    setCookieCustom(flag.id, isOn ? 'true' : offValue);
+    setCookieCustom(flag.id, value);
   }
 };
 
