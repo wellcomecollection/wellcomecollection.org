@@ -101,10 +101,16 @@ describe('ImageSidebar', () => {
 
   it('the close button clears the selected image', async () => {
     const { setExpandedImage } = await renderSidebar(expandedImage);
+    const closeButton = screen.getByRole('button', {
+      name: 'Close image details',
+    });
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Close image details' })
+    expect(closeButton).toHaveAttribute(
+      'data-gtm-trigger',
+      'close-modal-button'
     );
+
+    await userEvent.click(closeButton);
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
   });
