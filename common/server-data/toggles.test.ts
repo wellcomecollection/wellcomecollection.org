@@ -179,6 +179,35 @@ describe('getTogglesFromContext', () => {
       expect(result.featureFlags.brandUpdate).toBe(true);
     });
 
+    it('applies an "off" preset on the first request, before its cookie exists', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [brandUpdateFlag],
+      };
+
+      // A `?toggle=brandUpdate:off` link reaches the resolver as an override
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        brandUpdate: 'off',
+      });
+
+      expect(result.featureFlags.brandUpdate).toBe(false);
+    });
+
+    it('lets an "off" preset beat an existing "true" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [brandUpdateFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_brandUpdate: 'true' }),
+        { brandUpdate: 'off' }
+      );
+
+      expect(result.featureFlags.brandUpdate).toBe(false);
+    });
+
     it('lets an override beat an "off" cookie', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,

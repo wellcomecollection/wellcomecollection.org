@@ -1,4 +1,9 @@
-import { phaseIsAtLeast, ResolvedPhasedFlag } from './index';
+import {
+  featureFlagCookieValue,
+  personalFeatureFlagValue,
+  phaseIsAtLeast,
+  ResolvedPhasedFlag,
+} from './index';
 
 describe('phaseIsAtLeast', () => {
   const title = 'Test flag';
@@ -46,5 +51,71 @@ describe('phaseIsAtLeast', () => {
   it('is false when the flag has not been published yet', () => {
     // e.g. usePhasedFlags() called before yarn deploy ran from toggles/webapp
     expect(phaseIsAtLeast(undefined, 'mvp')).toBe(false);
+  });
+});
+
+describe('personalFeatureFlagValue', () => {
+  it('reads "true" as on for every flag type', () => {
+    expect(personalFeatureFlagValue({ type: 'experimental' }, 'true')).toBe(
+      true
+    );
+    expect(personalFeatureFlagValue({ type: 'permanent' }, 'true')).toBe(true);
+  });
+
+  it('reads "off" as off for an experimental flag only', () => {
+    expect(personalFeatureFlagValue({ type: 'experimental' }, 'off')).toBe(
+      false
+    );
+    expect(
+      personalFeatureFlagValue({ type: 'permanent' }, 'off')
+    ).toBeUndefined();
+    expect(personalFeatureFlagValue({ type: 'stage' }, 'off')).toBeUndefined();
+  });
+
+  it('treats "false", an unknown value or no cookie as no preference', () => {
+    expect(
+      personalFeatureFlagValue({ type: 'experimental' }, 'false')
+    ).toBeUndefined();
+    expect(
+      personalFeatureFlagValue({ type: 'experimental' }, 'banana')
+    ).toBeUndefined();
+    expect(
+      personalFeatureFlagValue({ type: 'experimental' }, undefined)
+    ).toBeUndefined();
+  });
+});
+
+describe('featureFlagCookieValue', () => {
+  const internal = { type: 'experimental', defaultValue: false };
+  const released = { type: 'experimental', defaultValue: true };
+
+  it('keeps no cookie when the switch matches what everyone sees', () => {
+    expect(featureFlagCookieValue(internal, false)).toBeUndefined();
+    expect(featureFlagCookieValue(released, true)).toBeUndefined();
+  });
+
+  it('stores "true" to turn a flag on for yourself', () => {
+    expect(featureFlagCookieValue(internal, true)).toBe('true');
+  });
+
+  it('stores "off" to turn an experimental flag off once it is public', () => {
+    expect(featureFlagCookieValue(released, false)).toBe('off');
+  });
+
+  it('stores "false" for other flag types, which the site ignores', () => {
+    expect(
+      featureFlagCookieValue({ type: 'permanent', defaultValue: true }, false)
+    ).toBe('false');
+  });
+
+  it('round-trips with personalFeatureFlagValue', () => {
+    for (const flag of [internal, released]) {
+      for (const isOn of [true, false]) {
+        const stored = featureFlagCookieValue(flag, isOn);
+        expect(
+          personalFeatureFlagValue(flag, stored) ?? flag.defaultValue
+        ).toBe(isOn);
+      }
+    }
   });
 });
