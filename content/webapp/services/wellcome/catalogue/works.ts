@@ -311,6 +311,12 @@ export async function fetchArchiveCategoryWorks({
 
 export const ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE = 50;
 
+// From this many rows up, paging through the whole archive 50 rows at a time
+// isn't practical, so the
+// contents tree switches to the one the work page sidebar uses: first level
+// open, each folder's children fetched when it's opened.
+export const LARGE_ARCHIVE_ROW_THRESHOLD = 300;
+
 type ArchiveCollectionContentsPage = {
   results: Work[];
   totalPages: number;

@@ -10,6 +10,7 @@ import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
   getArchiveCollectionContents,
+  LARGE_ARCHIVE_ROW_THRESHOLD,
 } from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import {
@@ -50,6 +51,7 @@ const ArchiveCollectionContents: FunctionComponent<{
   const [totalPages, setTotalPages] = useState<number>();
   const [totalResults, setTotalResults] = useState<number>();
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isLargeArchive, setIsLargeArchive] = useState(false);
 
   const hasFetched = useRef(false);
   // Mirrors `tree` so loadPage's post-await read isn't a stale closure.
@@ -86,6 +88,18 @@ const ArchiveCollectionContents: FunctionComponent<{
       cataloguePipeline
     );
     if (!response) return false;
+
+    // Large archives keep the basic tree built from work.parts (first level
+    // open) and fetch children as folders are opened, instead of paging.
+    // totalResults is left unset, so the row counter and "Show more" button
+    // don't render.
+    if (
+      pageToLoad === 1 &&
+      response.totalResults >= LARGE_ARCHIVE_ROW_THRESHOLD
+    ) {
+      setIsLargeArchive(true);
+      return true;
+    }
 
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
@@ -163,7 +177,7 @@ const ArchiveCollectionContents: FunctionComponent<{
             ItemRenderer={ContentsTreeItemRenderer}
             itemRendererProps={{ rowIndexById }}
             firstItemTabbable={false}
-            shouldFetchChildren={false}
+            shouldFetchChildren={isLargeArchive}
             showFirstLevelGuideline
             isCompact
           />
