@@ -18,8 +18,11 @@ import {
   createBasicArchiveTree,
 } from '@weco/content/views/pages/works/work/ArchiveTree';
 import NestedList, {
+  getChildren,
   getTabbableIds,
+  updateChildren,
 } from '@weco/content/views/pages/works/work/NestedList';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import ContentsTreeItemRenderer from './ArchiveCollection.ContentsTree.ItemRenderer';
 import {
@@ -33,6 +36,20 @@ import {
   TreeBand,
   TreeInstructions,
 } from './ArchiveCollection.ContentsTree.styles';
+
+// Folders that are open but have never had their children fetched. Until the
+// first contents request says whether the archive is large, the tree doesn't
+// fetch children, so a folder opened in that gap ends up like this.
+function getOpenUnfetchedIds(tree: UiTree): string[] {
+  return tree.flatMap(node => [
+    ...(node.openStatus &&
+    node.children === undefined &&
+    (node.data.totalParts ?? 0) > 0
+      ? [node.data.id]
+      : []),
+    ...(node.children ? getOpenUnfetchedIds(node.children) : []),
+  ]);
+}
 
 const ArchiveCollectionContents: FunctionComponent<{
   work: Work;
@@ -100,6 +117,22 @@ const ArchiveCollectionContents: FunctionComponent<{
       response.totalResults >= LARGE_ARCHIVE_ROW_THRESHOLD
     ) {
       setIsLargeArchive(true);
+
+      // Fetch children for any folder opened before we knew, so it doesn't
+      // need a second click. Functional updates keep whatever else the user
+      // has opened or closed since, and updateChildren leaves each folder's
+      // own openStatus as it is. A failed fetch leaves the folder as it was,
+      // and clicking it again fetches as normal now isLargeArchive is set.
+      getOpenUnfetchedIds(treeRef.current).forEach(id => {
+        getChildren(id)
+          .then(children =>
+            setTree(currentTree =>
+              updateChildren({ tree: currentTree, id, value: children })
+            )
+          )
+          .catch(() => undefined);
+      });
+
       return true;
     }
 
