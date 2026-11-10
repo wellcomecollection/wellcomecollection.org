@@ -6,6 +6,7 @@ import { PublishedPhasedFlag } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
+import ToggleDates from './ListOfToggles/ListOfToggles.ToggleDates';
 import Group from './toggles.Group';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
 import ToggleStarButton from './toggles.StarButton';
@@ -188,9 +189,15 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
             <ToggleRow>
               <ToggleInfo>
                 <ToggleHeadingRow>
-                  <ToggleTitle as="h4">
-                    <span id={`heading-${flag.id}`}>{flag.title}</span>
-                  </ToggleTitle>
+                  <ToggleDates
+                    dateCreated={flag.dateCreated}
+                    dateActivated={flag.dateActivated}
+                    activatedLabel="Latest phase public"
+                  >
+                    <ToggleTitle as="h4" style={{ display: 'inline' }}>
+                      <span id={`heading-${flag.id}`}>{flag.title}</span>
+                    </ToggleTitle>
+                  </ToggleDates>
                   <CopyLinkIcon
                     toggleId={flag.id}
                     title={flag.title}

@@ -60,6 +60,7 @@ const workIncludes = [
   'parts',
   'languages',
   'holdings',
+  'archive',
 ];
 
 export const missingAltTextMessage =
