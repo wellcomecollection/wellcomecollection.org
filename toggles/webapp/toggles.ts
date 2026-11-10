@@ -158,6 +158,14 @@ const toggleConfig = {
       description: 'Shows the new brand values.',
       type: 'experimental',
     },
+    {
+      id: 'largeArchiveContentsTree',
+      title: 'Large archive contents tree',
+      initialValue: false,
+      description:
+        'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
+      type: 'experimental',
+    },
   ] as const,
   // Phased flags: like a feature flag, but with an ordered set of phases
   // instead of on/off. Selecting a phase always includes every phase before it.
