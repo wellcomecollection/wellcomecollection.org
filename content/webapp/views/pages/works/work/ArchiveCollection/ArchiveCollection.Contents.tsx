@@ -39,7 +39,8 @@ const ArchiveCollectionContents: FunctionComponent<{
   isActive: boolean;
 }> = ({ work, isActive }) => {
   const { isEnhanced } = useAppContext();
-  const { stagingApi } = useFeatureFlags();
+  const { stagingApi, largeArchiveContentsTree: showLargeArchiveContentsTree } =
+    useFeatureFlags();
   const { cataloguePipeline } = useModes();
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const collectionRootId = archiveAncestorArray[0]?.id || work.id;
@@ -94,6 +95,7 @@ const ArchiveCollectionContents: FunctionComponent<{
     // totalResults is left unset, so the row counter and "Show more" button
     // don't render.
     if (
+      showLargeArchiveContentsTree &&
       pageToLoad === 1 &&
       response.totalResults >= LARGE_ARCHIVE_ROW_THRESHOLD
     ) {
@@ -133,7 +135,13 @@ const ArchiveCollectionContents: FunctionComponent<{
       .then(succeeded => {
         if (!succeeded) hasFetched.current = false;
       });
-  }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
+  }, [
+    isActive,
+    collectionRootId,
+    stagingApi,
+    cataloguePipeline,
+    showLargeArchiveContentsTree,
+  ]);
 
   async function showMore() {
     setIsLoadingMore(true);
