@@ -34,6 +34,8 @@ export type ABTest = {
 export type ModeOption = {
   id: string;
   label: string;
+  /** Shown under the mode's dropdown on the dashboard once this option is selected. */
+  description?: string;
 };
 
 export type ModeDefinition = {
@@ -156,6 +158,14 @@ const toggleConfig = {
       description: 'Shows the new brand values.',
       type: 'experimental',
     },
+    {
+      id: 'largeArchiveContentsTree',
+      title: 'Large archive contents tree',
+      initialValue: false,
+      description:
+        'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
+      type: 'experimental',
+    },
   ] as const,
   // Phased flags: like a feature flag, but with an ordered set of phases
   // instead of on/off. Selecting a phase always includes every phase before it.
@@ -169,13 +179,13 @@ const toggleConfig = {
       phases: [
         {
           id: 'categoryPages',
-          label: 'Category pages',
+          label: 'Phase 1',
           description:
             'The three thematic browsing category pages (subjects, people & organisations, types & techniques) become accessible.',
         },
         {
           id: 'subCategoryPages',
-          label: 'Sub-category pages',
+          label: 'Phase 2',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
         },
@@ -191,7 +201,7 @@ const toggleConfig = {
       phases: [
         {
           id: 'mvp',
-          label: 'MVP',
+          label: 'Phase 1',
           description:
             'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
         },
@@ -211,14 +221,9 @@ const toggleConfig = {
       phases: [
         {
           id: 'mvp',
-          label: 'MVP',
+          label: 'Phase 1',
           description:
             "The archives landing page, archive category pages, and the 'Browse archives' link on the archive card list.",
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description: "A 'Browse other types of archives' section.",
         },
       ],
     },
@@ -240,12 +245,6 @@ const toggleConfig = {
           label: 'Phase 2',
           description:
             'Updated image results grid and a re-sizable viewing pane.',
-        },
-        {
-          id: 'phase3',
-          label: 'Phase 3',
-          description:
-            'Larger thumbnail, plus key information and onward journey in the sidebar.',
         },
       ],
     },
@@ -273,8 +272,15 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Selects which catalogue pipeline serves works, images and concepts requests. When set, an elasticCluster param carrying the selected value is added to all catalogue works, images and concepts API queries (search and detail), so they are served from that pipeline’s cluster. Off means the normal pipeline setup. Requests to an unavailable cluster fail with an error page rather than falling back to the default pipeline, except theme cards, which render empty.',
-      options: [{ id: 'folio-testing', label: 'FOLIO pipeline' }],
+        'Choose which catalogue pipeline serves works, images and concepts.\n\nWhen one is selected, an <code>elasticCluster</code> param carrying its value is added to every catalogue works, images and concepts API query (search and detail), so they’re served from that pipeline’s cluster.\n\nIf the selected cluster is unavailable, requests fail with an error page instead of falling back to the default pipeline. The exception is theme cards, which render empty.\n\nWith nothing selected, the normal pipeline setup is used.',
+      options: [
+        {
+          id: 'folio-testing',
+          label: 'FOLIO pipeline',
+          description:
+            'A preview of the 2026-10-20 FOLIO pipeline, so it can be checked before it replaces the default.',
+        },
+      ],
     },
   ] as const,
 };

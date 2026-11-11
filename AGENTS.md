@@ -30,7 +30,7 @@ yarn install
 yarn content    # runs content webapp, http://localhost:3000
 yarn identity   # runs identity webapp
 yarn cardigan   # runs the design system
-yarn dash       # runs the internal dashboard (yarn workspace @weco/dash run dev)
+yarn dash       # runs the internal dashboard (it has its own install, so this runs yarn --cwd dash/webapp dev)
 ```
 
 Both apps can run together: `(yarn content & yarn identity)`. Both need matching `NEXT_PUBLIC_API_ENV_OVERRIDE` values in their `.env` files.

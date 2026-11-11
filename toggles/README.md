@@ -33,9 +33,11 @@ To add a new feature flag:
 
 ### 2. Phased flags
 
-Phased flags are for a feature that's genuinely shipping in stages, rather than as a single on/off release. Instead of a `defaultValue`, a phased flag has an ordered list of `phases` (e.g. MVP, Phase 2, Phase 3). Selecting a phase always shows that phase's work plus everything from the phases before it — there's no way to show a later phase while hiding an earlier one.
+Phased flags are for a feature that's genuinely shipping in stages, rather than as a single on/off release. Instead of a `defaultValue`, a phased flag has an ordered list of `phases`, named Phase 1, Phase 2, Phase 3 and so on. Selecting a phase always shows that phase's work plus everything from the phases before it — there's no way to show a later phase while hiding an earlier one.
 
-Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` used to be two separate feature flags, and the code that read them combined the two with an explicit `&&` because one was only ever meant to be on together with the other. `archiveCollectionPhases` replaced that pair with a single ordered dial: MVP (what `archiveCollection` did) then Phase 2 (what `archiveShortDescriptions` added).
+Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` used to be two separate feature flags, and the code that read them combined the two with an explicit `&&` because one was only ever meant to be on together with the other. `archiveCollectionPhases` replaced that pair with a single ordered dial: Phase 1 (what `archiveCollection` did) then Phase 2 (what `archiveShortDescriptions` added).
+
+A new phase's id is `phase1`, `phase2` and so on, with the label `Phase 1`, `Phase 2` and so on. Three flags from before this convention keep their old ids (`mvp`, `categoryPages`, `subCategoryPages`), because those ids are in cookies, links and code, but their labels follow it too.
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
@@ -43,7 +45,7 @@ Each phase can carry its own short (~20 word) `description` of what that specifi
 
 To add a new phased flag:
 * Go to `toggles/webapp/toggles.ts`.
-* Add a new entry to the `phasedFlags` array, with an ordered `phases` list.
+* Add a new entry to the `phasedFlags` array, with an ordered `phases` list (ids `phase1`, `phase2`, ... and labels `Phase 1`, `Phase 2`, ...).
 * Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 * Iterate! Preview a phase by overriding it via the dashboard cookie, same as a feature flag.
 * Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --archiveCollectionPhases=phase2`.
@@ -88,7 +90,7 @@ Combine `usePhasedFlags()` with `phaseIsAtLeast()` (from `@weco/toggles`) rather
 ```typescript
 const { archiveCollectionPhases } = usePhasedFlags();
 if (phaseIsAtLeast(archiveCollectionPhases, 'phase2')) {
-  // Phase 2 (and everything from MVP) is showing
+  // Phase 2 (and everything from Phase 1) is showing
 }
 ```
 
@@ -138,30 +140,42 @@ yarn setDefaultValueFor --{toggle_id}=true
 ```
 
 ## Preset links
-Query params let you turn toggles on and off from a link, e.g. when sharing a feature with other teams. They cover feature flags, phased flags and modes. The website links can also put you in a particular A/B test group; the dashboard links can't.
+Query params let you turn toggles on and off from a link, e.g. when sharing a feature with other teams. They cover every kind of toggle. There are two sets of links: ones on the website, for sharing with someone, and ones on the dashboard, for checking or resetting your own.
 
 ### Sharing a toggle: website links
-When sharing a toggle with someone, use a `?toggle=` link on the website. It works on any page, so it can take people straight to the page you want them to look at, and one link can set several toggles. The cookies it saves last a year and are the same ones the dashboard writes, so they can also be reset from the dashboard:
-- Enable a feature flag: `https://wellcomecollection.org/?toggle={toggle_id}`
-- Set a phased flag to a specific phase: `https://wellcomecollection.org/search/images?toggle={toggle_id}:{phase_id}`
-- Set a mode to a specific option: `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` - except kiosk mode, which grants analytics and marketing consent, so it can only be set or reset from the dashboard
-- Choose an A/B test group: `https://wellcomecollection.org/?toggle={test_id}` for the test group, or `?toggle={test_id}:false` for the control group
-- Reset any toggle to its public value: `https://wellcomecollection.org/?toggle={toggle_id}:reset` - this deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
-- Combine them with commas: `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
+When sharing a toggle with someone, use a `?toggle=` link on the website. It works on any page, so it can take people straight to the page you want them to look at, and one link can set several toggles. The cookies it saves last a year and are the same ones the dashboard writes, so they can also be reset from the dashboard.
 
-Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard. Because `reset` has this special meaning, it can't be used as a phase or mode option id - `yarn tsc` fails if one is added.
+The links below use the home page, but the `?toggle=` part works on any page, e.g. `https://wellcomecollection.org/search/images?toggle={toggle_id}`. Copy a whole link and swap in the ids:
 
-To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`).
+| Toggle | Set | Reset |
+|---|---|---|
+| Feature flag | `https://wellcomecollection.org/?toggle={toggle_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Phased flag | `https://wellcomecollection.org/?toggle={toggle_id}:{phase_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Mode | `https://wellcomecollection.org/?toggle={mode_id}:{option_id}` | `https://wellcomecollection.org/?toggle={mode_id}:reset` |
+| A/B test (test group) | `https://wellcomecollection.org/?toggle={test_id}` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
+| A/B test (control group) | `https://wellcomecollection.org/?toggle={test_id}:false` | `https://wellcomecollection.org/?toggle={test_id}:reset` |
+
+- Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
+- Kiosk mode grants analytics and marketing consent, so it can only be set or reset from the dashboard
+- `:reset` deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
+- Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard
+- Because `reset` has this special meaning, it can't be used as a phase or mode option id - `yarn tsc` fails if one is added
+- To preview a toggle state for a single page load without saving a cookie, use `?toggleOverride={id}:{value}` instead (e.g. `?toggleOverride=imageSidebarPhases:phase2`)
 
 ### Checking or resetting your own toggles: dashboard links
-The dashboard links show a confirmation (or an error for a typo) along with all your current toggle states, and can reset everything at once. They're also what the dashboard's copy-link buttons generate for feature flags and modes:
-- Enable a feature flag: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`
-- Disable a feature flag: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
-- Set a phased flag to a specific phase: `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}`
-- Reset a phased flag to its default view: `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}`
-- Set a mode to a specific option: `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`
-- Reset all feature flags and phased flags: `https://dash.wellcomecollection.org/toggles/?resetToggles`
+The dashboard links show a confirmation (or an error for a typo) along with all your current toggle states. They're also what the dashboard's copy-link buttons generate for feature flags and modes.
 
+Copy a whole link and swap in the ids:
+
+| Toggle | Set | Reset |
+|---|---|---|
+| Feature flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to its default value) |
+| Phased flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase) |
+| Mode | `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}` | `https://dash.wellcomecollection.org/toggles/?disableMode={mode_id}` |
+| A/B test | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in) | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation) |
+| Everything | | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
+
+There's no dashboard link for the A/B test control group - use the website link or the dashboard's "No thanks" option.
 
 ## Useful links
 - ["Feature Toggles (aka Feature Flags)" - by Martin Fowler][martin-fowler-feature-toggles]

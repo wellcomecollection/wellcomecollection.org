@@ -1,3 +1,5 @@
+/* global fetch, AbortSignal */
+
 const {
   CloudFrontClient,
   CreateInvalidationCommand,
@@ -16,14 +18,18 @@ const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
 
 events.EventEmitter.defaultMaxListeners = 25;
 
-const { isPullRequestRun, allWarnings } = yargs(process.argv.slice(2))
+const { isPullRequestRun, allWarnings, slackWebhookUrl } = yargs(
+  process.argv.slice(2)
+)
   .usage('Usage: $0 --isPullRequestRun [boolean] --allWarnings [boolean]')
+  .env('PA11Y')
   .options({
     isPullRequestRun: { type: 'boolean' },
     allWarnings: {
       type: 'boolean',
       description: 'List every warning, not just the summary',
     },
+    slackWebhookUrl: { type: 'string' },
   })
   .parseSync();
 
@@ -247,6 +253,53 @@ const issuesLog = (results, type) =>
     }))
     .filter(page => page.issues.length > 0);
 
+// Tell the team about errors. Only the daily scheduled run passes a webhook URL,
+// so that's the only run that alerts. Warnings are for checking by hand, so they never alert.
+const alertOnErrors = async results => {
+  const countsByPage = results
+    .map(result => issuesOfType(result, 'error').length)
+    .filter(count => count > 0);
+
+  const errorCount = countsByPage.reduce((total, count) => total + count, 0);
+
+  if (!slackWebhookUrl || errorCount === 0) {
+    return;
+  }
+
+  const pluralize = (count, word) =>
+    `${count} ${word}${count === 1 ? '' : 's'}`;
+
+  try {
+    const response = await fetch(slackWebhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify({
+        errorInfo: pluralize(errorCount, 'error'),
+        pageInfo: pluralize(countsByPage.length, 'page'),
+      }),
+      // Without this a silent webhook holds the step open for undici's
+      // five-minute default, for an alert that's no use late anyway
+      signal: AbortSignal.timeout(10000),
+    });
+
+    // Slack answers a bad request with a 4xx rather than an error, so without
+    // this the alert would go missing quietly. Note it still returns 200 for a
+    // variable the workflow doesn't declare, posting the message with that
+    // field blank, so this won't catch a rename there.
+    if (!response.ok) {
+      throw new Error(
+        `${response.status} ${response.statusText}: ${await response.text()}`
+      );
+    }
+
+    console.log(styleText('greenBright', 'Sent the Slack alert'));
+  } catch (e) {
+    // The report is already uploaded, so a failed alert shouldn't fail the run
+    console.error(styleText('redBright', 'Error sending the Slack alert'));
+    console.log(e);
+  }
+};
+
 // One line per rule and component, with a count and the pages it's on
 const warningsSummary = results => {
   const groups = new Map();
@@ -390,6 +443,8 @@ try {
           console.log(err);
           process.exit(1);
         }
+
+        await alertOnErrors(results);
       }
     })
     .catch(error => {

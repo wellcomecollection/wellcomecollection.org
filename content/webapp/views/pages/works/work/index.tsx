@@ -57,9 +57,15 @@ const WorkDetailsWrapper = styled(Space).attrs({
 export type Props = {
   work: WorkType;
   apiUrl: string;
+  // Only set when the work's archive category has a page to link to
+  archiveCategorySlug?: string;
 };
 
-export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
+export const WorkPage: NextPage<Props> = ({
+  work,
+  apiUrl,
+  archiveCategorySlug,
+}) => {
   const { isKiosk } = useKiosk();
   const { archiveCollectionPhases } = usePhasedFlags();
   const { userIsStaffWithRestricted } = useUserContext();
@@ -161,7 +167,11 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
           <>
             {isArchive ? (
               displayCollectionRoot ? (
-                <ArchiveCollectionLayout key={work.id} work={work} />
+                <ArchiveCollectionLayout
+                  key={work.id}
+                  work={work}
+                  archiveCategorySlug={archiveCategorySlug}
+                />
               ) : (
                 <>
                   <Container>

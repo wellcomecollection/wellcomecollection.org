@@ -10,7 +10,13 @@ import ArchiveCollectionAbout from './ArchiveCollection.About';
 import ArchiveCollectionContents from './ArchiveCollection.Contents';
 import ArchiveCollectionHero from './ArchiveCollection.Hero';
 
-const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
+const ArchiveCollectionLayout = ({
+  work,
+  archiveCategorySlug,
+}: {
+  work: WorkType;
+  archiveCategorySlug?: string;
+}) => {
   const { isEnhanced } = useAppContext();
   const [selectedTab, setSelectedTab] = useState('about');
 
@@ -26,7 +32,12 @@ const ArchiveCollectionLayout = ({ work }: { work: WorkType }) => {
   ];
 
   const tabPanels: Record<string, ReactNode> = {
-    about: <ArchiveCollectionAbout work={work} />,
+    about: (
+      <ArchiveCollectionAbout
+        work={work}
+        archiveCategorySlug={archiveCategorySlug}
+      />
+    ),
     contents: (
       <ArchiveCollectionContents
         work={work}
