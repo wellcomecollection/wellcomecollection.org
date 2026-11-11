@@ -1,10 +1,11 @@
 // Lets Prismic previews through and sends everything else (mostly crawlers)
 // to the same path on the main site.
-const prismicOrigin = 'https://wellcomecollection.prismic.io';
-const mainSite = 'https://wellcomecollection.org';
+// Uses var because the cloudfront-js-1.0 runtime doesn't support const or let.
+var prismicOrigin = 'https://wellcomecollection.prismic.io';
+var mainSite = 'https://wellcomecollection.org';
 
 function headerValue(request, name) {
-  const header = request.headers[name];
+  var header = request.headers[name];
   return header ? header.value : undefined;
 }
 
@@ -16,7 +17,7 @@ function isPreviewRequest(request) {
   if (request.cookies['io.prismic.preview']) return true;
 
   // First page load of an editor preview or a share link, before the cookie exists
-  const referer = headerValue(request, 'referer');
+  var referer = headerValue(request, 'referer');
   if (
     referer &&
     (referer === prismicOrigin || referer.startsWith(`${prismicOrigin}/`))
@@ -25,8 +26,8 @@ function isPreviewRequest(request) {
   }
 
   // Scripts and fetches made by that first page; a direct hit is 'none' or absent
-  const fetchMode = headerValue(request, 'sec-fetch-mode');
-  const fetchSite = headerValue(request, 'sec-fetch-site');
+  var fetchMode = headerValue(request, 'sec-fetch-mode');
+  var fetchSite = headerValue(request, 'sec-fetch-site');
   if (fetchMode && fetchMode !== 'navigate' && fetchSite === 'same-origin') {
     return true;
   }
@@ -35,10 +36,10 @@ function isPreviewRequest(request) {
 }
 
 function queryString(querystring) {
-  const parts = [];
+  var parts = [];
   Object.keys(querystring).forEach(key => {
-    const param = querystring[key];
-    const values = param.multiValue
+    var param = querystring[key];
+    var values = param.multiValue
       ? param.multiValue.map(v => v.value)
       : [param.value];
     values.forEach(value => {
@@ -50,7 +51,7 @@ function queryString(querystring) {
 
 // eslint-disable-next-line no-unused-vars
 function handler(event) {
-  const request = event.request;
+  var request = event.request;
 
   if (isPreviewRequest(request)) return request;
 

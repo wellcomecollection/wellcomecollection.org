@@ -6,11 +6,9 @@ const { test } = require('node:test');
 const vm = require('node:vm');
 
 // CloudFront Functions have no module system, so load the file as a script
+const source = fs.readFileSync(path.join(__dirname, 'preview-gate.js'), 'utf8');
 const context = {};
-vm.runInNewContext(
-  fs.readFileSync(path.join(__dirname, 'preview-gate.js'), 'utf8'),
-  context
-);
+vm.runInNewContext(source, context);
 const handler = context.handler;
 
 function makeEvent({
@@ -161,4 +159,8 @@ test('keeps the query string on the redirect', () => {
     event,
     'https://wellcomecollection.org/search/works?query=test%20query&page=2&subjects=a&subjects=b'
   );
+});
+
+test('avoids syntax the cloudfront-js-1.0 runtime rejects', () => {
+  assert.doesNotMatch(source, /^\s*(const|let)\s/m);
 });
