@@ -21,12 +21,14 @@ import ListOfToggles from './ListOfToggles';
 import ABTests from './toggles.ABTests';
 import Modes from './toggles.Modes';
 import PhasedFlags from './toggles.PhasedFlags';
+import ResetIcon from './toggles.ResetIcon';
 import { ToggleStarProvider } from './toggles.StarContext';
 import {
   MessageBox,
   MessageClose,
   MessageRegion,
   MessageTimer,
+  RESET_BUTTON_HEIGHT,
   ResetButton,
   SearchInput,
   Section,
@@ -194,12 +196,21 @@ const TogglesPage: FunctionComponent = () => {
             </TableOfContentsList>
           </nav>
 
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              // Holds the button's place so it appearing doesn't move the page
+              minHeight: RESET_BUTTON_HEIGHT,
+              marginBottom: tokens.spacing.md,
+            }}
+          >
             {hasOverrides && (
               <ResetButton
                 onClick={resetEverything}
                 aria-label="Reset everything to defaults"
               >
+                <ResetIcon />
                 Reset everything to defaults
               </ResetButton>
             )}
