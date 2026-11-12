@@ -116,7 +116,9 @@ const isStageHost = (context: Context): boolean =>
  * Keeps only the values that name a toggle available on this host, with a
  * value that toggle accepts. Feature flags accept only the values listed in
  * `featureFlagValues`, since presets and overrides differ there, plus
- * `experimentalOnlyValues` if they're experimental. `allowReset` lets any of
+ * `experimentalOnlyValues` if they're experimental and already public (an
+ * `off` for a flag that isn't public yet would do nothing until release, then
+ * hold the person on the old version). `allowReset` lets any of
  * them take TOGGLE_RESET_VALUE.
  */
 function validToggleValues(
@@ -146,6 +148,7 @@ function validToggleValues(
         (isReset(value) ||
           featureFlagValues.includes(value) ||
           (featureFlag.type === 'experimental' &&
+            featureFlag.defaultValue === true &&
             experimentalOnlyValues.includes(value)))
       );
     }
