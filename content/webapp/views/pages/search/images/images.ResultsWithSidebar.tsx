@@ -8,6 +8,7 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   containerEdge,
@@ -123,6 +124,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   children,
 }) => {
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const { windowSize } = useAppContext();
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -135,6 +137,21 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   // Choosing the image that's already open closes it
   const selectImage = (image: Image) =>
     setExpandedImage(image.id === expandedImage?.id ? undefined : image);
+
+  // An image that isn't in the results (e.g. a visually similar one) has no
+  // previous or next. Full screen, the results are hidden, so there's no
+  // thumbnail to scroll to.
+  const expandedIndex = expandedImage
+    ? images.findIndex(({ id }) => id === expandedImage.id)
+    : -1;
+  const stepTo = (image: Image | undefined) =>
+    expandedIndex !== -1 && image
+      ? () =>
+          setExpandedImage(image, {
+            replace: true,
+            scrollToThumbnail: windowSize !== 'zero',
+          })
+      : undefined;
 
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in
@@ -182,6 +199,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
         onStatusChange={setSidebarStatus}
+        onPrevious={stepTo(images[expandedIndex - 1])}
+        onNext={stepTo(images[expandedIndex + 1])}
       />
     </ResultsLayout>
   );
