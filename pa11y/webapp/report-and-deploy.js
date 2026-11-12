@@ -262,7 +262,20 @@ const alertOnErrors = async results => {
 
   const errorCount = countsByPage.reduce((total, count) => total + count, 0);
 
-  if (!slackWebhookUrl || errorCount === 0) {
+  if (errorCount === 0) {
+    return;
+  }
+
+  // Expected on deploy and manual runs, which aren't given a webhook URL. Worth
+  // logging because on the scheduled run it means the alert is broken, and
+  // returning quietly there reads exactly like a clean run
+  if (!slackWebhookUrl) {
+    console.log(
+      styleText(
+        'yellowBright',
+        `${errorCount} error(s) found, not alerting: no webhook URL (expected except on the scheduled run)`
+      )
+    );
     return;
   }
 
