@@ -90,7 +90,7 @@ Any toggle can be overridden in your own browser with a `toggle_{toggle_id}` coo
 
 | Toggle      | Cookie value                                   | No cookie, or anything else |
 | ----------- | ---------------------------------------------- | --------------------------- |
-| Phased flag | A phase id                                     | The public phase            |
+| Phased flag | A phase id, or `off` once a phase is public    | The public phase            |
 | Mode        | An option id                                   | Inactive                    |
 | A/B test    | `true` (test group) or `false` (control group) | Randomly assigned           |
 
@@ -103,7 +103,8 @@ Feature flags depend on their type and on whether they're public (`defaultValue:
 | Permanent or stage, not public                           | On     | Ignored, so off                              | Off                  |
 | Permanent or stage, public (e.g. `aggregationsInSearch`) | On     | Ignored, so on                               | On                   |
 
-- `off` only works on experimental flags, so a public permanent or stage flag can't be turned off for yourself.
+- `off` only works on experimental feature flags, so a public permanent or stage flag can't be turned off for yourself.
+- `off` on a phased flag works once a phase is public, and shows the version from before its first phase. While nothing is public it's ignored, as it would hold you on the old version after release.
 - `false` means no preference, so the public value applies. Older versions of the dashboard wrote it when you switched a flag off, which is why it's still accepted.
 - Resetting deletes the cookie, so you'll follow any later change to the public value.
 
@@ -184,12 +185,13 @@ The links below use the home page, but the `?toggle=` part works on any page, e.
 | Feature flag                                        | `https://wellcomecollection.org/?toggle={toggle_id}`            | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
 | Feature flag, off for you (experimental flags only) | `https://wellcomecollection.org/?toggle={toggle_id}:off`        | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
 | Phased flag                                         | `https://wellcomecollection.org/?toggle={toggle_id}:{phase_id}` | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
+| Phased flag, off for you (once a phase is public)   | `https://wellcomecollection.org/?toggle={toggle_id}:off`        | `https://wellcomecollection.org/?toggle={toggle_id}:reset` |
 | Mode                                                | `https://wellcomecollection.org/?toggle={mode_id}:{option_id}`  | `https://wellcomecollection.org/?toggle={mode_id}:reset`   |
 | A/B test (test group)                               | `https://wellcomecollection.org/?toggle={test_id}`              | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 | A/B test (control group)                            | `https://wellcomecollection.org/?toggle={test_id}:false`        | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 
 - Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
-- `:off` only works on experimental feature flags. On any other flag it's ignored, like any other invalid value
+- `:off` only works on experimental feature flags, and on phased flags once a phase is public. On any other toggle it's ignored, like any other invalid value
 - Kiosk mode grants analytics and marketing consent, so it can only be set or reset from the dashboard
 - `:reset` deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
 - Anything invalid (an unknown id or phase, or a typo) is silently ignored, so if a link doesn't seem to work, check the spelling against the dashboard

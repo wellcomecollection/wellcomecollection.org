@@ -1,6 +1,7 @@
 import {
   featureFlagCookieValue,
   personalFeatureFlagValue,
+  personalPhaseValue,
   phaseIsAtLeast,
   ResolvedPhasedFlag,
 } from './index';
@@ -116,6 +117,31 @@ describe('featureFlagCookieValue', () => {
           personalFeatureFlagValue(flag, stored) ?? flag.defaultValue
         ).toBe(isOn);
       }
+    }
+  });
+});
+
+describe('personalPhaseValue', () => {
+  const phases = [{ id: 'mvp' }, { id: 'phase2' }];
+  const notPublic = { phases, defaultPhase: null };
+  const public_ = { phases, defaultPhase: 'mvp' };
+
+  it('picks a phase by its id, public or not', () => {
+    expect(personalPhaseValue(notPublic, 'phase2')).toBe('phase2');
+    expect(personalPhaseValue(public_, 'mvp')).toBe('mvp');
+  });
+
+  it('turns the flag off for you (null) once a phase is public', () => {
+    expect(personalPhaseValue(public_, 'off')).toBeNull();
+  });
+
+  it('ignores "off" while nothing is public, as it would hold you on the old version after release', () => {
+    expect(personalPhaseValue(notPublic, 'off')).toBeUndefined();
+  });
+
+  it('has no preference for anything else', () => {
+    for (const value of [undefined, '', 'false', 'reset', 'phase9']) {
+      expect(personalPhaseValue(public_, value)).toBeUndefined();
     }
   });
 });
