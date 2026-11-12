@@ -246,6 +246,12 @@ const toggleConfig = {
           description:
             'Updated image results grid and a re-sizable viewing pane.',
         },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
+          description:
+            'Previous and next buttons (and arrow keys) in the sidebar, to move through the results without going back to the grid.',
+        },
       ],
     },
   ] as const,
