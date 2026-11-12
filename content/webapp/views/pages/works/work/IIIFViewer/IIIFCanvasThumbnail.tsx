@@ -1,21 +1,16 @@
-import { IIIFExternalWebResource } from '@iiif/presentation-3';
 import { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { audio, file, pdf, video } from '@weco/common/icons';
+import { file } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
 import { mediaBackgroundColor } from '@weco/common/views/themes/config';
-import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
-import {
-  hasRestrictedItem,
-  isChoiceBody,
-  shouldTreatAsPDFCanvas,
-} from '@weco/content/utils/iiif/v3';
+import { TransformedCanvas } from '@weco/content/types/manifest';
+import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
 import { hasRealLabel } from '@weco/content/utils/works';
 
 import IIIFViewerImage from './IIIFViewerImage';
@@ -82,16 +77,6 @@ const IIIFViewerThumbNumber = styled.span.attrs({
   }
 `;
 
-function getPlaceholderIcon(
-  itemType: string | undefined,
-  canvas: TransformedCanvas
-) {
-  if (itemType === 'Sound') return audio;
-  if (itemType === 'Video') return video;
-  if (shouldTreatAsPDFCanvas(canvas)) return pdf;
-  return file;
-}
-
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
   thumbNumber: number;
@@ -116,10 +101,6 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
     canvas?.thumbnailImage?.url ||
     (urlTemplate && urlTemplate({ size: '200,' })) ||
     placeholderId;
-  const itemType = isChoiceBody(canvas?.painting?.[0])
-    ? (canvas.painting[0].items[0] as IIIFExternalWebResource | IIIFItemProps)
-        ?.type
-    : canvas.painting?.[0]?.type;
   const isThumbnailSrcPlaceholder =
     thumbnailSrc?.includes('/born-digital/placeholder-thumb/') || false;
   const shouldShowIconPlaceholder = !thumbnailSrc || isThumbnailSrcPlaceholder;
@@ -158,7 +139,10 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
               ) : (
                 <IconWrapper>
                   <Icon
-                    icon={getPlaceholderIcon(itemType, canvas)}
+                    // Only image canvases get thumbnails (the viewer hides
+                    // them when there's any other media), so this is always
+                    // an image without a thumbnail
+                    icon={file}
                     iconColor="white"
                     sizeOverride="width: 53px; height: 53px;"
                   />
