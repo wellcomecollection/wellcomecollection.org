@@ -60,6 +60,9 @@ export const tokens = {
       paper: '#fafbf7', // neutral.05
       section: '#f5f6ee', // neutral.10
 
+      // A notch darker than `section`, for a header bar on it. Not a design system colour
+      sectionDark: '#eaecdd',
+
       // Sections alternate between this and `section`
       tinted: '#d9e3b3', // green.20
     },
@@ -78,6 +81,7 @@ export const tokens = {
   typography: {
     fontFamily: 'Inter, sans-serif',
     fontSize: {
+      xsmall: '0.75rem', // 12px
       small: '0.875rem', // 14px
       base: '1rem', // 16px
       large: '1.125rem', // 18px

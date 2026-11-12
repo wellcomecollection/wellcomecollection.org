@@ -83,6 +83,11 @@ export const Panel = styled.div`
 const dashLinkStyles = css`
   a {
     color: inherit;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
   }
 
   a:focus-visible {
@@ -149,7 +154,7 @@ export const SegmentLabel = styled.label<{ $state: SegmentState }>`
     props.$state === 'current'
       ? props.theme.color('accent.green')
       : props.$state === 'included'
-        ? props.theme.color('accent.lightGreen')
+        ? props.theme.color({ brand: 'teal.10', legacy: 'accent.lightGreen' })
         : 'transparent'};
   color: ${props =>
     props.$state === 'current'

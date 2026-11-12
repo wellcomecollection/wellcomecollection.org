@@ -8,6 +8,9 @@ import {
 } from '../toggles.FlashBadgeIconButton';
 
 const buildQuery = (props: CopyLinkIconProps): string => {
+  if (props.modeValue === '') {
+    return `disableMode=${encodeURIComponent(props.toggleId)}`;
+  }
   if (props.modeValue !== undefined) {
     return `enableMode=${encodeURIComponent(
       props.toggleId
@@ -27,6 +30,7 @@ const copyLink = async (props: CopyLinkIconProps): Promise<void> => {
 export type CopyLinkIconProps = {
   toggleId: string;
   title: string;
+  /** The option the link sets, or an empty string for a link that resets the mode. */
   modeValue?: string;
   /** Id of the page element to link to, without enabling anything. */
   anchor?: string;
@@ -36,6 +40,7 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
   const { title, modeValue, anchor } = props;
   const anchorOnly = anchor !== undefined;
   const isMode = modeValue !== undefined;
+  const isModeReset = modeValue === '';
   const [copied, flashCopied] = useFlashMessage<true>();
 
   const onCopy = async () => {
@@ -50,16 +55,20 @@ const CopyLinkIcon: FunctionComponent<CopyLinkIconProps> = props => {
         aria-label={
           anchorOnly
             ? `Copy link to ${title}`
-            : isMode
-              ? `Copy link to set mode ${title}`
-              : `Copy link to enable toggle ${title}`
+            : isModeReset
+              ? `Copy link to reset mode ${title}`
+              : isMode
+                ? `Copy link to set mode ${title}`
+                : `Copy link to enable toggle ${title}`
         }
         title={
           anchorOnly
             ? 'Click to copy a link to this toggle'
-            : isMode
-              ? 'Click to copy a link that sets this mode'
-              : 'Click to copy a link that enables this toggle'
+            : isModeReset
+              ? 'Click to copy a link that resets this mode'
+              : isMode
+                ? 'Click to copy a link that sets this mode'
+                : 'Click to copy a link that enables this toggle'
         }
         onClick={onCopy}
       >
