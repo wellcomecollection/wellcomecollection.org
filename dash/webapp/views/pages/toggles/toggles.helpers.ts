@@ -1,5 +1,7 @@
 import { deleteCookie, setCookie } from 'cookies-next';
 
+import { featureFlagCookieValue } from '@weco/toggles';
+
 export type FeatureFlag = {
   id: string;
   title: string;
@@ -37,6 +39,19 @@ export const deleteCookieCustom = (key: string) =>
   deleteCookie(`toggle_${key}`, {
     domain: isLocalhost() ? undefined : '.wellcomecollection.org',
   });
+
+/**
+ * Saves a feature flag's switch. A flag only keeps a cookie while it differs
+ * from what everyone sees, so matching it clears the cookie.
+ */
+export const setFeatureFlagCookie = (flag: FeatureFlag, isOn: boolean) => {
+  const value = featureFlagCookieValue(flag, isOn);
+  if (value === undefined) {
+    deleteCookieCustom(flag.id);
+  } else {
+    setCookieCustom(flag.id, value);
+  }
+};
 
 // Which toggles (of any kind) show up in the on-site ToggleWidget. Not a
 // toggle_<id> override cookie itself - a plain list of ids, read by the

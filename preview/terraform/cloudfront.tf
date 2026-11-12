@@ -39,6 +39,13 @@ resource "aws_cloudfront_distribution" "preview" {
     max_ttl                = 86400
     compress               = true
 
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.preview_noindex.id
+
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.preview_gate.arn
+    }
+
     forwarded_values {
       query_string = true
       headers      = ["*"]

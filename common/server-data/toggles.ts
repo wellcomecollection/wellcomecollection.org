@@ -4,6 +4,7 @@ import { IncomingMessage } from 'http';
 import {
   FeatureFlags,
   Modes,
+  personalFeatureFlagValue,
   PhasedFlags,
   Tests,
   TOGGLE_RESET_VALUE,
@@ -114,8 +115,11 @@ const isStageHost = (context: Context): boolean =>
 /**
  * Keeps only the values that name a toggle available on this host, with a
  * value that toggle accepts. Feature flags accept only the values listed in
- * `featureFlagValues`, since presets and overrides differ there, and
- * `allowReset` lets any of them take TOGGLE_RESET_VALUE.
+ * `featureFlagValues`, since presets and overrides differ there, plus
+ * `experimentalOnlyValues` if they're experimental and already public (an
+ * `off` for a flag that isn't public yet would do nothing until release, then
+ * hold the person on the old version). `allowReset` lets any of
+ * them take TOGGLE_RESET_VALUE.
  */
 function validToggleValues(
   values: Record<string, string>,
@@ -123,8 +127,13 @@ function validToggleValues(
   context: Context,
   {
     featureFlagValues,
+    experimentalOnlyValues = [],
     allowReset,
-  }: { featureFlagValues: string[]; allowReset: boolean }
+  }: {
+    featureFlagValues: string[];
+    experimentalOnlyValues?: string[];
+    allowReset: boolean;
+  }
 ): Record<string, string> {
   const isStage = isStageHost(context);
   const isAvailable = (toggle: { type: string }) =>
@@ -136,7 +145,11 @@ function validToggleValues(
     if (featureFlag) {
       return (
         isAvailable(featureFlag) &&
-        (isReset(value) || featureFlagValues.includes(value))
+        (isReset(value) ||
+          featureFlagValues.includes(value) ||
+          (featureFlag.type === 'experimental' &&
+            featureFlag.defaultValue === true &&
+            experimentalOnlyValues.includes(value)))
       );
     }
 
@@ -181,9 +194,10 @@ const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
 /**
  * Keeps only the presets that name a toggle available on this host, with a
  * value that toggle accepts - so a typo'd id or phase never gets written to a
- * cookie. Feature flags only accept 'true': a 'false' cookie resolves to the
- * flag's defaultValue, not false, so writing one would be misleading. Any
- * toggle can be reset with TOGGLE_RESET_VALUE.
+ * cookie. Feature flags only accept 'true' (plus 'off' for experimental
+ * ones, see getTogglesFromContext): a 'false' cookie resolves to the flag's
+ * defaultValue, not false, so writing one would be misleading. Any toggle can
+ * be reset with TOGGLE_RESET_VALUE.
  */
 export const validTogglePresets = (
   presets: Record<string, string>,
@@ -198,7 +212,11 @@ export const validTogglePresets = (
     ),
     togglesResp,
     context,
-    { featureFlagValues: ['true'], allowReset: true }
+    {
+      featureFlagValues: ['true'],
+      experimentalOnlyValues: ['off'],
+      allowReset: true,
+    }
   );
 
 /**
@@ -285,6 +303,29 @@ function resolveOptionValue(
 }
 
 /**
+ * Resolves a feature flag, first match wins: a render-only override, then a
+ * personal cookie, then the default. Presets from `?toggle=` links come in as
+ * overrides too, so the first render after a link already reflects it. What
+ * counts as a personal value, such as `off` for an experimental flag, is in
+ * personalFeatureFlagValue.
+ */
+function resolveFeatureFlag(
+  toggle: { id: string; type: string; defaultValue: boolean },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): boolean {
+  const override = overrides[toggle.id];
+  // `?toggleOverride=id:false` can turn any flag off for one render
+  if (override === 'false') return false;
+
+  return (
+    personalFeatureFlagValue(toggle, override) ??
+    personalFeatureFlagValue(toggle, cookies[`toggle_${toggle.id}`]) ??
+    toggle.defaultValue
+  );
+}
+
+/**
  * normally parsing like this should happen in `_app.parseServerDataToAppData`
  * but we need the `req` from the `context` for cookies which we don't
  * have in `_app` - so it lives here
@@ -308,15 +349,7 @@ export function getTogglesFromContext(
       return !(!isStage && toggle.type === 'stage');
     })
     .reduce((acc, toggle) => {
-      const override = overrides[toggle.id];
-      const value =
-        override === 'true'
-          ? true
-          : override === 'false'
-            ? false
-            : allCookies[`toggle_${toggle.id}`] === 'true'
-              ? true
-              : toggle.defaultValue;
+      const value = resolveFeatureFlag(toggle, overrides, allCookies);
       return { ...acc, [toggle.id]: value };
     }, {} as FeatureFlags);
 
