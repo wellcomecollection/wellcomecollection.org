@@ -35,12 +35,12 @@ describe('columnCountFor', () => {
 });
 
 describe('extraColumnBreakpoints', () => {
-  it('matches columnCountFor for the full-width grid', () => {
+  it('matches columnCountFor on a wide screen', () => {
     extraColumnBreakpoints().forEach(([columns, minWidth]) => {
-      const countAt = (viewportWidth: number) =>
+      const countAt = (gridWidth: number) =>
         columnCountFor({
-          gridWidth: viewportWidth * 0.9,
-          viewportWidth,
+          gridWidth,
+          viewportWidth: 3840,
           isSmallScreen: false,
         });
       expect(countAt(minWidth)).toBe(columns);

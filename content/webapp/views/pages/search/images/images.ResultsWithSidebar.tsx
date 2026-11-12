@@ -199,7 +199,6 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
               <CatalogueImageGallery
                 images={images}
                 variant="masonry"
-                isFullWidth={isFullWidth}
                 onImageSelect={selectImage}
                 selectedImageId={expandedImage?.id}
               />

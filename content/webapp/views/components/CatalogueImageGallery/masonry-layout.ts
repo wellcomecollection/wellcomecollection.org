@@ -54,7 +54,11 @@ export const TITLE_MAX_LINES = 3;
 export const estimateRowSpan = (image: Image): number => {
   const titleLines = Math.min(
     TITLE_MAX_LINES,
-    Math.ceil((image.source.title?.length || 1) / TITLE_CHARS_PER_LINE)
+    Math.ceil(
+      // Without any display markup (<i>, <sup>) in the title
+      (image.source.title?.replace(/<[^>]*>/g, '').length || 1) /
+        TITLE_CHARS_PER_LINE
+    )
   );
   const padding = remToPx(CARD_PADDING);
   const height =
@@ -111,23 +115,19 @@ export const columnCountFor = ({
 };
 
 /**
- * The viewport widths at which the full-width grid (sidebar closed, 5% padding
- * either side) gains a 5th, 6th... column, so CSS can match `columnCountFor`
- * before JS runs, and without it.
+ * The grid widths at which a 5th, 6th... column fits, so CSS can match
+ * `columnCountFor` before JS runs, and without it. Only grids wider than the
+ * page grid get there, so the target is the one for wide screens.
  */
 export const extraColumnBreakpoints = (): [number, number][] => {
   const target = targetColumnWidthFor(PAGE_MAX_WIDTH);
-  const fullWidthShare = 1 - 2 * PAGE_PADDING;
   const breakpoints: [number, number][] = [];
   for (
     let columns = COLUMNS_ACROSS_PAGE + 1;
     columns <= MAX_COLUMNS;
     columns++
   ) {
-    breakpoints.push([
-      columns,
-      Math.ceil(((columns - 0.5) * target) / fullWidthShare),
-    ]);
+    breakpoints.push([columns, Math.ceil((columns - 0.5) * target)]);
   }
   return breakpoints;
 };

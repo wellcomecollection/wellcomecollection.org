@@ -19,6 +19,7 @@ import { pageBackgroundColor, sizes } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { hexToRgb } from '@weco/content/utils/convert-colors';
 import { toWorksImagesLink } from '@weco/content/views/components/ImageLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 import {
   CARD_PADDING,
@@ -35,17 +36,21 @@ import {
   TITLE_SPACE,
 } from './masonry-layout';
 
-// Matches what JS works out with the sidebar closed. Only used when the grid
-// spreads into the page's margins; inside the page grid there's room for 4.
-const extraColumnMediaQueries = extraColumnBreakpoints()
+// Wide grids get more columns, matching what JS works out. Container queries,
+// so they measure the grid the same way JS does (without the scrollbar).
+const extraColumnContainerQueries = extraColumnBreakpoints()
   .map(
     ([columns, minWidth]) => `
-      @media (min-width: ${minWidth}px) {
+      @container (min-width: ${minWidth}px) {
         grid-template-columns: repeat(var(--columns, ${columns}), minmax(0, 1fr));
       }
     `
   )
   .join('');
+
+const MasonryContainer = styled.div`
+  container-type: inline-size;
+`;
 
 /*
  * Masonry natively with `display: grid-lanes` where the browser has it.
@@ -53,7 +58,7 @@ const extraColumnMediaQueries = extraColumnBreakpoints()
  * plain grid. To move to grid-lanes everywhere, delete the `@supports not`
  * block and the row span code.
  */
-const MasonryList = styled(PlainList)<{ $isFullWidth: boolean }>`
+const MasonryList = styled(PlainList)`
   display: grid;
   grid-template-columns: repeat(var(--columns, 2), minmax(0, 1fr));
   gap: ${GAP}px;
@@ -63,7 +68,7 @@ const MasonryList = styled(PlainList)<{ $isFullWidth: boolean }>`
       grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
     `)}
 
-  ${props => (props.$isFullWidth ? extraColumnMediaQueries : '')}
+  ${extraColumnContainerQueries}
 
   @supports (display: grid-lanes) {
     display: grid-lanes;
@@ -218,7 +223,9 @@ const useMasonryLayout = (
     });
 
     observer.observe(list);
-    list.querySelectorAll('li > a').forEach(card => observer.observe(card));
+    if (!usesGridLanes) {
+      list.querySelectorAll('li > a').forEach(card => observer.observe(card));
+    }
 
     return () => {
       observer.disconnect();
@@ -232,79 +239,79 @@ export type Props = {
   onImageSelect: (image: Image) => void;
   /** The image open in the sidebar, which is marked in the grid. */
   selectedImageId?: string;
-  /** The grid spreads into the page's margins, so wide screens get more columns. */
-  isFullWidth?: boolean;
 };
 
 const CatalogueImageGalleryMasonry: FunctionComponent<Props> = ({
   images,
   onImageSelect,
   selectedImageId,
-  isFullWidth = false,
 }) => {
   const { isEnhanced } = useAppContext();
   const listRef = useRef<HTMLUListElement>(null);
   useMasonryLayout(listRef, images);
 
   return (
-    <MasonryList
-      ref={listRef}
-      $isFullWidth={isFullWidth}
-      data-testid="image-search-results-container"
-    >
-      {images.map((image, index) => {
-        const isSelected = image.id === selectedImageId;
-        const aspectRatio = displayAspectRatio(image);
-        const rgb = hexToRgb(image.averageColor || '');
-        const iiifUrl = image.locations[0].url;
-        // Choosing the image that's open in the sidebar closes it
-        const tooltip = isSelected
-          ? 'Close image details'
-          : 'Open image details';
+    <MasonryContainer>
+      <MasonryList ref={listRef} data-testid="image-search-results-container">
+        {images.map((image, index) => {
+          const isSelected = image.id === selectedImageId;
+          const aspectRatio = displayAspectRatio(image);
+          const rgb = image.averageColor && hexToRgb(image.averageColor);
+          const iiifUrl = image.locations[0].url;
+          // Choosing the image that's open in the sidebar closes it
+          const tooltip = isSelected
+            ? 'Close image details'
+            : 'Open image details';
 
-        return (
-          <li
-            key={image.id}
-            style={{ '--row-span': estimateRowSpan(image) } as CSSProperties}
-          >
-            <CardLink
-              {...toWorksImagesLink({ id: image.id, workId: image.source.id })}
-              id={image.id}
-              $isSelected={isSelected}
-              aria-current={isSelected ? 'true' : undefined}
-              title={isEnhanced ? tooltip : undefined}
-              onClick={event => {
-                event.preventDefault();
-                onImageSelect(image);
-              }}
-              {...dataGtmPropsToAttributes({
-                trigger: 'open_image_modal',
-                'position-in-list': `${index + 1}`,
-              })}
+          return (
+            <li
+              key={image.id}
+              style={{ '--row-span': estimateRowSpan(image) } as CSSProperties}
             >
-              <Thumbnail
-                style={{ aspectRatio }}
-                $background={rgb && `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`}
+              <CardLink
+                {...toWorksImagesLink({
+                  id: image.id,
+                  workId: image.source.id,
+                })}
+                id={image.id}
+                $isSelected={isSelected}
+                aria-current={isSelected ? 'true' : undefined}
+                title={isEnhanced ? tooltip : undefined}
+                onClick={event => {
+                  event.preventDefault();
+                  onImageSelect(image);
+                }}
+                {...dataGtmPropsToAttributes({
+                  trigger: 'open_image_modal',
+                  'position-in-list': `${index + 1}`,
+                })}
               >
-                <img
-                  src={convertIiifImageUri(iiifUrl, 400)}
-                  srcSet={`${convertIiifImageUri(iiifUrl, 400)} 400w, ${convertIiifImageUri(iiifUrl, 800)} 800w`}
-                  // Fixed, as columns stay about this wide, so the image only
-                  // depends on pixel density and never changes on resize
-                  sizes="400px"
-                  width={400}
-                  height={Math.round(400 / aspectRatio)}
-                  alt=""
-                  loading={index < EAGER_IMAGE_COUNT ? 'eager' : 'lazy'}
-                  decoding="async"
-                />
-              </Thumbnail>
-              <Title>{image.source.title}</Title>
-            </CardLink>
-          </li>
-        );
-      })}
-    </MasonryList>
+                <Thumbnail
+                  style={{ aspectRatio }}
+                  $background={rgb && `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`}
+                >
+                  <img
+                    src={convertIiifImageUri(iiifUrl, 400)}
+                    srcSet={`${convertIiifImageUri(iiifUrl, 400)} 400w, ${convertIiifImageUri(iiifUrl, 800)} 800w`}
+                    // Fixed, as columns stay about this wide, so the image only
+                    // depends on pixel density and never changes on resize
+                    sizes="400px"
+                    width={400}
+                    height={Math.round(400 / aspectRatio)}
+                    alt=""
+                    loading={index < EAGER_IMAGE_COUNT ? 'eager' : 'lazy'}
+                    decoding="async"
+                  />
+                </Thumbnail>
+                <Title>
+                  <WorkTitle title={image.source.title} />
+                </Title>
+              </CardLink>
+            </li>
+          );
+        })}
+      </MasonryList>
+    </MasonryContainer>
   );
 };
 
