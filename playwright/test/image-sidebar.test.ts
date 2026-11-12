@@ -503,11 +503,12 @@ test.describe('Desktop', () => {
       await expect(previousButton(page)).toBeFocused();
     });
 
-    test('previous is disabled on the first image, and next on the last', async ({
+    // A search with one page of results, so the last image is the last result
+    test('previous is disabled on the first result, and next on the last', async ({
       page,
       context,
     }) => {
-      await searchImages('cats', context, page, 'phase3');
+      await searchImages(imageWithContributor, context, page, 'phase3');
       await openSidebar(1, page);
       await expect(previousButton(page)).toHaveAttribute(
         'aria-disabled',
@@ -515,7 +516,9 @@ test.describe('Desktop', () => {
       );
 
       // Clicking it does nothing. It's aria-disabled, which Playwright won't
-      // click without forcing it.
+      // click without forcing it, and forcing skips waiting for the sidebar to
+      // finish sliding in, so that's waited for first.
+      await expect(sidebar(page)).toHaveCSS('transform', 'none');
       await previousButton(page).click({ force: true });
       await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
 
@@ -598,7 +601,31 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 1)).toBeFocused();
     });
 
-    test.fixme('next on the last image of a page opens the first image of the next page', async () => {});
+    test('next on the last image of a page opens the first image of the next page, and previous goes back', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      const currentPage = page.getByTestId('current-page').first();
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+
+      await nextButton(page).click();
+      await expect(currentPage).toHaveText('2');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await expect(page).toHaveURL(
+        new RegExp(`page=2.*#${await thumbnail(page, 1).getAttribute('id')}$`)
+      );
+      await expect(nextButton(page)).toBeFocused();
+
+      await previousButton(page).click();
+      await expect(currentPage).toHaveText('1');
+      await expect(thumbnail(page, count)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+      await expect(previousButton(page)).toBeFocused();
+    });
 
     test.fixme('the arrow keys move to the next and previous image', async () => {});
   });
