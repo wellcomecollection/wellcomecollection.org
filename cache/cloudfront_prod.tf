@@ -43,10 +43,6 @@ module "prod_wc_org_cloudfront_distribution" {
   enable_unrecognised_host_block = true
   extra_allowed_hosts            = ["preview.wellcomecollection.org"]
 
-  # Logs allowed preview requests too, to tell editor sessions from the
-  # crawler before restricting preview.
-  count_hosts = ["preview.wellcomecollection.org"]
-
   # Proven on stage 2026-10-30: Lightpanda gets 403, browsers unaffected.
   blocked_user_agent_patterns = ["Lightpanda/"]
 
