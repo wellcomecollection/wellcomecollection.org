@@ -204,13 +204,14 @@ The dashboard links show a confirmation (or an error for a typo) along with all 
 
 Copy a whole link and swap in the ids:
 
-| Toggle       | Set                                                                                           | Reset                                                                                                          |
-| ------------ | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Feature flag | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`                       | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to its default value)           |
-| Phased flag  | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase)            |
-| Mode         | `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`     | `https://dash.wellcomecollection.org/toggles/?disableMode={mode_id}`                                           |
-| A/B test     | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in)           | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation)             |
-| Everything   |                                                                                               | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
+| Toggle                                            | Set                                                                                           | Reset                                                                                                          |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Feature flag                                      | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}`                       | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to its default value)           |
+| Phased flag                                       | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue={phase_id}` | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase)            |
+| Phased flag, off for you (once a phase is public) | `https://dash.wellcomecollection.org/toggles/?enableToggle={toggle_id}&phaseValue=off`        | `https://dash.wellcomecollection.org/toggles/?disableToggle={toggle_id}` (back to the public phase)            |
+| Mode                                              | `https://dash.wellcomecollection.org/toggles/?enableMode={mode_id}&modeValue={option_id}`     | `https://dash.wellcomecollection.org/toggles/?disableMode={mode_id}`                                           |
+| A/B test                                          | `https://dash.wellcomecollection.org/toggles/?enableToggle={test_id}` (count me in)           | `https://dash.wellcomecollection.org/toggles/?disableToggle={test_id}` (back to random allocation)             |
+| Everything                                        |                                                                                               | `https://dash.wellcomecollection.org/toggles/?resetToggles` (feature flags, phased flags, A/B tests and modes) |
 
 There's no dashboard link for the A/B test control group, or for turning an experimental feature flag off for yourself - use the website link or the dashboard's switch.
 

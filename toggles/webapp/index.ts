@@ -204,6 +204,56 @@ export function personalPhaseValue(
   return undefined;
 }
 
+export type PhaseLadderStep = PhaseDefinition & {
+  /** The chosen step, one before it (included), or one after it. */
+  state: 'current' | 'included' | 'inactive';
+  /** The line down to the next step, filled in as far as the chosen step. Absent on the last step. */
+  line?: 'active' | 'inactive';
+};
+
+/**
+ * A phased flag's steps in order, for showing which one is chosen: Off, once
+ * a phase is public, then each phase. Steps are cumulative, so every step
+ * before the chosen one counts as included. Nothing is chosen while nothing is
+ * public and there's no personal choice.
+ *
+ * @param personal - the flag's personalPhaseValue, or undefined for no choice
+ *   (the public phase is chosen)
+ */
+export function phaseLadder(
+  flag: { phases: readonly PhaseDefinition[]; defaultPhase: string | null },
+  personal: string | null | undefined
+): PhaseLadderStep[] {
+  const steps: PhaseDefinition[] = [
+    ...(flag.defaultPhase !== null
+      ? [
+          {
+            id: TOGGLE_OFF_VALUE,
+            label: 'Off',
+            description: `The version from before ${flag.phases[0].label}`,
+          },
+        ]
+      : []),
+    ...flag.phases,
+  ];
+  let chosenId: string | null;
+  if (personal === undefined) chosenId = flag.defaultPhase;
+  else chosenId = personal === null ? TOGGLE_OFF_VALUE : personal;
+  const chosenIndex = steps.findIndex(step => step.id === chosenId);
+
+  return steps.map((step, index) => {
+    let state: PhaseLadderStep['state'] = 'inactive';
+    if (index === chosenIndex) state = 'current';
+    else if (index < chosenIndex) state = 'included';
+
+    const isLast = index === steps.length - 1;
+    let line: PhaseLadderStep['line'];
+    if (!isLast) line = index + 1 <= chosenIndex ? 'active' : 'inactive';
+
+    return { ...step, state, line };
+  });
+}
+
 export type Toggles = {
   featureFlags: FeatureFlags;
   phasedFlags: PhasedFlags;
