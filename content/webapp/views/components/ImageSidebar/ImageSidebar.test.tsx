@@ -45,6 +45,7 @@ const mockImageSidebarPhase = (current: PhaseValue) =>
           phases: [
             { id: 'phase1', label: 'Phase 1', description: '' },
             { id: 'phase2', label: 'Phase 2', description: '' },
+            { id: 'phase3', label: 'Phase 3', description: '' },
           ],
         },
       }) as unknown as ReturnType<typeof Context.usePhasedFlags>
@@ -113,6 +114,17 @@ describe('ImageSidebar', () => {
     await userEvent.click(closeButton);
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  it('in Phase 3, shows a label on the close button, keeping its accessible name', async () => {
+    mockImageSidebarPhase('phase3');
+    await renderSidebar(expandedImage);
+
+    expect(
+      screen.getByRole('button', { name: 'Close image details' })
+    ).toHaveTextContent('Close image details');
+    expect(screen.getByText('Close')).toBeVisible();
+    jest.restoreAllMocks();
   });
 
   describe('sliding in and out', () => {

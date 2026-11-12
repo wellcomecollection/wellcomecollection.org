@@ -149,6 +149,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const isOpen = expandedImage !== undefined;
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
+  const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
   const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
 
   const linkedImageId = useRef(
@@ -299,9 +300,22 @@ const ImageSidebar: FunctionComponent<Props> = ({
                 {...dataGtmPropsToAttributes({ trigger: 'close-modal-button' })}
                 ref={closeButtonRef}
                 onClick={() => setExpandedImage(undefined)}
+                $hasLabel={showImageSidebarPhase3}
               >
-                <span className="visually-hidden">Close image details</span>
-                <Icon icon={cross} />
+                {showImageSidebarPhase3 ? (
+                  <>
+                    <Icon icon={cross} />
+                    <span>
+                      Close
+                      <span className="visually-hidden"> image details</span>
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="visually-hidden">Close image details</span>
+                    <Icon icon={cross} />
+                  </>
+                )}
               </CloseButton>
 
               {!detailedWork ? (

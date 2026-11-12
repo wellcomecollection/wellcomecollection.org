@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -102,11 +102,24 @@ export const ResizeHandle = styled.div`
   }
 `;
 
-export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
+// An icon with a small label underneath it, for the buttons along the top
+const labelledIconButton = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 44px;
+`;
+
+export const CloseButton = styled(Space).attrs<{
+  type?: string;
+  $hasLabel?: boolean;
+}>(props => ({
   as: 'button',
   type: props.type || 'button',
   $v: { size: 'md', properties: ['margin-bottom'] },
-}))`
+  className: props.$hasLabel ? typography('body', 'sm', 'regular') : undefined,
+}))<{ $hasLabel?: boolean }>`
   appearance: none;
   display: block;
   margin-left: auto;
@@ -115,6 +128,20 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   background: transparent;
   color: inherit;
   cursor: pointer;
+
+  /* Full screen, the label sits to the left of the icon rather than under it */
+  ${props =>
+    props.$hasLabel &&
+    css`
+      ${labelledIconButton}
+      flex-direction: row-reverse;
+      gap: ${props.theme.spacingUnits['100']};
+
+      ${props.theme.media('sm')(`
+        flex-direction: column;
+        gap: 2px;
+      `)}
+    `}
 `;
 
 export const LoadingWrapper = styled.div`
