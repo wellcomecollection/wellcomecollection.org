@@ -14,12 +14,18 @@ import {
   containerEdge,
   containerPadding,
 } from '@weco/common/views/themes/config';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
 } from '@weco/content/views/components/ImageSidebar';
+import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
+
+import useResultsPages from './images.useResultsPages';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -117,12 +123,21 @@ const useReturnFocusOnClose = (
   }, [isActive]);
 };
 
-type Props = PropsWithChildren<{ images: Image[] }>;
+// How close to either end of a page of results the next or previous page is
+// fetched, so stepping onto it doesn't have to wait
+const FETCH_NEIGHBOURING_PAGE_WITHIN = 3;
+
+type Props = PropsWithChildren<{
+  resultsList: CatalogueResultsList<Image>;
+  imagesRouteProps: ImagesProps;
+}>;
 
 const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
-  images,
+  resultsList,
+  imagesRouteProps,
   children,
 }) => {
+  const { results: images, totalPages, pageSize } = resultsList;
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
   const { windowSize } = useAppContext();
 
@@ -144,14 +159,70 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const expandedIndex = expandedImage
     ? images.findIndex(({ id }) => id === expandedImage.id)
     : -1;
-  const stepTo = (image: Image | undefined) =>
-    expandedIndex !== -1 && image
-      ? () =>
-          setExpandedImage(image, {
-            replace: true,
-            scrollToThumbnail: windowSize !== 'zero',
-          })
-      : undefined;
+  const isInResults = expandedIndex !== -1;
+  const stepOptions = {
+    replace: true,
+    scrollToThumbnail: windowSize !== 'zero',
+  };
+  const stepTo = (image: Image) => () => setExpandedImage(image, stepOptions);
+
+  // Past either end of this page, stepping goes on to the neighbouring page of
+  // results, which is fetched as the selected image gets near that end
+  const { page } = imagesRouteProps;
+  const { fetchPage, hasFailed } = useResultsPages(imagesRouteProps, pageSize);
+  const hasNextPage = page < totalPages && !hasFailed(page + 1);
+  const hasPreviousPage = page > 1 && !hasFailed(page - 1);
+
+  useEffect(() => {
+    if (!isInResults) return;
+
+    if (
+      hasNextPage &&
+      expandedIndex >= images.length - FETCH_NEIGHBOURING_PAGE_WITHIN
+    ) {
+      fetchPage(page + 1);
+    }
+    if (hasPreviousPage && expandedIndex < FETCH_NEIGHBOURING_PAGE_WITHIN) {
+      fetchPage(page - 1);
+    }
+  }, [expandedImage?.id, images]);
+
+  // Stops a second click going to another page while the first is loading
+  const isChangingPage = useRef(false);
+  useEffect(() => {
+    isChangingPage.current = false;
+  }, [images]);
+
+  const stepToPage =
+    (toPage: number, pick: (results: Image[]) => Image | undefined) =>
+    async () => {
+      if (isChangingPage.current) return;
+      isChangingPage.current = true;
+
+      const results = await fetchPage(toPage);
+      const image = results && pick(results);
+      if (image) {
+        setExpandedImage(image, { ...stepOptions, page: toPage });
+      } else {
+        isChangingPage.current = false;
+      }
+    };
+
+  const onPrevious = !isInResults
+    ? undefined
+    : expandedIndex > 0
+      ? stepTo(images[expandedIndex - 1])
+      : hasPreviousPage
+        ? stepToPage(page - 1, results => results[results.length - 1])
+        : undefined;
+
+  const onNext = !isInResults
+    ? undefined
+    : expandedIndex < images.length - 1
+      ? stepTo(images[expandedIndex + 1])
+      : hasNextPage
+        ? stepToPage(page + 1, results => results[0])
+        : undefined;
 
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in
@@ -199,8 +270,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
         onStatusChange={setSidebarStatus}
-        onPrevious={stepTo(images[expandedIndex - 1])}
-        onNext={stepTo(images[expandedIndex + 1])}
+        onPrevious={onPrevious}
+        onNext={onNext}
       />
     </ResultsLayout>
   );
