@@ -301,7 +301,7 @@ export const LadderMarker = styled.span<{ $state: SegmentState }>`
   border: 2px solid
     ${props =>
       props.$state === 'inactive'
-        ? props.theme.color('neutral.400')
+        ? props.theme.color('neutral.600')
         : props.theme.color('accent.green')};
   background-color: ${props => {
     if (props.$state === 'current') return props.theme.color('accent.green');
