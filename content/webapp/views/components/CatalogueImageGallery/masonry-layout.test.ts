@@ -35,6 +35,17 @@ describe('columnCountFor', () => {
     ).toBe(4);
   });
 
+  it('never has more than 7 columns', () => {
+    expect(
+      columnCountFor({
+        gridWidth: 3456,
+        viewportWidth: 3840,
+        rootFontSize: 16,
+        isSmallScreen: false,
+      })
+    ).toBe(7);
+  });
+
   it('gives wide screens more columns, not wider ones', () => {
     // At 2560px the results use all but the 5% padding either side (2304px),
     // and columns aim for 3/12 of a 1440px page (324px)
@@ -50,6 +61,11 @@ describe('columnCountFor', () => {
 });
 
 describe('extraColumnBreakpoints', () => {
+  it('stops at 7 columns', () => {
+    const breakpoints = extraColumnBreakpoints();
+    expect(breakpoints[breakpoints.length - 1][0]).toBe(7);
+  });
+
   it('matches columnCountFor on a wide screen', () => {
     extraColumnBreakpoints().forEach(([columns, minWidth]) => {
       const countAt = (gridWidthRem: number) =>

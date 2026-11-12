@@ -26,8 +26,8 @@ const COLUMNS_ACROSS_PAGE =
   Number(designSystemTheme.grid.columns.sm) / GRID_COLUMNS_SPANNED;
 const SMALL_SCREEN_COLUMNS =
   Number(designSystemTheme.grid.columns.default) / GRID_COLUMNS_SPANNED;
-// Beyond any real screen width (a 12th column needs a window around 4,000px)
-const MAX_COLUMNS = 12;
+// The most a full-width grid gets, however wide the screen (#13845)
+const MAX_COLUMNS = 7;
 
 // The server can't know the real column count, so images in the first two rows
 // at the default count load straight away and the rest load as they're needed
@@ -109,7 +109,10 @@ export const columnCountFor = ({
   if (isSmallScreen) return SMALL_SCREEN_COLUMNS;
 
   const target = targetColumnWidthFor(viewportWidth / rootFontSize);
-  return Math.max(1, Math.round(gridWidth / rootFontSize / target));
+  return Math.min(
+    MAX_COLUMNS,
+    Math.max(1, Math.round(gridWidth / rootFontSize / target))
+  );
 };
 
 /**
