@@ -1,7 +1,11 @@
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 
-import { ModeDefinition, PublishedPhasedFlag } from '@weco/toggles';
+import {
+  ModeDefinition,
+  PublishedPhasedFlag,
+  TOGGLE_OFF_VALUE,
+} from '@weco/toggles';
 
 import { AbTest } from '../toggles.ABTests';
 import {
@@ -96,6 +100,26 @@ export const useToggleActions = ({
         setMessage({
           text: `Phased flag "${flag.id}" requires a phaseValue.`,
           isError: true,
+        });
+        return;
+      }
+      if (phaseId === TOGGLE_OFF_VALUE) {
+        if (flag.defaultPhase === null) {
+          setMessage({
+            text: `Phased flag "${flag.id}" has no public phase to turn off.`,
+            isError: true,
+          });
+          return;
+        }
+        setCookieCustom(flag.id, TOGGLE_OFF_VALUE);
+        setPhasedFlagStates(prev => ({
+          ...prev,
+          [flag.id]: TOGGLE_OFF_VALUE,
+        }));
+        setMessage({
+          text: `Phased flag "${flag.title}" has been turned off for you.`,
+          isError: false,
+          isEnabled: false,
         });
         return;
       }

@@ -12,8 +12,10 @@ import Icon from '@weco/common/views/components/Icon';
 import {
   featureFlagCookieValue,
   ModeOption,
+  personalPhaseValue,
   PhaseDefinition,
   ResolvedPhasedFlag,
+  TOGGLE_OFF_VALUE,
   TogglesResp,
 } from '@weco/toggles';
 
@@ -58,6 +60,10 @@ type StarredEntry = {
   hasOverride?: boolean;
   /** Phased flags: the label of the public phase, or null if none is public yet. */
   publicPhaseLabel?: string | null;
+  /** Phased flags: a phase is public, so the flag can be turned off for you. */
+  canTurnOff?: boolean;
+  /** Phased flags: it's turned off for you, so no phase is on. */
+  isOff?: boolean;
 };
 
 const AB_TEST_OPTIONS: Option[] = [
@@ -186,19 +192,26 @@ const ToggleWidget: FunctionComponent = () => {
             phasedFlags as Record<string, ResolvedPhasedFlag>
           )[id];
           if (phasedFlag) {
-            // Matches resolveOptionValue's own validation (common/server-data
-            // /toggles.ts) - a cookie whose value isn't one of this flag's
-            // current phases (e.g. left over from one that's since graduated
-            // or been removed) isn't a live override, so it shouldn't count
-            // as one here either (Default view stays selected).
+            // Same validation as the server (personalPhaseValue): a cookie that
+            // isn't one of this flag's current phases (e.g. left over from one
+            // that's since graduated or been removed), or `off` before
+            // anything is public, isn't a live override, so Default view stays
+            // selected.
             const rawOverride = getCookie(`toggle_${id}`);
-            const hasOverride =
-              typeof rawOverride === 'string' &&
-              phasedFlag.phases.some(phase => phase.id === rawOverride);
-
-            const publicPhaseId = togglesJson.phasedFlags?.find(
-              f => f.id === id
-            )?.defaultPhase;
+            const publicPhaseId =
+              togglesJson.phasedFlags?.find(f => f.id === id)?.defaultPhase ??
+              null;
+            const personalValue =
+              typeof rawOverride === 'string'
+                ? personalPhaseValue(
+                    {
+                      phases: phasedFlag.phases,
+                      defaultPhase: publicPhaseId,
+                    },
+                    rawOverride
+                  )
+                : undefined;
+            const hasOverride = personalValue !== undefined;
             const publicPhase = phasedFlag.phases.find(
               phase => phase.id === publicPhaseId
             );
@@ -211,6 +224,8 @@ const ToggleWidget: FunctionComponent = () => {
               options: phaseOptions(phasedFlag.phases),
               hasOverride,
               publicPhaseLabel: publicPhase?.label ?? null,
+              canTurnOff: publicPhaseId !== null,
+              isOff: personalValue === null,
             };
           }
 
@@ -372,6 +387,19 @@ const ToggleWidget: FunctionComponent = () => {
                         onChange={() => resetOverride(entry.id)}
                       />
                       Default view
+                    </SegmentLabel>
+                  )}
+                  {entry.kind === 'phasedFlag' && entry.canTurnOff && (
+                    <SegmentLabel $state={entry.isOff ? 'current' : 'inactive'}>
+                      <input
+                        type="radio"
+                        name={`toggle-widget-${entry.id}`}
+                        checked={entry.isOff === true}
+                        onChange={() =>
+                          applyOverride(entry.id, TOGGLE_OFF_VALUE)
+                        }
+                      />
+                      Off
                     </SegmentLabel>
                   )}
                   {entry.options.map((option, index) => {

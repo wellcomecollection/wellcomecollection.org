@@ -2,7 +2,11 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled, { css } from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { PublishedPhasedFlag } from '@weco/toggles';
+import {
+  personalPhaseValue,
+  PublishedPhasedFlag,
+  TOGGLE_OFF_VALUE,
+} from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
@@ -128,17 +132,16 @@ const PhaseDescription = styled.span`
 
 /**
  * Resolves what's currently selected for a phased flag: an override cookie
- * if it's still a valid phase, otherwise whatever's public (defaultPhase,
- * which is null when nothing's public yet).
+ * if it's still a valid phase, or `off` (null) once a phase is public,
+ * otherwise whatever's public (defaultPhase, which is null when nothing's
+ * public yet).
  */
 const currentPhaseFor = (
   flag: PublishedPhasedFlag,
   phasedFlagStates: Record<string, string>
 ): string | null => {
-  const override = phasedFlagStates[flag.id];
-  const isValidOverride =
-    override !== undefined && flag.phases.some(phase => phase.id === override);
-  return isValidOverride ? override : flag.defaultPhase;
+  const personal = personalPhaseValue(flag, phasedFlagStates[flag.id]);
+  return personal !== undefined ? personal : flag.defaultPhase;
 };
 
 type PhasedFlagsProps = {
@@ -183,6 +186,7 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
         // explicit pin to the public phase doesn't look identical to never
         // having overridden it at all.
         const hasOverride = flag.id in phasedFlagStates;
+        const isOff = phasedFlagStates[flag.id] === TOGGLE_OFF_VALUE;
 
         return (
           <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
@@ -260,6 +264,30 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                     }}
                   />
                 </PhaseOption>
+
+                {flag.defaultPhase !== null && (
+                  <PhaseOption $isSelected={isOff}>
+                    <PhaseMarker $state={isOff ? 'current' : 'inactive'} />
+                    <span>
+                      <PhaseLabel>Off</PhaseLabel>
+                      <PhaseDescription>
+                        The version from before {flag.phases[0].label}
+                      </PhaseDescription>
+                    </span>
+                    <input
+                      type="radio"
+                      name={`phase-${flag.id}`}
+                      checked={isOff}
+                      onChange={() => {
+                        setCookieCustom(flag.id, TOGGLE_OFF_VALUE);
+                        setPhasedFlagStates(prev => ({
+                          ...prev,
+                          [flag.id]: TOGGLE_OFF_VALUE,
+                        }));
+                      }}
+                    />
+                  </PhaseOption>
+                )}
 
                 {flag.phases.map((phase, index) => {
                   const isSelected = hasOverride && currentPhase === phase.id;
