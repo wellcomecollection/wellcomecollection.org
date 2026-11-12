@@ -13,6 +13,9 @@ type SetExpandedImageOptions = {
   // Scrolls the page only as far as needed to show the image's thumbnail,
   // rather than keeping it where it is
   scrollToThumbnail?: boolean;
+  // Goes to this page of results as well, for an image on another page. The
+  // image stays as it was until that page has loaded.
+  page?: number;
 };
 
 export type SetExpandedImage = (
@@ -86,7 +89,7 @@ const useExpandedImage = (
 
   const setExpandedImage: SetExpandedImage = (
     image,
-    { replace = false, scrollToThumbnail = false } = {}
+    { replace = false, scrollToThumbnail = false, page } = {}
   ) => {
     const { router, imageId } = latest.current;
 
@@ -99,12 +102,28 @@ const useExpandedImage = (
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
+    const navigate = (replace ? router.replace : router.push).bind(router);
 
-    router[replace ? 'replace' : 'push'](
-      { pathname: router.pathname, query: router.query },
-      `${path}${image ? `#${image.id}` : ''}`,
-      { shallow: true, scroll: false }
-    ).then(() => {
+    // Another page of results needs its server-side props, so isn't shallow.
+    // The URL is built the way the pagination's links build it.
+    const navigation =
+      image && page
+        ? navigate(
+            {
+              pathname: router.pathname,
+              query: { ...router.query, page },
+              hash: image.id,
+            },
+            undefined,
+            { scroll: false }
+          )
+        : navigate(
+            { pathname: router.pathname, query: router.query },
+            `${path}${image ? `#${image.id}` : ''}`,
+            { shallow: true, scroll: false }
+          );
+
+    navigation.then(() => {
       if (!image) return;
 
       // Next scrolls to the element with the hash's id (the thumbnail) after
