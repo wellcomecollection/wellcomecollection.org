@@ -10,6 +10,7 @@ import {
 } from '@weco/common/server-data/Context';
 import Icon from '@weco/common/views/components/Icon';
 import {
+  featureFlagCookieValue,
   ModeOption,
   PhaseDefinition,
   ResolvedPhasedFlag,
@@ -45,21 +46,18 @@ type StarredEntry = {
   title: string;
   current: string;
   options: Option[];
-  // Feature flags only: true once a flag's defaultValue is true (Public) -
-  // the cookie resolver only ever checks for 'true', so a 'false' override
-  // can never turn a Public flag off, same as the dashboard's own
-  // disabled-switch-when-Public behaviour.
+  /** Feature flags: defaultValue is true, so On is what everyone sees. */
+  isPublic?: boolean;
+  /** Feature flags: the switch is disabled, as a public non-experimental flag can't be turned off for yourself. */
   locked?: boolean;
-  // Phased flags only: whether a toggle_<id> override cookie actually exists,
-  // so the segmented control's own "Default view" pill can show as selected -
-  // unlike a mode's "Off" or an A/B test's "Randomly allocate me", none of a
-  // phased flag's own options can get back to "no override" on their own.
-  // Keyed off the cookie's presence rather than "does current differ from
-  // public", since an override that happens to match today's public phase
-  // still pins the user to it if the public phase later advances - and the
-  // widget should let them clear it before that happens, not just once it's
-  // visibly out of date.
+  /**
+   * Phased flags: whether a toggle_<id> cookie exists, so "Default view" can
+   * show as not selected. True even if the cookie matches the public phase,
+   * as it would still pin the user if the public phase moved on.
+   */
   hasOverride?: boolean;
+  /** Phased flags: the label of the public phase, or null if none is public yet. */
+  publicPhaseLabel?: string | null;
 };
 
 const AB_TEST_OPTIONS: Option[] = [
@@ -68,9 +66,14 @@ const AB_TEST_OPTIONS: Option[] = [
   { id: 'random', label: 'Randomly allocate me' },
 ];
 
-const FEATURE_FLAG_OPTIONS: Option[] = [
-  { id: 'true', label: 'On' },
-  { id: 'false', label: 'Off' },
+// The option that matches what everyone sees has the empty id, which clears the
+// cookie (see applyOverride), so going back to the public value keeps no cookie
+const featureFlagOptions = (flag: {
+  type: string;
+  defaultValue: boolean;
+}): Option[] => [
+  { id: featureFlagCookieValue(flag, false) ?? '', label: 'Off' },
+  { id: featureFlagCookieValue(flag, true) ?? '', label: 'On' },
 ];
 
 const modeOptions = (options: readonly ModeOption[]): Option[] => [
@@ -192,6 +195,14 @@ const ToggleWidget: FunctionComponent = () => {
             const hasOverride =
               typeof rawOverride === 'string' &&
               phasedFlag.phases.some(phase => phase.id === rawOverride);
+
+            const publicPhaseId = togglesJson.phasedFlags?.find(
+              f => f.id === id
+            )?.defaultPhase;
+            const publicPhase = phasedFlag.phases.find(
+              phase => phase.id === publicPhaseId
+            );
+
             return {
               kind: 'phasedFlag',
               id,
@@ -199,6 +210,7 @@ const ToggleWidget: FunctionComponent = () => {
               current: phasedFlag.current ?? '',
               options: phaseOptions(phasedFlag.phases),
               hasOverride,
+              publicPhaseLabel: publicPhase?.label ?? null,
             };
           }
 
@@ -207,13 +219,17 @@ const ToggleWidget: FunctionComponent = () => {
             const current = (
               featureFlags as Record<string, boolean | undefined>
             )[id];
+            const isExperimental = featureFlag.type === 'experimental';
+            const isOn = current ?? featureFlag.defaultValue;
+
             return {
               kind: 'featureFlag',
               id,
               title: featureFlag.title,
-              current: (current ?? featureFlag.defaultValue) ? 'true' : 'false',
-              options: FEATURE_FLAG_OPTIONS,
-              locked: featureFlag.defaultValue === true,
+              current: featureFlagCookieValue(featureFlag, isOn) ?? '',
+              options: featureFlagOptions(featureFlag),
+              isPublic: featureFlag.defaultValue === true,
+              locked: featureFlag.defaultValue === true && !isExperimental,
             };
           }
 
@@ -298,10 +314,12 @@ const ToggleWidget: FunctionComponent = () => {
           aria-label="toggle states"
         >
           <PanelHeader>
+            Starred toggles (
             <a href={DASH_URL} target="_blank" rel="noopener noreferrer">
-              Toggles
+              view dashboard
               <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
+            )
           </PanelHeader>
           {entries.map(entry => (
             <ToggleBlock key={entry.id}>
@@ -314,7 +332,16 @@ const ToggleWidget: FunctionComponent = () => {
                   {entry.title}
                   <span className="visually-hidden"> (opens in a new tab)</span>
                 </a>
-                {entry.locked && <ToggleNote>(Public)</ToggleNote>}
+                {entry.isPublic && <ToggleNote>(Public)</ToggleNote>}
+                {entry.kind === 'phasedFlag' && (
+                  <ToggleNote>
+                    (
+                    {entry.publicPhaseLabel
+                      ? `Public: ${entry.publicPhaseLabel}`
+                      : 'Not yet public'}
+                    )
+                  </ToggleNote>
+                )}
               </ToggleLabel>
 
               {entry.kind === 'mode' ? (

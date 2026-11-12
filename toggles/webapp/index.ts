@@ -132,6 +132,41 @@ export function phaseIsAtLeast(
   return currentIndex >= targetIndex;
 }
 
+/**
+ * What a personal cookie, or a `?toggle=` link, says about a feature flag:
+ * `true` turns it on for you, and for an experimental flag `off` turns it off
+ * for you, so you can keep the version from before it went public. Anything
+ * else is no preference (undefined), including `false`, which older versions
+ * of the dashboard wrote and which has always meant "use the public value".
+ *
+ * Every place that reads one of these values should use this, so they agree
+ * on what a value means.
+ */
+export function personalFeatureFlagValue(
+  flag: { type: string },
+  value: string | undefined
+): boolean | undefined {
+  if (value === 'true') return true;
+  if (value === 'off' && flag.type === 'experimental') return false;
+  return undefined;
+}
+
+/**
+ * What to store when a feature flag's switch is set to `isOn`, or undefined
+ * when no cookie should be kept because that's what everyone already sees.
+ * The counterpart of `personalFeatureFlagValue`. Only an experimental flag can
+ * be off while public, and it stores that as `off`. Other flags store `false`,
+ * which the site ignores.
+ */
+export function featureFlagCookieValue(
+  flag: { type: string; defaultValue: boolean },
+  isOn: boolean
+): string | undefined {
+  if (isOn === flag.defaultValue) return undefined;
+  if (isOn) return 'true';
+  return flag.type === 'experimental' ? 'off' : 'false';
+}
+
 export type Toggles = {
   featureFlags: FeatureFlags;
   phasedFlags: PhasedFlags;
