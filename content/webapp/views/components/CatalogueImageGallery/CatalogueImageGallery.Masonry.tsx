@@ -41,7 +41,7 @@ import {
 const extraColumnContainerQueries = extraColumnBreakpoints()
   .map(
     ([columns, minWidth]) => `
-      @container (min-width: ${minWidth}px) {
+      @container (min-width: ${minWidth}rem) {
         grid-template-columns: repeat(var(--columns, ${columns}), minmax(0, 1fr));
       }
     `
@@ -152,10 +152,13 @@ const useMasonryLayout = (
 ) => {
   useEffect(() => {
     const list = listRef.current;
-    if (!list) return;
+    if (!list || typeof ResizeObserver === 'undefined') return;
 
     const usesGridLanes = CSS.supports('display', 'grid-lanes');
     const largerScreen = window.matchMedia(`(min-width: ${sizes.sm})`);
+    const rootFontSize = parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    );
     const cardHeights = new Map<HTMLElement, number>();
     let frame: number | undefined;
     let columnCount: number | undefined;
@@ -167,6 +170,7 @@ const useMasonryLayout = (
         gridWidth: list.clientWidth,
         // Without the scrollbar, like the percentages the page's padding uses
         viewportWidth: document.documentElement.clientWidth,
+        rootFontSize,
         isSmallScreen: !largerScreen.matches,
       });
       list.style.setProperty('--columns', `${columns}`);

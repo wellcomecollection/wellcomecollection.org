@@ -12,6 +12,7 @@ describe('columnCountFor', () => {
       columnCountFor({
         gridWidth: pageGridWidth * share,
         viewportWidth,
+        rootFontSize: 16,
         isSmallScreen: false,
       });
 
@@ -21,6 +22,19 @@ describe('columnCountFor', () => {
     expect(count(3 / 12)).toBe(1);
   });
 
+  it('scales with the root font size, like the page does', () => {
+    // With a 20px default font the page is 1800px wide at most, so a 1620px
+    // grid is still 4 columns, not 5
+    expect(
+      columnCountFor({
+        gridWidth: 1620,
+        viewportWidth: 1800,
+        rootFontSize: 20,
+        isSmallScreen: false,
+      })
+    ).toBe(4);
+  });
+
   it('gives wide screens more columns, not wider ones', () => {
     // At 2560px the results use all but the 5% padding either side (2304px),
     // and columns aim for 3/12 of a 1440px page (324px)
@@ -28,6 +42,7 @@ describe('columnCountFor', () => {
       columnCountFor({
         gridWidth: 2304,
         viewportWidth: 2560,
+        rootFontSize: 16,
         isSmallScreen: false,
       })
     ).toBe(7);
@@ -37,14 +52,15 @@ describe('columnCountFor', () => {
 describe('extraColumnBreakpoints', () => {
   it('matches columnCountFor on a wide screen', () => {
     extraColumnBreakpoints().forEach(([columns, minWidth]) => {
-      const countAt = (gridWidth: number) =>
+      const countAt = (gridWidthRem: number) =>
         columnCountFor({
-          gridWidth,
+          gridWidth: gridWidthRem * 16,
           viewportWidth: 3840,
+          rootFontSize: 16,
           isSmallScreen: false,
         });
       expect(countAt(minWidth)).toBe(columns);
-      expect(countAt(minWidth - 1)).toBe(columns - 1);
+      expect(countAt(minWidth - 0.01)).toBe(columns - 1);
     });
   });
 });

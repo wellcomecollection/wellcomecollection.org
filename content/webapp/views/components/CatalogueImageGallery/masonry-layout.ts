@@ -15,7 +15,8 @@ export const GAP = remToPx(themeValues.spacingUnits['300']);
 export const CARD_PADDING = themeValues.spacingUnits['150'];
 export const TITLE_SPACE = 'xs';
 
-const PAGE_MAX_WIDTH = remToPx(sizes.lg);
+// In rem, so column sizes scale with the user's font size like the page does
+const PAGE_MAX_WIDTH_REM = parseFloat(sizes.lg);
 const PAGE_PADDING = parseFloat(containerPadding) / 100;
 
 // Each column aims to cover 3 of the page grid's columns: 4 across the 12 on
@@ -45,7 +46,8 @@ export const rowSpanFor = (height: number): number =>
 // The server doesn't know the viewport, so it assumes the widest page grid with
 // 4 columns. In the browser the real heights replace these once the page loads.
 const ASSUMED_COLUMN_WIDTH =
-  (PAGE_MAX_WIDTH * (1 - 2 * PAGE_PADDING) - (COLUMNS_ACROSS_PAGE - 1) * GAP) /
+  (remToPx(sizes.lg) * (1 - 2 * PAGE_PADDING) -
+    (COLUMNS_ACROSS_PAGE - 1) * GAP) /
   COLUMNS_ACROSS_PAGE;
 const TITLE_LINE_HEIGHT = 21;
 const TITLE_CHARS_PER_LINE = 34;
@@ -54,11 +56,7 @@ export const TITLE_MAX_LINES = 3;
 export const estimateRowSpan = (image: Image): number => {
   const titleLines = Math.min(
     TITLE_MAX_LINES,
-    Math.ceil(
-      // Without any display markup (<i>, <sup>) in the title
-      (image.source.title?.replace(/<[^>]*>/g, '').length || 1) /
-        TITLE_CHARS_PER_LINE
-    )
+    Math.ceil((image.source.title?.length || 1) / TITLE_CHARS_PER_LINE)
   );
   const padding = remToPx(CARD_PADDING);
   const height =
@@ -89,8 +87,8 @@ export const shortestColumns = (spans: number[], columns: number): number[] => {
  * side) wide. Past the page's maximum width that stays the same, so wider
  * screens get more columns rather than wider ones.
  */
-const targetColumnWidthFor = (viewportWidth: number): number =>
-  (Math.min(viewportWidth, PAGE_MAX_WIDTH) * (1 - 2 * PAGE_PADDING)) /
+const targetColumnWidthFor = (viewportWidthRem: number): number =>
+  (Math.min(viewportWidthRem, PAGE_MAX_WIDTH_REM) * (1 - 2 * PAGE_PADDING)) /
   COLUMNS_ACROSS_PAGE;
 
 /**
@@ -100,34 +98,34 @@ const targetColumnWidthFor = (viewportWidth: number): number =>
 export const columnCountFor = ({
   gridWidth,
   viewportWidth,
+  rootFontSize,
   isSmallScreen,
 }: {
   gridWidth: number;
   viewportWidth: number;
+  rootFontSize: number;
   isSmallScreen: boolean;
 }): number => {
   if (isSmallScreen) return SMALL_SCREEN_COLUMNS;
 
-  return Math.max(
-    1,
-    Math.round(gridWidth / targetColumnWidthFor(viewportWidth))
-  );
+  const target = targetColumnWidthFor(viewportWidth / rootFontSize);
+  return Math.max(1, Math.round(gridWidth / rootFontSize / target));
 };
 
 /**
- * The grid widths at which a 5th, 6th... column fits, so CSS can match
+ * The grid widths (in rem) at which a 5th, 6th... column fits, so CSS can match
  * `columnCountFor` before JS runs, and without it. Only grids wider than the
  * page grid get there, so the target is the one for wide screens.
  */
 export const extraColumnBreakpoints = (): [number, number][] => {
-  const target = targetColumnWidthFor(PAGE_MAX_WIDTH);
+  const target = targetColumnWidthFor(PAGE_MAX_WIDTH_REM);
   const breakpoints: [number, number][] = [];
   for (
     let columns = COLUMNS_ACROSS_PAGE + 1;
     columns <= MAX_COLUMNS;
     columns++
   ) {
-    breakpoints.push([columns, Math.ceil((columns - 0.5) * target)]);
+    breakpoints.push([columns, (columns - 0.5) * target]);
   }
   return breakpoints;
 };
