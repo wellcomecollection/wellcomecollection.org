@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
 
+import ResetIcon from './toggles.ResetIcon';
 import {
   EmptyGroup,
+  RESET_BUTTON_HEIGHT,
   ResetButton,
   SectionHeading,
   Subsection,
@@ -14,6 +16,15 @@ const GroupHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  /* Tall enough for the reset button, so it appearing doesn't move anything */
+  min-height: ${RESET_BUTTON_HEIGHT};
+  margin-bottom: ${tokens.spacing.md};
+
+  > h2,
+  > h3 {
+    margin-bottom: 0;
+  }
 `;
 
 type GroupProps = {
@@ -65,6 +76,7 @@ const Group: FunctionComponent<GroupProps> = ({
         {heading}
         {reset && (
           <ResetButton onClick={reset.onClick} aria-label={reset.ariaLabel}>
+            <ResetIcon />
             {reset.label}
           </ResetButton>
         )}

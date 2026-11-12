@@ -90,7 +90,7 @@ export const useToggleActions = ({
           return next;
         });
         setMessage({
-          text: `Phased flag "${flag.title}" has been reset to its default view.`,
+          text: `Phased flag "${flag.title}" has been reset to the public view.`,
           isError: false,
           isEnabled: false,
         });

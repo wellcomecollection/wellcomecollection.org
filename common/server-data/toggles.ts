@@ -284,15 +284,14 @@ export function togglePresetCookies(
 
 /**
  * Resolves the current option of a mode: a render-only override, then a
- * personal cookie, then the fallback, as long as it's one of the mode's
- * option ids.
+ * personal cookie, as long as it's one of the mode's option ids, otherwise
+ * null.
  */
 function resolveOptionValue(
   id: string,
   validIds: string[],
   overrides: Record<string, string>,
-  allCookies: Partial<Record<string, string>>,
-  fallback: string | null
+  allCookies: Partial<Record<string, string>>
 ): string | null {
   const override = overrides[id];
   if (typeof override === 'string' && validIds.includes(override)) {
@@ -301,7 +300,7 @@ function resolveOptionValue(
   const cookieValue = allCookies[`toggle_${id}`];
   const isValid =
     typeof cookieValue === 'string' && validIds.includes(cookieValue);
-  return isValid ? cookieValue : fallback;
+  return isValid ? cookieValue : null;
 }
 
 /**
@@ -414,8 +413,7 @@ export function getTogglesFromContext(
       mode.id,
       mode.options.map(opt => opt.id),
       overrides,
-      allCookies,
-      null
+      allCookies
     );
     return { ...acc, [mode.id]: current };
   }, {} as Modes);
