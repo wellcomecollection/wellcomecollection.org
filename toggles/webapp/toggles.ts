@@ -259,9 +259,14 @@ const toggleConfig = {
       id: 'kioskMode',
       title: 'Kiosk mode',
       description:
-        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\nDeveloper mode is also available to allow testing of kiosk features without setting off the Inactivity modal.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
       options: [
-        { id: 'devMode', label: 'Developer mode' },
+        {
+          id: 'devMode',
+          label: 'Developer mode',
+          description:
+            'Test kiosk features without setting off the Inactivity modal.',
+        },
         { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
@@ -272,7 +277,7 @@ const toggleConfig = {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Choose which catalogue pipeline serves works, images and concepts.\n\nWhen one is selected, an <code>elasticCluster</code> param carrying its value is added to every catalogue works, images and concepts API query (search and detail), so they’re served from that pipeline’s cluster.\n\nIf the selected cluster is unavailable, requests fail with an error page instead of falling back to the default pipeline. The exception is theme cards, which render empty.\n\nWith nothing selected, the normal pipeline setup is used.',
+        'Serves works, images and concepts from the selected catalogue pipeline, by adding its <code>elasticCluster</code> param to every catalogue API query. If that cluster is unavailable, requests fail with an error page rather than falling back to the default pipeline (theme cards render empty instead).',
       options: [
         {
           id: 'folio-testing',
