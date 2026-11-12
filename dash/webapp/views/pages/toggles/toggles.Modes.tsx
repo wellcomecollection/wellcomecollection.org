@@ -33,7 +33,6 @@ const Chevron = styled.span`
   }
 `;
 
-/** A mode's options, as a card whose header bar opens and closes the list. */
 const OptionsCard = styled.details`
   background: ${tokens.colors.background.section};
   border: 1px solid ${tokens.colors.border.default};
@@ -147,7 +146,6 @@ const OptionDescription = styled.span<{ $state: OptionState }>`
 
   @media (max-width: 560px) {
     grid-column: 2;
-    grid-row: 2;
 
     &:empty {
       display: none;
@@ -155,22 +153,13 @@ const OptionDescription = styled.span<{ $state: OptionState }>`
   }
 `;
 
-/** Keeps the copy link button on the first line, whether or not the row has a description */
-const OptionLink = styled.span`
-  grid-column: 4;
-  grid-row: 1;
-
-  @media (max-width: 560px) {
-    grid-column: 3;
-  }
-`;
-
-const OptionRow = styled.label<{ $state: OptionState }>`
+/**
+ * A row is a label and the copy link button side by side, not one label around
+ * both: a button inside a label would be folded into the radio's name.
+ */
+const OptionRow = styled.div<{ $state: OptionState }>`
   display: grid;
-  grid-template-columns: 18px minmax(0, 250px) minmax(0, 1fr) auto;
-  column-gap: 12px;
-  align-items: start;
-  padding: 10px ${tokens.spacing.md};
+  grid-template-columns: minmax(0, 1fr) auto;
   border-top: 1px solid ${tokens.colors.border.default};
   background: ${props => {
     if (props.$state === 'active') return tokens.colors.success.main;
@@ -183,7 +172,6 @@ const OptionRow = styled.label<{ $state: OptionState }>`
       ? tokens.colors.white
       : tokens.colors.text.primary};
   font-size: ${tokens.typography.fontSize.xsmall};
-  cursor: pointer;
 
   &:first-of-type {
     border-top: 0;
@@ -214,7 +202,6 @@ const OptionRow = styled.label<{ $state: OptionState }>`
     height: 1px;
   }
 
-  /* The copy link button keeps its own look, except on the dark active row */
   button {
     color: ${props =>
       props.$state === 'active' ? tokens.colors.white : 'inherit'};
@@ -230,10 +217,23 @@ const OptionRow = styled.label<{ $state: OptionState }>`
         ? tokens.colors.white
         : tokens.colors.info.text};
   }
+`;
+
+const OptionLabel = styled.label`
+  display: grid;
+  grid-template-columns: 18px minmax(0, 250px) minmax(0, 1fr);
+  column-gap: 12px;
+  align-items: start;
+  padding: 10px 0 10px ${tokens.spacing.md};
+  cursor: pointer;
 
   @media (max-width: 560px) {
-    grid-template-columns: 18px minmax(0, 1fr) auto;
+    grid-template-columns: 18px minmax(0, 1fr);
   }
+`;
+
+const OptionLink = styled.span`
+  padding: 10px ${tokens.spacing.md} 10px ${tokens.spacing.sm};
 `;
 
 type ModeItemProps = {
@@ -310,18 +310,20 @@ const ModeItem: FunctionComponent<ModeItemProps> = ({
 
               return (
                 <OptionRow key={opt.id} $state={state}>
-                  <input
-                    type="radio"
-                    name={`mode-${mode.id}-options`}
-                    value={opt.id}
-                    checked={isSelected}
-                    onChange={() => onSelect(opt.id)}
-                  />
-                  <OptionMarker $state={state} aria-hidden="true" />
-                  <span>{opt.label}</span>
-                  <OptionDescription $state={state}>
-                    {opt.description}
-                  </OptionDescription>
+                  <OptionLabel>
+                    <input
+                      type="radio"
+                      name={`mode-${mode.id}-options`}
+                      value={opt.id}
+                      checked={isSelected}
+                      onChange={() => onSelect(opt.id)}
+                    />
+                    <OptionMarker $state={state} aria-hidden="true" />
+                    <span>{opt.label}</span>
+                    <OptionDescription $state={state}>
+                      {opt.description}
+                    </OptionDescription>
+                  </OptionLabel>
                   <OptionLink>
                     <CopyLinkIcon
                       toggleId={mode.id}
