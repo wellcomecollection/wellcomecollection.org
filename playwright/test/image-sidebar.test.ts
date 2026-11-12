@@ -37,14 +37,20 @@ const thumbnail = (page: Page, nthChild: number) =>
     .getByRole('link')
     .nth(nthChild - 1);
 
-// Each thumbnail's title, from its alt text. Empty where the title has display
-// markup in it (<i>, <sup>), as the sidebar shows that formatted, so it
-// wouldn't match.
+// Each thumbnail's title, from its heading (phase 2) or its alt text. Empty
+// where the title has display markup in it (<i>, <sup>), as the sidebar shows
+// that formatted, so it wouldn't match.
 const plainThumbnailTitles = (page: Page) =>
   resultsGrid(page)
     .getByRole('link')
     .evaluateAll(links =>
       links.map(link => {
+        const workTitle = link.querySelector('[data-component="work-title"]');
+        if (workTitle) {
+          return workTitle.children.length
+            ? ''
+            : (workTitle.textContent ?? '').replace(/\s+/g, ' ').trim();
+        }
         const alt = link.querySelector('img')?.getAttribute('alt') ?? '';
         return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
       })

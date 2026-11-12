@@ -8,6 +8,7 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   containerEdge,
@@ -19,6 +20,7 @@ import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
 } from '@weco/content/views/components/ImageSidebar';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -36,15 +38,25 @@ const PaginationArea = styled.div`
 const Results = styled.div<{
   $hasSidebar: boolean;
   $isCovered: boolean;
+  $isFullWidth: boolean;
+  /** The space next to the open sidebar matches the sidebar's own padding. */
+  $hasSidebarMatchedGap: boolean;
 }>`
   flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
 
-  /* Lines the results up with the page's Container, which the sidebar isn't in because it runs to the right edge */
-  padding-left: ${props => containerEdge(props.theme.sizes.lg)};
-  padding-right: ${props => containerEdge(props.theme.sizes.lg)};
+  /* Lines the results up with the page's Container, which the sidebar isn't in
+  because it runs to the right edge. Full width, they go out to its padding. */
+  padding-left: ${props =>
+    props.$isFullWidth
+      ? containerPadding
+      : containerEdge(props.theme.sizes.lg)};
+  padding-right: ${props =>
+    props.$isFullWidth
+      ? containerPadding
+      : containerEdge(props.theme.sizes.lg)};
 
   ${props =>
     props.$hasSidebar &&
@@ -52,8 +64,15 @@ const Results = styled.div<{
       align-self: stretch;
 
       ${props.theme.media('sm')(`
-        padding-right: ${containerPadding};
+        padding-right: ${props.$hasSidebarMatchedGap ? props.theme.getSpaceValue('md', 'sm') : containerPadding};
       `)}
+
+      ${
+        props.$hasSidebarMatchedGap &&
+        props.theme.media('md')(`
+        padding-right: ${props.theme.getSpaceValue('md', 'md')};
+      `)
+      }
     `}
 
   /* Hidden rather than removed under the full screen sidebar, so they keep their place but leave the tab order */
@@ -116,13 +135,22 @@ const useReturnFocusOnClose = (
   }, [isActive]);
 };
 
-type Props = PropsWithChildren<{ images: Image[] }>;
+// Searches with more results than this spread into the page's margins. Based
+// on the whole search, not the page, so every page of it is the same width.
+const FULL_WIDTH_MIN_RESULTS = 9;
+
+type Props = PropsWithChildren<{ images: Image[]; totalResults: number }>;
 
 const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   images,
+  totalResults,
   children,
 }) => {
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const { imageSidebarPhases } = usePhasedFlags();
+  const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
+  const isFullWidth =
+    showImageSidebarPhase2 && totalResults >= FULL_WIDTH_MIN_RESULTS;
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -162,16 +190,27 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         ref={resultsRef}
         $hasSidebar={sidebarStatus !== 'closed'}
         $isCovered={isActive && sidebarStatus === 'open'}
+        $isFullWidth={isFullWidth}
+        $hasSidebarMatchedGap={showImageSidebarPhase2}
       >
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <main>
-            <CatalogueImageGallery
-              images={images}
-              variant="justified"
-              imageDetails="sidebar"
-              onImageSelect={selectImage}
-              selectedImageId={expandedImage?.id}
-            />
+            {showImageSidebarPhase2 ? (
+              <CatalogueImageGallery
+                images={images}
+                variant="masonry"
+                onImageSelect={selectImage}
+                selectedImageId={expandedImage?.id}
+              />
+            ) : (
+              <CatalogueImageGallery
+                images={images}
+                variant="justified"
+                imageDetails="sidebar"
+                onImageSelect={selectImage}
+                selectedImageId={expandedImage?.id}
+              />
+            )}
           </main>
         </Space>
         <PaginationArea>{children}</PaginationArea>

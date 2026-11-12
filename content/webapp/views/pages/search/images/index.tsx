@@ -11,6 +11,7 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import {
   CatalogueResultsList,
   Image,
@@ -50,7 +51,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
     props.$hasNoResults
       ? ``
       : `
-        background-color: ${props.theme.color('black')};
+        background-color: ${props.theme.color(mediaBackgroundColor)};
         color: ${props.theme.color('white')};
         `}
 `;
@@ -107,7 +108,10 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
         <SearchNoResults query={queryString} hasFilters={hasActiveFilters} />
       </Container>
     ) : hasSidebarLayout ? (
-      <ImagesResultsWithSidebar images={images.results}>
+      <ImagesResultsWithSidebar
+        images={images.results}
+        totalResults={images.totalResults}
+      >
         {bottomPagination}
       </ImagesResultsWithSidebar>
     ) : (
