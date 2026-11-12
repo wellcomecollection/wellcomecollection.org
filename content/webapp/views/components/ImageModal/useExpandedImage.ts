@@ -105,13 +105,16 @@ const useExpandedImage = (
     const navigate = (replace ? router.replace : router.push).bind(router);
 
     // Another page of results needs its server-side props, so isn't shallow.
-    // The URL is built the way the pagination's links build it.
+    // The URL is built the way the pagination's links build it, but without
+    // `page` for the first page: the pagination takes `?page=1` out of the URL
+    // itself, which scrolls the page to the thumbnail, moving it to the top.
+    const { page: _currentPage, ...otherQuery } = router.query;
     const navigation =
       image && page
         ? navigate(
             {
               pathname: router.pathname,
-              query: { ...router.query, page },
+              query: page === 1 ? otherQuery : { ...otherQuery, page },
               hash: image.id,
             },
             undefined,

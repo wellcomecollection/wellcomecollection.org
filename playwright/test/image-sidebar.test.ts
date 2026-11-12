@@ -625,6 +625,15 @@ test.describe('Desktop', () => {
         'true'
       );
       await expect(previousButton(page)).toBeFocused();
+
+      // The sidebar's controls stay on screen, with the thumbnail in view.
+      // Tidying `?page=1` out of the URL used to scroll the page a moment
+      // later, taking the controls off screen, so this gives it time to.
+      await page.waitForLoadState('networkidle');
+      await page.waitForTimeout(1000);
+      await expect(page).not.toHaveURL(/page=1/);
+      await expect(previousButton(page)).toBeInViewport();
+      await expect(thumbnail(page, count)).toBeInViewport();
     });
 
     test.fixme('the arrow keys move to the next and previous image', async () => {});
