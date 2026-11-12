@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
 import { whiteBackgroundHalfOpacity } from '@weco/common/utils/backgrounds';
+import { remToPx } from '@weco/common/utils/rem-to-px';
 import {
   Breakpoint,
   sizes as breakpointSizes,
@@ -28,15 +29,6 @@ export type Props = {
   desaturate?: boolean;
   priority?: boolean;
 };
-
-/**
- * Converts a rem string to pixels
- * Assumes 1rem = 16px (browser default)
- */
-function remToPx(remValue: string): number {
-  const remNumeric = parseFloat(remValue);
-  return remNumeric * 16;
-}
 
 export function convertBreakpointSizesToSizes(
   sizes: BreakpointSizes
