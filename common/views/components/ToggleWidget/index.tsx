@@ -72,8 +72,8 @@ const featureFlagOptions = (flag: {
   type: string;
   defaultValue: boolean;
 }): Option[] => [
-  { id: featureFlagCookieValue(flag, true) ?? '', label: 'On' },
   { id: featureFlagCookieValue(flag, false) ?? '', label: 'Off' },
+  { id: featureFlagCookieValue(flag, true) ?? '', label: 'On' },
 ];
 
 const modeOptions = (options: readonly ModeOption[]): Option[] => [
