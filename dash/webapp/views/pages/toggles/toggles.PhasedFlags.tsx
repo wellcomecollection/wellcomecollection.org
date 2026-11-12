@@ -4,8 +4,9 @@ import styled, { css } from 'styled-components';
 import { tokens } from '@weco/dash/views/themes/tokens';
 import {
   personalPhaseValue,
+  phaseLadder,
+  PhaseLadderStep,
   PublishedPhasedFlag,
-  TOGGLE_OFF_VALUE,
 } from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
@@ -25,8 +26,6 @@ import {
   ToggleRow,
   ToggleTitle,
 } from './toggles.styles';
-
-type PhaseState = 'current' | 'included' | 'inactive';
 
 const MARKER_SIZE = '18px';
 const OPTION_PADDING = tokens.spacing.sm;
@@ -97,7 +96,7 @@ const PhaseOption = styled.label<{
     `}
 `;
 
-const PhaseMarker = styled.span<{ $state: PhaseState }>`
+const PhaseMarker = styled.span<{ $state: PhaseLadderStep['state'] }>`
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -145,20 +144,6 @@ const PublicTag = styled.span`
   vertical-align: 1px;
 `;
 
-/**
- * Resolves what's currently selected for a phased flag: an override cookie
- * if it's still a valid phase, or `off` (null) once a phase is public,
- * otherwise whatever's public (defaultPhase, which is null when nothing's
- * public yet).
- */
-const currentPhaseFor = (
-  flag: PublishedPhasedFlag,
-  phasedFlagStates: Record<string, string>
-): string | null => {
-  const personal = personalPhaseValue(flag, phasedFlagStates[flag.id]);
-  return personal !== undefined ? personal : flag.defaultPhase;
-};
-
 type PhasedFlagsProps = {
   phasedFlags: PublishedPhasedFlag[];
   phasedFlagStates: Record<string, string>;
@@ -189,32 +174,17 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
   >
     <ToggleList role="list">
       {phasedFlags.map(flag => {
-        const currentPhase = currentPhaseFor(flag, phasedFlagStates);
         const publicPhase = flag.phases.find(
           phase => phase.id === flag.defaultPhase
         );
-        // Distinct from "currentPhase happens to match flag.defaultPhase" -
+        // Distinct from the selected step happening to be the public one -
         // this tracks whether an override cookie actually exists, so an
         // explicit pin to the public phase doesn't look identical to never
         // having overridden it at all.
         const hasOverride = flag.id in phasedFlagStates;
-        const isOff = phasedFlagStates[flag.id] === TOGGLE_OFF_VALUE;
-
-        // Off comes first once a phase is public, as the step before them all
-        const steps = [
-          ...(flag.defaultPhase !== null
-            ? [
-                {
-                  id: TOGGLE_OFF_VALUE,
-                  label: 'Off',
-                  description: `The version from before ${flag.phases[0].label}`,
-                },
-              ]
-            : []),
-          ...flag.phases,
-        ];
-        const selectedIndex = steps.findIndex(
-          step => step.id === (isOff ? TOGGLE_OFF_VALUE : currentPhase)
+        const steps = phaseLadder(
+          flag,
+          personalPhaseValue(flag, phasedFlagStates[flag.id])
         );
 
         const select = (stepId: string) => {
@@ -292,32 +262,16 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
               </ToggleInfo>
 
               <PhaseList aria-labelledby={`heading-${flag.id}`}>
-                {steps.map((step, index) => {
-                  const isSelected = index === selectedIndex;
-                  // Steps are cumulative - reaching phase 2 means phase 1
-                  // shipped too, so every step before the selected one
-                  // counts as included, and the line between markers fills
-                  // in as far as the selected one.
-                  const state: PhaseState = isSelected
-                    ? 'current'
-                    : index < selectedIndex
-                      ? 'included'
-                      : 'inactive';
-                  const isLast = index === steps.length - 1;
+                {steps.map(step => {
+                  const isSelected = step.state === 'current';
 
                   return (
                     <PhaseOption
                       key={step.id}
                       $isSelected={isSelected}
-                      $line={
-                        isLast
-                          ? undefined
-                          : index + 1 <= selectedIndex
-                            ? 'active'
-                            : 'inactive'
-                      }
+                      $line={step.line}
                     >
-                      <PhaseMarker $state={state} />
+                      <PhaseMarker $state={step.state} />
                       <span>
                         <PhaseLabel>{step.label}</PhaseLabel>
                         {step.id === flag.defaultPhase && (

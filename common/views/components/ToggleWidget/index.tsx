@@ -13,9 +13,9 @@ import {
   featureFlagCookieValue,
   ModeOption,
   personalPhaseValue,
-  PhaseDefinition,
+  phaseLadder,
+  PhaseLadderStep,
   ResolvedPhasedFlag,
-  TOGGLE_OFF_VALUE,
   TogglesResp,
 } from '@weco/toggles';
 
@@ -31,7 +31,6 @@ import {
   ResetButton,
   Segmented,
   SegmentLabel,
-  SegmentState,
   SelectToggleOption,
   ToggleBlock,
   ToggleButton,
@@ -66,6 +65,8 @@ type StarredEntry = {
   hasOverride?: boolean;
   /** Phased flags: the id of the public phase, or null if none is public yet. */
   publicId?: string | null;
+  /** Phased flags: their steps, in place of `current` and `options`. */
+  ladder?: PhaseLadderStep[];
 };
 
 const AB_TEST_OPTIONS: Option[] = [
@@ -88,9 +89,6 @@ const modeOptions = (options: readonly ModeOption[]): Option[] => [
   { id: '', label: 'Off' },
   ...options.map(option => ({ id: option.id, label: option.label })),
 ];
-
-const phaseOptions = (phases: readonly PhaseDefinition[]): Option[] =>
-  phases.map(phase => ({ id: phase.id, label: phase.label }));
 
 // Matches the anchor ids dash puts on each toggle's list item - modes use
 // their own prefix, everything else shares toggle-.
@@ -209,20 +207,18 @@ const ToggleWidget: FunctionComponent = () => {
                     rawOverride
                   )
                 : undefined;
-            const isOff = personalValue === null;
+            const publicFlag = {
+              phases: phasedFlag.phases,
+              defaultPhase: publicPhaseId,
+            };
 
             return {
               kind: 'phasedFlag',
               id,
               title: phasedFlag.title,
-              current: isOff ? TOGGLE_OFF_VALUE : (phasedFlag.current ?? ''),
-              // Off comes first once a phase is public, as the step before them all
-              options: [
-                ...(publicPhaseId !== null
-                  ? [{ id: TOGGLE_OFF_VALUE, label: 'Off' }]
-                  : []),
-                ...phaseOptions(phasedFlag.phases),
-              ],
+              current: '',
+              options: [],
+              ladder: phaseLadder(publicFlag, personalValue),
               hasOverride: personalValue !== undefined,
               publicId: publicPhaseId,
             };
@@ -389,49 +385,31 @@ const ToggleWidget: FunctionComponent = () => {
                 </SelectToggleOption>
               ) : entry.kind === 'phasedFlag' ? (
                 <Ladder aria-label={`Value for ${entry.title}`}>
-                  {entry.options.map((option, index) => {
-                    const currentIndex = entry.options.findIndex(
-                      o => o.id === entry.current
-                    );
-                    const isSelected = index === currentIndex;
-                    // Steps are cumulative - reaching phase 2 means phase 1
-                    // shipped too, so every step before the selected one
-                    // counts as included.
-                    const state: SegmentState = isSelected
-                      ? 'current'
-                      : index < currentIndex
-                        ? 'included'
-                        : 'inactive';
-                    const isLast = index === entry.options.length - 1;
+                  {entry.ladder?.map(step => {
+                    const isSelected = step.state === 'current';
 
                     return (
                       <LadderRung
-                        key={option.id}
-                        $state={state}
-                        $line={
-                          isLast
-                            ? undefined
-                            : index + 1 <= currentIndex
-                              ? 'active'
-                              : 'inactive'
-                        }
+                        key={step.id}
+                        $state={step.state}
+                        $line={step.line}
                       >
                         <input
                           type="radio"
                           name={`toggle-widget-${entry.id}`}
                           checked={isSelected}
-                          onChange={() => applyOverride(entry.id, option.id)}
+                          onChange={() => applyOverride(entry.id, step.id)}
                           // A change event doesn't fire for the step that's
                           // already selected, so pin the public one on click
                           onClick={() => {
                             if (isSelected && !entry.hasOverride) {
-                              applyOverride(entry.id, option.id);
+                              applyOverride(entry.id, step.id);
                             }
                           }}
                         />
-                        <LadderMarker $state={state} aria-hidden="true" />
-                        <span>{option.label}</span>
-                        {option.id === entry.publicId && (
+                        <LadderMarker $state={step.state} aria-hidden="true" />
+                        <span>{step.label}</span>
+                        {step.id === entry.publicId && (
                           <PublicTag>Public</PublicTag>
                         )}
                       </LadderRung>
