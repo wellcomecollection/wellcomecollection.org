@@ -54,7 +54,8 @@ const mockImageSidebarPhase = (current: PhaseValue) =>
 const renderSidebar = async (
   image?: Image,
   setExpandedImage = jest.fn(),
-  onStatusChange = jest.fn()
+  onStatusChange = jest.fn(),
+  { onPrevious, onNext }: { onPrevious?: () => void; onNext?: () => void } = {}
 ) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
@@ -63,6 +64,8 @@ const renderSidebar = async (
       expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
       onStatusChange={onStatusChange}
+      onPrevious={onPrevious}
+      onNext={onNext}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -253,6 +256,81 @@ describe('ImageSidebar', () => {
       });
       await select(expandedImage);
       expect(sidebarColumns()).toBe('6');
+    });
+  });
+
+  describe('stepping through the results', () => {
+    beforeEach(() => mockImageSidebarPhase('phase3'));
+    afterEach(() => jest.restoreAllMocks());
+    const previousButton = () =>
+      screen.getByRole('button', { name: 'Previous image' });
+    const nextButton = () => screen.getByRole('button', { name: 'Next image' });
+
+    it('has no previous or next buttons before Phase 3', async () => {
+      mockImageSidebarPhase('phase2');
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+        onPrevious: jest.fn(),
+        onNext: jest.fn(),
+      });
+
+      expect(
+        screen.queryByRole('button', { name: 'Next image' })
+      ).not.toBeInTheDocument();
+    });
+
+    it('steps to the previous and next images', async () => {
+      const onPrevious = jest.fn();
+      const onNext = jest.fn();
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+        onPrevious,
+        onNext,
+      });
+
+      await userEvent.click(previousButton());
+      await userEvent.click(nextButton());
+
+      expect(onPrevious).toHaveBeenCalledTimes(1);
+      expect(onNext).toHaveBeenCalledTimes(1);
+      expect(previousButton()).toHaveAttribute(
+        'data-gtm-trigger',
+        'image_sidebar_previous'
+      );
+      expect(nextButton()).toHaveAttribute(
+        'data-gtm-trigger',
+        'image_sidebar_next'
+      );
+    });
+
+    it('disables a button with nowhere to step to, but keeps it focusable', async () => {
+      const onNext = jest.fn();
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), { onNext });
+
+      expect(previousButton()).toHaveAttribute('aria-disabled', 'true');
+      expect(previousButton()).not.toBeDisabled();
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'false');
+    });
+
+    it('leaves focus on the button used, rather than moving it to the close button', async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: jest.fn() }
+      );
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await user.click(nextButton());
+      await select({ ...expandedImage, id: 'imageB' });
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      expect(nextButton()).toHaveFocus();
+      jest.useRealTimers();
     });
   });
 

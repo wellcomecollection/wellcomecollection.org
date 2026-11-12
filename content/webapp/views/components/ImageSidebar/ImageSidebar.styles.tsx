@@ -144,6 +144,37 @@ export const CloseButton = styled(Space).attrs<{
     `}
 `;
 
+// The close button's margin spaces this from what's under it
+export const SidebarHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+export const StepButtons = styled.div`
+  display: flex;
+  gap: ${props => props.theme.spacingUnits['200']};
+`;
+
+export const StepButton = styled.button.attrs({
+  type: 'button',
+  className: typography('body', 'sm', 'regular'),
+})`
+  ${labelledIconButton}
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  /* aria-disabled rather than disabled, so it keeps focus at the first or last image */
+  &[aria-disabled='true'] {
+    color: ${props => props.theme.color('neutral.500')};
+    cursor: default;
+  }
+`;
+
 export const LoadingWrapper = styled.div`
   height: 350px;
 `;
