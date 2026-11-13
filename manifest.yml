@@ -20,12 +20,23 @@ metadata:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
+    backplane/dora-paths: content, common
 spec:
   type: service
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: "deploy:weco"
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      github:
+        task: "deploy:weco"
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -36,12 +47,23 @@ metadata:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
+    backplane/dora-paths: identity, common
 spec:
   type: service
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: "deploy:weco"
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      github:
+        task: "deploy:weco"
 ---
 apiVersion: backplane/v1
 kind: Component
