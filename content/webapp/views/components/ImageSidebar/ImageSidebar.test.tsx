@@ -7,7 +7,7 @@ import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { PhaseValue } from '@weco/toggles';
 
-import ImageSidebar from '.';
+import ImageSidebar, { StepHandler } from '.';
 import { TRANSITION_MS } from './ImageSidebar.styles';
 
 jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
@@ -45,6 +45,7 @@ const mockImageSidebarPhase = (current: PhaseValue) =>
           phases: [
             { id: 'phase1', label: 'Phase 1', description: '' },
             { id: 'phase2', label: 'Phase 2', description: '' },
+            { id: 'phase3', label: 'Phase 3', description: '' },
           ],
         },
       }) as unknown as ReturnType<typeof Context.usePhasedFlags>
@@ -53,7 +54,11 @@ const mockImageSidebarPhase = (current: PhaseValue) =>
 const renderSidebar = async (
   image?: Image,
   setExpandedImage = jest.fn(),
-  onStatusChange = jest.fn()
+  onStatusChange = jest.fn(),
+  {
+    onPrevious,
+    onNext,
+  }: { onPrevious?: StepHandler; onNext?: StepHandler } = {}
 ) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
@@ -62,6 +67,8 @@ const renderSidebar = async (
       expandedImage={expandedImage}
       setExpandedImage={setExpandedImage}
       onStatusChange={onStatusChange}
+      onPrevious={onPrevious}
+      onNext={onNext}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -113,6 +120,17 @@ describe('ImageSidebar', () => {
     await userEvent.click(closeButton);
 
     expect(setExpandedImage).toHaveBeenCalledWith(undefined);
+  });
+
+  it('in Phase 3, shows a label on the close button, keeping its accessible name', async () => {
+    mockImageSidebarPhase('phase3');
+    await renderSidebar(expandedImage);
+
+    expect(
+      screen.getByRole('button', { name: 'Close image details' })
+    ).toHaveTextContent('Close image details');
+    expect(screen.getByText('Close')).toBeVisible();
+    jest.restoreAllMocks();
   });
 
   describe('sliding in and out', () => {
@@ -241,6 +259,130 @@ describe('ImageSidebar', () => {
       });
       await select(expandedImage);
       expect(sidebarColumns()).toBe('6');
+    });
+  });
+
+  describe('stepping through the results', () => {
+    beforeEach(() => mockImageSidebarPhase('phase3'));
+    afterEach(() => jest.restoreAllMocks());
+    const previousButton = () =>
+      screen.getByRole('button', { name: 'Previous image' });
+    const nextButton = () => screen.getByRole('button', { name: 'Next image' });
+
+    it('has no previous or next buttons before Phase 3', async () => {
+      mockImageSidebarPhase('phase2');
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+        onPrevious: jest.fn(),
+        onNext: jest.fn(),
+      });
+
+      expect(
+        screen.queryByRole('button', { name: 'Next image' })
+      ).not.toBeInTheDocument();
+    });
+
+    it('steps to the previous and next images', async () => {
+      const onPrevious = jest.fn();
+      const onNext = jest.fn();
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+        onPrevious,
+        onNext,
+      });
+
+      await userEvent.click(previousButton());
+      await userEvent.click(nextButton());
+
+      expect(onPrevious).toHaveBeenCalledTimes(1);
+      expect(onNext).toHaveBeenCalledTimes(1);
+      expect(previousButton()).toHaveAttribute(
+        'data-gtm-trigger',
+        'image_sidebar_previous'
+      );
+      expect(nextButton()).toHaveAttribute(
+        'data-gtm-trigger',
+        'image_sidebar_next'
+      );
+    });
+
+    it('disables a button with nowhere to step to, but keeps it focusable', async () => {
+      const onNext = jest.fn();
+      await renderSidebar(expandedImage, jest.fn(), jest.fn(), { onNext });
+
+      expect(previousButton()).toHaveAttribute('aria-disabled', 'true');
+      expect(previousButton()).not.toBeDisabled();
+      expect(nextButton()).toHaveAttribute('aria-disabled', 'false');
+    });
+
+    it('leaves focus on the button used, rather than moving it to the close button', async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: beforeStep => beforeStep() }
+      );
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await user.click(nextButton());
+      await select({ ...expandedImage, id: 'imageB' });
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      expect(nextButton()).toHaveFocus();
+      jest.useRealTimers();
+    });
+
+    it('moves focus to the close button as usual if a step never happened', async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      // e.g. the next page of results couldn't be loaded
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: jest.fn() }
+      );
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await user.click(nextButton());
+      // Then a thumbnail is chosen
+      await select({ ...expandedImage, id: 'imageB' });
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      expect(
+        screen.getByRole('button', { name: 'Close image details' })
+      ).toHaveFocus();
+      jest.useRealTimers();
+    });
+
+    it('announces the title of the image stepped to, but not one chosen otherwise', async () => {
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: beforeStep => beforeStep() }
+      );
+      const liveRegion = document.querySelector('[aria-live="polite"]');
+
+      await select({ ...expandedImage, id: 'imageB' });
+      expect(liveRegion).toBeEmptyDOMElement();
+
+      await userEvent.click(nextButton());
+      await select({
+        ...expandedImage,
+        id: 'imageC',
+        source: { id: 'workC' },
+      } as unknown as Image);
+
+      expect(liveRegion).toHaveTextContent('A title with markup');
     });
   });
 

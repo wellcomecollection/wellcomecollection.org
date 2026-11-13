@@ -6,6 +6,25 @@ import useUrlHash from '@weco/content/hooks/useUrlHash';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
+type SetExpandedImageOptions = {
+  replace?: boolean;
+  // Rather than keeping the page where it is
+  scrollToThumbnail?: boolean;
+  // Image search only: assumes the param is `page` and that page 1 is left
+  // out of the URL
+  page?: number;
+};
+
+export type SetExpandedImage = (
+  image: Image | undefined,
+  options?: SetExpandedImageOptions
+) => void;
+
+// Instant rather than smooth: in Chrome, the re-render after the URL changes
+// can stop a smooth scroll partway, leaving the thumbnail off screen
+const scrollThumbnailIntoView = (imageId: string) =>
+  document.getElementById(imageId)?.scrollIntoView({ block: 'nearest' });
+
 /**
  * The image open in the modal or sidebar. The URL's hash is the only record of
  * which one it is, so the browser's Back and Forward, links with an image's id
@@ -14,7 +33,7 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
  */
 const useExpandedImage = (
   images: Image[]
-): [Image | undefined, (image: Image | undefined) => void] => {
+): [Image | undefined, SetExpandedImage] => {
   const router = useRouter();
   const imageId = useUrlHash(router.asPath);
   const { stagingApi } = useFeatureFlags();
@@ -65,7 +84,10 @@ const useExpandedImage = (
   const latest = useRef({ router, imageId });
   latest.current = { router, imageId };
 
-  const setExpandedImage = (image: Image | undefined) => {
+  const setExpandedImage: SetExpandedImage = (
+    image,
+    { replace = false, scrollToThumbnail = false, page } = {}
+  ) => {
     const { router, imageId } = latest.current;
 
     // Already open: pushing the same URL again would add a history entry
@@ -77,18 +99,41 @@ const useExpandedImage = (
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
+    const navigate = (replace ? router.replace : router.push).bind(router);
 
-    router
-      .push(
-        { pathname: router.pathname, query: router.query },
-        `${path}${image ? `#${image.id}` : ''}`,
-        { shallow: true, scroll: false }
-      )
-      .then(() => {
-        // Next scrolls to the element with the hash's id (the thumbnail) after
-        // rendering, in a timeout, and the page should stay where it is
-        if (image) setTimeout(() => window.scroll(0, scrollY));
+    // Another page of results needs its server-side props, so isn't shallow.
+    // The URL is built the way the pagination's links build it, but without
+    // `page` for the first page: the pagination takes `?page=1` out of the URL
+    // itself, which scrolls the page to the thumbnail, moving it to the top.
+    const { page: _currentPage, ...otherQuery } = router.query;
+    const navigation =
+      image && page
+        ? navigate(
+            {
+              pathname: router.pathname,
+              query: page === 1 ? otherQuery : { ...otherQuery, page },
+              hash: image.id,
+            },
+            undefined,
+            { scroll: false }
+          )
+        : navigate(
+            { pathname: router.pathname, query: router.query },
+            `${path}${image ? `#${image.id}` : ''}`,
+            { shallow: true, scroll: false }
+          );
+
+    navigation.then(() => {
+      if (!image) return;
+
+      // Next scrolls to the element with the hash's id (the thumbnail) after
+      // rendering, in a timeout, and the page should stay where it is. Moving
+      // the thumbnail into view has to come after that, or it's undone.
+      setTimeout(() => {
+        window.scroll(0, scrollY);
+        if (scrollToThumbnail) scrollThumbnailIntoView(image.id);
       });
+    });
   };
 
   return [expandedImage, setExpandedImage];

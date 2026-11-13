@@ -8,17 +8,27 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   containerEdge,
   containerPadding,
 } from '@weco/common/views/themes/config';
-import { Image } from '@weco/content/services/wellcome/catalogue/types';
+import {
+  CatalogueResultsList,
+  Image,
+} from '@weco/content/services/wellcome/catalogue/types';
 import CatalogueImageGallery from '@weco/content/views/components/CatalogueImageGallery';
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
+  StepHandler,
+  useIsSidebarFullScreen,
 } from '@weco/content/views/components/ImageSidebar';
+import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
+import { phaseIsAtLeast } from '@weco/toggles';
+
+import useResultsPages from './images.useResultsPages';
 
 const ResultsLayout = styled.div`
   display: flex;
@@ -116,13 +126,26 @@ const useReturnFocusOnClose = (
   }, [isActive]);
 };
 
-type Props = PropsWithChildren<{ images: Image[] }>;
+// How close to either end of a page of results the next or previous page is
+// fetched, so stepping onto it doesn't have to wait
+const FETCH_NEIGHBOURING_PAGE_WITHIN = 3;
+
+type Props = PropsWithChildren<{
+  resultsList: CatalogueResultsList<Image>;
+  imagesRouteProps: ImagesProps;
+}>;
 
 const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
-  images,
+  resultsList,
+  imagesRouteProps,
   children,
 }) => {
+  const { results: images, totalPages, pageSize } = resultsList;
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const isFullScreen = useIsSidebarFullScreen();
+  const { imageSidebarPhases } = usePhasedFlags();
+  const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
+  const hasStepButtons = showImageSidebarPhase3 && !isFullScreen;
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -135,6 +158,92 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   // Choosing the image that's already open closes it
   const selectImage = (image: Image) =>
     setExpandedImage(image.id === expandedImage?.id ? undefined : image);
+
+  // An image that isn't in the results (e.g. a visually similar one) has no
+  // previous or next
+  const expandedIndex = expandedImage
+    ? images.findIndex(({ id }) => id === expandedImage.id)
+    : -1;
+  const isInResults = expandedIndex !== -1;
+  const stepOptions = {
+    replace: true,
+    // Full screen, the results are hidden behind the sidebar
+    scrollToThumbnail: !isFullScreen,
+  };
+  const stepTo =
+    (image: Image): StepHandler =>
+    beforeStep => {
+      beforeStep();
+      setExpandedImage(image, stepOptions);
+    };
+
+  const { page } = imagesRouteProps;
+  const { fetchPage, hasFailed } = useResultsPages(imagesRouteProps, pageSize);
+  const hasNextPage = page < totalPages && !hasFailed(page + 1);
+  const hasPreviousPage = page > 1 && !hasFailed(page - 1);
+
+  useEffect(() => {
+    if (!hasStepButtons || !isInResults) return;
+
+    if (
+      hasNextPage &&
+      expandedIndex >= images.length - FETCH_NEIGHBOURING_PAGE_WITHIN
+    ) {
+      fetchPage(page + 1);
+    }
+    if (hasPreviousPage && expandedIndex < FETCH_NEIGHBOURING_PAGE_WITHIN) {
+      fetchPage(page - 1);
+    }
+  }, [expandedImage?.id, images, hasStepButtons]);
+
+  // Stops a second click going to another page while the first is loading,
+  // and drops a step that's still loading if something else is chosen
+  const isChangingPage = useRef(false);
+  const selection = useRef(0);
+  useEffect(() => {
+    isChangingPage.current = false;
+    return () => {
+      selection.current += 1;
+    };
+  }, [expandedImage?.id, images]);
+
+  const stepToPage =
+    (
+      toPage: number,
+      pick: (results: Image[]) => Image | undefined
+    ): StepHandler =>
+    async beforeStep => {
+      if (isChangingPage.current) return;
+      isChangingPage.current = true;
+      const steppingFrom = selection.current;
+
+      const results = await fetchPage(toPage);
+      if (selection.current !== steppingFrom) return;
+
+      const image = results && pick(results);
+      if (image) {
+        beforeStep();
+        setExpandedImage(image, { ...stepOptions, page: toPage });
+      } else {
+        isChangingPage.current = false;
+      }
+    };
+
+  const stepHandlerFor = (direction: -1 | 1): StepHandler | undefined => {
+    if (!isInResults) return undefined;
+
+    const neighbour = images[expandedIndex + direction];
+    if (neighbour) return stepTo(neighbour);
+
+    if (!(direction === 1 ? hasNextPage : hasPreviousPage)) return undefined;
+
+    return stepToPage(page + direction, results =>
+      direction === 1 ? results[0] : results[results.length - 1]
+    );
+  };
+
+  const onPrevious = stepHandlerFor(-1);
+  const onNext = stepHandlerFor(1);
 
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in
@@ -182,6 +291,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         expandedImage={expandedImage}
         setExpandedImage={setExpandedImage}
         onStatusChange={setSidebarStatus}
+        onPrevious={onPrevious}
+        onNext={onNext}
       />
     </ResultsLayout>
   );
