@@ -25,9 +25,10 @@ const CLICK_TOLERANCE_PX = 3;
 // How long the layout's width has to stay the same before it's measured again
 const MEASURE_DEBOUNCE_MS = 100;
 
-// How long after the last arrow key press a resize is recorded, matching the
-// scroll depth handler's debounce, so a held-down key is one event
-const KEYBOARD_TRACKING_DEBOUNCE_MS = 100;
+// How long after a key comes up a resize is recorded, so a run of presses is
+// the one event however fast they come. A held key is waited out rather than
+// timed, as the pause before it repeats can be longer than this.
+const KEYBOARD_TRACKING_DEBOUNCE_MS = 500;
 
 const roundColumns = (columns: number) => Math.round(columns * 100) / 100;
 
@@ -143,7 +144,8 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
   const keyboardResize = useRef<{
     from: number;
     to: number;
-    timeout: ReturnType<typeof setTimeout>;
+    // Only while the keys are up, as a held key ends when it's released
+    timeout?: ReturnType<typeof setTimeout>;
   }>(undefined);
 
   const flushKeyboardResize = () => {
@@ -319,13 +321,24 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     setColumns(next);
 
     const pending = keyboardResize.current;
-    if (pending) clearTimeout(pending.timeout);
+    clearTimeout(pending?.timeout);
     keyboardResize.current = {
       // The width before the first press, so a run of presses is one change
       from: pending?.from ?? shownColumns,
       to: next,
-      timeout: setTimeout(flushKeyboardResize, KEYBOARD_TRACKING_DEBOUNCE_MS),
     };
+  };
+
+  // The run of presses is over once the key is up and nothing follows it
+  const onKeyUp = () => {
+    const pending = keyboardResize.current;
+    if (!pending) return;
+
+    clearTimeout(pending.timeout);
+    pending.timeout = setTimeout(
+      flushKeyboardResize,
+      KEYBOARD_TRACKING_DEBOUNCE_MS
+    );
   };
 
   const announced = announcedColumns(shownColumns);
@@ -348,6 +361,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
       onPointerCancel={endDrag}
       onLostPointerCapture={endDrag}
       onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
+      // Nothing will say when the keys come up once the handle loses focus
+      onBlur={flushKeyboardResize}
     />
   );
 };
