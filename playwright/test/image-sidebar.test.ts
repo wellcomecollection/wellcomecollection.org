@@ -432,6 +432,23 @@ test.describe('Desktop', () => {
         )
         .toBeLessThanOrEqual(1);
       expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
+
+      // One event for the whole drag, pushed by the page itself, so it's there
+      // even with GTM blocked
+      const events = await page.evaluate(() =>
+        (
+          window as unknown as {
+            dataLayer: {
+              event?: string;
+              resize_direction?: string;
+              width?: number;
+            }[];
+          }
+        ).dataLayer.filter(event => event.event === 'sidebar_resize')
+      );
+      expect(events).toHaveLength(1);
+      expect(events[0].resize_direction).toBe('increase');
+      expect(events[0].width).toBeGreaterThan(6);
     });
 
     test('keeps the chosen width when the window is too narrow for it', async ({

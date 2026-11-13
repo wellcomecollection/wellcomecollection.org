@@ -8,7 +8,7 @@ import {
 describe('phaseIsAtLeast', () => {
   const title = 'Test flag';
   const phases: ResolvedPhasedFlag['phases'] = [
-    { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+    { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
     { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
     { id: 'phase3', label: 'Phase 3', description: 'Phase 3' },
   ];
@@ -20,25 +20,27 @@ describe('phaseIsAtLeast', () => {
   });
 
   it('is true when current is ahead of target', () => {
-    expect(phaseIsAtLeast({ title, current: 'phase3', phases }, 'mvp')).toBe(
+    expect(phaseIsAtLeast({ title, current: 'phase3', phases }, 'phase1')).toBe(
       true
     );
   });
 
   it('is false when current is behind target', () => {
-    expect(phaseIsAtLeast({ title, current: 'mvp', phases }, 'phase2')).toBe(
+    expect(phaseIsAtLeast({ title, current: 'phase1', phases }, 'phase2')).toBe(
       false
     );
   });
 
   it('is false when current is null (nothing public yet)', () => {
-    expect(phaseIsAtLeast({ title, current: null, phases }, 'mvp')).toBe(false);
+    expect(phaseIsAtLeast({ title, current: null, phases }, 'phase1')).toBe(
+      false
+    );
   });
 
   it('is false for a current value that matches no known phase', () => {
     // e.g. a stale cookie left over from a phase that's since been removed
     expect(
-      phaseIsAtLeast({ title, current: 'longRemovedPhase', phases }, 'mvp')
+      phaseIsAtLeast({ title, current: 'longRemovedPhase', phases }, 'phase1')
     ).toBe(false);
   });
 
@@ -50,7 +52,7 @@ describe('phaseIsAtLeast', () => {
 
   it('is false when the flag has not been published yet', () => {
     // e.g. usePhasedFlags() called before yarn deploy ran from toggles/webapp
-    expect(phaseIsAtLeast(undefined, 'mvp')).toBe(false);
+    expect(phaseIsAtLeast(undefined, 'phase1')).toBe(false);
   });
 });
 

@@ -53,7 +53,7 @@ const urls = [
   '/works/cjwep3ze?query=health&page=1',
   '/works/e7vav3ss/items?page=1&canvas=1',
   '/works/d2mach47',
-  '/works/aegabdcp?toggleOverride=archiveCollectionPhases:mvp',
+  '/works/aegabdcp',
   '/collections/people-and-organisations?toggleOverride=thematicBrowsingPhases:categoryPages',
   '/series/inside-our-collections',
   '/exhibitions/heart-n-soul-s-wall-of-change',

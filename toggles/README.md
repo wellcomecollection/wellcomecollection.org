@@ -40,9 +40,9 @@ To add a new feature flag:
 
 Phased flags are for a feature that's genuinely shipping in stages, rather than as a single on/off release. Instead of a `defaultValue`, a phased flag has an ordered list of `phases`, named Phase 1, Phase 2, Phase 3 and so on. Selecting a phase always shows that phase's work plus everything from the phases before it — there's no way to show a later phase while hiding an earlier one.
 
-Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` used to be two separate feature flags, and the code that read them combined the two with an explicit `&&` because one was only ever meant to be on together with the other. `archiveCollectionPhases` replaced that pair with a single ordered dial: Phase 1 (what `archiveCollection` did) then Phase 2 (what `archiveShortDescriptions` added).
+Use a phased flag instead of two (or more) feature flags combined by hand in code. For example, `archiveCollection` and `archiveShortDescriptions` used to be two separate feature flags, and the code that read them combined the two with an explicit `&&` because one was only ever meant to be on together with the other. `archiveCollectionPhases` replaced that pair with a single ordered dial: Phase 1 (what `archiveCollection` did) then Phase 2 (what `archiveShortDescriptions` added). It's since been removed, both phases being public.
 
-A new phase's id is `phase1`, `phase2` and so on, with the label `Phase 1`, `Phase 2` and so on. Three flags from before this convention keep their old ids (`mvp`, `categoryPages`, `subCategoryPages`), because those ids are in cookies, links and code, but their labels follow it too.
+A new phase's id is `phase1`, `phase2` and so on, with the label `Phase 1`, `Phase 2` and so on. Two flags from before this convention keep their old ids (`mvp`, `categoryPages`, `subCategoryPages`), because those ids are in cookies, links and code, but their labels follow it too.
 
 Each phase can carry its own short (~20 word) `description` of what that specific phase adds, shown in the dashboard for whichever phase is currently selected. Anything longer belongs in the flag's `documentationLink`, same as for feature flags.
 
@@ -54,7 +54,7 @@ To add a new phased flag:
 - Add a new entry to the `phasedFlags` array, with an ordered `phases` list (ids `phase1`, `phase2`, ... and labels `Phase 1`, `Phase 2`, ...).
 - Log in to AWS and run `yarn deploy`. This will make it available on the [toggles dashboard](https://dash.wellcomecollection.org/toggles/).
 - Iterate! Preview a phase by overriding it via the dashboard cookie, same as a feature flag.
-- Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --archiveCollectionPhases=phase2`.
+- Once you're happy making a phase public, run `yarn setDefaultValueFor --{toggle_id}={phase_id}`, e.g. `yarn setDefaultValueFor --imageSidebarPhases=phase2`.
 - If anything goes wrong, run `yarn setDefaultValueFor --{toggle_id}=null` to make nothing public again.
 - Once a phase has been public for a while and nothing's gone wrong, delete the code that checks for it — that part of the feature is now permanent — and remove that phase from the list.
 - Once every phase has shipped this way, remove the phased flag from the code entirely.
@@ -119,8 +119,8 @@ Client-side, use the following hooks:
 Combine `usePhasedFlags()` with `phaseIsAtLeast()` (from `@weco/toggles`) rather than comparing the phase id directly, since a later phase should always satisfy an earlier check:
 
 ```typescript
-const { archiveCollectionPhases } = usePhasedFlags();
-if (phaseIsAtLeast(archiveCollectionPhases, 'phase2')) {
+const { imageSidebarPhases } = usePhasedFlags();
+if (phaseIsAtLeast(imageSidebarPhases, 'phase2')) {
   // Phase 2 (and everything from Phase 1) is showing
 }
 ```
