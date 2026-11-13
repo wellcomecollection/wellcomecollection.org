@@ -476,7 +476,6 @@ test.describe('Desktop', () => {
     });
   });
 
-  // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13536
   test.describe('Moving to the next and previous image', () => {
     const previousButton = (page: Page) =>
       sidebar(page).getByRole('button', { name: 'Previous image' });
@@ -635,8 +634,6 @@ test.describe('Desktop', () => {
       await expect(previousButton(page)).toBeInViewport();
       await expect(thumbnail(page, count)).toBeInViewport();
     });
-
-    test.fixme('the arrow keys move to the next and previous image', async () => {});
   });
 
   test.describe('Accessibility', () => {

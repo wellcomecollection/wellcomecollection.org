@@ -362,6 +362,28 @@ describe('ImageSidebar', () => {
       ).toHaveFocus();
       jest.useRealTimers();
     });
+
+    it('announces the title of the image stepped to, but not one chosen otherwise', async () => {
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: beforeStep => beforeStep() }
+      );
+      const liveRegion = document.querySelector('[aria-live="polite"]');
+
+      await select({ ...expandedImage, id: 'imageB' });
+      expect(liveRegion).toBeEmptyDOMElement();
+
+      await userEvent.click(nextButton());
+      await select({
+        ...expandedImage,
+        id: 'imageC',
+        source: { id: 'workC' },
+      } as unknown as Image);
+
+      expect(liveRegion).toHaveTextContent('A title with markup');
+    });
   });
 
   describe('focus', () => {

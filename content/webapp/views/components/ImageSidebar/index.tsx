@@ -68,28 +68,26 @@ type Props = {
   setExpandedImage: (image: Image | undefined) => void;
   // As it slides in and out, for laying out what's beside it
   onStatusChange?: (status: SidebarStatus) => void;
-  // Step to the image before or after this one in the results. Without one,
-  // that button is disabled. Each calls `beforeStep` just before it moves to
-  // the other image, which can be after another page of results has loaded,
-  // or not at all if that fails or something else is chosen in the meantime.
+  // Without one, that button is disabled
   onPrevious?: StepHandler;
   onNext?: StepHandler;
 };
 
+// Calls `beforeStep` only once the step is definitely happening, which may be
+// after another page of results has loaded, or never
 export type StepHandler = (beforeStep: () => void) => void;
 
+// Below `sm`, the sidebar covers the page
+export const useIsSidebarFullScreen = (): boolean =>
+  useAppContext().windowSize === 'zero';
+
 /**
- * Moves focus to the close button each time an image is chosen, not only when
- * the sidebar opens, as choosing an image is asking for its details. The same
- * image staying open (e.g. across pages of results) doesn't count. Stepping to
- * the previous or next image leaves focus on the button that was used, so it
- * can be pressed again.
+ * Moves focus to the close button each time an image is chosen, as choosing an
+ * image is asking for its details. Stepping to the previous or next image
+ * leaves focus on the button that was used, so it can be pressed again.
  *
  * Returns a function to call once the person starts moving focus themselves,
- * so it's left alone from then on, and one to call with the button used just
- * before stepping to another image. That's only called once the step is
- * definitely happening, so a step that never happens can't leave it set for
- * the next image chosen.
+ * so it's left alone from then on, and one to call with the step button used.
  */
 const useFocusCloseButtonOnSelect = (
   imageId: string | undefined,
@@ -129,7 +127,6 @@ const useFocusCloseButtonOnSelect = (
     document.addEventListener('focusin', onFocusIn);
 
     const timeouts = [
-      // A step button already has focus
       ...(stepButton ? [] : [setTimeout(focusTarget)]),
       setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
     ];
@@ -173,14 +170,12 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const scrollerRef = useRef<HTMLDivElement>(null);
   const resizeHandleRef = useRef<HTMLDivElement>(null);
   const sidebarId = useId();
-  const { windowSize } = useAppContext();
-  const isFullScreen = windowSize === 'zero';
+  const isFullScreen = useIsSidebarFullScreen();
   const isOpen = expandedImage !== undefined;
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
   const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
-  // Full screen, they'll be in a bar along the bottom instead
   const hasHeaderStepButtons = showImageSidebarPhase3 && !isFullScreen;
 
   const linkedImageId = useRef(
@@ -200,6 +195,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
     }
   }
 
+  const isAnnouncingStep = useRef(false);
   const { stopRefocusing, setSteppedFrom } = useFocusCloseButtonOnSelect(
     expandedImage?.id,
     closeButtonRef
@@ -228,7 +224,10 @@ const ImageSidebar: FunctionComponent<Props> = ({
       onClick={event => {
         if (!onStep) return;
         const button = event.currentTarget;
-        onStep(() => setSteppedFrom(button));
+        onStep(() => {
+          setSteppedFrom(button);
+          isAnnouncingStep.current = true;
+        });
       }}
     >
       {icon}
@@ -249,6 +248,18 @@ const ImageSidebar: FunctionComponent<Props> = ({
     displayContributor,
     displayTitle,
   } = useImageDetails(images, shownImage);
+
+  // Focus stays on the step button, so nothing else tells a screen reader
+  // that the image changed
+  const [stepAnnouncement, setStepAnnouncement] = useState('');
+  useEffect(() => {
+    if (!isAnnouncingStep.current || !detailedWork) return;
+
+    isAnnouncingStep.current = false;
+    setStepAnnouncement(
+      removeDisplayMarkupTags(displayTitle) || 'Untitled image'
+    );
+  }, [shownImage?.id, detailedWork]);
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;
@@ -275,10 +286,8 @@ const ImageSidebar: FunctionComponent<Props> = ({
     setTimeout(finish, ms + 100);
   };
 
-  // Shift+Tab from the first thing in the sidebar (the resize handle, else the
-  // previous button, else the close button) goes to the selected thumbnail
-  // rather than the end of the results. Full screen, the results are hidden
-  // and focus stays in the sidebar, so it's left alone.
+  // Shift+Tab from the first thing in the sidebar goes to the selected
+  // thumbnail rather than the end of the results
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== 'Tab') return;
 
@@ -361,6 +370,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
                 setColumns={setColumns}
               />
             )}
+            <div className="visually-hidden" aria-live="polite">
+              {stepAnnouncement}
+            </div>
             <SidebarScroller ref={scrollerRef}>
               <SidebarHeader>
                 {hasHeaderStepButtons && (
@@ -390,21 +402,14 @@ const ImageSidebar: FunctionComponent<Props> = ({
                   onClick={() => setExpandedImage(undefined)}
                   $hasLabel={showImageSidebarPhase3}
                 >
+                  <Icon icon={cross} />
                   {showImageSidebarPhase3 ? (
-                    <>
-                      <Icon icon={cross} />
-                      <span>
-                        Close
-                        <span className="visually-hidden"> image details</span>
-                      </span>
-                    </>
+                    <span>
+                      Close
+                      <span className="visually-hidden"> image details</span>
+                    </span>
                   ) : (
-                    <>
-                      <span className="visually-hidden">
-                        Close image details
-                      </span>
-                      <Icon icon={cross} />
-                    </>
+                    <span className="visually-hidden">Close image details</span>
                   )}
                 </CloseButton>
               </SidebarHeader>

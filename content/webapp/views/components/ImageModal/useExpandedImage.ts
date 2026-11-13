@@ -7,14 +7,11 @@ import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type SetExpandedImageOptions = {
-  // Replaces the history entry rather than adding one, e.g. when stepping
-  // through the results, so Back doesn't go through every image
   replace?: boolean;
-  // Scrolls the page only as far as needed to show the image's thumbnail,
-  // rather than keeping it where it is
+  // Rather than keeping the page where it is
   scrollToThumbnail?: boolean;
-  // Goes to this page of results as well, for an image on another page. The
-  // image stays as it was until that page has loaded.
+  // Image search only: assumes the param is `page` and that page 1 is left
+  // out of the URL
   page?: number;
 };
 

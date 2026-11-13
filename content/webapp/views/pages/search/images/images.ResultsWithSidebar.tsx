@@ -8,7 +8,6 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { usePhasedFlags } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -24,6 +23,7 @@ import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
   StepHandler,
+  useIsSidebarFullScreen,
 } from '@weco/content/views/components/ImageSidebar';
 import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
 import { phaseIsAtLeast } from '@weco/toggles';
@@ -142,11 +142,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
 }) => {
   const { results: images, totalPages, pageSize } = resultsList;
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
-  const { windowSize } = useAppContext();
+  const isFullScreen = useIsSidebarFullScreen();
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
-  // Full screen, they'll be in a bar along the bottom instead (still to come)
-  const hasStepButtons = showImageSidebarPhase3 && windowSize !== 'zero';
+  const hasStepButtons = showImageSidebarPhase3 && !isFullScreen;
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -161,15 +160,15 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     setExpandedImage(image.id === expandedImage?.id ? undefined : image);
 
   // An image that isn't in the results (e.g. a visually similar one) has no
-  // previous or next. Full screen, the results are hidden, so there's no
-  // thumbnail to scroll to.
+  // previous or next
   const expandedIndex = expandedImage
     ? images.findIndex(({ id }) => id === expandedImage.id)
     : -1;
   const isInResults = expandedIndex !== -1;
   const stepOptions = {
     replace: true,
-    scrollToThumbnail: windowSize !== 'zero',
+    // Full screen, the results are hidden behind the sidebar
+    scrollToThumbnail: !isFullScreen,
   };
   const stepTo =
     (image: Image): StepHandler =>
@@ -178,14 +177,11 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       setExpandedImage(image, stepOptions);
     };
 
-  // Past either end of this page, stepping goes on to the neighbouring page of
-  // results, which is fetched as the selected image gets near that end
   const { page } = imagesRouteProps;
   const { fetchPage, hasFailed } = useResultsPages(imagesRouteProps, pageSize);
   const hasNextPage = page < totalPages && !hasFailed(page + 1);
   const hasPreviousPage = page > 1 && !hasFailed(page - 1);
 
-  // Only fetched for the step buttons, so not without them
   useEffect(() => {
     if (!hasStepButtons || !isInResults) return;
 
@@ -200,10 +196,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     }
   }, [expandedImage?.id, images, hasStepButtons]);
 
-  // Stops a second click going to another page while the first is loading.
-  // Choosing another image, closing the sidebar, a new search or leaving the
-  // results all count as moving on, so a step still loading is dropped rather
-  // than taking over when it arrives.
+  // Stops a second click going to another page while the first is loading,
+  // and drops a step that's still loading if something else is chosen
   const isChangingPage = useRef(false);
   const selection = useRef(0);
   useEffect(() => {
@@ -235,21 +229,21 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       }
     };
 
-  const onPrevious = !isInResults
-    ? undefined
-    : expandedIndex > 0
-      ? stepTo(images[expandedIndex - 1])
-      : hasPreviousPage
-        ? stepToPage(page - 1, results => results[results.length - 1])
-        : undefined;
+  const stepHandlerFor = (direction: -1 | 1): StepHandler | undefined => {
+    if (!isInResults) return undefined;
 
-  const onNext = !isInResults
-    ? undefined
-    : expandedIndex < images.length - 1
-      ? stepTo(images[expandedIndex + 1])
-      : hasNextPage
-        ? stepToPage(page + 1, results => results[0])
-        : undefined;
+    const neighbour = images[expandedIndex + direction];
+    if (neighbour) return stepTo(neighbour);
+
+    if (!(direction === 1 ? hasNextPage : hasPreviousPage)) return undefined;
+
+    return stepToPage(page + direction, results =>
+      direction === 1 ? results[0] : results[results.length - 1]
+    );
+  };
+
+  const onPrevious = stepHandlerFor(-1);
+  const onNext = stepHandlerFor(1);
 
   /**
    * Escape closes the sidebar when focus is in the results or nowhere in

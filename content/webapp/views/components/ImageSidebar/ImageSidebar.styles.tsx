@@ -102,7 +102,6 @@ export const ResizeHandle = styled.div`
   }
 `;
 
-// An icon with a small label underneath it, for the buttons along the top
 const labelledIconButton = css`
   display: flex;
   flex-direction: column;
@@ -144,7 +143,6 @@ export const CloseButton = styled(Space).attrs<{
     `}
 `;
 
-// The close button's margin spaces this from what's under it
 export const SidebarHeader = styled.div`
   display: flex;
   align-items: flex-start;
