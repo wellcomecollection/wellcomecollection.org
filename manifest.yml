@@ -31,12 +31,12 @@ spec:
     - name: stage
       tier: staging
       github:
-        task: "deploy:weco"
+        task: 'deploy:weco'
     - name: prod
       tier: production
       promotesFrom: stage
       github:
-        task: "deploy:weco"
+        task: 'deploy:weco'
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -58,12 +58,12 @@ spec:
     - name: stage
       tier: staging
       github:
-        task: "deploy:weco"
+        task: 'deploy:weco'
     - name: prod
       tier: production
       promotesFrom: stage
       github:
-        task: "deploy:weco"
+        task: 'deploy:weco'
 ---
 apiVersion: backplane/v1
 kind: Component
