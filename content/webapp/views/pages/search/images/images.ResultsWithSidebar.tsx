@@ -9,6 +9,7 @@ import {
 import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   containerEdge,
@@ -24,6 +25,7 @@ import ImageSidebar, {
   SidebarStatus,
 } from '@weco/content/views/components/ImageSidebar';
 import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 import useResultsPages from './images.useResultsPages';
 
@@ -140,6 +142,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const { results: images, totalPages, pageSize } = resultsList;
   const [expandedImage, setExpandedImage] = useExpandedImage(images);
   const { windowSize } = useAppContext();
+  const { imageSidebarPhases } = usePhasedFlags();
+  const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
+  // Full screen, they'll be in a bar along the bottom instead (still to come)
+  const hasStepButtons = showImageSidebarPhase3 && windowSize !== 'zero';
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -173,8 +179,9 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const hasNextPage = page < totalPages && !hasFailed(page + 1);
   const hasPreviousPage = page > 1 && !hasFailed(page - 1);
 
+  // Only fetched for the step buttons, so not without them
   useEffect(() => {
-    if (!isInResults) return;
+    if (!hasStepButtons || !isInResults) return;
 
     if (
       hasNextPage &&
@@ -185,7 +192,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     if (hasPreviousPage && expandedIndex < FETCH_NEIGHBOURING_PAGE_WITHIN) {
       fetchPage(page - 1);
     }
-  }, [expandedImage?.id, images]);
+  }, [expandedImage?.id, images, hasStepButtons]);
 
   // Stops a second click going to another page while the first is loading
   const isChangingPage = useRef(false);
