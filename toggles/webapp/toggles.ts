@@ -192,28 +192,6 @@ const toggleConfig = {
       ],
     },
     {
-      id: 'archiveCollectionPhases',
-      title: 'Archive collection',
-      description: 'Staged rollout of archive collection level pages.',
-      type: 'experimental',
-      // MVP was already public behind archiveCollection when we created it as a phased flag.
-      initialPhase: 'mvp',
-      phases: [
-        {
-          id: 'mvp',
-          label: 'Phase 1',
-          description:
-            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description:
-            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
-        },
-      ],
-    },
-    {
       id: 'archiveBrowsingPhases',
       title: 'Archive browsing',
       description: 'Staged rollout of archive browsing.',

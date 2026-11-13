@@ -2,7 +2,6 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { archive } from '@weco/common/icons';
-import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
@@ -12,7 +11,6 @@ import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types'
 import { stripHtmlTags } from '@weco/content/utils/works';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import { phaseIsAtLeast } from '@weco/toggles';
 
 import {
   ArchiveIconWrapper,
@@ -35,7 +33,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   work,
   resultPosition,
 }) => {
-  const { archiveCollectionPhases } = usePhasedFlags();
   const {
     archiveLabels,
     cardLabels,
@@ -45,13 +42,6 @@ const WorkSearchResult: FunctionComponent<Props> = ({
     shortDescription,
     isArchiveCollectionRoot,
   } = work;
-
-  const shouldShowArchiveCollectionInfo =
-    phaseIsAtLeast(archiveCollectionPhases, 'mvp') && isArchiveCollectionRoot;
-
-  const shouldShowShortDescription =
-    phaseIsAtLeast(archiveCollectionPhases, 'phase2') &&
-    isArchiveCollectionRoot;
 
   return (
     <NextLink
@@ -89,19 +79,19 @@ const WorkSearchResult: FunctionComponent<Props> = ({
             )}
 
             <WorkTitleHeading
-              $isArchiveCollectionRoot={shouldShowArchiveCollectionInfo}
+              $isArchiveCollectionRoot={isArchiveCollectionRoot}
             >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
-            {shouldShowShortDescription && shortDescription && (
+            {isArchiveCollectionRoot && shortDescription && (
               <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                 {stripHtmlTags(shortDescription)}
               </Space>
             )}
 
             <WorkInformation>
-              {shouldShowArchiveCollectionInfo && (
+              {isArchiveCollectionRoot && (
                 <>
                   <ArchiveIconWrapper>
                     <Icon icon={archive} matchText />
@@ -112,7 +102,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
 
-              {!shouldShowArchiveCollectionInfo && primaryContributorLabel && (
+              {!isArchiveCollectionRoot && primaryContributorLabel && (
                 <>
                   <WorkInformationItemSeparator aria-hidden>
                     {' | '}
@@ -150,7 +140,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               </WorkInformation>
             )}
 
-            {shouldShowArchiveCollectionInfo && physicalDescription && (
+            {isArchiveCollectionRoot && physicalDescription && (
               <WorkInformation $isSmall>
                 Archive Collection contains: {physicalDescription}
               </WorkInformation>
