@@ -220,6 +220,11 @@ const archiveFormatIds = ['h', 'hdig'];
 
 const teiManuscriptIdentifierTypeId = 'tei-manuscript-id';
 
+const isTeiManuscript = (work: Pick<Work, 'identifiers'>): boolean =>
+  (work.identifiers ?? []).some(
+    ({ identifierType }) => identifierType.id === teiManuscriptIdentifierTypeId
+  );
+
 /**
  * Whether a work is the root of an archive collection we can display a
  * hierarchy for, i.e. an archive (not a manuscript) that has children.
@@ -242,11 +247,7 @@ export function isArchiveCollectionRoot(
 
   const hasArchiveFormat = archiveFormatIds.includes(work.workType?.id ?? '');
 
-  const isTeiManuscript = (work.identifiers ?? []).some(
-    ({ identifierType }) => identifierType.id === teiManuscriptIdentifierTypeId
-  );
-
-  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript;
+  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript(work);
 }
 
 /**
@@ -322,7 +323,7 @@ export const getCardLabels = (work: Work): Label[] => {
  * anything else so it can still be displayed.
  */
 export const getOrderedNotes = (
-  work: Pick<Work, 'notes'>,
+  work: Pick<Work, 'notes' | 'identifiers'>,
   excludeNotes: (Note | undefined)[] = []
 ): { orderedNotes: Note[]; remainingNotes: Note[] } => {
   const arrangementNote = work.notes.filter(
@@ -334,9 +335,11 @@ export const getOrderedNotes = (
   const relatedMaterial = work.notes.filter(
     note => note.noteType.id === 'related-material'
   );
-  const acquisitionNote = work.notes.filter(
-    note => note.noteType.id === 'acquisition-note'
-  );
+  // TEI manuscripts keep it with the other history notes, after ownership,
+  // as Collections Information asked
+  const acquisitionNote = isTeiManuscript(work)
+    ? []
+    : work.notes.filter(note => note.noteType.id === 'acquisition-note');
 
   const orderedNotes = [
     ...arrangementNote,
