@@ -69,10 +69,14 @@ type Props = {
   // As it slides in and out, for laying out what's beside it
   onStatusChange?: (status: SidebarStatus) => void;
   // Step to the image before or after this one in the results. Without one,
-  // that button is disabled.
-  onPrevious?: () => void;
-  onNext?: () => void;
+  // that button is disabled. Each calls `beforeStep` just before it moves to
+  // the other image, which can be after another page of results has loaded,
+  // or not at all if that fails or something else is chosen in the meantime.
+  onPrevious?: StepHandler;
+  onNext?: StepHandler;
 };
+
+export type StepHandler = (beforeStep: () => void) => void;
 
 /**
  * Moves focus to the close button each time an image is chosen, not only when
@@ -83,7 +87,9 @@ type Props = {
  *
  * Returns a function to call once the person starts moving focus themselves,
  * so it's left alone from then on, and one to call with the button used just
- * before stepping to another image.
+ * before stepping to another image. That's only called once the step is
+ * definitely happening, so a step that never happens can't leave it set for
+ * the next image chosen.
  */
 const useFocusCloseButtonOnSelect = (
   imageId: string | undefined,
@@ -211,7 +217,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
     label: string;
     shortLabel: string;
     icon: ReactNode;
-    onStep?: () => void;
+    onStep?: StepHandler;
     gtmTrigger: string;
   }) => (
     <StepButton
@@ -221,8 +227,8 @@ const ImageSidebar: FunctionComponent<Props> = ({
       aria-disabled={!onStep}
       onClick={event => {
         if (!onStep) return;
-        setSteppedFrom(event.currentTarget);
-        onStep();
+        const button = event.currentTarget;
+        onStep(() => setSteppedFrom(button));
       }}
     >
       {icon}

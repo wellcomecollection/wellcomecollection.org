@@ -7,7 +7,7 @@ import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
 import { PhaseValue } from '@weco/toggles';
 
-import ImageSidebar from '.';
+import ImageSidebar, { StepHandler } from '.';
 import { TRANSITION_MS } from './ImageSidebar.styles';
 
 jest.mock('@weco/content/services/wellcome/catalogue/works', () => ({
@@ -55,7 +55,10 @@ const renderSidebar = async (
   image?: Image,
   setExpandedImage = jest.fn(),
   onStatusChange = jest.fn(),
-  { onPrevious, onNext }: { onPrevious?: () => void; onNext?: () => void } = {}
+  {
+    onPrevious,
+    onNext,
+  }: { onPrevious?: StepHandler; onNext?: StepHandler } = {}
 ) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
@@ -317,7 +320,7 @@ describe('ImageSidebar', () => {
         expandedImage,
         jest.fn(),
         jest.fn(),
-        { onNext: jest.fn() }
+        { onNext: beforeStep => beforeStep() }
       );
       await act(async () => {
         jest.runAllTimers();
@@ -330,6 +333,33 @@ describe('ImageSidebar', () => {
       });
 
       expect(nextButton()).toHaveFocus();
+      jest.useRealTimers();
+    });
+
+    it('moves focus to the close button as usual if a step never happened', async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+      // e.g. the next page of results couldn't be loaded
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: jest.fn() }
+      );
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      await user.click(nextButton());
+      // Then a thumbnail is chosen
+      await select({ ...expandedImage, id: 'imageB' });
+      await act(async () => {
+        jest.runAllTimers();
+      });
+
+      expect(
+        screen.getByRole('button', { name: 'Close image details' })
+      ).toHaveFocus();
       jest.useRealTimers();
     });
   });

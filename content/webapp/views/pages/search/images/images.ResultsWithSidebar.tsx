@@ -23,6 +23,7 @@ import CatalogueImageGallery from '@weco/content/views/components/CatalogueImage
 import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
+  StepHandler,
 } from '@weco/content/views/components/ImageSidebar';
 import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
 import { phaseIsAtLeast } from '@weco/toggles';
@@ -170,7 +171,12 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     replace: true,
     scrollToThumbnail: windowSize !== 'zero',
   };
-  const stepTo = (image: Image) => () => setExpandedImage(image, stepOptions);
+  const stepTo =
+    (image: Image): StepHandler =>
+    beforeStep => {
+      beforeStep();
+      setExpandedImage(image, stepOptions);
+    };
 
   // Past either end of this page, stepping goes on to the neighbouring page of
   // results, which is fetched as the selected image gets near that end
@@ -194,21 +200,35 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     }
   }, [expandedImage?.id, images, hasStepButtons]);
 
-  // Stops a second click going to another page while the first is loading
+  // Stops a second click going to another page while the first is loading.
+  // Choosing another image, closing the sidebar, a new search or leaving the
+  // results all count as moving on, so a step still loading is dropped rather
+  // than taking over when it arrives.
   const isChangingPage = useRef(false);
+  const selection = useRef(0);
   useEffect(() => {
     isChangingPage.current = false;
-  }, [images]);
+    return () => {
+      selection.current += 1;
+    };
+  }, [expandedImage?.id, images]);
 
   const stepToPage =
-    (toPage: number, pick: (results: Image[]) => Image | undefined) =>
-    async () => {
+    (
+      toPage: number,
+      pick: (results: Image[]) => Image | undefined
+    ): StepHandler =>
+    async beforeStep => {
       if (isChangingPage.current) return;
       isChangingPage.current = true;
+      const steppingFrom = selection.current;
 
       const results = await fetchPage(toPage);
+      if (selection.current !== steppingFrom) return;
+
       const image = results && pick(results);
       if (image) {
+        beforeStep();
         setExpandedImage(image, { ...stepOptions, page: toPage });
       } else {
         isChangingPage.current = false;
