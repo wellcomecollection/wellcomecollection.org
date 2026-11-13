@@ -134,11 +134,11 @@ The script writes `toggles.json` in S3 using the `experience-developer` role and
 
 The toggles that matter in an incident:
 
-| Toggle                 | What it does                                                                                                         | Runbook                                                                                                                         |
-| ---------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Toggle                 | What it does                                                                                                                            | Runbook                                                                                                                         |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `issuesBanner`         | Shows a banner saying the site has problems on every page that still renders. The text is in the code, so it works when Prismic is down | [Site-wide banner](#site-wide-banner)                                                                                           |
-| `disableRequesting`    | Stops item requests on works pages and shows a "requesting unavailable" message                                      | [How to disable requesting](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docs/turn-off-requesting.md) |
-| `aggregationsInSearch` | On by default. Set it to `false` to drop search filters and take load off the catalogue API's Elasticsearch          | This page, [Bot or scraper traffic](#bot-or-scraper-traffic-slows-or-breaks-the-site)                                           |
+| `disableRequesting`    | Stops item requests on works pages and shows a "requesting unavailable" message                                                         | [How to disable requesting](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docs/turn-off-requesting.md) |
+| `aggregationsInSearch` | On by default. Set it to `false` to drop search filters and take load off the catalogue API's Elasticsearch                             | This page, [Bot or scraper traffic](#bot-or-scraper-traffic-slows-or-breaks-the-site)                                           |
 
 ### Site-wide banner
 
@@ -148,7 +148,7 @@ The banner only shows on pages that still render. Error pages get no toggles, so
 $ yarn setDefaultValueFor --issuesBanner=true
 ```
 
-Wait two minutes, check a page that is still working, with a cache-busting query string, then [clear the cache](#clearing-the-cloudfront-cache) so cached pages show it too. Set it back to `false` and clear the cache again when the incident is over.
+Each task re-reads the toggles once a minute, and one request only reaches one task. Before you [clear the cache](#clearing-the-cloudfront-cache), sample a page that is still working with a batch of requests, each with its own cache-buster, until every response shows the new value, as in step 4 of [How to disable requesting](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docs/turn-off-requesting.md) (look for `"issuesBanner":true`). Clearing the cache while a task still has the old value caches the page without the banner for another hour. When the incident is over, set it back to `false`, sample again until every response shows `false`, and clear the cache.
 
 ### Clearing the CloudFront cache
 
