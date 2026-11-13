@@ -36,16 +36,26 @@ export const TableOfContentsSublist = styled.ul`
   }
 `;
 
+/** The reset button's height, which the places that hold its room are sized to. */
+export const RESET_BUTTON_HEIGHT = '28px';
+
 export const ResetButton = styled.button`
-  border: 2px solid ${tokens.colors.error.main};
-  background-color: ${tokens.colors.error.light};
-  color: ${tokens.colors.error.text};
-  padding: ${tokens.spacing.sm} ${tokens.spacing.md};
-  margin: ${tokens.spacing.sm} 0;
-  font-size: 1.03rem;
-  font-family: ${tokens.typography.fontFamily};
-  font-weight: 500;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: ${tokens.spacing.xs};
+  box-sizing: border-box;
+  height: ${RESET_BUTTON_HEIGHT};
+  padding: 0 10px;
+  border: 2px solid ${tokens.colors.primary.dark};
   border-radius: ${tokens.borderRadius.small};
+  background: ${tokens.colors.primary.dark};
+  color: ${tokens.colors.background.default};
+  font-family: ${tokens.typography.fontFamily};
+  font-size: ${tokens.typography.fontSize.small};
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 150ms ease;
 
@@ -54,8 +64,7 @@ export const ResetButton = styled.button`
   }
 
   &:hover {
-    background-color: ${tokens.colors.error.text};
-    color: ${tokens.colors.background.default};
+    background: ${tokens.colors.success.main};
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 

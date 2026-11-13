@@ -469,6 +469,41 @@ describe('getTogglesFromContext', () => {
       ).toBe('mvp');
     });
 
+    it('returns null when the cookie is "off" and a phase is public, the version from before the flag', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'off' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('lets an "off" override beat a phase cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        { archiveCollectionPhases: 'off' }
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
     it('excludes stage-only phased flags on non-stage hosts', () => {
       const togglesResp = {
         ...defaultTogglesResp,
@@ -856,6 +891,29 @@ describe('validTogglePresets', () => {
         createContext()
       )
     ).toEqual({ brandUpdate: 'off' });
+  });
+
+  it('accepts "off" for a phased flag only once a phase is public', () => {
+    const phasedFlag = togglesResp.phasedFlags?.[0];
+    const resp = (defaultPhase: string | null) => ({
+      ...togglesResp,
+      phasedFlags: [{ ...phasedFlag, defaultPhase }],
+    });
+
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp('phase1') as TogglesResp,
+        createContext()
+      )
+    ).toEqual({ imageSidebarPhases: 'off' });
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp(null) as TogglesResp,
+        createContext()
+      )
+    ).toEqual({});
   });
 
   it('only accepts stage-only toggles on stage hosts', () => {

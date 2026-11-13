@@ -2,15 +2,22 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled, { css } from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
-import { PublishedPhasedFlag } from '@weco/toggles';
+import {
+  personalPhaseValue,
+  phaseLadder,
+  PhaseLadderStep,
+  PublishedPhasedFlag,
+} from '@weco/toggles';
 
 import CopyLinkIcon from './ListOfToggles/ListOfToggles.CopyLinkIcon';
 import StatusBadge from './ListOfToggles/ListOfToggles.StatusBadge';
 import ToggleDates from './ListOfToggles/ListOfToggles.ToggleDates';
 import Group from './toggles.Group';
 import { deleteCookieCustom, setCookieCustom } from './toggles.helpers';
+import ResetIcon from './toggles.ResetIcon';
 import ToggleStarButton from './toggles.StarButton';
 import {
+  ResetButton,
   ToggleBadge,
   ToggleHeadingRow,
   ToggleInfo,
@@ -19,8 +26,6 @@ import {
   ToggleRow,
   ToggleTitle,
 } from './toggles.styles';
-
-type PhaseState = 'current' | 'included' | 'inactive';
 
 const MARKER_SIZE = '18px';
 const OPTION_PADDING = tokens.spacing.sm;
@@ -91,7 +96,7 @@ const PhaseOption = styled.label<{
     `}
 `;
 
-const PhaseMarker = styled.span<{ $state: PhaseState }>`
+const PhaseMarker = styled.span<{ $state: PhaseLadderStep['state'] }>`
   position: relative;
   z-index: 2;
   box-sizing: border-box;
@@ -126,20 +131,18 @@ const PhaseDescription = styled.span`
   color: ${tokens.colors.text.secondary};
 `;
 
-/**
- * Resolves what's currently selected for a phased flag: an override cookie
- * if it's still a valid phase, otherwise whatever's public (defaultPhase,
- * which is null when nothing's public yet).
- */
-const currentPhaseFor = (
-  flag: PublishedPhasedFlag,
-  phasedFlagStates: Record<string, string>
-): string | null => {
-  const override = phasedFlagStates[flag.id];
-  const isValidOverride =
-    override !== undefined && flag.phases.some(phase => phase.id === override);
-  return isValidOverride ? override : flag.defaultPhase;
-};
+const PublicTag = styled.span`
+  margin-left: ${tokens.spacing.sm};
+  padding: 0 7px;
+  border: 1px solid ${tokens.colors.success.main};
+  border-radius: 999px;
+  color: ${tokens.colors.success.text};
+  font-size: ${tokens.typography.fontSize.xsmall};
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+`;
 
 type PhasedFlagsProps = {
   phasedFlags: PublishedPhasedFlag[];
@@ -171,18 +174,31 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
   >
     <ToggleList role="list">
       {phasedFlags.map(flag => {
-        const currentPhase = currentPhaseFor(flag, phasedFlagStates);
         const publicPhase = flag.phases.find(
           phase => phase.id === flag.defaultPhase
         );
-        const currentPhaseIndex = flag.phases.findIndex(
-          phase => phase.id === currentPhase
-        );
-        // Distinct from "currentPhase happens to match flag.defaultPhase" -
+        // Distinct from the selected step happening to be the public one -
         // this tracks whether an override cookie actually exists, so an
         // explicit pin to the public phase doesn't look identical to never
         // having overridden it at all.
         const hasOverride = flag.id in phasedFlagStates;
+        const steps = phaseLadder(
+          flag,
+          personalPhaseValue(flag, phasedFlagStates[flag.id])
+        );
+
+        const select = (stepId: string) => {
+          setCookieCustom(flag.id, stepId);
+          setPhasedFlagStates(prev => ({ ...prev, [flag.id]: stepId }));
+        };
+        const reset = () => {
+          deleteCookieCustom(flag.id);
+          setPhasedFlagStates(prev => {
+            const next = { ...prev };
+            delete next[flag.id];
+            return next;
+          });
+        };
 
         return (
           <ToggleListItem key={flag.id} id={`toggle-${flag.id}`}>
@@ -211,6 +227,16 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                       inactiveLabel="Not yet public"
                     />
                   </ToggleBadge>
+                  {hasOverride && (
+                    <ResetButton
+                      type="button"
+                      onClick={reset}
+                      aria-label={`Reset ${flag.title} to the public view`}
+                    >
+                      <ResetIcon />
+                      Reset
+                    </ResetButton>
+                  )}
                 </ToggleHeadingRow>
 
                 <p
@@ -236,62 +262,24 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
               </ToggleInfo>
 
               <PhaseList aria-labelledby={`heading-${flag.id}`}>
-                <PhaseOption $isSelected={!hasOverride}>
-                  <PhaseMarker $state={hasOverride ? 'inactive' : 'current'} />
-                  <span>
-                    <PhaseLabel>Default view</PhaseLabel>
-                    <PhaseDescription>
-                      {publicPhase
-                        ? `What everyone sees: ${publicPhase.label}`
-                        : 'What everyone sees: nothing yet'}
-                    </PhaseDescription>
-                  </span>
-                  <input
-                    type="radio"
-                    name={`phase-${flag.id}`}
-                    checked={!hasOverride}
-                    onChange={() => {
-                      deleteCookieCustom(flag.id);
-                      setPhasedFlagStates(prev => {
-                        const next = { ...prev };
-                        delete next[flag.id];
-                        return next;
-                      });
-                    }}
-                  />
-                </PhaseOption>
-
-                {flag.phases.map((phase, index) => {
-                  const isSelected = hasOverride && currentPhase === phase.id;
-                  // Phases are cumulative - reaching phase 2 means phase 1
-                  // shipped too, so every phase up to and including the
-                  // current one counts as included, and the line between
-                  // markers fills in as far as the next included phase.
-                  const state: PhaseState = isSelected
-                    ? 'current'
-                    : index <= currentPhaseIndex
-                      ? 'included'
-                      : 'inactive';
-                  const isLast = index === flag.phases.length - 1;
+                {steps.map(step => {
+                  const isSelected = step.state === 'current';
 
                   return (
                     <PhaseOption
-                      key={phase.id}
+                      key={step.id}
                       $isSelected={isSelected}
-                      $line={
-                        isLast
-                          ? undefined
-                          : index + 1 <= currentPhaseIndex
-                            ? 'active'
-                            : 'inactive'
-                      }
+                      $line={step.line}
                     >
-                      <PhaseMarker $state={state} />
+                      <PhaseMarker $state={step.state} />
                       <span>
-                        <PhaseLabel>{phase.label}</PhaseLabel>
-                        {phase.description && (
+                        <PhaseLabel>{step.label}</PhaseLabel>
+                        {step.id === flag.defaultPhase && (
+                          <PublicTag>Public</PublicTag>
+                        )}
+                        {step.description && (
                           <PhaseDescription>
-                            {phase.description}
+                            {step.description}
                           </PhaseDescription>
                         )}
                       </span>
@@ -299,12 +287,11 @@ const PhasedFlags: FunctionComponent<PhasedFlagsProps> = ({
                         type="radio"
                         name={`phase-${flag.id}`}
                         checked={isSelected}
-                        onChange={() => {
-                          setCookieCustom(flag.id, phase.id);
-                          setPhasedFlagStates(prev => ({
-                            ...prev,
-                            [flag.id]: phase.id,
-                          }));
+                        onChange={() => select(step.id)}
+                        // A change event doesn't fire for the step that's
+                        // already selected, so pin the public one on click
+                        onClick={() => {
+                          if (isSelected && !hasOverride) select(step.id);
                         }}
                       />
                     </PhaseOption>
