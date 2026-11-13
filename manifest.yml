@@ -21,6 +21,9 @@ metadata:
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
     backplane/dora-paths: content, common
+  links:
+    - title: Runbook
+      url: https://github.com/wellcomecollection/wellcomecollection.org/blob/main/content/docs/runbook.md
 spec:
   type: service
   lifecycle: production
