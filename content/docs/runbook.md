@@ -136,17 +136,19 @@ The toggles that matter in an incident:
 
 | Toggle                 | What it does                                                                                                         | Runbook                                                                                                                         |
 | ---------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `issuesBanner`         | Shows a banner on every page saying the site has problems. The text is in the code, so it works when Prismic is down | [Site-wide banner](#site-wide-banner)                                                                                           |
+| `issuesBanner`         | Shows a banner saying the site has problems on every page that still renders. The text is in the code, so it works when Prismic is down | [Site-wide banner](#site-wide-banner)                                                                                           |
 | `disableRequesting`    | Stops item requests on works pages and shows a "requesting unavailable" message                                      | [How to disable requesting](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docs/turn-off-requesting.md) |
 | `aggregationsInSearch` | On by default. Set it to `false` to drop search filters and take load off the catalogue API's Elasticsearch          | This page, [Bot or scraper traffic](#bot-or-scraper-traffic-slows-or-breaks-the-site)                                           |
 
 ### Site-wide banner
 
+The banner only shows on pages that still render. Error pages get no toggles, so a page that is failing never shows it; use Statuspage to tell people about those.
+
 ```console
 $ yarn setDefaultValueFor --issuesBanner=true
 ```
 
-Wait two minutes, check a page with a cache-busting query string (for example `https://wellcomecollection.org/?cb=1`), then [clear the cache](#clearing-the-cloudfront-cache) so cached pages show it too. Set it back to `false` and clear the cache again when the incident is over.
+Wait two minutes, check a page that is still working, with a cache-busting query string, then [clear the cache](#clearing-the-cloudfront-cache) so cached pages show it too. Set it back to `false` and clear the cache again when the incident is over.
 
 ### Clearing the CloudFront cache
 
