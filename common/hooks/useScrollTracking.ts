@@ -1,6 +1,17 @@
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 
+/** The URL without its hash: what has to change for it to be another page. */
+const pagePath = (url: string) => url.split('#')[0];
+
+/**
+ * Sends a `wc_scroll_depth` event the first time the person scrolls past 25,
+ * 50, 75 and 90% of a page, once each per page they view.
+ *
+ * A page is its path and query, so anything that changes either is a new one.
+ * The hash alone isn't: it marks a place or a state within the page, like
+ * which image is open on the image results.
+ */
 export function useScrollTracking() {
   const router = useRouter();
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
@@ -51,7 +62,12 @@ export function useScrollTracking() {
 
     window.addEventListener('scroll', debouncedHandleScroll, { passive: true });
 
-    const handleRouteChange = () => {
+    let currentPath = pagePath(router.asPath);
+
+    const handleRouteChange = (url: string) => {
+      if (pagePath(url) === currentPath) return;
+
+      currentPath = pagePath(url);
       scrollState = {
         tracked25: false,
         tracked50: false,
