@@ -221,8 +221,7 @@ const toggleConfig = {
         {
           id: 'phase2',
           label: 'Phase 2',
-          description:
-            'Updated image results grid and a re-sizable viewing pane.',
+          description: 'Re-sizable viewing pane.',
         },
         {
           id: 'phase3',
