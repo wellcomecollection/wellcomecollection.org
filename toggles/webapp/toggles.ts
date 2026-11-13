@@ -277,6 +277,8 @@ const toggleConfig = {
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
         { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+        { id: 'LIB-iPad1', label: 'Library entrance: iPad 1' },
+        { id: 'LIB-iPad2', label: 'Library entrance: iPad 2' },
       ],
     },
     {
