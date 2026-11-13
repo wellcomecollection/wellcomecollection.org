@@ -23,8 +23,8 @@ export type SetExpandedImage = (
   options?: SetExpandedImageOptions
 ) => void;
 
-// Not smooth: the results re-render once the URL has changed, and in Chrome
-// that can cancel a smooth scroll partway, leaving the thumbnail out of view
+// Instant rather than smooth: in Chrome, the re-render after the URL changes
+// can stop a smooth scroll partway, leaving the thumbnail off screen
 const scrollThumbnailIntoView = (imageId: string) =>
   document.getElementById(imageId)?.scrollIntoView({ block: 'nearest' });
 
