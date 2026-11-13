@@ -43,7 +43,10 @@ spec:
       description: Requests to the content app not answered with a 5xx
       objective: 99.5
       window: 28d
-      sli: { template: alb-availability }
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -77,7 +80,10 @@ spec:
       description: Requests to the account pages not answered with a 5xx
       objective: 99.95
       window: 28d
-      sli: { template: alb-availability }
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
 ---
 apiVersion: backplane/v1
 kind: Component
