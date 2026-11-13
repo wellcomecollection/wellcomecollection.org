@@ -42,6 +42,14 @@ export const defaultKioskContext: KioskContextType = {
 
 const KioskContext = createContext<KioskContextType>(defaultKioskContext);
 
+/** Where a kiosk's home button and inactivity reset send people. */
+const kioskHomepageUrls: Partial<Record<KioskExperienceName, string>> = {
+  [kioskExperienceNames.tendernessAndRage]:
+    '/exhibitions/tenderness-and-rage/explore-more',
+  [kioskExperienceNames.readingRoom]: '/stories/kiosk',
+  [kioskExperienceNames.libraryEntrance]: '/collections',
+};
+
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
   readingRoomStories: ReadingRoomStories;
@@ -70,13 +78,9 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
   const isLibraryEntranceKiosk =
     kioskExperienceName === kioskExperienceNames.libraryEntrance;
 
-  const kioskHomepageUrl = isTendernessAndRageKiosk
-    ? '/exhibitions/tenderness-and-rage/explore-more'
-    : isReadingRoomKiosk
-      ? '/stories/kiosk'
-      : isLibraryEntranceKiosk
-        ? '/collections'
-        : undefined;
+  const kioskHomepageUrl = kioskExperienceName
+    ? kioskHomepageUrls[kioskExperienceName]
+    : undefined;
 
   const kiosksContent = useMemo(
     () => ({
