@@ -17,6 +17,7 @@ export const kioskExperienceNames = {
   developerMode: 'Developer mode',
   tendernessAndRage: 'Tenderness and Rage',
   readingRoom: 'Reading Room',
+  libraryEntrance: 'Library entrance',
 } as const;
 
 export const kioskExhibitionUids: Record<string, string> = {
@@ -39,6 +40,8 @@ export const getKioskExperienceName = (
       return kioskExperienceNames.readingRoom;
     case 'TR':
       return kioskExperienceNames.tendernessAndRage;
+    case 'LIB':
+      return kioskExperienceNames.libraryEntrance;
     case 'devMode':
       return kioskExperienceNames.developerMode;
     default:
