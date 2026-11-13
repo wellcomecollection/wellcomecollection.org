@@ -181,6 +181,9 @@ describe('ImageSidebar', () => {
 
   describe('resizing', () => {
     beforeEach(() => mockImageSidebarPhase('phase2'));
+    beforeEach(() => {
+      window.dataLayer = [];
+    });
     afterEach(() => jest.restoreAllMocks());
     afterEach(() => jest.useRealTimers());
     const handle = () =>
@@ -190,6 +193,10 @@ describe('ImageSidebar', () => {
       screen
         .getByRole('region', { name: 'Image details' })
         .style.getPropertyValue('--sidebar-columns');
+    const resizeEvents = () =>
+      (window.dataLayer ?? []).filter(
+        event => event.event === 'sidebar_resize'
+      );
 
     it('has no handle before Phase 2', async () => {
       mockImageSidebarPhase('phase1');
@@ -241,6 +248,47 @@ describe('ImageSidebar', () => {
       });
       await select(expandedImage);
       expect(sidebarColumns()).toBe('6');
+    });
+
+    it('records a resize once the keys stop, not on every press', async () => {
+      jest.useFakeTimers();
+      await renderSidebar(expandedImage);
+      focusHandle();
+
+      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}', { delay: null });
+      expect(resizeEvents()).toHaveLength(0);
+
+      await act(async () => {
+        jest.advanceTimersByTime(100);
+      });
+
+      expect(resizeEvents()).toEqual([
+        { event: 'sidebar_resize', resize_direction: 'increase', width: 8 },
+      ]);
+    });
+
+    it('records each run of presses against the width it started from', async () => {
+      jest.useFakeTimers();
+      await renderSidebar(expandedImage);
+      focusHandle();
+
+      await userEvent.keyboard('{ArrowLeft}', { delay: null });
+      await act(async () => {
+        jest.advanceTimersByTime(100);
+      });
+
+      // Opening moves focus to the close button on a timer, which the advance
+      // above runs, so the handle takes it back
+      focusHandle();
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}', { delay: null });
+      await act(async () => {
+        jest.advanceTimersByTime(100);
+      });
+
+      expect(resizeEvents()).toEqual([
+        { event: 'sidebar_resize', resize_direction: 'increase', width: 7 },
+        { event: 'sidebar_resize', resize_direction: 'decrease', width: 5 },
+      ]);
     });
   });
 
