@@ -25,6 +25,7 @@ export type KioskContextType = {
   isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
+  isLibraryEntranceKiosk: boolean;
   kioskExperienceName?: KioskExperienceName; // Human-readable name of the current kiosk experience
   kioskHomepageUrl?: string;
   kiosksContent: Record<string, KiosksContentType>;
@@ -35,6 +36,7 @@ export const defaultKioskContext: KioskContextType = {
   isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
+  isLibraryEntranceKiosk: false,
   kiosksContent: initialKiosksContent,
 };
 
@@ -65,12 +67,16 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     kioskExperienceName === kioskExperienceNames.tendernessAndRage;
   const isReadingRoomKiosk =
     kioskExperienceName === kioskExperienceNames.readingRoom;
+  const isLibraryEntranceKiosk =
+    kioskExperienceName === kioskExperienceNames.libraryEntrance;
 
   const kioskHomepageUrl = isTendernessAndRageKiosk
     ? '/exhibitions/tenderness-and-rage/explore-more'
     : isReadingRoomKiosk
       ? '/stories/kiosk'
-      : undefined;
+      : isLibraryEntranceKiosk
+        ? '/collections'
+        : undefined;
 
   const kiosksContent = useMemo(
     () => ({
@@ -91,6 +97,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       isDevModeKiosk,
       isTendernessAndRageKiosk,
       isReadingRoomKiosk,
+      isLibraryEntranceKiosk,
       kioskHomepageUrl,
       kiosksContent,
     }),
