@@ -1,6 +1,10 @@
 import { Work } from '@weco/content/services/wellcome/catalogue/types';
 
-import { getLanguageId, isArchiveCollectionRoot } from './works';
+import {
+  getLanguageId,
+  getOrderedNotes,
+  isArchiveCollectionRoot,
+} from './works';
 
 type PredicateWork = Pick<Work, 'collection' | 'workType' | 'identifiers'>;
 
@@ -125,5 +129,37 @@ describe('getLanguageId', () => {
 
   it('returns undefined for an id that is not a valid language tag', () => {
     expect(getLanguageId(withLanguages('not a language'))).toBeUndefined();
+  });
+});
+
+describe('getOrderedNotes', () => {
+  const note = (id: string, contents: string): Work['notes'][number] => ({
+    noteType: { id, label: id, type: 'NoteType' },
+    contents: [contents],
+    type: 'Note',
+  });
+  const notes = [
+    note('ownership-note', 'Owned by a test library'),
+    note('acquisition-note', 'Bought at a test sale'),
+  ];
+
+  it('moves the acquisition note up for most works', () => {
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes,
+      identifiers: [],
+    });
+
+    expect(orderedNotes).toEqual([notes[1]]);
+    expect(remainingNotes).toEqual([notes[0]]);
+  });
+
+  it('keeps the acquisition note after ownership for TEI manuscripts', () => {
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes,
+      identifiers: [teiIdentifier],
+    });
+
+    expect(orderedNotes).toEqual([]);
+    expect(remainingNotes).toEqual(notes);
   });
 });
