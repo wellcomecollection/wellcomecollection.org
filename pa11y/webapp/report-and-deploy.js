@@ -383,18 +383,25 @@ try {
         process.exit(1);
       }
 
+      const errorsLog = issuesLog(results, 'error');
+
+      // Every run lists its errors, not just PR runs. report.json is the only
+      // other record of what an error was, and the next run overwrites it, so
+      // a scheduled or deploy run that found errors used to leave nothing
+      // behind to look at afterwards
+      if (errorsLog.length > 0) {
+        console.error(
+          isPullRequestRun
+            ? `!!! ${styleText('redBright', 'Fix these before merging')}`
+            : styleText('redBright', `${errorsLog.length} page(s) with errors:`)
+        );
+        console.log(...errorsLog);
+      }
+
       if (isPullRequestRun) {
-        const errorsLog = issuesLog(results, 'error');
         const warningsCount = results.flatMap(result =>
           issuesOfType(result, 'warning')
         ).length;
-
-        if (errorsLog.length > 0) {
-          console.error(
-            `!!! ${styleText('redBright', 'Fix these before merging')}`
-          );
-          console.log(...errorsLog);
-        }
 
         // Warnings don't fail the run, and mostly repeat the same few
         // patterns, so summarise them unless asked for the full list
