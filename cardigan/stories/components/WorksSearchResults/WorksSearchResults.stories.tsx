@@ -6,8 +6,6 @@ import {
   nonArchiveCollectionWork,
   workBasic,
 } from '@weco/cardigan/stories/data/work';
-import { ServerDataContext } from '@weco/common/server-data/Context';
-import { defaultServerData } from '@weco/common/server-data/types';
 import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import WorksSearchResults from '@weco/content/views/components/WorksSearchResults';
 
@@ -54,35 +52,6 @@ const meta: Meta<StoryProps> = {
         'Only an archive collection root gets the "Archive Collection" treatment. A collection root that is a manuscript does not.',
     },
   },
-  // TODO remove once archiveCollectionPhases is fully rolled out
-  decorators: [
-    Story => (
-      <ServerDataContext.Provider
-        value={{
-          ...defaultServerData,
-          toggles: {
-            ...defaultServerData.toggles,
-            phasedFlags: {
-              ...defaultServerData.toggles.phasedFlags,
-              archiveCollectionPhases: {
-                title: 'Archive Collection Phases',
-                current: 'mvp',
-                phases: [
-                  {
-                    id: 'mvp',
-                    label: 'MVP',
-                    description: '',
-                  },
-                ],
-              },
-            },
-          },
-        }}
-      >
-        <Story />
-      </ServerDataContext.Provider>
-    ),
-  ],
 };
 
 export default meta;
@@ -92,21 +61,6 @@ type Story = StoryObj<StoryProps>;
 export const Basic: Story = {
   name: 'WorksSearchResults',
   render: ({ workVariant }) => (
-    <>
-      <WorksSearchResults works={[workVariants[workVariant].work]} />
-
-      {workVariant === 'archiveCollectionRoot' && (
-        <div
-          style={{
-            padding: '1rem',
-            backgroundColor: '#b8b8b8',
-            marginTop: '1rem',
-          }}
-        >
-          This is currently behind the <code>archiveCollectionPhases</code>{' '}
-          phased flag
-        </div>
-      )}
-    </>
+    <WorksSearchResults works={[workVariants[workVariant].work]} />
   ),
 };
