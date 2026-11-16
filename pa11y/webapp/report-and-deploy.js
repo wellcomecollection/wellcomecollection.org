@@ -105,6 +105,12 @@ const runPa11y = async (browser, url) => {
       // drops them by default) so they can be checked by hand
       levelCapWhenNeedsReview: 'warning',
       includeWarnings: true,
+      // pa11y navigates with `waitUntil: 'networkidle2'` and then runs axe
+      // straight away. On a page that keeps fetching (the item viewer streams
+      // IIIF tiles) that threshold lands at an arbitrary point, so axe can
+      // measure a half-rendered page and report colours no one ever sees.
+      // Settling first means every page is judged as it ends up looking.
+      wait: 3000,
       timeout: 120000,
       ignore: [
         // Iframe element requires a non-empty title attribute that identifies the frame.
