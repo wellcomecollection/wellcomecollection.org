@@ -473,6 +473,16 @@ describe('ImageSidebar', () => {
     });
 
     describe('with the arrow keys', () => {
+      // Elements added to the page around the sidebar, removed after each test
+      const added: HTMLElement[] = [];
+      const addToPage = (element: HTMLElement) => {
+        document.body.append(element);
+        added.push(element);
+      };
+      afterEach(() => {
+        added.splice(0).forEach(element => element.remove());
+        jest.useRealTimers();
+      });
       // Opening moves focus to the close button on a timer, so that's let
       // happen before focus is put anywhere else
       const afterOpening = () =>
@@ -505,7 +515,7 @@ describe('ImageSidebar', () => {
         const thumbnail = document.createElement('a');
         thumbnail.href = '#imageA';
         area.append(thumbnail);
-        document.body.append(area);
+        addToPage(area);
         await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
           onNext,
           arrowKeysAreaRef: { current: area },
@@ -516,7 +526,6 @@ describe('ImageSidebar', () => {
         await userEvent.keyboard('{ArrowRight}');
 
         expect(onNext).toHaveBeenCalledTimes(1);
-        area.remove();
       });
 
       it('do nothing with a modifier held, as Alt+ArrowLeft is Back', async () => {
@@ -552,7 +561,7 @@ describe('ImageSidebar', () => {
         const area = document.createElement('div');
         const input = document.createElement('input');
         area.append(input);
-        document.body.append(area);
+        addToPage(area);
         await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
           onNext,
           arrowKeysAreaRef: { current: area },
@@ -563,7 +572,6 @@ describe('ImageSidebar', () => {
         await userEvent.keyboard('{ArrowRight}');
 
         expect(onNext).not.toHaveBeenCalled();
-        area.remove();
       });
 
       it('resize the sidebar rather than stepping while the handle has focus', async () => {
@@ -620,7 +628,66 @@ describe('ImageSidebar', () => {
         });
 
         expect(previousButton()).toHaveFocus();
-        jest.useRealTimers();
+      });
+
+      it('move focus to the button for that direction if nothing had it', async () => {
+        jest.useFakeTimers();
+        const user = userEvent.setup({
+          advanceTimers: jest.advanceTimersByTime,
+        });
+        const { select } = await renderSidebar(
+          expandedImage,
+          jest.fn(),
+          jest.fn(),
+          { onNext: beforeStep => beforeStep() }
+        );
+        await act(async () => {
+          jest.runAllTimers();
+        });
+        act(() => (document.activeElement as HTMLElement | null)?.blur());
+
+        await user.keyboard('{ArrowRight}');
+        await select({ ...expandedImage, id: 'imageB' });
+        await act(async () => {
+          jest.runAllTimers();
+        });
+
+        expect(nextButton()).toHaveFocus();
+      });
+
+      it('move focus to the button for that direction if what had it is gone, e.g. a thumbnail from the last page', async () => {
+        jest.useFakeTimers();
+        const user = userEvent.setup({
+          advanceTimers: jest.advanceTimersByTime,
+        });
+        const area = document.createElement('div');
+        const thumbnail = document.createElement('a');
+        thumbnail.href = '#imageA';
+        area.append(thumbnail);
+        addToPage(area);
+        const { select } = await renderSidebar(
+          expandedImage,
+          jest.fn(),
+          jest.fn(),
+          {
+            onPrevious: beforeStep => beforeStep(),
+            arrowKeysAreaRef: { current: area },
+          }
+        );
+        await act(async () => {
+          jest.runAllTimers();
+        });
+        act(() => thumbnail.focus());
+
+        await user.keyboard('{ArrowLeft}');
+        // The next page of results replaces the thumbnails
+        thumbnail.remove();
+        await select({ ...expandedImage, id: 'imageB' });
+        await act(async () => {
+          jest.runAllTimers();
+        });
+
+        expect(previousButton()).toHaveFocus();
       });
 
       it('announce the title of the image stepped to', async () => {

@@ -71,7 +71,8 @@ type Props = {
   // Without one, that button is disabled
   onPrevious?: StepHandler;
   onNext?: StepHandler;
-  // Where the arrow keys step through the images, as well as in the sidebar
+  // Arrow keys pressed in here step through the images too, not just ones
+  // pressed in the sidebar (e.g. the results grid)
   arrowKeysAreaRef?: RefObject<HTMLElement | null>;
 };
 
@@ -93,32 +94,46 @@ export const useIsSidebarFullScreen = (): boolean =>
  * Moves focus to the close button each time an image is chosen, as choosing an
  * image is asking for its details. Stepping to the previous or next image
  * leaves focus where it was (e.g. on the button that was used), so it can be
- * pressed again.
+ * pressed again. If that was nowhere in particular, or it's gone (e.g. a
+ * thumbnail from the last page of results), it goes to the step button for
+ * that direction instead.
  *
  * Returns a function to call once the person starts moving focus themselves,
- * so it's left alone from then on, and one to call with where focus was when
- * stepping.
+ * so it's left alone from then on, and one to call when stepping.
  */
 const useFocusCloseButtonOnSelect = (
   imageId: string | undefined,
   closeButtonRef: RefObject<HTMLElement | null>
 ) => {
   const hasTakenOver = useRef(false);
-  const steppedFrom = useRef<HTMLElement | null>(null);
+  const steppedFrom = useRef<{
+    focused: HTMLElement;
+    stepButton: HTMLElement | null;
+  } | null>(null);
 
   useEffect(() => {
     if (!imageId) return;
 
     hasTakenOver.current = false;
-    const stepFocus = steppedFrom.current;
+    const step = steppedFrom.current;
     steppedFrom.current = null;
+
+    // Worked out when it's needed, as the step may remove what had focus
+    const target = () => {
+      if (!step) return closeButtonRef.current;
+
+      const { focused, stepButton } = step;
+      return focused.isConnected && focused !== document.body
+        ? focused
+        : stepButton;
+    };
 
     const focusTarget = () => {
       // Leave focus alone if the cookie banner is showing, as the modal does
       if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
 
       // Without scrolling, as it may still be off screen, sliding in
-      (stepFocus ?? closeButtonRef.current)?.focus({ preventScroll: true });
+      target()?.focus({ preventScroll: true });
     };
 
     // Setting the image id as the URL hash can make the browser focus the
@@ -137,7 +152,7 @@ const useFocusCloseButtonOnSelect = (
     document.addEventListener('focusin', onFocusIn);
 
     const timeouts = [
-      ...(stepFocus ? [] : [setTimeout(focusTarget)]),
+      setTimeout(focusTarget),
       setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
     ];
 
@@ -151,8 +166,8 @@ const useFocusCloseButtonOnSelect = (
     stopRefocusing: () => {
       hasTakenOver.current = true;
     },
-    setSteppedFrom: (element: HTMLElement) => {
-      steppedFrom.current = element;
+    setSteppedFrom: (focused: HTMLElement, stepButton: HTMLElement | null) => {
+      steppedFrom.current = { focused, stepButton };
     },
   };
 };
@@ -177,6 +192,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
   const previousButtonRef = useRef<HTMLButtonElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const resizeHandleRef = useRef<HTMLDivElement>(null);
@@ -212,36 +228,43 @@ const ImageSidebar: FunctionComponent<Props> = ({
     closeButtonRef
   );
 
-  // Leaves focus on `focused`, and announces the image once it's stepped to
-  const step = (onStep: StepHandler, focused: HTMLElement) =>
-    onStep(() => {
-      setSteppedFrom(focused);
+  // Leaves focus on `focused` (see useFocusCloseButtonOnSelect), and
+  // announces the image once it's stepped to
+  const step = (direction: 'previous' | 'next', focused: HTMLElement) => {
+    const onStep = direction === 'previous' ? onPrevious : onNext;
+    const stepButton =
+      direction === 'previous' ? previousButtonRef : nextButtonRef;
+
+    onStep?.(() => {
+      setSteppedFrom(focused, stepButton.current);
       isAnnouncingStep.current = true;
     });
+  };
+
+  // The document listener below is added once per open, so reads the latest
+  // `step` from here rather than being added again on every render
+  const latestStep = useRef(step);
+  latestStep.current = step;
 
   const stepButton = ({
+    direction,
     label,
     shortLabel,
     icon,
-    onStep,
     gtmTrigger,
-    ref,
   }: {
-    ref?: RefObject<HTMLButtonElement | null>;
+    direction: 'previous' | 'next';
     label: string;
     shortLabel: string;
     icon: ReactNode;
-    onStep?: StepHandler;
     gtmTrigger: string;
   }) => (
     <StepButton
-      ref={ref}
+      ref={direction === 'previous' ? previousButtonRef : nextButtonRef}
       {...dataGtmPropsToAttributes({ trigger: gtmTrigger })}
       aria-label={label}
-      aria-disabled={!onStep}
-      onClick={event => {
-        if (onStep) step(onStep, event.currentTarget);
-      }}
+      aria-disabled={!(direction === 'previous' ? onPrevious : onNext)}
+      onClick={event => step(direction, event.currentTarget)}
     >
       {icon}
       {shortLabel}
@@ -280,12 +303,14 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
       // Swallowed at either end too, so the page doesn't scroll instead
       event.preventDefault();
-      const onStep = event.key === 'ArrowLeft' ? onPrevious : onNext;
-      if (onStep) step(onStep, target as HTMLElement);
+      latestStep.current(
+        event.key === 'ArrowLeft' ? 'previous' : 'next',
+        target as HTMLElement
+      );
     };
     document.addEventListener('keydown', stepOnArrowKey);
     return () => document.removeEventListener('keydown', stepOnArrowKey);
-  }, [isOpen, hasHeaderStepButtons, onPrevious, onNext]);
+  }, [isOpen, hasHeaderStepButtons]);
 
   useEffect(() => {
     if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
@@ -430,18 +455,17 @@ const ImageSidebar: FunctionComponent<Props> = ({
                 {hasHeaderStepButtons && (
                   <StepButtons>
                     {stepButton({
-                      ref: previousButtonRef,
+                      direction: 'previous',
                       label: 'Previous image',
                       shortLabel: 'Prev',
                       icon: <Icon icon={arrow} rotate={180} />,
-                      onStep: onPrevious,
                       gtmTrigger: 'image_sidebar_previous',
                     })}
                     {stepButton({
+                      direction: 'next',
                       label: 'Next image',
                       shortLabel: 'Next',
                       icon: <Icon icon={arrow} />,
-                      onStep: onNext,
                       gtmTrigger: 'image_sidebar_next',
                     })}
                   </StepButtons>
