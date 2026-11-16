@@ -57,10 +57,11 @@ const ArchiveCollectionLayout = ({
           >
             <Tabs
               tabBehaviour="switch"
-              label="Archive Collection Tabs"
               items={tabsItems}
               selectedTab={selectedTab}
               setSelectedTab={setSelectedTab}
+              label="Archive Collection Tabs"
+              restartsScrollTracking
             />
           </Space>
 

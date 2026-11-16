@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 
-import { useScrollTracking } from './useScrollTracking';
+import { restartScrollTracking, useScrollTracking } from './useScrollTracking';
 
 const mockListeners: Record<string, ((url: string) => void)[]> = {};
 const mockRouter = {
@@ -83,6 +83,17 @@ describe('useScrollTracking', () => {
 
     scrollTo(30);
     expect(thresholds()).toEqual([25]);
+  });
+
+  it('starts again when something asks it to, without the URL changing', () => {
+    renderHook(() => useScrollTracking());
+    scrollTo(30);
+
+    // Switching to an archive collection's other tab
+    restartScrollTracking();
+
+    scrollTo(30);
+    expect(thresholds()).toEqual([25, 25]);
   });
 
   it('starts again when the query changes', () => {

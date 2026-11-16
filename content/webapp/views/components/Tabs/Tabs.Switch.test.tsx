@@ -7,6 +7,7 @@ import AppContext, {
   appContextDefaults,
   AppContextProvider,
 } from '@weco/common/contexts/AppContext';
+import { restartScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import theme from '@weco/common/views/themes/default';
 
 import TabsSwitch from './Tabs.Switch';
@@ -22,6 +23,12 @@ jest.mock('next/router', () => ({
   }),
 }));
 
+jest.mock('@weco/common/hooks/useScrollTracking', () => ({
+  restartScrollTracking: jest.fn(),
+}));
+
+const mockRestartScrollTracking = restartScrollTracking as jest.Mock;
+
 window.HTMLElement.prototype.scrollIntoView = jest.fn(); // scrollIntoView is not in JSDOM: https://stackoverflow.com/a/60225417
 
 const items = [
@@ -31,8 +38,10 @@ const items = [
 
 const TabsSwitchHarness = ({
   initialTab = 'about',
+  restartsScrollTracking,
 }: {
   initialTab?: string;
+  restartsScrollTracking?: boolean;
 }) => {
   const [selectedTab, setSelectedTab] = useState(initialTab);
   return (
@@ -43,6 +52,7 @@ const TabsSwitchHarness = ({
           items={items}
           selectedTab={selectedTab}
           setSelectedTab={setSelectedTab}
+          restartsScrollTracking={restartsScrollTracking}
         />
       </AppContextProvider>
     </ThemeProvider>
@@ -51,6 +61,10 @@ const TabsSwitchHarness = ({
 
 const renderComponent = (initialTab?: string) => {
   render(<TabsSwitchHarness initialTab={initialTab} />);
+};
+
+const renderTrackingScroll = () => {
+  render(<TabsSwitchHarness restartsScrollTracking />);
 };
 
 // Renders with isEnhanced permanently false, to inspect the no-JS fallback
@@ -79,6 +93,7 @@ const renderNotEnhanced = () => {
 describe('TabsSwitch', () => {
   beforeEach(() => {
     (window.HTMLElement.prototype.scrollIntoView as jest.Mock).mockClear();
+    mockRestartScrollTracking.mockClear();
   });
 
   afterEach(() => {
@@ -109,6 +124,50 @@ describe('TabsSwitch', () => {
       'true'
     );
     expect(window.location.hash).toBe('#contents');
+  });
+
+  it('leaves scroll tracking alone when a tab is switched', async () => {
+    renderComponent();
+    await act(async () => {
+      await userEvent.click(screen.getByRole('tab', { name: 'Contents' }));
+    });
+
+    expect(mockRestartScrollTracking).not.toHaveBeenCalled();
+  });
+
+  it('restarts scroll tracking on a switch when asked to', async () => {
+    renderTrackingScroll();
+    await act(async () => {
+      await userEvent.click(screen.getByRole('tab', { name: 'Contents' }));
+    });
+
+    expect(mockRestartScrollTracking).toHaveBeenCalledTimes(1);
+
+    // Switching to the tab already open isn't another view of the page
+    await act(async () => {
+      await userEvent.click(screen.getByRole('tab', { name: 'Contents' }));
+    });
+
+    expect(mockRestartScrollTracking).toHaveBeenCalledTimes(1);
+  });
+
+  it('restarts scroll tracking when back or forward changes the tab', async () => {
+    renderTrackingScroll();
+
+    await act(async () => {
+      window.history.replaceState(null, '', '#contents');
+      window.dispatchEvent(new Event('hashchange'));
+    });
+
+    expect(mockRestartScrollTracking).toHaveBeenCalledTimes(1);
+
+    // An anchor belonging to something else on the page isn't a tab switch
+    await act(async () => {
+      window.history.replaceState(null, '', '#not-a-real-tab');
+      window.dispatchEvent(new Event('hashchange'));
+    });
+
+    expect(mockRestartScrollTracking).toHaveBeenCalledTimes(1);
   });
 
   it('opens the tab matching the URL anchor on load, and scrolls to it', async () => {
