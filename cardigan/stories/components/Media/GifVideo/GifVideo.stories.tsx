@@ -42,6 +42,12 @@ const transformedSlice = transformGifVideoSlice(slice);
 const meta: Meta<typeof GifVideo> = {
   title: 'Components/Media/GifVideo',
   component: GifVideo,
+  parameters: {
+    // Chromatic waits for images and fonts, but not video. Without this it can
+    // capture before the first frame decodes, giving a blank box with no
+    // play/pause button and a caption sized from a width of 0.
+    chromatic: { delay: 2000 },
+  },
   args: transformedSlice?.value,
   argTypes: {
     videoUrl: { table: { disable: true } },

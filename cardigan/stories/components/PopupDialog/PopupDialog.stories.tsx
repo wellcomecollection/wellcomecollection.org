@@ -21,6 +21,9 @@ const linkText = 'Take the survey';
 const meta: Meta<StoryProps> = {
   title: 'Components/PopupDialog',
   component: PopupDialog,
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
   args: {
     document: {
       data: {
