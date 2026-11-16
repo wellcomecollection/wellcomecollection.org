@@ -690,6 +690,40 @@ describe('ImageSidebar', () => {
         expect(previousButton()).toHaveFocus();
       });
 
+      it('move focus to the button for that direction if the sidebar content that had it is replaced, e.g. stepping to another work', async () => {
+        jest.useFakeTimers();
+        const user = userEvent.setup({
+          advanceTimers: jest.advanceTimersByTime,
+        });
+        const { select } = await renderSidebar(
+          expandedImage,
+          jest.fn(),
+          jest.fn(),
+          { onNext: beforeStep => beforeStep() }
+        );
+        await act(async () => {
+          jest.runAllTimers();
+        });
+        const viewImageLink = screen.getByRole('link', {
+          name: 'View expanded image',
+        });
+        act(() => viewImageLink.focus());
+
+        await user.keyboard('{ArrowRight}');
+        // The details are replaced while the other work loads
+        await select({
+          ...expandedImage,
+          id: 'imageB',
+          source: { id: 'workB' },
+        } as unknown as Image);
+        await act(async () => {
+          jest.runAllTimers();
+        });
+
+        expect(viewImageLink).not.toBeInTheDocument();
+        expect(nextButton()).toHaveFocus();
+      });
+
       it('announce the title of the image stepped to', async () => {
         const { select } = await renderSidebar(
           expandedImage,
