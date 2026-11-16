@@ -166,6 +166,14 @@ const toggleConfig = {
         'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
       type: 'experimental',
     },
+    {
+      id: 'masonryImages',
+      title: 'Masonry images',
+      initialValue: false,
+      description:
+        'Shows image search results in a masonry grid, with titles under the images. Only applies when the image sidebar preview is on.',
+      type: 'experimental',
+    },
   ] as const,
   // Phased flags: like a feature flag, but with an ordered set of phases
   // instead of on/off. Selecting a phase always includes every phase before it.
