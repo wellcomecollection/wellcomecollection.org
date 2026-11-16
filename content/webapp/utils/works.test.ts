@@ -143,6 +143,29 @@ describe('getOrderedNotes', () => {
     note('acquisition-note', 'Bought at a test sale'),
   ];
 
+  it('puts the archive notes in a consistent order', () => {
+    const scrambled = [
+      note('related-material', 'See also a test collection'),
+      note('ownership-note', 'Owned by a test library'),
+      note('acquisition-note', 'Bought at a test sale'),
+      note('arrangement-note', 'Arranged by a test archivist'),
+      note('biographical-note', 'Born in a test year'),
+    ];
+
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes: scrambled,
+      identifiers: [],
+    });
+
+    expect(orderedNotes.map(n => n.noteType.id)).toEqual([
+      'arrangement-note',
+      'acquisition-note',
+      'biographical-note',
+      'related-material',
+    ]);
+    expect(remainingNotes.map(n => n.noteType.id)).toEqual(['ownership-note']);
+  });
+
   it('moves the acquisition note up for most works', () => {
     const { orderedNotes, remainingNotes } = getOrderedNotes({
       notes,
