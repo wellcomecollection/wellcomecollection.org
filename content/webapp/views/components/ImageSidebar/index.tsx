@@ -71,11 +71,19 @@ type Props = {
   // Without one, that button is disabled
   onPrevious?: StepHandler;
   onNext?: StepHandler;
+  // Where the arrow keys step through the images, as well as in the sidebar
+  arrowKeysAreaRef?: RefObject<HTMLElement | null>;
 };
 
 // Calls `beforeStep` only once the step is definitely happening, which may be
 // after another page of results has loaded, or never
 export type StepHandler = (beforeStep: () => void) => void;
+
+// Text fields, selects and the like use the arrow keys themselves
+const usesArrowKeys = (element: Element): boolean =>
+  element instanceof HTMLElement &&
+  (element.isContentEditable ||
+    ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName));
 
 // Below `sm`, the sidebar covers the page
 export const useIsSidebarFullScreen = (): boolean =>
@@ -84,10 +92,12 @@ export const useIsSidebarFullScreen = (): boolean =>
 /**
  * Moves focus to the close button each time an image is chosen, as choosing an
  * image is asking for its details. Stepping to the previous or next image
- * leaves focus on the button that was used, so it can be pressed again.
+ * leaves focus where it was (e.g. on the button that was used), so it can be
+ * pressed again.
  *
  * Returns a function to call once the person starts moving focus themselves,
- * so it's left alone from then on, and one to call with the step button used.
+ * so it's left alone from then on, and one to call with where focus was when
+ * stepping.
  */
 const useFocusCloseButtonOnSelect = (
   imageId: string | undefined,
@@ -100,7 +110,7 @@ const useFocusCloseButtonOnSelect = (
     if (!imageId) return;
 
     hasTakenOver.current = false;
-    const stepButton = steppedFrom.current;
+    const stepFocus = steppedFrom.current;
     steppedFrom.current = null;
 
     const focusTarget = () => {
@@ -108,7 +118,7 @@ const useFocusCloseButtonOnSelect = (
       if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
 
       // Without scrolling, as it may still be off screen, sliding in
-      (stepButton ?? closeButtonRef.current)?.focus({ preventScroll: true });
+      (stepFocus ?? closeButtonRef.current)?.focus({ preventScroll: true });
     };
 
     // Setting the image id as the URL hash can make the browser focus the
@@ -127,7 +137,7 @@ const useFocusCloseButtonOnSelect = (
     document.addEventListener('focusin', onFocusIn);
 
     const timeouts = [
-      ...(stepButton ? [] : [setTimeout(focusTarget)]),
+      ...(stepFocus ? [] : [setTimeout(focusTarget)]),
       setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
     ];
 
@@ -141,8 +151,8 @@ const useFocusCloseButtonOnSelect = (
     stopRefocusing: () => {
       hasTakenOver.current = true;
     },
-    setSteppedFrom: (button: HTMLElement) => {
-      steppedFrom.current = button;
+    setSteppedFrom: (element: HTMLElement) => {
+      steppedFrom.current = element;
     },
   };
 };
@@ -162,6 +172,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   onStatusChange,
   onPrevious,
   onNext,
+  arrowKeysAreaRef,
 }) => {
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
@@ -201,6 +212,13 @@ const ImageSidebar: FunctionComponent<Props> = ({
     closeButtonRef
   );
 
+  // Leaves focus on `focused`, and announces the image once it's stepped to
+  const step = (onStep: StepHandler, focused: HTMLElement) =>
+    onStep(() => {
+      setSteppedFrom(focused);
+      isAnnouncingStep.current = true;
+    });
+
   const stepButton = ({
     label,
     shortLabel,
@@ -222,18 +240,52 @@ const ImageSidebar: FunctionComponent<Props> = ({
       aria-label={label}
       aria-disabled={!onStep}
       onClick={event => {
-        if (!onStep) return;
-        const button = event.currentTarget;
-        onStep(() => {
-          setSteppedFrom(button);
-          isAnnouncingStep.current = true;
-        });
+        if (onStep) step(onStep, event.currentTarget);
       }}
     >
       {icon}
       {shortLabel}
     </StepButton>
   );
+
+  /**
+   * ArrowLeft and ArrowRight do what the previous and next buttons do, while
+   * focus is in the sidebar, the results or nowhere in particular. Keys
+   * already handled (e.g. by the resize handle), held down, or used by a
+   * text field are left alone, and so are modifiers, as Alt+ArrowLeft is
+   * the browser's Back.
+   */
+  useEffect(() => {
+    if (!isOpen || !hasHeaderStepButtons) return;
+
+    const stepOnArrowKey = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      if (
+        event.defaultPrevented ||
+        event.repeat ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey
+      ) {
+        return;
+      }
+
+      const target = event.target as Element;
+      const isInArea =
+        target === document.body ||
+        sidebarRef.current?.contains(target) ||
+        arrowKeysAreaRef?.current?.contains(target);
+      if (!isInArea || usesArrowKeys(target)) return;
+
+      // Swallowed at either end too, so the page doesn't scroll instead
+      event.preventDefault();
+      const onStep = event.key === 'ArrowLeft' ? onPrevious : onNext;
+      if (onStep) step(onStep, target as HTMLElement);
+    };
+    document.addEventListener('keydown', stepOnArrowKey);
+    return () => document.removeEventListener('keydown', stepOnArrowKey);
+  }, [isOpen, hasHeaderStepButtons, onPrevious, onNext]);
 
   useEffect(() => {
     if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;

@@ -293,6 +293,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         onStatusChange={setSidebarStatus}
         onPrevious={onPrevious}
         onNext={onNext}
+        arrowKeysAreaRef={layoutRef}
       />
     </ResultsLayout>
   );

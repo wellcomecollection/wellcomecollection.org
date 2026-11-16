@@ -9,7 +9,7 @@ import { baseUrl } from './helpers/utils';
 //
 // These run with the imageSidebarPhases toggle at Phase 1, apart from the
 // resizing ones, which are Phase 2, and moving to the next and previous image
-// (#13536), which are Phase 3. A test marked
+// (#13536, and with the arrow keys #13874), which are Phase 3. A test marked
 // `fixme` covers a criterion a later PR delivers; take the `fixme` off in
 // that PR.
 test.describe.configure({ mode: 'parallel' });
@@ -650,6 +650,139 @@ test.describe('Desktop', () => {
       await expect(page).not.toHaveURL(/page=1/);
       await expect(previousButton(page)).toBeInViewport();
       await expect(thumbnail(page, count)).toBeInViewport();
+    });
+
+    test.describe('with the arrow keys', () => {
+      const expectOpen = (page: Page, nthChild: number) =>
+        expect(thumbnail(page, nthChild)).toHaveAttribute(
+          'aria-current',
+          'true'
+        );
+
+      test('ArrowRight and ArrowLeft step like next and previous, leaving focus where it was and announcing the image', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+        await expect(closeButton(page)).toBeFocused();
+        const titles = await plainThumbnailTitles(page);
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+        await expect(page).toHaveURL(
+          new RegExp(`#${await thumbnail(page, 2).getAttribute('id')}$`)
+        );
+        await expect(closeButton(page)).toBeFocused();
+        if (titles[1]) {
+          await expect(
+            sidebar(page).locator('[aria-live="polite"]')
+          ).toHaveText(titles[1]);
+        }
+
+        await page.keyboard.press('ArrowLeft');
+        await expectOpen(page, 1);
+        await expect(closeButton(page)).toBeFocused();
+      });
+
+      test('ArrowRight on the last image of a page opens the first image of the next page, and ArrowLeft goes back', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        const currentPage = page.getByTestId('current-page').first();
+        const count = await resultsGrid(page).getByRole('link').count();
+        await openSidebar(count, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expect(currentPage).toHaveText('2');
+        await expectOpen(page, 1);
+
+        await page.keyboard.press('ArrowLeft');
+        await expect(currentPage).toHaveText('1');
+        await expectOpen(page, count);
+      });
+
+      // A search with one page of results, so the last image is the last result
+      test('do nothing at either end of the results', async ({
+        page,
+        context,
+      }) => {
+        await searchImages(imageWithContributor, context, page, 'phase3');
+        await openSidebar(1, page);
+        await page.keyboard.press('ArrowLeft');
+        await expectOpen(page, 1);
+
+        const count = await resultsGrid(page).getByRole('link').count();
+        await openSidebar(count, page);
+        const lastImage = new URL(page.url()).hash;
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, count);
+        expect(new URL(page.url()).hash).toBe(lastImage);
+      });
+
+      test('do nothing on a visually similar image, which is not in the results', async ({
+        page,
+        context,
+      }) => {
+        await searchImages(imageWithContributor, context, page, 'phase3');
+        await openSidebar(1, page);
+        const firstImage = new URL(page.url()).hash;
+        const heading = sidebar(page).getByRole('heading', { level: 2 });
+        await expect(heading).toBeVisible();
+        const firstTitle = await heading.textContent();
+        await sidebar(page)
+          .getByRole('heading', { name: 'Visually similar images' })
+          .waitFor();
+        await sidebar(page)
+          .getByRole('list')
+          .getByRole('button')
+          .first()
+          .click();
+        await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
+        // The URL changes before the sidebar does
+        await expect(heading).not.toHaveText(firstTitle!);
+        const similarImage = new URL(page.url()).hash;
+
+        await page.keyboard.press('ArrowRight');
+        await page.keyboard.press('ArrowLeft');
+
+        expect(new URL(page.url()).hash).toBe(similarImage);
+        await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(
+          0
+        );
+      });
+
+      test('resize the sidebar rather than stepping while the handle has focus', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+        await resizeHandle(page).focus();
+
+        await page.keyboard.press('ArrowLeft');
+        await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '7');
+        await page.keyboard.press('ArrowRight');
+        await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '6');
+        await expectOpen(page, 1);
+      });
+
+      test('move the cursor in the search box rather than stepping', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+        const firstImage = new URL(page.url()).hash;
+        await page.getByRole('searchbox').focus();
+
+        await page.keyboard.press('ArrowLeft');
+        await page.keyboard.press('ArrowRight');
+
+        await expectOpen(page, 1);
+        expect(new URL(page.url()).hash).toBe(firstImage);
+      });
     });
   });
 
