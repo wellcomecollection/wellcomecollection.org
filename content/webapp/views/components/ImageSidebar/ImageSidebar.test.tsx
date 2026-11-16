@@ -198,6 +198,25 @@ describe('ImageSidebar', () => {
         event => event.event === 'sidebar_resize'
       );
 
+    /**
+     * Renders the sidebar with the resize handle focused, ready for a run of
+     * key presses, and returns the `userEvent` instance to press them with.
+     * One instance throughout, as a standalone call blurs the handle when it
+     * ends, which is itself the end of a run of presses.
+     */
+    const renderWithFocusedHandle = async () => {
+      jest.useFakeTimers();
+      const user = userEvent.setup({ delay: null });
+      await renderSidebar(expandedImage);
+      // Opening moves focus to the close button on a timer. Let it, before
+      // taking the handle, so it can't interrupt the presses below.
+      await act(async () => {
+        jest.runOnlyPendingTimers();
+      });
+      focusHandle();
+      return user;
+    };
+
     it('has no handle before Phase 2', async () => {
       mockImageSidebarPhase('phase1');
       await renderSidebar(expandedImage);
@@ -251,17 +270,7 @@ describe('ImageSidebar', () => {
     });
 
     it('records a resize once the keys stop, not on every press', async () => {
-      jest.useFakeTimers();
-      // One instance throughout, as a standalone call blurs the handle when it
-      // ends, which is itself the end of a run of presses
-      const user = userEvent.setup({ delay: null });
-      await renderSidebar(expandedImage);
-      // Opening moves focus to the close button on a timer. Let it, before
-      // taking the handle, so it can't interrupt the presses below.
-      await act(async () => {
-        jest.runOnlyPendingTimers();
-      });
-      focusHandle();
+      const user = await renderWithFocusedHandle();
 
       await user.keyboard('{ArrowLeft}{ArrowLeft}');
       expect(resizeEvents()).toHaveLength(0);
@@ -276,17 +285,7 @@ describe('ImageSidebar', () => {
     });
 
     it('records a held key once, when it is let go', async () => {
-      jest.useFakeTimers();
-      // One instance throughout, as a standalone call blurs the handle when it
-      // ends, which is itself the end of a run of presses
-      const user = userEvent.setup({ delay: null });
-      await renderSidebar(expandedImage);
-      // Opening moves focus to the close button on a timer. Let it, before
-      // taking the handle, so it can't interrupt the presses below.
-      await act(async () => {
-        jest.runOnlyPendingTimers();
-      });
-      focusHandle();
+      const user = await renderWithFocusedHandle();
 
       // Held down, so it repeats without coming up in between
       await user.keyboard('{ArrowLeft>3}');
@@ -306,17 +305,7 @@ describe('ImageSidebar', () => {
     });
 
     it('records each run of presses against the width it started from', async () => {
-      jest.useFakeTimers();
-      // One instance throughout, as a standalone call blurs the handle when it
-      // ends, which is itself the end of a run of presses
-      const user = userEvent.setup({ delay: null });
-      await renderSidebar(expandedImage);
-      // Opening moves focus to the close button on a timer. Let it, before
-      // taking the handle, so it can't interrupt the presses below.
-      await act(async () => {
-        jest.runOnlyPendingTimers();
-      });
-      focusHandle();
+      const user = await renderWithFocusedHandle();
 
       await user.keyboard('{ArrowLeft}');
       await act(async () => {
