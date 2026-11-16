@@ -166,6 +166,14 @@ const toggleConfig = {
         'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
       type: 'experimental',
     },
+    {
+      id: 'masonryImages',
+      title: 'Masonry images',
+      initialValue: false,
+      description:
+        'Shows image search results in a masonry grid, with titles under the images. Only applies when the image sidebar preview is on.',
+      type: 'experimental',
+    },
   ] as const,
   // Phased flags: like a feature flag, but with an ordered set of phases
   // instead of on/off. Selecting a phase always includes every phase before it.
@@ -188,28 +196,6 @@ const toggleConfig = {
           label: 'Phase 2',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
-        },
-      ],
-    },
-    {
-      id: 'archiveCollectionPhases',
-      title: 'Archive collection',
-      description: 'Staged rollout of archive collection level pages.',
-      type: 'experimental',
-      // MVP was already public behind archiveCollection when we created it as a phased flag.
-      initialPhase: 'mvp',
-      phases: [
-        {
-          id: 'mvp',
-          label: 'Phase 1',
-          description:
-            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description:
-            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
         },
       ],
     },
@@ -243,8 +229,7 @@ const toggleConfig = {
         {
           id: 'phase2',
           label: 'Phase 2',
-          description:
-            'Updated image results grid and a re-sizable viewing pane.',
+          description: 'Re-sizable viewing pane.',
         },
         {
           id: 'phase3',
@@ -277,6 +262,8 @@ const toggleConfig = {
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
         { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+        { id: 'LIB-iPad1', label: 'Library entrance: iPad 1' },
+        { id: 'LIB-iPad2', label: 'Library entrance: iPad 2' },
       ],
     },
     {

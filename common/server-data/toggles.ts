@@ -5,8 +5,10 @@ import {
   FeatureFlags,
   Modes,
   personalFeatureFlagValue,
+  personalPhaseValue,
   PhasedFlags,
   Tests,
+  TOGGLE_OFF_VALUE,
   TOGGLE_RESET_VALUE,
   Toggles,
   TogglesResp,
@@ -118,8 +120,9 @@ const isStageHost = (context: Context): boolean =>
  * `featureFlagValues`, since presets and overrides differ there, plus
  * `experimentalOnlyValues` if they're experimental and already public (an
  * `off` for a flag that isn't public yet would do nothing until release, then
- * hold the person on the old version). `allowReset` lets any of
- * them take TOGGLE_RESET_VALUE.
+ * hold the person on the old version). Phased flags accept their phase ids,
+ * and `off` once a phase is public, for the same reason (see
+ * personalPhaseValue). `allowReset` lets any of them take TOGGLE_RESET_VALUE.
  */
 function validToggleValues(
   values: Record<string, string>,
@@ -161,7 +164,7 @@ function validToggleValues(
     if (phasedFlag) {
       return (
         isAvailable(phasedFlag) &&
-        (isReset(value) || phasedFlag.phases.some(phase => phase.id === value))
+        (isReset(value) || personalPhaseValue(phasedFlag, value) !== undefined)
       );
     }
 
@@ -195,7 +198,8 @@ const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
  * Keeps only the presets that name a toggle available on this host, with a
  * value that toggle accepts - so a typo'd id or phase never gets written to a
  * cookie. Feature flags only accept 'true' (plus 'off' for experimental
- * ones, see getTogglesFromContext): a 'false' cookie resolves to the flag's
+ * ones, see getTogglesFromContext; phased flags also take 'off' once a phase
+ * is public): a 'false' cookie resolves to the flag's
  * defaultValue, not false, so writing one would be misleading. Any toggle can
  * be reset with TOGGLE_RESET_VALUE.
  */
@@ -214,7 +218,7 @@ export const validTogglePresets = (
     context,
     {
       featureFlagValues: ['true'],
-      experimentalOnlyValues: ['off'],
+      experimentalOnlyValues: [TOGGLE_OFF_VALUE],
       allowReset: true,
     }
   );
@@ -279,18 +283,15 @@ export function togglePresetCookies(
 }
 
 /**
- * Resolves the current value of a toggle whose value is one of a list of
- * named option ids - a mode's option, or a phased flag's phase. Shared by
- * both, since "which one is currently picked" is the same operation for
- * either; what a phased flag does with that value afterwards (ranking it
- * ordinally via phaseIsAtLeast) happens elsewhere, not here.
+ * Resolves the current option of a mode: a render-only override, then a
+ * personal cookie, as long as it's one of the mode's option ids, otherwise
+ * null.
  */
 function resolveOptionValue(
   id: string,
   validIds: string[],
   overrides: Record<string, string>,
-  allCookies: Partial<Record<string, string>>,
-  fallback: string | null
+  allCookies: Partial<Record<string, string>>
 ): string | null {
   const override = overrides[id];
   if (typeof override === 'string' && validIds.includes(override)) {
@@ -299,7 +300,28 @@ function resolveOptionValue(
   const cookieValue = allCookies[`toggle_${id}`];
   const isValid =
     typeof cookieValue === 'string' && validIds.includes(cookieValue);
-  return isValid ? cookieValue : fallback;
+  return isValid ? cookieValue : null;
+}
+
+/**
+ * Resolves a phased flag's current phase, first match wins: a render-only
+ * override, then a personal cookie, then the public phase. A personal `off`
+ * is null, which ranks below every phase (see personalPhaseValue).
+ */
+function resolvePhasedFlag(
+  flag: {
+    id: string;
+    phases: readonly { id: string }[];
+    defaultPhase: string | null;
+  },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): string | null {
+  const fromOverride = personalPhaseValue(flag, overrides[flag.id]);
+  if (fromOverride !== undefined) return fromOverride;
+
+  const fromCookie = personalPhaseValue(flag, cookies[`toggle_${flag.id}`]);
+  return fromCookie !== undefined ? fromCookie : flag.defaultPhase;
 }
 
 /**
@@ -357,13 +379,7 @@ export function getTogglesFromContext(
     return !(!isStage && flag.type === 'stage');
   });
   const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
-    const current = resolveOptionValue(
-      flag.id,
-      flag.phases.map(phase => phase.id),
-      overrides,
-      allCookies,
-      flag.defaultPhase
-    );
+    const current = resolvePhasedFlag(flag, overrides, allCookies);
     return {
       ...acc,
       [flag.id]: { current, phases: flag.phases, title: flag.title },
@@ -397,8 +413,7 @@ export function getTogglesFromContext(
       mode.id,
       mode.options.map(opt => opt.id),
       overrides,
-      allCookies,
-      null
+      allCookies
     );
     return { ...acc, [mode.id]: current };
   }, {} as Modes);

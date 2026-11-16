@@ -25,11 +25,33 @@ const CLICK_TOLERANCE_PX = 3;
 // How long the layout's width has to stay the same before it's measured again
 const MEASURE_DEBOUNCE_MS = 100;
 
+// How long after a key comes up a resize is recorded, so a run of presses is
+// the one event however fast they come. A held key is waited out rather than
+// timed, as the pause before it repeats can be longer than this.
+const KEYBOARD_TRACKING_DEBOUNCE_MS = 500;
+
 const roundColumns = (columns: number) => Math.round(columns * 100) / 100;
 
 // To one decimal place, for what's announced, so a change of half a column is
 // still heard
 const announcedColumns = (columns: number) => Math.round(columns * 10) / 10;
+
+/**
+ * Records a finished resize: one event per drag, and one per run of key
+ * presses. The width sent is the announced one, so it matches what the handle
+ * said at the time, and a move too small to change it isn't an event.
+ */
+const trackResize = (from: number, to: number) => {
+  const fromWidth = announcedColumns(from);
+  const width = announcedColumns(to);
+  if (width === fromWidth) return;
+
+  window.dataLayer?.push({
+    event: 'sidebar_resize',
+    resize_direction: width > fromWidth ? 'increase' : 'decrease',
+    width,
+  });
+};
 
 /**
  * Asks the browser how wide the sidebar is at 3, 4 and 12 columns, rather
@@ -117,6 +139,24 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     }
   >(undefined);
 
+  // The arrow keys commit a column each, so presses are collected and recorded
+  // once the person stops
+  const keyboardResize = useRef<{
+    from: number;
+    to: number;
+    // Only while the keys are up, as a held key ends when it's released
+    timeout?: ReturnType<typeof setTimeout>;
+  }>(undefined);
+
+  const flushKeyboardResize = () => {
+    const pending = keyboardResize.current;
+    if (!pending) return;
+
+    clearTimeout(pending.timeout);
+    keyboardResize.current = undefined;
+    trackResize(pending.from, pending.to);
+  };
+
   const setSidebarColumns = (n: number) =>
     sidebarRef.current?.style.setProperty(COLUMNS_PROPERTY, String(n));
 
@@ -169,6 +209,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     return () => {
       observer?.disconnect();
       clearTimeout(timeout);
+      // A width chosen with the keys still counts, even if the sidebar closes
+      // before the debounce is up
+      flushKeyboardResize();
       // If the handle goes mid-drag (e.g. the sidebar going full screen), the
       // width goes back to what's in state
       cancelDrag();
@@ -178,6 +221,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
   const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     // One drag at a time, even with a mouse and a touch screen
     if (drag.current || !event.isPrimary || event.button !== 0) return;
+
+    // So a key press just before the drag is recorded before the drag is
+    flushKeyboardResize();
 
     const next = measure();
     if (!next || next.columnPx <= 0) return;
@@ -254,6 +300,7 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     const rounded = roundColumns(current.columns);
     setSidebarColumns(rounded);
     setColumns(rounded);
+    trackResize(current.startColumns, rounded);
   };
 
   // Uses the stored maximum rather than measuring, since measuring lays the
@@ -270,7 +317,28 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
     if (!(event.key in nextColumns)) return;
 
     event.preventDefault();
-    setColumns(roundColumns(clampColumns(nextColumns[event.key], maxColumns)));
+    const next = roundColumns(clampColumns(nextColumns[event.key], maxColumns));
+    setColumns(next);
+
+    const pending = keyboardResize.current;
+    clearTimeout(pending?.timeout);
+    keyboardResize.current = {
+      // The width before the first press, so a run of presses is one change
+      from: pending?.from ?? shownColumns,
+      to: next,
+    };
+  };
+
+  // The run of presses is over once the key is up and nothing follows it
+  const onKeyUp = () => {
+    const pending = keyboardResize.current;
+    if (!pending) return;
+
+    clearTimeout(pending.timeout);
+    pending.timeout = setTimeout(
+      flushKeyboardResize,
+      KEYBOARD_TRACKING_DEBOUNCE_MS
+    );
   };
 
   const announced = announcedColumns(shownColumns);
@@ -293,6 +361,9 @@ const ImageSidebarResizeHandle: FunctionComponent<Props> = ({
       onPointerCancel={endDrag}
       onLostPointerCapture={endDrag}
       onKeyDown={onKeyDown}
+      onKeyUp={onKeyUp}
+      // Nothing will say when the keys come up once the handle loses focus
+      onBlur={flushKeyboardResize}
     />
   );
 };

@@ -12,8 +12,8 @@ import styled, { css } from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { typography } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { enhancedClass } from '@weco/common/utils/enhanced';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
-import { jsEnabledClass } from '@weco/common/utils/js-enabled';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { pageBackgroundColor, sizes } from '@weco/common/views/themes/config';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
@@ -75,14 +75,14 @@ const MasonryList = styled(PlainList)`
   }
 
   @supports not (display: grid-lanes) {
-    .${jsEnabledClass} & {
+    .${enhancedClass} & {
       grid-auto-rows: ${ROW_HEIGHT}px;
       row-gap: 0;
     }
 
     /* A span that's briefly too short cuts the card off rather than covering
     the one below. The margin leaves room for the focus ring. */
-    .${jsEnabledClass} & > li {
+    .${enhancedClass} & > li {
       grid-row: span var(--row-span);
       overflow: clip;
       overflow-clip-margin: 6px;
@@ -156,9 +156,6 @@ const useMasonryLayout = (
 
     const usesGridLanes = CSS.supports('display', 'grid-lanes');
     const largerScreen = window.matchMedia(`(min-width: ${sizes.sm})`);
-    const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize
-    );
     const cardHeights = new Map<HTMLElement, number>();
     let frame: number | undefined;
     let columnCount: number | undefined;
@@ -170,7 +167,10 @@ const useMasonryLayout = (
         gridWidth: list.clientWidth,
         // Without the scrollbar, like the percentages the page's padding uses
         viewportWidth: document.documentElement.clientWidth,
-        rootFontSize,
+        // Read each time, as the browser's default font size can change
+        rootFontSize: parseFloat(
+          getComputedStyle(document.documentElement).fontSize
+        ),
         isSmallScreen: !largerScreen.matches,
       });
       list.style.setProperty('--columns', `${columns}`);

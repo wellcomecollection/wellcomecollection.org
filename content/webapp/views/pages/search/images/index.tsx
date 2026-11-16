@@ -109,8 +109,8 @@ const ImagesSearchPage: NextPage<Props> = withSearchLayout(
       </Container>
     ) : hasSidebarLayout ? (
       <ImagesResultsWithSidebar
-        images={images.results}
-        totalResults={images.totalResults}
+        resultsList={images}
+        imagesRouteProps={imagesRouteProps}
       >
         {bottomPagination}
       </ImagesResultsWithSidebar>

@@ -17,7 +17,7 @@ import {
   GoogleTagManager,
 } from '@weco/common/services/app/analytics-scripts';
 import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
-import { jsEnabledScript } from '@weco/common/utils/js-enabled';
+import { enhancedScript } from '@weco/common/utils/enhanced';
 import { serialiseForInlineScript } from '@weco/common/utils/json';
 import { Toggles } from '@weco/toggles';
 
@@ -76,7 +76,7 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
       <Html lang="en">
         <Head>
           <>
-            <script dangerouslySetInnerHTML={{ __html: jsEnabledScript }} />
+            <script dangerouslySetInnerHTML={{ __html: enhancedScript }} />
 
             <script
               id={apmConfigScriptId}

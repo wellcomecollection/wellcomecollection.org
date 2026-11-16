@@ -25,6 +25,7 @@ export type KioskContextType = {
   isDevModeKiosk: boolean;
   isTendernessAndRageKiosk: boolean;
   isReadingRoomKiosk: boolean;
+  isLibraryEntranceKiosk: boolean;
   kioskExperienceName?: KioskExperienceName; // Human-readable name of the current kiosk experience
   kioskHomepageUrl?: string;
   kiosksContent: Record<string, KiosksContentType>;
@@ -35,10 +36,19 @@ export const defaultKioskContext: KioskContextType = {
   isDevModeKiosk: false,
   isTendernessAndRageKiosk: false,
   isReadingRoomKiosk: false,
+  isLibraryEntranceKiosk: false,
   kiosksContent: initialKiosksContent,
 };
 
 const KioskContext = createContext<KioskContextType>(defaultKioskContext);
+
+/** Where a kiosk's home button and inactivity reset send people. */
+const kioskHomepageUrls: Partial<Record<KioskExperienceName, string>> = {
+  [kioskExperienceNames.tendernessAndRage]:
+    '/exhibitions/tenderness-and-rage/explore-more',
+  [kioskExperienceNames.readingRoom]: '/stories/kiosk',
+  [kioskExperienceNames.libraryEntrance]: '/collections',
+};
 
 type KioskProviderProps = PropsWithChildren<{
   cookieContent: string | null;
@@ -65,12 +75,12 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
     kioskExperienceName === kioskExperienceNames.tendernessAndRage;
   const isReadingRoomKiosk =
     kioskExperienceName === kioskExperienceNames.readingRoom;
+  const isLibraryEntranceKiosk =
+    kioskExperienceName === kioskExperienceNames.libraryEntrance;
 
-  const kioskHomepageUrl = isTendernessAndRageKiosk
-    ? '/exhibitions/tenderness-and-rage/explore-more'
-    : isReadingRoomKiosk
-      ? '/stories/kiosk'
-      : undefined;
+  const kioskHomepageUrl = kioskExperienceName
+    ? kioskHomepageUrls[kioskExperienceName]
+    : undefined;
 
   const kiosksContent = useMemo(
     () => ({
@@ -91,6 +101,7 @@ export const KioskProvider: FunctionComponent<KioskProviderProps> = ({
       isDevModeKiosk,
       isTendernessAndRageKiosk,
       isReadingRoomKiosk,
+      isLibraryEntranceKiosk,
       kioskHomepageUrl,
       kiosksContent,
     }),
