@@ -53,7 +53,7 @@ const urls = [
   '/works/cjwep3ze?query=health&page=1',
   '/works/e7vav3ss/items?page=1&canvas=1',
   '/works/d2mach47',
-  '/works/aegabdcp?toggleOverride=archiveCollectionPhases:mvp',
+  '/works/aegabdcp',
   '/collections/people-and-organisations?toggleOverride=thematicBrowsingPhases:categoryPages',
   '/series/inside-our-collections',
   '/exhibitions/heart-n-soul-s-wall-of-change',
@@ -262,7 +262,20 @@ const alertOnErrors = async results => {
 
   const errorCount = countsByPage.reduce((total, count) => total + count, 0);
 
-  if (!slackWebhookUrl || errorCount === 0) {
+  if (errorCount === 0) {
+    return;
+  }
+
+  // Expected on deploy and manual runs, which aren't given a webhook URL. Worth
+  // logging because on the scheduled run it means the alert is broken, and
+  // returning quietly there reads exactly like a clean run
+  if (!slackWebhookUrl) {
+    console.log(
+      styleText(
+        'yellowBright',
+        `${errorCount} error(s) found, not alerting: no webhook URL (expected except on the scheduled run)`
+      )
+    );
     return;
   }
 

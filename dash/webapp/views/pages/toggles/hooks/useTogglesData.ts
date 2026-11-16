@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   ModeDefinition,
   personalFeatureFlagValue,
+  personalPhaseValue,
   PublishedPhasedFlag,
 } from '@weco/toggles';
 
@@ -63,15 +64,16 @@ export const useTogglesData = (
         }
 
         // Phased flags: only record a state when the cookie is a phase that
-        // still exists - same reasoning as modes below, but validated
-        // against each flag's own phases list rather than one shared list.
+        // still exists, or `off` once a phase is public - same reasoning as
+        // modes below, but validated against each flag's own phases list
+        // rather than one shared list.
         const initialPhasedFlagStates: Record<string, string> = {};
         for (const flag of phasedFlagDefinitions) {
           const cookieKey = `toggle_${flag.id}`;
           const cookieValue = cookies[cookieKey];
           if (
             cookieValue &&
-            flag.phases.some(phase => phase.id === cookieValue)
+            personalPhaseValue(flag, cookieValue) !== undefined
           ) {
             initialPhasedFlagStates[flag.id] = cookieValue;
           }

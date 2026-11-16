@@ -20,12 +20,33 @@ metadata:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
+    backplane/dora-paths: content, common
 spec:
   type: service
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: 'deploy:weco'
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      github:
+        task: 'deploy:weco'
+  slos:
+    # Agreed 2026-11-13; see docs adr/service_levels.md.
+    - name: availability
+      description: Requests to the content app not answered with a 5xx
+      objective: 99.5
+      window: 28d
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -36,12 +57,33 @@ metadata:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
+    backplane/dora-paths: identity, common
 spec:
   type: service
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
   dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: 'deploy:weco'
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      github:
+        task: 'deploy:weco'
+  slos:
+    # Agreed 2026-11-13; see docs adr/service_levels.md.
+    - name: availability
+      description: Requests to the account pages not answered with a 5xx
+      objective: 99.95
+      window: 28d
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
 ---
 apiVersion: backplane/v1
 kind: Component

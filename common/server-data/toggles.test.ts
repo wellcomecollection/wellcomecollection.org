@@ -399,7 +399,7 @@ describe('getTogglesFromContext', () => {
       description: 'Archive collection, phased',
       type: 'experimental' as const,
       phases: [
-        { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+        { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
         { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
       ],
       defaultPhase: null,
@@ -422,7 +422,7 @@ describe('getTogglesFromContext', () => {
     it('returns defaultPhase when it is set and no cookie is set', () => {
       const togglesResp = {
         ...defaultTogglesResp,
-        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'mvp' }],
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase1' }],
       } as unknown as TogglesResp;
 
       const result = getTogglesFromContext(togglesResp, createContext());
@@ -430,7 +430,7 @@ describe('getTogglesFromContext', () => {
       expect(
         (result.phasedFlags as Record<string, { current: unknown }>)
           .archiveCollectionPhases.current
-      ).toBe('mvp');
+      ).toBe('phase1');
     });
 
     it('returns the cookie value when it matches a valid phase', () => {
@@ -453,20 +453,55 @@ describe('getTogglesFromContext', () => {
     it('falls back to defaultPhase when the cookie references a phase that no longer exists', () => {
       const togglesResp = {
         ...defaultTogglesResp,
-        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'mvp' }],
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase1' }],
       } as unknown as TogglesResp;
 
       // Simulates a stale cookie left over from a phase that's since been
-      // removed (e.g. 'phase1' graduated and was deleted from the list).
+      // removed (e.g. an older 'mvp' phase deleted from the list).
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_archiveCollectionPhases: 'phase1' })
+        createContext({ toggle_archiveCollectionPhases: 'mvp' })
       );
 
       expect(
         (result.phasedFlags as Record<string, { current: unknown }>)
           .archiveCollectionPhases.current
-      ).toBe('mvp');
+      ).toBe('phase1');
+    });
+
+    it('returns null when the cookie is "off" and a phase is public, the version from before the flag', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'off' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('lets an "off" override beat a phase cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        { archiveCollectionPhases: 'off' }
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
     });
 
     it('excludes stage-only phased flags on non-stage hosts', () => {
@@ -616,7 +651,7 @@ describe('getTogglesFromContext', () => {
             description: 'Archive collection, phased',
             type: 'experimental',
             phases: [
-              { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+              { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
               { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
             ],
             defaultPhase: null,
@@ -626,7 +661,7 @@ describe('getTogglesFromContext', () => {
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        createContext({ toggle_archiveCollectionPhases: 'phase1' }),
         { archiveCollectionPhases: 'phase2' }
       );
 
@@ -646,7 +681,7 @@ describe('getTogglesFromContext', () => {
             description: 'Archive collection, phased',
             type: 'experimental',
             phases: [
-              { id: 'mvp', label: 'MVP', description: 'MVP phase' },
+              { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
               { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
             ],
             defaultPhase: null,
@@ -656,7 +691,7 @@ describe('getTogglesFromContext', () => {
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        createContext({ toggle_archiveCollectionPhases: 'phase1' }),
         { archiveCollectionPhases: 'phase3' }
       );
 
@@ -664,7 +699,7 @@ describe('getTogglesFromContext', () => {
       expect(
         (result.phasedFlags as Record<string, { current: unknown }>)
           .archiveCollectionPhases.current
-      ).toBe('mvp');
+      ).toBe('phase1');
     });
 
     it('ignores an override for an unknown toggle id', () => {
@@ -856,6 +891,29 @@ describe('validTogglePresets', () => {
         createContext()
       )
     ).toEqual({ brandUpdate: 'off' });
+  });
+
+  it('accepts "off" for a phased flag only once a phase is public', () => {
+    const phasedFlag = togglesResp.phasedFlags?.[0];
+    const resp = (defaultPhase: string | null) => ({
+      ...togglesResp,
+      phasedFlags: [{ ...phasedFlag, defaultPhase }],
+    });
+
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp('phase1') as TogglesResp,
+        createContext()
+      )
+    ).toEqual({ imageSidebarPhases: 'off' });
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp(null) as TogglesResp,
+        createContext()
+      )
+    ).toEqual({});
   });
 
   it('only accepts stage-only toggles on stage hosts', () => {

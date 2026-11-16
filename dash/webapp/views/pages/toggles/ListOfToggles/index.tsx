@@ -3,6 +3,7 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import { tokens } from '@weco/dash/views/themes/tokens';
+import { TOGGLE_OFF_VALUE } from '@weco/toggles';
 
 import Group from '../toggles.Group';
 import {
@@ -111,7 +112,7 @@ const ListOfToggles: FunctionComponent<ListOfTogglesProps> = ({
             ? getCookie(`toggle_${toggle.id}`)
             : undefined;
           const hasPersonalSetting =
-            personalSetting === 'true' || personalSetting === 'off';
+            personalSetting === 'true' || personalSetting === TOGGLE_OFF_VALUE;
           const currentState = toggleStates[toggle.id];
           const isOn = isLockedOn
             ? true
