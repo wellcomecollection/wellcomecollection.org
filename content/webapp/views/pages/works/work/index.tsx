@@ -64,7 +64,7 @@ export const WorkPage: NextPage<Props> = ({
   apiUrl,
   archiveCategorySlug,
 }) => {
-  const { isKiosk } = useKiosk();
+  const { isKiosk, isLibraryEntranceKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
@@ -137,7 +137,7 @@ export const WorkPage: NextPage<Props> = ({
         apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
         hideNewsletterPromo
       >
-        {!isKiosk && (
+        {(!isKiosk || isLibraryEntranceKiosk) && (
           <Container>
             <Space $v={{ size: 'md', properties: ['padding-top'] }}>
               <SearchForm searchCategory="works" location="page" />
@@ -152,7 +152,7 @@ export const WorkPage: NextPage<Props> = ({
         )}
 
         <ConditionalWrapper
-          condition={isKiosk}
+          condition={isKiosk && !isLibraryEntranceKiosk}
           wrapper={children => (
             <Space $v={{ size: 'md', properties: ['padding-top'] }}>
               {children}

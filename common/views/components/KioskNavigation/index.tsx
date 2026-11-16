@@ -227,8 +227,9 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     const { isReadingRoomKiosk, kioskHomepageUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
 
-    const isOnHomePage =
-      currentPathname === '/' || currentPathname === kioskHomepageUrl;
+    // A kiosk without a home page of its own falls back to the site homepage.
+    const homeUrl = kioskHomepageUrl || '/';
+    const isOnHomePage = currentPathname === homeUrl;
 
     const { back, forward, canGoBack, canGoForward } = useNavigationHistory();
 
@@ -293,7 +294,7 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
             </DisabledHomeLink>
           ) : (
             <HomeLink
-              href={kioskHomepageUrl || '/'}
+              href={homeUrl}
               aria-label="Return to kiosk home page"
               {...dataGtmPropsToAttributes({
                 trigger: 'return-to-kiosk-home-page',
