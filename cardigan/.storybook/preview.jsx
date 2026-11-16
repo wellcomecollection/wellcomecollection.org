@@ -10,6 +10,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 
+import { allModes } from './modes';
 import wellcomeTheme from './wellcome-theme';
 
 // Docs pages don't go through decorators, so follow the toolbar here instead
@@ -131,7 +132,7 @@ export const parameters = {
     },
   },
   chromatic: {
-    viewports: [1200],
+    modes: allModes,
   },
   actions: { disable: true },
   interactions: { disable: true },
