@@ -48,6 +48,9 @@ const extraColumnContainerQueries = extraColumnBreakpoints()
   )
   .join('');
 
+// About as wide as columns get, so a 1x and a 2x version cover every screen
+const IMAGE_WIDTH = 400;
+
 const MasonryContainer = styled.div`
   container-type: inline-size;
 `;
@@ -295,13 +298,13 @@ const CatalogueImageGalleryMasonry: FunctionComponent<Props> = ({
                   $background={rgb && `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.5)`}
                 >
                   <img
-                    src={convertIiifImageUri(iiifUrl, 400)}
-                    srcSet={`${convertIiifImageUri(iiifUrl, 400)} 400w, ${convertIiifImageUri(iiifUrl, 800)} 800w`}
+                    src={convertIiifImageUri(iiifUrl, IMAGE_WIDTH)}
+                    srcSet={`${convertIiifImageUri(iiifUrl, IMAGE_WIDTH)} ${IMAGE_WIDTH}w, ${convertIiifImageUri(iiifUrl, 2 * IMAGE_WIDTH)} ${2 * IMAGE_WIDTH}w`}
                     // Fixed, as columns stay about this wide, so the image only
                     // depends on pixel density and never changes on resize
-                    sizes="400px"
-                    width={400}
-                    height={Math.round(400 / aspectRatio)}
+                    sizes={`${IMAGE_WIDTH}px`}
+                    width={IMAGE_WIDTH}
+                    height={Math.round(IMAGE_WIDTH / aspectRatio)}
                     alt=""
                     loading={index < EAGER_IMAGE_COUNT ? 'eager' : 'lazy'}
                     decoding="async"

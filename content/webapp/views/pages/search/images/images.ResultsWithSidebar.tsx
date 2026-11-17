@@ -60,14 +60,16 @@ const Results = styled.div<{
 
   /* Lines the results up with the page's Container, which the sidebar isn't in
   because it runs to the right edge. Full width, they go out to its padding. */
-  padding-left: ${props =>
-    props.$isFullWidth
+  ${props => {
+    const padding = props.$isFullWidth
       ? containerPadding
-      : containerEdge(props.theme.sizes.lg)};
-  padding-right: ${props =>
-    props.$isFullWidth
-      ? containerPadding
-      : containerEdge(props.theme.sizes.lg)};
+      : containerEdge(props.theme.sizes.lg);
+
+    return css`
+      padding-left: ${padding};
+      padding-right: ${padding};
+    `;
+  }}
 
   ${props =>
     props.$hasSidebar &&
