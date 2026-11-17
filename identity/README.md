@@ -18,6 +18,15 @@ $ yarn start:dev
 
 then the app will start using credentials fetched from Secrets Manager.
 
+That runs it against the stage Auth0 tenant and v1 identity API. To run it against another tenant or API, set the values in `.env` (see `.env.example`), which take precedence. Set the Auth0 values (`AUTH0_DOMAIN`, `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`) together, since any left empty fall back to stage's.
+
+For the v2 identity API, also set:
+
+- `IDENTITY_API_HOST` to v2's address
+- `IDENTITY_API_AUDIENCE` to v1's address, because v2 accepts v1's tokens
+- `IDENTITY_API_KEY` to v2's API key
+- `IDENTITY_API_VERSION=2`, because v2 takes user IDs in a different form
+
 In order to test the app with Docker locally, you will need to make aws credentials available by adding the following to the `identity` block in the [docker-compose.yml](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/docker-compose.yml#L15-L21), at the same level as the `image` and `build` keys:
 
 ```

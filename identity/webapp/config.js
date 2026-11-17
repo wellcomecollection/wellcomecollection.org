@@ -23,7 +23,16 @@ const getConfig = () => {
 
     remoteApi: {
       host: process.env.IDENTITY_API_HOST || 'build',
+      // The API that access tokens are requested for. It differs from the host
+      // when an API accepts another API's tokens.
+      audience:
+        process.env.IDENTITY_API_AUDIENCE ||
+        process.env.IDENTITY_API_HOST ||
+        'build',
       apiKey: process.env.IDENTITY_API_KEY || 'build',
+      // "2" when IDENTITY_API_HOST is the v2 identity API, which takes user
+      // IDs in a different form (see pages/api/registration.ts).
+      version: process.env.IDENTITY_API_VERSION,
     },
   };
 };

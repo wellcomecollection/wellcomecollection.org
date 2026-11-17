@@ -20,7 +20,7 @@ const identityApiClient = authenticatedInstanceFactory(
         body: JSON.stringify({
           client_id: config.auth0.clientID,
           client_secret: config.auth0.clientSecret,
-          audience: config.remoteApi.host,
+          audience: config.remoteApi.audience,
           grant_type: 'client_credentials',
         }),
       }
@@ -63,7 +63,8 @@ type TokenData = {
 
 export function getDataFromToken(
   sessionToken: string,
-  secret: string
+  secret: string,
+  apiVersion: string | undefined = config.remoteApi.version
 ): TokenData {
   const token = decodeToken(sessionToken, secret);
 
@@ -78,6 +79,18 @@ export function getDataFromToken(
   }
   if (typeof iss !== 'string') {
     throw new Error('Cannot get issuer from payload');
+  }
+
+  // The v2 identity API takes the Auth0 user ID without its `auth0|` prefix:
+  // `p` and the patron number for patrons from the Sierra connection, or 24
+  // hex characters for users stored by Auth0 itself.
+  if (apiVersion === '2') {
+    const v2Prefix = 'auth0|';
+    const userId = sub.startsWith(v2Prefix) ? sub.slice(v2Prefix.length) : '';
+    if (!/^(p\d+|[a-f0-9]{24})$/.test(userId)) {
+      throw new Error('Cannot get user ID from payload');
+    }
+    return { userId, issuer: iss };
   }
 
   // This is possibly over-defensive, but it's hard to imagine when we'd get

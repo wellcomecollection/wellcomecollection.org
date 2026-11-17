@@ -90,7 +90,10 @@ const auth0 = new Auth0Client({
   // the browser is actually using.
   appBaseUrl: process.env.NODE_ENV === 'development' ? undefined : siteBaseUrl,
   authorizationParameters: {
-    audience: process.env.IDENTITY_API_HOST || 'build',
+    audience:
+      process.env.IDENTITY_API_AUDIENCE ||
+      process.env.IDENTITY_API_HOST ||
+      'build',
     scope: [...utilityScopes, ...profileScopes, ...identityApiScopes].join(' '),
   },
   // Where a plain login (no returnTo, eg the header sign-in link) lands.

@@ -1,3 +1,5 @@
+import { sign } from 'jsonwebtoken';
+
 import { getDataFromToken } from '@weco/identity/pages/api/registration';
 
 describe('getDataFromToken', () => {
@@ -88,6 +90,37 @@ describe('getDataFromToken', () => {
     expect(() => getDataFromToken(token, secret)).toThrow(
       'Cannot get issuer from payload'
     );
+  });
+
+  describe('for the v2 identity API', () => {
+    const secret = '123';
+    const tokenFor = (sub: string) =>
+      sign({ sub, iss: 'wellcome.test' }, secret);
+
+    it('keeps the p for a patron from the Sierra connection', () => {
+      expect(getDataFromToken(tokenFor('auth0|p1234567'), secret, '2')).toEqual(
+        { userId: 'p1234567', issuer: 'wellcome.test' }
+      );
+    });
+
+    it('accepts a user stored by Auth0 itself', () => {
+      expect(
+        getDataFromToken(
+          tokenFor('auth0|65a1b2c3d4e5f60718293a4b'),
+          secret,
+          '2'
+        )
+      ).toEqual({
+        userId: '65a1b2c3d4e5f60718293a4b',
+        issuer: 'wellcome.test',
+      });
+    });
+
+    it('rejects any other user ID', () => {
+      expect(() =>
+        getDataFromToken(tokenFor('google-oauth2|123'), secret, '2')
+      ).toThrow('Cannot get user ID from payload');
+    });
   });
 });
 
