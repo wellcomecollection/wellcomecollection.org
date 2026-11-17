@@ -136,6 +136,16 @@ const useFocusCloseButtonOnSelect = (
       target()?.focus({ preventScroll: true });
     };
 
+    // A step to another page waits on a fetch, so by the time it lands focus
+    // may have been moved (e.g. into the search box). Only take it back if
+    // it's still where the step left it, or has been lost.
+    const focusTargetIfUnmoved = () => {
+      const active = document.activeElement;
+      const isUnmoved =
+        !step || !active || active === document.body || active === step.focused;
+      if (isUnmoved) focusTarget();
+    };
+
     // Setting the image id as the URL hash can make the browser focus the
     // thumbnail with that id a moment later, after the timeout below has moved
     // focus. So if the thumbnail is focused shortly after, move focus back into
@@ -152,7 +162,7 @@ const useFocusCloseButtonOnSelect = (
     document.addEventListener('focusin', onFocusIn);
 
     const timeouts = [
-      setTimeout(focusTarget),
+      setTimeout(focusTargetIfUnmoved),
       setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
     ];
 
@@ -271,13 +281,8 @@ const ImageSidebar: FunctionComponent<Props> = ({
     </StepButton>
   );
 
-  /**
-   * ArrowLeft and ArrowRight do what the previous and next buttons do, while
-   * focus is in the sidebar, the results or nowhere in particular. Keys
-   * already handled (e.g. by the resize handle), held down, or used by a
-   * text field are left alone, and so are modifiers, as Alt+ArrowLeft is
-   * the browser's Back.
-   */
+  // Modifiers are left alone, as Alt+ArrowLeft is the browser's Back; the
+  // resize handle's onKeyDown runs first and preventDefaults, stopping a step
   useEffect(() => {
     if (!isOpen || !hasHeaderStepButtons) return;
 

@@ -652,20 +652,14 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, count)).toBeInViewport();
     });
 
+    // The rest of what the keys do is shared with the buttons, or covered in
+    // ImageSidebar.test.tsx
     test.describe('with the arrow keys', () => {
       const expectOpen = (page: Page, nthChild: number) =>
         expect(thumbnail(page, nthChild)).toHaveAttribute(
           'aria-current',
           'true'
         );
-      const currentHash = (page: Page) => new URL(page.url()).hash;
-
-      // A step changes the URL a moment after the key press, so this gives
-      // one time to happen before checking that it didn't
-      const expectStillOn = async (page: Page, hash: string) => {
-        await page.waitForTimeout(500);
-        expect(currentHash(page)).toBe(hash);
-      };
 
       test('ArrowRight and ArrowLeft step like next and previous, leaving focus where it was and announcing the image', async ({
         page,
@@ -674,7 +668,6 @@ test.describe('Desktop', () => {
         await searchImages('cats', context, page, 'phase3');
         await openSidebar(1, page);
         await expect(closeButton(page)).toBeFocused();
-        const titles = await plainThumbnailTitles(page);
 
         await page.keyboard.press('ArrowRight');
         await expectOpen(page, 2);
@@ -682,11 +675,14 @@ test.describe('Desktop', () => {
           new RegExp(`#${await thumbnail(page, 2).getAttribute('id')}$`)
         );
         await expect(closeButton(page)).toBeFocused();
-        if (titles[1]) {
-          await expect(
-            sidebar(page).locator('[aria-live="polite"]')
-          ).toHaveText(titles[1]);
-        }
+
+        // Announced once the image's details have loaded, as its title
+        const liveRegion = sidebar(page).locator('[aria-live="polite"]');
+        await expect(liveRegion).not.toBeEmpty();
+        const title = await sidebar(page)
+          .getByRole('heading', { level: 2 })
+          .textContent();
+        await expect(liveRegion).toHaveText(title!.trim());
 
         await page.keyboard.press('ArrowLeft');
         await expectOpen(page, 1);
@@ -709,91 +705,6 @@ test.describe('Desktop', () => {
         await page.keyboard.press('ArrowLeft');
         await expect(currentPage).toHaveText('1');
         await expectOpen(page, count);
-      });
-
-      // A search with one page of results, so the last image is the last result
-      test('do nothing at either end of the results', async ({
-        page,
-        context,
-      }) => {
-        await searchImages(imageWithContributor, context, page, 'phase3');
-        await openSidebar(1, page);
-        const firstImage = currentHash(page);
-        await page.keyboard.press('ArrowLeft');
-        await expectStillOn(page, firstImage);
-        await expectOpen(page, 1);
-
-        const count = await resultsGrid(page).getByRole('link').count();
-        await openSidebar(count, page);
-        const lastImage = currentHash(page);
-        await page.keyboard.press('ArrowRight');
-        await expectStillOn(page, lastImage);
-        await expectOpen(page, count);
-      });
-
-      test('do nothing on a visually similar image, which is not in the results', async ({
-        page,
-        context,
-      }) => {
-        await searchImages(imageWithContributor, context, page, 'phase3');
-        await openSidebar(1, page);
-        const firstImage = new URL(page.url()).hash;
-        const heading = sidebar(page).getByRole('heading', { level: 2 });
-        await expect(heading).toBeVisible();
-        const firstTitle = await heading.textContent();
-        await sidebar(page)
-          .getByRole('heading', { name: 'Visually similar images' })
-          .waitFor();
-        await sidebar(page)
-          .getByRole('list')
-          .getByRole('button')
-          .first()
-          .click();
-        await expect.poll(() => new URL(page.url()).hash).not.toBe(firstImage);
-        // The URL changes before the sidebar does
-        await expect(heading).not.toHaveText(firstTitle!);
-        const similarImage = currentHash(page);
-
-        await page.keyboard.press('ArrowRight');
-        await page.keyboard.press('ArrowLeft');
-
-        await expectStillOn(page, similarImage);
-        await expect(resultsGrid(page).locator('[aria-current]')).toHaveCount(
-          0
-        );
-      });
-
-      test('resize the sidebar rather than stepping while the handle has focus', async ({
-        page,
-        context,
-      }) => {
-        await searchImages('cats', context, page, 'phase3');
-        await openSidebar(1, page);
-        const firstImage = currentHash(page);
-        await resizeHandle(page).focus();
-
-        await page.keyboard.press('ArrowLeft');
-        await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '7');
-        await page.keyboard.press('ArrowRight');
-        await expect(resizeHandle(page)).toHaveAttribute('aria-valuenow', '6');
-        await expectStillOn(page, firstImage);
-        await expectOpen(page, 1);
-      });
-
-      test('move the cursor in the search box rather than stepping', async ({
-        page,
-        context,
-      }) => {
-        await searchImages('cats', context, page, 'phase3');
-        await openSidebar(1, page);
-        const firstImage = currentHash(page);
-        await page.getByRole('searchbox').focus();
-
-        await page.keyboard.press('ArrowLeft');
-        await page.keyboard.press('ArrowRight');
-
-        await expectStillOn(page, firstImage);
-        await expectOpen(page, 1);
       });
     });
   });
