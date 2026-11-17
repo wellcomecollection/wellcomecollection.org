@@ -165,10 +165,12 @@ When implementing backend code, explain the reasoning behind technical decisions
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for general contribution guidelines and repository conventions.
 
-Our PR template (configured in GitHub's interface) asks for:
+Our PR template ([.github/pull_request_template.md](.github/pull_request_template.md)) asks for:
 - **What does this change?** - Detail the problem, why the change is needed, and how it solves it
-- **How to test** - Instructions to verify the change (e.g., "On PROD, do X and see Y. On this branch, do X and see Z.")
+- **How was this tested?** - What you ran and where, what you saw, and links, so a reviewer can repeat it (e.g., "On PROD, do X and see Y. On this branch, do X and see Z."). For a routine change, passing CI and a sentence on what you checked locally or in stage is enough
 - **Have we considered potential risks?** - Potential risks, mitigations, and whether alarms are needed
+- **How will we check it after deploy?** - What to look at once it reaches production. For a routine change, a green deploy pipeline and no new alarms is enough
+- **How do we roll it back?** - For a routine change, "revert this PR" is enough. Say more when a revert won't undo it, such as a Terraform apply, a data or index change, or a toggle flip
 
 When writing PR descriptions, follow this structure and provide enough detail for the PR to be understandable in the future. Keep the template's own headings verbatim.
 
@@ -181,7 +183,7 @@ PR descriptions are for humans first - write them the way you'd explain the chan
 - Terse: cut padding, hedging, and anything already obvious from the diff. Don't restate context.
 - Plain words over jargon or vivid-metaphor shorthand ("soak", "load-bearing", etc.) - if a normal phrase says it, use that.
 - One line per paragraph or bullet - don't hard-wrap markdown at a column width.
-- In "How to test", keep specific example URLs/work IDs rather than generic placeholders, and link them inline on the descriptive phrase, e.g. `[View a work with an archive collection](https://www-dev.wellcomecollection.org/works/aegabdcp#contents)`. Use `www-dev.wellcomecollection.org`, not prod.
+- In "How was this tested?", keep specific example URLs/work IDs rather than generic placeholders, and link them inline on the descriptive phrase, e.g. `[View a work with an archive collection](https://www-dev.wellcomecollection.org/works/aegabdcp#contents)`. Use `www-dev.wellcomecollection.org` for local examples; for checks against deployed environments, retain the URLs of the environment actually tested.
 - In "Have we considered potential risks?", state the actual risk and stop - don't conclude "no alarms needed" or similar. Whether alarms/monitoring are needed is a call for the human reviewer, not something to assert.
 - A `> [!NOTE]` callout is a good place for a genuine open caveat you want a reviewer to weigh in on (e.g. "styling isn't final, pending a discussion") - skip it if there isn't one.
 
