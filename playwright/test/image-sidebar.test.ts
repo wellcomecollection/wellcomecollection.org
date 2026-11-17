@@ -742,7 +742,7 @@ test.describe('Desktop', () => {
         await expect(closeButton(page)).toBeFocused();
       });
 
-      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft goes back', async ({
+test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft returns to the last image', async ({
         page,
         context,
       }) => {
