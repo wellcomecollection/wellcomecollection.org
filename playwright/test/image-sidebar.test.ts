@@ -565,7 +565,7 @@ test.describe('Desktop', () => {
       }
     });
 
-    test('stepping replaces the history entry, so Back closes the sidebar', async ({
+    test('each step is its own Back, and Forward goes through them again', async ({
       page,
       context,
     }) => {
@@ -576,8 +576,23 @@ test.describe('Desktop', () => {
       await nextButton(page).click();
       await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
 
+      // Back through each image stepped through, then out to the results
+      await page.goBack();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goBack();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
       await page.goBack();
       await expect(sidebar(page)).toHaveCount(0);
+      expect(page.url()).not.toContain('#');
+
+      // And Forward through them again, as going Back mustn't have added an
+      // entry that cuts them off
+      await page.goForward();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
     });
 
     test('next and previous have the analytics attributes GTM reads', async ({
@@ -793,6 +808,20 @@ test.describe('Desktop', () => {
         await page.keyboard.press('ArrowRight');
 
         await expectStillOn(page, firstImage);
+        await expectOpen(page, 1);
+      });
+
+      test('Back goes to the image stepped from, as Alt+ArrowLeft is Back', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+
+        await page.goBack();
         await expectOpen(page, 1);
       });
     });
