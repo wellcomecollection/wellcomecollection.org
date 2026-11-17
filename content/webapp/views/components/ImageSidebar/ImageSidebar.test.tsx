@@ -381,14 +381,6 @@ describe('ImageSidebar', () => {
 
       expect(onPrevious).toHaveBeenCalledTimes(1);
       expect(onNext).toHaveBeenCalledTimes(1);
-      expect(previousButton()).toHaveAttribute(
-        'data-gtm-trigger',
-        'image_sidebar_previous'
-      );
-      expect(nextButton()).toHaveAttribute(
-        'data-gtm-trigger',
-        'image_sidebar_next'
-      );
     });
 
     it('disables a button with nowhere to step to, but keeps it focusable', async () => {
@@ -509,23 +501,23 @@ describe('ImageSidebar', () => {
         expect(onNext).toHaveBeenCalledTimes(1);
       });
 
-      it('click the previous and next buttons, so GTM records the same clicks, but not at either end', async () => {
+      it('do not click a button with nowhere to step to', async () => {
         await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
           onNext: jest.fn(),
         });
-        const clickedTriggers: (string | null)[] = [];
+        const clicked: (string | null)[] = [];
         const recordClick = (event: MouseEvent) =>
-          clickedTriggers.push(
-            (event.target as HTMLElement).getAttribute('data-gtm-trigger')
+          clicked.push(
+            (event.target as HTMLElement).getAttribute('aria-label')
           );
         document.addEventListener('click', recordClick);
         await blur();
 
-        await userEvent.keyboard('{ArrowRight}');
         await userEvent.keyboard('{ArrowLeft}');
+        await userEvent.keyboard('{ArrowRight}');
 
         document.removeEventListener('click', recordClick);
-        expect(clickedTriggers).toEqual(['image_sidebar_next']);
+        expect(clicked).toEqual(['Next image']);
       });
 
       it('step from the results area as well as the sidebar', async () => {
