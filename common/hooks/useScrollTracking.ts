@@ -72,26 +72,29 @@ export function useScrollTracking() {
 
     let currentPath = pagePath(router.asPath);
 
+    // A scroll waiting on the debounce was measured against what came before,
+    // so it's dropped rather than counted towards what follows
+    const restart = () => {
+      clearTimeout(timeoutRef.current);
+      scrollState = freshThresholds();
+    };
+
     const handleRouteChange = (url: string) => {
       if (pagePath(url) === currentPath) return;
 
       currentPath = pagePath(url);
-      scrollState = freshThresholds();
-    };
-
-    const handleRestart = () => {
-      scrollState = freshThresholds();
+      restart();
     };
 
     router.events.on('routeChangeComplete', handleRouteChange);
     router.events.on('hashChangeComplete', handleRouteChange);
-    window.addEventListener(RESTART_EVENT, handleRestart);
+    window.addEventListener(RESTART_EVENT, restart);
 
     return () => {
       window.removeEventListener('scroll', debouncedHandleScroll);
       router.events.off('routeChangeComplete', handleRouteChange);
       router.events.off('hashChangeComplete', handleRouteChange);
-      window.removeEventListener(RESTART_EVENT, handleRestart);
+      window.removeEventListener(RESTART_EVENT, restart);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }

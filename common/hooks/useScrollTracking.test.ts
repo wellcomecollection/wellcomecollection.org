@@ -30,13 +30,17 @@ const navigate = (
 const PAGE_HEIGHT = 2000;
 const WINDOW_HEIGHT = 1000;
 
-const scrollTo = (percentage: number) => {
+const startScrolling = (percentage: number) => {
   Object.defineProperty(window, 'scrollY', {
     value: ((PAGE_HEIGHT - WINDOW_HEIGHT) * percentage) / 100,
     configurable: true,
   });
   window.dispatchEvent(new Event('scroll'));
-  // The handler is debounced
+};
+
+// The handler is debounced, so the measurement lands 100ms after the scroll
+const scrollTo = (percentage: number) => {
+  startScrolling(percentage);
   jest.advanceTimersByTime(100);
 };
 
@@ -94,6 +98,16 @@ describe('useScrollTracking', () => {
 
     scrollTo(30);
     expect(thresholds()).toEqual([25, 25]);
+  });
+
+  it('drops a scroll that was still being measured when it restarted', () => {
+    renderHook(() => useScrollTracking());
+
+    startScrolling(30);
+    restartScrollTracking();
+    jest.advanceTimersByTime(100);
+
+    expect(thresholds()).toEqual([]);
   });
 
   it('starts again when the query changes', () => {
