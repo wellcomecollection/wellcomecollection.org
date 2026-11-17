@@ -5,14 +5,9 @@
 <!-- A PR should have enough detail to be understandable far in the future. e.g., what is the problem/why is the change needed, how does it solve it and any questions or points of discussion. -->
 
 
-## How to test
-
-<!-- Provide instructions to help others verify the change. This could take the form of "On PROD, do X and witness Y. On this branch, do X and witness Z." -->
-
-
 ## How was this tested?
 
-<!-- What you ran and where, with links. For a routine change, passing CI and a sentence on what you checked locally or in stage is enough. -->
+<!-- What you ran and where, what you saw, and links, so a reviewer can repeat it. For a routine change, passing CI and a sentence on what you checked locally or in stage is enough. Anything that can only be checked in production goes under "How will we check it after deploy?". -->
 
 
 ## Have we considered potential risks?
