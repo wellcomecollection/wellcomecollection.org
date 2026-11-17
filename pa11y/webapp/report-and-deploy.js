@@ -84,6 +84,21 @@ const urls = [
 // still run concurrently.
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
+/**
+ * How long to let a page settle before pa11y runs axe on it.
+ *
+ * The item viewer starts at opacity 0 and fades in after a 1.5s delay, over
+ * 200ms, so the no-JS markup is never seen swapping to the enhanced one (the
+ * DelayVisibility component in the IIIF viewer). pa11y measures as soon as the
+ * network goes quiet, which can land inside that fade: axe then sees every
+ * label part-way between the background and its real colour and reports
+ * contrast failures that are gone a fraction of a second later.
+ *
+ * Waiting costs time, so only the page that needs it gets it. If
+ * DelayVisibility goes, this can go with it.
+ */
+const settleTime = url => (url.includes('/items') ? 2000 : 0);
+
 const runPa11y = async (browser, url) => {
   const page = await browser.newPage();
 
@@ -105,6 +120,7 @@ const runPa11y = async (browser, url) => {
       // drops them by default) so they can be checked by hand
       levelCapWhenNeedsReview: 'warning',
       includeWarnings: true,
+      wait: settleTime(url),
       timeout: 120000,
       ignore: [
         // Iframe element requires a non-empty title attribute that identifies the frame.
