@@ -574,7 +574,7 @@ test.describe('Desktop', () => {
       }
     });
 
-    test('each step is its own Back, and Forward goes through them again', async ({
+    test('each step is its own browser history entry, so Back and Forward go through the images one at a time', async ({
       page,
       context,
     }) => {
@@ -731,7 +731,7 @@ test.describe('Desktop', () => {
         await expectOpen(page, count);
       });
 
-      test('Back goes to the image stepped from, as Alt+ArrowLeft is Back', async ({
+      test("the browser's Back goes to the image stepped from, as Alt+ArrowLeft is Back", async ({
         page,
         context,
       }) => {
