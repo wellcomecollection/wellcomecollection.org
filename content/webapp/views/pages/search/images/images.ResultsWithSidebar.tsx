@@ -228,8 +228,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     }
   }, [expandedImage?.id, images, hasStepButtons]);
 
-  // Stops a second click going to another page while the first is loading,
-  // and drops a step that's still loading if something else is chosen
+  // Stops a second click going to another page of results while the first is
+  // loading, and drops a step that's still loading if something else is chosen
   const isChangingPage = useRef(false);
   const selection = useRef(0);
   useEffect(() => {

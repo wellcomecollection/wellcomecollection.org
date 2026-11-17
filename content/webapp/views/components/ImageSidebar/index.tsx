@@ -136,9 +136,9 @@ const useFocusCloseButtonOnSelect = (
       target()?.focus({ preventScroll: true });
     };
 
-    // A step to another page waits on a fetch, so by the time it lands focus
-    // may have been moved (e.g. into the search box). Only take it back if
-    // it's still where the step left it, or has been lost.
+    // A step to another page of results waits on a fetch, so by the time it
+    // lands focus may have been moved (e.g. into the search box). Only take it
+    // back if it's still where the step left it, or has been lost.
     const focusTargetIfUnmoved = () => {
       const active = document.activeElement;
       const isUnmoved =

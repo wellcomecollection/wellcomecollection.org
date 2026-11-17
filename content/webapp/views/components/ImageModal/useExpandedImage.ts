@@ -28,7 +28,7 @@ const scrollThumbnailIntoView = (imageId: string) =>
  * The image open in the modal or sidebar. The URL's hash is the only record of
  * which one it is, so the browser's Back and Forward, links with an image's id
  * in them, and every instance of this hook on a page agree. Setting it goes
- * through Next's router, which keeps the history right.
+ * through Next.js's router, which keeps the history right.
  */
 const useExpandedImage = (
   images: Image[]
@@ -125,7 +125,7 @@ const useExpandedImage = (
     navigation.then(() => {
       if (!image) return;
 
-      // Next scrolls to the element with the hash's id (the thumbnail) after
+      // Next.js scrolls to the element with the hash's id (the thumbnail) after
       // rendering, in a timeout, and the page should stay where it is. Moving
       // the thumbnail into view has to come after that, or it's undone.
       setTimeout(() => {

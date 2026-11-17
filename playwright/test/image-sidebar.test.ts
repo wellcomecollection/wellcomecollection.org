@@ -508,7 +508,7 @@ test.describe('Desktop', () => {
     const nextButton = (page: Page) =>
       sidebar(page).getByRole('button', { name: 'Next image' });
 
-    test('next and previous move through the results in order, moving the highlight with them', async ({
+    test('the Next and Previous buttons move through the results in order, moving the highlight with them', async ({
       page,
       context,
     }) => {
@@ -529,7 +529,7 @@ test.describe('Desktop', () => {
     });
 
     // A search with one page of results, so the last image is the last result
-    test('previous is disabled on the first result, and next on the last', async ({
+    test('Previous is disabled on the first result, and Next on the last', async ({
       page,
       context,
     }) => {
@@ -604,7 +604,7 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
     });
 
-    test('next and previous have the analytics attributes GTM reads', async ({
+    test('the Next and Previous buttons have the analytics attributes GTM reads', async ({
       page,
       context,
     }) => {
@@ -621,7 +621,7 @@ test.describe('Desktop', () => {
       );
     });
 
-    test('Shift+Tab from the close button goes through next, previous and the handle to the selected thumbnail', async ({
+    test('Shift+Tab from the close button goes through the Next and Previous buttons and the handle to the selected thumbnail', async ({
       page,
       context,
     }) => {
@@ -641,7 +641,7 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 1)).toBeFocused();
     });
 
-    test('next on the last image of a page opens the first image of the next page, and previous goes back', async ({
+    test('Next on the last image of a page of results opens the first image of the next page, and Previous goes back', async ({
       page,
       context,
     }) => {
@@ -714,7 +714,7 @@ test.describe('Desktop', () => {
           'true'
         );
 
-      test('ArrowRight and ArrowLeft step like next and previous, leaving focus where it was and announcing the image', async ({
+      test('ArrowRight and ArrowLeft step like the Next and Previous buttons, leaving focus where it was and announcing the image', async ({
         page,
         context,
       }) => {
@@ -742,7 +742,7 @@ test.describe('Desktop', () => {
         await expect(closeButton(page)).toBeFocused();
       });
 
-      test('ArrowRight on the last image of a page opens the first image of the next page, and ArrowLeft goes back', async ({
+      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft goes back', async ({
         page,
         context,
       }) => {
