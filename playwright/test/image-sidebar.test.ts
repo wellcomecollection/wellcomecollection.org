@@ -38,18 +38,27 @@ const thumbnail = (page: Page, nthChild: number) =>
     .getByRole('link')
     .nth(nthChild - 1);
 
-// Each thumbnail's title, from its alt text. Empty where the title has display
-// markup in it (<i>, <sup>), as the sidebar shows that formatted, so it
-// wouldn't match.
-const plainThumbnailTitles = (page: Page) =>
-  resultsGrid(page)
-    .getByRole('link')
-    .evaluateAll(links =>
-      links.map(link => {
-        const alt = link.querySelector('img')?.getAttribute('alt') ?? '';
-        return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
-      })
-    );
+// Each thumbnail's title, from its heading (masonry grid) or its alt text.
+// Empty where the title has display markup in it (<i>, <sup>), as the sidebar
+// shows that formatted, so it wouldn't match.
+const plainThumbnailTitles = async (page: Page) => {
+  const links = await resultsGrid(page).getByRole('link').all();
+  return Promise.all(
+    links.map(async link => {
+      const heading = link.getByRole('heading');
+      const text = (await heading.count())
+        ? await heading.evaluate(h =>
+            // The title's own wrapper, plus any markup inside it
+            h.querySelectorAll('*').length > 1 ? '' : (h.textContent ?? '')
+          )
+        : await link.getByRole('img').evaluate(img => {
+            const alt = img.getAttribute('alt') ?? '';
+            return alt.includes('<') ? '' : alt;
+          });
+      return text.replace(/\s+/g, ' ').trim();
+    })
+  );
+};
 
 // Something inside the element has focus
 const expectFocusInside = (element: Locator) =>

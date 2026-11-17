@@ -8,7 +8,10 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-import { usePhasedFlags } from '@weco/common/server-data/Context';
+import {
+  useFeatureFlags,
+  usePhasedFlags,
+} from '@weco/common/server-data/Context';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   containerEdge,
@@ -46,15 +49,27 @@ const PaginationArea = styled.div`
 const Results = styled.div<{
   $hasSidebar: boolean;
   $isCovered: boolean;
+  $isFullWidth: boolean;
+  /** The space next to the open sidebar matches the sidebar's own padding. */
+  $hasSidebarMatchedGap: boolean;
 }>`
   flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
 
-  /* Lines the results up with the page's Container, which the sidebar isn't in because it runs to the right edge */
-  padding-left: ${props => containerEdge(props.theme.sizes.lg)};
-  padding-right: ${props => containerEdge(props.theme.sizes.lg)};
+  /* Lines the results up with the page's Container, which the sidebar isn't in
+  because it runs to the right edge. Full width, they go out to its padding. */
+  ${props => {
+    const padding = props.$isFullWidth
+      ? containerPadding
+      : containerEdge(props.theme.sizes.lg);
+
+    return css`
+      padding-left: ${padding};
+      padding-right: ${padding};
+    `;
+  }}
 
   ${props =>
     props.$hasSidebar &&
@@ -62,8 +77,15 @@ const Results = styled.div<{
       align-self: stretch;
 
       ${props.theme.media('sm')(`
-        padding-right: ${containerPadding};
+        padding-right: ${props.$hasSidebarMatchedGap ? props.theme.getSpaceValue('md', 'sm') : containerPadding};
       `)}
+
+      ${
+        props.$hasSidebarMatchedGap &&
+        props.theme.media('md')(`
+        padding-right: ${props.theme.getSpaceValue('md', 'md')};
+      `)
+      }
     `}
 
   /* Hidden rather than removed under the full screen sidebar, so they keep their place but leave the tab order */
@@ -126,6 +148,11 @@ const useReturnFocusOnClose = (
   }, [isActive]);
 };
 
+// Searches with at least this many results (so more than 8) spread into the
+// page's margins. Based on the whole search, not the page, so every page of it
+// is the same width.
+const FULL_WIDTH_MIN_RESULTS = 9;
+
 // How close to either end of a page of results the next or previous page is
 // fetched, so stepping onto it doesn't have to wait
 const FETCH_NEIGHBOURING_PAGE_WITHIN = 3;
@@ -146,6 +173,9 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
   const hasStepButtons = showImageSidebarPhase3 && !isFullScreen;
+  const { masonryImages: showMasonryImages = false } = useFeatureFlags();
+  const isFullWidth =
+    showMasonryImages && resultsList.totalResults >= FULL_WIDTH_MIN_RESULTS;
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -271,16 +301,27 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
         ref={resultsRef}
         $hasSidebar={sidebarStatus !== 'closed'}
         $isCovered={isActive && sidebarStatus === 'open'}
+        $isFullWidth={isFullWidth}
+        $hasSidebarMatchedGap={showMasonryImages}
       >
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
           <main>
-            <CatalogueImageGallery
-              images={images}
-              variant="justified"
-              imageDetails="sidebar"
-              onImageSelect={selectImage}
-              selectedImageId={expandedImage?.id}
-            />
+            {showMasonryImages ? (
+              <CatalogueImageGallery
+                images={images}
+                variant="masonry"
+                onImageSelect={selectImage}
+                selectedImageId={expandedImage?.id}
+              />
+            ) : (
+              <CatalogueImageGallery
+                images={images}
+                variant="justified"
+                imageDetails="sidebar"
+                onImageSelect={selectImage}
+                selectedImageId={expandedImage?.id}
+              />
+            )}
           </main>
         </Space>
         <PaginationArea>{children}</PaginationArea>

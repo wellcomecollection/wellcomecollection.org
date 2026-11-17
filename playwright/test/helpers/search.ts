@@ -84,7 +84,8 @@ export const clickImageSearchResultItem = async (
 ): Promise<void> => {
   await page
     .getByTestId('image-search-results-container')
-    .locator(`ul:first-child > li:nth-child(${nthChild}) a`)
+    .getByRole('link')
+    .nth(nthChild - 1)
     .click();
   await slowExpect(page.getByLabel('View expanded image')).toBeVisible();
 };
