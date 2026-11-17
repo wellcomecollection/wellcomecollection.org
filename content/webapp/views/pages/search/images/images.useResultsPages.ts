@@ -8,9 +8,9 @@ import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Imag
 /**
  * Fetches other pages of the current image search in the browser, with the
  * same parameters the server uses, so the sidebar can step from the last image
- * on one page of results to the first on the next (or back) without waiting.
- * Each page is fetched once per search. A page that couldn't be fetched is
- * reported, so stepping to it can be disabled.
+ * on one page of results to the first on the next page of results (or back to
+ * the previous page of results) without waiting. Each page is fetched once per
+ * search. A page that couldn't be fetched is reported, so stepping to it can be disabled.
  */
 const useResultsPages = (imagesRouteProps: ImagesProps, pageSize: number) => {
   const { stagingApi } = useFeatureFlags();
