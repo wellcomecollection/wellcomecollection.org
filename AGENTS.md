@@ -183,7 +183,7 @@ PR descriptions are for humans first - write them the way you'd explain the chan
 - Terse: cut padding, hedging, and anything already obvious from the diff. Don't restate context.
 - Plain words over jargon or vivid-metaphor shorthand ("soak", "load-bearing", etc.) - if a normal phrase says it, use that.
 - One line per paragraph or bullet - don't hard-wrap markdown at a column width.
-- In "How was this tested?", keep specific example URLs/work IDs rather than generic placeholders, and link them inline on the descriptive phrase, e.g. `[View a work with an archive collection](https://www-dev.wellcomecollection.org/works/aegabdcp#contents)`. Use `www-dev.wellcomecollection.org`, not prod.
+- In "How was this tested?", keep specific example URLs/work IDs rather than generic placeholders, and link them inline on the descriptive phrase, e.g. `[View a work with an archive collection](https://www-dev.wellcomecollection.org/works/aegabdcp#contents)`. Use `www-dev.wellcomecollection.org` for local examples; for checks against deployed environments, retain the URLs of the environment actually tested.
 - In "Have we considered potential risks?", state the actual risk and stop - don't conclude "no alarms needed" or similar. Whether alarms/monitoring are needed is a call for the human reviewer, not something to assert.
 - A `> [!NOTE]` callout is a good place for a genuine open caveat you want a reviewer to weigh in on (e.g. "styling isn't final, pending a discussion") - skip it if there isn't one.
 
