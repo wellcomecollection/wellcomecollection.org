@@ -509,6 +509,25 @@ describe('ImageSidebar', () => {
         expect(onNext).toHaveBeenCalledTimes(1);
       });
 
+      it('click the previous and next buttons, so GTM records the same clicks, but not at either end', async () => {
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: jest.fn(),
+        });
+        const clickedTriggers: (string | null)[] = [];
+        const recordClick = (event: MouseEvent) =>
+          clickedTriggers.push(
+            (event.target as HTMLElement).getAttribute('data-gtm-trigger')
+          );
+        document.addEventListener('click', recordClick);
+        await blur();
+
+        await userEvent.keyboard('{ArrowRight}');
+        await userEvent.keyboard('{ArrowLeft}');
+
+        document.removeEventListener('click', recordClick);
+        expect(clickedTriggers).toEqual(['image_sidebar_next']);
+      });
+
       it('step from the results area as well as the sidebar', async () => {
         const onNext = jest.fn();
         const area = document.createElement('div');

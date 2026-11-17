@@ -251,10 +251,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  // The document listener below is added once per open, so reads the latest
-  // `step` from here rather than being added again on every render
-  const latestStep = useRef(step);
-  latestStep.current = step;
+  // The arrow keys step by clicking the buttons, so GTM records the same
+  // clicks either way. This is what had focus when the key was pressed.
+  const arrowKeyFocus = useRef<HTMLElement | null>(null);
 
   const stepButton = ({
     direction,
@@ -274,7 +273,11 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {...dataGtmPropsToAttributes({ trigger: gtmTrigger })}
       aria-label={label}
       aria-disabled={!(direction === 'previous' ? onPrevious : onNext)}
-      onClick={event => step(direction, event.currentTarget)}
+      onClick={event => {
+        const focused = arrowKeyFocus.current ?? event.currentTarget;
+        arrowKeyFocus.current = null;
+        step(direction, focused);
+      }}
     >
       {icon}
       {shortLabel}
@@ -308,10 +311,16 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
       // Swallowed at either end too, so the page doesn't scroll instead
       event.preventDefault();
-      latestStep.current(
-        event.key === 'ArrowLeft' ? 'previous' : 'next',
-        target as HTMLElement
-      );
+
+      // Not clicked at either end, as no image is stepped to
+      const button =
+        event.key === 'ArrowLeft'
+          ? previousButtonRef.current
+          : nextButtonRef.current;
+      if (!button || button.getAttribute('aria-disabled') === 'true') return;
+
+      arrowKeyFocus.current = target as HTMLElement;
+      button.click();
     };
     document.addEventListener('keydown', stepOnArrowKey);
     return () => document.removeEventListener('keydown', stepOnArrowKey);
