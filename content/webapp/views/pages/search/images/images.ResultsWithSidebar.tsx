@@ -195,6 +195,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     ? images.findIndex(({ id }) => id === expandedImage.id)
     : -1;
   const isInResults = expandedIndex !== -1;
+
   // Each step is its own browser history entry, so Back goes back through the
   // images stepped through, as it does for ones picked from the grid
   const stepOptions = {

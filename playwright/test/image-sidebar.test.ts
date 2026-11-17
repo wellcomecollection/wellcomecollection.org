@@ -676,6 +676,35 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, count)).toBeInViewport();
     });
 
+    test('Back after crossing a page of results returns to the last image of the page before', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      const currentPage = page.getByTestId('current-page').first();
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+
+      await nextButton(page).click();
+      await expect(currentPage).toHaveText('2');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+
+      // Crossing a page of results is a full navigation rather than a change
+      // of hash, so Back and Forward reload the results either side
+      await page.goBack();
+      await expect(currentPage).toHaveText('1');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, count)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+
+      await page.goForward();
+      await expect(currentPage).toHaveText('2');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+    });
+
     // The rest of what the keys do is shared with the buttons, or covered in
     // ImageSidebar.test.tsx
     test.describe('with the arrow keys', () => {
