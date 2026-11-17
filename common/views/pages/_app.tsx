@@ -132,8 +132,6 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   };
 
   useEffect(() => {
-    document.documentElement.classList.add('enhanced');
-
     window.addEventListener('consentChanged', onConsentChanged);
 
     return () => {
