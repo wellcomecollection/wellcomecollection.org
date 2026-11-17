@@ -1,5 +1,6 @@
-import { act, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { RefObject } from 'react';
 
 import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
@@ -58,7 +59,12 @@ const renderSidebar = async (
   {
     onPrevious,
     onNext,
-  }: { onPrevious?: StepHandler; onNext?: StepHandler } = {}
+    arrowKeysAreaRef,
+  }: {
+    onPrevious?: StepHandler;
+    onNext?: StepHandler;
+    arrowKeysAreaRef?: RefObject<HTMLElement | null>;
+  } = {}
 ) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
   const sidebar = (expandedImage?: Image) => (
@@ -69,6 +75,7 @@ const renderSidebar = async (
       onStatusChange={onStatusChange}
       onPrevious={onPrevious}
       onNext={onNext}
+      arrowKeysAreaRef={arrowKeysAreaRef}
     />
   );
   const view = renderWithTheme(sidebar(image));
@@ -463,6 +470,256 @@ describe('ImageSidebar', () => {
       } as unknown as Image);
 
       expect(liveRegion).toHaveTextContent('A title with markup');
+    });
+
+    describe('with the arrow keys', () => {
+      // Elements added to the page around the sidebar, removed after each test
+      const added: HTMLElement[] = [];
+      const addToPage = (element: HTMLElement) => {
+        document.body.append(element);
+        added.push(element);
+      };
+      afterEach(() => {
+        added.splice(0).forEach(element => element.remove());
+        jest.useRealTimers();
+      });
+      // Opening moves focus to the close button on a timer, so that's let
+      // happen before focus is put anywhere else
+      const afterOpening = () =>
+        act(() => new Promise(resolve => setTimeout(resolve)));
+      // Focus is on nothing in particular, e.g. after clicking a thumbnail
+      const blur = async () => {
+        await afterOpening();
+        act(() => (document.activeElement as HTMLElement | null)?.blur());
+      };
+
+      it('ArrowLeft and ArrowRight step to the previous and next images', async () => {
+        const onPrevious = jest.fn();
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onPrevious,
+          onNext,
+        });
+        await blur();
+
+        await userEvent.keyboard('{ArrowLeft}');
+        await userEvent.keyboard('{ArrowRight}');
+
+        expect(onPrevious).toHaveBeenCalledTimes(1);
+        expect(onNext).toHaveBeenCalledTimes(1);
+      });
+
+      it('click the previous and next buttons, so GTM records the same clicks, but not at either end', async () => {
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: jest.fn(),
+        });
+        const clickedTriggers: (string | null)[] = [];
+        const recordClick = (event: MouseEvent) =>
+          clickedTriggers.push(
+            (event.target as HTMLElement).getAttribute('data-gtm-trigger')
+          );
+        document.addEventListener('click', recordClick);
+        await blur();
+
+        await userEvent.keyboard('{ArrowRight}');
+        await userEvent.keyboard('{ArrowLeft}');
+
+        document.removeEventListener('click', recordClick);
+        expect(clickedTriggers).toEqual(['image_sidebar_next']);
+      });
+
+      it('step from the results area as well as the sidebar', async () => {
+        const onNext = jest.fn();
+        const area = document.createElement('div');
+        const thumbnail = document.createElement('a');
+        thumbnail.href = '#imageA';
+        area.append(thumbnail);
+        addToPage(area);
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext,
+          arrowKeysAreaRef: { current: area },
+        });
+        await afterOpening();
+        act(() => thumbnail.focus());
+
+        await userEvent.keyboard('{ArrowRight}');
+
+        expect(onNext).toHaveBeenCalledTimes(1);
+      });
+
+      it('do nothing with a modifier held, as Alt+ArrowLeft is Back', async () => {
+        const onPrevious = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onPrevious,
+        });
+        await blur();
+
+        await userEvent.keyboard('{Alt>}{ArrowLeft}{/Alt}');
+        await userEvent.keyboard('{Meta>}{ArrowLeft}{/Meta}');
+        await userEvent.keyboard('{Control>}{ArrowLeft}{/Control}');
+        await userEvent.keyboard('{Shift>}{ArrowLeft}{/Shift}');
+
+        expect(onPrevious).not.toHaveBeenCalled();
+      });
+
+      it('step once for a held key, not on every repeat', async () => {
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), { onNext });
+        await blur();
+
+        // user-event doesn't mark held keys as repeats, so this is by hand
+        fireEvent.keyDown(document.body, { key: 'ArrowRight' });
+        fireEvent.keyDown(document.body, { key: 'ArrowRight', repeat: true });
+        fireEvent.keyDown(document.body, { key: 'ArrowRight', repeat: true });
+
+        expect(onNext).toHaveBeenCalledTimes(1);
+      });
+
+      it('move the cursor in a text field rather than stepping', async () => {
+        const onNext = jest.fn();
+        const area = document.createElement('div');
+        const input = document.createElement('input');
+        area.append(input);
+        addToPage(area);
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext,
+          arrowKeysAreaRef: { current: area },
+        });
+        await afterOpening();
+        act(() => input.focus());
+
+        await userEvent.keyboard('{ArrowRight}');
+
+        expect(onNext).not.toHaveBeenCalled();
+      });
+
+      it('resize the sidebar rather than stepping while the handle has focus', async () => {
+        const onPrevious = jest.fn();
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onPrevious,
+          onNext,
+        });
+        const handle = screen.getByRole('separator', {
+          name: 'Resize image details',
+        });
+        await afterOpening();
+        act(() => handle.focus());
+
+        await userEvent.keyboard('{ArrowLeft}');
+
+        expect(handle).toHaveAttribute('aria-valuenow', '7');
+        expect(onPrevious).not.toHaveBeenCalled();
+        expect(onNext).not.toHaveBeenCalled();
+      });
+
+      it('do nothing before Phase 3', async () => {
+        mockImageSidebarPhase('phase2');
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), { onNext });
+        await blur();
+
+        await userEvent.keyboard('{ArrowRight}');
+
+        expect(onNext).not.toHaveBeenCalled();
+      });
+
+      // Focus is moved after a timer, so these run the timers themselves
+      const renderWithTimers = async (
+        options: Parameters<typeof renderSidebar>[3]
+      ) => {
+        jest.useFakeTimers();
+        const user = userEvent.setup({
+          advanceTimers: jest.advanceTimersByTime,
+        });
+        const runTimers = () =>
+          act(async () => {
+            jest.runAllTimers();
+          });
+        const view = await renderSidebar(
+          expandedImage,
+          jest.fn(),
+          jest.fn(),
+          options
+        );
+        await runTimers();
+        return { ...view, user, runTimers };
+      };
+      const anotherWork = {
+        ...expandedImage,
+        id: 'imageB',
+        source: { id: 'workB' },
+      } as unknown as Image;
+
+      it('leave focus where it was, rather than moving it to the close button', async () => {
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => beforeStep(),
+        });
+        act(() => previousButton().focus());
+
+        await user.keyboard('{ArrowRight}');
+        await select({ ...expandedImage, id: 'imageB' });
+        await runTimers();
+
+        expect(previousButton()).toHaveFocus();
+      });
+
+      it('move focus to the button for that direction if what had it is gone, e.g. the details while another work loads', async () => {
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => beforeStep(),
+        });
+        const viewImageLink = screen.getByRole('link', {
+          name: 'View expanded image',
+        });
+        act(() => viewImageLink.focus());
+
+        await user.keyboard('{ArrowRight}');
+        await select(anotherWork);
+        await runTimers();
+
+        expect(viewImageLink).not.toBeInTheDocument();
+        expect(nextButton()).toHaveFocus();
+      });
+
+      it('leave focus alone if it was moved before the step landed, e.g. while the next page loaded', async () => {
+        let finishStep = () => {};
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => {
+            finishStep = beforeStep;
+          },
+        });
+        const searchBox = document.createElement('input');
+        addToPage(searchBox);
+        act(() => nextButton().focus());
+
+        await user.keyboard('{ArrowRight}');
+        act(() => searchBox.focus());
+        finishStep();
+        await select(anotherWork);
+        await runTimers();
+
+        expect(searchBox).toHaveFocus();
+      });
+
+      it('announce the title of the image stepped to', async () => {
+        const { select } = await renderSidebar(
+          expandedImage,
+          jest.fn(),
+          jest.fn(),
+          { onNext: beforeStep => beforeStep() }
+        );
+        const liveRegion = document.querySelector('[aria-live="polite"]');
+        await blur();
+
+        await userEvent.keyboard('{ArrowRight}');
+        await select({
+          ...expandedImage,
+          id: 'imageC',
+          source: { id: 'workC' },
+        } as unknown as Image);
+
+        expect(liveRegion).toHaveTextContent('A title with markup');
+      });
     });
   });
 
