@@ -136,6 +136,16 @@ const useFocusCloseButtonOnSelect = (
       target()?.focus({ preventScroll: true });
     };
 
+    // A step to another page waits on a fetch, so by the time it lands focus
+    // may have been moved (e.g. into the search box). Only take it back if
+    // it's still where the step left it, or has been lost.
+    const focusTargetIfUnmoved = () => {
+      const active = document.activeElement;
+      const isUnmoved =
+        !step || !active || active === document.body || active === step.focused;
+      if (isUnmoved) focusTarget();
+    };
+
     // Setting the image id as the URL hash can make the browser focus the
     // thumbnail with that id a moment later, after the timeout below has moved
     // focus. So if the thumbnail is focused shortly after, move focus back into
@@ -152,7 +162,7 @@ const useFocusCloseButtonOnSelect = (
     document.addEventListener('focusin', onFocusIn);
 
     const timeouts = [
-      setTimeout(focusTarget),
+      setTimeout(focusTargetIfUnmoved),
       setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
     ];
 
@@ -241,10 +251,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  // The document listener below is added once per open, so reads the latest
-  // `step` from here rather than being added again on every render
-  const latestStep = useRef(step);
-  latestStep.current = step;
+  // The arrow keys step by clicking the buttons, so GTM records the same
+  // clicks either way. This is what had focus when the key was pressed.
+  const arrowKeyFocus = useRef<HTMLElement | null>(null);
 
   const stepButton = ({
     direction,
@@ -264,20 +273,19 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {...dataGtmPropsToAttributes({ trigger: gtmTrigger })}
       aria-label={label}
       aria-disabled={!(direction === 'previous' ? onPrevious : onNext)}
-      onClick={event => step(direction, event.currentTarget)}
+      onClick={event => {
+        const focused = arrowKeyFocus.current ?? event.currentTarget;
+        arrowKeyFocus.current = null;
+        step(direction, focused);
+      }}
     >
       {icon}
       {shortLabel}
     </StepButton>
   );
 
-  /**
-   * ArrowLeft and ArrowRight do what the previous and next buttons do, while
-   * focus is in the sidebar, the results or nowhere in particular. Keys
-   * already handled (e.g. by the resize handle), held down, or used by a
-   * text field are left alone, and so are modifiers, as Alt+ArrowLeft is
-   * the browser's Back.
-   */
+  // Modifiers are left alone, as Alt+ArrowLeft is the browser's Back; the
+  // resize handle's onKeyDown runs first and preventDefaults, stopping a step
   useEffect(() => {
     if (!isOpen || !hasHeaderStepButtons) return;
 
@@ -303,10 +311,16 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
       // Swallowed at either end too, so the page doesn't scroll instead
       event.preventDefault();
-      latestStep.current(
-        event.key === 'ArrowLeft' ? 'previous' : 'next',
-        target as HTMLElement
-      );
+
+      // Not clicked at either end, as no image is stepped to
+      const button =
+        event.key === 'ArrowLeft'
+          ? previousButtonRef.current
+          : nextButtonRef.current;
+      if (!button || button.getAttribute('aria-disabled') === 'true') return;
+
+      arrowKeyFocus.current = target as HTMLElement;
+      button.click();
     };
     document.addEventListener('keydown', stepOnArrowKey);
     return () => document.removeEventListener('keydown', stepOnArrowKey);

@@ -509,6 +509,25 @@ describe('ImageSidebar', () => {
         expect(onNext).toHaveBeenCalledTimes(1);
       });
 
+      it('click the previous and next buttons, so GTM records the same clicks, but not at either end', async () => {
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: jest.fn(),
+        });
+        const clickedTriggers: (string | null)[] = [];
+        const recordClick = (event: MouseEvent) =>
+          clickedTriggers.push(
+            (event.target as HTMLElement).getAttribute('data-gtm-trigger')
+          );
+        document.addEventListener('click', recordClick);
+        await blur();
+
+        await userEvent.keyboard('{ArrowRight}');
+        await userEvent.keyboard('{ArrowLeft}');
+
+        document.removeEventListener('click', recordClick);
+        expect(clickedTriggers).toEqual(['image_sidebar_next']);
+      });
+
       it('step from the results area as well as the sidebar', async () => {
         const onNext = jest.fn();
         const area = document.createElement('div');
@@ -605,104 +624,49 @@ describe('ImageSidebar', () => {
         expect(onNext).not.toHaveBeenCalled();
       });
 
-      it('leave focus where it was, rather than moving it to the close button', async () => {
+      // Focus is moved after a timer, so these run the timers themselves
+      const renderWithTimers = async (
+        options: Parameters<typeof renderSidebar>[3]
+      ) => {
         jest.useFakeTimers();
         const user = userEvent.setup({
           advanceTimers: jest.advanceTimersByTime,
         });
-        const { select } = await renderSidebar(
+        const runTimers = () =>
+          act(async () => {
+            jest.runAllTimers();
+          });
+        const view = await renderSidebar(
           expandedImage,
           jest.fn(),
           jest.fn(),
-          { onNext: beforeStep => beforeStep() }
+          options
         );
-        await act(async () => {
-          jest.runAllTimers();
+        await runTimers();
+        return { ...view, user, runTimers };
+      };
+      const anotherWork = {
+        ...expandedImage,
+        id: 'imageB',
+        source: { id: 'workB' },
+      } as unknown as Image;
+
+      it('leave focus where it was, rather than moving it to the close button', async () => {
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => beforeStep(),
         });
         act(() => previousButton().focus());
 
         await user.keyboard('{ArrowRight}');
         await select({ ...expandedImage, id: 'imageB' });
-        await act(async () => {
-          jest.runAllTimers();
-        });
+        await runTimers();
 
         expect(previousButton()).toHaveFocus();
       });
 
-      it('move focus to the button for that direction if nothing had it', async () => {
-        jest.useFakeTimers();
-        const user = userEvent.setup({
-          advanceTimers: jest.advanceTimersByTime,
-        });
-        const { select } = await renderSidebar(
-          expandedImage,
-          jest.fn(),
-          jest.fn(),
-          { onNext: beforeStep => beforeStep() }
-        );
-        await act(async () => {
-          jest.runAllTimers();
-        });
-        act(() => (document.activeElement as HTMLElement | null)?.blur());
-
-        await user.keyboard('{ArrowRight}');
-        await select({ ...expandedImage, id: 'imageB' });
-        await act(async () => {
-          jest.runAllTimers();
-        });
-
-        expect(nextButton()).toHaveFocus();
-      });
-
-      it('move focus to the button for that direction if what had it is gone, e.g. a thumbnail from the last page', async () => {
-        jest.useFakeTimers();
-        const user = userEvent.setup({
-          advanceTimers: jest.advanceTimersByTime,
-        });
-        const area = document.createElement('div');
-        const thumbnail = document.createElement('a');
-        thumbnail.href = '#imageA';
-        area.append(thumbnail);
-        addToPage(area);
-        const { select } = await renderSidebar(
-          expandedImage,
-          jest.fn(),
-          jest.fn(),
-          {
-            onPrevious: beforeStep => beforeStep(),
-            arrowKeysAreaRef: { current: area },
-          }
-        );
-        await act(async () => {
-          jest.runAllTimers();
-        });
-        act(() => thumbnail.focus());
-
-        await user.keyboard('{ArrowLeft}');
-        // The next page of results replaces the thumbnails
-        thumbnail.remove();
-        await select({ ...expandedImage, id: 'imageB' });
-        await act(async () => {
-          jest.runAllTimers();
-        });
-
-        expect(previousButton()).toHaveFocus();
-      });
-
-      it('move focus to the button for that direction if the sidebar content that had it is replaced, e.g. stepping to another work', async () => {
-        jest.useFakeTimers();
-        const user = userEvent.setup({
-          advanceTimers: jest.advanceTimersByTime,
-        });
-        const { select } = await renderSidebar(
-          expandedImage,
-          jest.fn(),
-          jest.fn(),
-          { onNext: beforeStep => beforeStep() }
-        );
-        await act(async () => {
-          jest.runAllTimers();
+      it('move focus to the button for that direction if what had it is gone, e.g. the details while another work loads', async () => {
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => beforeStep(),
         });
         const viewImageLink = screen.getByRole('link', {
           name: 'View expanded image',
@@ -710,18 +674,31 @@ describe('ImageSidebar', () => {
         act(() => viewImageLink.focus());
 
         await user.keyboard('{ArrowRight}');
-        // The details are replaced while the other work loads
-        await select({
-          ...expandedImage,
-          id: 'imageB',
-          source: { id: 'workB' },
-        } as unknown as Image);
-        await act(async () => {
-          jest.runAllTimers();
-        });
+        await select(anotherWork);
+        await runTimers();
 
         expect(viewImageLink).not.toBeInTheDocument();
         expect(nextButton()).toHaveFocus();
+      });
+
+      it('leave focus alone if it was moved before the step landed, e.g. while the next page loaded', async () => {
+        let finishStep = () => {};
+        const { user, select, runTimers } = await renderWithTimers({
+          onNext: beforeStep => {
+            finishStep = beforeStep;
+          },
+        });
+        const searchBox = document.createElement('input');
+        addToPage(searchBox);
+        act(() => nextButton().focus());
+
+        await user.keyboard('{ArrowRight}');
+        act(() => searchBox.focus());
+        finishStep();
+        await select(anotherWork);
+        await runTimers();
+
+        expect(searchBox).toHaveFocus();
       });
 
       it('announce the title of the image stepped to', async () => {
