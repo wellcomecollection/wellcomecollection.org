@@ -9,7 +9,7 @@ import { baseUrl } from './helpers/utils';
 //
 // These run with the imageSidebarPhases toggle at Phase 1, apart from the
 // resizing ones, which are Phase 2, and moving to the next and previous image
-// (#13536), which are Phase 3. A test marked
+// (#13536, and with the arrow keys #13874), which are Phase 3. A test marked
 // `fixme` covers a criterion a later PR delivers; take the `fixme` off in
 // that PR.
 test.describe.configure({ mode: 'parallel' });
@@ -659,6 +659,62 @@ test.describe('Desktop', () => {
       await expect(page).not.toHaveURL(/page=1/);
       await expect(previousButton(page)).toBeInViewport();
       await expect(thumbnail(page, count)).toBeInViewport();
+    });
+
+    // The rest of what the keys do is shared with the buttons, or covered in
+    // ImageSidebar.test.tsx
+    test.describe('with the arrow keys', () => {
+      const expectOpen = (page: Page, nthChild: number) =>
+        expect(thumbnail(page, nthChild)).toHaveAttribute(
+          'aria-current',
+          'true'
+        );
+
+      test('ArrowRight and ArrowLeft step like next and previous, leaving focus where it was and announcing the image', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+        await expect(closeButton(page)).toBeFocused();
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+        await expect(page).toHaveURL(
+          new RegExp(`#${await thumbnail(page, 2).getAttribute('id')}$`)
+        );
+        await expect(closeButton(page)).toBeFocused();
+
+        // Announced once the image's details have loaded, as its title
+        const liveRegion = sidebar(page).locator('[aria-live="polite"]');
+        await expect(liveRegion).not.toBeEmpty();
+        const title = await sidebar(page)
+          .getByRole('heading', { level: 2 })
+          .textContent();
+        await expect(liveRegion).toHaveText(title!.trim());
+
+        await page.keyboard.press('ArrowLeft');
+        await expectOpen(page, 1);
+        await expect(closeButton(page)).toBeFocused();
+      });
+
+      test('ArrowRight on the last image of a page opens the first image of the next page, and ArrowLeft goes back', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        const currentPage = page.getByTestId('current-page').first();
+        const count = await resultsGrid(page).getByRole('link').count();
+        await openSidebar(count, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expect(currentPage).toHaveText('2');
+        await expectOpen(page, 1);
+
+        await page.keyboard.press('ArrowLeft');
+        await expect(currentPage).toHaveText('1');
+        await expectOpen(page, count);
+      });
     });
   });
 
