@@ -7,7 +7,6 @@ import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type SetExpandedImageOptions = {
-  replace?: boolean;
   // Rather than keeping the page where it is
   scrollToThumbnail?: boolean;
   // Image search only: assumes the param is `page` and that page 1 is left
@@ -29,7 +28,7 @@ const scrollThumbnailIntoView = (imageId: string) =>
  * The image open in the modal or sidebar. The URL's hash is the only record of
  * which one it is, so the browser's Back and Forward, links with an image's id
  * in them, and every instance of this hook on a page agree. Setting it goes
- * through Next's router, which keeps the history right.
+ * through Next.js's router, which keeps the history right.
  */
 const useExpandedImage = (
   images: Image[]
@@ -86,7 +85,7 @@ const useExpandedImage = (
 
   const setExpandedImage: SetExpandedImage = (
     image,
-    { replace = false, scrollToThumbnail = false, page } = {}
+    { scrollToThumbnail = false, page } = {}
   ) => {
     const { router, imageId } = latest.current;
 
@@ -99,7 +98,7 @@ const useExpandedImage = (
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
-    const navigate = (replace ? router.replace : router.push).bind(router);
+    const navigate = router.push.bind(router);
 
     // Another page of results needs its server-side props, so isn't shallow.
     // The URL is built the way the pagination's links build it, but without
@@ -126,7 +125,7 @@ const useExpandedImage = (
     navigation.then(() => {
       if (!image) return;
 
-      // Next scrolls to the element with the hash's id (the thumbnail) after
+      // Next.js scrolls to the element with the hash's id (the thumbnail) after
       // rendering, in a timeout, and the page should stay where it is. Moving
       // the thumbnail into view has to come after that, or it's undone.
       setTimeout(() => {
