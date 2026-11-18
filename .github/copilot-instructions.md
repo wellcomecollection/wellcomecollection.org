@@ -4,6 +4,10 @@ These guidelines are read by all Copilot surfaces (IDE agent, PR reviewer, cloud
 
 Use British English spelling throughout everything that is not code (e.g. CSS values are in American English).
 
+## Writing
+
+Where the surrounding context doesn't already make it clear, say which `Next`, `Back` or `page` is meant, in prose, comments and test names. Image search has a Next/Previous button in the sidebar, Next/Previous page links in the pagination, and Next.js, all at once; `Back` is either the browser's or a control in the UI; a `page` is either a page of results or the browser page. Write "the sidebar's Next button", "the browser's Back", "a page of results".
+
 ## Workspace Structure
 
 This is a monorepo with multiple Next.js apps managed by Yarn workspaces:
@@ -25,7 +29,6 @@ Follow these patterns consistently:
 - Service/utility folders: use `index.ts` as the main export point
 - Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
 - Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
-- Ambiguous words in prose, comments and test names: where the surrounding context doesn't already make it clear, say which `Next`, `Back` or `page` is meant. Image search has a Next/Previous button in the sidebar, Next/Previous page links in the pagination, and Next.js, all at once; `Back` is the browser's or a control in the UI; a `page` is one of results or the browser page. Write "the sidebar's Next button", "the browser's Back", "a page of results"
 
 ## Accessibility
 

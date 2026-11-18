@@ -641,7 +641,7 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 1)).toBeFocused();
     });
 
-    test("the sidebar's Next button on the last image of a page of results opens the first image of the next page, and Previous goes back", async ({
+    test("the sidebar's Next button on the last image of a page of results opens the first image of the next page, and Previous returns to the last image of the page before", async ({
       page,
       context,
     }) => {
@@ -742,7 +742,7 @@ test.describe('Desktop', () => {
         await expect(closeButton(page)).toBeFocused();
       });
 
-      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft returns to the last image', async ({
+      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft returns to the last image of the page before', async ({
         page,
         context,
       }) => {
