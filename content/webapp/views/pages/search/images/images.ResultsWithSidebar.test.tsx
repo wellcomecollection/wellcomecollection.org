@@ -44,15 +44,25 @@ jest.mock('@weco/content/views/components/ImageSidebar', () => ({
   __esModule: true,
   useIsSidebarFullScreen: () => false,
   default: ({
+    images,
+    expandedImage,
+    setExpandedImage,
     onPrevious,
     onNext,
   }: {
+    images: Image[];
+    expandedImage?: Image;
+    setExpandedImage: (image: Image) => void;
     onPrevious?: (beforeStep: () => void) => void;
     onNext?: (beforeStep: () => void) => void;
   }) => (
     <>
+      <p data-testid="open-image">{expandedImage?.id}</p>
       <button onClick={() => onPrevious?.(() => {})}>Previous image</button>
       <button onClick={() => onNext?.(() => {})}>Next image</button>
+      <button onClick={() => setExpandedImage(images[0])}>
+        Choose the first image
+      </button>
     </>
   ),
 }));
@@ -79,14 +89,16 @@ const render = async ({
   page = 1,
   totalPages = 2,
   initialImage,
+  fetchPage = (toPage: number) => Promise.resolve(resultsOn(toPage)),
 }: {
   page?: number;
   totalPages?: number;
   initialImage: (images: Image[]) => Image | undefined;
+  fetchPage?: (toPage: number) => Promise<Image[]>;
 }) => {
   mockInitialImage = initialImage;
   (useResultsPages as jest.Mock).mockReturnValue({
-    fetchPage: (toPage: number) => Promise.resolve(resultsOn(toPage)),
+    fetchPage,
     hasFailed: () => false,
   });
   const resultsList = {
@@ -203,5 +215,22 @@ describe('ImagesResultsWithSidebar', () => {
     await click('Next image');
 
     expect(stepEvents()).toEqual([]);
+  });
+
+  it('records nothing for a step dropped while its page of results loads', async () => {
+    // One promise, as useResultsPages shares a fetch between calls for a page
+    let loadPage: (results: Image[]) => void = () => {};
+    const pageLoading = new Promise<Image[]>(resolve => (loadPage = resolve));
+    await render({
+      initialImage: images => images[2],
+      fetchPage: () => pageLoading,
+    });
+
+    await click('Next image');
+    await click('Choose the first image');
+    await act(async () => loadPage(resultsOn(2)));
+
+    expect(stepEvents()).toEqual([]);
+    expect(screen.getByTestId('open-image')).toHaveTextContent('image-1-1');
   });
 });
