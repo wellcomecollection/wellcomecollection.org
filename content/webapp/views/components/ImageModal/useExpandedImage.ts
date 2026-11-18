@@ -7,7 +7,6 @@ import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 
 type SetExpandedImageOptions = {
-  replace?: boolean;
   // Rather than keeping the page where it is
   scrollToThumbnail?: boolean;
   // Image search only: assumes the param is `page` and that page 1 is left
@@ -86,7 +85,7 @@ const useExpandedImage = (
 
   const setExpandedImage: SetExpandedImage = (
     image,
-    { replace = false, scrollToThumbnail = false, page } = {}
+    { scrollToThumbnail = false, page } = {}
   ) => {
     const { router, imageId } = latest.current;
 
@@ -99,7 +98,7 @@ const useExpandedImage = (
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
-    const navigate = (replace ? router.replace : router.push).bind(router);
+    const navigate = router.push.bind(router);
 
     // Another page of results needs its server-side props, so isn't shallow.
     // The URL is built the way the pagination's links build it, but without
