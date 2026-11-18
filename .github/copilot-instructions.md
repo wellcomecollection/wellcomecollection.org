@@ -4,6 +4,10 @@ These guidelines are read by all Copilot surfaces (IDE agent, PR reviewer, cloud
 
 Use British English spelling throughout everything that is not code (e.g. CSS values are in American English).
 
+## Writing
+
+Where the surrounding context doesn't already make it clear, say which `Next`, `Back` or `page` is meant, in prose, comments and test names. Image search has a Next/Previous button in the sidebar, Next/Previous page links in the pagination, and Next.js, all at once; `Back` is either the browser's or a control in the UI; a `page` is either a page of results or the browser page. Write "the sidebar's Next button", "the browser's Back", "a page of results".
+
 ## Workspace Structure
 
 This is a monorepo with multiple Next.js apps managed by Yarn workspaces:

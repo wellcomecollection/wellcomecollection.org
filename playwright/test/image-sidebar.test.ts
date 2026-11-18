@@ -508,7 +508,7 @@ test.describe('Desktop', () => {
     const nextButton = (page: Page) =>
       sidebar(page).getByRole('button', { name: 'Next image' });
 
-    test('next and previous move through the results in order, moving the highlight with them', async ({
+    test('the Next and Previous buttons move through the results in order, moving the highlight with them', async ({
       page,
       context,
     }) => {
@@ -529,7 +529,7 @@ test.describe('Desktop', () => {
     });
 
     // A search with one page of results, so the last image is the last result
-    test('previous is disabled on the first result, and next on the last', async ({
+    test('Previous is disabled on the first result, and Next on the last', async ({
       page,
       context,
     }) => {
@@ -574,7 +574,7 @@ test.describe('Desktop', () => {
       }
     });
 
-    test('stepping replaces the history entry, so Back closes the sidebar', async ({
+    test('each step is its own browser history entry, so Back and Forward go through the images one at a time', async ({
       page,
       context,
     }) => {
@@ -585,8 +585,23 @@ test.describe('Desktop', () => {
       await nextButton(page).click();
       await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
 
+      // Back through each image stepped through, then out to the results
+      await page.goBack();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goBack();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
       await page.goBack();
       await expect(sidebar(page)).toHaveCount(0);
+      expect(page.url()).not.toContain('#');
+
+      // And Forward through them again, as going Back mustn't have added an
+      // entry that cuts them off
+      await page.goForward();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
     });
 
     test('each step records which image was stepped to', async ({
@@ -632,7 +647,7 @@ test.describe('Desktop', () => {
       ]);
     });
 
-    test('Shift+Tab from the close button goes through next, previous and the handle to the selected thumbnail', async ({
+    test('Shift+Tab from the close button goes through the Next and Previous buttons and the handle to the selected thumbnail', async ({
       page,
       context,
     }) => {
@@ -652,7 +667,7 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 1)).toBeFocused();
     });
 
-    test('next on the last image of a page opens the first image of the next page, and previous goes back', async ({
+    test("the sidebar's Next button on the last image of a page of results opens the first image of the next page, and Previous returns to the last image of the page before", async ({
       page,
       context,
     }) => {
@@ -687,6 +702,35 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, count)).toBeInViewport();
     });
 
+    test('Back after crossing a page of results returns to the last image of the page before', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      const currentPage = page.getByTestId('current-page').first();
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+
+      await nextButton(page).click();
+      await expect(currentPage).toHaveText('2');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+
+      // Crossing a page of results is a full navigation rather than a change
+      // of hash, so Back and Forward reload the results either side
+      await page.goBack();
+      await expect(currentPage).toHaveText('1');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, count)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+
+      await page.goForward();
+      await expect(currentPage).toHaveText('2');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+    });
+
     // The rest of what the keys do is shared with the buttons, or covered in
     // ImageSidebar.test.tsx
     test.describe('with the arrow keys', () => {
@@ -696,7 +740,7 @@ test.describe('Desktop', () => {
           'true'
         );
 
-      test('ArrowRight and ArrowLeft step like next and previous, leaving focus where it was and announcing the image', async ({
+      test('ArrowRight and ArrowLeft step like the Next and Previous buttons, leaving focus where it was and announcing the image', async ({
         page,
         context,
       }) => {
@@ -724,7 +768,7 @@ test.describe('Desktop', () => {
         await expect(closeButton(page)).toBeFocused();
       });
 
-      test('ArrowRight on the last image of a page opens the first image of the next page, and ArrowLeft goes back', async ({
+      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft returns to the last image of the page before', async ({
         page,
         context,
       }) => {
@@ -740,6 +784,20 @@ test.describe('Desktop', () => {
         await page.keyboard.press('ArrowLeft');
         await expect(currentPage).toHaveText('1');
         await expectOpen(page, count);
+      });
+
+      test("the browser's Back goes to the image stepped from, as Alt+ArrowLeft is Back", async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+
+        await page.goBack();
+        await expectOpen(page, 1);
       });
     });
   });

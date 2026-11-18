@@ -217,8 +217,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     ? images.findIndex(({ id }) => id === expandedImage.id)
     : -1;
   const isInResults = expandedIndex !== -1;
+
+  // Each step is its own browser history entry, so Back goes back through the
+  // images stepped through, as it does for ones picked from the grid
   const stepOptions = {
-    replace: true,
     // Full screen, the results are hidden behind the sidebar
     scrollToThumbnail: !isFullScreen,
   };
@@ -250,8 +252,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     }
   }, [expandedImage?.id, images, hasStepButtons]);
 
-  // Stops a second click going to another page while the first is loading,
-  // and drops a step that's still loading if something else is chosen
+  // Stops a second click going to another page of results while the first is
+  // loading, and drops a step that's still loading if something else is chosen
   const isChangingPage = useRef(false);
   const selection = useRef(0);
   useEffect(() => {
