@@ -604,21 +604,47 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
     });
 
-    test('the Next and Previous buttons have the analytics attributes GTM reads', async ({
+    test('each step records which image was stepped to', async ({
       page,
       context,
     }) => {
       await searchImages('cats', context, page, 'phase3');
       await openSidebar(1, page);
 
-      await expect(previousButton(page)).toHaveAttribute(
-        'data-gtm-trigger',
-        'image_sidebar_previous'
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.keyboard.press('ArrowLeft');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      // Not recorded at the start of the results, where there's nothing to
+      // step to
+      await page.keyboard.press('ArrowLeft');
+
+      // The page pushes these to the dataLayer itself, so they're there even
+      // with GTM blocked
+      const events = await page.evaluate(() =>
+        (
+          (window as unknown as { dataLayer?: Record<string, unknown>[] })
+            .dataLayer ?? []
+        ).filter(
+          ({ event }) =>
+            event === 'sidebar_next_image' || event === 'sidebar_previous_image'
+        )
       );
-      await expect(nextButton(page)).toHaveAttribute(
-        'data-gtm-trigger',
-        'image_sidebar_next'
-      );
+      const href = await thumbnail(page, 2).getAttribute('href');
+      const workId = href?.match(/works\/([^/]+)\/images/)?.[1];
+      expect(events).toEqual([
+        {
+          event: 'sidebar_next_image',
+          work_id: workId,
+          image_id: await thumbnail(page, 2).getAttribute('id'),
+          query: 'cats',
+          position_in_list: 2,
+        },
+        expect.objectContaining({
+          event: 'sidebar_previous_image',
+          position_in_list: 1,
+        }),
+      ]);
     });
 
     test('Shift+Tab from the close button goes through the Next and Previous buttons and the handle to the selected thumbnail', async ({

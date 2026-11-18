@@ -157,6 +157,28 @@ const FULL_WIDTH_MIN_RESULTS = 9;
 // fetched, so stepping onto it doesn't have to wait
 const FETCH_NEIGHBOURING_PAGE_WITHIN = 3;
 
+// The position is within its page of results, like the thumbnails'
+// `data-gtm-position-in-list`
+const trackStep = ({
+  direction,
+  image,
+  positionInList,
+  query,
+}: {
+  direction: -1 | 1;
+  image: Image;
+  positionInList: number;
+  query: string;
+}) => {
+  window.dataLayer?.push({
+    event: direction === 1 ? 'sidebar_next_image' : 'sidebar_previous_image',
+    work_id: image.source.id,
+    image_id: image.id,
+    query,
+    position_in_list: positionInList,
+  });
+};
+
 type Props = PropsWithChildren<{
   resultsList: CatalogueResultsList<Image>;
   imagesRouteProps: ImagesProps;
@@ -202,14 +224,16 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     // Full screen, the results are hidden behind the sidebar
     scrollToThumbnail: !isFullScreen,
   };
+  const { page, query } = imagesRouteProps;
+
   const stepTo =
-    (image: Image): StepHandler =>
+    (direction: -1 | 1, image: Image, positionInList: number): StepHandler =>
     beforeStep => {
       beforeStep();
+      trackStep({ direction, image, positionInList, query });
       setExpandedImage(image, stepOptions);
     };
 
-  const { page } = imagesRouteProps;
   const { fetchPage, hasFailed } = useResultsPages(imagesRouteProps, pageSize);
   const hasNextPage = page < totalPages && !hasFailed(page + 1);
   const hasPreviousPage = page > 1 && !hasFailed(page - 1);
@@ -240,21 +264,21 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   }, [expandedImage?.id, images]);
 
   const stepToPage =
-    (
-      toPage: number,
-      pick: (results: Image[]) => Image | undefined
-    ): StepHandler =>
+    (direction: -1 | 1): StepHandler =>
     async beforeStep => {
       if (isChangingPage.current) return;
       isChangingPage.current = true;
       const steppingFrom = selection.current;
+      const toPage = page + direction;
 
       const results = await fetchPage(toPage);
       if (selection.current !== steppingFrom) return;
 
-      const image = results && pick(results);
+      const index = direction === 1 ? 0 : (results?.length ?? 0) - 1;
+      const image = results?.[index];
       if (image) {
         beforeStep();
+        trackStep({ direction, image, positionInList: index + 1, query });
         setExpandedImage(image, { ...stepOptions, page: toPage });
       } else {
         isChangingPage.current = false;
@@ -264,14 +288,13 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const stepHandlerFor = (direction: -1 | 1): StepHandler | undefined => {
     if (!isInResults) return undefined;
 
-    const neighbour = images[expandedIndex + direction];
-    if (neighbour) return stepTo(neighbour);
+    const neighbourIndex = expandedIndex + direction;
+    const neighbour = images[neighbourIndex];
+    if (neighbour) return stepTo(direction, neighbour, neighbourIndex + 1);
 
     if (!(direction === 1 ? hasNextPage : hasPreviousPage)) return undefined;
 
-    return stepToPage(page + direction, results =>
-      direction === 1 ? results[0] : results[results.length - 1]
-    );
+    return stepToPage(direction);
   };
 
   const onPrevious = stepHandlerFor(-1);

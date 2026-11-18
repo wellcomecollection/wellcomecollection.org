@@ -251,8 +251,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  // The arrow keys step by clicking the buttons, so GTM records the same
-  // clicks either way. This is what had focus when the key was pressed.
+  // The arrow keys step by clicking the buttons, so they use the current
+  // step handlers rather than the ones from when the listener was added. This
+  // is what had focus when the key was pressed.
   const arrowKeyFocus = useRef<HTMLElement | null>(null);
 
   const stepButton = ({
@@ -260,17 +261,14 @@ const ImageSidebar: FunctionComponent<Props> = ({
     label,
     shortLabel,
     icon,
-    gtmTrigger,
   }: {
     direction: 'previous' | 'next';
     label: string;
     shortLabel: string;
     icon: ReactNode;
-    gtmTrigger: string;
   }) => (
     <StepButton
       ref={direction === 'previous' ? previousButtonRef : nextButtonRef}
-      {...dataGtmPropsToAttributes({ trigger: gtmTrigger })}
       aria-label={label}
       aria-disabled={!(direction === 'previous' ? onPrevious : onNext)}
       onClick={event => {
@@ -473,14 +471,12 @@ const ImageSidebar: FunctionComponent<Props> = ({
                       label: 'Previous image',
                       shortLabel: 'Prev',
                       icon: <Icon icon={arrow} rotate={180} />,
-                      gtmTrigger: 'image_sidebar_previous',
                     })}
                     {stepButton({
                       direction: 'next',
                       label: 'Next image',
                       shortLabel: 'Next',
                       icon: <Icon icon={arrow} />,
-                      gtmTrigger: 'image_sidebar_next',
                     })}
                   </StepButtons>
                 )}
