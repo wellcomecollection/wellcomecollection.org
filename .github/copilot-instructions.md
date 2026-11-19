@@ -27,6 +27,7 @@ Follow these patterns consistently:
 - Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`) - except when the test itself needs JSX (e.g. a context-provider wrapper for a hook test), which takes `.tsx` regardless of the source file's own extension
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
+- Hooks pulled out of a component or page go in their own file, one per file, named after the hook: bare inside the component's own folder (`ImageModal/useExpandedImage.ts`), with the page prefix in a flat page folder (`images.useResultsPages.ts`). The `Component.` prefix is for styles and sub-components (`Buttons.Solid.tsx`, `Tasl.styles.tsx`), and `.helpers` files hold pure functions, types and constants — never hooks
 - Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
 - Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
 
