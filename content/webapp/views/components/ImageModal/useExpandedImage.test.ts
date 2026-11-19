@@ -10,13 +10,16 @@ jest.mock('@weco/content/hooks/useUrlHash', () => ({
   __esModule: true,
   default: () => mockHash,
 }));
+// Never resolves unless a test says otherwise, so nothing runs after the URL
+// would have changed
+const mockPush = jest.fn();
+beforeEach(() => mockPush.mockImplementation(() => new Promise(() => {})));
 jest.mock('next/router', () => ({
   useRouter: () => ({
     asPath: '/search/images',
     pathname: '/search/images',
     query: {},
-    // Never resolves, so nothing runs after the URL would have changed
-    push: () => new Promise(() => {}),
+    push: (...args: unknown[]) => mockPush(...args),
   }),
 }));
 jest.mock('@weco/common/server-data/Context', () => ({
@@ -88,6 +91,19 @@ describe('useExpandedImage', () => {
     urlChangesTo('c');
 
     urlChangesTo('b');
+    expect(isFromUrlChange()).toBe(true);
+  });
+
+  it('forgets a request whose navigation was cancelled, so going back to that image later comes from the URL', async () => {
+    const { urlChangesTo, isFromUrlChange, choose } = renderExpandedImage();
+    urlChangesTo('a');
+
+    mockPush.mockResolvedValueOnce(false);
+    choose('c');
+    await act(async () => {});
+    urlChangesTo('b');
+    urlChangesTo('c');
+
     expect(isFromUrlChange()).toBe(true);
   });
 });

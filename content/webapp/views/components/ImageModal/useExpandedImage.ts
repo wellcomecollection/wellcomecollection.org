@@ -37,9 +37,10 @@ const useExpandedImage = (
   const imageId = useUrlHash(router.asPath);
 
   // Whether the URL last went from one image to another by itself (e.g. the
-  // browser's Back), rather than through `setExpandedImage`. Ids requested
-  // faster than the URL changes wait here in order.
-  const requestedImageIds = useRef<(string | undefined)[]>([]);
+  // browser's Back), rather than through `setExpandedImage`. Requests made
+  // faster than the URL changes wait here in order, as objects so a cancelled
+  // one can be dropped without a later one for the same image.
+  const requests = useRef<{ id: string | undefined }[]>([]);
   const [lastImageId, setLastImageId] = useState(imageId);
   const [isFromUrlChange, setIsFromUrlChange] = useState(false);
   if (imageId !== lastImageId) {
@@ -47,15 +48,18 @@ const useExpandedImage = (
     setIsFromUrlChange(
       lastImageId !== undefined &&
         imageId !== undefined &&
-        !requestedImageIds.current.includes(imageId)
+        !requests.current.some(({ id }) => id === imageId)
     );
   }
 
   // Done with once the URL reaches it, along with anything requested before
   // (including the same id twice, from a double click)
   useEffect(() => {
-    const index = requestedImageIds.current.lastIndexOf(imageId);
-    if (index !== -1) requestedImageIds.current.splice(0, index + 1);
+    let last = -1;
+    requests.current.forEach(({ id }, index) => {
+      if (id === imageId) last = index;
+    });
+    requests.current.splice(0, last + 1);
   }, [imageId]);
   const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
@@ -117,7 +121,13 @@ const useExpandedImage = (
     // Keeps an image we already have (e.g. a visually similar one) open while
     // the URL changes, rather than fetching it again
     if (image) seenImages.current[image.id] = image;
-    requestedImageIds.current.push(image?.id);
+    const request = { id: image?.id };
+    requests.current.push(request);
+    // A navigation that's cancelled (resolves false) or fails never reaches
+    // the URL, so a later visit to that image comes from the browser
+    const forget = () => {
+      requests.current = requests.current.filter(r => r !== request);
+    };
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
@@ -144,6 +154,10 @@ const useExpandedImage = (
             `${path}${image ? `#${image.id}` : ''}`,
             { shallow: true, scroll: false }
           );
+
+    navigation.then(isDone => {
+      if (!isDone) forget();
+    }, forget);
 
     navigation.then(() => {
       if (!image) return;
