@@ -37,7 +37,7 @@ We aim for WCAG AA compliance as a minimum:
 - Semantic HTML (proper heading hierarchy, landmarks, form labels)
 - Keyboard navigation for all interactive elements
 - Alt text for meaningful images (empty `alt=""` for decorative ones)
-- Colour contrast ratios meet AA standards
+- Colour contrast ratios meet AA standards, except for disabled controls: WCAG 1.4.3 and 1.4.11 both exempt inactive components, defined as "visible but not currently operable", so pick a disabled state that reads as unavailable rather than one that hits a ratio
 - ARIA attributes used correctly (don't over-use them — semantic HTML is usually better)
 - Focus management in interactive components (modals, dropdowns, etc.)
 - Screen reader navigation and announcements

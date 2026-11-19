@@ -31,6 +31,8 @@ export const SidebarWrapper = styled.section<{
   position: fixed;
   inset: 0;
   z-index: 1001;
+  display: flex;
+  flex-direction: column;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
   transform: ${props => (props.$isOpen ? 'none' : 'translateY(100%)')};
@@ -72,7 +74,10 @@ export const SidebarScroller = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
-  height: 100%;
+  flex: 1;
+
+  /* Without this it grows to fit the details rather than scrolling them */
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
 
@@ -170,6 +175,29 @@ export const StepButton = styled.button.attrs({
   &[aria-disabled='true'] {
     color: ${props => props.theme.color('neutral.500')};
     cursor: default;
+  }
+`;
+
+/**
+ * Full screen only, where the header's step buttons are hidden. Sits below the
+ * scrolling details rather than over them, so it doesn't cover their scrollbar.
+ */
+export const StepBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${props => props.theme.spacingUnits['150']}
+    ${props => props.theme.spacingUnits['200']};
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color(pageBackgroundColor)};
+
+  ${StepButton} {
+    flex-direction: row;
+    gap: ${props => props.theme.spacingUnits['100']};
+  }
+
+  ${StepButton}:last-child {
+    flex-direction: row-reverse;
   }
 `;
 

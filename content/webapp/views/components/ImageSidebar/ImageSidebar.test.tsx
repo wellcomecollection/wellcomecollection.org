@@ -2,6 +2,7 @@ import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RefObject } from 'react';
 
+import * as AppContext from '@weco/common/contexts/AppContext';
 import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
@@ -381,6 +382,43 @@ describe('ImageSidebar', () => {
 
       expect(onPrevious).toHaveBeenCalledTimes(1);
       expect(onNext).toHaveBeenCalledTimes(1);
+    });
+
+    describe('filling the screen', () => {
+      // Below `sm` the sidebar covers the page, and the buttons move from the
+      // header to a bar along the bottom
+      beforeEach(() =>
+        jest.spyOn(AppContext, 'useAppContext').mockReturnValue({
+          ...AppContext.appContextDefaults,
+          windowSize: 'zero',
+        })
+      );
+
+      it('steps from the bar along the bottom', async () => {
+        const onPrevious = jest.fn();
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onPrevious,
+          onNext,
+        });
+
+        await userEvent.click(previousButton());
+        await userEvent.click(nextButton());
+
+        expect(onPrevious).toHaveBeenCalledTimes(1);
+        expect(onNext).toHaveBeenCalledTimes(1);
+      });
+
+      it('has no bar before Phase 3', async () => {
+        mockImageSidebarPhase('phase2');
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: jest.fn(),
+        });
+
+        expect(
+          screen.queryByRole('button', { name: 'Next image' })
+        ).not.toBeInTheDocument();
+      });
     });
 
     it('disables a button with nowhere to step to, but keeps it focusable', async () => {
