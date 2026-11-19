@@ -932,6 +932,7 @@ test.describe('Small screens', () => {
       .getByRole('button', { name: 'Close image details' })
       .click();
     await expect(sidebar(page)).toHaveCount(0);
+
     // Scroll positions can be fractional, so allow for a pixel of rounding
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(Math.abs(scrollAfter - scrolledDown)).toBeLessThanOrEqual(1);
@@ -944,10 +945,18 @@ test.describe('Small screens', () => {
     await searchImages('cats', context, page, 'phase3');
     await openSidebar(1, page);
 
+    // The sidebar slides up into place, so this waits for it to settle. It
+    // also catches a bar rendered off screen, which toBeVisible doesn't.
     const bar = sidebar(page).getByRole('button', { name: 'Next image' });
-    await expect(bar).toBeVisible();
-    const box = await bar.boundingBox();
-    expect(box!.y + box!.height).toBeGreaterThan(screen.height - 60);
+    await expect(bar).toBeInViewport();
+
+    const box = (await bar.boundingBox())!;
+    const close = (await closeButton(page).boundingBox())!;
+
+    // Down on the bottom edge, the bar's padding aside, rather than up in the
+    // header beside Close
+    expect(box.y).toBeGreaterThan(close.y + close.height);
+    expect(screen.height - (box.y + box.height)).toBeLessThan(box.height);
 
     await bar.click();
     await bar.click();
