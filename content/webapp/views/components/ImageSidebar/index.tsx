@@ -46,6 +46,7 @@ import {
   ThumbnailPanel,
   Title,
 } from './ImageSidebar.styles';
+import useArrowKeySteps from './useArrowKeySteps';
 import useFocusCloseButtonOnSelect from './useFocusCloseButtonOnSelect';
 
 // Lets focus move first, so a screen reader doesn't drop the announcement
@@ -83,12 +84,6 @@ type StepDirection = 'previous' | 'next';
 // Calls `beforeStep` only once the step is definitely happening, which may be
 // after another page of results has loaded, or never
 export type StepHandler = (beforeStep: () => void) => void;
-
-// Text fields, selects and the like use the arrow keys themselves
-const usesArrowKeys = (element: Element): boolean =>
-  element instanceof HTMLElement &&
-  (element.isContentEditable ||
-    ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName));
 
 // Below `sm`, the sidebar covers the page
 export const useIsSidebarFullScreen = (): boolean =>
@@ -182,10 +177,13 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  // The arrow keys step by clicking the buttons, so they use the current
-  // step handlers rather than the ones from when the listener was added. This
-  // is what had focus when the key was pressed.
-  const arrowKeyFocus = useRef<HTMLElement | null>(null);
+  const takeArrowKeyFocus = useArrowKeySteps({
+    isActive: isOpen && hasHeaderStepButtons,
+    sidebarRef,
+    areaRef: arrowKeysAreaRef,
+    previousButtonRef,
+    nextButtonRef,
+  });
 
   const stepButton = (direction: StepDirection) => {
     const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
@@ -195,11 +193,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
         ref={buttonRef}
         aria-label={label}
         aria-disabled={!onStep}
-        onClick={event => {
-          const focused = arrowKeyFocus.current ?? event.currentTarget;
-          arrowKeyFocus.current = null;
-          step(direction, focused);
-        }}
+        onClick={event =>
+          step(direction, takeArrowKeyFocus() ?? event.currentTarget)
+        }
       >
         {icon}
         {shortLabel}
@@ -215,48 +211,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {stepButton('next')}
     </>
   );
-
-  // Modifiers are left alone, as Alt+ArrowLeft is the browser's Back; the
-  // resize handle's onKeyDown runs first and preventDefaults, stopping a step
-  useEffect(() => {
-    if (!isOpen || !hasHeaderStepButtons) return;
-
-    const stepOnArrowKey = (event: globalThis.KeyboardEvent) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      if (
-        event.defaultPrevented ||
-        event.repeat ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey ||
-        event.shiftKey
-      ) {
-        return;
-      }
-
-      const target = event.target as Element;
-      const isInArea =
-        target === document.body ||
-        sidebarRef.current?.contains(target) ||
-        arrowKeysAreaRef?.current?.contains(target);
-      if (!isInArea || usesArrowKeys(target)) return;
-
-      // Swallowed at either end too, so the page doesn't scroll instead
-      event.preventDefault();
-
-      // Not clicked at either end, as no image is stepped to
-      const button =
-        event.key === 'ArrowLeft'
-          ? previousButtonRef.current
-          : nextButtonRef.current;
-      if (!button || button.getAttribute('aria-disabled') === 'true') return;
-
-      arrowKeyFocus.current = target as HTMLElement;
-      button.click();
-    };
-    document.addEventListener('keydown', stepOnArrowKey);
-    return () => document.removeEventListener('keydown', stepOnArrowKey);
-  }, [isOpen, hasHeaderStepButtons]);
 
   useEffect(() => {
     if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
