@@ -74,6 +74,9 @@ const sidebar = (page: Page) =>
 const closeButton = (page: Page) =>
   sidebar(page).getByRole('button', { name: 'Close image details' });
 
+const announcement = (page: Page) =>
+  page.getByTestId('image-sidebar-announcement');
+
 const resizeHandle = (page: Page) =>
   page.getByRole('separator', { name: 'Resize image details' });
 
@@ -604,6 +607,75 @@ test.describe('Desktop', () => {
       await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
     });
 
+    test("the browser's Back and Forward announce each image they land on", async ({
+      page,
+      context,
+    }) => {
+      type WithAnnounced = Window & { announced: string[] };
+
+      await searchImages('cats', context, page, 'phase3');
+
+      // Counted rather than compared, as neighbouring images can share a title
+      await announcement(page).evaluate(region => {
+        (window as unknown as WithAnnounced).announced = [];
+        new MutationObserver(() => {
+          if (region.textContent) {
+            (window as unknown as WithAnnounced).announced.push(
+              region.textContent
+            );
+          }
+        }).observe(region, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        });
+      });
+      const announced = () =>
+        page.evaluate(() => (window as unknown as WithAnnounced).announced);
+      const expectAnnouncements = (count: number) =>
+        expect.poll(async () => (await announced()).length).toBe(count);
+
+      await openSidebar(1, page);
+      // Picking announces nothing; waits past the announcement delay
+      await page.waitForTimeout(1000);
+      expect(await announced()).toEqual([]);
+
+      await nextButton(page).click();
+      await expectAnnouncements(1);
+      await nextButton(page).click();
+      await expectAnnouncements(2);
+
+      await page.goBack();
+      await expectAnnouncements(3);
+      await page.goBack();
+      await expectAnnouncements(4);
+      await page.goForward();
+      await expectAnnouncements(5);
+
+      const [second, , backToSecond, , forwardToSecond] = await announced();
+      expect(backToSecond).toBe(second);
+      expect(forwardToSecond).toBe(second);
+    });
+
+    test("the browser's Back and Forward leave focus where it was, as the sidebar's Next and Previous do", async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+
+      await page.goBack();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+
+      await page.goForward();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+    });
+
     test('each step records which image was stepped to', async ({
       page,
       context,
@@ -755,13 +827,11 @@ test.describe('Desktop', () => {
         );
         await expect(closeButton(page)).toBeFocused();
 
-        // Announced once the image's details have loaded, as its title
-        const liveRegion = sidebar(page).locator('[aria-live="polite"]');
-        await expect(liveRegion).not.toBeEmpty();
+        await expect(announcement(page)).not.toBeEmpty();
         const title = await sidebar(page)
           .getByRole('heading', { level: 2 })
           .textContent();
-        await expect(liveRegion).toHaveText(title!.trim());
+        await expect(announcement(page)).toHaveText(title!.trim());
 
         await page.keyboard.press('ArrowLeft');
         await expectOpen(page, 1);
