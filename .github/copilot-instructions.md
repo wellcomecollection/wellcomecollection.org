@@ -29,6 +29,30 @@ Follow these patterns consistently:
 - Service/utility folders: use `index.ts` as the main export point
 - Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
 - Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
+- Module-level constants: `SCREAMING_SNAKE_CASE` (`ZOOM_STEP`, `CLICK_TOLERANCE_PX`, `SOURCE_BOX_WIDTH`). A few older files use camelCase for these - follow the convention in anything new rather than the file you happen to be in
+
+## JSX
+
+Boolean props go last in a call. Lint enforces this for shorthand ones (`react/jsx-sort-props` with `shorthandLast`), but it doesn't see a boolean written with an explicit value - put `isFirstPartBold={false}` at the end too, so the props carrying the data read first.
+
+## Comments
+
+Comment what the code can't say for itself. If a reader would get the same thing from the line below, the comment is noise - it's one more thing to keep true, and it goes stale quietly.
+
+Worth writing down:
+- A constraint the code can't show: a browser bug being worked around, an ordering that matters, a value that has to match something elsewhere
+- A domain fact recorded nowhere else, e.g. why the API gives us a field in a particular shape
+- What something is for, where that isn't clear from its name. A link to the PR or issue beats retelling the whole story
+
+Not worth writing down:
+- Names. Props, constants and functions whose names already say what they are don't need a line restating it - `showAllText?: string` and `MAX_VISIBLE_SUBJECTS = 10` are clear on their own. Save the comment for the part that would surprise someone, like a `maxVisible` prop that doesn't just truncate a list but puts a control after it
+- Test steps. A comment narrating the next line (`// Click the button`, `// Check the heading is visible`) says less than the line does, and the test name is usually the better place for it. Do comment what the code can't show: why a wait is there, what a test is working around, why an assertion is written the odd way
+- Function openers. A JSDoc block that restates the signature adds nothing. Write one where there's a contract worth stating - what it assumes, what it returns in the awkward cases, what it touches besides its return value
+- CSS declarations. `/* Centre the label */` above `display: flex; align-items: center;` is the declaration again. Give the reason instead: what it lines up with, which browser needs it, what breaks without it
+
+Inside a type or props literal, a comment that does earn its place sits directly above its field, with no blank line separating them.
+
+When tidying comments, keep anything recording something the code doesn't, and don't harden a hedge into a fact - if the original said a thing "seems to" happen, leave it saying that.
 
 ## Accessibility
 
@@ -89,7 +113,7 @@ Don't add, remove, rename or move these attributes, change their values, or rest
 
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
 
 ### TODOs and Technical Debt
 
