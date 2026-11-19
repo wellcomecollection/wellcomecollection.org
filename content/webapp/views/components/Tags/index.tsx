@@ -1,7 +1,8 @@
 import NextLink from 'next/link';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
+import { useAppContext } from '@weco/common/contexts/AppContext';
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
 import { ButtonColors } from '@weco/common/views/components/Buttons';
@@ -55,11 +56,30 @@ const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
   ${StyledButtonCSS}
 `;
 
+const ShowAllButton = styled.button.attrs({
+  type: 'button',
+  className: typography('body', 'md', 'regular'),
+})`
+  display: inline-block;
+  color: inherit;
+  padding: 0;
+
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+
+  &:hover {
+    text-decoration-color: transparent;
+  }
+`;
+
 export type Props = {
   tags: TagType[];
   buttonColors?: ButtonColors;
   isFirstPartBold?: boolean;
   separator?: string;
+  /** Shows only this many tags, behind a control that reveals the rest. */
+  maxVisible?: number;
+  showAllText?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
@@ -67,8 +87,29 @@ const Tags: FunctionComponent<Props> = ({
   buttonColors,
   isFirstPartBold = true,
   separator = '–',
+  maxVisible,
+  showAllText = 'show all',
 }) => {
   const theme = useTheme();
+  const { isEnhanced } = useAppContext();
+  const [isShowingAll, setIsShowingAll] = useState(false);
+  const firstRevealedTagRef = useRef<HTMLAnchorElement>(null);
+
+  // Without JavaScript nothing can reveal the rest, so every tag is rendered
+  // rather than hidden behind a control that does nothing.
+  const isCollapsed =
+    isEnhanced &&
+    !isShowingAll &&
+    maxVisible !== undefined &&
+    tags.length > maxVisible;
+
+  const visibleTags = isCollapsed ? tags.slice(0, maxVisible) : tags;
+
+  // The control unmounts once it's been used, which would otherwise drop focus
+  // back to the top of the page, so send it to the first tag it revealed.
+  useEffect(() => {
+    if (isShowingAll) firstRevealedTagRef.current?.focus();
+  }, [isShowingAll]);
 
   return (
     <Space
@@ -77,7 +118,7 @@ const Tags: FunctionComponent<Props> = ({
     >
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
-        {tags.map(({ textParts, linkAttributes }, i) => {
+        {visibleTags.map(({ textParts, linkAttributes }, i) => {
           const tagInner = (
             <TagInner>
               {textParts.map((part, i, arr) => (
@@ -100,10 +141,13 @@ const Tags: FunctionComponent<Props> = ({
             </TagInner>
           );
 
+          const tagRef = i === maxVisible ? firstRevealedTagRef : undefined;
+
           return (
             <LinkWrapper as="li" key={i}>
               {theme.brandUpdate ? (
                 <SelectableTagLink
+                  ref={tagRef}
                   href={linkAttributes.href}
                   $isSelected={false}
                   $lineColor="black"
@@ -113,6 +157,7 @@ const Tags: FunctionComponent<Props> = ({
                 </SelectableTagLink>
               ) : (
                 <StyledLink
+                  ref={tagRef}
                   href={linkAttributes.href}
                   $size="small"
                   $colors={
@@ -125,6 +170,14 @@ const Tags: FunctionComponent<Props> = ({
             </LinkWrapper>
           );
         })}
+
+        {isCollapsed && (
+          <LinkWrapper as="li">
+            <ShowAllButton onClick={() => setIsShowingAll(true)}>
+              {`+\u00A0${showAllText}`}
+            </ShowAllButton>
+          </LinkWrapper>
+        )}
       </PlainList>
     </Space>
   );
