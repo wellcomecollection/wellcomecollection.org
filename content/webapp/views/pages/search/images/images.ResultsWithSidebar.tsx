@@ -215,13 +215,11 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     : -1;
   const isInResults = expandedIndex !== -1;
 
-  // Each step is its own browser history entry, so Back goes back through the
-  // images stepped through, as it does for ones picked from the grid
-  const stepOptions = {
-    // The grid is behind the sidebar full screen, but still scrolled, so
-    // closing it leaves the image you were on in view
-    scrollToThumbnail: true,
-  };
+  // Each step is its own browser history entry, so the browser's Back goes back
+  // through the images stepped through, as it does for ones picked from the
+  // grid. The grid is behind the sidebar full screen, but still scrolled, so
+  // closing it leaves the image you were on in view.
+  const stepOptions = { scrollToThumbnail: true };
   const { page, query } = imagesRouteProps;
 
   const stepTo =
