@@ -42,7 +42,6 @@ jest.mock('@weco/content/views/components/ImageModal', () => {
 
 jest.mock('@weco/content/views/components/ImageSidebar', () => ({
   __esModule: true,
-  useIsSidebarFullScreen: () => false,
   default: ({
     images,
     expandedImage,
