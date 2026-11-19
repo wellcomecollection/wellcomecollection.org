@@ -114,10 +114,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const { masonryImages: showMasonryImages = false } = useFeatureFlags();
   const isFullWidth =
     showMasonryImages && resultsList.totalResults >= FULL_WIDTH_MIN_RESULTS;
+  const isActive = expandedImage !== undefined;
 
   const layoutRef = useRef<HTMLDivElement>(null);
   const resultsRef = useRef<HTMLDivElement>(null);
-  const isActive = expandedImage !== undefined;
 
   const [sidebarStatus, setSidebarStatus] = useState<SidebarStatus>('closed');
 

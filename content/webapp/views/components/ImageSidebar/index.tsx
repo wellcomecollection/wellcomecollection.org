@@ -108,6 +108,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const resizeHandleRef = useRef<HTMLDivElement>(null);
+
   const sidebarId = useId();
   const isFullScreen = useIsSidebarFullScreen();
   const isOpen = expandedImage !== undefined;
@@ -135,11 +136,45 @@ const ImageSidebar: FunctionComponent<Props> = ({
     }
   }
 
-  const isAnnouncingStep = useRef(false);
   const { stopRefocusing, setSteppedFrom } = useFocusCloseButtonOnSelect(
     expandedImage?.id,
     closeButtonRef
   );
+
+  const takeArrowKeyFocus = useArrowKeySteps({
+    isActive: isOpen && hasHeaderStepButtons,
+    sidebarRef,
+    areaRef: arrowKeysAreaRef,
+    previousButtonRef,
+    nextButtonRef,
+  });
+
+  const {
+    detailedWork,
+    iiifImageLocation,
+    license,
+    expandedImageLink,
+    productionDates,
+    displayContributor,
+    displayTitle,
+  } = useImageDetails(images, shownImage);
+
+  useEffect(() => {
+    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
+  }, [expandedImage?.id]);
+
+  // Focus stays on the step button, so nothing else tells a screen reader
+  // that the image changed
+  const isAnnouncingStep = useRef(false);
+  const [stepAnnouncement, setStepAnnouncement] = useState('');
+  useEffect(() => {
+    if (!isAnnouncingStep.current || !detailedWork) return;
+
+    isAnnouncingStep.current = false;
+    setStepAnnouncement(
+      removeDisplayMarkupTags(displayTitle) || 'Untitled image'
+    );
+  }, [shownImage?.id, detailedWork]);
 
   const steps = {
     previous: {
@@ -169,14 +204,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  const takeArrowKeyFocus = useArrowKeySteps({
-    isActive: isOpen && hasHeaderStepButtons,
-    sidebarRef,
-    areaRef: arrowKeysAreaRef,
-    previousButtonRef,
-    nextButtonRef,
-  });
-
   const stepButton = (direction: StepDirection) => {
     const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
 
@@ -203,32 +230,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {stepButton('next')}
     </>
   );
-
-  useEffect(() => {
-    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
-  }, [expandedImage?.id]);
-
-  const {
-    detailedWork,
-    iiifImageLocation,
-    license,
-    expandedImageLink,
-    productionDates,
-    displayContributor,
-    displayTitle,
-  } = useImageDetails(images, shownImage);
-
-  // Focus stays on the step button, so nothing else tells a screen reader
-  // that the image changed
-  const [stepAnnouncement, setStepAnnouncement] = useState('');
-  useEffect(() => {
-    if (!isAnnouncingStep.current || !detailedWork) return;
-
-    isAnnouncingStep.current = false;
-    setStepAnnouncement(
-      removeDisplayMarkupTags(displayTitle) || 'Untitled image'
-    );
-  }, [shownImage?.id, detailedWork]);
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;
