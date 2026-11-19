@@ -661,7 +661,7 @@ describe('ImageSidebar', () => {
         expect(onNext).toHaveBeenCalledTimes(1);
       });
 
-      it('do nothing with a modifier held, as Alt+ArrowLeft is Back', async () => {
+      it("do nothing with a modifier held, as Alt+ArrowLeft is the browser's Back", async () => {
         const onPrevious = jest.fn();
         await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
           onPrevious,
