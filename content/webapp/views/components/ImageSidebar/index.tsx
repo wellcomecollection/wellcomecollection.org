@@ -3,7 +3,6 @@ import {
   CSSProperties,
   FunctionComponent,
   KeyboardEvent,
-  ReactNode,
   RefObject,
   useEffect,
   useId,
@@ -76,6 +75,8 @@ type Props = {
   // pressed in the sidebar (e.g. the results grid)
   arrowKeysAreaRef?: RefObject<HTMLElement | null>;
 };
+
+type StepDirection = 'previous' | 'next';
 
 // Calls `beforeStep` only once the step is definitely happening, which may be
 // after another page of results has loaded, or never
@@ -240,15 +241,30 @@ const ImageSidebar: FunctionComponent<Props> = ({
     closeButtonRef
   );
 
+  const steps = {
+    previous: {
+      label: 'Previous image',
+      shortLabel: 'Prev',
+      icon: <Icon icon={arrow} rotate={180} />,
+      buttonRef: previousButtonRef,
+      onStep: onPrevious,
+    },
+    next: {
+      label: 'Next image',
+      shortLabel: 'Next',
+      icon: <Icon icon={arrow} />,
+      buttonRef: nextButtonRef,
+      onStep: onNext,
+    },
+  };
+
   // Leaves focus on `focused` (see useFocusCloseButtonOnSelect), and
   // announces the image once it's stepped to
-  const step = (direction: 'previous' | 'next', focused: HTMLElement) => {
-    const onStep = direction === 'previous' ? onPrevious : onNext;
-    const stepButton =
-      direction === 'previous' ? previousButtonRef : nextButtonRef;
+  const step = (direction: StepDirection, focused: HTMLElement) => {
+    const { onStep, buttonRef } = steps[direction];
 
     onStep?.(() => {
-      setSteppedFrom(focused, stepButton.current);
+      setSteppedFrom(focused, buttonRef.current);
       isAnnouncingStep.current = true;
     });
   };
@@ -258,30 +274,33 @@ const ImageSidebar: FunctionComponent<Props> = ({
   // is what had focus when the key was pressed.
   const arrowKeyFocus = useRef<HTMLElement | null>(null);
 
-  const stepButton = ({
-    direction,
-    label,
-    shortLabel,
-    icon,
-  }: {
-    direction: 'previous' | 'next';
-    label: string;
-    shortLabel: string;
-    icon: ReactNode;
-  }) => (
-    <StepButton
-      ref={direction === 'previous' ? previousButtonRef : nextButtonRef}
-      aria-label={label}
-      aria-disabled={!(direction === 'previous' ? onPrevious : onNext)}
-      onClick={event => {
-        const focused = arrowKeyFocus.current ?? event.currentTarget;
-        arrowKeyFocus.current = null;
-        step(direction, focused);
-      }}
-    >
-      {icon}
-      {shortLabel}
-    </StepButton>
+  const stepButton = (direction: StepDirection) => {
+    const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
+
+    return (
+      <StepButton
+        ref={buttonRef}
+        aria-label={label}
+        aria-disabled={!onStep}
+        onClick={event => {
+          const focused = arrowKeyFocus.current ?? event.currentTarget;
+          arrowKeyFocus.current = null;
+          step(direction, focused);
+        }}
+      >
+        {icon}
+        {shortLabel}
+      </StepButton>
+    );
+  };
+
+  // Rendered in one place or the other, never both: the header has room for
+  // them until the sidebar fills the screen, where they move to the bottom bar
+  const stepButtons = (
+    <>
+      {stepButton('previous')}
+      {stepButton('next')}
+    </>
   );
 
   // Modifiers are left alone, as Alt+ArrowLeft is the browser's Back; the
@@ -467,20 +486,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             <SidebarScroller ref={scrollerRef} $hasStepBar={hasStepBar}>
               <SidebarHeader>
                 {hasHeaderStepButtons && (
-                  <StepButtons>
-                    {stepButton({
-                      direction: 'previous',
-                      label: 'Previous image',
-                      shortLabel: 'Prev',
-                      icon: <Icon icon={arrow} rotate={180} />,
-                    })}
-                    {stepButton({
-                      direction: 'next',
-                      label: 'Next image',
-                      shortLabel: 'Next',
-                      icon: <Icon icon={arrow} />,
-                    })}
-                  </StepButtons>
+                  <StepButtons>{stepButtons}</StepButtons>
                 )}
                 <CloseButton
                   {...dataGtmPropsToAttributes({
@@ -591,22 +597,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
               )}
             </SidebarScroller>
 
-            {hasStepBar && (
-              <StepBar>
-                {stepButton({
-                  direction: 'previous',
-                  label: 'Previous image',
-                  shortLabel: 'Prev',
-                  icon: <Icon icon={arrow} rotate={180} />,
-                })}
-                {stepButton({
-                  direction: 'next',
-                  label: 'Next image',
-                  shortLabel: 'Next',
-                  icon: <Icon icon={arrow} />,
-                })}
-              </StepBar>
-            )}
+            {hasStepBar && <StepBar>{stepButtons}</StepBar>}
           </SidebarWrapper>
         </FocusTrap>
       )}
