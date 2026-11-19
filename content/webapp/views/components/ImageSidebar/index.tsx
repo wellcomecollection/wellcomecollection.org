@@ -81,7 +81,7 @@ type StepDirection = 'previous' | 'next';
 export type StepHandler = (beforeStep: () => void) => void;
 
 // Below `sm`, the sidebar covers the page
-export const useIsSidebarFullScreen = (): boolean =>
+const useIsSidebarFullScreen = (): boolean =>
   useAppContext().windowSize === 'zero';
 
 /**
