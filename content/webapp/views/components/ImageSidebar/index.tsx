@@ -114,6 +114,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const resizeHandleRef = useRef<HTMLDivElement>(null);
+
   const sidebarId = useId();
   const isFullScreen = useIsSidebarFullScreen();
   const isOpen = expandedImage !== undefined;
@@ -141,13 +142,59 @@ const ImageSidebar: FunctionComponent<Props> = ({
     }
   }
 
-  // Not for picked thumbnails, whose title was just heard
-  const isAnnouncingStep = useRef(false);
   const { stopRefocusing, setSteppedFrom } = useFocusCloseButtonOnSelect(
     expandedImage?.id,
     isFromUrlChange,
     closeButtonRef
   );
+
+  const takeArrowKeyFocus = useArrowKeySteps({
+    isActive: isOpen && hasHeaderStepButtons,
+    sidebarRef,
+    areaRef: arrowKeysAreaRef,
+    previousButtonRef,
+    nextButtonRef,
+  });
+
+  const {
+    detailedWork,
+    iiifImageLocation,
+    license,
+    expandedImageLink,
+    productionDates,
+    displayContributor,
+    displayTitle,
+  } = useImageDetails(images, shownImage);
+
+  useEffect(() => {
+    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
+  }, [expandedImage?.id]);
+
+  // Not for picked thumbnails, whose title was just heard
+  const isAnnouncingStep = useRef(false);
+
+  // Focus stays put on a step, so this is what tells a screen reader the image
+  // changed. Cleared first, so the same title twice is still spoken.
+  const [announcement, setAnnouncement] = useState('');
+  useEffect(() => {
+    const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
+    isAnnouncingStep.current = false;
+
+    // Cleared on a pick too, so the last title isn't left for the virtual
+    // cursor to find
+    setAnnouncement('');
+    if (!expandedImage || !isAnnouncing) return;
+
+    const timeout = setTimeout(
+      () =>
+        setAnnouncement(
+          removeDisplayMarkupTags(expandedImage.source.title) ||
+            'Untitled image'
+        ),
+      ANNOUNCEMENT_DELAY_MS
+    );
+    return () => clearTimeout(timeout);
+  }, [expandedImage?.id]);
 
   const steps = {
     previous: {
@@ -177,14 +224,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  const takeArrowKeyFocus = useArrowKeySteps({
-    isActive: isOpen && hasHeaderStepButtons,
-    sidebarRef,
-    areaRef: arrowKeysAreaRef,
-    previousButtonRef,
-    nextButtonRef,
-  });
-
   const stepButton = (direction: StepDirection) => {
     const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
 
@@ -211,43 +250,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {stepButton('next')}
     </>
   );
-
-  useEffect(() => {
-    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
-  }, [expandedImage?.id]);
-
-  const {
-    detailedWork,
-    iiifImageLocation,
-    license,
-    expandedImageLink,
-    productionDates,
-    displayContributor,
-    displayTitle,
-  } = useImageDetails(images, shownImage);
-
-  // Focus stays put on a step, so this is what tells a screen reader the image
-  // changed. Cleared first, so the same title twice is still spoken.
-  const [announcement, setAnnouncement] = useState('');
-  useEffect(() => {
-    const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
-    isAnnouncingStep.current = false;
-
-    // Cleared on a pick too, so the last title isn't left for the virtual
-    // cursor to find
-    setAnnouncement('');
-    if (!expandedImage || !isAnnouncing) return;
-
-    const timeout = setTimeout(
-      () =>
-        setAnnouncement(
-          removeDisplayMarkupTags(expandedImage.source.title) ||
-            'Untitled image'
-        ),
-      ANNOUNCEMENT_DELAY_MS
-    );
-    return () => clearTimeout(timeout);
-  }, [expandedImage?.id]);
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;
