@@ -32,9 +32,31 @@ const scrollThumbnailIntoView = (imageId: string) =>
  */
 const useExpandedImage = (
   images: Image[]
-): [Image | undefined, SetExpandedImage] => {
+): [Image | undefined, SetExpandedImage, boolean] => {
   const router = useRouter();
   const imageId = useUrlHash(router.asPath);
+
+  // Whether the URL last went from one image to another by itself (e.g. the
+  // browser's Back), rather than through `setExpandedImage`. Ids requested
+  // faster than the URL changes wait here in order.
+  const requestedImageIds = useRef<(string | undefined)[]>([]);
+  const [lastImageId, setLastImageId] = useState(imageId);
+  const [isFromUrlChange, setIsFromUrlChange] = useState(false);
+  if (imageId !== lastImageId) {
+    setLastImageId(imageId);
+    setIsFromUrlChange(
+      lastImageId !== undefined &&
+        imageId !== undefined &&
+        !requestedImageIds.current.includes(imageId)
+    );
+  }
+
+  // Done with once the URL reaches it, along with anything requested before
+  // (including the same id twice, from a double click)
+  useEffect(() => {
+    const index = requestedImageIds.current.lastIndexOf(imageId);
+    if (index !== -1) requestedImageIds.current.splice(0, index + 1);
+  }, [imageId]);
   const { stagingApi } = useFeatureFlags();
   const { cataloguePipeline } = useModes();
 
@@ -95,6 +117,7 @@ const useExpandedImage = (
     // Keeps an image we already have (e.g. a visually similar one) open while
     // the URL changes, rather than fetching it again
     if (image) seenImages.current[image.id] = image;
+    requestedImageIds.current.push(image?.id);
 
     const [path] = router.asPath.split('#');
     const { scrollY } = window;
@@ -135,7 +158,7 @@ const useExpandedImage = (
     });
   };
 
-  return [expandedImage, setExpandedImage];
+  return [expandedImage, setExpandedImage, isFromUrlChange];
 };
 
 export default useExpandedImage;
