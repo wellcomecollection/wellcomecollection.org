@@ -71,10 +71,19 @@ export const SidebarWrapper = styled.section<{
 export const SidebarScroller = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})`
+})<{ $hasStepBar?: boolean }>`
   height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
+
+  /* Clears the bar, which the details scroll under */
+  ${props =>
+    props.$hasStepBar &&
+    css`
+      padding-bottom: calc(
+        ${props.theme.spacingUnits['600']} + ${props.theme.spacingUnits['200']}
+      );
+    `}
 
   ${props =>
     props.theme.media('sm')(`
@@ -170,6 +179,32 @@ export const StepButton = styled.button.attrs({
   &[aria-disabled='true'] {
     color: ${props => props.theme.color('neutral.500')};
     cursor: default;
+  }
+`;
+
+/**
+ * Full screen only, where the header's step buttons are hidden. Fixed to the
+ * bottom of the wrapper, which covers the viewport, with the details scrolling
+ * under it.
+ */
+export const StepBar = styled.div`
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${props => props.theme.spacingUnits['150']}
+    ${props => props.theme.spacingUnits['200']};
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color(pageBackgroundColor)};
+
+  ${StepButton} {
+    flex-direction: row;
+    gap: ${props => props.theme.spacingUnits['100']};
+  }
+
+  ${StepButton}:last-child {
+    flex-direction: row-reverse;
   }
 `;
 

@@ -936,6 +936,30 @@ test.describe('Small screens', () => {
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(Math.abs(scrollAfter - scrolledDown)).toBeLessThanOrEqual(1);
   });
+
+  test('the step buttons are in a bar at the bottom, and the grid is left on the image stepped to', async ({
+    page,
+    context,
+  }) => {
+    await searchImages('cats', context, page, 'phase3');
+    await openSidebar(1, page);
+
+    const bar = sidebar(page).getByRole('button', { name: 'Next image' });
+    await expect(bar).toBeVisible();
+    const box = await bar.boundingBox();
+    expect(box!.y + box!.height).toBeGreaterThan(screen.height - 60);
+
+    await bar.click();
+    await bar.click();
+    const steppedTo = new URL(page.url()).hash.slice(1);
+    expect(steppedTo).not.toBe('');
+
+    // The grid is behind the sidebar, but still scrolled, so closing leaves
+    // the image stepped to in view
+    await closeButton(page).click();
+    await expect(sidebar(page)).toHaveCount(0);
+    await expect(page.locator(`#${steppedTo}`)).toBeInViewport();
+  });
 });
 
 test.describe('No regression', () => {

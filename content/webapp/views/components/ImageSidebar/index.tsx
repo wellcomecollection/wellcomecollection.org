@@ -41,6 +41,7 @@ import {
   SidebarHeader,
   SidebarScroller,
   SidebarWrapper,
+  StepBar,
   StepButton,
   StepButtons,
   ThumbnailLink,
@@ -214,6 +215,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
   const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
   const hasHeaderStepButtons = showImageSidebarPhase3 && !isFullScreen;
+  const hasStepBar = showImageSidebarPhase3 && isFullScreen;
 
   const linkedImageId = useRef(
     typeof window === 'undefined' ? undefined : readUrlHash()
@@ -462,7 +464,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             <div className="visually-hidden" aria-live="polite">
               {stepAnnouncement}
             </div>
-            <SidebarScroller ref={scrollerRef}>
+            <SidebarScroller ref={scrollerRef} $hasStepBar={hasStepBar}>
               <SidebarHeader>
                 {hasHeaderStepButtons && (
                   <StepButtons>
@@ -588,6 +590,23 @@ const ImageSidebar: FunctionComponent<Props> = ({
                 </>
               )}
             </SidebarScroller>
+
+            {hasStepBar && (
+              <StepBar>
+                {stepButton({
+                  direction: 'previous',
+                  label: 'Previous image',
+                  shortLabel: 'Prev',
+                  icon: <Icon icon={arrow} rotate={180} />,
+                })}
+                {stepButton({
+                  direction: 'next',
+                  label: 'Next image',
+                  shortLabel: 'Next',
+                  icon: <Icon icon={arrow} />,
+                })}
+              </StepBar>
+            )}
           </SidebarWrapper>
         </FocusTrap>
       )}
