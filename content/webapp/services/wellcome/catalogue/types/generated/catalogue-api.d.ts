@@ -917,7 +917,10 @@ export interface components {
     )[];
     /** @description Which field to sort the results on */
     WorksSort: (
-      'production.dates' | 'items.locations.createdDate' | 'collectionPath'
+      | 'production.dates'
+      | 'items.locations.createdDate'
+      | 'collectionPath'
+      | 'title'
     )[];
     /**
      * @description Filter by the access status of items on the retrieved works. A comma-separated
