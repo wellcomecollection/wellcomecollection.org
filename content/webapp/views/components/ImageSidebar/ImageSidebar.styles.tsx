@@ -31,6 +31,8 @@ export const SidebarWrapper = styled.section<{
   position: fixed;
   inset: 0;
   z-index: 1001;
+  display: flex;
+  flex-direction: column;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
   transform: ${props => (props.$isOpen ? 'none' : 'translateY(100%)')};
@@ -71,19 +73,13 @@ export const SidebarWrapper = styled.section<{
 export const SidebarScroller = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})<{ $hasStepBar?: boolean }>`
-  height: 100%;
+})`
+  flex: 1;
+
+  /* Without this it grows to fit the details rather than scrolling them */
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-
-  /* Clears the bar, which the details scroll under */
-  ${props =>
-    props.$hasStepBar &&
-    css`
-      padding-bottom: calc(
-        ${props.theme.spacingUnits['600']} + ${props.theme.spacingUnits['200']}
-      );
-    `}
 
   ${props =>
     props.theme.media('sm')(`
@@ -183,13 +179,10 @@ export const StepButton = styled.button.attrs({
 `;
 
 /**
- * Full screen only, where the header's step buttons are hidden. Fixed to the
- * bottom of the wrapper, which covers the viewport, with the details scrolling
- * under it.
+ * Full screen only, where the header's step buttons are hidden. Sits below the
+ * scrolling details rather than over them, so it doesn't cover their scrollbar.
  */
 export const StepBar = styled.div`
-  position: absolute;
-  inset: auto 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;

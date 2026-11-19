@@ -483,7 +483,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
             <div className="visually-hidden" aria-live="polite">
               {stepAnnouncement}
             </div>
-            <SidebarScroller ref={scrollerRef} $hasStepBar={hasStepBar}>
+            <SidebarScroller ref={scrollerRef}>
               <SidebarHeader>
                 {hasHeaderStepButtons && (
                   <StepButtons>{stepButtons}</StepButtons>
