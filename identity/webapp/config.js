@@ -24,7 +24,22 @@ const getConfig = () => {
     remoteApi: {
       host: process.env.IDENTITY_API_HOST || 'build',
       apiKey: process.env.IDENTITY_API_KEY || 'build',
+      // The API that access tokens are requested for. v2 accepts v1's tokens,
+      // so this stays v1's identifier whichever API a request goes to.
+      audience:
+        process.env.IDENTITY_API_AUDIENCE ||
+        process.env.IDENTITY_API_HOST ||
+        'build',
     },
+
+    // Unset where v2 doesn't exist (see utils/identity-api.ts)
+    remoteApiV2:
+      process.env.IDENTITY_API_V2_HOST && process.env.IDENTITY_API_V2_KEY
+        ? {
+            host: process.env.IDENTITY_API_V2_HOST,
+            apiKey: process.env.IDENTITY_API_V2_KEY,
+          }
+        : undefined,
   };
 };
 
