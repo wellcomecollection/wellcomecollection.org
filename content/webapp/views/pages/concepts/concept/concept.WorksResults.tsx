@@ -76,10 +76,15 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
 
   return (
     <>
-      <DecorativeEdgeWrapper>
+      <DecorativeEdgeWrapper data-in-page-nav-dark-edge>
         <DecorativeEdge
           variant="wobbly"
           backgroundColor={pageBackgroundColor}
+          fixedUntil={
+            theme.brandUpdate
+              ? '[data-component="in-page-navigation"]'
+              : undefined
+          }
         />
       </DecorativeEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top'] }} as="section">
