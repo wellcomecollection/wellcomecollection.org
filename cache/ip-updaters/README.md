@@ -9,6 +9,8 @@ Automated Lambda functions that keep WAF IP allowlists up to date. Both follow t
 
 Both send failure alerts via SNS.
 
+CloudWatch alarms for both updaters (Lambda errors, throttling, and IP-change validation failures) are classified with `backplane:component=content` and `severity=medium` tags. Their descriptions start with `[component=content severity=medium]`.
+
 ## Files
 
 - [`google-bots.js`](./google-bots.js) — fetches Google bot IPv4 ranges (common-crawlers only; special-crawlers excluded as they don't send a Googlebot user-agent)
