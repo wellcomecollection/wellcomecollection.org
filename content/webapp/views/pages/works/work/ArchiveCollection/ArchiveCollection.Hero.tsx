@@ -22,6 +22,8 @@ import {
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import WorkDetailsTags from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tags';
 
+const MAX_VISIBLE_SUBJECTS = 10;
+
 const Hero = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -147,6 +149,9 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
                   <WorkDetailsTags
                     buttonColors={themeValues.buttonColors.slateWhiteBlack}
                     tags={subjectTags}
+                    maxVisible={MAX_VISIBLE_SUBJECTS}
+                    showAllText="show all subjects"
+                    isFirstPartBold={false}
                   />
                 }
               />
