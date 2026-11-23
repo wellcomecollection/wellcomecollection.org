@@ -1223,6 +1223,17 @@ resource "aws_wafv2_web_acl" "wc_org" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesSQLiRuleSet"
         vendor_name = "AWS"
+
+        // Count only, so sqli-query-arguments-block can exempt /search.
+        dynamic "rule_action_override" {
+          for_each = var.enable_search_sqli_exemption ? ["SQLi_QUERYARGUMENTS"] : []
+          content {
+            name = rule_action_override.value
+            action_to_use {
+              count {}
+            }
+          }
+        }
       }
     }
 
@@ -1230,6 +1241,58 @@ resource "aws_wafv2_web_acl" "wc_org" {
       cloudwatch_metrics_enabled = true
       sampled_requests_enabled   = true
       metric_name                = "weco-cloudfront-acl-sqli-${var.namespace}"
+    }
+  }
+
+  // Blocks what SQLi_QUERYARGUMENTS matches everywhere except /search pages
+  // and their Next.js data routes. Catalogue filter labels such as
+  // "Keys (Legends)" or "Smith, John, 1700 or 1701-" look like SQL to it, and
+  // search arguments only reach Elasticsearch and Prismic, never SQL.
+  dynamic "rule" {
+    for_each = var.enable_search_sqli_exemption ? [1] : []
+    content {
+      name     = "sqli-query-arguments-block"
+      priority = 29
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            label_match_statement {
+              scope = "LABEL"
+              key   = "awswaf:managed:aws:sql-database:SQLi_QueryArguments"
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  regex_string = "^(/_next/data/[^/]+)?/search"
+
+                  field_to_match {
+                    uri_path {}
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "sqli-query-arguments-block-${var.namespace}"
+      }
     }
   }
 
