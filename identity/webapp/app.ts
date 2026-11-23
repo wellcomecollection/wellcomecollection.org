@@ -95,7 +95,7 @@ export async function createApp(): Promise<Koa> {
 
   // Lets deploy tooling confirm which commit is live; must never be cached.
   // Lets deploy tooling confirm which commit is live; must never be cached.
-  // The contract this implements: https://github.com/wellcomecollection/deploy-tracker/blob/main/SPEC.md#the-manifest-endpoint
+  // The contract this implements: https://github.com/wellcometrust/backplane/blob/main/docs/spec/09-dora-metrics.md#971-the-manifest-endpoint
   //
   // Registered on both paths: the ALB hits the app directly, CloudFront
   // routes it under /account.
