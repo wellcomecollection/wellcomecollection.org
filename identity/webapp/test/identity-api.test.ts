@@ -38,23 +38,37 @@ describe('chooseIdentityApi', () => {
   it('uses v2 for a patron linked to FOLIO when the toggle is on', async () => {
     mockToggles.mockReturnValue({ featureFlags: { identityApiV2: true } });
 
-    expect(await chooseIdentityApi(request(), 'a-folio-user-id')).toBe(
-      identityApiV2
-    );
+    expect(
+      await chooseIdentityApi(request(), 'a-folio-user-id', 'auth0|p1234567')
+    ).toBe(identityApiV2);
   });
 
   it('uses v1 for a patron not linked to FOLIO', async () => {
     mockToggles.mockReturnValue({ featureFlags: { identityApiV2: true } });
 
-    expect(await chooseIdentityApi(request(), undefined)).toBe(identityApiV1);
+    expect(
+      await chooseIdentityApi(request(), undefined, 'auth0|p1234567')
+    ).toBe(identityApiV1);
+  });
+
+  it('uses v2 for a user Auth0 stores itself, even with the toggle off', async () => {
+    mockToggles.mockReturnValue({ featureFlags: { identityApiV2: false } });
+
+    expect(
+      await chooseIdentityApi(
+        request(),
+        'a-folio-user-id',
+        'auth0|0123456789abcdef01234567'
+      )
+    ).toBe(identityApiV2);
   });
 
   it('uses v1 when the toggle is off', async () => {
     mockToggles.mockReturnValue({ featureFlags: { identityApiV2: false } });
 
-    expect(await chooseIdentityApi(request(), 'a-folio-user-id')).toBe(
-      identityApiV1
-    );
+    expect(
+      await chooseIdentityApi(request(), 'a-folio-user-id', 'auth0|p1234567')
+    ).toBe(identityApiV1);
   });
 });
 
@@ -99,5 +113,25 @@ describe('isAuth0StoredUser', () => {
 
   it('rejects a patron from Sierra', () => {
     expect(isAuth0StoredUser('auth0|p1234567')).toBe(false);
+  });
+
+  it('drops a value that is not a single address', () => {
+    expect(
+      patronIp(
+        request({ 'cloudfront-viewer-address': '9.9.9.9, 198.51.100.10:46532' })
+      )
+    ).toBeUndefined();
+  });
+
+  it('drops an address with no port', () => {
+    expect(
+      patronIp(request({ 'cloudfront-viewer-address': '::1' }))
+    ).toBeUndefined();
+  });
+
+  it('drops an IPv4 address with no port', () => {
+    expect(
+      patronIp(request({ 'cloudfront-viewer-address': '1.2.3.45' }))
+    ).toBeUndefined();
   });
 });

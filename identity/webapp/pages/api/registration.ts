@@ -166,14 +166,14 @@ export default async (
   }
 
   const secret = config.auth0.actionSecret;
+  const sub = getSubFromToken(sessionToken, secret);
   const api = await chooseIdentityApi(
     req,
-    getFolioUserIdFromToken(sessionToken, secret)
+    getFolioUserIdFromToken(sessionToken, secret),
+    sub
   );
-  if (
-    api.version === 1 &&
-    isAuth0StoredUser(getSubFromToken(sessionToken, secret))
-  ) {
+  // Only where v2 doesn't exist, since v1 can't serve these users
+  if (api.version === 1 && isAuth0StoredUser(sub)) {
     res.redirect(302, '/account/error');
     return;
   }

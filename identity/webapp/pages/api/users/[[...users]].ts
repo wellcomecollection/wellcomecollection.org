@@ -55,11 +55,14 @@ const handleIdentityApiRequest = auth0.withApiAuthRequired(
       const { token } = await auth0.getAccessToken(req, res);
       const path = `/users/${route}`;
 
+      const sub = subFromAccessToken(token);
       const api = await chooseIdentityApi(
         req,
-        folioUserIdFromAccessToken(token)
+        folioUserIdFromAccessToken(token),
+        sub
       );
-      if (api.version === 1 && isAuth0StoredUser(subFromAccessToken(token))) {
+      // Only where v2 doesn't exist, since v1 can't serve these users
+      if (api.version === 1 && isAuth0StoredUser(sub)) {
         return res
           .status(403)
           .json({ message: "This account can't be used at the moment" });

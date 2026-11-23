@@ -109,7 +109,8 @@ describe('/api/registration', () => {
 
     expect(mockChooseIdentityApi).toHaveBeenCalledWith(
       expect.anything(),
-      'a-folio-id'
+      'a-folio-id',
+      'auth0|p1234567'
     );
     expect(mockPut).toHaveBeenCalledWith(
       'https://v2.test',
@@ -118,7 +119,7 @@ describe('/api/registration', () => {
     );
   });
 
-  it('refuses a user Auth0 stores itself when the request would go to v1', async () => {
+  it('refuses a user Auth0 stores itself where v2 is not configured', async () => {
     mockChooseIdentityApi.mockResolvedValue(identityApiV1);
     const res = makeResponse();
     await handler(

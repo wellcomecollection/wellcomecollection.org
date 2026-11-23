@@ -161,7 +161,7 @@ describe('/api/users/[[...users]]', () => {
     );
   });
 
-  it('refuses a user Auth0 stores itself instead of sending them to v1', async () => {
+  it('refuses a user Auth0 stores itself where v2 is not configured', async () => {
     mockSub.mockReturnValue('auth0|0123456789abcdef01234567');
     const res = makeResponse();
     await handler(makeRequest('GET', ['me']), res);
