@@ -2,6 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import handler from '@weco/identity/pages/api/users/[[...users]]';
 import auth0 from '@weco/identity/utils/auth0';
+import {
+  identityApiV1,
+  identityApiV2,
+} from '@weco/identity/utils/identity-api';
 
 // The real modules pull in the auth0 SDK, which is ESM-only and can't be
 // loaded by jest's CommonJS transform
@@ -17,6 +21,24 @@ jest.mock('@auth0/nextjs-auth0/errors', () => ({
   __esModule: true,
   AccessTokenError: class AccessTokenError extends Error {},
 }));
+
+const mockChooseIdentityApi = jest.fn();
+const mockPatronIp = jest.fn();
+const mockSub = jest.fn();
+jest.mock('@weco/identity/utils/identity-api', () => {
+  const identityApiV1 = { version: 1, host: 'https://v1.test', apiKey: 'v1' };
+  const identityApiV2 = { version: 2, host: 'https://v2.test', apiKey: 'v2' };
+  return {
+    identityApiV1,
+    identityApiV2,
+    chooseIdentityApi: (...args: unknown[]) => mockChooseIdentityApi(...args),
+    folioUserIdFromAccessToken: () => undefined,
+    patronIp: (...args: unknown[]) => mockPatronIp(...args),
+    subFromAccessToken: () => mockSub(),
+    isAuth0StoredUser: (sub: string | undefined) =>
+      /^auth0\|[a-f0-9]{24}$/.test(sub ?? ''),
+  };
+});
 
 const mockRequest = jest.fn();
 jest.mock('@weco/identity/utils/fetch-helpers', () => ({
@@ -65,6 +87,9 @@ describe('/api/users/[[...users]]', () => {
     jest.clearAllMocks();
     mockedAuth0.getAccessToken.mockResolvedValue({ token: 'token' } as never);
     mockRequest.mockResolvedValue({ status: 200, data: { ok: true } });
+    mockChooseIdentityApi.mockResolvedValue(identityApiV1);
+    mockPatronIp.mockReturnValue('198.51.100.10');
+    mockSub.mockReturnValue('auth0|p1234567');
   });
 
   // Every call the identity and content apps make through this proxy
@@ -107,5 +132,50 @@ describe('/api/users/[[...users]]', () => {
 
     expect(res.statusCode).toBe(405);
     expect(mockRequest).not.toHaveBeenCalled();
+  });
+
+  it('sends v2 the patron IP address', async () => {
+    mockChooseIdentityApi.mockResolvedValue(identityApiV2);
+    const res = makeResponse();
+    await handler(makeRequest('PUT', ['me', 'password']), res);
+
+    expect(mockRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          'X-Forwarded-For': '198.51.100.10',
+        }),
+      })
+    );
+  });
+
+  it('sends v1 no patron IP address', async () => {
+    const res = makeResponse();
+    await handler(makeRequest('PUT', ['me', 'password']), res);
+
+    expect(mockRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headers: expect.not.objectContaining({
+          'X-Forwarded-For': expect.anything(),
+        }),
+      })
+    );
+  });
+
+  it('refuses a user Auth0 stores itself where v2 is not configured', async () => {
+    mockSub.mockReturnValue('auth0|0123456789abcdef01234567');
+    const res = makeResponse();
+    await handler(makeRequest('GET', ['me']), res);
+
+    expect(res.statusCode).toBe(403);
+    expect(mockRequest).not.toHaveBeenCalled();
+  });
+
+  it('sends a user Auth0 stores itself to v2', async () => {
+    mockSub.mockReturnValue('auth0|0123456789abcdef01234567');
+    mockChooseIdentityApi.mockResolvedValue(identityApiV2);
+    const res = makeResponse();
+    await handler(makeRequest('GET', ['me']), res);
+
+    expect(res.statusCode).toBe(200);
   });
 });
