@@ -1271,7 +1271,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
             not_statement {
               statement {
                 regex_match_statement {
-                  regex_string = "^(/_next/data/[^/]+)?/search"
+                  // Anchored, with no dots but .json, so ../ paths can't borrow the exemption.
+                  regex_string = "^(/_next/data/[^/]+)?/search(/[a-z]+)?(\\.json)?$"
 
                   field_to_match {
                     uri_path {}
@@ -1467,7 +1468,8 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   // Blocks self-identifying automation that solves the challenge and loads
   // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
-  // Last, so it only sees what every other rule would allow.
+  // Near the end, so it only sees what earlier rules would allow;
+  // sqli-query-arguments-block (29) can still block after it.
   dynamic "rule" {
     for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
     content {
