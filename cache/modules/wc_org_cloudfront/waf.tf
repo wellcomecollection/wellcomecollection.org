@@ -1244,59 +1244,6 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  // Blocks what SQLi_QUERYARGUMENTS matches everywhere except /search pages
-  // and their Next.js data routes. Catalogue filter labels such as
-  // "Keys (Legends)" or "Smith, John, 1700 or 1701-" look like SQL to it, and
-  // search arguments only reach Elasticsearch and Prismic, never SQL.
-  dynamic "rule" {
-    for_each = var.enable_search_sqli_exemption ? [1] : []
-    content {
-      name     = "sqli-query-arguments-block"
-      priority = 29
-
-      action {
-        block {}
-      }
-
-      statement {
-        and_statement {
-          statement {
-            label_match_statement {
-              scope = "LABEL"
-              key   = "awswaf:managed:aws:sql-database:SQLi_QueryArguments"
-            }
-          }
-
-          statement {
-            not_statement {
-              statement {
-                regex_match_statement {
-                  // Anchored, with no dots but .json, so ../ paths can't borrow the exemption.
-                  regex_string = "^(/_next/data/[^/]+)?/search(/[a-z]+)?(\\.json)?$"
-
-                  field_to_match {
-                    uri_path {}
-                  }
-
-                  text_transformation {
-                    priority = 0
-                    type     = "NONE"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-
-      visibility_config {
-        cloudwatch_metrics_enabled = true
-        sampled_requests_enabled   = true
-        metric_name                = "sqli-query-arguments-block-${var.namespace}"
-      }
-    }
-  }
-
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
@@ -1505,6 +1452,59 @@ resource "aws_wafv2_web_acl" "wc_org" {
         cloudwatch_metrics_enabled = true
         sampled_requests_enabled   = true
         metric_name                = "blocked-user-agent-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks what SQLi_QUERYARGUMENTS matches everywhere except /search pages
+  // and their Next.js data routes. Catalogue filter labels such as
+  // "Keys (Legends)" or "Smith, John, 1700 or 1701-" look like SQL to it, and
+  // search arguments only reach Elasticsearch and Prismic, never SQL.
+  dynamic "rule" {
+    for_each = var.enable_search_sqli_exemption ? [1] : []
+    content {
+      name     = "sqli-query-arguments-block"
+      priority = 29
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            label_match_statement {
+              scope = "LABEL"
+              key   = "awswaf:managed:aws:sql-database:SQLi_QueryArguments"
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  // Anchored, with no dots but .json, so ../ paths can't borrow the exemption.
+                  regex_string = "^(/_next/data/[^/]+)?/search(/[a-z0-9-]+)?(\\.json)?$"
+
+                  field_to_match {
+                    uri_path {}
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "sqli-query-arguments-block-${var.namespace}"
       }
     }
   }
