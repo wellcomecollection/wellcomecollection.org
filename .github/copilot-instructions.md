@@ -29,7 +29,7 @@ Follow these patterns consistently:
 - Service/utility folders: use `index.ts` as the main export point
 - Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
 - Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
-- Module-level constants: `SCREAMING_SNAKE_CASE` (`ZOOM_STEP`, `CLICK_TOLERANCE_PX`, `SOURCE_BOX_WIDTH`). A few older files use camelCase for these - follow the convention in anything new rather than the file you happen to be in
+- Module-level constants whose value is a single number or string: `SCREAMING_SNAKE_CASE` (`ZOOM_STEP`, `CLICK_TOLERANCE_PX`, `SOURCE_BOX_WIDTH`). Ones that hold CSS or a style block stay camelCase (`layout`, `normalize`). Plenty of older files use camelCase for the numbers and strings too - follow the convention in anything new rather than the file you happen to be in
 
 ## JSX
 
