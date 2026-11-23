@@ -1,12 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
 import styled, { css } from 'styled-components';
 
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { eye } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Button, {
   ButtonHierarchy,
   ButtonProps,
 } from '@weco/common/views/components/Buttons';
+import Readme from '@weco/common/views/components/Buttons/README.mdx';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -46,7 +48,8 @@ export default meta;
 
 type StoryProps = {
   showIcon: boolean;
-  storyColors: 'Default' | 'Green border' | 'Yellow' | 'White' | 'White border';
+  storyColors:
+    'Default' | 'Green border' | 'Yellow' | 'White' | 'White border' | 'Danger';
 };
 
 type Story = StoryObj<ButtonProps & StoryProps>;
@@ -62,6 +65,8 @@ export const Basic: Story = {
     storyColors: 'Default',
     showIcon: true,
     hierarchy: 'primary',
+    isOnDark: false,
+    isDanger: false,
   },
   parameters: {
     docs: {
@@ -109,7 +114,13 @@ export const Basic: Story = {
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <Wrapper $isOnDark={!!storyColors?.includes('White') || !!args.isOnDark}>
+      <ReadmeDecorator
+        WrappedComponent={Wrapper}
+        args={{
+          $isOnDark: !!storyColors?.includes('White') || !!args.isOnDark,
+        }}
+        Readme={Readme}
+      >
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
@@ -126,7 +137,7 @@ export const Basic: Story = {
           }}
           {...restOfArgs}
         />
-      </Wrapper>
+      </ReadmeDecorator>
     );
   },
 };
@@ -191,6 +202,7 @@ export const DropdownButton: Story = {
     isOnDark: false,
     hasNoOptions: false,
     isTight: false,
+    hierarchy: 'primary',
   },
   argTypes: {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
