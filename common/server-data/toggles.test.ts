@@ -66,7 +66,7 @@ const publicExperimentFlag = {
 };
 
 // It isn't in toggles.ts, so FeatureFlags doesn't know its name
-const publicExperimentValue = (flags: object) =>
+const getPublicExperimentValue = (flags: object) =>
   (flags as Record<string, boolean | undefined>).publicExperiment;
 
 // Use a real stage-type flag to test stage filtering
@@ -152,7 +152,7 @@ describe('getTogglesFromContext', () => {
         createContext({ toggle_publicExperiment: 'off' })
       );
 
-      expect(publicExperimentValue(result.featureFlags)).toBe(false);
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('ignores "off" on a flag that is not experimental', () => {
@@ -180,7 +180,7 @@ describe('getTogglesFromContext', () => {
         createContext({ toggle_publicExperiment: 'false' })
       );
 
-      expect(publicExperimentValue(result.featureFlags)).toBe(true);
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(true);
     });
 
     it('applies an "off" preset on the first request, before its cookie exists', () => {
@@ -194,7 +194,7 @@ describe('getTogglesFromContext', () => {
         publicExperiment: 'off',
       });
 
-      expect(publicExperimentValue(result.featureFlags)).toBe(false);
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('lets an "off" preset beat an existing "true" cookie', () => {
@@ -209,7 +209,7 @@ describe('getTogglesFromContext', () => {
         { publicExperiment: 'off' }
       );
 
-      expect(publicExperimentValue(result.featureFlags)).toBe(false);
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('lets an override beat an "off" cookie', () => {
@@ -224,7 +224,7 @@ describe('getTogglesFromContext', () => {
         { publicExperiment: 'true' }
       );
 
-      expect(publicExperimentValue(result.featureFlags)).toBe(true);
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(true);
     });
 
     it('excludes stage-only flags on non-stage hosts', () => {

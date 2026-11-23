@@ -26,10 +26,6 @@ const TogglePlayRateButton = styled.button.attrs({
     display: flex;
     justify-content: end;
   }
-
-  &:hover {
-    color: ${props => props.theme.color(controlColor(props.$isDark))};
-  }
 `;
 
 const PlayRateButton = styled.div.attrs({

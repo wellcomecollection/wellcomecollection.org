@@ -47,8 +47,7 @@ export const SkipPlayWrapper = styled.div`
   justify-content: center;
 `;
 
-export const colorTransform = css<{ $isDark: boolean }>`
-  color: ${props => props.theme.color(controlColor(props.$isDark))};
+export const hoverScale = css`
   transform: scale(1.1);
 `;
 
@@ -62,13 +61,13 @@ export const SkipButton = styled.button<{ $isDark: boolean }>`
 
   @media (hover: hover) {
     &:hover {
-      ${colorTransform};
+      ${hoverScale};
     }
   }
 
   @media (hover: none) {
     &:active {
-      ${colorTransform};
+      ${hoverScale};
     }
   }
 `;
@@ -81,8 +80,7 @@ export const PlayerRateWrapper = styled.div`
   justify-content: end;
 `;
 
-export const colorTransformIconFill = css<{ $isDark: boolean }>`
-  color: ${props => props.theme.color(controlColor(props.$isDark))};
+export const hoverScaleIconFill = css<{ $isDark: boolean }>`
   transform: scale(1.1);
 
   .icon__playpause {
@@ -109,13 +107,13 @@ export const PlayPauseInner = styled.div<{ $isDark: boolean }>`
 
   @media (hover: hover) {
     &:hover {
-      ${colorTransformIconFill};
+      ${hoverScaleIconFill};
     }
   }
 
   @media (hover: none) {
     &:active {
-      ${colorTransformIconFill};
+      ${hoverScaleIconFill};
     }
   }
 `;

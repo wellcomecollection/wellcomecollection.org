@@ -6,15 +6,11 @@ export const ControlsWrap = styled.div`
   position: relative;
 `;
 
-export const ScrollButtonWrap = styled.div<{
-  $isActive?: boolean;
-  $isLeft?: boolean;
-}>`
+export const ScrollButtonWrap = styled.div<{ $isLeft?: boolean }>`
   position: absolute;
   z-index: 2;
   top: 50%;
   cursor: pointer;
-  pointer-events: all;
 
   /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
   .spaced-text & {

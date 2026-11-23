@@ -19,12 +19,12 @@ import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
 
-// The brand's hover circle and pill are taller than the legacy button (about
-// 36px), so negative margins split the difference to keep the header row height
-const BRAND_HEIGHT = 44;
-const LEGACY_HEIGHT = 36;
+// The hover circle and pill are taller than the header row allows for, so
+// negative margins split the difference to keep the row height
+const PILL_HEIGHT = 44;
+const HEADER_ROW_HEIGHT = 36;
 
-const brandStyles = (isActive?: boolean) => {
+const pillStyles = (isActive?: boolean) => {
   const inverted = `
     background: ${designSystemColor('neutral.70')};
     color: ${designSystemColor('neutral.10')};
@@ -32,12 +32,12 @@ const brandStyles = (isActive?: boolean) => {
 
   return `
     color: ${designSystemColor('neutral.70')};
-    border-radius: ${BRAND_HEIGHT / 2}px;
-    height: ${BRAND_HEIGHT}px;
+    border-radius: ${PILL_HEIGHT / 2}px;
+    height: ${PILL_HEIGHT}px;
     padding: 0 12px;
     transition: none;
-    margin-top: ${(LEGACY_HEIGHT - BRAND_HEIGHT) / 2}px;
-    margin-bottom: ${(LEGACY_HEIGHT - BRAND_HEIGHT) / 2}px;
+    margin-top: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
+    margin-bottom: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
 
     .icon__shape {
       transition: none;
@@ -57,7 +57,7 @@ const BorderlessClickableStyle = styled(BasicButton)<{
   background: transparent;
   padding: 10px 8px;
 
-  ${props => brandStyles(props.$isActive)}
+  ${props => pillStyles(props.$isActive)}
 `;
 
 type Props = {

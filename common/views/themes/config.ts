@@ -262,12 +262,6 @@ const charcoalTransparentCharcoal: ButtonColors = {
   text: 'neutral.700', // legacy charcoal color
 };
 
-const charcoalTransparentBlack: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
-  background: 'transparent',
-  text: 'black',
-};
-
 const marbleWhiteCharcoal: ButtonColors = {
   border: 'neutral.400', // legacy pumice color
   background: 'white',
@@ -287,24 +281,6 @@ const whiteWhiteCharcoal: ButtonColors = {
   border: 'white',
   background: 'white',
   text: 'neutral.700', // legacy charcoal color
-};
-
-const silverTransparentBlack: ButtonColors = {
-  border: 'neutral.300',
-  background: 'transparent',
-  text: 'black',
-};
-
-const slateTransparentBlack: ButtonColors = {
-  border: 'neutral.600',
-  background: 'transparent',
-  text: 'black',
-};
-
-const slateWhiteBlack: ButtonColors = {
-  border: 'neutral.600',
-  background: 'white',
-  text: 'black',
 };
 
 type BrandButtonColor = DesignSystemColor | 'transparent';
@@ -615,13 +591,9 @@ export const themeValues = {
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
-    charcoalTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
-    silverTransparentBlack,
-    slateTransparentBlack,
-    slateWhiteBlack,
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
