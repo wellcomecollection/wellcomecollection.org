@@ -39,9 +39,9 @@ const SubThemeRelatedTopics = ({
             {theme.brandUpdate ? (
               <SelectableTagLink
                 href={`/concepts/${item.id}`}
-                $isSelected={false}
                 $lineColor="black"
                 $lineThickness={1.4}
+                $isSelected={false}
                 {...dataGtmPropsToAttributes({
                   trigger: 'related_topics',
                   'position-in-list': `${index + 1}`,

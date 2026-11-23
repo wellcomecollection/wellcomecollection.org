@@ -77,9 +77,9 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
             {theme.brandUpdate ? (
               <SelectableTagLink
                 href={`/concepts/${item.id}`}
-                $isSelected={false}
                 $lineColor="black"
                 $lineThickness={1.4}
+                $isSelected={false}
                 {...(dataGtmTriggerName &&
                   dataGtmPropsToAttributes({
                     trigger: dataGtmTriggerName,
