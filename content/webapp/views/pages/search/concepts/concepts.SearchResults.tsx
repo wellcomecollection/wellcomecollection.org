@@ -27,7 +27,7 @@ const ConceptSearchResult: FunctionComponent<{
   // Create a label for the concept type
   const typeLabel = {
     text: concept.type,
-    labelColor: { brand: 'green.20', legacy: 'warmNeutral.300' } as const,
+    labelColor: 'green.20' as const,
   };
 
   const linkProps = toConceptLink({ conceptId: concept.id });
@@ -38,13 +38,7 @@ const ConceptSearchResult: FunctionComponent<{
         <Container>
           <Details>
             <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              <LabelsList
-                labels={[typeLabel]}
-                defaultLabelColor={{
-                  brand: 'green.20',
-                  legacy: 'warmNeutral.300',
-                }}
-              />
+              <LabelsList labels={[typeLabel]} defaultLabelColor="green.20" />
             </Space>
 
             <ConceptTitleHeading>{concept.displayLabel}</ConceptTitleHeading>

@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -347,15 +347,6 @@ type WorkTypeIcons = {
 };
 
 const defaultIcons: WorkTypeIcons = {
-  book: '/icons/book.svg',
-  image: '/icons/image.svg',
-  archives: '/icons/archives.svg',
-  videoAudio: '/icons/video-audio.svg',
-  ephemera: '/icons/ephemera.svg',
-};
-
-// The same illustrations, recoloured to the new brand palette
-const brandIcons: WorkTypeIcons = {
   book: '/icons/book-brand.svg',
   image: '/icons/image-brand.svg',
   archives: '/icons/archives-brand.svg',
@@ -367,9 +358,7 @@ const WorkTypesList: React.FC<WorkTypesListProps> = ({
   collectionStats,
   icons: iconsOverride,
 }) => {
-  const theme = useTheme();
-  const icons =
-    iconsOverride || (theme.brandUpdate ? brandIcons : defaultIcons);
+  const icons = iconsOverride || defaultIcons;
   const [startAnimations, setStartAnimations] = useState(false);
   const numberEls = useRef<Set<Element>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);

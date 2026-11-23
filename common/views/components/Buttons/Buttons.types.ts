@@ -2,7 +2,7 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { DataGtmProps } from '@weco/common/utils/gtm';
-import { PinnableColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = (
@@ -21,15 +21,13 @@ export type SolidButtonStyledProps = (
   $isDanger?: boolean;
 };
 
-/** Where a button sits in the brand designs' hierarchy. Only used when the
- * `brandUpdate` toggle is on.
- */
+/** Where a button sits in the brand designs' hierarchy. */
 export type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary';
 
 export type ButtonColors = {
-  border: PinnableColor;
-  background: PinnableColor;
-  text: PinnableColor;
+  border: ThemeColor;
+  background: ThemeColor;
+  text: ThemeColor;
 };
 
 export enum ButtonTypes {

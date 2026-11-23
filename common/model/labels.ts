@@ -1,15 +1,15 @@
-import { Pinnable } from '@weco/common/views/themes/config';
+import { DesignSystemColor } from '@weco/common/views/themes/config';
 
-export type LabelColor = Pinnable<
+export type LabelColor =
+  | DesignSystemColor
   | 'accent.salmon'
   | 'yellow'
   | 'black'
   | 'warmNeutral.300'
   | 'white'
-  | 'transparent'
->;
+  | 'transparent';
 
-export type TextColor = Pinnable<'yellow' | 'black' | 'white'>;
+export type TextColor = DesignSystemColor | 'yellow' | 'black' | 'white';
 
 export type Label = {
   text: string;

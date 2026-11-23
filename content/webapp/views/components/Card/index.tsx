@@ -31,7 +31,7 @@ const sharedCardOuter = css`
   overflow: hidden;
   flex-direction: column;
 
-  background: ${props => props.theme.color({ brand: 'teal.20', legacy: 'warmNeutral.300' })};
+  background: ${props => props.theme.color('teal.20')};
   min-height: ${props => props.theme.minCardHeight}px;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
 
@@ -52,8 +52,7 @@ const sharedCardOuter = css`
   }
 
   .card-theme.card-theme--white & {
-    background: ${props =>
-      props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
+    background: ${props => props.theme.color('neutral.05')};
   }
 
   .card-theme.card-theme--transparent & {

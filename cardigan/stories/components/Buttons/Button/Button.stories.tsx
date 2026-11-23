@@ -72,7 +72,7 @@ export const Basic: Story = {
     docs: {
       description: {
         story:
-          'With the brandUpdate toolbar toggle on, `hierarchy`, `isOnDark` and `isDanger` set the brand colours. With it off, or with no hierarchy, the preset picked in Colors decides.',
+          '`hierarchy`, `isOnDark` and `isDanger` set the brand colours. With no hierarchy, the preset picked in Colors decides.',
       },
     },
   },
@@ -106,7 +106,7 @@ export const Basic: Story = {
     hierarchy: {
       options: [undefined, 'primary', 'secondary', 'tertiary'],
       control: { type: 'radio' },
-      name: 'Hierarchy (brand)',
+      name: 'Hierarchy',
     },
     isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
     isDanger: { control: 'boolean', name: 'Is danger (brand)' },
@@ -157,7 +157,7 @@ export const Hierarchy: Story = {
     docs: {
       description: {
         story:
-          'Primary, secondary and tertiary buttons on light and dark backgrounds. Turn the brandUpdate toolbar toggle on to see them; with it off every button uses the default preset.',
+          'Primary, secondary and tertiary buttons on light and dark backgrounds.',
       },
     },
   },

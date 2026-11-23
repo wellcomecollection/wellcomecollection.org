@@ -1,7 +1,7 @@
 /**
  * Design tokens for dash webapp
- * Colors, font and radii follow the design system's brand update, as
- * used by the main wellcomecollection.org content app
+ * Colors, font and radii follow the design system, as used by
+ * the main wellcomecollection.org content app
  * All colors meet WCAG AA contrast requirements (4.5:1 for normal text)
  */
 

@@ -5,7 +5,7 @@ import {
   ReactNode,
   SyntheticEvent,
 } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { classNames, typography } from '@weco/common/utils/classnames';
@@ -57,22 +57,7 @@ const BorderlessClickableStyle = styled(BasicButton)<{
   background: transparent;
   padding: 10px 8px;
 
-  ${props =>
-    props.theme.brandUpdate
-      ? brandStyles(props.$isActive)
-      : css`
-          color: ${props.theme.color('neutral.700')};
-
-          &:hover {
-            background: ${props.theme.color('neutral.300')};
-          }
-
-          ${
-            props.$isActive
-              ? `background: ${props.theme.color('neutral.300')};`
-              : ''
-          }
-        `}
+  ${props => brandStyles(props.$isActive)}
 `;
 
 type Props = {

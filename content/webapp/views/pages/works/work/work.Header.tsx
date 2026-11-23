@@ -94,10 +94,7 @@ const WorkHeader: FunctionComponent<Props> = ({
                 >
                   <LabelsList
                     labels={cardLabels}
-                    defaultLabelColor={{
-                      brand: 'green.20',
-                      legacy: 'warmNeutral.300',
-                    }}
+                    defaultLabelColor="green.20"
                   />
                 </Space>
               )}

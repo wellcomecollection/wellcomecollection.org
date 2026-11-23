@@ -22,10 +22,9 @@ import {
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
 import {
-  legacyColorName,
   pageBackgroundColor,
   PaletteColor,
-  PinnableColor,
+  ThemeColor,
 } from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
@@ -86,26 +85,26 @@ export type Props = {
 };
 
 type SectionTheme = {
-  rowBackground: PinnableColor;
+  rowBackground: ThemeColor;
   cardBackground: PaletteColor;
-  featuredCardBackground: PinnableColor;
-  featuredCardText: PinnableColor;
+  featuredCardBackground: ThemeColor;
+  featuredCardText: ThemeColor;
 };
 
 type WrapperProps = {
   $cardBackgroundColor: PaletteColor;
-  $rowBackgroundColor: PinnableColor;
+  $rowBackgroundColor: ThemeColor;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   className: classNames({
     'row card-theme': true,
-    'bg-dark': legacyColorName(props.$rowBackgroundColor) === 'neutral.700',
+    'bg-dark': props.$rowBackgroundColor === 'neutral.700',
     [`card-theme--${props.$cardBackgroundColor}`]: [
       'white',
       'transparent',
     ].includes(props.$cardBackgroundColor),
   }),
-}))<{ $rowBackgroundColor: PinnableColor }>`
+}))<{ $rowBackgroundColor: ThemeColor }>`
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
 
@@ -172,24 +171,24 @@ const Body: FunctionComponent<Props> = ({
       rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'neutral.700',
-      featuredCardText: { brand: 'neutral.10', legacy: 'white' },
+      featuredCardText: 'neutral.10',
     },
     {
       rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
-      featuredCardBackground: { brand: 'neutral.05', legacy: 'white' },
+      featuredCardBackground: 'neutral.05',
       featuredCardText: 'black',
     },
     {
       rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
-      featuredCardBackground: { brand: 'teal.20', legacy: 'warmNeutral.300' },
+      featuredCardBackground: 'teal.20',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'neutral.700',
       cardBackground: 'transparent',
-      featuredCardBackground: { brand: 'neutral.05', legacy: 'white' },
+      featuredCardBackground: 'neutral.05',
       featuredCardText: 'black',
     },
   ];
@@ -204,7 +203,7 @@ const Body: FunctionComponent<Props> = ({
         const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
         const isPageBackground =
-          legacyColorName(sectionTheme.rowBackground) === 'white';
+          sectionTheme.rowBackground === pageBackgroundColor;
         const hasFeatured = section.value.items.length === 1;
         const firstItem = section.value.items?.[0];
         const isCardType = firstItem?.type === 'card';

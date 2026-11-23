@@ -32,8 +32,7 @@ const Root = styled(Space).attrs({
 const Label = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  color: ${props =>
-    props.theme.color({ brand: 'neutral.60', legacy: 'neutral.600' })};
+  color: ${props => props.theme.color('neutral.60')};
 `;
 
 const Title = styled(Space).attrs({

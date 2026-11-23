@@ -14,8 +14,7 @@ export const TreeInstructions = styled.p.attrs({
 
 export const TreeBand = styled(Space)<{ $isDarkMode?: boolean }>`
   ${props =>
-    !props.$isDarkMode &&
-    `background: ${props.theme.color({ brand: 'neutral.20', legacy: 'warmNeutral.300' })};`}
+    !props.$isDarkMode && `background: ${props.theme.color('neutral.20')};`}
 `;
 
 export const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`

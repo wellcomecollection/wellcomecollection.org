@@ -57,13 +57,17 @@ const conceptsSearchFlag = {
 };
 
 // An experimental flag that's already public, which can be turned off for yourself
-const brandUpdateFlag = {
-  id: 'brandUpdate',
-  title: 'Brand update',
+const publicExperimentFlag = {
+  id: 'publicExperiment',
+  title: 'Public experiment',
   defaultValue: true,
-  description: 'Shows the new brand values.',
+  description: 'An experiment that has been made public.',
   type: 'experimental' as const,
 };
+
+// It isn't in toggles.ts, so FeatureFlags doesn't know its name
+const publicExperimentValue = (flags: object) =>
+  (flags as Record<string, boolean | undefined>).publicExperiment;
 
 // Use a real stage-type flag to test stage filtering
 const stageOnlyFlag = {
@@ -140,15 +144,15 @@ describe('getTogglesFromContext', () => {
     it('returns false when an experimental flag\'s cookie is "off"', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [brandUpdateFlag],
+        featureFlags: [publicExperimentFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_brandUpdate: 'off' })
+        createContext({ toggle_publicExperiment: 'off' })
       );
 
-      expect(result.featureFlags.brandUpdate).toBe(false);
+      expect(publicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('ignores "off" on a flag that is not experimental', () => {
@@ -168,59 +172,59 @@ describe('getTogglesFromContext', () => {
     it('returns defaultValue when an experimental flag\'s cookie is "false"', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [brandUpdateFlag],
+        featureFlags: [publicExperimentFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_brandUpdate: 'false' })
+        createContext({ toggle_publicExperiment: 'false' })
       );
 
-      expect(result.featureFlags.brandUpdate).toBe(true);
+      expect(publicExperimentValue(result.featureFlags)).toBe(true);
     });
 
     it('applies an "off" preset on the first request, before its cookie exists', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [brandUpdateFlag],
+        featureFlags: [publicExperimentFlag],
       };
 
-      // A `?toggle=brandUpdate:off` link reaches the resolver as an override
+      // A `?toggle=publicExperiment:off` link reaches the resolver as an override
       const result = getTogglesFromContext(togglesResp, createContext(), {
-        brandUpdate: 'off',
+        publicExperiment: 'off',
       });
 
-      expect(result.featureFlags.brandUpdate).toBe(false);
+      expect(publicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('lets an "off" preset beat an existing "true" cookie', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [brandUpdateFlag],
+        featureFlags: [publicExperimentFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_brandUpdate: 'true' }),
-        { brandUpdate: 'off' }
+        createContext({ toggle_publicExperiment: 'true' }),
+        { publicExperiment: 'off' }
       );
 
-      expect(result.featureFlags.brandUpdate).toBe(false);
+      expect(publicExperimentValue(result.featureFlags)).toBe(false);
     });
 
     it('lets an override beat an "off" cookie', () => {
       const togglesResp: TogglesResp = {
         ...defaultTogglesResp,
-        featureFlags: [brandUpdateFlag],
+        featureFlags: [publicExperimentFlag],
       };
 
       const result = getTogglesFromContext(
         togglesResp,
-        createContext({ toggle_brandUpdate: 'off' }),
-        { brandUpdate: 'true' }
+        createContext({ toggle_publicExperiment: 'off' }),
+        { publicExperiment: 'true' }
       );
 
-      expect(result.featureFlags.brandUpdate).toBe(true);
+      expect(publicExperimentValue(result.featureFlags)).toBe(true);
     });
 
     it('excludes stage-only flags on non-stage hosts', () => {
@@ -882,15 +886,15 @@ describe('validTogglePresets', () => {
   it('accepts "off" for experimental feature flags only', () => {
     const resp = {
       ...togglesResp,
-      featureFlags: [stagingApiFlag, brandUpdateFlag],
+      featureFlags: [stagingApiFlag, publicExperimentFlag],
     };
     expect(
       validTogglePresets(
-        { brandUpdate: 'off', stagingApi: 'off' },
+        { publicExperiment: 'off', stagingApi: 'off' },
         resp,
         createContext()
       )
-    ).toEqual({ brandUpdate: 'off' });
+    ).toEqual({ publicExperiment: 'off' });
   });
 
   it('accepts "off" for a phased flag only once a phase is public', () => {

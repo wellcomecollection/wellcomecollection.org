@@ -96,7 +96,7 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     position: absolute;
   `)}
 
-  ${props => props.theme.brandUpdate && brandCloseButtonStyles(false)}
+  ${brandCloseButtonStyles(false)}
 `;
 
 // Modal positioning is applied in three places, each building on the last:
@@ -196,8 +196,7 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   overflow: hidden;
   padding-left: 0;
   padding-right: 0;
-  background-color: ${props =>
-    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
+  background-color: ${props => props.theme.color('neutral.05')};
   box-shadow: ${props => props.theme.basicBoxShadow};
 `;
 
@@ -212,7 +211,6 @@ export const MobileFiltersModal = styled(FiltersModal)`
   scrollbar on the scrolling filters */
   ${CloseButton} {
     ${props =>
-      props.theme.brandUpdate &&
       props.theme.mediaBetween(
         'zero',
         'sm'
@@ -231,13 +229,11 @@ export const VideoModal = styled(BaseModalWindow)`
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
 
-    ${props => props.theme.brandUpdate && brandCloseButtonStyles(true)}
+    ${brandCloseButtonStyles(true)}
 
     /* Centre it on the BSL video's title bar, which is taller on small
-    screens in the brand */
-    ${props =>
-      props.theme.brandUpdate &&
-      props.theme.mediaBetween('zero', 'sm')('top: 13px;')}
+    screens */
+    ${props => props.theme.mediaBetween('zero', 'sm')('top: 13px;')}
   }
 `;
 

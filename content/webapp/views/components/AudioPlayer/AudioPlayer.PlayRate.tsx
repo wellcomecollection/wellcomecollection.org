@@ -18,8 +18,7 @@ const TogglePlayRateButton = styled.button.attrs({
   className: typography('body', 'sm', 'regular'),
 })<{ $isDark: boolean }>`
   anchor-name: --play-rate-button;
-  color: ${props =>
-    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
+  color: ${props => props.theme.color(controlColor(props.$isDark))};
   padding: 0;
   transition: color 0.2s ease-in-out;
 
@@ -29,8 +28,7 @@ const TogglePlayRateButton = styled.button.attrs({
   }
 
   &:hover {
-    color: ${props =>
-      props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
+    color: ${props => props.theme.color(controlColor(props.$isDark))};
   }
 `;
 

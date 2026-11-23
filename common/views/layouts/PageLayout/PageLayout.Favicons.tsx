@@ -1,13 +1,8 @@
 import Head from 'next/head';
 import { FunctionComponent } from 'react';
 
-import { useFeatureFlags } from '@weco/common/server-data/Context';
-
 const Favicons: FunctionComponent = () => {
-  const { brandUpdate } = useFeatureFlags();
-  const iconsUrl = brandUpdate
-    ? 'https://i.wellcomecollection.org/assets/icons/brand-update'
-    : 'https://i.wellcomecollection.org/assets/icons';
+  const iconsUrl = 'https://i.wellcomecollection.org/assets/icons/brand-update';
 
   return (
     <Head>
@@ -37,7 +32,7 @@ const Favicons: FunctionComponent = () => {
       <link
         rel="mask-icon"
         href="https://i.wellcomecollection.org/assets/icons/safari-pinned-tab.svg"
-        color={brandUpdate ? '#223438' : '#000000'}
+        color="#223438"
       />
     </Head>
   );

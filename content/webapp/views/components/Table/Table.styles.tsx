@@ -14,12 +14,7 @@ export const ScrollButtonWrap = styled.div<{
   z-index: 2;
   top: 50%;
   cursor: pointer;
-  pointer-events: ${props =>
-    props.$isActive || props.theme.brandUpdate ? 'all' : 'none'};
-
-  /* The brand shows the control's disabled style instead of fading it */
-  opacity: ${props => (props.$isActive || props.theme.brandUpdate ? 1 : 0.2)};
-  transition: opacity ${props => props.theme.transitionProperties};
+  pointer-events: all;
 
   /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
   .spaced-text & {

@@ -304,10 +304,9 @@ describe('ViewerTopBar sidebar toggle labels', () => {
     expect(screen.getAllByText('Show info').length).toBeGreaterThan(0);
   });
 
-  describe('with the brand update', () => {
+  describe('the desktop sidebar toggle', () => {
     it('gives the desktop toggle a visible "Hide info" label when the sidebar is active', () => {
       renderTopBar({
-        brandUpdate: true,
         contextProps: {
           transformedManifest: createMockManifest(),
           isDesktopSidebarActive: true,
@@ -321,7 +320,6 @@ describe('ViewerTopBar sidebar toggle labels', () => {
 
     it('gives the desktop toggle a visible "Show info" label when the sidebar is inactive', () => {
       renderTopBar({
-        brandUpdate: true,
         contextProps: {
           transformedManifest: createMockManifest(),
           isDesktopSidebarActive: false,

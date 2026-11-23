@@ -152,13 +152,6 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
-      id: 'brandUpdate',
-      title: 'Brand update',
-      initialValue: false,
-      description: 'Shows the new brand values.',
-      type: 'experimental',
-    },
-    {
       id: 'largeArchiveContentsTree',
       title: 'Large archive contents tree',
       initialValue: false,

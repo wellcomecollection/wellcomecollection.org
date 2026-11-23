@@ -45,8 +45,7 @@ const Dropdown = styled(Space).attrs<{
   $isActive: boolean;
   $isEnhanced: boolean;
 }>`
-  background-color: ${props =>
-    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
+  background-color: ${props => props.theme.color('neutral.05')};
   overflow: auto;
   white-space: nowrap;
   transition:

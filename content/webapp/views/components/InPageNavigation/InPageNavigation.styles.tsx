@@ -149,11 +149,7 @@ export const InPageNavAnimatedLink = styled(
 }))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
-      props.$hasStuck
-        ? 'black'
-        : props.$isOnWhite
-          ? 'black'
-          : { brand: 'neutral.10', legacy: 'white' }
+      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'neutral.10'
     )};
   position: relative;
   display: block;
@@ -167,11 +163,7 @@ export const InPageNavAnimatedLink = styled(
     width: 3px;
     background: ${props =>
       props.theme.color(
-        props.$hasStuck
-          ? { brand: 'blue.30', legacy: 'accent.green' }
-          : props.$isOnWhite
-            ? { brand: 'blue.30', legacy: 'black' }
-            : { brand: 'blue.30', legacy: 'white' }
+        props.$hasStuck ? 'blue.30' : props.$isOnWhite ? 'blue.30' : 'blue.30'
       )};
     opacity: ${props => (props.$isActive ? 1 : 0)};
     transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
@@ -223,7 +215,7 @@ export const Root = styled(Space).attrs<{
       padding-left: ${props.theme.containerPaddingVw};
       padding-right: ${props.theme.containerPaddingVw};
       transition: background ${props.theme.transitionProperties};
-      ${props.$hasStuck ? `background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};` : ''}
+      ${props.$hasStuck ? `background: ${props.theme.color('neutral.10')};` : ''}
       padding-top: 0;
 
       ${
@@ -266,11 +258,7 @@ export const MobileNavButton = styled.button.attrs({
   width: 100%;
   color: ${props =>
     props.theme.color(
-      props.$hasStuck
-        ? 'black'
-        : props.$isOnWhite
-          ? 'black'
-          : { brand: 'neutral.10', legacy: 'white' }
+      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'neutral.10'
     )};
 
   .icon {
@@ -295,9 +283,7 @@ export const NavGridCell = styled(GridCell)<{
   $isOnWhite: boolean;
 }>`
   --nav-grid-cell-background-color: ${props =>
-    props.$isOnWhite && props.theme.brandUpdate
-      ? 'transparent'
-      : props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+    props.$isOnWhite ? 'transparent' : props.theme.color('neutral.700')};
   transition: background-color ${props => props.theme.transitionProperties};
   background-color: var(--nav-grid-cell-background-color);
   z-index: 3;

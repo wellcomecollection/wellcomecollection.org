@@ -2,11 +2,11 @@ import { FunctionComponent } from 'react';
 import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { PinnableColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 type WrapperProps = {
   $rotate?: number;
-  $iconColor?: PinnableColor;
+  $iconColor?: ThemeColor;
   $matchText?: boolean;
   $sizeOverride?: string;
 };
@@ -50,7 +50,7 @@ const Wrapper = styled.span.attrs({
 type Props = {
   icon: IconSvg;
   rotate?: number;
-  iconColor?: PinnableColor;
+  iconColor?: ThemeColor;
   matchText?: boolean;
   sizeOverride?: string;
   title?: string;
