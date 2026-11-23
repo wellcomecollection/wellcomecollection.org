@@ -1,18 +1,32 @@
 import { AccessTokenError } from '@auth0/nextjs-auth0/errors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getConfig } from '@weco/identity/config';
 import auth0 from '@weco/identity/utils/auth0';
 import { FetchClient } from '@weco/identity/utils/fetch-helpers';
+import {
+  chooseIdentityApi,
+  folioUserIdFromAccessToken,
+  IdentityApi,
+  identityApiV1,
+  identityApiV2,
+  isAuth0StoredUser,
+  patronIp,
+  subFromAccessToken,
+} from '@weco/identity/utils/identity-api';
 
-const config = getConfig();
+const fetchClientFor = (api: IdentityApi): FetchClient =>
+  new FetchClient({
+    baseURL: api.host,
+    headers: {
+      'x-api-key': api.apiKey,
+    },
+  });
 
-export const identityFetchClient: FetchClient = new FetchClient({
-  baseURL: config.remoteApi.host,
-  headers: {
-    'x-api-key': config.remoteApi.apiKey,
-  },
-});
+const identityFetchClients = new Map<IdentityApi, FetchClient>(
+  [identityApiV1, identityApiV2]
+    .filter((api): api is IdentityApi => api !== undefined)
+    .map(api => [api, fetchClientFor(api)])
+);
 
 // Identity API routes for the signed-in user, so nothing else is reachable with
 // their token and our API key. A Map so request values can't hit inherited keys.
@@ -41,6 +55,26 @@ const handleIdentityApiRequest = auth0.withApiAuthRequired(
       const { token } = await auth0.getAccessToken(req, res);
       const path = `/users/${route}`;
 
+      const sub = subFromAccessToken(token);
+      const api = await chooseIdentityApi(
+        req,
+        folioUserIdFromAccessToken(token),
+        sub
+      );
+      // Only where v2 doesn't exist, since v1 can't serve these users
+      if (api.version === 1 && isAuth0StoredUser(sub)) {
+        return res
+          .status(403)
+          .json({ message: "This account can't be used at the moment" });
+      }
+      const identityFetchClient = identityFetchClients.get(api)!;
+
+      // v2 refuses password checks without the patron's IP address
+      const ip = api.version === 2 ? patronIp(req) : undefined;
+      if (api.version === 2 && !ip) {
+        console.warn('No patron IP address for a v2 identity API request');
+      }
+
       // req.body is '' (not undefined) when the original request had no body
       // at all - Next.js's parseBody falls back to text/plain and yields ''
       // for zero bytes (see parseBody in
@@ -61,6 +95,7 @@ const handleIdentityApiRequest = auth0.withApiAuthRequired(
           headers: {
             ...identityFetchClient.defaults.headers.common,
             Authorization: `Bearer ${token}`,
+            ...(ip ? { 'X-Forwarded-For': ip } : {}),
           },
           validateStatus: (status: number) => status >= 200 && status < 500,
         })

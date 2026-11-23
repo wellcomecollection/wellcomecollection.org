@@ -120,6 +120,14 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'identityApiV2',
+      title: 'Identity API v2',
+      initialValue: false,
+      description:
+        'Send account requests to the v2 identity API, which is backed by FOLIO, for patrons linked to FOLIO. Everyone else stays on v1.',
+      type: 'permanent',
+    },
+    {
       id: 'aggregationsInSearch',
       title: 'Aggregations in search',
       initialValue: true,
