@@ -21,8 +21,8 @@ type ClickableElement = 'a' | 'button';
 
 // The brand's hover circle and pill are taller than the legacy button (about
 // 36px), so negative margins split the difference to keep the header row height
-const brandHeight = 44;
-const legacyHeight = 36;
+const BRAND_HEIGHT = 44;
+const LEGACY_HEIGHT = 36;
 
 const brandStyles = (isActive?: boolean) => {
   const inverted = `
@@ -32,12 +32,12 @@ const brandStyles = (isActive?: boolean) => {
 
   return `
     color: ${designSystemColor('neutral.70')};
-    border-radius: ${brandHeight / 2}px;
-    height: ${brandHeight}px;
+    border-radius: ${BRAND_HEIGHT / 2}px;
+    height: ${BRAND_HEIGHT}px;
     padding: 0 12px;
     transition: none;
-    margin-top: ${(legacyHeight - brandHeight) / 2}px;
-    margin-bottom: ${(legacyHeight - brandHeight) / 2}px;
+    margin-top: ${(LEGACY_HEIGHT - BRAND_HEIGHT) / 2}px;
+    margin-bottom: ${(LEGACY_HEIGHT - BRAND_HEIGHT) / 2}px;
 
     .icon__shape {
       transition: none;
