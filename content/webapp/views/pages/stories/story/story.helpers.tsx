@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { bodySquabblesSeries } from '@weco/common/data/hardcoded-ids';
+import { BODY_SQUABBLES_SERIES_UID } from '@weco/common/data/hardcoded-ids';
 import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
 import { transformTimestamp } from '@weco/common/services/prismic/transformers';
 import { isPast } from '@weco/common/utils/dates';
@@ -30,7 +30,7 @@ export const setSeries = async (
   const series = article.series[0];
   if (series) {
     const seriesField =
-      series.id === bodySquabblesSeries
+      series.id === BODY_SQUABBLES_SERIES_UID
         ? 'my.webcomics.series.series'
         : 'my.articles.series.series';
 

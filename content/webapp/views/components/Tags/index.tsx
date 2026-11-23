@@ -105,9 +105,9 @@ const Tags: FunctionComponent<Props> = ({
               {theme.brandUpdate ? (
                 <SelectableTagLink
                   href={linkAttributes.href}
-                  $isSelected={false}
                   $lineColor="black"
                   $lineThickness={1.4}
+                  $isSelected={false}
                 >
                   {tagInner}
                 </SelectableTagLink>

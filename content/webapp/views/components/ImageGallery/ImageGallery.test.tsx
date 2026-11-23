@@ -44,9 +44,9 @@ const renderComponent = () => {
         <AppContextProvider>
           <ImageGallery
             id="test"
+            items={images}
             isStandalone={false}
             isFrames={false}
-            items={images}
           />
         </AppContextProvider>
       </ThemeProvider>

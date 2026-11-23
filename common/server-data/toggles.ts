@@ -240,7 +240,7 @@ export const validToggleOverrides = (
     allowReset: false,
   });
 
-const oneYearInSeconds = 365 * 24 * 60 * 60;
+const ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
 
 /**
  * `Set-Cookie` values for validated presets. These match what the toggles
@@ -262,7 +262,7 @@ export function togglePresetCookies(
     : [];
   const setAttributes = [
     'Path=/',
-    `Max-Age=${oneYearInSeconds}`,
+    `Max-Age=${ONE_YEAR_IN_SECONDS}`,
     ...sharedAttributes,
   ].join('; ');
   const deleteAttributes = ['Path=/', 'Max-Age=0', ...sharedAttributes].join(

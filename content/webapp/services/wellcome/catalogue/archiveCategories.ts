@@ -1,6 +1,6 @@
 import {
+  IIIF_IMAGE_URI,
   iiifImageTemplate,
-  iiifImageUri,
 } from '@weco/common/utils/convert-image-uri';
 
 import { catalogueQuery } from '.';
@@ -125,7 +125,7 @@ const ARCHIVE_CATEGORY_IMAGE_HEIGHT = 1100;
 const archiveCategoryImageUrl = (id: string): string | undefined => {
   const imageIdentifier = ARCHIVE_CATEGORY_IMAGES[id];
   return imageIdentifier
-    ? iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)({
+    ? iiifImageTemplate(`${IIIF_IMAGE_URI}${imageIdentifier}`)({
         size: `,${ARCHIVE_CATEGORY_IMAGE_HEIGHT}`,
       })
     : undefined;

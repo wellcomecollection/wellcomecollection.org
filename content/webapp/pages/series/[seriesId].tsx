@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
-import { bodySquabblesSeries as bodySquabblesSeriesId } from '@weco/common/data/hardcoded-ids';
+import { BODY_SQUABBLES_SERIES_UID } from '@weco/common/data/hardcoded-ids';
 import {
   SeriesDocument,
   WebcomicSeriesDocument,
@@ -67,7 +67,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // This will have to remain like this until we figure out how to migrate them.
   // We create new webcomics as an article with comic format, and add
   // an article-series to them.
-  const isWebcomics = seriesQueryId === bodySquabblesSeriesId;
+  const isWebcomics = seriesQueryId === BODY_SQUABBLES_SERIES_UID;
 
   const seriesDocument = await fetchSeriesById(
     client,

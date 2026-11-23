@@ -19,7 +19,7 @@ const nameCellTextIndent = (spacingUnit: number) =>
 // Visual 3-column (Name/Reference/Level) layout on desktop, but stacks into a single column on mobile.
 // Below `sm` there's no room for 3 columns, so rows stack into a vertical flex column instead (order below controls the stack order).
 // The column grid only applies from `sm` up.
-const contentsGridColumns = '1fr 160px 110px';
+const CONTENTS_GRID_COLUMNS = '1fr 160px 110px';
 
 export const ContentsRow = styled.div.attrs({
   className: typography('body', 'sm', 'regular'),
@@ -85,7 +85,7 @@ export const ContentsRow = styled.div.attrs({
   ${props =>
     props.theme.media('sm')(`
       display: grid;
-      grid-template-columns: ${contentsGridColumns};
+      grid-template-columns: ${CONTENTS_GRID_COLUMNS};
       column-gap: 10px;
 
       > * {
@@ -130,7 +130,7 @@ export const ContentsHeaderRow = styled.div.attrs({
   ${props =>
     props.theme.media('sm')(`
       display: grid;
-      grid-template-columns: ${contentsGridColumns};
+      grid-template-columns: ${CONTENTS_GRID_COLUMNS};
       column-gap: 10px;
 
       > * {
@@ -179,7 +179,7 @@ export const ContentsFooterRow = styled.div.attrs({
   ${props =>
     props.theme.media('sm')(`
       display: grid;
-      grid-template-columns: ${contentsGridColumns};
+      grid-template-columns: ${CONTENTS_GRID_COLUMNS};
       column-gap: 10px;
 
       > * {
