@@ -150,7 +150,8 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
                     buttonColors={themeValues.buttonColors.slateWhiteBlack}
                     tags={subjectTags}
                     maxVisible={MAX_VISIBLE_SUBJECTS}
-                    showAllText="show all subjects"
+                    showAllText="Show all subjects"
+                    showLessText="Show less subjects"
                     isFirstPartBold={false}
                   />
                 }

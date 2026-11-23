@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
@@ -80,6 +80,7 @@ export type Props = {
   /** Shows only this many tags, behind a control that reveals the rest. */
   maxVisible?: number;
   showAllText?: string;
+  showLessText?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
@@ -88,28 +89,20 @@ const Tags: FunctionComponent<Props> = ({
   isFirstPartBold = true,
   separator = '–',
   maxVisible,
-  showAllText = 'show all',
+  showAllText = 'Show all',
+  showLessText = 'Show less',
 }) => {
   const theme = useTheme();
   const { isEnhanced } = useAppContext();
   const [isShowingAll, setIsShowingAll] = useState(false);
-  const firstRevealedTagRef = useRef<HTMLAnchorElement>(null);
 
   // Without JavaScript nothing can reveal the rest, so every tag is rendered
   // rather than hidden behind a control that does nothing.
-  const isCollapsed =
-    isEnhanced &&
-    !isShowingAll &&
-    maxVisible !== undefined &&
-    tags.length > maxVisible;
+  const isCollapsible =
+    isEnhanced && maxVisible !== undefined && tags.length > maxVisible;
 
+  const isCollapsed = isCollapsible && !isShowingAll;
   const visibleTags = isCollapsed ? tags.slice(0, maxVisible) : tags;
-
-  // The control unmounts once it's been used, which would otherwise drop focus
-  // back to the top of the page, so send it to the first tag it revealed.
-  useEffect(() => {
-    if (isShowingAll) firstRevealedTagRef.current?.focus();
-  }, [isShowingAll]);
 
   return (
     <Space
@@ -141,13 +134,10 @@ const Tags: FunctionComponent<Props> = ({
             </TagInner>
           );
 
-          const tagRef = i === maxVisible ? firstRevealedTagRef : undefined;
-
           return (
             <LinkWrapper as="li" key={i}>
               {theme.brandUpdate ? (
                 <SelectableTagLink
-                  ref={tagRef}
                   href={linkAttributes.href}
                   $lineColor="black"
                   $lineThickness={1.4}
@@ -157,7 +147,6 @@ const Tags: FunctionComponent<Props> = ({
                 </SelectableTagLink>
               ) : (
                 <StyledLink
-                  ref={tagRef}
                   href={linkAttributes.href}
                   $size="small"
                   $colors={
@@ -171,10 +160,20 @@ const Tags: FunctionComponent<Props> = ({
           );
         })}
 
-        {isCollapsed && (
+        {isCollapsible && (
           <LinkWrapper as="li">
-            <ShowAllButton onClick={() => setIsShowingAll(true)}>
-              {`+\u00A0${showAllText}`}
+            <ShowAllButton
+              aria-expanded={isShowingAll}
+              onClick={() => setIsShowingAll(!isShowingAll)}
+            >
+              {isShowingAll ? (
+                showLessText
+              ) : (
+                <>
+                  <span aria-hidden="true">{`+\u00A0`}</span>
+                  {showAllText}
+                </>
+              )}
             </ShowAllButton>
           </LinkWrapper>
         )}

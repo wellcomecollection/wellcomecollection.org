@@ -32,7 +32,8 @@ const renderTags = ({
         <Tags
           tags={tags(count)}
           maxVisible={maxVisible}
-          showAllText="show all subjects"
+          showAllText="Show all subjects"
+          showLessText="Show less subjects"
         />
       </AppContext.Provider>
     </ThemeProvider>
@@ -40,6 +41,9 @@ const renderTags = ({
 
 const showAllButton = () =>
   screen.queryByRole('button', { name: /show all subjects/i });
+
+const showLessButton = () =>
+  screen.queryByRole('button', { name: /show less subjects/i });
 
 describe('Tags', () => {
   it('shows every tag when there is no maxVisible', () => {
@@ -57,6 +61,14 @@ describe('Tags', () => {
     expect(showAllButton()).toBeInTheDocument();
   });
 
+  it('names the control without the +', () => {
+    renderTags({ count: 12, maxVisible: 10 });
+
+    expect(
+      screen.getByRole('button', { name: 'Show all subjects' })
+    ).toBeInTheDocument();
+  });
+
   it('leaves the list alone when it is already within maxVisible', () => {
     renderTags({ count: 10, maxVisible: 10 });
 
@@ -64,7 +76,7 @@ describe('Tags', () => {
     expect(showAllButton()).not.toBeInTheDocument();
   });
 
-  it('reveals the rest when the control is used, and drops the control', async () => {
+  it('reveals the rest when the control is used, and offers the way back', async () => {
     const user = userEvent.setup();
     renderTags({ count: 12, maxVisible: 10 });
 
@@ -72,16 +84,28 @@ describe('Tags', () => {
 
     expect(screen.getByText('Subject 11')).toBeInTheDocument();
     expect(screen.getByText('Subject 12')).toBeInTheDocument();
-    expect(showAllButton()).not.toBeInTheDocument();
+    expect(showLessButton()).toBeInTheDocument();
   });
 
-  it('moves focus to the first revealed tag, so the used control does not drop it', async () => {
+  it('collapses back to maxVisible tags when the control is used again', async () => {
+    const user = userEvent.setup();
+    renderTags({ count: 12, maxVisible: 10 });
+
+    await user.click(showAllButton()!);
+    await user.click(showLessButton()!);
+
+    expect(screen.getByText('Subject 10')).toBeInTheDocument();
+    expect(screen.queryByText('Subject 11')).not.toBeInTheDocument();
+    expect(showAllButton()).toBeInTheDocument();
+  });
+
+  it('keeps focus on the control, so it can be used again straight away', async () => {
     const user = userEvent.setup();
     renderTags({ count: 12, maxVisible: 10 });
 
     await user.click(showAllButton()!);
 
-    expect(screen.getByText('Subject 11').closest('a')).toHaveFocus();
+    expect(showLessButton()).toHaveFocus();
   });
 
   // Without JavaScript the control can't do anything, so nothing should hide
