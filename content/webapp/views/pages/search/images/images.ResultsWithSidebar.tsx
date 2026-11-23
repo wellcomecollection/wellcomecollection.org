@@ -189,7 +189,8 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   children,
 }) => {
   const { results: images, totalPages, pageSize } = resultsList;
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
+  const [expandedImage, setExpandedImage, isFromUrlChange] =
+    useExpandedImage(images);
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
   const { masonryImages: showMasonryImages = false } = useFeatureFlags();
@@ -351,6 +352,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       <ImageSidebar
         images={images}
         expandedImage={expandedImage}
+        isFromUrlChange={isFromUrlChange}
         setExpandedImage={setExpandedImage}
         onStatusChange={setSidebarStatus}
         onPrevious={onPrevious}
