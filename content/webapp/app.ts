@@ -63,7 +63,7 @@ const appPromise = nextApp
     });
 
     // Lets deploy tooling confirm which commit is live; must never be cached.
-    // The contract this implements: https://github.com/wellcometrust/backplane/blob/main/docs/spec/09-dora-metrics.md#971-the-manifest-endpoint
+    // The contract this implements: https://backplane.wellcome.digital/guides/manifest-endpoint
     router.get('/management/manifest', async ctx => {
       ctx.set(
         'Cache-Control',
