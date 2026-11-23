@@ -12,7 +12,6 @@ import {
 type LabelContainerProps = {
   $fontColor: ThemeColor;
   $labelColor: ThemeColor;
-  $outlineLightLabels: boolean;
 };
 
 const lightBrandColors: DesignSystemColor[] = [
@@ -21,7 +20,7 @@ const lightBrandColors: DesignSystemColor[] = [
   'neutral.10',
 ];
 
-// Light labels can get an outline. Compare the colour that's actually shown,
+// Light labels get an outline. Compare the colour that's actually shown,
 // as an alias (e.g. `white`) and a design system name can be the same colour.
 const isLightLabel = (color: ThemeColor, theme: DefaultTheme) => {
   const shown = theme.color(color);
@@ -45,15 +44,13 @@ const LabelContainer = styled(Space).attrs({
   color: ${props => props.theme.color(props.$fontColor)};
   background-color: ${props => props.theme.color(props.$labelColor)};
 
-  ${props => {
-    if (!isLightLabel(props.$labelColor, props.theme)) {
-      return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
-    }
-
-    return `border: 1px solid ${props.theme.color(
-      props.$outlineLightLabels ? 'neutral.70' : props.$labelColor
-    )};`;
-  }}
+  border: 1px solid
+    ${props =>
+      props.theme.color(
+        isLightLabel(props.$labelColor, props.theme)
+          ? 'neutral.70'
+          : props.$labelColor
+      )};
 `;
 
 // Format labels (Display, Workshop, Book extract…)
@@ -62,13 +59,11 @@ export const formatLabelColor: LabelColor = 'pink.30';
 export type Props = {
   label: LabelType;
   defaultLabelColor?: LabelColor;
-  outlineLightLabels?: boolean;
 };
 
 const Label: FunctionComponent<Props> = ({
   label,
   defaultLabelColor = formatLabelColor,
-  outlineLightLabels = true,
 }: Props) => {
   return (
     <LabelContainer
@@ -88,7 +83,6 @@ const Label: FunctionComponent<Props> = ({
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}
-      $outlineLightLabels={outlineLightLabels}
     >
       {label.text}
     </LabelContainer>

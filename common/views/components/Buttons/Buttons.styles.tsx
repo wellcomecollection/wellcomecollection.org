@@ -164,7 +164,7 @@ export const brandButtonStyles = (colors: BrandButtonColors) => `
   }
 `;
 
-export const StyledButtonCSS = css<SolidButtonStyledProps>`
+const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:

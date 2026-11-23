@@ -347,11 +347,11 @@ type WorkTypeIcons = {
 };
 
 const defaultIcons: WorkTypeIcons = {
-  book: '/icons/book-brand.svg',
-  image: '/icons/image-brand.svg',
-  archives: '/icons/archives-brand.svg',
-  videoAudio: '/icons/video-audio-brand.svg',
-  ephemera: '/icons/ephemera-brand.svg',
+  book: '/icons/book.svg',
+  image: '/icons/image.svg',
+  archives: '/icons/archives.svg',
+  videoAudio: '/icons/video-audio.svg',
+  ephemera: '/icons/ephemera.svg',
 };
 
 const WorkTypesList: React.FC<WorkTypesListProps> = ({

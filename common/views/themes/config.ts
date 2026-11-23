@@ -138,7 +138,7 @@ const colorAliases = {
   'focus.yellow': 'yellow.30',
 } as const satisfies Record<string, DesignSystemColor>;
 
-export type ColorAlias = keyof typeof colorAliases;
+type ColorAlias = keyof typeof colorAliases;
 
 // The aliases resolved to hex values, for anything that reads
 // `theme.colors[...]` directly rather than via `color()`.
@@ -226,10 +226,12 @@ const dangerButtonColors: ButtonColors = {
 // Button color naming convention: [border][Background][Text]
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
+// The names use the old palette's: charcoal is neutral.700, pumice is
+// warmNeutral.400 or neutral.400
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const greenTransparentGreen: ButtonColors = {
@@ -251,26 +253,23 @@ const whiteTransparentWhite: ButtonColors = {
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
-  border: 'warmNeutral.400', // legacy pumice color
+  border: 'warmNeutral.400',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const charcoalTransparentCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'neutral.400', // legacy pumice color
+  border: 'neutral.400',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
-// New button style introduction
-// If we chose to move forward with new buttons
-// Remove border prop
 const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
@@ -280,7 +279,7 @@ const yellowYellowBlack: ButtonColors = {
 const whiteWhiteCharcoal: ButtonColors = {
   border: 'white',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 type BrandButtonColor = DesignSystemColor | 'transparent';

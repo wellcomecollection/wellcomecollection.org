@@ -11,18 +11,18 @@ export function getFormatIconPath(formatId?: string): string | undefined {
     case 'h': // Archives and manuscripts
     case 'b': // Manuscripts
     case 'hdig': // Born-digital archives
-      return '/icons/archives-brand.svg';
+      return '/icons/archives.svg';
 
     // Books and journals
     case 'a': // Books
     case 'd': // Journals
     case 'w': // Student dissertations
-      return '/icons/book-brand.svg';
+      return '/icons/book.svg';
 
     // Images
     case 'k': // Pictures
     case 'q': // Digital Images
-      return '/icons/image-brand.svg';
+      return '/icons/image.svg';
 
     // Audio and video
     case 'i': // Audio
@@ -30,11 +30,11 @@ export function getFormatIconPath(formatId?: string): string | undefined {
     case 'n': // Film
     case 'c': // Music
     case 'm': // CD-Roms
-      return '/icons/video-audio-brand.svg';
+      return '/icons/video-audio.svg';
 
     // Ephemera
     case 'l': // Ephemera
-      return '/icons/ephemera-brand.svg';
+      return '/icons/ephemera.svg';
 
     default:
       return undefined;

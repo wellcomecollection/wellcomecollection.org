@@ -111,9 +111,6 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
           <LabelsList
             labels={getCardLabels(work)}
             defaultLabelColor="green.20"
-            // The hero is the same colour as the "Online" label, so light
-            // labels need their outline
-            outlineLightLabels
           />
         </Space>
 

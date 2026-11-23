@@ -21,16 +21,17 @@ export const Overlay = styled.div`
 // so it keeps its fill there, inverting on hover with a ring like the
 // controls. The swap is instant, as fading inverted colours makes the icon
 // flicker out midway
-const BRAND_SIZE = 44;
-const LEGACY_SIZE = 28;
+const BUTTON_SIZE = 44;
+// The space the layout leaves for the button
+const SLOT_SIZE = 28;
 
-const brandCloseButtonStyles = (isOnDark: boolean) => {
+const closeButtonStyles = (isOnDark: boolean) => {
   const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
   const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
 
   return css`
-    width: ${BRAND_SIZE}px;
-    height: ${BRAND_SIZE}px;
+    width: ${BUTTON_SIZE}px;
+    height: ${BUTTON_SIZE}px;
     background: ${fill};
     color: ${ink};
     border: 1px solid transparent;
@@ -56,8 +57,8 @@ const brandCloseButtonStyles = (isOnDark: boolean) => {
       color: ${fill};
       border: 0;
 
-      /* Bigger than the legacy button, so keep its centre in the same place */
-      margin: ${(LEGACY_SIZE - BRAND_SIZE) / 2}px ${(LEGACY_SIZE - BRAND_SIZE) / 2}px 0 0;
+      /* Bigger than its slot, so keep its centre where the slot's would be */
+      margin: ${(SLOT_SIZE - BUTTON_SIZE) / 2}px ${(SLOT_SIZE - BUTTON_SIZE) / 2}px 0 0;
 
       &:hover {
         background: ${fill};
@@ -74,8 +75,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
-  width: ${LEGACY_SIZE}px;
-  height: ${LEGACY_SIZE}px;
+  width: ${SLOT_SIZE}px;
+  height: ${SLOT_SIZE}px;
   border-radius: 50%;
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
@@ -96,7 +97,7 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     position: absolute;
   `)}
 
-  ${brandCloseButtonStyles(false)}
+  ${closeButtonStyles(false)}
 `;
 
 // Modal positioning is applied in three places, each building on the last:
@@ -229,7 +230,7 @@ export const VideoModal = styled(BaseModalWindow)`
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
 
-    ${brandCloseButtonStyles(true)}
+    ${closeButtonStyles(true)}
 
     /* Centre it on the BSL video's title bar, which is taller on small
     screens */
