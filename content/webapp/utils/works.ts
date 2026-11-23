@@ -218,11 +218,12 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
 // everything with that format is a manuscript.
 const archiveFormatIds = ['h', 'hdig'];
 
-const teiManuscriptIdentifierTypeId = 'tei-manuscript-id';
+const TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID = 'tei-manuscript-id';
 
 const isTeiManuscript = (work: Pick<Work, 'identifiers'>): boolean =>
   (work.identifiers ?? []).some(
-    ({ identifierType }) => identifierType.id === teiManuscriptIdentifierTypeId
+    ({ identifierType }) =>
+      identifierType.id === TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID
   );
 
 /**

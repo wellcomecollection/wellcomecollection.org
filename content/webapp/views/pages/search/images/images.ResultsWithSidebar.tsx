@@ -26,7 +26,6 @@ import { useExpandedImage } from '@weco/content/views/components/ImageModal';
 import ImageSidebar, {
   SidebarStatus,
   StepHandler,
-  useIsSidebarFullScreen,
 } from '@weco/content/views/components/ImageSidebar';
 import { ImagesProps } from '@weco/content/views/components/SearchPagesLink/Images';
 import { phaseIsAtLeast } from '@weco/toggles';
@@ -190,11 +189,10 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   children,
 }) => {
   const { results: images, totalPages, pageSize } = resultsList;
-  const [expandedImage, setExpandedImage] = useExpandedImage(images);
-  const isFullScreen = useIsSidebarFullScreen();
+  const [expandedImage, setExpandedImage, isFromUrlChange] =
+    useExpandedImage(images);
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
-  const hasStepButtons = showImageSidebarPhase3 && !isFullScreen;
   const { masonryImages: showMasonryImages = false } = useFeatureFlags();
   const isFullWidth =
     showMasonryImages && resultsList.totalResults >= FULL_WIDTH_MIN_RESULTS;
@@ -218,12 +216,11 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     : -1;
   const isInResults = expandedIndex !== -1;
 
-  // Each step is its own browser history entry, so Back goes back through the
-  // images stepped through, as it does for ones picked from the grid
-  const stepOptions = {
-    // Full screen, the results are hidden behind the sidebar
-    scrollToThumbnail: !isFullScreen,
-  };
+  // Each step is its own browser history entry, so the browser's Back goes back
+  // through the images stepped through, as it does for ones picked from the
+  // grid. The grid is behind the sidebar full screen, but still scrolled, so
+  // closing it leaves the image you were on in view.
+  const stepOptions = { scrollToThumbnail: true };
   const { page, query } = imagesRouteProps;
 
   const stepTo =
@@ -239,7 +236,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
   const hasPreviousPage = page > 1 && !hasFailed(page - 1);
 
   useEffect(() => {
-    if (!hasStepButtons || !isInResults) return;
+    if (!showImageSidebarPhase3 || !isInResults) return;
 
     if (
       hasNextPage &&
@@ -250,7 +247,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
     if (hasPreviousPage && expandedIndex < FETCH_NEIGHBOURING_PAGE_WITHIN) {
       fetchPage(page - 1);
     }
-  }, [expandedImage?.id, images, hasStepButtons]);
+  }, [expandedImage?.id, images, showImageSidebarPhase3]);
 
   // Stops a second click going to another page of results while the first is
   // loading, and drops a step that's still loading if something else is chosen
@@ -355,6 +352,7 @@ const ImagesResultsWithSidebar: FunctionComponent<Props> = ({
       <ImageSidebar
         images={images}
         expandedImage={expandedImage}
+        isFromUrlChange={isFromUrlChange}
         setExpandedImage={setExpandedImage}
         onStatusChange={setSidebarStatus}
         onPrevious={onPrevious}

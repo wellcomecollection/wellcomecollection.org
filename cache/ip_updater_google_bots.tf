@@ -15,6 +15,8 @@ module "google_bot_ip_updater" {
   source_file           = "${path.module}/ip-updaters/google-bots.js"
   extra_source_files    = ["${path.module}/ip-updaters/waf-updater.js"]
   alarm_topic_arn       = local.monitoring_infra["chatbot_topic_arns"]["us-east-1"]
+  alarm_component       = local.alarm_component
+  alarm_repository      = local.alarm_tags["github.com/project-slug"]
   log_retention_in_days = 30
 
   environment_variables = {
@@ -78,8 +80,10 @@ resource "aws_cloudwatch_metric_alarm" "google_bot_ip_updater_throttles" {
     FunctionName = module.google_bot_ip_updater.function_name
   }
 
-  alarm_description = "Alert when Google bot IP updater Lambda is throttled"
+  alarm_description = "[component=${local.alarm_component} severity=medium] Alert when Google bot IP updater Lambda is throttled"
   alarm_actions     = [local.monitoring_infra["chatbot_topic_arns"]["us-east-1"]]
+
+  tags = merge(local.alarm_tags, { severity = "medium" })
 }
 
 # CloudWatch alarm for validation failures (when IP change > 10%)
@@ -109,8 +113,10 @@ resource "aws_cloudwatch_metric_alarm" "ip_change_validation_failure" {
   threshold           = "0"
   treat_missing_data  = "notBreaching"
 
-  alarm_description = "Alert when Google bot IP update fails validation (>10% change detected)"
+  alarm_description = "[component=${local.alarm_component} severity=medium] Alert when Google bot IP update fails validation (>10% change detected)"
   alarm_actions     = [local.monitoring_infra["chatbot_topic_arns"]["us-east-1"]]
+
+  tags = merge(local.alarm_tags, { severity = "medium" })
 }
 
 # Output for manual testing

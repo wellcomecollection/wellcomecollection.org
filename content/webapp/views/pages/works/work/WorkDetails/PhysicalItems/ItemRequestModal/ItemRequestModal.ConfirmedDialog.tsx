@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { typography } from '@weco/common/utils/classnames';
-import { allowedRequests } from '@weco/common/values/requests';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import Button from '@weco/common/views/components/Buttons';
 
 import CurrentRequests from './ItemRequestModal.CurrentRequests';
@@ -23,7 +23,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
           Request confirmed
         </span>
         <CurrentRequests
-          allowedHoldRequests={allowedRequests}
+          allowedHoldRequests={ALLOWED_REQUESTS}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>

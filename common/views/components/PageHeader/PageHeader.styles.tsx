@@ -46,7 +46,7 @@ export const TitleWrapper = styled.h1.attrs<{
 
 // The `bottom` values here are coupled to the space
 // beneath the Header in ContentPage.tsx
-export const headerSpaceSize = 'md';
+export const HEADER_SPACE_SIZE = 'md';
 export const HeroPictureBackground = styled.div.attrs({
   className: 'is-hidden-print',
 })<{ $bgColor: PinnableColor }>`
@@ -54,16 +54,16 @@ export const HeroPictureBackground = styled.div.attrs({
   background-color: ${props => props.theme.color(props.$bgColor)};
   height: 50%;
   width: 100%;
-  bottom: -${props => props.theme.getSpaceValue(headerSpaceSize, 'zero')};
+  bottom: -${props => props.theme.getSpaceValue(HEADER_SPACE_SIZE, 'zero')};
 
   ${props =>
     props.theme.media('sm')(
-      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'sm')};`
+      `bottom: -${props.theme.getSpaceValue(HEADER_SPACE_SIZE, 'sm')};`
     )}
 
   ${props =>
     props.theme.media('md')(
-      `bottom: -${props.theme.getSpaceValue(headerSpaceSize, 'md')};`
+      `bottom: -${props.theme.getSpaceValue(HEADER_SPACE_SIZE, 'md')};`
     )}
 `;
 

@@ -21,7 +21,7 @@ import {
 const port = Number(process.env.PORT) || 3000;
 export const siteBaseUrl =
   process.env.SITE_BASE_URL ?? `http://localhost:${port}`;
-export const identityBasePath = '/account';
+export const IDENTITY_BASE_PATH = '/account';
 
 const sessionKeys = process.env.SESSION_KEYS
   ? process.env.SESSION_KEYS.split(',')
@@ -29,7 +29,7 @@ const sessionKeys = process.env.SESSION_KEYS
 
 // Versioning the session means that we can invalidate all users' sessions if
 // we need to, eg if we change the claims on the identity token
-const sessionVersion = 'v1';
+const SESSION_VERSION = 'v1';
 
 export const auth0Domain = process.env.AUTH0_DOMAIN || 'build';
 
@@ -95,7 +95,7 @@ const auth0 = new Auth0Client({
   },
   // Where a plain login (no returnTo, eg the header sign-in link) lands.
   // Resolved against the site origin by onCallback below.
-  signInReturnToPath: identityBasePath,
+  signInReturnToPath: IDENTITY_BASE_PATH,
   // Keep the same public URLs as v3 so that links in other webapps and the
   // callback/logout URLs registered with the Auth0 tenant keep working.
   // (/api/auth/me is served by pages/api/auth/me.ts, not by the SDK.)
@@ -114,7 +114,7 @@ const auth0 = new Auth0Client({
     absoluteDuration: 7 * ONE_DAY_S, // 1 week
     inactivityDuration: 8 * ONE_HOUR_S, // 8 hours
     cookie: {
-      name: `wecoIdentitySession_${sessionVersion}`,
+      name: `wecoIdentitySession_${SESSION_VERSION}`,
       // The default would be NEXT_PUBLIC_BASE_PATH; v3 set the cookie on /
       path: '/',
     },
@@ -135,7 +135,7 @@ const auth0 = new Auth0Client({
           error_description: error.cause.message,
         });
         return NextResponse.redirect(
-          new URL(`${identityBasePath}/error?${params}`, baseUrl)
+          new URL(`${IDENTITY_BASE_PATH}/error?${params}`, baseUrl)
         );
       }
 
@@ -157,7 +157,7 @@ const auth0 = new Auth0Client({
     if (isFreshRegistration(session?.user.family_name)) {
       return NextResponse.redirect(
         new URL(
-          identityBasePath + logoutToSuccessUrl(session?.user.email ?? ''),
+          IDENTITY_BASE_PATH + logoutToSuccessUrl(session?.user.email ?? ''),
           baseUrl
         )
       );
@@ -167,7 +167,7 @@ const auth0 = new Auth0Client({
     // NEXT_PUBLIC_BASE_PATH onto returnTo, but logins started from other
     // webapps return to pages outside /account (eg /works/xyz)
     return NextResponse.redirect(
-      new URL(ctx.returnTo || identityBasePath, baseUrl)
+      new URL(ctx.returnTo || IDENTITY_BASE_PATH, baseUrl)
     );
   },
 });
@@ -182,7 +182,7 @@ export const withPageAuthRequiredSSR =
     (ctx: GetServerSidePropsContext) =>
       auth0.withPageAuthRequired<P>({
         ...opts,
-        returnTo: identityBasePath + (opts.returnTo ?? ctx.resolvedUrl),
+        returnTo: IDENTITY_BASE_PATH + (opts.returnTo ?? ctx.resolvedUrl),
       })(ctx);
 
 export default auth0;

@@ -1,7 +1,8 @@
-import { act, fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RefObject } from 'react';
 
+import * as AppContext from '@weco/common/contexts/AppContext';
 import * as Context from '@weco/common/server-data/Context';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Image, Work } from '@weco/content/services/wellcome/catalogue/types';
@@ -26,7 +27,7 @@ jest.mock('@weco/content/views/components/IIIFImage', () => ({
 
 const expandedImage = {
   id: 'imageA',
-  source: { id: 'workA' },
+  source: { id: 'workA', title: 'Image A' },
   locations: [{ url: 'https://iiif.example/imageA/info.json' }],
 } as unknown as Image;
 
@@ -67,10 +68,11 @@ const renderSidebar = async (
   } = {}
 ) => {
   (getWorkClientSide as jest.Mock).mockResolvedValue(work);
-  const sidebar = (expandedImage?: Image) => (
+  const sidebar = (expandedImage?: Image, isFromUrlChange = false) => (
     <ImageSidebar
       images={expandedImage ? [expandedImage] : []}
       expandedImage={expandedImage}
+      isFromUrlChange={isFromUrlChange}
       setExpandedImage={setExpandedImage}
       onStatusChange={onStatusChange}
       onPrevious={onPrevious}
@@ -87,14 +89,21 @@ const renderSidebar = async (
       view.rerender(sidebar(next));
       await act(async () => {});
     },
+    // As the browser's Back or Forward would
+    goTo: async (next?: Image) => {
+      view.rerender(sidebar(next, true));
+      await act(async () => {});
+    },
   };
 };
 
 describe('ImageSidebar', () => {
-  it('renders nothing until an image is selected', async () => {
-    const { container } = await renderSidebar(undefined);
+  it('renders no sidebar until an image is selected', async () => {
+    await renderSidebar(undefined);
 
-    expect(container).toBeEmptyDOMElement();
+    expect(
+      screen.queryByRole('region', { name: 'Image details' })
+    ).not.toBeInTheDocument();
   });
 
   it('is a region labelled "Image details"', async () => {
@@ -172,8 +181,8 @@ describe('ImageSidebar', () => {
       ]);
     });
 
-    it('keeps the image while it slides out, then renders nothing', async () => {
-      const { container, select } = await renderSidebar(expandedImage);
+    it('keeps the image while it slides out, then removes the sidebar', async () => {
+      const { select } = await renderSidebar(expandedImage);
 
       await select(undefined);
       expect(
@@ -183,7 +192,9 @@ describe('ImageSidebar', () => {
       await act(async () => {
         jest.runAllTimers();
       });
-      expect(container).toBeEmptyDOMElement();
+      expect(
+        screen.queryByRole('region', { name: 'Image details' })
+      ).not.toBeInTheDocument();
     });
 
     it('slides in an image chosen after the page loads, but not one that was in the URL', async () => {
@@ -383,6 +394,43 @@ describe('ImageSidebar', () => {
       expect(onNext).toHaveBeenCalledTimes(1);
     });
 
+    describe('filling the screen', () => {
+      // Below `sm` the sidebar covers the page, and the buttons move from the
+      // header to a bar along the bottom
+      beforeEach(() =>
+        jest.spyOn(AppContext, 'useAppContext').mockReturnValue({
+          ...AppContext.appContextDefaults,
+          windowSize: 'zero',
+        })
+      );
+
+      it('steps from the bar along the bottom', async () => {
+        const onPrevious = jest.fn();
+        const onNext = jest.fn();
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onPrevious,
+          onNext,
+        });
+
+        await userEvent.click(previousButton());
+        await userEvent.click(nextButton());
+
+        expect(onPrevious).toHaveBeenCalledTimes(1);
+        expect(onNext).toHaveBeenCalledTimes(1);
+      });
+
+      it('has no bar before Phase 3', async () => {
+        mockImageSidebarPhase('phase2');
+        await renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: jest.fn(),
+        });
+
+        expect(
+          screen.queryByRole('button', { name: 'Next image' })
+        ).not.toBeInTheDocument();
+      });
+    });
+
     it('disables a button with nowhere to step to, but keeps it focusable', async () => {
       const onNext = jest.fn();
       await renderSidebar(expandedImage, jest.fn(), jest.fn(), { onNext });
@@ -442,26 +490,100 @@ describe('ImageSidebar', () => {
       jest.useRealTimers();
     });
 
-    it('announces the title of the image stepped to, but not one chosen otherwise', async () => {
-      const { select } = await renderSidebar(
-        expandedImage,
-        jest.fn(),
-        jest.fn(),
-        { onNext: beforeStep => beforeStep() }
-      );
-      const liveRegion = document.querySelector('[aria-live="polite"]');
+    describe('announcing the image', () => {
+      const status = () => screen.getByRole('status');
+      const titled = (id: string, title: string) =>
+        ({
+          ...expandedImage,
+          id,
+          source: { id: `work-${id}`, title },
+        }) as unknown as Image;
+      // Announced after a delay, to let focus move first
+      const afterAnnouncementDelay = () =>
+        act(() => new Promise(resolve => setTimeout(resolve, 300)));
+      const renderSteppable = () =>
+        renderSidebar(expandedImage, jest.fn(), jest.fn(), {
+          onNext: beforeStep => beforeStep(),
+        });
 
-      await select({ ...expandedImage, id: 'imageB' });
-      expect(liveRegion).toBeEmptyDOMElement();
+      it('is on the page before the sidebar opens', async () => {
+        await renderSidebar(undefined);
 
-      await userEvent.click(nextButton());
-      await select({
-        ...expandedImage,
-        id: 'imageC',
-        source: { id: 'workC' },
-      } as unknown as Image);
+        expect(status()).toBeEmptyDOMElement();
+      });
 
-      expect(liveRegion).toHaveTextContent('A title with markup');
+      it("announces the title of the image stepped to, without the image's markup", async () => {
+        const { select } = await renderSteppable();
+
+        await userEvent.click(nextButton());
+        await select(titled('imageC', 'Image C <i>title</i>'));
+        await afterAnnouncementDelay();
+
+        expect(status()).toHaveTextContent(/^Image C title$/);
+      });
+
+      it("announces an image reached with the browser's Back or Forward", async () => {
+        const { goTo } = await renderSteppable();
+
+        await goTo(titled('imageB', 'Image B'));
+        await afterAnnouncementDelay();
+
+        expect(status()).toHaveTextContent('Image B');
+      });
+
+      it('announces nothing when a thumbnail is picked, as its title was just heard', async () => {
+        const { select } = await renderSteppable();
+
+        await select(titled('imageB', 'Image B'));
+        await afterAnnouncementDelay();
+
+        expect(status()).toBeEmptyDOMElement();
+      });
+
+      it('clears the last announcement when a thumbnail is picked, so a stale title is not left on the page', async () => {
+        const { select } = await renderSteppable();
+        await userEvent.click(nextButton());
+        await select(titled('imageB', 'Image B'));
+        await afterAnnouncementDelay();
+
+        await select(titled('imageC', 'Image C'));
+        await afterAnnouncementDelay();
+
+        expect(status()).toBeEmptyDOMElement();
+      });
+
+      it('clears the announcement before the next one, so the same title is spoken again', async () => {
+        const { select } = await renderSteppable();
+
+        await userEvent.click(nextButton());
+        await select(titled('imageB', 'Untitled'));
+        await afterAnnouncementDelay();
+        expect(status()).toHaveTextContent('Untitled');
+
+        await userEvent.click(nextButton());
+        await select(titled('imageC', 'Untitled'));
+        expect(status()).toBeEmptyDOMElement();
+        await afterAnnouncementDelay();
+        expect(status()).toHaveTextContent('Untitled');
+      });
+
+      it('announces only the last of several quick steps', async () => {
+        const { select } = await renderSteppable();
+        const announced: string[] = [];
+        const observer = new MutationObserver(() => {
+          if (status().textContent) announced.push(status().textContent!);
+        });
+        observer.observe(status(), { childList: true, subtree: true });
+
+        await userEvent.click(nextButton());
+        await select(titled('imageB', 'Image B'));
+        await userEvent.click(nextButton());
+        await select(titled('imageC', 'Image C'));
+        await afterAnnouncementDelay();
+        observer.disconnect();
+
+        expect(announced).toEqual(['Image C']);
+      });
     });
 
     describe('with the arrow keys', () => {
@@ -640,7 +762,7 @@ describe('ImageSidebar', () => {
       const anotherWork = {
         ...expandedImage,
         id: 'imageB',
-        source: { id: 'workB' },
+        source: { id: 'workB', title: 'Image B' },
       } as unknown as Image;
 
       it('leave focus where it was, rather than moving it to the close button', async () => {
@@ -700,17 +822,18 @@ describe('ImageSidebar', () => {
           jest.fn(),
           { onNext: beforeStep => beforeStep() }
         );
-        const liveRegion = document.querySelector('[aria-live="polite"]');
         await blur();
 
         await userEvent.keyboard('{ArrowRight}');
         await select({
           ...expandedImage,
           id: 'imageC',
-          source: { id: 'workC' },
+          source: { id: 'workC', title: 'Image C' },
         } as unknown as Image);
 
-        expect(liveRegion).toHaveTextContent('A title with markup');
+        await waitFor(() =>
+          expect(screen.getByRole('status')).toHaveTextContent('Image C')
+        );
       });
     });
   });
@@ -735,6 +858,57 @@ describe('ImageSidebar', () => {
       await runTimers();
 
       expect(closeButton()).toHaveFocus();
+    });
+
+    describe("between images, with the browser's Back and Forward", () => {
+      beforeEach(() => mockImageSidebarPhase('phase3'));
+      afterEach(() => jest.restoreAllMocks());
+      const nextButton = () =>
+        screen.getByRole('button', { name: 'Next image' });
+      const imageB = { ...expandedImage, id: 'imageB' } as Image;
+
+      it('leaves focus where it was, as stepping does', async () => {
+        const { goTo } = await renderSidebar(expandedImage);
+        await runTimers();
+        act(() => nextButton().focus());
+
+        await goTo(imageB);
+        await runTimers();
+
+        expect(nextButton()).toHaveFocus();
+      });
+
+      it('moves focus to the close button if it was lost', async () => {
+        const { goTo } = await renderSidebar(expandedImage);
+        await runTimers();
+        act(() => (document.activeElement as HTMLElement).blur());
+
+        await goTo(imageB);
+        await runTimers();
+
+        expect(closeButton()).toHaveFocus();
+      });
+    });
+
+    it("moves focus to the close button when the browser's Back reopens an image whose step was cancelled by closing", async () => {
+      mockImageSidebarPhase('phase3');
+      // The step starts but its image never arrives, as when it's cancelled
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: beforeStep => beforeStep() }
+      );
+      await runTimers();
+      fireEvent.click(screen.getByRole('button', { name: 'Next image' }));
+
+      await select(undefined);
+      await runTimers();
+      await select({ ...expandedImage, id: 'imageB' } as Image);
+      await runTimers();
+
+      expect(closeButton()).toHaveFocus();
+      jest.restoreAllMocks();
     });
 
     // Some browsers focus the thumbnail the URL hash points at a moment after

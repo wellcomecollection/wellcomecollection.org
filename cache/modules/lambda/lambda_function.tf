@@ -55,6 +55,20 @@ resource "aws_cloudwatch_metric_alarm" "lambda_alarm" {
     FunctionName = var.name
   }
 
-  alarm_description = "This metric monitors lambda errors for function: ${var.name}"
+  alarm_description = "${local.alarm_description_prefix}This metric monitors lambda errors for function: ${var.name}"
   alarm_actions     = [var.alarm_topic_arn]
+
+  tags = local.alarm_tags
+}
+
+locals {
+  // Same inputs as terraform-aws-lambda v1.3.0 (wellcomecollection/docs adr/alert_routing.md)
+  alarm_tags = merge(
+    var.alarm_tags,
+    { severity = var.alarm_severity },
+    var.alarm_component != null ? { "backplane:component" = var.alarm_component } : {},
+    var.alarm_repository != null ? { "github.com/project-slug" = var.alarm_repository } : {},
+  )
+
+  alarm_description_prefix = var.alarm_component != null ? "[component=${var.alarm_component} severity=${var.alarm_severity}] " : ""
 }

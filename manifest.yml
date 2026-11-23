@@ -21,6 +21,9 @@ metadata:
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
     wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
     backplane/dora-paths: content, common
+  links:
+    - title: Runbook
+      url: https://github.com/wellcomecollection/wellcomecollection.org/blob/main/content/docs/runbook.md
 spec:
   type: service
   lifecycle: production
@@ -32,11 +35,17 @@ spec:
       tier: staging
       github:
         task: 'deploy:weco'
+      checkpoints:
+        - url: https://www-stage.wellcomecollection.org/management/manifest
     - name: prod
       tier: production
       promotesFrom: stage
+      # Working hours waiting on stage before a nudge, since the prod gate is manual
+      overdue: 2h
       github:
         task: 'deploy:weco'
+      checkpoints:
+        - url: https://wellcomecollection.org/management/manifest
   slos:
     # Agreed 2026-11-13; see docs adr/service_levels.md.
     - name: availability
@@ -69,11 +78,17 @@ spec:
       tier: staging
       github:
         task: 'deploy:weco'
+      checkpoints:
+        - url: https://www-stage.wellcomecollection.org/account/management/manifest
     - name: prod
       tier: production
       promotesFrom: stage
+      # Working hours waiting on stage before a nudge, since the prod gate is manual
+      overdue: 2h
       github:
         task: 'deploy:weco'
+      checkpoints:
+        - url: https://wellcomecollection.org/account/management/manifest
   slos:
     # Agreed 2026-11-13; see docs adr/service_levels.md.
     - name: availability

@@ -57,7 +57,7 @@ type ReactInteractionEvent = React.MouseEvent | React.TouchEvent;
 const isTouch = (e: InteractionEvent): e is TouchEvent => 'touches' in e;
 const useIsomorphicLayoutEvent =
   typeof window === 'undefined' ? useEffect : useLayoutEffect;
-const nKeyboardDetents = 50;
+const N_KEYBOARD_DETENTS = 50;
 
 const getPosition = <T extends HTMLElement>(
   node: T,
@@ -119,7 +119,7 @@ const HueSlider: FunctionComponent<Props> = ({
       const keyCode = parseInt(event.key, 10) || event.which || event.keyCode;
       if (keyCode === 39 /* right */ || keyCode === 37 /* left */) {
         event.preventDefault();
-        const delta = (keyCode === 39 ? 360 : -360) / nKeyboardDetents;
+        const delta = (keyCode === 39 ? 360 : -360) / N_KEYBOARD_DETENTS;
         const nextValue = clamp(hue + delta, 0, 360);
         onChangeHue(nextValue);
       }

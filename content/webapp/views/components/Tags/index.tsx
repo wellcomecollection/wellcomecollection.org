@@ -149,9 +149,9 @@ const Tags: FunctionComponent<Props> = ({
                 <SelectableTagLink
                   ref={tagRef}
                   href={linkAttributes.href}
-                  $isSelected={false}
                   $lineColor="black"
                   $lineThickness={1.4}
+                  $isSelected={false}
                 >
                   {tagInner}
                 </SelectableTagLink>

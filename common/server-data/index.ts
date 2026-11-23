@@ -47,7 +47,7 @@ if (typeof window !== 'undefined') {
 }
 
 const pathName = path.join(process.cwd(), '.server-data');
-const minute = 60000;
+const MINUTE = 60000;
 
 const handlers = {
   toggles: togglesHandler,
@@ -100,7 +100,7 @@ async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   const timer = setTimeout(() => {
     clearTimeout(timer);
     write(key, fetch);
-  }, minute);
+  }, MINUTE);
 
   timers.set(key, timer);
 }

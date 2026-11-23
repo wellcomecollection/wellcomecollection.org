@@ -9,7 +9,7 @@ import { GridCell } from '@weco/common/views/components/styled/Grid';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 
-const leftOffset = '12px';
+const LEFT_OFFSET = '12px';
 
 export const InPageNavList = styled(PlainList)<{
   $isOnWhite: boolean;
@@ -67,7 +67,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   margin-left: -${props => props.theme.containerPadding};
   margin-right: -${props => props.theme.containerPadding};
   padding-left: calc(
-    ${props => props.theme.containerPaddingVw} + ${leftOffset}
+    ${props => props.theme.containerPaddingVw} + ${LEFT_OFFSET}
   );
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   padding-right: ${props => props.theme.containerPaddingVw};
@@ -76,7 +76,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
     props.theme.media('sm')(`
     margin-left: -${props.theme.containerPaddingVw};
     margin-right: -${props.theme.containerPaddingVw};
-    padding-left: calc(${props.theme.containerPaddingVw} + ${leftOffset});
+    padding-left: calc(${props.theme.containerPaddingVw} + ${LEFT_OFFSET});
     padding-right: ${props.theme.containerPaddingVw};
   `)}
 
@@ -103,7 +103,7 @@ export const ListItem = styled.li<{ $hasStuck: boolean; $isOnWhite: boolean }>`
   ${props =>
     props.theme.media('md')(`
     border-top: 0;
-    padding: 7px 0 7px ${leftOffset};
+    padding: 7px 0 7px ${LEFT_OFFSET};
     margin: 0;
 
     &::before {
@@ -161,7 +161,7 @@ export const InPageNavAnimatedLink = styled(
   &::before {
     content: '';
     position: absolute;
-    left: -${leftOffset};
+    left: -${LEFT_OFFSET};
     top: 0;
     height: 100%;
     width: 3px;
