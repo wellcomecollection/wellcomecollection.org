@@ -31,7 +31,7 @@ type PartWithSeparatorProps = {
   $isLast: boolean;
 };
 
-const nbsp = '\\00a0';
+const NBSP = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
   className: typography('body', 'md', 'regular'),
@@ -40,7 +40,7 @@ const PartWithSeparator = styled.span.attrs({
     display: ${props => (props.$isLast ? 'none' : 'inline')};
 
     /* non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text */
-    content: '${nbsp}${props => props.$separator}${nbsp}';
+    content: '${NBSP}${props => props.$separator}${NBSP}';
   }
 `;
 
