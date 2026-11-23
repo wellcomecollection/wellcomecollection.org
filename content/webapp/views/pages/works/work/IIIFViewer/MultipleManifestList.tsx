@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import { volumesNavigationLabel } from '@weco/content/text/aria-labels';
+import { VOLUMES_NAVIGATION_LABEL } from '@weco/content/text/aria-labels';
 import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
@@ -16,7 +16,7 @@ const MultipleManifestList: FunctionComponent = () => {
 
   return (
     <nav>
-      <List aria-label={volumesNavigationLabel}>
+      <List aria-label={VOLUMES_NAVIGATION_LABEL}>
         {manifests.map((manifest, i) => {
           const isActiveManifest = i === queryParamToArrayIndex(query.manifest);
 
