@@ -35,6 +35,7 @@ spec:
       tier: staging
       github:
         task: 'deploy:weco'
+      e2e: { status: e2e/stage }
       checkpoints:
         - url: https://www-stage.wellcomecollection.org/management/manifest
     - name: prod
@@ -44,6 +45,7 @@ spec:
       overdue: 2h
       github:
         task: 'deploy:weco'
+      e2e: { status: e2e/prod }
       checkpoints:
         - url: https://wellcomecollection.org/management/manifest
   slos:
@@ -78,6 +80,7 @@ spec:
       tier: staging
       github:
         task: 'deploy:weco'
+      e2e: { status: e2e/stage }
       checkpoints:
         - url: https://www-stage.wellcomecollection.org/account/management/manifest
     - name: prod
@@ -87,6 +90,7 @@ spec:
       overdue: 2h
       github:
         task: 'deploy:weco'
+      e2e: { status: e2e/prod }
       checkpoints:
         - url: https://wellcomecollection.org/account/management/manifest
   slos:
