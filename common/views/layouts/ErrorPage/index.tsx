@@ -20,7 +20,7 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader.styles';
+import { HEADER_SPACE_SIZE } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -235,7 +235,7 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
       openGraphType="website"
       hideNewsletterPromo
     >
-      <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
+      <Space $v={{ size: HEADER_SPACE_SIZE, properties: ['padding-bottom'] }}>
         <PageHeader
           variant="basic"
           breadcrumbs={{ items: [] }}
