@@ -119,7 +119,11 @@ const useFocusCloseButtonOnSelect = (
   } | null>(null);
 
   useEffect(() => {
-    if (!imageId) return;
+    // A step that was cancelled (e.g. by closing straight away) never used it
+    if (!imageId) {
+      steppedFrom.current = null;
+      return;
+    }
 
     hasTakenOver.current = false;
     const active = document.activeElement;
@@ -360,13 +364,11 @@ const ImageSidebar: FunctionComponent<Props> = ({
     const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
     isAnnouncingStep.current = false;
 
-    if (!expandedImage) {
-      setAnnouncement('');
-      return;
-    }
-    if (!isAnnouncing) return;
-
+    // Cleared on a pick too, so the last title isn't left for the virtual
+    // cursor to find
     setAnnouncement('');
+    if (!expandedImage || !isAnnouncing) return;
+
     const timeout = setTimeout(
       () =>
         setAnnouncement(

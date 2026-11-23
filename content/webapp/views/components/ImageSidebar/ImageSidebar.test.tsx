@@ -502,6 +502,18 @@ describe('ImageSidebar', () => {
         expect(status()).toBeEmptyDOMElement();
       });
 
+      it('clears the last announcement when a thumbnail is picked, so a stale title is not left on the page', async () => {
+        const { select } = await renderSteppable();
+        await userEvent.click(nextButton());
+        await select(titled('imageB', 'Image B'));
+        await afterAnnouncementDelay();
+
+        await select(titled('imageC', 'Image C'));
+        await afterAnnouncementDelay();
+
+        expect(status()).toBeEmptyDOMElement();
+      });
+
       it('clears the announcement before the next one, so the same title is spoken again', async () => {
         const { select } = await renderSteppable();
 
@@ -838,6 +850,27 @@ describe('ImageSidebar', () => {
 
         expect(closeButton()).toHaveFocus();
       });
+    });
+
+    it("moves focus to the close button when the browser's Back reopens an image whose step was cancelled by closing", async () => {
+      mockImageSidebarPhase('phase3');
+      // The step starts but its image never arrives, as when it's cancelled
+      const { select } = await renderSidebar(
+        expandedImage,
+        jest.fn(),
+        jest.fn(),
+        { onNext: beforeStep => beforeStep() }
+      );
+      await runTimers();
+      fireEvent.click(screen.getByRole('button', { name: 'Next image' }));
+
+      await select(undefined);
+      await runTimers();
+      await select({ ...expandedImage, id: 'imageB' } as Image);
+      await runTimers();
+
+      expect(closeButton()).toHaveFocus();
+      jest.restoreAllMocks();
     });
 
     // Some browsers focus the thumbnail the URL hash points at a moment after
