@@ -15,6 +15,10 @@ function includesStandaloneTitle(stop: ExhibitionGuideComponent): boolean {
     : false;
 }
 
+/**
+ * Displays captions for stops within an exhibition, as well as written
+ * transcripts of any associated audio.
+ */
 const ExhibitionCaptions: FunctionComponent<Props> = ({ stops }) => {
   const titlesUsed = {
     standalone: false,
