@@ -151,7 +151,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
                     tags={subjectTags}
                     maxVisible={MAX_VISIBLE_SUBJECTS}
                     showAllText="Show all subjects"
-                    showLessText="Show less subjects"
+                    showFewerText="Show fewer subjects"
                     isFirstPartBold={false}
                   />
                 }

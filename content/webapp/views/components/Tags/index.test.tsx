@@ -33,7 +33,7 @@ const renderTags = ({
           tags={tags(count)}
           maxVisible={maxVisible}
           showAllText="Show all subjects"
-          showLessText="Show less subjects"
+          showFewerText="Show fewer subjects"
         />
       </AppContext.Provider>
     </ThemeProvider>
@@ -42,8 +42,8 @@ const renderTags = ({
 const showAllButton = () =>
   screen.queryByRole('button', { name: /show all subjects/i });
 
-const showLessButton = () =>
-  screen.queryByRole('button', { name: /show less subjects/i });
+const showFewerButton = () =>
+  screen.queryByRole('button', { name: /show fewer subjects/i });
 
 describe('Tags', () => {
   it('shows every tag when there is no maxVisible', () => {
@@ -84,7 +84,7 @@ describe('Tags', () => {
 
     expect(screen.getByText('Subject 11')).toBeInTheDocument();
     expect(screen.getByText('Subject 12')).toBeInTheDocument();
-    expect(showLessButton()).toBeInTheDocument();
+    expect(showFewerButton()).toBeInTheDocument();
   });
 
   it('collapses back to maxVisible tags when the control is used again', async () => {
@@ -92,20 +92,32 @@ describe('Tags', () => {
     renderTags({ count: 12, maxVisible: 10 });
 
     await user.click(showAllButton()!);
-    await user.click(showLessButton()!);
+    await user.click(showFewerButton()!);
 
     expect(screen.getByText('Subject 10')).toBeInTheDocument();
     expect(screen.queryByText('Subject 11')).not.toBeInTheDocument();
     expect(showAllButton()).toBeInTheDocument();
   });
 
-  it('keeps focus on the control, so it can be used again straight away', async () => {
+  // The control sits after the tags, so without this the revealed links are
+  // behind the user's focus position and the next Tab leaves the list.
+  it('moves focus to the first revealed tag', async () => {
     const user = userEvent.setup();
     renderTags({ count: 12, maxVisible: 10 });
 
     await user.click(showAllButton()!);
 
-    expect(showLessButton()).toHaveFocus();
+    expect(screen.getByText('Subject 11').closest('a')).toHaveFocus();
+  });
+
+  it('leaves focus on the control when collapsing', async () => {
+    const user = userEvent.setup();
+    renderTags({ count: 12, maxVisible: 10 });
+
+    await user.click(showAllButton()!);
+    await user.click(showFewerButton()!);
+
+    expect(showAllButton()).toHaveFocus();
   });
 
   // Without JavaScript the control can't do anything, so nothing should hide
