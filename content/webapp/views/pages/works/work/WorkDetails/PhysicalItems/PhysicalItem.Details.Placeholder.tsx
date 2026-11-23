@@ -56,6 +56,10 @@ const widthOffsets = [0.8, 0.6, 0.3, 0.5, 0.8, 0.5, 0.2, 0.4, 0.3, 0.1];
 const randomWidth = ({ min, i }: { min: number; i: number }) =>
   100 - (100 - min) * widthOffsets[i % widthOffsets.length];
 
+/**
+ * Wraps things that have a loading state, rendering a "skeleton state"
+ * placeholder while they load.
+ */
 const Placeholder: FunctionComponent<PropsWithChildren<Props>> = ({
   children,
   isLoading,
