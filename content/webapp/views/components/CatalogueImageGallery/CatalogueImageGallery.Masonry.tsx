@@ -12,7 +12,7 @@ import styled, { css } from 'styled-components';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { typography } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
-import { enhancedClass } from '@weco/common/utils/enhanced';
+import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import { pageBackgroundColor, sizes } from '@weco/common/views/themes/config';
@@ -78,14 +78,14 @@ const MasonryList = styled(PlainList)`
   }
 
   @supports not (display: grid-lanes) {
-    .${enhancedClass} & {
+    .${ENHANCED_CLASS} & {
       grid-auto-rows: ${ROW_HEIGHT}px;
       row-gap: 0;
     }
 
     /* A span that's briefly too short cuts the card off rather than covering
     the one below. The margin leaves room for the focus ring. */
-    .${enhancedClass} & > li {
+    .${ENHANCED_CLASS} & > li {
       grid-row: span var(--row-span);
       overflow: clip;
       overflow-clip-margin: 6px;

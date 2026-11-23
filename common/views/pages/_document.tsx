@@ -9,7 +9,7 @@ import Document, {
 import { ReactElement } from 'react';
 import { ServerStyleSheet } from 'styled-components';
 
-import { apmConfigScriptId } from '@weco/common/contexts/ApmContext';
+import { APM_CONFIG_SCRIPT_ID } from '@weco/common/contexts/ApmContext';
 import { ConsentStatusProps } from '@weco/common/server-data/types';
 import apmConfig from '@weco/common/services/apm/apmConfig';
 import {
@@ -17,7 +17,7 @@ import {
   GoogleTagManager,
 } from '@weco/common/services/app/analytics-scripts';
 import { getErrorPageConsent } from '@weco/common/services/app/civic-uk';
-import { enhancedScript } from '@weco/common/utils/enhanced';
+import { ENHANCED_SCRIPT } from '@weco/common/utils/enhanced';
 import { serialiseForInlineScript } from '@weco/common/utils/json';
 import { Toggles } from '@weco/toggles';
 
@@ -76,10 +76,10 @@ class WecoDoc extends Document<DocumentInitialPropsWithTogglesAndGa> {
       <Html lang="en">
         <Head>
           <>
-            <script dangerouslySetInnerHTML={{ __html: enhancedScript }} />
+            <script dangerouslySetInnerHTML={{ __html: ENHANCED_SCRIPT }} />
 
             <script
-              id={apmConfigScriptId}
+              id={APM_CONFIG_SCRIPT_ID}
               type="application/json"
               dangerouslySetInnerHTML={{ __html: serialisedApmConfig() }}
             />
