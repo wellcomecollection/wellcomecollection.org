@@ -4,7 +4,7 @@ import styled, { useTheme } from 'styled-components';
 import { itemRequestDialog } from '@weco/common/data/microcopy';
 import { typography } from '@weco/common/utils/classnames';
 import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
-import { allowedRequests } from '@weco/common/values/requests';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -135,7 +135,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
           Request item
         </span>
         <CurrentRequests
-          allowedHoldRequests={allowedRequests}
+          allowedHoldRequests={ALLOWED_REQUESTS}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
