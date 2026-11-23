@@ -58,6 +58,11 @@ spec:
         source: cloudwatch
         good: 'RequestCount - HTTPCode_Target_5XX_Count'
         total: 'RequestCount'
+  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
+  notifications:
+    deployments:
+      labels: false
+      prComments: false
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -103,6 +108,11 @@ spec:
         source: cloudwatch
         good: 'RequestCount - HTTPCode_Target_5XX_Count'
         total: 'RequestCount'
+  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
+  notifications:
+    deployments:
+      labels: false
+      prComments: false
 ---
 apiVersion: backplane/v1
 kind: Component
