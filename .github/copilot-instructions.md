@@ -33,7 +33,7 @@ Follow these patterns consistently:
 
 ## JSX
 
-Boolean props go last in a call. Lint enforces this for shorthand ones (`react/jsx-sort-props` with `shorthandLast`), but it doesn't see a boolean written with an explicit value - put `isFirstPartBold={false}` at the end too, so the props carrying the data read first.
+Boolean props go after the props carrying the data, and before any shorthand ones. Lint enforces the shorthand half (`react/jsx-sort-props` with `shorthandLast`) but has nothing to say about a boolean written with an explicit value, so that one sits between the two: `<X a={1} hidden={false} isOpen />` passes, `<X a={1} isOpen hidden={false} />` doesn't.
 
 ## Comments
 
