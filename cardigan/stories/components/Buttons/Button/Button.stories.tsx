@@ -108,8 +108,8 @@ export const Basic: Story = {
       control: { type: 'radio' },
       name: 'Hierarchy',
     },
-    isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
-    isDanger: { control: 'boolean', name: 'Is danger (brand)' },
+    isOnDark: { control: 'boolean', name: 'Is on dark background' },
+    isDanger: { control: 'boolean', name: 'Is danger' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
@@ -152,7 +152,7 @@ const Row = styled.div`
 const hierarchies: ButtonHierarchy[] = ['primary', 'secondary', 'tertiary'];
 
 export const Hierarchy: Story = {
-  name: 'Hierarchy (brand)',
+  name: 'Hierarchy',
   parameters: {
     docs: {
       description: {
@@ -211,7 +211,7 @@ export const DropdownButton: Story = {
     hierarchy: {
       options: [undefined, 'primary', 'secondary', 'tertiary'],
       control: { type: 'radio' },
-      name: 'Hierarchy (brand)',
+      name: 'Hierarchy',
     },
   },
   render: args => (

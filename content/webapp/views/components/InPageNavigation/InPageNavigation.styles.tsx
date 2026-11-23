@@ -149,7 +149,7 @@ export const InPageNavAnimatedLink = styled(
 }))<InPageNavAnimatedLinkProps>`
   color: ${props =>
     props.theme.color(
-      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'neutral.10'
+      props.$hasStuck || props.$isOnWhite ? 'black' : 'neutral.10'
     )};
   position: relative;
   display: block;
@@ -161,10 +161,7 @@ export const InPageNavAnimatedLink = styled(
     top: 0;
     height: 100%;
     width: 3px;
-    background: ${props =>
-      props.theme.color(
-        props.$hasStuck ? 'blue.30' : props.$isOnWhite ? 'blue.30' : 'blue.30'
-      )};
+    background: ${props => props.theme.color('blue.30')};
     opacity: ${props => (props.$isActive ? 1 : 0)};
     transform: scaleY(${props => (props.$isActive ? 1 : 0.5)});
     transition:
@@ -258,7 +255,7 @@ export const MobileNavButton = styled.button.attrs({
   width: 100%;
   color: ${props =>
     props.theme.color(
-      props.$hasStuck ? 'black' : props.$isOnWhite ? 'black' : 'neutral.10'
+      props.$hasStuck || props.$isOnWhite ? 'black' : 'neutral.10'
     )};
 
   .icon {

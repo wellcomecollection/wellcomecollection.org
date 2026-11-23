@@ -9,10 +9,9 @@ import { pageBackgroundColor } from '@weco/common/views/themes/config';
 type Props = {
   backgroundTexture?: string;
   hasWobblyEdge?: boolean;
-  useDefaultBackgroundTexture?: boolean;
 };
 
-const Background = styled.div<{ $texture: string | null }>`
+const Background = styled.div<{ $texture?: string }>`
   position: absolute;
   top: 0;
   bottom: 100px;
@@ -36,14 +35,9 @@ const WobblyEdgeContainer = styled.div`
 const HeaderBackground: FunctionComponent<Props> = ({
   backgroundTexture,
   hasWobblyEdge,
-  useDefaultBackgroundTexture,
 }: Props) => {
-  const texture =
-    backgroundTexture ||
-    (useDefaultBackgroundTexture ? headerBackgroundLs : null);
-
   return (
-    <Background $texture={texture}>
+    <Background $texture={backgroundTexture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
           <DecorativeEdge
