@@ -28,35 +28,49 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
  */
 const settleTime = url => (url.includes('/items') ? 2000 : 0);
 
-// The components that use AnimatedUnderlineCSS, and so need the treatment
-// below. Keep this in step with it.
-const UNDERLINED_COMPONENTS = ['tags', 'selectable-tags', 'full-width-banner'];
+const GRADIENT_SWEEP_INTERVAL_MS = 300;
 
 /**
- * Switches the animated underline off for the audit.
+ * Drops gradients that are sized to paint nothing, so axe can measure the
+ * text in front of them.
  *
- * AnimatedUnderline draws its hover underline as a background gradient, and
- * axe won't measure text with a gradient behind it: those tags come back
+ * axe refuses to judge text with a gradient behind it: it comes back
  * incomplete, with no colours and a ratio of 0, rather than passing or
- * failing. The line is zero width until hover, so dropping it changes nothing
- * on screen and lets the text underneath be measured properly.
+ * failing. AnimatedUnderline draws its hover underline as a background
+ * gradient sized to zero width until hover, which is enough to trigger that
+ * on every tag and link using it.
+ *
+ * A gradient sized to zero width paints nothing, so removing it can't change
+ * what's on screen. Matching on that rather than listing the components that
+ * use AnimatedUnderline means there is nothing to keep in step when a new one
+ * does, and real gradients, like FullWidthBanner's two-tone background, are
+ * left alone to be reported as usual.
+ *
+ * It sweeps repeatedly because elements arrive after hydration and pa11y
+ * gives no hook between the page settling and axe running. A sweep costs a
+ * few milliseconds on a page of around a thousand elements.
  */
-const measureUnderlinedText = page =>
-  page.evaluateOnNewDocument(
-    css => {
-      const addStyle = () => {
-        const style = document.createElement('style');
-        style.textContent = css;
-        (document.head ?? document.documentElement).append(style);
-      };
+const dropInvisibleGradients = page =>
+  page.evaluateOnNewDocument(intervalMs => {
+    const sweep = () => {
+      document.querySelectorAll('*').forEach(element => {
+        const { backgroundImage, backgroundSize } =
+          window.getComputedStyle(element);
 
-      if (document.head) addStyle();
-      else document.addEventListener('DOMContentLoaded', addStyle);
-    },
-    `${UNDERLINED_COMPONENTS.map(
-      name => `[data-component="${name}"] span`
-    ).join(', ')} { background-image: none !important; }`
-  );
+        // parseFloat takes the width of the first background, and gives NaN
+        // for keywords like `auto` and `cover`
+        if (
+          backgroundImage.includes('gradient') &&
+          parseFloat(backgroundSize) === 0
+        ) {
+          element.style.backgroundImage = 'none';
+        }
+      });
+    };
+
+    document.addEventListener('DOMContentLoaded', sweep);
+    window.setInterval(sweep, intervalMs);
+  }, GRADIENT_SWEEP_INTERVAL_MS);
 
 /**
  * Looks up the component each issue is in, while the page is still open.
@@ -99,7 +113,7 @@ const runPa11y = async (browser, url) => {
     // count as the background of all the text behind it.
     await page.setCookie({ name: 'CookieControl', value: '{}', url });
 
-    await measureUnderlinedText(page);
+    await dropInvisibleGradients(page);
 
     const result = await pa11y(url, {
       browser,
