@@ -183,14 +183,15 @@ export const StepBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${props => props.theme.spacingUnits['150']}
-    ${props => props.theme.spacingUnits['200']};
+  padding: 0 ${props => props.theme.spacingUnits['200']}
+    ${props => props.theme.spacingUnits['400']};
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color(pageBackgroundColor)};
 
   ${StepButton} {
     flex-direction: row;
     gap: ${props => props.theme.spacingUnits['100']};
+    padding: ${props => props.theme.spacingUnits['150']} 0;
   }
 
   ${StepButton}:last-child {
