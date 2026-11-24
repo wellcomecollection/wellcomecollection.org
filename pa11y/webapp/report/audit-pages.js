@@ -28,30 +28,24 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
  */
 const settleTime = url => (url.includes('/items') ? 2000 : 0);
 
-const GRADIENT_SWEEP_INTERVAL_MS = 300;
-
 /**
- * Drops gradients that are sized to paint nothing, so axe can measure the
- * text in front of them.
+ * Drops gradients sized to paint nothing, so axe can measure the text in
+ * front of them.
  *
- * axe refuses to judge text with a gradient behind it: it comes back
- * incomplete, with no colours and a ratio of 0, rather than passing or
- * failing. AnimatedUnderline draws its hover underline as a background
- * gradient sized to zero width until hover, which is enough to trigger that
- * on every tag and link using it.
+ * axe won't judge text with a gradient behind it, and AnimatedUnderline draws
+ * its hover underline as a gradient sized to zero width until hover, so every
+ * tag using it comes back incomplete rather than passing or failing. A
+ * gradient sized to zero width paints nothing, so dropping it changes nothing
+ * on screen, and matching on the size rather than on a list of components
+ * leaves nothing to keep in step.
  *
- * A gradient sized to zero width paints nothing, so removing it can't change
- * what's on screen. Matching on that rather than listing the components that
- * use AnimatedUnderline means there is nothing to keep in step when a new one
- * does, and real gradients, like FullWidthBanner's two-tone background, are
- * left alone to be reported as usual.
- *
- * It sweeps repeatedly because elements arrive after hydration and pa11y
- * gives no hook between the page settling and axe running. A sweep costs a
- * few milliseconds on a page of around a thousand elements.
+ * Underlines keep arriving as the page hydrates, so it sweeps on DOM changes,
+ * and stops once pa11y injects axe — nothing of ours may run while axe
+ * measures. The setter on window.axe is that signal; axe fills in its own
+ * methods afterwards, so nothing can be called on it there.
  */
 const dropInvisibleGradients = page =>
-  page.evaluateOnNewDocument(intervalMs => {
+  page.evaluateOnNewDocument(() => {
     const sweep = () => {
       document.querySelectorAll('*').forEach(element => {
         const { backgroundImage, backgroundSize } =
@@ -68,9 +62,23 @@ const dropInvisibleGradients = page =>
       });
     };
 
+    const observer = new window.MutationObserver(sweep);
+    observer.observe(document, { childList: true, subtree: true });
+
     document.addEventListener('DOMContentLoaded', sweep);
-    window.setInterval(sweep, intervalMs);
-  }, GRADIENT_SWEEP_INTERVAL_MS);
+    window.addEventListener('load', sweep);
+
+    let axe;
+    Object.defineProperty(window, 'axe', {
+      configurable: true,
+      get: () => axe,
+      set: value => {
+        axe = value;
+        observer.disconnect();
+        sweep();
+      },
+    });
+  });
 
 /**
  * Looks up the component each issue is in, while the page is still open.
