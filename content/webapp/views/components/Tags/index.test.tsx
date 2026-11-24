@@ -101,8 +101,6 @@ describe('Tags', () => {
     expect(showAllButton()).toBeInTheDocument();
   });
 
-  // The control sits after the tags, so without this the revealed links are
-  // behind the user's focus position and the next Tab leaves the list.
   it('moves focus to the first revealed tag', async () => {
     const user = userEvent.setup();
     renderTags({ count: 12, maxVisible: 10 });

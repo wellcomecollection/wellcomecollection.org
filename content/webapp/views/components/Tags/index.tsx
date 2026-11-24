@@ -108,10 +108,8 @@ const Tags: FunctionComponent<Props> = ({
       : undefined;
   const isCollapsed = limit !== undefined && !isShowingAll;
 
-  // The control sits after the tags, so the ones it reveals land behind the
-  // user's focus position. Leaving focus on the control means the next Tab
-  // leaves the list, and reaching the 11th subject means tabbing back past
-  // every one it just revealed.
+  // Revealed tags land before the control in tab order, so move focus to the
+  // first one.
   useEffect(() => {
     if (isShowingAll) firstRevealedTagRef.current?.focus();
   }, [isShowingAll]);
