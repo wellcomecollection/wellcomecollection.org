@@ -184,7 +184,8 @@ export const StepBar = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: ${props => props.theme.spacingUnits['150']}
-    ${props => props.theme.spacingUnits['200']};
+    ${props => props.theme.spacingUnits['200']}
+    ${props => props.theme.spacingUnits['400']};
   background-color: ${props => props.theme.color('black')};
   color: ${props => props.theme.color(pageBackgroundColor)};
 
