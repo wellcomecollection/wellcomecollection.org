@@ -2,9 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
-import AppContext, {
-  appContextDefaults,
-} from '@weco/common/contexts/AppContext';
+import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
 import { createTheme } from '@weco/common/views/themes/config';
 
 import Tags, { TagType } from './index';
@@ -17,6 +15,7 @@ const tags = (count: number): TagType[] =>
     linkAttributes: { href: { pathname: `/concepts/subject-${i + 1}` } },
   }));
 
+// Standing in for the inline script in _document.
 const renderTags = ({
   count,
   maxVisible,
@@ -25,19 +24,20 @@ const renderTags = ({
   count: number;
   maxVisible?: number;
   isEnhanced?: boolean;
-}) =>
-  render(
+}) => {
+  document.documentElement.classList.toggle(ENHANCED_CLASS, isEnhanced);
+
+  return render(
     <ThemeProvider theme={theme}>
-      <AppContext.Provider value={{ ...appContextDefaults, isEnhanced }}>
-        <Tags
-          tags={tags(count)}
-          maxVisible={maxVisible}
-          showAllText="Show all subjects"
-          showFewerText="Show fewer subjects"
-        />
-      </AppContext.Provider>
+      <Tags
+        tags={tags(count)}
+        maxVisible={maxVisible}
+        showAllText="Show all subjects"
+        showFewerText="Show fewer subjects"
+      />
     </ThemeProvider>
   );
+};
 
 const showAllButton = () =>
   screen.queryByRole('button', { name: /show all subjects/i });
@@ -46,6 +46,10 @@ const showFewerButton = () =>
   screen.queryByRole('button', { name: /show fewer subjects/i });
 
 describe('Tags', () => {
+  afterEach(() => {
+    document.documentElement.classList.remove(ENHANCED_CLASS);
+  });
+
   it('shows every tag when there is no maxVisible', () => {
     renderTags({ count: 12 });
 
@@ -57,7 +61,7 @@ describe('Tags', () => {
     renderTags({ count: 12, maxVisible: 10 });
 
     expect(screen.getByText('Subject 10')).toBeInTheDocument();
-    expect(screen.queryByText('Subject 11')).not.toBeInTheDocument();
+    expect(screen.getByText('Subject 11')).not.toBeVisible();
     expect(showAllButton()).toBeInTheDocument();
   });
 
@@ -95,7 +99,7 @@ describe('Tags', () => {
     await user.click(showFewerButton()!);
 
     expect(screen.getByText('Subject 10')).toBeInTheDocument();
-    expect(screen.queryByText('Subject 11')).not.toBeInTheDocument();
+    expect(screen.getByText('Subject 11')).not.toBeVisible();
     expect(showAllButton()).toBeInTheDocument();
   });
 

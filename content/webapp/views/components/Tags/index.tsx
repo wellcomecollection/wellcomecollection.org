@@ -1,10 +1,10 @@
 import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
-import { useAppContext } from '@weco/common/contexts/AppContext';
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
+import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
 import { ButtonColors } from '@weco/common/views/components/Buttons';
 import {
   SolidButtonStyledProps,
@@ -56,6 +56,26 @@ const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
   ${StyledButtonCSS}
 `;
 
+// Collapsing in CSS rather than from isEnhanced stops the list painting
+// full-length and then shrinking once React loads.
+const TagItem = styled(LinkWrapper)<{ $isBeyondLimit: boolean }>`
+  ${props =>
+    props.$isBeyondLimit &&
+    css`
+      .${ENHANCED_CLASS} & {
+        display: none;
+      }
+    `}
+`;
+
+const ControlItem = styled(LinkWrapper)`
+  display: none;
+
+  .${ENHANCED_CLASS} & {
+    display: inline-block;
+  }
+`;
+
 const ShowAllButton = styled.button.attrs({
   type: 'button',
   className: typography('body', 'md', 'regular'),
@@ -93,17 +113,14 @@ const Tags: FunctionComponent<Props> = ({
   showFewerText = 'Show fewer',
 }) => {
   const theme = useTheme();
-  const { isEnhanced } = useAppContext();
   const [isShowingAll, setIsShowingAll] = useState(false);
   const firstRevealedTagRef = useRef<HTMLAnchorElement>(null);
 
-  // Without JavaScript nothing can reveal the rest, so every tag is rendered
-  // rather than hidden behind a control that does nothing.
-  const isCollapsible =
-    isEnhanced && maxVisible !== undefined && tags.length > maxVisible;
-
-  const isCollapsed = isCollapsible && !isShowingAll;
-  const visibleTags = isCollapsed ? tags.slice(0, maxVisible) : tags;
+  const limit =
+    maxVisible !== undefined && tags.length > maxVisible
+      ? maxVisible
+      : undefined;
+  const isCollapsed = limit !== undefined && !isShowingAll;
 
   // The control sits after the tags, so the ones it reveals land behind the
   // user's focus position. Leaving focus on the control means the next Tab
@@ -120,7 +137,7 @@ const Tags: FunctionComponent<Props> = ({
     >
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
-        {visibleTags.map(({ textParts, linkAttributes }, i) => {
+        {tags.map(({ textParts, linkAttributes }, i) => {
           const tagInner = (
             <TagInner>
               {textParts.map((part, i, arr) => (
@@ -146,7 +163,7 @@ const Tags: FunctionComponent<Props> = ({
           const tagRef = i === maxVisible ? firstRevealedTagRef : undefined;
 
           return (
-            <LinkWrapper as="li" key={i}>
+            <TagItem as="li" key={i} $isBeyondLimit={isCollapsed && i >= limit}>
               {theme.brandUpdate ? (
                 <SelectableTagLink
                   ref={tagRef}
@@ -169,12 +186,12 @@ const Tags: FunctionComponent<Props> = ({
                   {tagInner}
                 </StyledLink>
               )}
-            </LinkWrapper>
+            </TagItem>
           );
         })}
 
-        {isCollapsible && (
-          <LinkWrapper as="li">
+        {limit !== undefined && (
+          <ControlItem as="li">
             <ShowAllButton
               aria-expanded={isShowingAll}
               data-gtm-trigger={isShowingAll ? 'show-fewer' : 'show-all'}
@@ -189,7 +206,7 @@ const Tags: FunctionComponent<Props> = ({
                 </>
               )}
             </ShowAllButton>
-          </LinkWrapper>
+          </ControlItem>
         )}
       </PlainList>
     </Space>
