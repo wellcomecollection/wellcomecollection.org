@@ -4,7 +4,7 @@ about: QA a feature
 title: ''
 labels: ''
 assignees: ''
-projects: ['wellcomecollection/18']
+
 ---
 
 ## Description
