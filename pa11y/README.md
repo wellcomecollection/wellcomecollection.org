@@ -33,4 +33,4 @@ We have to specify a list of URLs for pa11y to check – it doesn't crawl the si
 
 We want it to test a representative sample – any time you create a new page type, add an example to pa11y.
 
-To add a new URL, add to the list in `report-and-deploy.js`.
+To add a new URL, add to the list in `webapp/report/urls.js`.
