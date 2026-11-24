@@ -1024,9 +1024,14 @@ test.describe('Small screens', () => {
     const close = (await closeButton(page).boundingBox())!;
 
     // Down on the bottom edge, the bar's padding aside, rather than up in the
-    // header beside Close
+    // header beside Close. Allows a pixel of rounding.
     expect(box.y).toBeGreaterThan(close.y + close.height);
-    expect(screen.height - (box.y + box.height)).toBeLessThan(box.height);
+    const barPaddingBottom = await bar.evaluate(el =>
+      parseFloat(getComputedStyle(el.parentElement!).paddingBottom)
+    );
+    expect(
+      Math.abs(screen.height - (box.y + box.height) - barPaddingBottom)
+    ).toBeLessThanOrEqual(1);
 
     await bar.click();
     await bar.click();
