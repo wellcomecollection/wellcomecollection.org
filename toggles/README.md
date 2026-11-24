@@ -99,7 +99,7 @@ Feature flags depend on their type and on whether they're public (`defaultValue:
 | Feature flag                                             | `true` | `off`                                        | `false` or no cookie |
 | -------------------------------------------------------- | ------ | -------------------------------------------- | -------------------- |
 | Experimental, not public                                 | On     | Off                                          | Off                  |
-| Experimental, public (e.g. `brandUpdate`)                | On     | Off, the version from before it was released | On                   |
+| Experimental, public                                     | On     | Off, the version from before it was released | On                   |
 | Permanent or stage, not public                           | On     | Ignored, so off                              | Off                  |
 | Permanent or stage, public (e.g. `aggregationsInSearch`) | On     | Ignored, so on                               | On                   |
 
@@ -190,7 +190,7 @@ The links below use the home page, but the `?toggle=` part works on any page, e.
 | A/B test (test group)                               | `https://wellcomecollection.org/?toggle={test_id}`              | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 | A/B test (control group)                            | `https://wellcomecollection.org/?toggle={test_id}:false`        | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 
-- Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=brandUpdate,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
+- Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=largeArchiveContentsTree,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
 - `:off` only works on experimental feature flags, and on phased flags once a phase is public. On any other toggle it's ignored, like any other invalid value
 - Kiosk mode grants analytics and marketing consent, so it can only be set or reset from the dashboard
 - `:reset` deletes the cookie rather than saving the current public value, so you'll also follow any later change to it

@@ -90,8 +90,7 @@ const FiltersFooter = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props =>
-    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
+  background-color: ${props => props.theme.color('neutral.05')};
   border-top: 1px solid ${props => props.theme.color('warmNeutral.400')};
   position: fixed;
   bottom: 0;
@@ -101,19 +100,16 @@ const FiltersFooter = styled(Space).attrs({
 
 // The brand's close button is bigger, so the header keeps its larger-screen
 // padding at every size to leave room for it
-const FiltersHeader = styled(Space).attrs(props => ({
+const FiltersHeader = styled(Space).attrs({
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
   $v: {
     size: 'sm',
     properties: ['padding-top', 'padding-bottom'],
-    ...(props.theme.brandUpdate && {
-      overrides: { zero: '200', sm: '200', md: '200' },
-    }),
+    overrides: { zero: '200', sm: '200', md: '200' },
   },
-}))`
+})`
   position: absolute;
-  background-color: ${props =>
-    props.theme.color({ brand: 'neutral.05', legacy: 'white' })};
+  background-color: ${props => props.theme.color('neutral.05')};
   border-bottom: 1px solid ${props => props.theme.color('warmNeutral.400')};
   text-align: center;
   top: 0;

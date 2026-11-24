@@ -1,15 +1,9 @@
-import NextLink from 'next/link';
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
 import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
-import { ButtonColors } from '@weco/common/views/components/Buttons';
-import {
-  SolidButtonStyledProps,
-  StyledButtonCSS,
-} from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
@@ -51,11 +45,6 @@ const LinkWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
-const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
-  display: block;
-  ${StyledButtonCSS}
-`;
-
 // Collapsing in CSS rather than from isEnhanced stops the list painting
 // full-length and then shrinking once React loads.
 const TagItem = styled(LinkWrapper)<{ $isBeyondLimit: boolean }>`
@@ -94,7 +83,6 @@ const ShowAllButton = styled.button.attrs({
 
 export type Props = {
   tags: TagType[];
-  buttonColors?: ButtonColors;
   isFirstPartBold?: boolean;
   separator?: string;
   /** Shows only this many tags, behind a control that reveals the rest. */
@@ -105,14 +93,12 @@ export type Props = {
 
 const Tags: FunctionComponent<Props> = ({
   tags,
-  buttonColors,
   isFirstPartBold = true,
   separator = '–',
   maxVisible,
   showAllText = 'Show all',
   showFewerText = 'Show fewer',
 }) => {
-  const theme = useTheme();
   const [isShowingAll, setIsShowingAll] = useState(false);
   const firstRevealedTagRef = useRef<HTMLAnchorElement>(null);
 
@@ -164,28 +150,15 @@ const Tags: FunctionComponent<Props> = ({
 
           return (
             <TagItem as="li" key={i} $isBeyondLimit={isCollapsed && i >= limit}>
-              {theme.brandUpdate ? (
-                <SelectableTagLink
-                  ref={tagRef}
-                  href={linkAttributes.href}
-                  $lineColor="black"
-                  $lineThickness={1.4}
-                  $isSelected={false}
-                >
-                  {tagInner}
-                </SelectableTagLink>
-              ) : (
-                <StyledLink
-                  ref={tagRef}
-                  href={linkAttributes.href}
-                  $size="small"
-                  $colors={
-                    buttonColors ?? theme.buttonColors.pumiceTransparentCharcoal
-                  }
-                >
-                  {tagInner}
-                </StyledLink>
-              )}
+              <SelectableTagLink
+                ref={tagRef}
+                href={linkAttributes.href}
+                $lineColor="black"
+                $lineThickness={1.4}
+                $isSelected={false}
+              >
+                {tagInner}
+              </SelectableTagLink>
             </TagItem>
           );
         })}

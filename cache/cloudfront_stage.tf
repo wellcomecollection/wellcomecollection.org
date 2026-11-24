@@ -45,6 +45,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # Trialling the /works/<id>/items challenge here before prod (see the items-challenge rule in the module).
   enable_items_challenge = true
 
+  # Trialling the /search exemption from SQLi_QUERYARGUMENTS here before prod (see sqli-query-arguments-block in the module).
+  enable_search_sqli_exemption = true
+
   # Cuts billed challenge responses by blocking provably fabricated user
   # agents first. Matches prod.
   enable_search_legacy_ua_block = true

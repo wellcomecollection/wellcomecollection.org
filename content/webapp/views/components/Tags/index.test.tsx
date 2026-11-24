@@ -3,11 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
 import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
-import { createTheme } from '@weco/common/views/themes/config';
+import theme from '@weco/common/views/themes/default';
 
 import Tags, { TagType } from './index';
-
-const theme = createTheme(true);
 
 const tags = (count: number): TagType[] =>
   Array.from({ length: count }, (_, i) => ({

@@ -1,6 +1,6 @@
 import NextLink, { LinkProps } from 'next/link';
 import { FunctionComponent } from 'react';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { classNames } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
@@ -56,10 +56,8 @@ const ButtonSolidLink: FunctionComponent<ButtonSolidLinkProps> = ({
   isOnDark,
   isDanger,
 }) => {
-  const theme = useTheme();
   const isNextLink = typeof link === 'object';
   const hasBrandFocus = !!getBrandButtonColors({
-    theme,
     hierarchy,
     isOnDark,
     isPill,

@@ -1,94 +1,46 @@
 import {
-  createTheme,
-  legacyColorName,
   mediaBackgroundColor,
   pageBackgroundColor,
+  themeValues as theme,
 } from './config';
 
-const legacy = createTheme(false);
-const brand = createTheme(true);
-
 describe('color', () => {
-  it('resolves a current-brand colour name in both palettes', () => {
-    expect(legacy.color('neutral.400')).toBe('#d9d9d9');
-    // Its nearest design system equivalent, see colorToDesignSystemColor
-    expect(brand.color('neutral.400')).toBe('#D2D6D0');
+  it('resolves an alias to its design system colour', () => {
+    expect(theme.color('neutral.400')).toBe(theme.color('neutral.20'));
+    expect(theme.color('neutral.400')).toBe('#D2D6D0');
   });
 
-  it('passes through values that have no palette equivalent', () => {
-    expect(legacy.color('transparent')).toBe('transparent');
-    expect(brand.color('transparent')).toBe('transparent');
+  it('resolves a design system colour', () => {
+    expect(theme.color('orange.30')).toBe('#FFB691');
   });
 
-  describe('when a design system colour is pinned', () => {
-    const pinned = { brand: 'orange.30', legacy: 'neutral.400' } as const;
+  it('passes through values CSS resolves itself', () => {
+    expect(theme.color('transparent')).toBe('transparent');
+    expect(theme.color('currentColor')).toBe('currentColor');
+  });
 
-    it('renders the pinned colour in the current brand', () => {
-      expect(legacy.color(pinned)).toBe('#d9d9d9');
-    });
+  it('prefers the alias where a name is in both', () => {
+    // `black` is the text colour, not the design system's black
+    expect(theme.color('black')).toBe(theme.color('neutral.70'));
+  });
 
-    it('renders the design system colour in the new brand', () => {
-      expect(brand.color(pinned)).toBe('#FFB691');
-    });
+  it('keeps the raw colours map in step with color()', () => {
+    expect(theme.colors['focus.yellow']).toBe(theme.color('focus.yellow'));
+  });
 
-    it('works for a name that both palettes use', () => {
-      const white = { brand: 'white', legacy: 'neutral.400' } as const;
-
-      expect(legacy.color(white)).toBe('#d9d9d9');
-      expect(brand.color(white)).toBe('#FFFFFF');
-    });
-
-    it('can pin a value CSS resolves itself', () => {
-      const transparent = {
-        brand: 'orange.30',
-        legacy: 'transparent',
-      } as const;
-
-      expect(legacy.color(transparent)).toBe('transparent');
-      expect(brand.color(transparent)).toBe('#FFB691');
-    });
-
-    it('cannot be named without a pin', () => {
-      // @ts-expect-error a design system colour needs the current-brand colour
-      // to render in its place while the toggle is off
-      legacy.color('orange.30');
-      // @ts-expect-error `brand` has to be a design system colour
-      legacy.color({ brand: 'neutral.400', legacy: 'neutral.400' });
-      // @ts-expect-error `legacy` has to be one the current brand has
-      legacy.color({ brand: 'orange.30', legacy: 'indigo.60' });
-    });
-
-    it('lets two call sites sharing a current-brand colour diverge', () => {
-      const one = { brand: 'orange.30', legacy: 'neutral.400' } as const;
-      const two = { brand: 'indigo.60', legacy: 'neutral.400' } as const;
-
-      expect(legacy.color(one)).toBe(legacy.color(two));
-      expect(brand.color(one)).not.toBe(brand.color(two));
-    });
+  it('rejects a name that is in neither', () => {
+    // @ts-expect-error not a colour the theme knows
+    theme.color('indigo.99');
   });
 });
 
-describe('legacyColorName', () => {
-  it('returns a plain colour name as is', () => {
-    expect(legacyColorName('black')).toBe('black');
+describe('shared colours', () => {
+  it('gives the page its off-white background', () => {
+    expect(theme.color(pageBackgroundColor)).toBe('#FAFBF7');
   });
 
-  it('returns the current-brand half of a pin', () => {
-    expect(legacyColorName({ brand: 'teal.20', legacy: 'white' })).toBe(
-      'white'
-    );
-  });
-});
-
-describe('shared pins', () => {
-  it('keeps the page background white in the current brand', () => {
-    expect(legacy.color(pageBackgroundColor)).toBe('#ffffff');
-    expect(brand.color(pageBackgroundColor)).toBe('#FAFBF7');
-  });
-
-  it('keeps media backdrops darker than the brand text colour', () => {
-    expect(legacy.color(mediaBackgroundColor)).toBe('#121212');
-    expect(brand.color(mediaBackgroundColor)).toBe('#111A1C');
-    expect(brand.color('black')).toBe('#223438');
+  it('keeps media backdrops darker than the text colour', () => {
+    expect(theme.color(mediaBackgroundColor)).toBe('#111A1C');
+    expect(theme.color('black')).toBe('#223438');
   });
 });

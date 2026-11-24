@@ -14,7 +14,6 @@ import { Transition } from 'react-transition-group';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { arrow, cross, eye } from '@weco/common/icons';
 import { usePhasedFlags } from '@weco/common/server-data/Context';
-import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
@@ -47,9 +46,8 @@ import {
   ThumbnailPanel,
   Title,
 } from './ImageSidebar.styles';
-
-// How long after an image is chosen the browser may still focus its thumbnail
-const THUMBNAIL_FOCUS_WINDOW_MS = 500;
+import useArrowKeySteps from './useArrowKeySteps';
+import useFocusCloseButtonOnSelect from './useFocusCloseButtonOnSelect';
 
 // Lets focus move first, so a screen reader doesn't drop the announcement
 const ANNOUNCEMENT_DELAY_MS = 150;
@@ -87,118 +85,9 @@ type StepDirection = 'previous' | 'next';
 // after another page of results has loaded, or never
 export type StepHandler = (beforeStep: () => void) => void;
 
-// Text fields, selects and the like use the arrow keys themselves
-const usesArrowKeys = (element: Element): boolean =>
-  element instanceof HTMLElement &&
-  (element.isContentEditable ||
-    ['INPUT', 'TEXTAREA', 'SELECT'].includes(element.tagName));
-
 // Below `sm`, the sidebar covers the page
-export const useIsSidebarFullScreen = (): boolean =>
+const useIsSidebarFullScreen = (): boolean =>
   useAppContext().windowSize === 'zero';
-
-/**
- * Moves focus to the close button each time an image is chosen, as choosing an
- * image is asking for its details. Stepping to the previous or next image
- * leaves focus where it was (e.g. on the button that was used), so it can be
- * pressed again. If that was nowhere in particular, or it's gone (e.g. a
- * thumbnail from the last page of results), it goes to the step button for
- * that direction instead. The browser's Back and Forward are treated the same,
- * falling back to the close button.
- *
- * Returns a function to call once the person starts moving focus themselves,
- * so it's left alone from then on, and one to call when stepping.
- */
-const useFocusCloseButtonOnSelect = (
-  imageId: string | undefined,
-  isFromUrlChange: boolean,
-  closeButtonRef: RefObject<HTMLElement | null>
-) => {
-  const hasTakenOver = useRef(false);
-  const steppedFrom = useRef<{
-    focused: HTMLElement;
-    stepButton: HTMLElement | null;
-  } | null>(null);
-
-  useEffect(() => {
-    // A step that was cancelled (e.g. by closing straight away) never used it
-    if (!imageId) {
-      steppedFrom.current = null;
-      return;
-    }
-
-    hasTakenOver.current = false;
-    const active = document.activeElement;
-    const step =
-      steppedFrom.current ??
-      (isFromUrlChange && active instanceof HTMLElement
-        ? { focused: active, stepButton: closeButtonRef.current }
-        : null);
-    steppedFrom.current = null;
-
-    // Worked out when it's needed, as the step may remove what had focus
-    const target = () => {
-      if (!step) return closeButtonRef.current;
-
-      const { focused, stepButton } = step;
-      return focused.isConnected && focused !== document.body
-        ? focused
-        : stepButton;
-    };
-
-    const focusTarget = () => {
-      // Leave focus alone if the cookie banner is showing, as the modal does
-      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
-
-      // Without scrolling, as it may still be off screen, sliding in
-      target()?.focus({ preventScroll: true });
-    };
-
-    // A step to another page of results waits on a fetch, so by the time it
-    // lands focus may have been moved (e.g. into the search box). Only take it
-    // back if it's still where the step left it, or has been lost.
-    const focusTargetIfUnmoved = () => {
-      const active = document.activeElement;
-      const isUnmoved =
-        !step || !active || active === document.body || active === step.focused;
-      if (isUnmoved) focusTarget();
-    };
-
-    // Setting the image id as the URL hash can make the browser focus the
-    // thumbnail with that id a moment later, after the timeout below has moved
-    // focus. So if the thumbnail is focused shortly after, move focus back into
-    // the sidebar. It's watched for on the document, as the grid laying out
-    // again can remount the thumbnail.
-    const onFocusIn = (event: FocusEvent) => {
-      if (hasTakenOver.current) return;
-
-      if ((event.target as HTMLElement).id === imageId) focusTarget();
-    };
-    const stopWatching = () =>
-      document.removeEventListener('focusin', onFocusIn);
-
-    document.addEventListener('focusin', onFocusIn);
-
-    const timeouts = [
-      setTimeout(focusTargetIfUnmoved),
-      setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
-    ];
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-      stopWatching();
-    };
-  }, [imageId]);
-
-  return {
-    stopRefocusing: () => {
-      hasTakenOver.current = true;
-    },
-    setSteppedFrom: (focused: HTMLElement, stepButton: HTMLElement | null) => {
-      steppedFrom.current = { focused, stepButton };
-    },
-  };
-};
 
 /**
  * Shows the details of the selected image result next to the results grid.
@@ -225,6 +114,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const resizeHandleRef = useRef<HTMLDivElement>(null);
+
   const sidebarId = useId();
   const isFullScreen = useIsSidebarFullScreen();
   const isOpen = expandedImage !== undefined;
@@ -252,13 +142,59 @@ const ImageSidebar: FunctionComponent<Props> = ({
     }
   }
 
-  // Not for picked thumbnails, whose title was just heard
-  const isAnnouncingStep = useRef(false);
   const { stopRefocusing, setSteppedFrom } = useFocusCloseButtonOnSelect(
     expandedImage?.id,
     isFromUrlChange,
     closeButtonRef
   );
+
+  const takeArrowKeyFocus = useArrowKeySteps({
+    isActive: isOpen && hasHeaderStepButtons,
+    sidebarRef,
+    areaRef: arrowKeysAreaRef,
+    previousButtonRef,
+    nextButtonRef,
+  });
+
+  const {
+    detailedWork,
+    iiifImageLocation,
+    license,
+    expandedImageLink,
+    productionDates,
+    displayContributor,
+    displayTitle,
+  } = useImageDetails(images, shownImage);
+
+  useEffect(() => {
+    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
+  }, [expandedImage?.id]);
+
+  // Not for picked thumbnails, whose title was just heard
+  const isAnnouncingStep = useRef(false);
+
+  // Focus stays put on a step, so this is what tells a screen reader the image
+  // changed. Cleared first, so the same title twice is still spoken.
+  const [announcement, setAnnouncement] = useState('');
+  useEffect(() => {
+    const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
+    isAnnouncingStep.current = false;
+
+    // Cleared on a pick too, so the last title isn't left for the virtual
+    // cursor to find
+    setAnnouncement('');
+    if (!expandedImage || !isAnnouncing) return;
+
+    const timeout = setTimeout(
+      () =>
+        setAnnouncement(
+          removeDisplayMarkupTags(expandedImage.source.title) ||
+            'Untitled image'
+        ),
+      ANNOUNCEMENT_DELAY_MS
+    );
+    return () => clearTimeout(timeout);
+  }, [expandedImage?.id]);
 
   const steps = {
     previous: {
@@ -288,11 +224,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
     });
   };
 
-  // The arrow keys step by clicking the buttons, so they use the current
-  // step handlers rather than the ones from when the listener was added. This
-  // is what had focus when the key was pressed.
-  const arrowKeyFocus = useRef<HTMLElement | null>(null);
-
   const stepButton = (direction: StepDirection) => {
     const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
 
@@ -301,11 +232,9 @@ const ImageSidebar: FunctionComponent<Props> = ({
         ref={buttonRef}
         aria-label={label}
         aria-disabled={!onStep}
-        onClick={event => {
-          const focused = arrowKeyFocus.current ?? event.currentTarget;
-          arrowKeyFocus.current = null;
-          step(direction, focused);
-        }}
+        onClick={event =>
+          step(direction, takeArrowKeyFocus() ?? event.currentTarget)
+        }
       >
         {icon}
         {shortLabel}
@@ -321,85 +250,6 @@ const ImageSidebar: FunctionComponent<Props> = ({
       {stepButton('next')}
     </>
   );
-
-  // Modifiers are left alone, as Alt+ArrowLeft is the browser's Back; the
-  // resize handle's onKeyDown runs first and preventDefaults, stopping a step
-  useEffect(() => {
-    if (!isOpen || !hasHeaderStepButtons) return;
-
-    const stepOnArrowKey = (event: globalThis.KeyboardEvent) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-      if (
-        event.defaultPrevented ||
-        event.repeat ||
-        event.altKey ||
-        event.ctrlKey ||
-        event.metaKey ||
-        event.shiftKey
-      ) {
-        return;
-      }
-
-      const target = event.target as Element;
-      const isInArea =
-        target === document.body ||
-        sidebarRef.current?.contains(target) ||
-        arrowKeysAreaRef?.current?.contains(target);
-      if (!isInArea || usesArrowKeys(target)) return;
-
-      // Swallowed at either end too, so the page doesn't scroll instead
-      event.preventDefault();
-
-      // Not clicked at either end, as no image is stepped to
-      const button =
-        event.key === 'ArrowLeft'
-          ? previousButtonRef.current
-          : nextButtonRef.current;
-      if (!button || button.getAttribute('aria-disabled') === 'true') return;
-
-      arrowKeyFocus.current = target as HTMLElement;
-      button.click();
-    };
-    document.addEventListener('keydown', stepOnArrowKey);
-    return () => document.removeEventListener('keydown', stepOnArrowKey);
-  }, [isOpen, hasHeaderStepButtons]);
-
-  useEffect(() => {
-    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
-  }, [expandedImage?.id]);
-
-  const {
-    detailedWork,
-    iiifImageLocation,
-    license,
-    expandedImageLink,
-    productionDates,
-    displayContributor,
-    displayTitle,
-  } = useImageDetails(images, shownImage);
-
-  // Focus stays put on a step, so this is what tells a screen reader the image
-  // changed. Cleared first, so the same title twice is still spoken.
-  const [announcement, setAnnouncement] = useState('');
-  useEffect(() => {
-    const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
-    isAnnouncingStep.current = false;
-
-    // Cleared on a pick too, so the last title isn't left for the virtual
-    // cursor to find
-    setAnnouncement('');
-    if (!expandedImage || !isAnnouncing) return;
-
-    const timeout = setTimeout(
-      () =>
-        setAnnouncement(
-          removeDisplayMarkupTags(expandedImage.source.title) ||
-            'Untitled image'
-        ),
-      ANNOUNCEMENT_DELAY_MS
-    );
-    return () => clearTimeout(timeout);
-  }, [expandedImage?.id]);
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;

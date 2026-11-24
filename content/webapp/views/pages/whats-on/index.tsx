@@ -156,10 +156,7 @@ const WhatsOnPage: NextPage<Props> = props => {
                           <FeaturedCard
                             type="exhibition"
                             exhibition={firstExhibition}
-                            background={{
-                              brand: 'teal.20',
-                              legacy: 'warmNeutral.300',
-                            }}
+                            background="teal.20"
                             textColor="black"
                             priority
                           />

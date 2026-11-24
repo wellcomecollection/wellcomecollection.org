@@ -61,7 +61,7 @@ const CardGridFeaturedCard = ({
           text: item.title || '',
         }}
         background="neutral.700"
-        textColor={{ brand: 'neutral.10', legacy: 'white' }}
+        textColor="neutral.10"
         priority={priority}
       >
         {item.title && (

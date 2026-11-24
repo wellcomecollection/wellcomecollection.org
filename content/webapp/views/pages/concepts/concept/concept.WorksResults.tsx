@@ -30,8 +30,7 @@ const WorksCount = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  border-top: 1px solid
-    ${props => props.theme.color({ brand: 'neutral.20', legacy: 'warmNeutral.300' })};
+  border-top: 1px solid ${props => props.theme.color('neutral.20')};
 `;
 
 const DecorativeEdgeWrapper = styled.div`

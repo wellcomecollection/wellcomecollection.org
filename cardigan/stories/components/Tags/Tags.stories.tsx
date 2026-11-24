@@ -49,7 +49,6 @@ const meta: Meta<StoryProps> = {
   },
   argTypes: {
     tags: { table: { disable: true } },
-    buttonColors: { table: { disable: true } },
     numberOfTags: {
       name: 'Number of tags',
       control: { type: 'range', min: 1, max: 12 },

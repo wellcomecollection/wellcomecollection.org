@@ -74,11 +74,6 @@ export const AudioPlayerNewWrapper = styled.div`
   width: 100%;
 `;
 
-export const AlignCenter = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 export const StickyPlayer = styled.div<{ $sticky: boolean }>`
   position: ${props => (props.$sticky ? 'sticky' : undefined)};
 

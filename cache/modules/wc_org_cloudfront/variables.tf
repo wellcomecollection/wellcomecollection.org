@@ -103,6 +103,12 @@ variable "enable_items_challenge" {
   description = "Serve a silent JS challenge to token-less clients on /works/<id>/items pages, reusing search_challenge_immunity_seconds. High-risk: prove on stage before enabling elsewhere."
 }
 
+variable "enable_search_sqli_exemption" {
+  type        = bool
+  default     = false
+  description = "Stop the SQLi_QUERYARGUMENTS managed rule blocking /search pages, keeping it as a block everywhere else. Prove on stage before enabling elsewhere."
+}
+
 variable "enable_geo_challenge" {
   type        = bool
   default     = false

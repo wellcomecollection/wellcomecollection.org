@@ -5,7 +5,7 @@ import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   pageBackgroundColor,
-  PinnableColor,
+  ThemeColor,
 } from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
@@ -19,7 +19,7 @@ export const MobileNavBackground = styled(Space).attrs({
 
 export const FromCollectionsHeading = styled.h2.attrs({
   className: typography('heading', 'xl', 'strong', 'brand'),
-})<{ $color: PinnableColor }>`
+})<{ $color: ThemeColor }>`
   color: ${props => props.theme.color(props.$color)};
   margin-bottom: 0;
 `;

@@ -120,6 +120,14 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'identityApiV2',
+      title: 'Identity API v2',
+      initialValue: false,
+      description:
+        'Send account requests to the v2 identity API, which is backed by FOLIO, for patrons linked to FOLIO. Everyone else stays on v1.',
+      type: 'permanent',
+    },
+    {
       id: 'aggregationsInSearch',
       title: 'Aggregations in search',
       initialValue: true,
@@ -151,6 +159,8 @@ const toggleConfig = {
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
       type: 'permanent',
     },
+    // Not read by the code any more. Kept so a toggles deploy before the code
+    // reaches prod can't switch the brand off; remove it in #13923
     {
       id: 'brandUpdate',
       title: 'Brand update',
