@@ -28,6 +28,36 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
  */
 const settleTime = url => (url.includes('/items') ? 2000 : 0);
 
+// The components that use AnimatedUnderlineCSS, and so need the treatment
+// below. Keep this in step with it.
+const UNDERLINED_COMPONENTS = ['tags', 'selectable-tags', 'full-width-banner'];
+
+/**
+ * Switches the animated underline off for the audit.
+ *
+ * AnimatedUnderline draws its hover underline as a background gradient, and
+ * axe won't measure text with a gradient behind it: those tags come back
+ * incomplete, with no colours and a ratio of 0, rather than passing or
+ * failing. The line is zero width until hover, so dropping it changes nothing
+ * on screen and lets the text underneath be measured properly.
+ */
+const measureUnderlinedText = page =>
+  page.evaluateOnNewDocument(
+    css => {
+      const addStyle = () => {
+        const style = document.createElement('style');
+        style.textContent = css;
+        (document.head ?? document.documentElement).append(style);
+      };
+
+      if (document.head) addStyle();
+      else document.addEventListener('DOMContentLoaded', addStyle);
+    },
+    `${UNDERLINED_COMPONENTS.map(
+      name => `[data-component="${name}"] span`
+    ).join(', ')} { background-image: none !important; }`
+  );
+
 /**
  * Looks up the component each issue is in, while the page is still open.
  *
@@ -68,6 +98,8 @@ const runPa11y = async (browser, url) => {
     // contrast from what's painted, so the banner's backdrop would otherwise
     // count as the background of all the text behind it.
     await page.setCookie({ name: 'CookieControl', value: '{}', url });
+
+    await measureUnderlinedText(page);
 
     const result = await pa11y(url, {
       browser,
