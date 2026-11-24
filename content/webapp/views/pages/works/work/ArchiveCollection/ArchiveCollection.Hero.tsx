@@ -21,6 +21,8 @@ import {
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 import WorkDetailsTags from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tags';
 
+const MAX_VISIBLE_SUBJECTS = 10;
+
 const Hero = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -138,7 +140,15 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
             <SubjectsList>
               <HeroInfo
                 label="Subjects"
-                value={<WorkDetailsTags tags={subjectTags} />}
+                value={
+                  <WorkDetailsTags
+                    tags={subjectTags}
+                    maxVisible={MAX_VISIBLE_SUBJECTS}
+                    showAllText="Show all subjects"
+                    showFewerText="Show fewer subjects"
+                    isFirstPartBold={false}
+                  />
+                }
               />
             </SubjectsList>
           </Space>

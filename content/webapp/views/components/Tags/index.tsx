@@ -1,8 +1,9 @@
-import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import styled, { css } from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
+import { ENHANCED_CLASS } from '@weco/common/utils/enhanced';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
@@ -24,7 +25,7 @@ type PartWithSeparatorProps = {
   $isLast: boolean;
 };
 
-const nbsp = '\\00a0';
+const NBSP = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
   className: typography('body', 'md', 'regular'),
@@ -33,7 +34,7 @@ const PartWithSeparator = styled.span.attrs({
     display: ${props => (props.$isLast ? 'none' : 'inline')};
 
     /* non-breaking space (\u00A0) keeps characters that would otherwise break (e.g. hyphens) stuck to the preceding text */
-    content: '${nbsp}${props => props.$separator}${nbsp}';
+    content: '${NBSP}${props => props.$separator}${NBSP}';
   }
 `;
 
@@ -44,17 +45,75 @@ const LinkWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
+// Collapsing in CSS rather than from isEnhanced stops the list painting
+// full-length and then shrinking once React loads.
+const TagItem = styled(LinkWrapper)<{ $isBeyondLimit: boolean }>`
+  ${props =>
+    props.$isBeyondLimit &&
+    css`
+      .${ENHANCED_CLASS} & {
+        display: none;
+      }
+    `}
+`;
+
+const ControlItem = styled(LinkWrapper)`
+  display: none;
+
+  .${ENHANCED_CLASS} & {
+    display: inline-block;
+  }
+`;
+
+const ShowAllButton = styled.button.attrs({
+  type: 'button',
+  className: typography('body', 'md', 'regular'),
+})`
+  display: inline-block;
+  color: inherit;
+  padding: 0;
+
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+
+  &:hover {
+    text-decoration-color: transparent;
+  }
+`;
+
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
   separator?: string;
+  /** Shows only this many tags, behind a control that reveals the rest. */
+  maxVisible?: number;
+  showAllText?: string;
+  showFewerText?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
   isFirstPartBold = true,
   separator = '–',
+  maxVisible,
+  showAllText = 'Show all',
+  showFewerText = 'Show fewer',
 }) => {
+  const [isShowingAll, setIsShowingAll] = useState(false);
+  const firstRevealedTagRef = useRef<HTMLAnchorElement>(null);
+
+  const limit =
+    maxVisible !== undefined && tags.length > maxVisible
+      ? maxVisible
+      : undefined;
+  const isCollapsed = limit !== undefined && !isShowingAll;
+
+  // Revealed tags land before the control in tab order, so move focus to the
+  // first one.
+  useEffect(() => {
+    if (isShowingAll) firstRevealedTagRef.current?.focus();
+  }, [isShowingAll]);
+
   return (
     <Space
       data-component="tags"
@@ -85,9 +144,12 @@ const Tags: FunctionComponent<Props> = ({
             </TagInner>
           );
 
+          const tagRef = i === maxVisible ? firstRevealedTagRef : undefined;
+
           return (
-            <LinkWrapper as="li" key={i}>
+            <TagItem as="li" key={i} $isBeyondLimit={isCollapsed && i >= limit}>
               <SelectableTagLink
+                ref={tagRef}
                 href={linkAttributes.href}
                 $lineColor="black"
                 $lineThickness={1.4}
@@ -95,9 +157,28 @@ const Tags: FunctionComponent<Props> = ({
               >
                 {tagInner}
               </SelectableTagLink>
-            </LinkWrapper>
+            </TagItem>
           );
         })}
+
+        {limit !== undefined && (
+          <ControlItem as="li">
+            <ShowAllButton
+              aria-expanded={isShowingAll}
+              data-gtm-trigger={isShowingAll ? 'show-fewer' : 'show-all'}
+              onClick={() => setIsShowingAll(!isShowingAll)}
+            >
+              {isShowingAll ? (
+                showFewerText
+              ) : (
+                <>
+                  <span aria-hidden="true">{`+\u00A0`}</span>
+                  {showAllText}
+                </>
+              )}
+            </ShowAllButton>
+          </ControlItem>
+        )}
       </PlainList>
     </Space>
   );
