@@ -53,6 +53,9 @@ module "prod_wc_org_cloudfront_distribution" {
   # Checked on stage 2026-08-27 (see the items-challenge rule in the module).
   enable_items_challenge = true
 
+  # Checked on stage 2026-11-23 (see sqli-query-arguments-block in the module).
+  enable_search_sqli_exemption = true
+
   # Blocks fabricated legacy-Chrome UAs before the challenge, cutting billed
   # challenge responses by roughly a third at 2026-07 flood volumes.
   enable_search_legacy_ua_block = true
