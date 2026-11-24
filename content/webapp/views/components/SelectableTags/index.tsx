@@ -45,24 +45,16 @@ export const StyledInputCSS = css<
   background-color: ${props =>
     props.theme.color(props.$isSelected ? 'neutral.700' : 'transparent')};
   color: ${props =>
-    props.theme.color(
-      props.$isSelected ? { brand: 'neutral.10', legacy: 'white' } : 'black'
-    )};
+    props.theme.color(props.$isSelected ? 'neutral.10' : 'black')};
   padding: 8px 16px;
   border-radius: 100px;
   cursor: pointer;
 
   &:hover {
     background-color: ${props =>
-      props.theme.color(
-        props.$isSelected
-          ? 'neutral.700'
-          : { brand: 'neutral.10', legacy: 'warmNeutral.400' }
-      )};
+      props.theme.color(props.$isSelected ? 'neutral.700' : 'neutral.10')};
     color: ${props =>
-      props.theme.color(
-        props.$isSelected ? { brand: 'neutral.10', legacy: 'white' } : 'black'
-      )};
+      props.theme.color(props.$isSelected ? 'neutral.10' : 'black')};
   }
 `;
 // The tag style on a link, for tags that go somewhere rather than toggle

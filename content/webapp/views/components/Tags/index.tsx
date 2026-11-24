@@ -1,14 +1,8 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
 import { typography } from '@weco/common/utils/classnames';
-import { ButtonColors } from '@weco/common/views/components/Buttons';
-import {
-  SolidButtonStyledProps,
-  StyledButtonCSS,
-} from '@weco/common/views/components/Buttons';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
@@ -50,26 +44,17 @@ const LinkWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
-const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
-  display: block;
-  ${StyledButtonCSS}
-`;
-
 export type Props = {
   tags: TagType[];
-  buttonColors?: ButtonColors;
   isFirstPartBold?: boolean;
   separator?: string;
 };
 
 const Tags: FunctionComponent<Props> = ({
   tags,
-  buttonColors,
   isFirstPartBold = true,
   separator = '–',
 }) => {
-  const theme = useTheme();
-
   return (
     <Space
       data-component="tags"
@@ -102,26 +87,14 @@ const Tags: FunctionComponent<Props> = ({
 
           return (
             <LinkWrapper as="li" key={i}>
-              {theme.brandUpdate ? (
-                <SelectableTagLink
-                  href={linkAttributes.href}
-                  $lineColor="black"
-                  $lineThickness={1.4}
-                  $isSelected={false}
-                >
-                  {tagInner}
-                </SelectableTagLink>
-              ) : (
-                <StyledLink
-                  href={linkAttributes.href}
-                  $size="small"
-                  $colors={
-                    buttonColors ?? theme.buttonColors.pumiceTransparentCharcoal
-                  }
-                >
-                  {tagInner}
-                </StyledLink>
-              )}
+              <SelectableTagLink
+                href={linkAttributes.href}
+                $lineColor="black"
+                $lineThickness={1.4}
+                $isSelected={false}
+              >
+                {tagInner}
+              </SelectableTagLink>
             </LinkWrapper>
           );
         })}

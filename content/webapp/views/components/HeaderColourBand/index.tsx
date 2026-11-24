@@ -6,7 +6,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
 import {
   pageBackgroundColor,
-  PinnableColor,
+  ThemeColor,
 } from '@weco/common/views/themes/config';
 
 type SpaceSize = Parameters<DefaultTheme['makeSpacePropertyValues']>[0];
@@ -15,7 +15,7 @@ type SpaceSize = Parameters<DefaultTheme['makeSpacePropertyValues']>[0];
 // CollectionsHeader and concept.Header - bottom padding is left to callers
 // (via `paddingBottomCss`) since it differs slightly between the two.
 const Band = styled(Space)<{
-  $backgroundColor: PinnableColor;
+  $backgroundColor: ThemeColor;
   $paddingBottomCss?: (theme: DefaultTheme) => string;
 }>`
   background-color: ${props => props.theme.color(props.$backgroundColor)};
@@ -23,10 +23,10 @@ const Band = styled(Space)<{
 `;
 
 export type Props = PropsWithChildren<{
-  backgroundColor?: PinnableColor;
+  backgroundColor?: ThemeColor;
   paddingTopSize?: SpaceSize;
   paddingBottomCss?: (theme: DefaultTheme) => string;
-  decorativeEdgeColor?: PinnableColor;
+  decorativeEdgeColor?: ThemeColor;
 }>;
 
 const HeaderColourBand = ({

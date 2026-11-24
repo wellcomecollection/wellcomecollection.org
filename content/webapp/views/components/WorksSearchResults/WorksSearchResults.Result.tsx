@@ -68,13 +68,7 @@ const WorkSearchResult: FunctionComponent<Props> = ({
           <Details>
             {cardLabels.length > 0 && (
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-                <LabelsList
-                  labels={cardLabels}
-                  defaultLabelColor={{
-                    brand: 'green.20',
-                    legacy: 'warmNeutral.300',
-                  }}
-                />
+                <LabelsList labels={cardLabels} defaultLabelColor="green.20" />
               </Space>
             )}
 

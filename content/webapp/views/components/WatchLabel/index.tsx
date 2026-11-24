@@ -12,10 +12,8 @@ const WatchIconWrapper = styled.div`
   align-items: center;
   width: 36px;
   height: 36px;
-  background: ${props =>
-    props.theme.color({ brand: 'indigo.50', legacy: 'yellow' })};
-  color: ${props =>
-    props.theme.color({ brand: 'neutral.05', legacy: 'inherit' })};
+  background: ${props => props.theme.color('indigo.50')};
+  color: ${props => props.theme.color('neutral.05')};
   border-radius: 50%;
 
   .icon {

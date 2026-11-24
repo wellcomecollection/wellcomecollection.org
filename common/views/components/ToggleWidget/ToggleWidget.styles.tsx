@@ -185,7 +185,7 @@ export const SegmentLabel = styled.label<{ $state: SegmentState }>`
     props.$state === 'current'
       ? props.theme.color('accent.green')
       : props.$state === 'included'
-        ? props.theme.color({ brand: 'teal.10', legacy: 'accent.lightGreen' })
+        ? props.theme.color('teal.10')
         : 'transparent'};
   color: ${props =>
     props.$state === 'current'
@@ -241,9 +241,7 @@ export const LadderRung = styled.label<{
   font-weight: ${props => (props.$state === 'current' ? 600 : 400)};
   color: ${props => props.theme.color('neutral.700')};
   background-color: ${props =>
-    props.$state === 'current'
-      ? props.theme.color({ brand: 'teal.10', legacy: 'accent.lightGreen' })
-      : 'transparent'};
+    props.$state === 'current' ? props.theme.color('teal.10') : 'transparent'};
   cursor: pointer;
 
   /* Joins this step's marker to the next one's, reaching into the next row */
@@ -306,7 +304,7 @@ export const LadderMarker = styled.span<{ $state: SegmentState }>`
   background-color: ${props => {
     if (props.$state === 'current') return props.theme.color('accent.green');
     return props.$state === 'included'
-      ? props.theme.color({ brand: 'teal.10', legacy: 'accent.lightGreen' })
+      ? props.theme.color('teal.10')
       : props.theme.color('white');
   }};
 `;

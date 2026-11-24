@@ -117,7 +117,7 @@ describe('formatDateRangeWithMessage', () => {
 
       expect(result).toEqual({
         text: 'Now on',
-        color: { brand: 'ui.green.40', legacy: 'validation.green' },
+        color: 'ui.green.40',
       });
     });
   });
@@ -130,7 +130,7 @@ describe('formatDateRangeWithMessage', () => {
 
     expect(result).toEqual({
       text: 'Now on',
-      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+      color: 'ui.green.40',
     });
   });
 
@@ -142,7 +142,7 @@ describe('formatDateRangeWithMessage', () => {
 
     expect(result).toEqual({
       text: 'Now on',
-      color: { brand: 'ui.green.40', legacy: 'validation.green' },
+      color: 'ui.green.40',
     });
   });
 

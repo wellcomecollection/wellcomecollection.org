@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 
 import { typography } from '@weco/common/utils/classnames';
-import { PinnableColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 
 type EventStatusProps = {
   text: string;
-  color: PinnableColor;
+  color: ThemeColor;
 };
 
 const EventStatus: FunctionComponent<EventStatusProps> = ({ text, color }) => {

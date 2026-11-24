@@ -311,7 +311,7 @@ export const getCardLabels = (work: Work): Label[] => {
       ...cardLabels,
       {
         text: 'Online',
-        labelColor: { brand: 'neutral.10', legacy: 'white' },
+        labelColor: 'neutral.10',
       },
     ];
   } else {

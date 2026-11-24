@@ -1,9 +1,6 @@
 import { FunctionComponent, RefObject, useEffect, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
-import { arrowSmall } from '@weco/common/icons';
-import { typography } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import useSwipeable, { SwipeDirection } from '@weco/content/hooks/useSwipeable';
 import PrevNextLink from '@weco/content/views/components/PrevNextLink';
@@ -20,35 +17,9 @@ const ScrollButtonsContainer = styled(Space)<{
   --button-color: ${props =>
     props.theme.color(props.$hasDarkBackground ? 'white' : 'black')};
 
-  ${props =>
-    props.theme.brandUpdate &&
-    props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
+  ${props => props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
 `;
 
-const ScrollButton = styled('button').attrs({
-  className: typography('body', 'sm', 'regular'),
-})`
-  line-height: 1;
-  color: var(--button-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: ${props => props.theme.spacingUnits['050']};
-
-  &:focus-visible {
-    outline-offset: -2px;
-  }
-
-  &:disabled {
-    color: ${props => props.theme.color('neutral.500')};
-    cursor: not-allowed;
-  }
-
-  &:not(:disabled):hover {
-    text-decoration: underline;
-  }
-`;
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
   hasDarkBackground?: boolean;
@@ -60,7 +31,6 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
   hasDarkBackground,
   hasLeftOffset,
 }: Props) => {
-  const theme = useTheme();
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -161,45 +131,22 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       $hasDarkBackground={hasDarkBackground}
       $hasLeftOffset={hasLeftOffset}
     >
-      {theme.brandUpdate ? (
-        <>
-          <PrevNextLink
-            direction="previous"
-            label="Previous"
-            isOnDark={hasDarkBackground}
-            disabled={!canScrollLeft}
-            onClick={() => scrollByChildImageWidth('left')}
-            isStacked
-          />
-          <PrevNextLink
-            direction="next"
-            label="Next"
-            isOnDark={hasDarkBackground}
-            disabled={!canScrollRight}
-            onClick={() => scrollByChildImageWidth('right')}
-            isStacked
-          />
-        </>
-      ) : (
-        <>
-          <ScrollButton
-            disabled={!canScrollLeft}
-            onClick={() => scrollByChildImageWidth('left')}
-          >
-            <Icon icon={arrowSmall} rotate={180} />
-            <span aria-hidden="true">Prev</span>
-            <span className="visually-hidden">Previous</span>
-          </ScrollButton>
-
-          <ScrollButton
-            disabled={!canScrollRight}
-            onClick={() => scrollByChildImageWidth('right')}
-          >
-            <Icon icon={arrowSmall} />
-            Next
-          </ScrollButton>
-        </>
-      )}
+      <PrevNextLink
+        direction="previous"
+        label="Previous"
+        isOnDark={hasDarkBackground}
+        disabled={!canScrollLeft}
+        onClick={() => scrollByChildImageWidth('left')}
+        isStacked
+      />
+      <PrevNextLink
+        direction="next"
+        label="Next"
+        isOnDark={hasDarkBackground}
+        disabled={!canScrollRight}
+        onClick={() => scrollByChildImageWidth('right')}
+        isStacked
+      />
     </ScrollButtonsContainer>
   );
 };

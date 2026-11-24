@@ -2,13 +2,9 @@ import styled, { css } from 'styled-components';
 
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { PinnedColor } from '@weco/common/views/themes/config';
 
 // A shade darker than the page, so the header reads as its own band
-export const headerBackgroundColor: PinnedColor<'white'> = {
-  brand: 'neutral.10',
-  legacy: 'white',
-};
+export const headerBackgroundColor = 'neutral.10';
 
 export const NavLoginWrapper = styled.div`
   display: flex;
@@ -232,8 +228,7 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props =>
-      props.theme.color({ brand: 'blue.30', legacy: 'yellow' })};
+    background: ${props => props.theme.color('blue.30')};
     z-index: -1;
     transition: width 200ms ease;
 
@@ -270,19 +265,15 @@ export const HeaderActions = styled.div`
 export const SearchButton = styled(BorderlessButton)`
   margin-right: 0;
 
-  ${props =>
-    props.theme.brandUpdate &&
-    css`
-      border-radius: 50%;
-      width: 44px;
-      padding: 0;
-      justify-content: center;
+  border-radius: 50%;
+  width: 44px;
+  padding: 0;
+  justify-content: center;
 
-      /* Size the inner spans to the icon, so the icon centres in the circle */
-      span:not(.icon) {
-        display: flex;
-      }
-    `}
+  /* Size the inner spans to the icon, so the icon centres in the circle */
+  span:not(.icon) {
+    display: flex;
+  }
 
   ${props =>
     props.theme.media('headerMedium')(`

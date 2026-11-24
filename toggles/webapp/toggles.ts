@@ -159,6 +159,8 @@ const toggleConfig = {
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
       type: 'permanent',
     },
+    // Not read by the code any more. Kept so a toggles deploy before the code
+    // reaches prod can't switch the brand off; remove it in #13923
     {
       id: 'brandUpdate',
       title: 'Brand update',

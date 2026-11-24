@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { ReactNode } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { archive } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -9,7 +9,6 @@ import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import { themeValues } from '@weco/common/views/themes/config';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import {
   conceptOrSearchLink,
@@ -95,7 +94,6 @@ const HeroInfo = ({ label, value }: { label: string; value: ReactNode }) => {
 };
 
 const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
-  const theme = useTheme();
   const languageId = getLanguageId(work);
 
   const primaryContributor = work.contributors.find(
@@ -112,10 +110,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
           <LabelsList
             labels={getCardLabels(work)}
-            defaultLabelColor={{ brand: 'green.20', legacy: 'white' }}
-            // In the new brand the hero is the same colour as the "Online"
-            // label, so light labels need their outline
-            outlineLightLabels={theme.brandUpdate}
+            defaultLabelColor="green.20"
           />
         </Space>
 
@@ -143,12 +138,7 @@ const ArchiveCollectionHero = ({ work }: { work: WorkType }) => {
             <SubjectsList>
               <HeroInfo
                 label="Subjects"
-                value={
-                  <WorkDetailsTags
-                    buttonColors={themeValues.buttonColors.slateWhiteBlack}
-                    tags={subjectTags}
-                  />
-                }
+                value={<WorkDetailsTags tags={subjectTags} />}
               />
             </SubjectsList>
           </Space>

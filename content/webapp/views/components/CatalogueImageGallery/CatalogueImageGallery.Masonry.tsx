@@ -104,8 +104,7 @@ const SelectedPanel = css`
     z-index: -1;
     border: 2px solid ${props => props.theme.color(pageBackgroundColor)};
     border-radius: ${designSystemTheme['border-radius'].md};
-    background-color: ${props =>
-      props.theme.color({ brand: 'neutral.60', legacy: 'neutral.600' })};
+    background-color: ${props => props.theme.color('neutral.60')};
   }
 `;
 

@@ -65,12 +65,10 @@ export const typography = css`
     text-wrap-style: pretty;
   }
 
-  ${props =>
-    props.theme.brandUpdate &&
-    `::selection {
-      background: ${props.theme.color({ brand: 'yellow.20', legacy: 'lightYellow' })};
-      color: ${props.theme.color({ brand: 'neutral.70', legacy: 'inherit' })}
-    }`}
+  ::selection {
+    background: ${props => props.theme.color('yellow.20')};
+    color: ${props => props.theme.color('neutral.70')};
+  }
 
   h1,
   h2,
@@ -170,12 +168,6 @@ export const typography = css`
       ${typographyMixin('body', 'xl', 'strong')}
     }
 
-    ${props =>
-      !props.theme.brandUpdate &&
-      `*::selection {
-        background: ${props.theme.color('accent.turquoise')}4d;
-      }`}
-
     /* stylelint-disable no-descending-specificity */
     ul {
       list-style: none;
@@ -206,10 +198,7 @@ export const typography = css`
       transition: color ${props => props.theme.transitionProperties};
 
       &:hover {
-        /* The brand keeps the text colour; only the underline goes */
-        ${props =>
-          !props.theme.brandUpdate &&
-          `color: ${props.theme.color('accent.green')};`}
+        /* Keep the text colour; only the underline goes */
         text-decoration-color: transparent;
       }
     }
@@ -233,9 +222,7 @@ export const typography = css`
 
   /* stylelint-disable no-descending-specificity */
   .quote {
-    border-left: 12px solid
-      ${props =>
-        props.theme.color({ brand: 'green.40', legacy: 'warmNeutral.400' })};
+    border-left: 12px solid ${props => props.theme.color('green.40')};
     padding-left: 0.9em;
 
     p {
@@ -258,8 +245,7 @@ export const typography = css`
       ${typographyMixin('heading', 'xl', 'strong', 'brand')}
       position: absolute;
       content: '“';
-      color: ${props =>
-        props.theme.color({ brand: 'orange.40', legacy: 'accent.blue' })};
+      color: ${props => props.theme.color('orange.40')};
       left: -14px;
       top: 0.12em;
       font-size: 2em;

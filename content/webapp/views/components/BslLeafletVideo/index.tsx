@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { bslSquare } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
@@ -32,9 +32,7 @@ const BslLeafletButton = styled.button`
 const TitleWrapper = styled(Space).attrs({
   $h: { size: 'xl', properties: ['padding-right'] },
 })`
-  ${props =>
-    props.theme.brandUpdate &&
-    props.theme.mediaBetween('zero', 'md')('padding-right: 60px;')}
+  ${props => props.theme.mediaBetween('zero', 'md')('padding-right: 60px;')}
 `;
 
 const NewWindowVideo = styled.a`
@@ -61,8 +59,6 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
   isModalActive,
   setIsModalActive,
 }) => {
-  const { brandUpdate } = useTheme();
-
   return (
     <div data-component="bsl-leaflet-video">
       <Modal
@@ -78,9 +74,7 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
           $v={{
             size: 'sm',
             properties: ['padding-top', 'padding-bottom'],
-            ...(brandUpdate && {
-              overrides: { zero: '300', sm: '200', md: '200' },
-            }),
+            overrides: { zero: '300', sm: '200', md: '200' },
           }}
         >
           <TitleWrapper>

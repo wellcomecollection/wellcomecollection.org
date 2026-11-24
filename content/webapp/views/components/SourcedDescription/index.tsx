@@ -55,16 +55,8 @@ const SourcePill = styled.div.attrs({
   height: 22px;
   vertical-align: middle;
 
-  /* Not a pin, as the legacy colour relies on the alpha suffix */
-  ${props =>
-    props.theme.brandUpdate
-      ? css`
-          background-color: ${designSystemColor('green.30')};
-          color: ${designSystemColor('neutral.70')};
-        `
-      : css`
-          background-color: ${props.theme.color('accent.green')}40;
-        `}
+  background-color: ${designSystemColor('green.30')};
+  color: ${designSystemColor('neutral.70')};
 
   @media (hover: hover) {
     &:hover ${SourceBoxContainer} {

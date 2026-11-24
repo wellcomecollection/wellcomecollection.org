@@ -7,14 +7,9 @@ const meta: Meta<typeof HeaderBackground> = {
   component: HeaderBackground,
   args: {
     hasWobblyEdge: true,
-    useDefaultBackgroundTexture: true,
   },
   argTypes: {
     hasWobblyEdge: { control: 'boolean', name: 'Has wobbly edge' },
-    useDefaultBackgroundTexture: {
-      control: 'boolean',
-      name: 'Show background texture',
-    },
   },
 };
 

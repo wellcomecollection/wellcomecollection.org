@@ -55,10 +55,7 @@ export const SidebarWrapper = styled.section<{
       min-width: 0;
       max-width: calc(100% - ${edge} - ${containerPadding} - ${MIN_GRID_WIDTH}px);
       height: 100vh;
-      border-left: ${gap} solid ${props.theme.color({
-        brand: 'neutral.10',
-        legacy: 'warmNeutral.300',
-      })};
+      border-left: ${gap} solid ${props.theme.color('neutral.10')};
       box-shadow: inset 1px 0 0 ${props.theme.color('neutral.300')};
     `);
   }}
