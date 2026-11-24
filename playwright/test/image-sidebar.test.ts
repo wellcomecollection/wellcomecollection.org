@@ -1015,26 +1015,21 @@ test.describe('Small screens', () => {
     await searchImages('cats', context, page, 'phase3');
     await openSidebar(1, page);
 
-    // The sidebar slides up into place, so this waits for it to settle. It
-    // also catches a bar rendered off screen, which toBeVisible doesn't.
-    const bar = sidebar(page).getByRole('button', { name: 'Next image' });
-    await expect(bar).toBeInViewport();
+    // toBeInViewport catches a bar rendered off screen, which toBeVisible
+    // doesn't, and the transform check waits for the sidebar to finish sliding up
+    const next = sidebar(page).getByRole('button', { name: 'Next image' });
+    await expect(next).toBeInViewport();
+    await expect(sidebar(page)).toHaveCSS('transform', 'none');
 
-    const box = (await bar.boundingBox())!;
+    // Down on the bottom edge rather than up in the header beside Close
+    const box = (await next.boundingBox())!;
     const close = (await closeButton(page).boundingBox())!;
-
-    // Down on the bottom edge, the bar's padding aside, rather than up in the
-    // header beside Close. Allows a pixel of rounding.
+    const stepBar = (await next.locator('..').boundingBox())!;
     expect(box.y).toBeGreaterThan(close.y + close.height);
-    const barPaddingBottom = await bar.evaluate(el =>
-      parseFloat(getComputedStyle(el.parentElement!).paddingBottom)
-    );
-    expect(
-      Math.abs(screen.height - (box.y + box.height) - barPaddingBottom)
-    ).toBeLessThanOrEqual(1);
+    expect(Math.round(stepBar.y + stepBar.height)).toBe(screen.height);
 
-    await bar.click();
-    await bar.click();
+    await next.click();
+    await next.click();
     const steppedTo = new URL(page.url()).hash.slice(1);
     expect(steppedTo).not.toBe('');
 
