@@ -1,1 +1,1 @@
-export const allowedRequests = 15;
+export const ALLOWED_REQUESTS = 15;

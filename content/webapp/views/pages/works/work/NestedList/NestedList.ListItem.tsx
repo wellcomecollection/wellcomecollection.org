@@ -49,7 +49,7 @@ function updateOpenStatus({
   return newTree;
 }
 
-async function getChildren(workId: string): Promise<UiTree> {
+export async function getChildren(workId: string): Promise<UiTree> {
   const work = await getWorkClientSide(workId);
 
   return work.type !== 'Error' && work.type !== 'Redirect' && work.parts

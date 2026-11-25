@@ -1,6 +1,5 @@
 import { NextPage } from 'next';
 import { useMemo } from 'react';
-import { useTheme } from 'styled-components';
 
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
@@ -52,7 +51,6 @@ const ConceptPage: NextPage<Props> = ({
   const { themePagesAllFields } = useFeatureFlags();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
-  const theme = useTheme();
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
@@ -198,7 +196,6 @@ const ConceptPage: NextPage<Props> = ({
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
                     relatedConcepts={relatedTopics}
-                    buttonColors={theme.buttonColors.silverTransparentBlack}
                   />
                 </Space>
               )}

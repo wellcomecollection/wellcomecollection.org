@@ -11,7 +11,10 @@ import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
-import { Pinnable, PinnableColor } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor,
+  ThemeColor,
+} from '@weco/common/views/themes/config';
 
 export const WobblyEdgeWrapper = styled.div`
   position: relative;
@@ -23,7 +26,7 @@ export const WobblyEdgeWrapper = styled.div`
 export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
   'data-chromatic': 'ignore',
 })<{
-  $backgroundColor: PinnableColor;
+  $backgroundColor: ThemeColor;
   $isRotated: boolean;
   $isEnhanced: boolean;
 }>`
@@ -77,7 +80,7 @@ function randomIntFromInterval(min: number, max: number): number {
 }
 
 export type Props = {
-  backgroundColor: PinnableColor;
+  backgroundColor: ThemeColor;
   isRotated?: boolean;
   intensity?: number;
   points?: number;
@@ -170,7 +173,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
 
 export const WobblyBottom: FunctionComponent<
   PropsWithChildren<{
-    backgroundColor: Pinnable<'warmNeutral.300' | 'white'>;
+    backgroundColor: 'warmNeutral.300' | typeof pageBackgroundColor;
   }>
 > = ({ backgroundColor, children }) => (
   <WobblyEdgeWrapper>

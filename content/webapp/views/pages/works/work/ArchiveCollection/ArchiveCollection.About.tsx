@@ -10,6 +10,7 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
 import { getOrderedNotes } from '@weco/content/utils/works';
+import ArchiveCategoryLink from '@weco/content/views/components/ArchiveCategoryLink';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
 import WorkDetailsList from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.List';
 import WorkDetailsSection from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Section';
@@ -27,10 +28,12 @@ const SideColumn = styled(GridCell)`
     `)}
 `;
 
-const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
-  work,
-}) => {
+const ArchiveCollectionAbout: FunctionComponent<{
+  work: WorkType;
+  archiveCategorySlug?: string;
+}> = ({ work, archiveCategorySlug }) => {
   const { orderedNotes, remainingNotes } = getOrderedNotes(work);
+  const archiveCategory = work.archive?.category;
 
   const accessionNumberIdentifiers = work.identifiers.filter(
     id => id.identifierType.id === 'wellcome-accession-number'
@@ -70,6 +73,23 @@ const ArchiveCollectionAbout: FunctionComponent<{ work: WorkType }> = ({
         </GridCell>
 
         <SideColumn $sizeMap={sideSizeMap}>
+          {archiveCategory && (
+            <WorkDetailsText
+              title="Type"
+              contents={
+                // No slug means there's no category page to link to (archive
+                // browsing is off, or the category is left out of browsing)
+                archiveCategorySlug ? (
+                  <ArchiveCategoryLink slug={archiveCategorySlug}>
+                    {archiveCategory.label}
+                  </ArchiveCategoryLink>
+                ) : (
+                  <span>{archiveCategory.label}</span>
+                )
+              }
+            />
+          )}
+
           {work.physicalDescription && (
             <WorkDetailsText
               title="Physical description"

@@ -16,9 +16,7 @@ const Wrapper = styled(Space).attrs({
   className: 'body-text',
   $h: { size: 'sm', properties: ['padding-left'] },
 })`
-  border-left: 5px solid
-    ${props =>
-      props.theme.color({ brand: 'green.40', legacy: 'accent.turquoise' })};
+  border-left: 5px solid ${props => props.theme.color('green.40')};
 `;
 
 const TitleWrapper = styled(Space).attrs({

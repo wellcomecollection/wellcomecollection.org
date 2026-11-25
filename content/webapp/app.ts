@@ -63,7 +63,7 @@ const appPromise = nextApp
     });
 
     // Lets deploy tooling confirm which commit is live; must never be cached.
-    // The contract this implements: https://github.com/wellcomecollection/deploy-tracker/blob/main/SPEC.md#the-manifest-endpoint
+    // The contract this implements: https://backplane.wellcome.digital/guides/manifest-endpoint
     router.get('/management/manifest', async ctx => {
       ctx.set(
         'Cache-Control',

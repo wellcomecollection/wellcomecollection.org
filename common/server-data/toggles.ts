@@ -4,8 +4,11 @@ import { IncomingMessage } from 'http';
 import {
   FeatureFlags,
   Modes,
+  personalFeatureFlagValue,
+  personalPhaseValue,
   PhasedFlags,
   Tests,
+  TOGGLE_OFF_VALUE,
   TOGGLE_RESET_VALUE,
   Toggles,
   TogglesResp,
@@ -114,8 +117,12 @@ const isStageHost = (context: Context): boolean =>
 /**
  * Keeps only the values that name a toggle available on this host, with a
  * value that toggle accepts. Feature flags accept only the values listed in
- * `featureFlagValues`, since presets and overrides differ there, and
- * `allowReset` lets any of them take TOGGLE_RESET_VALUE.
+ * `featureFlagValues`, since presets and overrides differ there, plus
+ * `experimentalOnlyValues` if they're experimental and already public (an
+ * `off` for a flag that isn't public yet would do nothing until release, then
+ * hold the person on the old version). Phased flags accept their phase ids,
+ * and `off` once a phase is public, for the same reason (see
+ * personalPhaseValue). `allowReset` lets any of them take TOGGLE_RESET_VALUE.
  */
 function validToggleValues(
   values: Record<string, string>,
@@ -123,8 +130,13 @@ function validToggleValues(
   context: Context,
   {
     featureFlagValues,
+    experimentalOnlyValues = [],
     allowReset,
-  }: { featureFlagValues: string[]; allowReset: boolean }
+  }: {
+    featureFlagValues: string[];
+    experimentalOnlyValues?: string[];
+    allowReset: boolean;
+  }
 ): Record<string, string> {
   const isStage = isStageHost(context);
   const isAvailable = (toggle: { type: string }) =>
@@ -136,7 +148,11 @@ function validToggleValues(
     if (featureFlag) {
       return (
         isAvailable(featureFlag) &&
-        (isReset(value) || featureFlagValues.includes(value))
+        (isReset(value) ||
+          featureFlagValues.includes(value) ||
+          (featureFlag.type === 'experimental' &&
+            featureFlag.defaultValue === true &&
+            experimentalOnlyValues.includes(value)))
       );
     }
 
@@ -148,7 +164,7 @@ function validToggleValues(
     if (phasedFlag) {
       return (
         isAvailable(phasedFlag) &&
-        (isReset(value) || phasedFlag.phases.some(phase => phase.id === value))
+        (isReset(value) || personalPhaseValue(phasedFlag, value) !== undefined)
       );
     }
 
@@ -181,9 +197,11 @@ const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
 /**
  * Keeps only the presets that name a toggle available on this host, with a
  * value that toggle accepts - so a typo'd id or phase never gets written to a
- * cookie. Feature flags only accept 'true': a 'false' cookie resolves to the
- * flag's defaultValue, not false, so writing one would be misleading. Any
- * toggle can be reset with TOGGLE_RESET_VALUE.
+ * cookie. Feature flags only accept 'true' (plus 'off' for experimental
+ * ones, see getTogglesFromContext; phased flags also take 'off' once a phase
+ * is public): a 'false' cookie resolves to the flag's
+ * defaultValue, not false, so writing one would be misleading. Any toggle can
+ * be reset with TOGGLE_RESET_VALUE.
  */
 export const validTogglePresets = (
   presets: Record<string, string>,
@@ -198,7 +216,11 @@ export const validTogglePresets = (
     ),
     togglesResp,
     context,
-    { featureFlagValues: ['true'], allowReset: true }
+    {
+      featureFlagValues: ['true'],
+      experimentalOnlyValues: [TOGGLE_OFF_VALUE],
+      allowReset: true,
+    }
   );
 
 /**
@@ -218,7 +240,7 @@ export const validToggleOverrides = (
     allowReset: false,
   });
 
-const oneYearInSeconds = 365 * 24 * 60 * 60;
+const ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
 
 /**
  * `Set-Cookie` values for validated presets. These match what the toggles
@@ -240,7 +262,7 @@ export function togglePresetCookies(
     : [];
   const setAttributes = [
     'Path=/',
-    `Max-Age=${oneYearInSeconds}`,
+    `Max-Age=${ONE_YEAR_IN_SECONDS}`,
     ...sharedAttributes,
   ].join('; ');
   const deleteAttributes = ['Path=/', 'Max-Age=0', ...sharedAttributes].join(
@@ -261,18 +283,15 @@ export function togglePresetCookies(
 }
 
 /**
- * Resolves the current value of a toggle whose value is one of a list of
- * named option ids - a mode's option, or a phased flag's phase. Shared by
- * both, since "which one is currently picked" is the same operation for
- * either; what a phased flag does with that value afterwards (ranking it
- * ordinally via phaseIsAtLeast) happens elsewhere, not here.
+ * Resolves the current option of a mode: a render-only override, then a
+ * personal cookie, as long as it's one of the mode's option ids, otherwise
+ * null.
  */
 function resolveOptionValue(
   id: string,
   validIds: string[],
   overrides: Record<string, string>,
-  allCookies: Partial<Record<string, string>>,
-  fallback: string | null
+  allCookies: Partial<Record<string, string>>
 ): string | null {
   const override = overrides[id];
   if (typeof override === 'string' && validIds.includes(override)) {
@@ -281,7 +300,51 @@ function resolveOptionValue(
   const cookieValue = allCookies[`toggle_${id}`];
   const isValid =
     typeof cookieValue === 'string' && validIds.includes(cookieValue);
-  return isValid ? cookieValue : fallback;
+  return isValid ? cookieValue : null;
+}
+
+/**
+ * Resolves a phased flag's current phase, first match wins: a render-only
+ * override, then a personal cookie, then the public phase. A personal `off`
+ * is null, which ranks below every phase (see personalPhaseValue).
+ */
+function resolvePhasedFlag(
+  flag: {
+    id: string;
+    phases: readonly { id: string }[];
+    defaultPhase: string | null;
+  },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): string | null {
+  const fromOverride = personalPhaseValue(flag, overrides[flag.id]);
+  if (fromOverride !== undefined) return fromOverride;
+
+  const fromCookie = personalPhaseValue(flag, cookies[`toggle_${flag.id}`]);
+  return fromCookie !== undefined ? fromCookie : flag.defaultPhase;
+}
+
+/**
+ * Resolves a feature flag, first match wins: a render-only override, then a
+ * personal cookie, then the default. Presets from `?toggle=` links come in as
+ * overrides too, so the first render after a link already reflects it. What
+ * counts as a personal value, such as `off` for an experimental flag, is in
+ * personalFeatureFlagValue.
+ */
+function resolveFeatureFlag(
+  toggle: { id: string; type: string; defaultValue: boolean },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): boolean {
+  const override = overrides[toggle.id];
+  // `?toggleOverride=id:false` can turn any flag off for one render
+  if (override === 'false') return false;
+
+  return (
+    personalFeatureFlagValue(toggle, override) ??
+    personalFeatureFlagValue(toggle, cookies[`toggle_${toggle.id}`]) ??
+    toggle.defaultValue
+  );
 }
 
 /**
@@ -308,15 +371,7 @@ export function getTogglesFromContext(
       return !(!isStage && toggle.type === 'stage');
     })
     .reduce((acc, toggle) => {
-      const override = overrides[toggle.id];
-      const value =
-        override === 'true'
-          ? true
-          : override === 'false'
-            ? false
-            : allCookies[`toggle_${toggle.id}`] === 'true'
-              ? true
-              : toggle.defaultValue;
+      const value = resolveFeatureFlag(toggle, overrides, allCookies);
       return { ...acc, [toggle.id]: value };
     }, {} as FeatureFlags);
 
@@ -324,13 +379,7 @@ export function getTogglesFromContext(
     return !(!isStage && flag.type === 'stage');
   });
   const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
-    const current = resolveOptionValue(
-      flag.id,
-      flag.phases.map(phase => phase.id),
-      overrides,
-      allCookies,
-      flag.defaultPhase
-    );
+    const current = resolvePhasedFlag(flag, overrides, allCookies);
     return {
       ...acc,
       [flag.id]: { current, phases: flag.phases, title: flag.title },
@@ -364,8 +413,7 @@ export function getTogglesFromContext(
       mode.id,
       mode.options.map(opt => opt.id),
       overrides,
-      allCookies,
-      null
+      allCookies
     );
     return { ...acc, [mode.id]: current };
   }, {} as Modes);

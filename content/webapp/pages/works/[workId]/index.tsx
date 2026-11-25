@@ -7,12 +7,14 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { getArchiveCategories } from '@weco/content/server-data/archiveCategories';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WorkPage, {
   Props as WorkPageProps,
 } from '@weco/content/views/pages/works/work';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const Page: NextPage<WorkPageProps> = props => {
   return <WorkPage {...props} />;
@@ -55,9 +57,25 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const { url, ...work } = workResponse;
 
+  // Only link to a category page that exists: the browse data leaves some
+  // categories out (e.g. PSY and TP, see HIDDEN_ARCHIVE_CATEGORY_IDS) and
+  // their pages 404, so a category missing from the list stays as plain text
+  const archiveCategoryId = work.archive?.category.id;
+  const showArchiveBrowsing = phaseIsAtLeast(
+    serverData.toggles.phasedFlags.archiveBrowsingPhases,
+    'mvp'
+  );
+  const archiveCategorySlug =
+    archiveCategoryId && showArchiveBrowsing
+      ? (await getArchiveCategories()).find(
+          category => category.id === archiveCategoryId
+        )?.slug
+      : undefined;
+
   return {
     props: serialiseProps<Props>({
       work,
+      archiveCategorySlug,
       apiUrl: url,
       serverData,
     }),

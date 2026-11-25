@@ -4,6 +4,7 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
 import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import { toArchiveCategoryLink } from '@weco/content/views/components/ArchiveCategoryLink';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
 import ArchiveCategoryWorksList from './archive-category.WorksList';
@@ -27,7 +28,7 @@ const ArchiveCategoryPage: NextPage<Props> = ({
     <PageLayout
       title={archiveCategory.label}
       description={archiveCategory.shortDescription}
-      url={{ pathname: `/collections/archives/${archiveCategory.slug}` }}
+      url={toArchiveCategoryLink({ slug: archiveCategory.slug }).href}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection="collections"

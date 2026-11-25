@@ -30,11 +30,7 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 8px 42px 8px 16px;
     border: ${props => `1px solid
-        ${props.theme.color(
-          props.$darkBg
-            ? 'neutral.300'
-            : { brand: 'neutral.70', legacy: 'neutral.600' }
-        )}`};
+        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.70')}`};
     border-radius: ${props =>
       props.$isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
@@ -59,12 +55,9 @@ const StyledSelect = styled.div.attrs({
 
     &:hover {
       ${props =>
-        props.theme.brandUpdate && props.$isPill && !props.$darkBg
+        props.$isPill && !props.$darkBg
           ? css`
-              background-color: ${props.theme.color({
-                brand: 'neutral.10',
-                legacy: 'white',
-              })};
+              background-color: ${props.theme.color('neutral.10')};
               text-decoration: underline;
             `
           : `box-shadow: ${props.theme.focusBoxShadow};`}

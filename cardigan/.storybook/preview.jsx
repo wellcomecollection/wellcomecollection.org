@@ -1,6 +1,4 @@
 import { DocsContainer } from '@storybook/addon-docs/blocks';
-import { useEffect, useState } from 'react';
-import { GLOBALS_UPDATED } from 'storybook/internal/core-events';
 
 import { ContextDecorator } from '@weco/cardigan/config/decorators';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
@@ -10,33 +8,20 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 
+import { allModes } from './modes';
 import wellcomeTheme from './wellcome-theme';
 
-// Docs pages don't go through decorators, so follow the toolbar here instead
-const BrandUpdateDocsContainer = ({ children, context }) => {
-  const [globals, setGlobals] = useState(
-    () => context.store?.userGlobals?.get() ?? {}
-  );
-
-  useEffect(() => {
-    const onGlobalsUpdated = ({ globals }) => setGlobals(globals);
-    context.channel.on(GLOBALS_UPDATED, onGlobalsUpdated);
-    return () => context.channel.off(GLOBALS_UPDATED, onGlobalsUpdated);
-  }, [context.channel]);
-
-  return (
-    <DocsContainer context={context}>
-      <ContextDecorator brandUpdate={globals.brandUpdate === 'on'}>
-        {children}
-      </ContextDecorator>
-    </DocsContainer>
-  );
-};
+// Docs pages don't go through decorators, so they need the theme here too
+const ThemedDocsContainer = ({ children, context }) => (
+  <DocsContainer context={context}>
+    <ContextDecorator>{children}</ContextDecorator>
+  </DocsContainer>
+);
 
 export const decorators = [
   (Story, context) => {
     return (
-      <ContextDecorator brandUpdate={context.globals.brandUpdate === 'on'}>
+      <ContextDecorator>
         <AppContextProvider>
           <GlobalSvgDefinitions />
           <ConditionalWrapper
@@ -58,26 +43,6 @@ export const decorators = [
     );
   },
 ];
-
-// Mirrors the brandUpdate toggle, so stories can be viewed in the new brand
-export const globalTypes = {
-  brandUpdate: {
-    description: 'Brand update toggle',
-    toolbar: {
-      title: 'Brand',
-      icon: 'paintbrush',
-      items: [
-        { value: 'off', title: 'Current brand' },
-        { value: 'on', title: 'Brand update' },
-      ],
-      dynamicTitle: true,
-    },
-  },
-};
-
-export const initialGlobals = {
-  brandUpdate: 'off',
-};
 
 export const themeColors = Object.entries(theme.colors).map(([key, value]) => ({
   name: key,
@@ -118,7 +83,7 @@ export const parameters = {
 
   docs: {
     theme: wellcomeTheme,
-    container: BrandUpdateDocsContainer,
+    container: ThemedDocsContainer,
   },
   a11y: {
     config: {
@@ -131,7 +96,7 @@ export const parameters = {
     },
   },
   chromatic: {
-    viewports: [1200],
+    modes: allModes,
   },
   actions: { disable: true },
   interactions: { disable: true },

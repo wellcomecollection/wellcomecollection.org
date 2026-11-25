@@ -7,6 +7,7 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
+import { toArchiveCategoryLink } from '@weco/content/views/components/ArchiveCategoryLink';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
@@ -53,11 +54,9 @@ const ArchiveCategoriesList = ({
                 title={`${archiveCategory.label} (${archiveCategory.id})`}
                 description={archiveCategory.shortDescription}
                 meta={pluralize(archiveCategory.count, 'archive collection')}
-                linkProps={{
-                  href: {
-                    pathname: `/collections/archives/${archiveCategory.slug}`,
-                  },
-                }}
+                linkProps={toArchiveCategoryLink({
+                  slug: archiveCategory.slug,
+                })}
                 dataGtmProps={{
                   trigger: 'theme_promo_card',
                   id: archiveCategory.id,

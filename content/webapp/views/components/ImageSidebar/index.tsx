@@ -1,17 +1,20 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
+  CSSProperties,
   FunctionComponent,
   KeyboardEvent,
   RefObject,
   useEffect,
+  useId,
   useRef,
   useState,
 } from 'react';
 import { Transition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { cross, eye } from '@weco/common/icons';
-import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
+import { arrow, cross, eye } from '@weco/common/icons';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Button from '@weco/common/views/components/Buttons';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
@@ -23,19 +26,31 @@ import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
 import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
+import { phaseIsAtLeast } from '@weco/toggles';
 
+import ImageSidebarResizeHandle, {
+  COLUMNS_PROPERTY,
+} from './ImageSidebar.ResizeHandle';
 import {
   CloseButton,
   LoadingWrapper,
   MetadataWrapper,
+  SIDEBAR_COLUMNS,
+  SidebarHeader,
+  SidebarScroller,
   SidebarWrapper,
+  StepBar,
+  StepButton,
+  StepButtons,
   ThumbnailLink,
   ThumbnailPanel,
   Title,
 } from './ImageSidebar.styles';
+import useArrowKeySteps from './useArrowKeySteps';
+import useFocusCloseButtonOnSelect from './useFocusCloseButtonOnSelect';
 
-// How long after an image is chosen the browser may still focus its thumbnail
-const THUMBNAIL_FOCUS_WINDOW_MS = 500;
+// Lets focus move first, so a screen reader doesn't drop the announcement
+const ANNOUNCEMENT_DELAY_MS = 150;
 
 export type SidebarStatus = 'closed' | 'opening' | 'open' | 'closing';
 
@@ -51,73 +66,33 @@ const getTransitionMs = (element: HTMLElement): number => {
 type Props = {
   images: Image[];
   expandedImage?: Image;
+  // The browser's Back or Forward moved between images, treated as a step
+  isFromUrlChange?: boolean;
   setExpandedImage: (image: Image | undefined) => void;
   // As it slides in and out, for laying out what's beside it
   onStatusChange?: (status: SidebarStatus) => void;
+  // Without one, that button is disabled
+  onPrevious?: StepHandler;
+  onNext?: StepHandler;
+  // Arrow keys pressed in here step through the images too, not just ones
+  // pressed in the sidebar (e.g. the results grid)
+  arrowKeysAreaRef?: RefObject<HTMLElement | null>;
 };
 
-/**
- * Moves focus to the close button each time an image is chosen, not only when
- * the sidebar opens, as choosing an image is asking for its details. The same
- * image staying open (e.g. across pages of results) doesn't count.
- *
- * Returns a function to call once the person starts moving focus themselves,
- * so it's left alone from then on.
- */
-const useFocusCloseButtonOnSelect = (
-  imageId: string | undefined,
-  closeButtonRef: RefObject<HTMLElement | null>
-) => {
-  const hasTakenOver = useRef(false);
+type StepDirection = 'previous' | 'next';
 
-  useEffect(() => {
-    if (!imageId) return;
+// Calls `beforeStep` only once the step is definitely happening, which may be
+// after another page of results has loaded, or never
+export type StepHandler = (beforeStep: () => void) => void;
 
-    hasTakenOver.current = false;
-
-    const focusCloseButton = () => {
-      // Leave focus alone if the cookie banner is showing, as the modal does
-      if (document.getElementById(ACTIVE_COOKIE_BANNER_ID)) return;
-
-      // Without scrolling, as it may still be off screen, sliding in
-      closeButtonRef.current?.focus({ preventScroll: true });
-    };
-
-    // Setting the image id as the URL hash can make the browser focus the
-    // thumbnail with that id a moment later, after the timeout below has moved
-    // focus. So if the thumbnail is focused shortly after, move focus back into
-    // the sidebar. It's watched for on the document, as the grid laying out
-    // again can remount the thumbnail.
-    const onFocusIn = (event: FocusEvent) => {
-      if (hasTakenOver.current) return;
-
-      if ((event.target as HTMLElement).id === imageId) focusCloseButton();
-    };
-    const stopWatching = () =>
-      document.removeEventListener('focusin', onFocusIn);
-
-    document.addEventListener('focusin', onFocusIn);
-
-    const timeouts = [
-      setTimeout(focusCloseButton),
-      setTimeout(stopWatching, THUMBNAIL_FOCUS_WINDOW_MS),
-    ];
-
-    return () => {
-      timeouts.forEach(clearTimeout);
-      stopWatching();
-    };
-  }, [imageId]);
-
-  return () => {
-    hasTakenOver.current = true;
-  };
-};
+// Below `sm`, the sidebar covers the page
+const useIsSidebarFullScreen = (): boolean =>
+  useAppContext().windowSize === 'zero';
 
 /**
  * Shows the details of the selected image result next to the results grid.
- * Renders nothing until an image is selected, then slides in, and keeps the
- * last image while it slides out. An image that was in the URL when the page
+ * Renders only its screen reader announcement until an image is selected, then
+ * slides in, and keeps the last image while it slides out. An image that was in the URL when the page
  * loaded just appears. Choosing another image while it's open swaps the
  * content in place. Focus moves to the close button each time an image is
  * chosen.
@@ -125,20 +100,38 @@ const useFocusCloseButtonOnSelect = (
 const ImageSidebar: FunctionComponent<Props> = ({
   images,
   expandedImage,
+  isFromUrlChange = false,
   setExpandedImage,
   onStatusChange,
+  onPrevious,
+  onNext,
+  arrowKeysAreaRef,
 }) => {
   // A button, rendered with `as` from a styled div
   const closeButtonRef = useRef<HTMLDivElement>(null);
-  const sidebarRef = useRef<HTMLDivElement>(null);
-  const { windowSize } = useAppContext();
-  const isFullScreen = windowSize === 'zero';
+  const previousButtonRef = useRef<HTMLButtonElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarRef = useRef<HTMLElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const resizeHandleRef = useRef<HTMLDivElement>(null);
+
+  const sidebarId = useId();
+  const isFullScreen = useIsSidebarFullScreen();
   const isOpen = expandedImage !== undefined;
+  const { imageSidebarPhases } = usePhasedFlags();
+  const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
+  const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
+  const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
+  const hasHeaderStepButtons = showImageSidebarPhase3 && !isFullScreen;
+  const hasStepBar = showImageSidebarPhase3 && isFullScreen;
 
   const linkedImageId = useRef(
     typeof window === 'undefined' ? undefined : readUrlHash()
   );
   const [isInstant, setIsInstant] = useState(false);
+
+  // Kept while other images are chosen, and back to the default once it closes
+  const [columns, setColumns] = useState(SIDEBAR_COLUMNS.default);
 
   // The expanded image, or the last one while the sidebar slides out
   const [shownImage, setShownImage] = useState<Image | undefined>();
@@ -149,14 +142,19 @@ const ImageSidebar: FunctionComponent<Props> = ({
     }
   }
 
-  const stopRefocusing = useFocusCloseButtonOnSelect(
+  const { stopRefocusing, setSteppedFrom } = useFocusCloseButtonOnSelect(
     expandedImage?.id,
+    isFromUrlChange,
     closeButtonRef
   );
 
-  useEffect(() => {
-    if (expandedImage && sidebarRef.current) sidebarRef.current.scrollTop = 0;
-  }, [expandedImage?.id]);
+  const takeArrowKeyFocus = useArrowKeySteps({
+    isActive: isOpen && hasHeaderStepButtons,
+    sidebarRef,
+    areaRef: arrowKeysAreaRef,
+    previousButtonRef,
+    nextButtonRef,
+  });
 
   const {
     detailedWork,
@@ -167,6 +165,91 @@ const ImageSidebar: FunctionComponent<Props> = ({
     displayContributor,
     displayTitle,
   } = useImageDetails(images, shownImage);
+
+  useEffect(() => {
+    if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
+  }, [expandedImage?.id]);
+
+  // Not for picked thumbnails, whose title was just heard
+  const isAnnouncingStep = useRef(false);
+
+  // Focus stays put on a step, so this is what tells a screen reader the image
+  // changed. Cleared first, so the same title twice is still spoken.
+  const [announcement, setAnnouncement] = useState('');
+  useEffect(() => {
+    const isAnnouncing = isAnnouncingStep.current || isFromUrlChange;
+    isAnnouncingStep.current = false;
+
+    // Cleared on a pick too, so the last title isn't left for the virtual
+    // cursor to find
+    setAnnouncement('');
+    if (!expandedImage || !isAnnouncing) return;
+
+    const timeout = setTimeout(
+      () =>
+        setAnnouncement(
+          removeDisplayMarkupTags(expandedImage.source.title) ||
+            'Untitled image'
+        ),
+      ANNOUNCEMENT_DELAY_MS
+    );
+    return () => clearTimeout(timeout);
+  }, [expandedImage?.id]);
+
+  const steps = {
+    previous: {
+      label: 'Previous image',
+      shortLabel: 'Prev',
+      icon: <Icon icon={arrow} rotate={180} />,
+      buttonRef: previousButtonRef,
+      onStep: onPrevious,
+    },
+    next: {
+      label: 'Next image',
+      shortLabel: 'Next',
+      icon: <Icon icon={arrow} />,
+      buttonRef: nextButtonRef,
+      onStep: onNext,
+    },
+  };
+
+  // Leaves focus on `focused` (see useFocusCloseButtonOnSelect), and
+  // announces the image once it's stepped to
+  const step = (direction: StepDirection, focused: HTMLElement) => {
+    const { onStep, buttonRef } = steps[direction];
+
+    onStep?.(() => {
+      setSteppedFrom(focused, buttonRef.current);
+      isAnnouncingStep.current = true;
+    });
+  };
+
+  const stepButton = (direction: StepDirection) => {
+    const { label, shortLabel, icon, buttonRef, onStep } = steps[direction];
+
+    return (
+      <StepButton
+        ref={buttonRef}
+        aria-label={label}
+        aria-disabled={!onStep}
+        onClick={event =>
+          step(direction, takeArrowKeyFocus() ?? event.currentTarget)
+        }
+      >
+        {icon}
+        {shortLabel}
+      </StepButton>
+    );
+  };
+
+  // Rendered in one place or the other, never both: the header has room for
+  // them until the sidebar fills the screen, where they move to the bottom bar
+  const stepButtons = (
+    <>
+      {stepButton('previous')}
+      {stepButton('next')}
+    </>
+  );
 
   const addEndListener = (done: () => void) => {
     const sidebar = sidebarRef.current;
@@ -193,16 +276,19 @@ const ImageSidebar: FunctionComponent<Props> = ({
     setTimeout(finish, ms + 100);
   };
 
-  // Shift+Tab from the close button, the first thing in the sidebar, goes to
-  // the selected thumbnail rather than the end of the results. Full screen, the
-  // results are hidden and focus stays in the sidebar, so it's left alone.
+  // Shift+Tab from the first thing in the sidebar goes to the selected
+  // thumbnail rather than the end of the results
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
     if (event.key !== 'Tab') return;
 
     stopRefocusing();
 
-    const isLeavingBackwards =
-      event.shiftKey && event.target === closeButtonRef.current;
+    const first = hasResizeHandle
+      ? resizeHandleRef
+      : hasHeaderStepButtons
+        ? previousButtonRef
+        : closeButtonRef;
+    const isLeavingBackwards = event.shiftKey && event.target === first.current;
     if (!isLeavingBackwards || isFullScreen || !expandedImage) return;
 
     // The id is checked against the results as well as the page, as an
@@ -219,149 +305,194 @@ const ImageSidebar: FunctionComponent<Props> = ({
   };
 
   return (
-    // Full screen below `sm`, so focus stays inside it and the page doesn't
-    // scroll behind it. This uses the window's width, not a media query:
-    // locking hides the page scrollbar, which can change the width a media
-    // query sees and flip the layout back and forth.
-    <Transition
-      in={isOpen}
-      nodeRef={sidebarRef}
-      addEndListener={addEndListener}
-      onEnter={() => {
-        linkedImageId.current = undefined;
-        onStatusChange?.('opening');
-      }}
-      onEntered={() => onStatusChange?.('open')}
-      onExit={() => {
-        setIsInstant(false);
-        onStatusChange?.('closing');
-      }}
-      onExited={() => {
-        setShownImage(undefined);
-        onStatusChange?.('closed');
-      }}
-      mountOnEnter
-      unmountOnExit
-    >
-      {state => (
-        <FocusTrap
-          active={isFullScreen && isOpen}
-          focusTrapOptions={{
-            returnFocusOnDeactivate: false,
-            initialFocus: false,
-            preventScroll: true,
-          }}
-        >
-          <SidebarWrapper
-            ref={sidebarRef}
-            as="section"
-            data-component="image-sidebar"
-            aria-label="Image details"
-            data-lock-scroll={isFullScreen && state !== 'exited'}
-            inert={!isOpen}
-            onKeyDown={handleKeyDown}
-            $isOpen={state === 'entering' || state === 'entered'}
-            $isInstant={isInstant}
+    <>
+      {/* Outside the sidebar, so it's never replaced as that comes and goes */}
+      <div
+        className="visually-hidden"
+        role="status"
+        data-testid="image-sidebar-announcement"
+      >
+        {announcement}
+      </div>
+      {/* Full screen below `sm`, so focus stays inside it and the page doesn't
+      scroll behind it. This uses the window's width, not a media query:
+      locking hides the page scrollbar, which can change the width a media
+      query sees and flip the layout back and forth. */}
+      <Transition
+        in={isOpen}
+        nodeRef={sidebarRef}
+        addEndListener={addEndListener}
+        onEnter={() => {
+          linkedImageId.current = undefined;
+          onStatusChange?.('opening');
+        }}
+        onEntered={() => onStatusChange?.('open')}
+        onExit={() => {
+          setIsInstant(false);
+          onStatusChange?.('closing');
+        }}
+        onExited={() => {
+          setShownImage(undefined);
+          setColumns(SIDEBAR_COLUMNS.default);
+          onStatusChange?.('closed');
+        }}
+        mountOnEnter
+        unmountOnExit
+      >
+        {state => (
+          <FocusTrap
+            active={isFullScreen && isOpen}
+            focusTrapOptions={{
+              returnFocusOnDeactivate: false,
+              initialFocus: false,
+              preventScroll: true,
+            }}
           >
-            <CloseButton
-              ref={closeButtonRef}
-              onClick={() => setExpandedImage(undefined)}
+            <SidebarWrapper
+              ref={sidebarRef}
+              id={sidebarId}
+              style={{ [COLUMNS_PROPERTY]: columns } as CSSProperties}
+              data-component="image-sidebar"
+              aria-label="Image details"
+              data-lock-scroll={isFullScreen && state !== 'exited'}
+              inert={!isOpen}
+              onKeyDown={handleKeyDown}
+              $isOpen={state === 'entering' || state === 'entered'}
+              $isInstant={isInstant}
             >
-              <span className="visually-hidden">Close image details</span>
-              <Icon icon={cross} />
-            </CloseButton>
+              {hasResizeHandle && (
+                <ImageSidebarResizeHandle
+                  ref={resizeHandleRef}
+                  sidebarRef={sidebarRef}
+                  sidebarId={sidebarId}
+                  columns={columns}
+                  setColumns={setColumns}
+                />
+              )}
+              <SidebarScroller ref={scrollerRef}>
+                <SidebarHeader>
+                  {hasHeaderStepButtons && (
+                    <StepButtons>{stepButtons}</StepButtons>
+                  )}
+                  <CloseButton
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'close-modal-button',
+                    })}
+                    ref={closeButtonRef}
+                    onClick={() => setExpandedImage(undefined)}
+                    $hasLabel={showImageSidebarPhase3}
+                  >
+                    <Icon icon={cross} />
+                    {showImageSidebarPhase3 ? (
+                      <span>
+                        Close
+                        <span className="visually-hidden"> image details</span>
+                      </span>
+                    ) : (
+                      <span className="visually-hidden">
+                        Close image details
+                      </span>
+                    )}
+                  </CloseButton>
+                </SidebarHeader>
 
-            {!detailedWork ? (
-              <LoadingWrapper>
-                <LL />
-              </LoadingWrapper>
-            ) : (
-              <>
-                {iiifImageLocation && expandedImageLink && (
-                  <ThumbnailPanel>
-                    <ThumbnailLink
-                      {...expandedImageLink}
-                      aria-label={
-                        displayTitle
-                          ? `View image: ${removeDisplayMarkupTags(displayTitle)}`
-                          : 'View image'
-                      }
-                    >
-                      <IIIFImage
-                        layout="raw"
-                        image={{
-                          contentUrl: iiifImageLocation.url,
-                          width: 400,
-                          height: 400,
-                          alt: '',
-                        }}
-                        width={400}
+                {!detailedWork ? (
+                  <LoadingWrapper>
+                    <LL />
+                  </LoadingWrapper>
+                ) : (
+                  <>
+                    {iiifImageLocation && expandedImageLink && (
+                      <ThumbnailPanel>
+                        <ThumbnailLink
+                          {...expandedImageLink}
+                          aria-label={
+                            displayTitle
+                              ? `View image: ${removeDisplayMarkupTags(displayTitle)}`
+                              : 'View image'
+                          }
+                        >
+                          <IIIFImage
+                            layout="raw"
+                            image={{
+                              contentUrl: iiifImageLocation.url,
+                              width: 400,
+                              height: 400,
+                              alt: '',
+                            }}
+                            width={400}
+                          />
+                        </ThumbnailLink>
+                      </ThumbnailPanel>
+                    )}
+
+                    {(displayTitle || displayContributor || license) && (
+                      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+                        {displayTitle && (
+                          <Title
+                            dangerouslySetInnerHTML={{ __html: displayTitle }}
+                          />
+                        )}
+
+                        {(displayContributor || productionDates.length > 0) && (
+                          <MetadataWrapper>
+                            {displayContributor && (
+                              <PipeSeparated>
+                                {displayContributor}
+                              </PipeSeparated>
+                            )}
+                            {productionDates.length > 0 && (
+                              <PipeSeparated>
+                                Date:&nbsp;{productionDates[0]}
+                              </PipeSeparated>
+                            )}
+                          </MetadataWrapper>
+                        )}
+
+                        {license && (
+                          <MetadataWrapper>
+                            Licence:&nbsp;
+                            {license.url && (
+                              <a rel="license" href={license.url}>
+                                {license.label}
+                              </a>
+                            )}
+                            {!license.url && license.label}
+                          </MetadataWrapper>
+                        )}
+                      </Space>
+                    )}
+
+                    {expandedImageLink && (
+                      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
+                        <Button
+                          variant="ButtonSolidLink"
+                          hierarchy="primary"
+                          text="View image"
+                          icon={eye}
+                          link={expandedImageLink}
+                          ariaLabel="View expanded image"
+                        />
+                      </Space>
+                    )}
+
+                    {shownImage && (
+                      <VisuallySimilarImagesFromApi
+                        originalId={shownImage.id}
+                        onClickImage={setExpandedImage}
+                        variant="sidebar"
                       />
-                    </ThumbnailLink>
-                  </ThumbnailPanel>
-                )}
-
-                {(displayTitle || displayContributor || license) && (
-                  <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                    {displayTitle && (
-                      <Title
-                        dangerouslySetInnerHTML={{ __html: displayTitle }}
-                      />
                     )}
-
-                    {(displayContributor || productionDates.length > 0) && (
-                      <MetadataWrapper>
-                        {displayContributor && (
-                          <PipeSeparated>{displayContributor}</PipeSeparated>
-                        )}
-                        {productionDates.length > 0 && (
-                          <PipeSeparated>
-                            Date:&nbsp;{productionDates[0]}
-                          </PipeSeparated>
-                        )}
-                      </MetadataWrapper>
-                    )}
-
-                    {license && (
-                      <MetadataWrapper>
-                        Licence:&nbsp;
-                        {license.url && (
-                          <a rel="license" href={license.url}>
-                            {license.label}
-                          </a>
-                        )}
-                        {!license.url && license.label}
-                      </MetadataWrapper>
-                    )}
-                  </Space>
+                  </>
                 )}
+              </SidebarScroller>
 
-                {expandedImageLink && (
-                  <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                    <Button
-                      variant="ButtonSolidLink"
-                      hierarchy="primary"
-                      text="View image"
-                      icon={eye}
-                      link={expandedImageLink}
-                      ariaLabel="View expanded image"
-                    />
-                  </Space>
-                )}
-
-                {shownImage && (
-                  <VisuallySimilarImagesFromApi
-                    originalId={shownImage.id}
-                    onClickImage={setExpandedImage}
-                    variant="sidebar"
-                  />
-                )}
-              </>
-            )}
-          </SidebarWrapper>
-        </FocusTrap>
-      )}
-    </Transition>
+              {hasStepBar && <StepBar>{stepButtons}</StepBar>}
+            </SidebarWrapper>
+          </FocusTrap>
+        )}
+      </Transition>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
@@ -29,7 +28,6 @@ import {
   isArchiveCollectionRoot,
 } from '@weco/content/utils/works';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
-import { phaseIsAtLeast } from '@weco/toggles';
 
 import ArchiveCollectionLayout from './ArchiveCollection';
 import ArchiveTree from './ArchiveTree';
@@ -57,18 +55,21 @@ const WorkDetailsWrapper = styled(Space).attrs({
 export type Props = {
   work: WorkType;
   apiUrl: string;
+  // Only set when the work's archive category has a page to link to
+  archiveCategorySlug?: string;
 };
 
-export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
-  const { isKiosk } = useKiosk();
-  const { archiveCollectionPhases } = usePhasedFlags();
+export const WorkPage: NextPage<Props> = ({
+  work,
+  apiUrl,
+  archiveCategorySlug,
+}) => {
+  const { isKiosk, isLibraryEntranceKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = !!(
     work.parts.length || getArchiveAncestorArray(work).length > 0
   );
-  const displayCollectionRoot =
-    isArchiveCollectionRoot(work) &&
-    phaseIsAtLeast(archiveCollectionPhases, 'mvp');
+  const displayCollectionRoot = isArchiveCollectionRoot(work);
 
   const iiifImageLocation = getDigitalLocationOfType(work, 'iiif-image');
   const iiifPresentationLocation = getDigitalLocationOfType(
@@ -136,7 +137,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
         apiToolbarLinks={createApiToolbarWorkLinks(work, apiUrl)}
         hideNewsletterPromo
       >
-        {!isKiosk && (
+        {(!isKiosk || isLibraryEntranceKiosk) && (
           <Container>
             <Space $v={{ size: 'md', properties: ['padding-top'] }}>
               <SearchForm searchCategory="works" location="page" />
@@ -151,7 +152,7 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
         )}
 
         <ConditionalWrapper
-          condition={isKiosk}
+          condition={isKiosk && !isLibraryEntranceKiosk}
           wrapper={children => (
             <Space $v={{ size: 'md', properties: ['padding-top'] }}>
               {children}
@@ -161,7 +162,11 @@ export const WorkPage: NextPage<Props> = ({ work, apiUrl }) => {
           <>
             {isArchive ? (
               displayCollectionRoot ? (
-                <ArchiveCollectionLayout key={work.id} work={work} />
+                <ArchiveCollectionLayout
+                  key={work.id}
+                  work={work}
+                  archiveCategorySlug={archiveCategorySlug}
+                />
               ) : (
                 <>
                   <Container>

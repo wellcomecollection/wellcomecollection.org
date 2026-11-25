@@ -87,8 +87,8 @@ type FetchEventsQueryParams = {
   orderings?: prismic.Ordering[];
 };
 
-const startField = 'my.events.times.startDateTime';
-const endField = 'my.events.times.endDateTime';
+const START_FIELD = 'my.events.times.startDateTime';
+const END_FIELD = 'my.events.times.endDateTime';
 
 const graphQuery = `{
   events {
@@ -176,7 +176,11 @@ export const fetchEvents = (
       : [];
 
   const dateRangeFilters = period
-    ? getEventFilters({ period, startField, endField })
+    ? getEventFilters({
+        period,
+        startField: START_FIELD,
+        endField: END_FIELD,
+      })
     : [];
 
   const onlineFilters = isOnline

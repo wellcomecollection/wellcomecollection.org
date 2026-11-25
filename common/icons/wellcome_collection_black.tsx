@@ -2,10 +2,8 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 // Inline (rather than an embedded image) so the colour can come from the theme.
-// The current brand uses CSS black (#000), which isn't in the palette.
 const Svg = styled.svg`
-  color: ${props =>
-    props.theme.brandUpdate ? props.theme.color('black') : 'black'};
+  color: ${props => props.theme.color('black')};
 `;
 
 const WellcomeCollectionBlack: FunctionComponent = () => (

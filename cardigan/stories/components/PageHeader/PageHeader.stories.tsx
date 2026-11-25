@@ -41,7 +41,7 @@ const meta: Meta<typeof PageHeader> = {
     highlightHeading: false,
     fullWidth: false,
     includeAccessibilityProvision: false,
-    heroImageBgColor: 'white',
+    heroImageBgColor: 'neutral.05',
   },
   argTypes: {
     backgroundTexture: {

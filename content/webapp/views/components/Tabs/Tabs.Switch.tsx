@@ -9,6 +9,7 @@ import {
 } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { restartScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import { IconSvg } from '@weco/common/icons';
 import { toSnakeCase } from '@weco/common/utils/grammar';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
@@ -40,6 +41,8 @@ export type Props = {
   selectedTab: string;
   setSelectedTab: Dispatch<SetStateAction<string>>;
   isWhite?: boolean;
+  /** For tabs whose panels are each worth measuring as a page of their own. */
+  restartsScrollTracking?: boolean;
 };
 
 // Href for the no-JS fallback link - has to match the tabpanel's actual DOM
@@ -69,6 +72,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
   selectedTab,
   setSelectedTab,
   isWhite,
+  restartsScrollTracking,
 }: Props) => {
   const { isEnhanced } = useAppContext();
   const router = useRouter();
@@ -135,12 +139,14 @@ const TabsSwitch: FunctionComponent<Props> = ({
       if (matchingItem && matchingItem.id !== selectedTab) {
         setSelectedTab(matchingItem.id);
         scrollTabIntoView(matchingItem.id);
+
+        if (restartsScrollTracking) restartScrollTracking();
       }
     };
 
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
-  }, [items, selectedTab, setSelectedTab]);
+  }, [items, selectedTab, setSelectedTab, restartsScrollTracking]);
 
   // Pushes a new history entry for a user-driven tab switch (click or
   // keyboard), so back/forward can step through previously selected tabs.
@@ -156,6 +162,7 @@ const TabsSwitch: FunctionComponent<Props> = ({
         undefined,
         { shallow: true, scroll: false }
       );
+      if (restartsScrollTracking) restartScrollTracking();
     }
   }
 

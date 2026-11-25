@@ -10,6 +10,7 @@ import { Work } from '@weco/content/services/wellcome/catalogue/types';
 import {
   ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
   getArchiveCollectionContents,
+  LARGE_ARCHIVE_ROW_THRESHOLD,
 } from '@weco/content/services/wellcome/catalogue/works';
 import { getArchiveAncestorArray } from '@weco/content/utils/works';
 import {
@@ -17,8 +18,11 @@ import {
   createBasicArchiveTree,
 } from '@weco/content/views/pages/works/work/ArchiveTree';
 import NestedList, {
+  getChildren,
   getTabbableIds,
+  updateChildren,
 } from '@weco/content/views/pages/works/work/NestedList';
+import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 import ContentsTreeItemRenderer from './ArchiveCollection.ContentsTree.ItemRenderer';
 import {
@@ -33,12 +37,27 @@ import {
   TreeInstructions,
 } from './ArchiveCollection.ContentsTree.styles';
 
+// Folders that are open but have never had their children fetched. Until the
+// first contents request says whether the archive is large, the tree doesn't
+// fetch children, so a folder opened in that gap ends up like this.
+function getOpenUnfetchedIds(tree: UiTree): string[] {
+  return tree.flatMap(node => [
+    ...(node.openStatus &&
+    node.children === undefined &&
+    (node.data.totalParts ?? 0) > 0
+      ? [node.data.id]
+      : []),
+    ...(node.children ? getOpenUnfetchedIds(node.children) : []),
+  ]);
+}
+
 const ArchiveCollectionContents: FunctionComponent<{
   work: Work;
   isActive: boolean;
 }> = ({ work, isActive }) => {
   const { isEnhanced } = useAppContext();
-  const { stagingApi } = useFeatureFlags();
+  const { stagingApi, largeArchiveContentsTree: showLargeArchiveContentsTree } =
+    useFeatureFlags();
   const { cataloguePipeline } = useModes();
   const archiveAncestorArray = getArchiveAncestorArray(work);
   const collectionRootId = archiveAncestorArray[0]?.id || work.id;
@@ -50,6 +69,7 @@ const ArchiveCollectionContents: FunctionComponent<{
   const [totalPages, setTotalPages] = useState<number>();
   const [totalResults, setTotalResults] = useState<number>();
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isLargeArchive, setIsLargeArchive] = useState(false);
 
   const hasFetched = useRef(false);
   // Mirrors `tree` so loadPage's post-await read isn't a stale closure.
@@ -87,6 +107,35 @@ const ArchiveCollectionContents: FunctionComponent<{
     );
     if (!response) return false;
 
+    // Large archives keep the basic tree built from work.parts (first level
+    // open) and fetch children as folders are opened, instead of paging.
+    // totalResults is left unset, so the row counter and "Show more" button
+    // don't render.
+    if (
+      showLargeArchiveContentsTree &&
+      pageToLoad === 1 &&
+      response.totalResults >= LARGE_ARCHIVE_ROW_THRESHOLD
+    ) {
+      setIsLargeArchive(true);
+
+      // Fetch children for any folder opened before we knew, so it doesn't
+      // need a second click. Functional updates keep whatever else the user
+      // has opened or closed since, and updateChildren leaves each folder's
+      // own openStatus as it is. A failed fetch leaves the folder as it was,
+      // and clicking it again fetches as normal now isLargeArchive is set.
+      getOpenUnfetchedIds(treeRef.current).forEach(id => {
+        getChildren(id)
+          .then(children =>
+            setTree(currentTree =>
+              updateChildren({ tree: currentTree, id, value: children })
+            )
+          )
+          .catch(() => undefined);
+      });
+
+      return true;
+    }
+
     const updatedWorks = [...existingWorks, ...response.results];
     setWorks(updatedWorks);
     // Only carry over open/closed state from page 2 onwards. The very
@@ -119,7 +168,13 @@ const ArchiveCollectionContents: FunctionComponent<{
       .then(succeeded => {
         if (!succeeded) hasFetched.current = false;
       });
-  }, [isActive, collectionRootId, stagingApi, cataloguePipeline]);
+  }, [
+    isActive,
+    collectionRootId,
+    stagingApi,
+    cataloguePipeline,
+    showLargeArchiveContentsTree,
+  ]);
 
   async function showMore() {
     setIsLoadingMore(true);
@@ -163,7 +218,7 @@ const ArchiveCollectionContents: FunctionComponent<{
             ItemRenderer={ContentsTreeItemRenderer}
             itemRendererProps={{ rowIndexById }}
             firstItemTabbable={false}
-            shouldFetchChildren={false}
+            shouldFetchChildren={isLargeArchive}
             showFirstLevelGuideline
             isCompact
           />

@@ -44,7 +44,7 @@ export const ViewerButton = styled.button.attrs({
 
   ${props =>
     props.$isDark &&
-    !(props.$isTertiary && props.theme.brandUpdate) &&
+    !props.$isTertiary &&
     css`
       border: 2px solid transparent;
       color: ${props.theme.color('white')};
@@ -73,17 +73,13 @@ export const TertiaryViewerButton = styled(ViewerButton).attrs({
   $isDark: true,
   $isTertiary: true,
 })`
-  ${props =>
-    props.theme.brandUpdate &&
-    css`
-      border-radius: 0;
-      min-height: 36px;
-      padding: 0 12px;
-      line-height: 1;
-      ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
+  border-radius: 0;
+  min-height: 36px;
+  padding: 0 12px;
+  line-height: 1;
+  ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
 
-      &:focus-visible {
-        ${brandButtonFocusStyle}
-      }
-    `}
+  &:focus-visible {
+    ${brandButtonFocusStyle}
+  }
 `;

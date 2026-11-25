@@ -72,11 +72,7 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
               <ButtonInner>
                 <Icon
                   icon={item.icon}
-                  iconColor={
-                    isActive
-                      ? { brand: 'neutral.10', legacy: 'yellow' }
-                      : 'neutral.600'
-                  }
+                  iconColor={isActive ? 'neutral.10' : 'neutral.600'}
                 />
                 <Space
                   $h={

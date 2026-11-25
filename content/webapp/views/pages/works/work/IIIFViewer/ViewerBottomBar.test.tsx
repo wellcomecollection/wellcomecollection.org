@@ -61,9 +61,10 @@ describe('ViewerBottomBar navigation (non-image works)', () => {
       },
     });
 
-    // Previous button should not be a link when disabled (no href)
-    const previousButton = screen.getByText(/previous/i).closest('a');
-    expect(previousButton).not.toHaveAttribute('href');
+    expect(
+      screen.queryByRole('link', { name: /previous/i })
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Previous page unavailable')).toBeInTheDocument();
   });
 
   it('disables Next button on last canvas', () => {
@@ -81,9 +82,10 @@ describe('ViewerBottomBar navigation (non-image works)', () => {
       },
     });
 
-    // Next button should not be a link when disabled (no href)
-    const nextButton = screen.getByText(/next/i).closest('a');
-    expect(nextButton).not.toHaveAttribute('href');
+    expect(
+      screen.queryByRole('link', { name: /next/i })
+    ).not.toBeInTheDocument();
+    expect(screen.getByText('Next page unavailable')).toBeInTheDocument();
   });
 
   it('enables both buttons on middle canvas', () => {

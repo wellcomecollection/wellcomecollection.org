@@ -87,7 +87,8 @@ const ThematicBrowsingLayout: FunctionComponent<
           <ThematicBrowsingNavigation currentCategory={currentCategory} />
         }
         afterIntro={
-          page.title === 'Subjects' &&
+          currentCategory === 'subjects' &&
+          !subPageUid &&
           showThematicBrowsingSubCategory && <SubjectsMenu />
         }
       />

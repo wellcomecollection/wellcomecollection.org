@@ -5,14 +5,12 @@ import { formatPlayerTime } from './AudioPlayer.formatters';
 import { controlColor } from './AudioPlayer.styles';
 
 const backgroundTransform = css<{ $isDark: boolean }>`
-  background: ${props =>
-    props.theme.color(controlColor(props.$isDark ? 'white' : 'black'))};
+  background: ${props => props.theme.color(controlColor(props.$isDark))};
   transform: scale(1.5);
 `;
 
 const thumbStyles = css<{ $isDark: boolean }>`
-  background: ${props =>
-    props.theme.color(controlColor(props.$isDark ? 'yellow' : 'black'))};
+  background: ${props => props.theme.color(controlColor(props.$isDark))};
   appearance: none;
   width: 1rem;
   height: 1rem;
@@ -83,7 +81,7 @@ const PercentComplete = styled.div<{
     content: '';
     height: 4px;
     width: ${props => props.$percentComplete}%;
-    background-color: ${props => props.theme.color(controlColor('yellow'))};
+    background-color: ${props => props.theme.color('blue.30')};
     border-radius: 4px;
     transform: translateY(-50%);
     max-width: 100%;

@@ -69,9 +69,7 @@ const ChevronWrapper = styled(Link)<{
   ${props => `
     color: ${props.theme.color(props.$isOnDark ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
-      props.$isOnDark
-        ? 'neutral.400'
-        : { brand: 'neutral.70', legacy: 'neutral.600' }
+      props.$isOnDark ? 'neutral.400' : 'neutral.70'
     )};
     transform: rotate(${props.$isPrev ? '90' : '270'}deg);
 
@@ -84,7 +82,6 @@ const ChevronWrapper = styled(Link)<{
 
   /* The brand outlines it, then fills it and thickens the ring on hover */
   ${props => {
-    if (!props.theme.brandUpdate) return '';
     const ink = designSystemColor(
       props.$isOnDark ? 'neutral.10' : 'neutral.70'
     );

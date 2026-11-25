@@ -1,0 +1,129 @@
+# Backplane (backplane/v1) description of this repository's software, read by
+# the deploy tracker and gathered into https://github.com/wellcomecollection/catalog.
+# Component names match the checkpoint names in .deploy-tracker.yml.
+apiVersion: backplane/v1
+kind: System
+metadata:
+  name: wellcomecollection-org
+  description: The Wellcome Collection website
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+spec:
+  owner: team:default/digital-experience
+---
+apiVersion: backplane/v1
+kind: Component
+metadata:
+  name: content
+  description: The main website, a Next.js app behind Koa
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
+    backplane/dora-paths: content, common
+  links:
+    - title: Runbook
+      url: https://github.com/wellcomecollection/wellcomecollection.org/blob/main/content/docs/runbook.md
+spec:
+  type: service
+  lifecycle: production
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org
+  dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: 'deploy:weco'
+      e2e: { status: e2e/stage }
+      checkpoints:
+        - url: https://www-stage.wellcomecollection.org/management/manifest
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      # Working hours waiting on stage before a nudge, since the prod gate is manual
+      overdue: 2h
+      github:
+        task: 'deploy:weco'
+      e2e: { status: e2e/prod }
+      checkpoints:
+        - url: https://wellcomecollection.org/management/manifest
+  slos:
+    # Agreed 2026-11-13; see docs adr/service_levels.md.
+    - name: availability
+      description: Requests to the content app not answered with a 5xx
+      objective: 99.5
+      window: 28d
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
+  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
+  notifications:
+    deployments:
+      labels: false
+      prComments: false
+---
+apiVersion: backplane/v1
+kind: Component
+metadata:
+  name: identity
+  description: Account pages under /account, a Next.js app behind Koa
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
+    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
+    backplane/dora-paths: identity, common
+spec:
+  type: service
+  lifecycle: production
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org
+  dependsOn: [component:wellcomecollection-org-common]
+  environments:
+    - name: stage
+      tier: staging
+      github:
+        task: 'deploy:weco'
+      e2e: { status: e2e/stage }
+      checkpoints:
+        - url: https://www-stage.wellcomecollection.org/account/management/manifest
+    - name: prod
+      tier: production
+      promotesFrom: stage
+      # Working hours waiting on stage before a nudge, since the prod gate is manual
+      overdue: 2h
+      github:
+        task: 'deploy:weco'
+      e2e: { status: e2e/prod }
+      checkpoints:
+        - url: https://wellcomecollection.org/account/management/manifest
+  slos:
+    # Agreed 2026-11-13; see docs adr/service_levels.md.
+    - name: availability
+      description: Requests to the account pages not answered with a 5xx
+      objective: 99.95
+      window: 28d
+      sli:
+        source: cloudwatch
+        good: 'RequestCount - HTTPCode_Target_5XX_Count'
+        total: 'RequestCount'
+  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
+  notifications:
+    deployments:
+      labels: false
+      prComments: false
+---
+apiVersion: backplane/v1
+kind: Component
+metadata:
+  name: wellcomecollection-org-common
+  description: Code shared by the content and identity apps
+  annotations:
+    github.com/project-slug: wellcomecollection/wellcomecollection.org
+    backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common/
+spec:
+  type: library
+  lifecycle: production
+  owner: team:default/digital-experience
+  system: system:wellcomecollection-org
