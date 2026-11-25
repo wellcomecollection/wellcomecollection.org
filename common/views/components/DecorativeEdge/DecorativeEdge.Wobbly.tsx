@@ -87,9 +87,6 @@ export type Props = {
   points?: number;
   isValley?: boolean;
   isStatic?: boolean;
-  /** A selector for an element (e.g. a sidebar) the edge should be a single,
-   * unchanging slope underneath. Its angle is picked once per page load; the
-   * rest of the edge still wobbles. */
   fixedUntil?: string;
 };
 
