@@ -52,18 +52,19 @@ const ArchiveCategoryWorksList = ({
                 formId={ARCHIVE_CATEGORY_SORT_FORM_ID}
                 options={[
                   // Default value left empty so it's not added to the URL query
-                  { value: '', text: 'Newest to oldest' },
-                  {
-                    value: 'production.dates.asc',
-                    text: 'Oldest to newest',
-                  },
+                  { value: '', text: 'Alphabetical A-Z' },
                   {
                     value: 'production.dates.desc',
                     text: 'Newest to oldest',
                   },
+                  {
+                    value: 'production.dates.asc',
+                    text: 'Oldest to newest',
+                  },
                 ]}
                 jsLessOptions={{
                   sort: [
+                    { value: 'title', text: 'Title' },
                     {
                       value: 'production.dates',
                       text: 'Production dates',
