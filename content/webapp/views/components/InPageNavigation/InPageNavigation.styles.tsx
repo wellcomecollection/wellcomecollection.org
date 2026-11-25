@@ -336,11 +336,16 @@ export const NavGridCell = styled(GridCell)<{
       h2,
       a {
         color: transparent;
-        background-image: linear-gradient(
-          var(--angle, 180deg),
-          ${props.theme.color('neutral.10')} var(--split, 0px),
-          ${props.theme.color('black')} var(--split, 0px)
-        );
+        background-image:
+          linear-gradient(
+            ${props.theme.color('black')} var(--dark-from, 0px),
+            transparent var(--dark-from, 0px)
+          ),
+          linear-gradient(
+            var(--angle, 180deg),
+            ${props.theme.color('neutral.10')} var(--split, 0px),
+            ${props.theme.color('black')} var(--split, 0px)
+          );
         -webkit-background-clip: text;
         background-clip: text;
       }

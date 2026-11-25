@@ -206,7 +206,9 @@ const InPageNavigation: FunctionComponent<Props> = ({
 
       // Read everything first, then write, so the browser doesn't have to
       // recalculate styles part-way through
-      const bandBottom = band ? band.getBoundingClientRect().bottom : 0;
+      const bandRect = band?.getBoundingClientRect();
+      const bandTop = bandRect?.top ?? 0;
+      const bandBottom = bandRect?.bottom ?? 0;
       const edgeStyle = edge && getComputedStyle(edge);
       const edgeRect =
         edge && edgeStyle?.display !== 'none'
@@ -229,6 +231,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
           const rect = el.getBoundingClientRect();
           return {
             el,
+            darkFrom: bandTop - rect.top,
             ...splitGradient({
               width: rect.width,
               height: rect.height,
@@ -239,7 +242,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
         }
       );
 
-      splits.forEach(({ el, angle, stop }) => {
+      splits.forEach(({ el, darkFrom, angle, stop }) => {
+        el.style.setProperty('--dark-from', `${darkFrom.toFixed(1)}px`);
         el.style.setProperty('--angle', `${angle.toFixed(2)}deg`);
         el.style.setProperty('--split', `${stop.toFixed(1)}px`);
       });
