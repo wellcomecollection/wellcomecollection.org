@@ -267,16 +267,51 @@ export type ArchiveCategoryWorksResult = {
   requestUrl: string;
 };
 
-export const archiveCategoryWorksSortFields = ['production.dates'] as const;
+export const archiveCategoryWorksSortFields = [
+  'title',
+  'production.dates',
+] as const;
 export type ArchiveCategoryWorksSortField =
   (typeof archiveCategoryWorksSortFields)[number];
+type SortOrder = 'asc' | 'desc';
+
+const DEFAULT_SORT_ORDERS: Record<ArchiveCategoryWorksSortField, SortOrder> = {
+  title: 'asc',
+  'production.dates': 'desc',
+};
+
+const isSortOrder = (value: unknown): value is SortOrder =>
+  value === 'asc' || value === 'desc';
+
+/**
+ * Resolves the archive category page's sort and sortOrder query params to the
+ * values to send to the API. With neither param it's title A-Z, the page's
+ * default.
+ */
+export function getArchiveCategoryWorksSort({
+  sort,
+  sortOrder,
+}: {
+  sort?: string | string[];
+  sortOrder?: string | string[];
+}): { sort: ArchiveCategoryWorksSortField; sortOrder: SortOrder } {
+  const resolvedSort =
+    archiveCategoryWorksSortFields.find(field => field === sort) ?? 'title';
+
+  return {
+    sort: resolvedSort,
+    sortOrder: isSortOrder(sortOrder)
+      ? sortOrder
+      : DEFAULT_SORT_ORDERS[resolvedSort],
+  };
+}
 
 export async function fetchArchiveCategoryWorks({
   id,
   page,
   pageSize = 24,
-  sort = 'production.dates',
-  sortOrder = 'desc',
+  sort = 'title',
+  sortOrder = 'asc',
 }: {
   id: string;
   page: number;
