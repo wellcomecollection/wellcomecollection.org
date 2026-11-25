@@ -1,5 +1,4 @@
 import {
-  PagesDocumentDataBodySlice,
   ContentListSlice as RawContentListSlice,
   EditorialImageSlice as RawEditorialImageSlice,
   EmbedSlice as RawEmbedSlice,
@@ -12,41 +11,38 @@ import { Card } from './card';
 import { EventSeries } from './event-series';
 import { EventBasic } from './events';
 import { ExhibitionBasic } from './exhibitions';
+import { PrismicBodySlice } from './generic-content-fields';
 import { Guide } from './guides';
 import { Page } from './pages';
 import { Season } from './seasons';
-import { Series, SeriesBasic } from './series';
 
 export type Slice<TypeName extends string, Value> = {
   type: TypeName;
   value: Value;
 };
 
+// These predicates accept PrismicBodySlice so they work on any untransformedBody array.
 export function isContentList(
-  slice: PagesDocumentDataBodySlice | undefined
+  slice: PrismicBodySlice | undefined
 ): slice is RawContentListSlice {
   return !!slice && slice.slice_type === 'contentList';
 }
 
 export function isFullWidthBanner(
-  slice: PagesDocumentDataBodySlice | undefined
+  slice: PrismicBodySlice | undefined
 ): slice is RawFullWidthBannerSlice {
   return !!slice && slice.slice_type === 'fullWidthBanner';
 }
 
 export function isVideoEmbed(
-  slice: PagesDocumentDataBodySlice | undefined
+  slice: PrismicBodySlice | undefined
 ): slice is RawEmbedSlice {
-  return (
-    !!slice &&
-    slice.slice_type === 'embed' &&
-    'provider_name' in slice.primary &&
-    slice.primary.provider_name === 'youtube'
-  );
+  if (!slice || slice.slice_type !== 'embed') return false;
+  return (slice as RawEmbedSlice).primary.embed.provider_name === 'youtube';
 }
 
 export function isEditorialImage(
-  slice: PagesDocumentDataBodySlice | undefined
+  slice: PrismicBodySlice | undefined
 ): slice is RawEditorialImageSlice {
   return !!slice && slice.slice_type === 'editorialImage';
 }
@@ -58,8 +54,6 @@ export type ContentListItems =
   | EventBasic
   | ArticleBasic
   | ExhibitionBasic
-  | Series
-  | SeriesBasic
   | Guide
   | Season;
 

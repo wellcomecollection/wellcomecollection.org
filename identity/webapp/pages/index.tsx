@@ -1,5 +1,4 @@
 import { NextPage } from 'next';
-import { URLSearchParams } from 'url';
 
 import { getServerData } from '@weco/common/server-data';
 import { serialiseProps } from '@weco/common/utils/json';
@@ -8,6 +7,10 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import auth0, { withPageAuthRequiredSSR } from '@weco/identity/utils/auth0';
+import {
+  isFreshRegistration,
+  logoutToSuccessUrl,
+} from '@weco/identity/utils/post-registration';
 import AccountPage, {
   Props as AccountPageProps,
 } from '@weco/identity/views/pages';
@@ -19,7 +22,7 @@ const Page: NextPage<AccountPageProps> = props => {
 type Props = ServerSideProps<AccountPageProps>;
 
 export const getServerSideProps: ServerSidePropsOrAppError<Props> =
-  withPageAuthRequiredSSR({
+  withPageAuthRequiredSSR<Props>({
     getServerSideProps: async context => {
       const serverData = await getServerData(context);
 
@@ -48,7 +51,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<Props> =
       // [1]: https://wellcome.slack.com/archives/CUA669WHH/p1656325929053499?thread_ts=1656322401.443269&cid=CUA669WHH
       // [2]: https://auth0.com/docs/manage-users/user-accounts/user-profiles#caching-user-profiles
       //
-      const session = await auth0.getSession(context.req, context.res);
+      const session = await auth0.getSession(context.req);
 
       if (!session)
         return {
@@ -57,16 +60,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<Props> =
           }),
         };
 
-      if (session.user.family_name === 'Auth0_Registration_tempLastName') {
-        const successParams = new URLSearchParams();
-        successParams.append('email', session.user.email);
-
-        const params = new URLSearchParams();
-        params.append('returnTo', `/success?${successParams}`);
-
+      if (isFreshRegistration(session.user.family_name)) {
         return {
           redirect: {
-            destination: `/api/auth/logout?${params}`,
+            destination: logoutToSuccessUrl(session.user.email ?? ''),
             permanent: false,
           },
         };

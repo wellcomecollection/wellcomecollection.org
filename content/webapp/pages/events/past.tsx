@@ -75,7 +75,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       ].filter(isNotUndefined),
     },
     pageSize: 25,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (eventResponseList?.type === 'Error') {

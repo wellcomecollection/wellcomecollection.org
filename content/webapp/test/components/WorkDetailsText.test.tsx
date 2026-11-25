@@ -1,4 +1,5 @@
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
+import theme from '@weco/common/views/themes/default';
 import WorkDetailsText from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Text';
 
 describe('WorkDetailsText', () => {
@@ -6,7 +7,7 @@ describe('WorkDetailsText', () => {
     const { container } = renderWithTheme(
       <WorkDetailsText
         html={['This is <strong>bold</strong> text']}
-        allowDangerousRawHtml={true}
+        allowDangerousRawHtml
       />
     );
 
@@ -17,7 +18,7 @@ describe('WorkDetailsText', () => {
     const { container } = renderWithTheme(
       <WorkDetailsText
         text={['You write HTML with angle brackets like <em>']}
-        allowDangerousRawHtml={true}
+        allowDangerousRawHtml
       />
     );
     expect(container.outerHTML.includes('&lt;em&gt;')).toBe(true);
@@ -36,5 +37,20 @@ describe('WorkDetailsText', () => {
     );
 
     expect(container.outerHTML.includes('<p>React</p>')).toBe(true);
+  });
+
+  it('spaces paragraphs within a single HTML string', () => {
+    const { container } = renderWithTheme(
+      <WorkDetailsText
+        html="<p>First paragraph</p> <p>Second paragraph</p>"
+        allowDangerousRawHtml
+      />
+    );
+
+    const [first, second] = Array.from(container.querySelectorAll('p'));
+    expect(getComputedStyle(first).marginTop).not.toBe(
+      theme.spacedTextTopMargin
+    );
+    expect(getComputedStyle(second).marginTop).toBe(theme.spacedTextTopMargin);
   });
 });

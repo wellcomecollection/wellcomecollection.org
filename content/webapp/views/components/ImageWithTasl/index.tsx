@@ -2,7 +2,7 @@ import { ComponentProps, FunctionComponent, ReactElement } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import { EditorialImageSlice as RawEditorialImageSlice } from '@weco/common/prismicio-types';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import FeaturedWorkLink, {
   hasLinkedWork,
 } from '@weco/common/views/components/FeaturedWorkLink';
@@ -33,7 +33,7 @@ const ImageWithTasl: FunctionComponent<ImageWithTaslProps> = ({
 
       {displayWorkLink && tasl && hasLinkedWork(tasl.sourceLink) && (
         <Space
-          className={font('sans-bold', -1)}
+          className={typography('body', 'md', 'strong')}
           style={{ display: 'block' }}
           $v={{ size: 'sm', properties: ['margin-top'] }}
         >

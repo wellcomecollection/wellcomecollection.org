@@ -2,8 +2,10 @@ type DataGtmAttr =
   | 'category'
   | 'category-label'
   | 'category-position-in-list'
+  | 'data-tree-level'
   | 'id'
   | 'label'
+  | 'mime-type'
   | 'position-in-list'
   | 'trigger';
 export type DataGtmProps = Partial<Record<DataGtmAttr, string>>;

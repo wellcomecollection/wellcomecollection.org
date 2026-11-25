@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import {
   ContaineredLayout,
@@ -10,13 +10,13 @@ import {
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 
-const YellowBox = styled(Space).attrs({
+const AccentBar = styled(Space).attrs({
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   display: block;
   width: 60px;
   height: 16px;
-  background: ${props => props.theme.color('yellow')};
+  background: ${props => props.theme.color('orange.40')};
 
   ${props => props.theme.media('sm')`
     width: 58px;
@@ -31,7 +31,7 @@ const Title = styled.h2`
   margin-bottom: 0;
 
   .bg-dark & {
-    color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.color('neutral.10')};
   }
 `;
 
@@ -42,7 +42,10 @@ type Props = {
 
 const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
   return (
-    <div data-component="section-header" className={font('brand-bold', 2)}>
+    <div
+      data-component="section-header"
+      className={typography('heading', 'xl', 'strong', 'brand')}
+    >
       <ConditionalWrapper
         condition={!!gridSize}
         wrapper={children => (
@@ -52,7 +55,7 @@ const SectionHeader: FunctionComponent<Props> = ({ title, gridSize }) => {
         )}
       >
         <div>
-          <YellowBox />
+          <AccentBar />
           <Title>{title}</Title>
         </div>
       </ConditionalWrapper>

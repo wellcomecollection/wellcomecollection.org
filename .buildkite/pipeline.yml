@@ -38,6 +38,7 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
         env:
           - NEXT_PUBLIC_CIVICUK_API_KEY
+          - BUILDKITE_COMMIT
 
 - label: ':docker: build edge_lambdas'
   key: 'build_edge_lambdas'
@@ -79,19 +80,27 @@
         image-repository: 130871440101.dkr.ecr.eu-west-1.amazonaws.com/uk.ac.wellcome/buildkite
         env:
           - NEXT_PUBLIC_CIVICUK_API_KEY
+          - BUILDKITE_COMMIT
 
 - label: 'diff prismic model'
+  key: 'diff_prismic_model'
   branches: 'main'
+  # The script runs on the host agent (not inside Docker) so that buildkite-agent
+  # meta-data commands are available. It calls `docker compose run` internally.
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh run'
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
         role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
-    - docker-compose#v3.5.0:
-        run: prismic_model
-        env:
-          - CI
-        command: ['yarn', 'diffCustomTypes']
+
+- label: 'require acknowledgement if prismic diff failed'
+  branches: 'main'
+  depends_on: 'diff_prismic_model'
+  allow_dependency_failure: true
+  command: 'bash .buildkite/scripts/run_prismic_diff_if_needed.sh acknowledge'
+  agents:
+    queue: nano
 
 - label: 'test common'
   depends_on: 'build_common'
@@ -218,7 +227,7 @@
 - label: 'Trigger stage deployment'
   branches: 'main'
   plugins:
-    - wellcomecollection/github-deployments#v0.3.0:
+    - wellcomecollection/github-deployments#v0.4.1:
         assume_role: 'arn:aws:iam::130871440101:role/experience-ci'
         environment: stage
         ref: '${BUILDKITE_COMMIT}'

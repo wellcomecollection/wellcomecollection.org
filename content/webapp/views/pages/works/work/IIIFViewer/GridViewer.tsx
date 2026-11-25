@@ -1,26 +1,23 @@
 import NextLink from 'next/link';
-import {
-  CSSProperties,
-  FunctionComponent,
-  memo,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { areEqual, FixedSizeGrid } from 'react-window';
+import { FunctionComponent, memo, useEffect, useRef, useState } from 'react';
+import { areEqual, FixedSizeGrid, GridChildComponentProps } from 'react-window';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import useScrollVelocity from '@weco/content/hooks/useScrollVelocity';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import {
+  arrayIndexToQueryParam,
+  queryParamToArrayIndex,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
-import { arrayIndexToQueryParam, queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
 
 const ThumbnailSpacer = styled(Space).attrs({
@@ -35,28 +32,21 @@ const ThumbnailSpacer = styled(Space).attrs({
   }
 `;
 
-type CellProps = {
-  style: CSSProperties;
-  columnIndex: number;
-  rowIndex: number;
-  index: number;
-  data: {
-    scrollVelocity: number;
-    columnCount: number;
-    gridVisible: boolean;
-    setGridVisible: (value: boolean) => void;
-    canvases: TransformedCanvas[];
-    searchResults: SearchResults;
-    query: ItemViewerQuery;
-    workId: string;
-    placeholderId?: string;
-  };
-};
+type CellProps = GridChildComponentProps<{
+  scrollVelocity: number;
+  columnCount: number;
+  setGridVisible: (value: boolean) => void;
+  canvases: TransformedCanvas[];
+  searchResults: SearchResults | null;
+  query: ItemViewerQuery;
+  workId: string;
+  placeholderId?: string;
+  currentCanvasIndex: number;
+}>;
 
 const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
   const {
     columnCount,
-    gridVisible,
     setGridVisible,
     scrollVelocity,
     canvases,
@@ -64,6 +54,7 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
     query,
     workId,
     placeholderId,
+    currentCanvasIndex,
   } = data;
   const canvasIndex = rowIndex * columnCount + columnIndex;
   const currentCanvas = canvases[canvasIndex];
@@ -74,18 +65,18 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
         new URL(currentCanvas.id).pathname === new URL(resource.on).pathname
     )
   );
+  const isScrollingFast = scrollVelocity > 1;
 
   return (
     <div style={style}>
-      {scrollVelocity > 1 ? (
+      {isScrollingFast ? (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <LL $lighten={true} />
+          <LL $lighten />
         </div>
       ) : (
         currentCanvas && (
           <ThumbnailSpacer>
             <NextLink
-              replace={true}
               {...toWorksItemLink({
                 workId,
                 props: {
@@ -95,19 +86,17 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
                   shouldScrollToCanvas: true,
                 },
               })}
-              aria-current={
-                canvasIndex === queryParamToArrayIndex(query.canvas)
-              }
+              aria-current={canvasIndex === currentCanvasIndex}
               onClick={() => {
                 setGridVisible(false);
               }}
-              tabIndex={gridVisible ? 0 : -1}
+              replace
             >
               <IIIFCanvasThumbnail
                 canvas={currentCanvas}
                 placeholderId={placeholderId}
                 thumbNumber={arrayIndexToQueryParam(canvasIndex)}
-                highlightImage={hasSearchResults}
+                isHighlighted={hasSearchResults}
               />
             </NextLink>
           </ThumbnailSpacer>
@@ -119,14 +108,14 @@ const Cell = memo(({ columnIndex, rowIndex, style, data }: CellProps) => {
 
 Cell.displayName = 'Cell';
 
-const GridViewerEl = styled.div`
+const GridViewerContainer = styled.div`
   outline: none;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   z-index: 1;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   transition: top 500ms ease;
 `;
 
@@ -134,7 +123,6 @@ const GridViewer: FunctionComponent = () => {
   const {
     mainAreaHeight,
     mainAreaWidth,
-    gridVisible,
     setGridVisible,
     transformedManifest,
     searchResults,
@@ -142,20 +130,22 @@ const GridViewer: FunctionComponent = () => {
     work,
   } = useItemViewerContext();
   const { windowSize } = useAppContext();
-  const [newScrollOffset, setNewScrollOffset] = useState(0);
-  const scrollVelocity = useScrollVelocity(newScrollOffset);
-  const itemWidth = windowSize === 'zero' ? 250 : 350;
-  const columnCount = Math.round(mainAreaWidth / itemWidth);
-  const columnWidth = mainAreaWidth / columnCount;
+
+  const [scrollOffset, setScrollOffset] = useState(0);
+  const scrollVelocity = useScrollVelocity(scrollOffset);
+
   const grid = useRef<FixedSizeGrid>(null);
+
+  const itemWidth = windowSize === 'zero' ? 250 : 350;
+  const columnCount = Math.max(1, Math.round(mainAreaWidth / itemWidth)); // ensure at least one column is displayed
+  const columnWidth = mainAreaWidth / columnCount;
   const canvases = transformedManifest?.canvases;
+  const currentCanvasIndex = queryParamToArrayIndex(query.canvas);
 
   useEffect(() => {
-    const rowIndex = Math.floor(
-      queryParamToArrayIndex(query.canvas) / columnCount
-    );
+    const rowIndex = Math.floor(currentCanvasIndex / columnCount);
     grid.current?.scrollToItem({ align: 'start', rowIndex });
-  }, [query.canvas]);
+  }, [currentCanvasIndex]);
 
   useEffect(() => {
     // required to be set as we are setting the body to overflow hidden to stop multiple scrolls in view bug issue.
@@ -178,7 +168,7 @@ const GridViewer: FunctionComponent = () => {
   }, []);
 
   return (
-    <GridViewerEl tabIndex={0}>
+    <GridViewerContainer tabIndex={0}>
       <FixedSizeGrid
         columnCount={columnCount}
         columnWidth={columnWidth}
@@ -188,22 +178,21 @@ const GridViewer: FunctionComponent = () => {
         width={mainAreaWidth}
         itemData={{
           columnCount,
-          gridVisible,
           setGridVisible,
           scrollVelocity,
-          canvases,
+          canvases: canvases || [],
           searchResults,
-          mainAreaWidth,
           query,
           workId: work.id,
           placeholderId: transformedManifest?.placeholderId,
+          currentCanvasIndex,
         }}
-        onScroll={({ scrollTop }) => setNewScrollOffset(scrollTop)}
+        onScroll={({ scrollTop }) => setScrollOffset(scrollTop)}
         ref={grid}
       >
         {Cell}
       </FixedSizeGrid>
-    </GridViewerEl>
+    </GridViewerContainer>
   );
 };
 

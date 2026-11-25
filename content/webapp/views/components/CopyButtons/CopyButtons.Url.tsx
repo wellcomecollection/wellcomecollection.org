@@ -75,13 +75,14 @@ const CopyUrl: FunctionComponent<Props> = ({
               trigger: 'copy_url',
             }}
             colors={theme.buttonColors.pumiceTransparentCharcoal}
+            hierarchy="tertiary"
             size="small"
             aria-live="assertive"
             clickHandler={handleButtonClick}
             ref={buttonRef}
             text={getButtonMarkup()}
             icon={isTextCopied ? check : undefined}
-            isIconAfter={true}
+            isIconAfter
           />
         </Space>
       )}

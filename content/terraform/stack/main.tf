@@ -1,6 +1,8 @@
 module "content-service-17092020" {
   source = "../../../infrastructure/modules/service"
 
+  sidecar_tier = var.env_suffix == "prod" ? "prod" : "stage"
+
   namespace = "content-17092020-${var.env_suffix}"
 
   namespace_id = var.environment["namespace_id"]
@@ -13,10 +15,9 @@ module "content-service-17092020" {
 
   desired_task_count = var.desired_task_count
 
-  nginx_container_config = {
-    image_name    = "uk.ac.wellcome/nginx_frontend"
-    container_tag = "552aa56027698be94cbbf3fb206af4f3f2ba267b"
-  }
+  app_user = var.app_user
+
+  nginx_image_name = "uk.ac.wellcome/nginx_frontend"
 
   cpu    = var.env_suffix == "prod" ? 2048 : 512
   memory = var.env_suffix == "prod" ? 4096 : 1024

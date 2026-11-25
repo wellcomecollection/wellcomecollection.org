@@ -2,16 +2,15 @@ import { FunctionComponent, useRef } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
-import Button from '@weco/common/views/components/Buttons';
+import { typography } from '@weco/common/utils/classnames';
+import Button, { ButtonHierarchy } from '@weco/common/views/components/Buttons';
 import DownloadLink from '@weco/common/views/components/DownloadLink';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import { DownloadOption } from '@weco/content/types/manifest';
-import { getFormatString } from '@weco/content/utils/iiif/v3';
 
 export const DownloadOptions = styled.div.attrs({
-  className: font('sans-bold', 0),
+  className: typography('body', 'lg', 'strong'),
 })`
   white-space: normal;
   color: ${props => props.theme.color('black')};
@@ -22,7 +21,7 @@ export const DownloadOptions = styled.div.attrs({
 `;
 
 const Wrapper = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{ $isEnhanced: boolean }>`
   position: relative;
   ${props => (props.$isEnhanced ? 'display: inline-block;' : '')}
@@ -33,6 +32,7 @@ type Props = {
   downloadOptions: DownloadOption[];
   useDarkControl?: boolean;
   isInline?: boolean;
+  hierarchy?: ButtonHierarchy;
 };
 
 const Download: FunctionComponent<Props> = ({
@@ -40,6 +40,7 @@ const Download: FunctionComponent<Props> = ({
   downloadOptions,
   useDarkControl = false,
   isInline = false,
+  hierarchy,
 }: Props) => {
   const downloadsContainer = useRef(null);
   const { isEnhanced } = useAppContext();
@@ -55,30 +56,26 @@ const Download: FunctionComponent<Props> = ({
         label="Downloads"
         buttonType={isInline ? 'inline' : 'outlined'}
         isOnDark={useDarkControl}
+        hierarchy={hierarchy}
         id={ariaControlsId}
       >
-        <DownloadOptions className={font('sans-bold', -1)}>
+        <DownloadOptions className={typography('body', 'md', 'strong')}>
           <SpacingComponent>
             <PlainList>
-              {downloadOptions.map(option => {
-                const format = getFormatString(option.format);
-
-                return (
-                  <li key={option.id}>
-                    <DownloadLink
-                      href={option.id}
-                      linkText={
-                        option.format === 'application/pdf' &&
-                        option.label !== 'PDF Transcript'
-                          ? 'Whole item'
-                          : option.label
-                      }
-                      format={format}
-                      mimeType={option.format}
-                    />
-                  </li>
-                );
-              })}
+              {downloadOptions.map(option => (
+                <li key={option.id}>
+                  <DownloadLink
+                    href={option.id}
+                    linkText={
+                      option.format === 'application/pdf' &&
+                      option.label !== 'PDF Transcript'
+                        ? 'Whole item'
+                        : option.label
+                    }
+                    format={option.format}
+                  />
+                </li>
+              ))}
             </PlainList>
           </SpacingComponent>
         </DownloadOptions>

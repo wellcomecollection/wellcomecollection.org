@@ -3,12 +3,12 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { user as userIcon } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const StyledComponent = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   ${props => props.theme.media('headerMedium')`
     display: none;
@@ -49,9 +49,9 @@ const MobileSignIn: FunctionComponent = () => {
     <StyledComponent>
       <Space
         $h={{ size: 'xs', properties: ['margin-right'] }}
-        className={font('sans', 0)}
+        className={typography('body', 'lg', 'regular')}
       >
-        <Icon icon={userIcon} matchText={true} />
+        <Icon icon={userIcon} matchText />
       </Space>
       {!user && (
         <a

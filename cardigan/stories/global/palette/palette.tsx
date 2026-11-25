@@ -1,6 +1,6 @@
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Divider from '@weco/common/views/components/Divider';
 import {
   hexToRgb,
@@ -34,11 +34,15 @@ const SectionWrapper = styled.div`
   margin: 1rem 0;
 `;
 
-const SectionTitle = styled.h2.attrs({ className: font('brand-bold', 1) })`
+const SectionTitle = styled.h2.attrs({
+  className: typography('heading', 'lg', 'strong', 'brand'),
+})`
   padding: 2rem 0 0;
 `;
 
-const SectionDescription = styled.p.attrs({ className: font('sans', -2) })``;
+const SectionDescription = styled.p.attrs({
+  className: typography('body', 'sm', 'regular'),
+})``;
 
 const PaletteBlock = styled.div`
   flex-basis: 25%;
@@ -46,7 +50,7 @@ const PaletteBlock = styled.div`
 `;
 
 const PaletteName = styled.h3.attrs({
-  className: font('mono', -2),
+  className: typography('caption', 'md', 'regular'),
 })``;
 
 const PaletteColor = styled.div<{ $hasBorder: boolean }>`
@@ -69,11 +73,11 @@ const PaletteColor = styled.div<{ $hasBorder: boolean }>`
 `;
 
 const PaletteHex = styled.div.attrs({
-  className: font('mono', -2),
+  className: typography('caption', 'md', 'regular'),
 })``;
 
 const PaletteCode = styled.code.attrs({
-  className: font('mono', -2),
+  className: typography('caption', 'md', 'regular'),
 })``;
 
 const buildPaletteColors = (

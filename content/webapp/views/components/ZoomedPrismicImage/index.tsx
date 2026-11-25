@@ -13,6 +13,7 @@ import { ImageType } from '@weco/common/model/image';
 import Icon from '@weco/common/views/components/Icon';
 import { createPrismicLoader } from '@weco/common/views/components/PrismicImage';
 import LL from '@weco/common/views/components/styled/LL';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 const ZoomButton = styled.button`
   position: absolute;
@@ -20,7 +21,7 @@ const ZoomButton = styled.button`
   right: 10px;
   z-index: 1;
   color: ${props => props.theme.color('white')};
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   border-radius: 50%;
   width: 40px;
   height: 40px;

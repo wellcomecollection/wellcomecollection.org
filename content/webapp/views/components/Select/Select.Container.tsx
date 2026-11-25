@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -12,7 +12,7 @@ type StyledSelectProps = {
 };
 
 const StyledSelect = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<StyledSelectProps>`
   position: relative;
   ${({ $isPill }) => $isPill && 'display: inline-block;'}
@@ -30,7 +30,7 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 8px 42px 8px 16px;
     border: ${props => `1px solid
-        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.600')}`};
+        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.70')}`};
     border-radius: ${props =>
       props.$isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
@@ -40,7 +40,7 @@ const StyledSelect = styled.div.attrs({
         props.$darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
-    ${props => (props.$isPill ? 'line-height: 1;' : '')}
+    ${props => props.$isPill && 'line-height: 1;'}
 
     option {
       background-color: ${props => props.theme.color('white')};
@@ -54,7 +54,13 @@ const StyledSelect = styled.div.attrs({
     }
 
     &:hover {
-      box-shadow: ${props => props.theme.focusBoxShadow};
+      ${props =>
+        props.$isPill && !props.$darkBg
+          ? css`
+              background-color: ${props.theme.color('neutral.10')};
+              text-decoration: underline;
+            `
+          : `box-shadow: ${props.theme.focusBoxShadow};`}
     }
   }
 `;
@@ -67,7 +73,7 @@ const SelectLabel = styled.label`
 const LabelContent = styled(Space).attrs<{ $hideLabel?: boolean }>(props => ({
   as: 'span',
   className: classNames({
-    [font('sans-bold', -1)]: true,
+    [typography('body', 'md', 'strong')]: true,
     'visually-hidden': !!props.$hideLabel,
   }),
   $h: { size: 'xs', properties: ['margin-right'] },

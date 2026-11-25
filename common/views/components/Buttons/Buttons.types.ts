@@ -2,7 +2,7 @@ import { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 
 import { IconSvg } from '@weco/common/icons';
 import { DataGtmProps } from '@weco/common/utils/gtm';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 export type ButtonSize = 'small' | 'medium';
 
 export type SolidButtonStyledProps = (
@@ -16,12 +16,18 @@ export type SolidButtonStyledProps = (
   $hasIcon?: boolean;
   $isIconAfter?: boolean;
   $isNewSearchBar?: boolean;
+  $hierarchy?: ButtonHierarchy;
+  $isOnDark?: boolean;
+  $isDanger?: boolean;
 };
 
+/** Where a button sits in the brand designs' hierarchy. */
+export type ButtonHierarchy = 'primary' | 'secondary' | 'tertiary';
+
 export type ButtonColors = {
-  border: PaletteColor;
-  background: PaletteColor;
-  text: PaletteColor;
+  border: ThemeColor;
+  background: ThemeColor;
+  text: ThemeColor;
 };
 
 export enum ButtonTypes {
@@ -45,4 +51,8 @@ export type ButtonSolidBaseProps = {
   size?: ButtonSize;
   form?: string;
   isPill?: boolean;
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
+  // A destructive action, e.g. deleting an account. Outside the hierarchy
+  isDanger?: boolean;
 };

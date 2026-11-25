@@ -50,12 +50,14 @@ We use [Yarn](https://yarnpkg.com/lang/en/) to manage our external dependencies.
 We then use [Yarn Workspaces](https://yarnpkg.com/lang/en/docs/workspaces/) to manage our [local, common dependencies](https://github.com/wellcomecollection/wellcomecollection.org/tree/main/common).
 
 To run a project, from the root directory:
+
 ```bash
 yarn install
 # yarn {appName = content|identity}
 # e.g.
 yarn content
 ```
+
 ### Running the app with local APIs
 
 To run the app using a local copy of the concept, content, and/or catalogue APIs you can run:
@@ -71,9 +73,8 @@ by adding the following to the `.env` file in both `./content/webapp` and `./ide
 NEXT_PUBLIC_API_ENV_OVERRIDE="dev"
 ```
 
-This will configure the local version of nginx to proxy requests to the local APIs, 
+This will configure the local version of nginx to proxy requests to the local APIs,
 see [scripts/configure-local-apis](./scripts/configure-local-apis) for more information.
-
 
 #### Choosing specific APIs
 
@@ -92,13 +93,19 @@ API environment is specified in the following order of precedence:
 1. `NEXT_PUBLIC_API_ENV_OVERRIDE` is set, then all APIs are set to the value of `NEXT_PUBLIC_API_ENV_OVERRIDE`
 1. `NEXT_PUBLIC_CONTENT_API_ENV_OVERRIDE`, `NEXT_PUBLIC_CONCEPTS_API_ENV_OVERRIDE`, or `NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE` are set, then the respective API is set to the value of the environment variable.
 
+For example, to test the front-end against a locally running catalogue API (see [running the catalogue API locally](https://github.com/wellcomecollection/catalogue-api/blob/main/docs/developers.md), which listens on `localhost:8080`), set only this in `./content/webapp/.env`:
+
+```
+NEXT_PUBLIC_CATALOGUE_API_ENV_OVERRIDE="dev"
+```
+
+Then run `yarn content` (which serves on `http://localhost:3000`). Only catalogue requests are routed via nginx at `https://api-dev.wellcomecollection.org` to your local API; content and concepts requests continue to use prod.
+
 #### Using www-dev.wellcomecollection.org
 
-Adding the local API confguration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
+Adding the local API configuration allows you to use the `www-dev.wellcomecollection.org` domain to access the website on your local machine.
 
 This allows content and identity to behave correctly when running locally, as paths between the two apps are relative to the domain.
-
-**Note:** [Fast refresh](https://nextjs.org/docs/architecture/fast-refresh) is not available when using the `www-dev.wellcomecollection.org` domain.
 
 ### Running content & identity together
 
@@ -109,6 +116,31 @@ You can run both apps together with the following command:
 ```
 
 **Note:** both apps should have the same `NEXT_PUBLIC_API_ENV_OVERRIDE` value in their `.env` files.
+
+### Deploying dev builds to staging
+
+You can deploy a local build directly to the staging environment using `yarn deploy-dev`. This **bypasses CI entirely** and deploys your local code to staging immediately.
+
+```bash
+# Deploy content webapp to staging
+yarn deploy-dev content
+
+# Deploy identity webapp to staging
+yarn deploy-dev identity
+
+# Restore staging to its previous state
+yarn deploy-dev restore content
+yarn deploy-dev restore identity
+```
+
+**⚠️ Important:** This command overrides the `env.stage` tag in ECR, which affects all staging deployments. Before using:
+
+1. **Coordinate with other experience team developers** to ensure no one else is testing on staging
+2. If an existing `env.stage` image is present, the tool backs it up as `env.stage.pre-dev` (if no existing image is found, no backup is created and restore won't be available)
+3. **Always restore when finished** using `yarn deploy-dev restore <app>` so CI deployments resume normally
+4. If CI deploys while your dev image is running, `env.stage` will be updated to the CI build (your backup remains available for reference, if it was created)
+
+Prerequisites: You need `platform-developer` and `experience-developer` AWS profiles configured.
 
 ### Running CI steps locally
 
@@ -133,16 +165,16 @@ source_profile=ci-agent
 If in [`pipeline.yml`](.buildkite/pipeline.yml) you have:
 
 ```yaml
-- label: "deploy edge_lambdas"
+- label: 'deploy edge_lambdas'
   if: build.branch == "main"
   plugins:
     - wellcomecollection/aws-assume-role#v0.2.2:
-        role: "arn:aws:iam::130871440101:role/experience-ci"
+        role: 'arn:aws:iam::130871440101:role/experience-ci'
     - ecr#v2.1.1:
         login: true
     - docker-compose#v3.5.0:
         run: edge_lambdas
-        command: [ "yarn", "deploy" ]
+        command: ['yarn', 'deploy']
         env:
           - AWS_ACCESS_KEY_ID
           - AWS_SECRET_ACCESS_KEY
@@ -156,7 +188,7 @@ services:
   edge_lambdas:
     build:
       context: ./cache/edge_lambdas
-    command: [ "yarn", "deploy" ]
+    command: ['yarn', 'deploy']
     volumes:
       - /my/home/folder/.aws:/root/.aws:ro
     environment:
@@ -165,18 +197,28 @@ services:
 
 You will need to add a `command`, `volumes` and `environment` block to specify the required command and mount your AWS credentials in the running container.
 
+Ensure you are logged in to ECR Public with the profile you have specified in the `AWS_PROFILE` environment variable. You can do this with the following command:
+
+```shell script
+ aws ecr-public get-login-password \
+--region us-east-1 \
+--profile platform-developer | docker login \
+--username AWS \
+--password-stdin public.ecr.aws
+```
+
 You can then run `docker compose` commands as would occur in the CI environment.
 
 ```shell script
-docker compose edge_lambdas build
-docker compose edge_lambdas run
+docker compose build edge_lambdas
+docker compose run edge_lambdas
 ```
 
 ## Linting
 
 We use [`ESLint`](https://eslint.org/) to lint the project. [The config is global](./eslintrc.js).
 
-We use [`stylelint`](https://stylelint.io/) to lint styled-components.  [The config is global](./.stylelintrc.js).
+We use [`stylelint`](https://stylelint.io/) to lint styled-components. [The config is global](./.stylelintrc.js).
 
 We extend a few configs, including prettier, [which we configure separately](./prettierrs.js).
 
@@ -187,6 +229,7 @@ It's easiest to use [Dirk Baumer's VSCode plugin](https://marketplace.visualstud
 If you have prettier (`esbenp.prettier-vscode`) set as default formatter, we'll get conflicts.
 
 Linting does not happen in CI, so to enable linting on save, you can add this to your workspace settings:
+
 ```JSON
 {
   "editor.codeActionsOnSave": {

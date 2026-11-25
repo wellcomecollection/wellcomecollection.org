@@ -1,28 +1,32 @@
 import { FunctionComponent, ReactNode } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { download } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 const DownloadLinkStyle = styled.a.attrs<{ $isDark?: boolean }>(props => ({
-  className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
+  className: props.$isDark
+    ? typography('body', 'md', 'regular')
+    : typography('body', 'md', 'strong'),
 }))<{ $isDark?: boolean }>`
   display: inline-block;
   white-space: nowrap;
-  background: ${props => (props.$isDark ? 'none' : props.theme.color('white'))};
+  background: none;
   color: ${props =>
     props.$isDark
       ? props.theme.color('white')
-      : props.theme.color('accent.green')};
+      : props.theme.color('neutral.70')};
   transition: color ${props => props.theme.transitionProperties};
 
   &:hover {
     color: ${props =>
       props.$isDark
         ? props.theme.color('white')
-        : props.theme.color('accent.green')};
+        : props.theme.color('neutral.70')};
     text-decoration-color: transparent;
   }
 `;
@@ -32,24 +36,33 @@ const DownloadLinkUnStyled = styled.a<{ $isDark?: boolean }>`
 `;
 
 const Format = styled(Space).attrs<{ $isDark?: boolean }>(props => ({
-  className: props.$isDark ? font('sans', -1) : font('sans-bold', -1),
+  className: props.$isDark
+    ? typography('body', 'md', 'regular')
+    : typography('body', 'md', 'strong'),
   $h: { size: 'sm', properties: ['margin-left'] },
 }))<{ $isDark?: boolean }>`
   color: ${props =>
     props.$isDark
       ? props.theme.color('white')
-      : props.theme.color('neutral.600')};
+      : props.theme.color('neutral.70')};
 `;
 
-const TextToDisplay = styled.span<{ $isDark?: boolean }>`
+const TextToDisplay = styled.span<{ $isDark?: boolean; $isStyled?: boolean }>`
   margin: 0;
-  text-decoration: ${props => (props.$isDark ? 'underline' : 'none')};
+  text-decoration: ${props =>
+    props.$isDark || props.$isStyled ? 'underline' : 'none'};
   text-underline-offset: 0.1em;
+
+  ${props =>
+    props.$isStyled &&
+    !props.$isDark &&
+    css`
+      a:hover & {
+        text-decoration: none;
+      }
+    `}
 `;
 
-/**
- * TODO: figure out why Icon isn't able to be wrapped by styled...
- */
 const IconWrapper = styled(Space).attrs<{
   $forceInline: boolean;
 }>({ $h: { size: 'xs', properties: ['margin-right'] } })`
@@ -66,24 +79,45 @@ type DisplayText =
       linkText: string;
     };
 
+function getFormatString(format?: string): string {
+  switch (format) {
+    case 'application/pdf':
+      return 'PDF';
+    case 'text/plain':
+      return 'PLAIN';
+    case 'image/jpeg':
+      return 'JPG';
+    case 'video/mp4':
+      return 'MP4';
+    case 'video/webm':
+      return 'WebM';
+    case 'audio/mp3':
+    case 'audio/x-mpeg-3':
+      return 'MP3';
+    default:
+      return 'unknown format';
+  }
+}
+
 type Props = {
   isTabbable?: boolean;
   href: string;
   format?: string;
-  mimeType: string;
   isDark?: boolean;
 } & DisplayText;
+
 const DownloadLink: FunctionComponent<Props> = ({
   isTabbable = true,
   href,
   linkText,
   format,
-  mimeType,
   children,
   isDark,
 }: Props) => {
   const Wrapper = linkText ? DownloadLinkStyle : DownloadLinkUnStyled;
-  const iconColor = isDark ? 'yellow' : 'accent.green';
+  const iconColor: ThemeColor = isDark ? 'yellow' : 'neutral.70';
+  const readableFormat = format ? getFormatString(format) : undefined;
+
   return (
     <Wrapper
       $isDark={isDark}
@@ -92,8 +126,9 @@ const DownloadLink: FunctionComponent<Props> = ({
       rel="noopener noreferrer"
       href={href}
       data-component="download-link"
-      data-gtm-trigger="download_link"
-      data-gtm-mime-type={mimeType}
+      {...dataGtmPropsToAttributes({
+        'mime-type': format,
+      })}
     >
       <span
         style={
@@ -105,10 +140,14 @@ const DownloadLink: FunctionComponent<Props> = ({
         <IconWrapper $forceInline={!!children}>
           <Icon icon={download} matchText={!!children} iconColor={iconColor} />
         </IconWrapper>
-        <TextToDisplay $isDark={isDark}>{linkText || children}</TextToDisplay>
-        {format && (
+
+        <TextToDisplay $isDark={isDark} $isStyled={!!linkText}>
+          {linkText || children}
+        </TextToDisplay>
+
+        {readableFormat && (
           <Format as="span" $isDark={isDark}>
-            ({format})
+            ({readableFormat})
           </Format>
         )}
       </span>

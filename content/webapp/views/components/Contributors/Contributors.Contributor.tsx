@@ -1,8 +1,9 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { getCrop } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
@@ -43,21 +44,21 @@ const OrganisationImage = styled.div`
   width: 72px;
 `;
 
-const Name = styled.h3.attrs({ className: font('sans-bold', 0) })`
+const Name = styled.h3.attrs({ className: typography('body', 'lg', 'strong') })`
   margin: 0;
 `;
 
 const Pronouns = styled(ContributorInfoWrapper).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
 const Role = styled(ContributorInfoWrapper).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })``;
 
 const Description = styled(Space).attrs({
-  className: `${font('sans', -1)} spaced-text`,
+  className: `${typography('body', 'md', 'regular')} spaced-text`,
   $v: { size: 'xs', properties: ['margin-top'] },
 })``;
 
@@ -66,6 +67,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
   role,
   description,
 }) => {
+  const { isKiosk } = useKiosk();
   const descriptionToRender = description || contributor.description;
 
   // Contributor images should always be square.
@@ -99,7 +101,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 image={contributorImage}
                 maxWidth={72}
                 quality="low"
-                desaturate={true}
+                desaturate
               />
             </PeopleImage>
           )}
@@ -113,7 +115,6 @@ const Contributor: FunctionComponent<ContributorType> = ({
                 image={contributorImage}
                 maxWidth={72}
                 quality="low"
-                desaturate={false}
               />
             </OrganisationImage>
           )}
@@ -131,7 +132,7 @@ const Contributor: FunctionComponent<ContributorType> = ({
           {contributor.sameAs.length > 0 && (
             <LinkLabels
               items={contributor.sameAs.map(({ link, title }) => ({
-                url: link,
+                url: isKiosk ? undefined : link,
                 text: title,
               }))}
             />

@@ -53,6 +53,7 @@ const fetchLinks = [
   ...placesFetchLinks,
   ...eventSeriesFetchLinks,
   ...articlesFetchLinks,
+  ...seriesFetchLinks,
   ...eventsFetchLinks,
   ...seasonsFetchLinks,
 ] as string[];
@@ -186,8 +187,8 @@ export async function fetchExhibition(
   };
 }
 
-const startField = 'my.exhibitions.start';
-const endField = 'my.exhibitions.end';
+const START_FIELD = 'my.exhibitions.start';
+const END_FIELD = 'my.exhibitions.end';
 
 type Order = 'desc' | 'asc';
 type GetExhibitionsProps = {
@@ -203,11 +204,15 @@ export const fetchExhibitions = (
 ): Promise<prismic.Query<RawExhibitionsDocument>> => {
   const orderings: prismic.Ordering[] = [
     { field: 'my.exhibitions.isPermanent', direction: 'desc' },
-    { field: endField, direction: order },
+    { field: END_FIELD, direction: order },
   ];
 
   const periodFilters = period
-    ? getExhibitionPeriodFilters({ period, startField, endField })
+    ? getExhibitionPeriodFilters({
+        period,
+        startField: START_FIELD,
+        endField: END_FIELD,
+      })
     : [];
 
   return exhibitionsFetcher.getByType(client, {

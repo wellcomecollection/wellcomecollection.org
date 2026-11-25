@@ -1,9 +1,9 @@
 import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { fontFamilyMixin } from '@weco/common/views/themes/typography';
+import { bodyStrongFontWeight } from '@weco/common/views/themes/typography';
 
 type TableProps = {
   $useFixedWidth: boolean;
@@ -11,7 +11,7 @@ type TableProps = {
 };
 
 const StyledTable = styled.table.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<TableProps>`
   table-layout: ${props => (props.$useFixedWidth ? 'fixed' : 'auto')};
   width: 100%;
@@ -66,7 +66,7 @@ const StyledTh = styled(Space).attrs<ThProps>(props => ({
     size: 'sm',
     properties: props.$plain ? [] : ['padding-left', 'padding-right'],
   },
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 }))<ThProps>`
   background: ${props =>
     props.$plain ? 'transparent' : props.theme.color('warmNeutral.400')};
@@ -117,7 +117,7 @@ const StyledTd = styled(Space).attrs<TdProps>(props => ({
       white-space: nowrap;
       content: ${props =>
         props.$cellContent ? `'${props.$cellContent}'` : ''};
-      ${fontFamilyMixin('sans', true)}
+      font-weight: ${bodyStrongFontWeight};
     }
   }
 `;

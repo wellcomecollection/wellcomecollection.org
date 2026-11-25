@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
 import {
@@ -24,7 +24,7 @@ const MetadataWrapper = styled.div`
 `;
 
 const Subtitle = styled.p.attrs({
-  className: font('sans-bold', 1),
+  className: typography('body', 'xl', 'strong'),
 })`
   margin: 0;
 `;
@@ -66,7 +66,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
       title={book.title}
       FeaturedMedia={FeaturedMedia}
       ContentTypeInfo={book.subtitle && <Subtitle>{book.subtitle}</Subtitle>}
-      isContentTypeInfoBeforeMedia={true}
+      isContentTypeInfoBeforeMedia
     />
   );
 
@@ -103,6 +103,7 @@ const BookPage: NextPage<Props> = ({ book }) => {
         {book.orderLink && (
           <Button
             variant="ButtonSolidLink"
+            hierarchy="primary"
             link={book.orderLink}
             text="Buy the book"
           />

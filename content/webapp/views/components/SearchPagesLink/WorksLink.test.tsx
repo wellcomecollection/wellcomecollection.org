@@ -17,6 +17,7 @@ describe('WorksLink', () => {
         sort: undefined,
         sortOrder: undefined,
         'partOf.title': undefined,
+        'collection.root': undefined,
         'production.dates.from': undefined,
         'production.dates.to': undefined,
         'genres.concepts': [],
@@ -27,7 +28,6 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
-        searchIn: undefined,
       });
     });
 
@@ -55,6 +55,7 @@ describe('WorksLink', () => {
         sort: undefined,
         sortOrder: undefined,
         'partOf.title': undefined,
+        'collection.root': undefined,
         'production.dates.from': '1500',
         'production.dates.to': '1900',
         'genres.concepts': [],
@@ -65,7 +66,6 @@ describe('WorksLink', () => {
         'contributors.agent.label': [],
         'contributors.concepts': [],
         identifiers: [],
-        searchIn: undefined,
       });
     });
   });

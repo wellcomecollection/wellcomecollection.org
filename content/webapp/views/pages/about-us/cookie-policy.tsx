@@ -1,8 +1,10 @@
+import { asText } from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { NextPage } from 'next';
+import styled from 'styled-components';
 
 import { cookiesTableCopy } from '@weco/common/data/cookies';
-import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { policyUpdatedDate } from '@weco/common/views/components/CivicUK';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -17,15 +19,21 @@ import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { components } from '@weco/common/views/slices';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import * as page from '@weco/content/pages/pages/[pageId]';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import Table from '@weco/content/views/components/Table';
+
+const PageGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
+`;
 
 const CookieTable = ({ rows }: { rows: string[][] }) => {
   return (
     <SpacingComponent>
       <ContaineredLayout gridSizes={gridSize8()}>
-        <Table rows={rows} withBorder={true} hasSmallerCopy></Table>
+        <Table rows={rows} withBorder hasSmallerCopy />
       </ContaineredLayout>
     </SpacingComponent>
   );
@@ -44,8 +52,9 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
   // Find their positions so we can insert them in the correct order
   const tablesPosition = props.page.untransformedBody
     .map((slice, index) => {
-      if (EXPECTED_TABLE_NAMES.includes(slice.primary?.text?.[0]?.text))
-        return index;
+      if (slice.slice_type !== 'text') return undefined;
+      const sliceText = asText(slice.primary.text);
+      if (EXPECTED_TABLE_NAMES.includes(sliceText)) return index;
       return undefined;
     })
     .filter(isNotUndefined);
@@ -58,24 +67,24 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
     <PageLayout
       title={props.page.title}
       description={props.page.metadataDescription || ''}
-      hideNewsletterPromo={true}
       url={{ pathname: '/about-us/cookie-policy' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
       siteSection={props.page.siteSection}
+      hideNewsletterPromo
     >
       <PageHeader
         variant="basic"
         breadcrumbs={{ items: [] }}
         title={props.page.title}
-        backgroundTexture={landingHeaderBackgroundLs}
-        highlightHeading={true}
+        backgroundTexture={headerBackgroundLs}
+        highlightHeading
       />
       <ConditionalWrapper
         condition={isTwoColumns}
         wrapper={children => (
           <Container>
-            <Grid style={{ background: 'white', rowGap: 0 }}>
+            <PageGrid>
               <InPageNavigation
                 links={onThisPage!}
                 sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
@@ -87,7 +96,7 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
                   {children}
                 </Space>
               </GridCell>
-            </Grid>
+            </PageGrid>
           </Container>
         )}
       >
@@ -97,7 +106,13 @@ const CookiePolicyPage: NextPage<page.Props> = props => {
               return tablesPosition.includes(index) ? (
                 <CookieTable
                   key={index}
-                  rows={cookiesTableCopy[slice.primary?.text?.[0]?.text]}
+                  rows={
+                    cookiesTableCopy[
+                      slice.slice_type === 'text'
+                        ? asText(slice.primary.text)
+                        : ''
+                    ]
+                  }
                 />
               ) : (
                 <SliceZone

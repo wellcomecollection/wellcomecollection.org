@@ -40,7 +40,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   /* split background: top half the chosen colour, bottom half transparent */
   background: ${props =>
     `linear-gradient(to bottom, ${props.theme.color(
-      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
+      props.$isDefaultVariant ? 'green.40' : 'accent.lightPurple'
     )} 65%, transparent 65%)`};
 `;
 
@@ -102,11 +102,15 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <DecorativeEdgeContainer>
-          <DecorativeEdge variant="w" color="accent.lightBlue" />
+          <DecorativeEdge variant="w" color="green.40" />
         </DecorativeEdgeContainer>
       </ContaineredLayout>
 
-      <div style={{ backgroundColor: theme.color('accent.lightBlue') }}>
+      <div
+        style={{
+          backgroundColor: theme.color('green.40'),
+        }}
+      >
         <ContaineredLayout gridSizes={gridSize10(false)}>
           <Space
             $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
@@ -122,10 +126,7 @@ const CollectionsLandingPage: NextPage<Props> = ({
       </div>
 
       {hasValidThemeCardSlices(themeCardsListSlices) && (
-        <MainBackground
-          data-component="full-width-banner"
-          $isDefaultVariant={true}
-        >
+        <MainBackground data-component="full-width-banner" $isDefaultVariant>
           <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
             <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
               <SectionHeader title="Browse by theme" gridSize={gridSize12()} />
@@ -144,7 +145,10 @@ const CollectionsLandingPage: NextPage<Props> = ({
             <SectionHeader title="New online" gridSize={gridSize12()} />
           </Space>
           <ContaineredLayout gridSizes={gridSize12()}>
-            <WorkCards works={newOnlineDocuments} />
+            <WorkCards
+              works={newOnlineDocuments}
+              dataGtmProps={{ 'category-label': 'New online' }}
+            />
 
             <MoreLink
               url="/collections/new-online"
@@ -177,13 +181,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
         <CardGrid
           items={insideOurCollectionsCards}
           itemsPerRow={3}
-          itemsHaveTransparentBackground
           links={[
             {
               text: 'Read all stories',
               url: '/series/inside-our-collections',
             },
           ]}
+          itemsHaveTransparentBackground
         />
       </Space>
 

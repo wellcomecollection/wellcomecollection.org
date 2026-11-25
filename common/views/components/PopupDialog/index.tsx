@@ -8,11 +8,11 @@ import {
 } from 'react';
 
 import cookies from '@weco/common/data/cookies';
-import { chat, clear } from '@weco/common/icons';
+import { chat, cross } from '@weco/common/icons';
 import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
 import { transformLink } from '@weco/common/services/prismic/transformers';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import getFocusableElements from '@weco/common/utils/get-focusable-elements';
 import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
@@ -158,7 +158,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { sm: '075', md: '075' },
           }}
         >
-          <Icon icon={chat} iconColor="accent.purple" />
+          <Icon icon={chat} iconColor="neutral.70" />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -176,7 +176,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               openDialogRef.current.focus();
           }}
         >
-          <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />
+          <Icon icon={cross} title="Close dialog" iconColor="neutral.70" />
         </PopupDialogClose>
         <Space
           $h={{
@@ -185,8 +185,10 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { zero: '150', sm: '150', md: '150' },
           }}
         >
-          <h2 className={font('brand-bold', -2)}>{title}</h2>
-          <div className={font('sans', -1)}>
+          <h2 className={typography('heading', 'xs', 'strong', 'brand')}>
+            {title}
+          </h2>
+          <div className={typography('body', 'md', 'regular')}>
             <PrismicHtmlBlock html={text} />
           </div>
         </Space>

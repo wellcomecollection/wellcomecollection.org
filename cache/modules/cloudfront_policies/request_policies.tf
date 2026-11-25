@@ -31,3 +31,8 @@ resource "aws_cloudfront_origin_request_policy" "host_query_and_toggles" {
 data "aws_cloudfront_origin_request_policy" "managed_all_viewer" {
   name = "Managed-AllViewer"
 }
+
+# Also forwards CloudFront's own headers, such as CloudFront-Viewer-Address
+data "aws_cloudfront_origin_request_policy" "managed_all_viewer_and_cloudfront_headers" {
+  name = "Managed-AllViewerAndCloudFrontHeaders-2022-06"
+}

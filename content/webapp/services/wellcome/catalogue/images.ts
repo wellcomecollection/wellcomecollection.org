@@ -13,7 +13,6 @@ import {
   ImagesProps,
   toQuery,
 } from '@weco/content/views/components/SearchPagesLink/Images';
-import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import { CatalogueImagesApiProps, CatalogueResultsList, Image } from './types';
@@ -26,7 +25,8 @@ type ImageInclude =
 
 type GetImageProps = {
   id: string;
-  toggles: Toggles;
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string | null;
   include?: ImageInclude[];
 };
 
@@ -71,17 +71,21 @@ type ImageResponse = {
 
 export async function getImage({
   id,
-  toggles,
+  shouldUseStagingApi,
+  pipelineCluster,
   include = [],
 }: GetImageProps): Promise<ImageResponse> {
   if (!looksLikeCanonicalId(id)) {
     return { image: notFound() };
   }
 
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   const params = {
     include,
+    // propsToQuery drops undefined values, so no param is added when the
+    // cataloguePipeline mode is unset
+    elasticCluster: pipelineCluster,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params));

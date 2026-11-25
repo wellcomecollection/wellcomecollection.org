@@ -11,6 +11,11 @@ export function isJson(v: string): boolean {
   }
 }
 
+// Escaping `<` stops content like `</script>` ending an inline script early.
+export function serialiseForInlineScript(value: object): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
 /** The next two functions are for serialising dates via JSON.
  *
  * When we pass a Date value through getServerSideProps in Next.js, by

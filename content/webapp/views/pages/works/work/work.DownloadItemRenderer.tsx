@@ -2,17 +2,17 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { chevron, closedFolder, openFolder } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTreeNode } from '@weco/content/views/pages/works/work/work.types';
 import DownloadItem from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.DownloadItem';
 
-import { TreeControl } from './ArchiveTree/ArchiveTree.styles';
+import { TreeControl } from './NestedList';
 
 const ItemWrapper = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   display: flex;
   height: ${controlDimensions.controlHeight}px;
@@ -55,18 +55,18 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
   // findIndex is 0-based and returns -1 if not found
   // Convert to 1-based index for toWorksItemLink, or undefined if not found
   const fallbackIndex = canvases?.findIndex(
-    canvas => canvas.id === item.work.id
+    canvas => canvas.id === item.data.id
   );
   const canvasIndex = hasCompleteStructure
-    ? canvasIndexById[item.work.id]
+    ? canvasIndexById[item.data.id]
     : fallbackIndex !== undefined && fallbackIndex >= 0
       ? fallbackIndex + 1
       : undefined;
+
   return (
     <ItemWrapper>
       {isEnhanced && hasControl && (
         <TreeControl
-          data-gtm-trigger="tree_chevron"
           $highlightCondition={highlightCondition}
           $isDarkMode={isDarkMode}
         >
@@ -78,21 +78,26 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
         </TreeControl>
       )}
 
-      {item.work.type === 'Range' && (
-        <span style={{ lineHeight: `${controlDimensions.controlHeight}px` }}>
+      {item.data.type === 'Range' && (
+        <span
+          style={{
+            lineHeight: `${controlDimensions.controlHeight}px`,
+            whiteSpace: 'nowrap',
+          }}
+        >
           <span style={{ marginRight: '10px' }}>
             <Icon
               icon={item.openStatus ? openFolder : closedFolder}
-              matchText={true}
               sizeOverride="height: 14px; width:16px;"
+              matchText
             />
           </span>
-          {item.work.title}
+          {item.data.title}
         </span>
       )}
 
-      {item.work.type === 'Canvas' &&
-        item.work?.downloads?.map(download => {
+      {item.data.type === 'Canvas' &&
+        item.data?.downloads?.map(download => {
           const shouldLinkToCanvas =
             linkToCanvas &&
             workId !== undefined &&
@@ -102,20 +107,19 @@ const DownloadItemRenderer: FunctionComponent<DownloadItemRendererProps> = ({
           return shouldLinkToCanvas ? (
             <DownloadItem
               key={download.id}
-              canvas={item.work as TransformedCanvas}
+              canvas={item.data as TransformedCanvas}
               item={download}
               workId={workId}
               canvasIndex={canvasIndex}
-              linkToCanvas={true}
               currentCanvasIndex={currentCanvasIndex}
               onClick={itemOnClick}
+              linkToCanvas
             />
           ) : (
             <DownloadItem
               key={download.id}
-              canvas={item.work as TransformedCanvas}
+              canvas={item.data as TransformedCanvas}
               item={download}
-              linkToCanvas={false}
               currentCanvasIndex={currentCanvasIndex}
             />
           );

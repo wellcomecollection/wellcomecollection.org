@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { FunctionComponent } from 'react';
 
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   getCatalogueLicenseData,
   LicenseData,
@@ -119,7 +119,7 @@ const WorkDownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
       openGraphType="website"
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
-      hideNewsletterPromo={true}
+      hideNewsletterPromo
     >
       <ContaineredLayout gridSizes={gridSize8()}>
         <SpacingSection>
@@ -127,7 +127,7 @@ const WorkDownloadPage: NextPage<Props> = ({ transformedManifest, work }) => {
             <Space
               as="h1"
               id="work-info"
-              className={font('sans-bold', 0)}
+              className={typography('body', 'lg', 'strong')}
               $v={{ size: 'md', properties: ['margin-top'] }}
             >
               {displayTitle}

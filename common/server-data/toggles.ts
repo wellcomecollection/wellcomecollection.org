@@ -1,11 +1,41 @@
 import { getCookies } from 'cookies-next';
 import { IncomingMessage } from 'http';
 
-import { Toggles, TogglesResp } from '@weco/toggles';
+import {
+  FeatureFlags,
+  Modes,
+  personalFeatureFlagValue,
+  personalPhaseValue,
+  PhasedFlags,
+  Tests,
+  TOGGLE_OFF_VALUE,
+  TOGGLE_RESET_VALUE,
+  Toggles,
+  TogglesResp,
+} from '@weco/toggles';
 
 import { Handler } from './';
 
-const defaultValue = { toggles: [], tests: [] };
+const defaultValue = { featureFlags: [], tests: [], modes: [] };
+
+/**
+ * Fallback toggle config for API routes when the cache is unavailable.
+ * This matches the stagingApi toggle definition from toggles/webapp/toggles.ts
+ * but in the published format (defaultValue instead of initialValue).
+ */
+export const fallbackTogglesForApiRoutes: TogglesResp = {
+  featureFlags: [
+    {
+      id: 'stagingApi',
+      title: 'Staging API',
+      defaultValue: false,
+      description: 'Use the staging Wellcome APIs',
+      type: 'permanent',
+    },
+  ],
+  tests: [],
+  modes: [],
+};
 
 async function fetchToggles(): Promise<TogglesResp> {
   const resp = await fetch(
@@ -20,7 +50,7 @@ const togglesHandler: Handler<TogglesResp, TogglesResp> = {
   fetch: fetchToggles,
 };
 
-type Context = {
+export type Context = {
   req: IncomingMessage & {
     cookies: Partial<{
       [key: string]: string;
@@ -29,35 +59,338 @@ type Context = {
 };
 
 /**
+ * Parse a `?toggleOverride=id:value,id:value` query param into a map of raw
+ * string values. Used to override toggle state for a single render without
+ * writing any cookie (see getTogglesFromContext). Malformed pairs are skipped.
+ */
+export function parseToggleOverrides(
+  raw: string | string[] | undefined
+): Record<string, string> {
+  const value = Array.isArray(raw) ? raw.join(',') : raw;
+  if (!value) return {};
+  return value.split(',').reduce(
+    (acc, pair) => {
+      const separatorIndex = pair.indexOf(':');
+      if (separatorIndex === -1) return acc;
+      const id = pair.slice(0, separatorIndex).trim();
+      const val = pair.slice(separatorIndex + 1).trim();
+      if (id) acc[id] = val;
+      return acc;
+    },
+    // Null-prototype map: the keys come from a user-controlled query param, so
+    // avoid any chance of a crafted id (e.g. `__proto__`) touching the prototype.
+    Object.create(null) as Record<string, string>
+  );
+}
+
+/**
+ * Parse a `?toggle=id,id:value` query param into a map of raw string values.
+ * A bare id means 'true', so the long-standing `?toggle=someFlag` form still
+ * works; `id:value` picks a phased flag's phase or a mode's option, and
+ * `id:reset` resets a toggle (see TOGGLE_RESET_VALUE). Pairs are
+ * comma-separated, so one link can set several toggles at once.
+ */
+export function parseTogglePresets(
+  raw: string | string[] | undefined
+): Record<string, string> {
+  const value = Array.isArray(raw) ? raw.join(',') : raw;
+  if (!value) return {};
+  return value.split(',').reduce(
+    (acc, pair) => {
+      const separatorIndex = pair.indexOf(':');
+      const id = (
+        separatorIndex === -1 ? pair : pair.slice(0, separatorIndex)
+      ).trim();
+      const val =
+        separatorIndex === -1 ? 'true' : pair.slice(separatorIndex + 1).trim();
+      if (id) acc[id] = val;
+      return acc;
+    },
+    // Null-prototype map for the same reason as parseToggleOverrides.
+    Object.create(null) as Record<string, string>
+  );
+}
+
+const isStageHost = (context: Context): boolean =>
+  context.req.headers.host?.startsWith('www-stage') ?? false;
+
+/**
+ * Keeps only the values that name a toggle available on this host, with a
+ * value that toggle accepts. Feature flags accept only the values listed in
+ * `featureFlagValues`, since presets and overrides differ there, plus
+ * `experimentalOnlyValues` if they're experimental and already public (an
+ * `off` for a flag that isn't public yet would do nothing until release, then
+ * hold the person on the old version). Phased flags accept their phase ids,
+ * and `off` once a phase is public, for the same reason (see
+ * personalPhaseValue). `allowReset` lets any of them take TOGGLE_RESET_VALUE.
+ */
+function validToggleValues(
+  values: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context,
+  {
+    featureFlagValues,
+    experimentalOnlyValues = [],
+    allowReset,
+  }: {
+    featureFlagValues: string[];
+    experimentalOnlyValues?: string[];
+    allowReset: boolean;
+  }
+): Record<string, string> {
+  const isStage = isStageHost(context);
+  const isAvailable = (toggle: { type: string }) =>
+    isStage || toggle.type !== 'stage';
+  const isReset = (value: string) => allowReset && value === TOGGLE_RESET_VALUE;
+
+  const acceptsValue = (id: string, value: string): boolean => {
+    const featureFlag = togglesResp.featureFlags.find(f => f.id === id);
+    if (featureFlag) {
+      return (
+        isAvailable(featureFlag) &&
+        (isReset(value) ||
+          featureFlagValues.includes(value) ||
+          (featureFlag.type === 'experimental' &&
+            featureFlag.defaultValue === true &&
+            experimentalOnlyValues.includes(value)))
+      );
+    }
+
+    if (togglesResp.tests.some(t => t.id === id)) {
+      return isReset(value) || value === 'true' || value === 'false';
+    }
+
+    const phasedFlag = togglesResp.phasedFlags?.find(f => f.id === id);
+    if (phasedFlag) {
+      return (
+        isAvailable(phasedFlag) &&
+        (isReset(value) || personalPhaseValue(phasedFlag, value) !== undefined)
+      );
+    }
+
+    const mode = togglesResp.modes?.find(m => m.id === id);
+    if (mode) {
+      return isReset(value) || mode.options.some(option => option.id === value);
+    }
+
+    return false;
+  };
+
+  return Object.entries(values).reduce(
+    (acc, [id, value]) => {
+      if (acceptsValue(id, value)) acc[id] = value;
+      return acc;
+    },
+    Object.create(null) as Record<string, string>
+  );
+}
+
+/**
+ * Toggles `?toggle=` can't set or reset. Kiosk mode grants analytics and
+ * marketing consent with no banner, on the basis that the device is ours - a
+ * link that looks like any other site link shouldn't switch that on in
+ * someone's own browser. Kiosk devices are set up and reset from the toggles
+ * dashboard instead.
+ */
+const TOGGLE_PRESET_BLOCKED_IDS = ['kioskMode'];
+
+/**
+ * Keeps only the presets that name a toggle available on this host, with a
+ * value that toggle accepts - so a typo'd id or phase never gets written to a
+ * cookie. Feature flags only accept 'true' (plus 'off' for experimental
+ * ones, see getTogglesFromContext; phased flags also take 'off' once a phase
+ * is public): a 'false' cookie resolves to the flag's
+ * defaultValue, not false, so writing one would be misleading. Any toggle can
+ * be reset with TOGGLE_RESET_VALUE.
+ */
+export const validTogglePresets = (
+  presets: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context
+): Record<string, string> =>
+  validToggleValues(
+    Object.fromEntries(
+      Object.entries(presets).filter(
+        ([id]) => !TOGGLE_PRESET_BLOCKED_IDS.includes(id)
+      )
+    ),
+    togglesResp,
+    context,
+    {
+      featureFlagValues: ['true'],
+      experimentalOnlyValues: [TOGGLE_OFF_VALUE],
+      allowReset: true,
+    }
+  );
+
+/**
+ * Keeps only the overrides a toggle accepts. Filtering before they're merged
+ * over presets matters: an invalid override would otherwise replace a valid
+ * preset for the same id, and the resolver would then reject it and fall back
+ * to the cookie, so the page wouldn't show the preset it just saved. Unlike
+ * presets, feature flags accept 'false' here, since nothing gets persisted.
+ */
+export const validToggleOverrides = (
+  overrides: Record<string, string>,
+  togglesResp: TogglesResp,
+  context: Context
+): Record<string, string> =>
+  validToggleValues(overrides, togglesResp, context, {
+    featureFlagValues: ['true', 'false'],
+    allowReset: false,
+  });
+
+const ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
+
+/**
+ * `Set-Cookie` values for validated presets. These match what the toggles
+ * dashboard writes (a year long, shared across *.wellcomecollection.org), so
+ * a link from either place sets the same cookie and the dashboard can reset
+ * it - a host-only cookie of the same name would sit alongside the dashboard's
+ * one and leave it ambiguous which the server reads.
+ */
+export function togglePresetCookies(
+  presets: Record<string, string>,
+  host: string | undefined
+): string[] {
+  const hostname = host?.split(':')[0];
+  const isWellcomeHost =
+    hostname === 'wellcomecollection.org' ||
+    (hostname?.endsWith('.wellcomecollection.org') ?? false);
+  const sharedAttributes = isWellcomeHost
+    ? ['Domain=.wellcomecollection.org', 'Secure']
+    : [];
+  const setAttributes = [
+    'Path=/',
+    `Max-Age=${ONE_YEAR_IN_SECONDS}`,
+    ...sharedAttributes,
+  ].join('; ');
+  const deleteAttributes = ['Path=/', 'Max-Age=0', ...sharedAttributes].join(
+    '; '
+  );
+
+  return Object.entries(presets).flatMap(([id, value]) => {
+    if (value !== TOGGLE_RESET_VALUE) {
+      return [`toggle_${id}=${encodeURIComponent(value)}; ${setAttributes}`];
+    }
+    // A delete only matches a cookie with the same Domain, so on our hosts
+    // also clear a host-only one, as older ?toggle= links used to set
+    return [
+      `toggle_${id}=; ${deleteAttributes}`,
+      ...(isWellcomeHost ? [`toggle_${id}=; Path=/; Max-Age=0`] : []),
+    ];
+  });
+}
+
+/**
+ * Resolves the current option of a mode: a render-only override, then a
+ * personal cookie, as long as it's one of the mode's option ids, otherwise
+ * null.
+ */
+function resolveOptionValue(
+  id: string,
+  validIds: string[],
+  overrides: Record<string, string>,
+  allCookies: Partial<Record<string, string>>
+): string | null {
+  const override = overrides[id];
+  if (typeof override === 'string' && validIds.includes(override)) {
+    return override;
+  }
+  const cookieValue = allCookies[`toggle_${id}`];
+  const isValid =
+    typeof cookieValue === 'string' && validIds.includes(cookieValue);
+  return isValid ? cookieValue : null;
+}
+
+/**
+ * Resolves a phased flag's current phase, first match wins: a render-only
+ * override, then a personal cookie, then the public phase. A personal `off`
+ * is null, which ranks below every phase (see personalPhaseValue).
+ */
+function resolvePhasedFlag(
+  flag: {
+    id: string;
+    phases: readonly { id: string }[];
+    defaultPhase: string | null;
+  },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): string | null {
+  const fromOverride = personalPhaseValue(flag, overrides[flag.id]);
+  if (fromOverride !== undefined) return fromOverride;
+
+  const fromCookie = personalPhaseValue(flag, cookies[`toggle_${flag.id}`]);
+  return fromCookie !== undefined ? fromCookie : flag.defaultPhase;
+}
+
+/**
+ * Resolves a feature flag, first match wins: a render-only override, then a
+ * personal cookie, then the default. Presets from `?toggle=` links come in as
+ * overrides too, so the first render after a link already reflects it. What
+ * counts as a personal value, such as `off` for an experimental flag, is in
+ * personalFeatureFlagValue.
+ */
+function resolveFeatureFlag(
+  toggle: { id: string; type: string; defaultValue: boolean },
+  overrides: Record<string, string>,
+  cookies: Partial<Record<string, string>>
+): boolean {
+  const override = overrides[toggle.id];
+  // `?toggleOverride=id:false` can turn any flag off for one render
+  if (override === 'false') return false;
+
+  return (
+    personalFeatureFlagValue(toggle, override) ??
+    personalFeatureFlagValue(toggle, cookies[`toggle_${toggle.id}`]) ??
+    toggle.defaultValue
+  );
+}
+
+/**
  * normally parsing like this should happen in `_app.parseServerDataToAppData`
  * but we need the `req` from the `context` for cookies which we don't
  * have in `_app` - so it lives here
  */
 export function getTogglesFromContext(
   togglesResp: TogglesResp,
-  context: Context
+  context: Context,
+  // Render-only overrides from `?toggleOverride=` (see parseToggleOverrides).
+  // These take precedence over cookies for this render and are never persisted.
+  overrides: Record<string, string> = {},
+  // Ids being reset by `?toggle=id:reset` on this request. Their cookies are
+  // still in the request, so ignore them to render with the public value.
+  resetIds: string[] = []
 ): Toggles {
-  const isStage = context.req.headers.host?.startsWith('www-stage');
-  const allCookies = getCookies(context);
-  const toggles = [...togglesResp.toggles]
+  const isStage = isStageHost(context);
+  const allCookies = { ...getCookies(context) };
+  for (const id of resetIds) delete allCookies[`toggle_${id}`];
+  const featureFlagsList = togglesResp.featureFlags ?? [];
+  const featureFlags = featureFlagsList
     .filter(toggle => {
       return !(!isStage && toggle.type === 'stage');
     })
-    .reduce(
-      (acc, toggle) => ({
-        ...acc,
-        [toggle.id]: {
-          value:
-            allCookies[`toggle_${toggle.id}`] === 'true'
-              ? true
-              : toggle.defaultValue,
-          type: toggle.type,
-        },
-      }),
-      {} as Toggles
-    );
-  const tests = [...togglesResp.tests].reduce((acc, test) => {
+    .reduce((acc, toggle) => {
+      const value = resolveFeatureFlag(toggle, overrides, allCookies);
+      return { ...acc, [toggle.id]: value };
+    }, {} as FeatureFlags);
+
+  const phasedFlagsList = (togglesResp.phasedFlags ?? []).filter(flag => {
+    return !(!isStage && flag.type === 'stage');
+  });
+  const phasedFlags = phasedFlagsList.reduce((acc, flag) => {
+    const current = resolvePhasedFlag(flag, overrides, allCookies);
+    return {
+      ...acc,
+      [flag.id]: { current, phases: flag.phases, title: flag.title },
+    };
+  }, {} as PhasedFlags);
+
+  const tests = togglesResp.tests.reduce((acc, test) => {
     function testToggleValue(Id: string): boolean | undefined {
+      const override = overrides[Id];
+      if (override === 'true') return true;
+      if (override === 'false') return false;
       const cookieValue = allCookies[`toggle_${Id}`];
       switch (cookieValue) {
         case 'true':
@@ -70,13 +403,22 @@ export function getTogglesFromContext(
     }
     return {
       ...acc,
-      [test.id]: {
-        value: testToggleValue(test.id),
-        type: 'test',
-      },
+      [test.id]: testToggleValue(test.id),
     };
-  }, {} as Toggles);
-  return { ...toggles, ...tests } as Toggles;
+  }, {} as Tests);
+
+  const modesList = togglesResp.modes ?? [];
+  const modes = modesList.reduce((acc, mode) => {
+    const current = resolveOptionValue(
+      mode.id,
+      mode.options.map(opt => opt.id),
+      overrides,
+      allCookies
+    );
+    return { ...acc, [mode.id]: current };
+  }, {} as Modes);
+
+  return { featureFlags, phasedFlags, tests, modes };
 }
 
 export default togglesHandler;

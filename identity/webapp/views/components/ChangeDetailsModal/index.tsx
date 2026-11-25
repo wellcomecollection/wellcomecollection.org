@@ -43,6 +43,7 @@ const ChangeDetailsModal: FunctionComponent<ChangeDetailsModalProps> = ({
     <div data-component="change-details-modal">
       <Button
         variant="ButtonSolid"
+        hierarchy="tertiary"
         colors={theme.buttonColors.greenTransparentGreen}
         text={buttonText}
         clickHandler={() => setIsActive(true)}

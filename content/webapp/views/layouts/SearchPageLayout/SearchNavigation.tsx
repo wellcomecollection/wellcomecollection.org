@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { searchLabelText } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
 import { formDataAsUrlQuery } from '@weco/common/utils/forms';
 import { capitalize } from '@weco/common/utils/grammar';
@@ -15,7 +15,6 @@ import {
 } from '@weco/common/utils/search';
 import SearchBar from '@weco/common/views/components/SearchBar';
 import Space from '@weco/common/views/components/styled/Space';
-import PrototypeSearchSelects from '@weco/content/views/components/PrototypeSearchSelects';
 import Tabs from '@weco/content/views/components/Tabs';
 const SearchBarContainer = styled(Space)`
   ${props => props.theme.media('sm', 'max-width')`
@@ -48,8 +47,7 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
   currentQueryValue: queryValue,
 }) => {
   const router = useRouter();
-  const { conceptsSearch, semanticSearchPrototype, semanticSearchComparison } =
-    useToggles();
+  const { conceptsSearch } = useFeatureFlags();
 
   // Variable naming note:
   //
@@ -157,50 +155,32 @@ const SearchNavigation: FunctionComponent<SearchNavigationProps> = ({
           {capitalize(currentSearchCategory)} search
         </h1>
 
-        {(semanticSearchPrototype || semanticSearchComparison) && (
-          <PrototypeSearchSelects
-            currentQuery={queryValue}
-            currentApiSelection={
-              typeof router.query.searchIn === 'string'
-                ? router.query.searchIn
-                : semanticSearchComparison
-                  ? 'all'
-                  : 'alternative1'
+        <SearchBarContainer
+          $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
+        >
+          <SearchBar
+            variant="default"
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+            placeholder={
+              currentSearchCategory === 'events'
+                ? 'Search for events and exhibitions'
+                : searchLabelText[currentSearchCategory]
             }
-            showAllResultsOption={semanticSearchComparison}
+            form={SEARCH_PAGES_FORM_ID}
+            location="search"
           />
-        )}
-
-        {!semanticSearchPrototype && (
-          <SearchBarContainer
-            $v={{ size: 'md', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <SearchBar
-              variant="default"
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              placeholder={
-                currentSearchCategory === 'events'
-                  ? 'Search for events and exhibitions'
-                  : searchLabelText[currentSearchCategory]
-              }
-              form={SEARCH_PAGES_FORM_ID}
-              location="search"
-            />
-          </SearchBarContainer>
-        )}
+        </SearchBarContainer>
       </form>
-      {!semanticSearchPrototype && (
-        <TabsBorder $visible={true}>
-          <Tabs
-            tabBehaviour="navigate"
-            hideBorder={true}
-            label="Search Categories"
-            items={tabItems}
-            currentSection={currentSearchCategory}
-          />
-        </TabsBorder>
-      )}
+      <TabsBorder $visible>
+        <Tabs
+          tabBehaviour="navigate"
+          label="Search Categories"
+          items={tabItems}
+          currentSection={currentSearchCategory}
+          hideBorder
+        />
+      </TabsBorder>
     </>
   );
 };

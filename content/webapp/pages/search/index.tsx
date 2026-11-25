@@ -55,12 +55,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const contentResults = await getAddressables({
       params: query,
       pageSize: 20,
-      toggles: serverData.toggles,
+      shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
     });
 
     if (contentResults.type === 'Error') {
       contentQueryFailed = true;
-      console.error(contentResults.label + ': Error fetching addressables');
+      console.error(`${contentResults.label}: Error fetching addressables`);
     }
 
     const apiToolbarLinks = [

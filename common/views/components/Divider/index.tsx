@@ -2,15 +2,15 @@
 import { FunctionComponent, ReactElement } from 'react';
 import styled from 'styled-components';
 
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  lineColor?: PaletteColor;
+  lineColor?: ThemeColor;
   isStub?: boolean;
 };
 
 type StyleProps = {
-  $lineColor?: PaletteColor;
+  $lineColor?: ThemeColor;
   $isStub?: boolean;
 };
 

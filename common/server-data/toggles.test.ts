@@ -1,0 +1,1108 @@
+/**
+ * @jest-environment node
+ */
+import { IncomingMessage } from 'http';
+
+import { TOGGLE_RESET_VALUE, TogglesResp } from '@weco/toggles';
+
+import {
+  Context,
+  getTogglesFromContext,
+  parseToggleOverrides,
+  parseTogglePresets,
+  togglePresetCookies,
+  validToggleOverrides,
+  validTogglePresets,
+} from './toggles';
+
+function createContext(
+  cookies?: Record<string, string>,
+  host?: string
+): Context {
+  const cookieString = cookies
+    ? Object.entries(cookies)
+        .map(([k, v]) => `${k}=${v}`)
+        .join('; ')
+    : '';
+
+  return {
+    req: {
+      cookies: cookies || {},
+      headers: {
+        host: host || 'www.wellcomecollection.org',
+        cookie: cookieString,
+      },
+    } as unknown as IncomingMessage & {
+      cookies: Partial<Record<string, string>>;
+    },
+  };
+}
+
+// Use real toggle IDs from the config so TypeScript is happy
+const stagingApiFlag = {
+  id: 'stagingApi',
+  title: 'Staging API',
+  defaultValue: false,
+  description: 'Use the staging catalogue API',
+  type: 'permanent' as const,
+};
+
+const conceptsSearchFlag = {
+  id: 'conceptsSearch',
+  title: 'Concepts search',
+  defaultValue: true,
+  description:
+    'Enables the concepts search tab and functionality in the search interface',
+  type: 'permanent' as const,
+};
+
+// An experimental flag that's already public, which can be turned off for yourself
+const publicExperimentFlag = {
+  id: 'publicExperiment',
+  title: 'Public experiment',
+  defaultValue: true,
+  description: 'An experiment that has been made public.',
+  type: 'experimental' as const,
+};
+
+// It isn't in toggles.ts, so FeatureFlags doesn't know its name
+const getPublicExperimentValue = (flags: object) =>
+  (flags as Record<string, boolean | undefined>).publicExperiment;
+
+// Use a real stage-type flag to test stage filtering
+const stageOnlyFlag = {
+  id: 'stagingApi',
+  title: 'Staging API (stage only variant)',
+  defaultValue: false,
+  description: 'Stage-only flag for testing',
+  type: 'stage' as const,
+};
+
+const defaultTogglesResp: TogglesResp = {
+  featureFlags: [],
+  tests: [],
+  modes: [],
+};
+
+describe('getTogglesFromContext', () => {
+  describe('featureFlags', () => {
+    it('returns defaultValue when no cookie is set', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag, conceptsSearchFlag],
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('returns true when cookie is "true"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_stagingApi: 'true' })
+      );
+
+      expect(result.featureFlags.stagingApi).toBe(true);
+    });
+
+    it('returns defaultValue when cookie is "false" (not false)', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_stagingApi: 'false' })
+      );
+
+      // Cookie "false" doesn't match "true", so falls back to defaultValue
+      expect(result.featureFlags.stagingApi).toBe(false);
+    });
+
+    it('returns defaultValue when cookie is any non-"true" string', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [conceptsSearchFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_conceptsSearch: 'banana' })
+      );
+
+      expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('returns false when an experimental flag\'s cookie is "off"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [publicExperimentFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_publicExperiment: 'off' })
+      );
+
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
+    });
+
+    it('ignores "off" on a flag that is not experimental', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [conceptsSearchFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_conceptsSearch: 'off' })
+      );
+
+      expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('returns defaultValue when an experimental flag\'s cookie is "false"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [publicExperimentFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_publicExperiment: 'false' })
+      );
+
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(true);
+    });
+
+    it('applies an "off" preset on the first request, before its cookie exists', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [publicExperimentFlag],
+      };
+
+      // A `?toggle=publicExperiment:off` link reaches the resolver as an override
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        publicExperiment: 'off',
+      });
+
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
+    });
+
+    it('lets an "off" preset beat an existing "true" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [publicExperimentFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_publicExperiment: 'true' }),
+        { publicExperiment: 'off' }
+      );
+
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(false);
+    });
+
+    it('lets an override beat an "off" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [publicExperimentFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_publicExperiment: 'off' }),
+        { publicExperiment: 'true' }
+      );
+
+      expect(getPublicExperimentValue(result.featureFlags)).toBe(true);
+    });
+
+    it('excludes stage-only flags on non-stage hosts', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stageOnlyFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(undefined, 'www.wellcomecollection.org')
+      );
+
+      // Stage-only flag is filtered out on non-stage hosts
+      expect(result.featureFlags.stagingApi).toBeUndefined();
+    });
+
+    it('includes stage-only flags on stage hosts', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stageOnlyFlag],
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(
+          { toggle_stagingApi: 'true' },
+          'www-stage.wellcomecollection.org'
+        )
+      );
+
+      expect(result.featureFlags.stagingApi).toBe(true);
+    });
+  });
+
+  describe('tests', () => {
+    // getTogglesFromContext uses the test IDs dynamically, so we cast
+    // the result to access arbitrary keys
+    it('returns true when cookie is "true"', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_sampleTest: 'true' })
+      );
+
+      expect((result.tests as Record<string, unknown>).sampleTest).toBe(true);
+    });
+
+    it('returns false when cookie is "false"', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_sampleTest: 'false' })
+      );
+
+      expect((result.tests as Record<string, unknown>).sampleTest).toBe(false);
+    });
+
+    it('returns undefined when no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.tests as Record<string, unknown>).sampleTest
+      ).toBeUndefined();
+    });
+
+    it('returns undefined when cookie is any non-boolean string', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_sampleTest: 'maybe' })
+      );
+
+      expect(
+        (result.tests as Record<string, unknown>).sampleTest
+      ).toBeUndefined();
+    });
+  });
+
+  describe('modes', () => {
+    const modeDefinition = {
+      id: 'kioskMode',
+      title: 'Kiosk Mode',
+      description: 'Select which iPad this kiosk is running on',
+      options: [
+        { id: 'ipad-1', label: 'iPad 1' },
+        { id: 'ipad-2', label: 'iPad 2' },
+      ],
+    };
+
+    it('returns null when no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
+    });
+
+    it('returns the value when cookie matches a valid option', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' })
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-1'
+      );
+    });
+
+    it('returns null when cookie is an empty string', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: '' })
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
+    });
+
+    it('returns null when cookie value is not a valid option', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'invalid-ipad' })
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBeNull();
+    });
+  });
+
+  describe('phasedFlags', () => {
+    const phasedFlagDefinition = {
+      id: 'archiveCollectionPhases',
+      title: 'Archive collection phases',
+      description: 'Archive collection, phased',
+      type: 'experimental' as const,
+      phases: [
+        { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+        { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+      ],
+      defaultPhase: null,
+    };
+
+    it('returns null when nothing is public yet and no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [phasedFlagDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('returns defaultPhase when it is set and no cookie is set', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase1' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext());
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase1');
+    });
+
+    it('returns the cookie value when it matches a valid phase', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [phasedFlagDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'phase2' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase2');
+    });
+
+    it('falls back to defaultPhase when the cookie references a phase that no longer exists', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase1' }],
+      } as unknown as TogglesResp;
+
+      // Simulates a stale cookie left over from a phase that's since been
+      // removed (e.g. an older 'mvp' phase deleted from the list).
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase1');
+    });
+
+    it('returns null when the cookie is "off" and a phase is public, the version from before the flag', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'off' })
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('lets an "off" override beat a phase cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, defaultPhase: 'phase2' }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'mvp' }),
+        { archiveCollectionPhases: 'off' }
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+
+    it('excludes stage-only phased flags on non-stage hosts', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, type: 'stage' as const }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(undefined, 'www.wellcomecollection.org')
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, unknown>).archiveCollectionPhases
+      ).toBeUndefined();
+    });
+
+    it('includes stage-only phased flags on stage hosts', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [{ ...phasedFlagDefinition, type: 'stage' as const }],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext(undefined, 'www-stage.wellcomecollection.org')
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBeNull();
+    });
+  });
+
+  describe('toggleOverride', () => {
+    const modeDefinition = {
+      id: 'kioskMode',
+      title: 'Kiosk Mode',
+      description: 'Select which iPad this kiosk is running on',
+      options: [
+        { id: 'ipad-1', label: 'iPad 1' },
+        { id: 'ipad-2', label: 'iPad 2' },
+      ],
+    };
+
+    it('overrides a feature flag to true regardless of cookie/default', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag], // defaultValue false
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        stagingApi: 'true',
+      });
+
+      expect(result.featureFlags.stagingApi).toBe(true);
+    });
+
+    it('overrides a feature flag to false, beating a "true" cookie', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [conceptsSearchFlag], // defaultValue true
+      };
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_conceptsSearch: 'true' }),
+        { conceptsSearch: 'false' }
+      );
+
+      expect(result.featureFlags.conceptsSearch).toBe(false);
+    });
+
+    it('ignores a feature flag override that is not "true"/"false"', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [conceptsSearchFlag], // defaultValue true
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        conceptsSearch: 'banana',
+      });
+
+      // Falls back to defaultValue
+      expect(result.featureFlags.conceptsSearch).toBe(true);
+    });
+
+    it('overrides an A/B test value', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        tests: [
+          { id: 'sampleTest', title: 'Sample', type: 'test', range: [0, 100] },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        sampleTest: 'false',
+      });
+
+      expect((result.tests as Record<string, unknown>).sampleTest).toBe(false);
+    });
+
+    it('overrides a mode to a valid option, beating the cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' }),
+        { kioskMode: 'ipad-2' }
+      );
+
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-2'
+      );
+    });
+
+    it('ignores a mode override that is not a valid option', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        modes: [modeDefinition],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_kioskMode: 'ipad-1' }),
+        { kioskMode: 'not-an-ipad' }
+      );
+
+      // Falls back to the cookie value
+      expect((result.modes as Record<string, unknown>).kioskMode).toBe(
+        'ipad-1'
+      );
+    });
+
+    it('overrides a phased flag to a valid phase, beating the cookie', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [
+          {
+            id: 'archiveCollectionPhases',
+            title: 'Archive collection phases',
+            description: 'Archive collection, phased',
+            type: 'experimental',
+            phases: [
+              { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+              { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+            ],
+            defaultPhase: null,
+          },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'phase1' }),
+        { archiveCollectionPhases: 'phase2' }
+      );
+
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase2');
+    });
+
+    it('ignores a phased flag override that is not a valid phase', () => {
+      const togglesResp = {
+        ...defaultTogglesResp,
+        phasedFlags: [
+          {
+            id: 'archiveCollectionPhases',
+            title: 'Archive collection phases',
+            description: 'Archive collection, phased',
+            type: 'experimental',
+            phases: [
+              { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+              { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+            ],
+            defaultPhase: null,
+          },
+        ],
+      } as unknown as TogglesResp;
+
+      const result = getTogglesFromContext(
+        togglesResp,
+        createContext({ toggle_archiveCollectionPhases: 'phase1' }),
+        { archiveCollectionPhases: 'phase3' }
+      );
+
+      // Falls back to the cookie value
+      expect(
+        (result.phasedFlags as Record<string, { current: unknown }>)
+          .archiveCollectionPhases.current
+      ).toBe('phase1');
+    });
+
+    it('ignores an override for an unknown toggle id', () => {
+      const togglesResp: TogglesResp = {
+        ...defaultTogglesResp,
+        featureFlags: [stagingApiFlag],
+      };
+
+      const result = getTogglesFromContext(togglesResp, createContext(), {
+        nonExistentToggle: 'true',
+      });
+
+      expect(result.featureFlags.stagingApi).toBe(false);
+      expect(
+        (result.featureFlags as Record<string, unknown>).nonExistentToggle
+      ).toBeUndefined();
+    });
+  });
+});
+
+describe('parseToggleOverrides', () => {
+  it('returns an empty object for undefined', () => {
+    expect(parseToggleOverrides(undefined)).toEqual({});
+  });
+
+  it('parses a single id:value pair', () => {
+    expect(parseToggleOverrides('apiToolbar:true')).toEqual({
+      apiToolbar: 'true',
+    });
+  });
+
+  it('parses multiple comma-separated pairs', () => {
+    expect(
+      parseToggleOverrides('apiToolbar:true,cataloguePipeline:axiell')
+    ).toEqual({ apiToolbar: 'true', cataloguePipeline: 'axiell' });
+  });
+
+  it('trims whitespace around ids and values', () => {
+    expect(parseToggleOverrides(' apiToolbar : true ')).toEqual({
+      apiToolbar: 'true',
+    });
+  });
+
+  it('joins an array value before parsing', () => {
+    expect(parseToggleOverrides(['a:true', 'b:false'])).toEqual({
+      a: 'true',
+      b: 'false',
+    });
+  });
+
+  it('skips malformed pairs with no separator', () => {
+    expect(parseToggleOverrides('apiToolbar,cataloguePipeline:axiell')).toEqual(
+      {
+        cataloguePipeline: 'axiell',
+      }
+    );
+  });
+
+  it('keeps an empty value (validation happens later)', () => {
+    expect(parseToggleOverrides('kioskMode:')).toEqual({ kioskMode: '' });
+  });
+});
+
+describe('parseTogglePresets', () => {
+  it('returns an empty object for undefined', () => {
+    expect(parseTogglePresets(undefined)).toEqual({});
+  });
+
+  it('keeps id:reset as a reset', () => {
+    expect(parseTogglePresets('imageSidebarPhases:reset')).toEqual({
+      imageSidebarPhases: TOGGLE_RESET_VALUE,
+    });
+  });
+
+  it('treats a bare id as true', () => {
+    expect(parseTogglePresets('apiToolbar')).toEqual({ apiToolbar: 'true' });
+  });
+
+  it('parses a mix of bare ids and id:value pairs', () => {
+    expect(
+      parseTogglePresets(
+        'apiToolbar,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages'
+      )
+    ).toEqual({
+      apiToolbar: 'true',
+      imageSidebarPhases: 'phase2',
+      thematicBrowsingPhases: 'categoryPages',
+    });
+  });
+
+  it('joins an array value before parsing', () => {
+    expect(parseTogglePresets(['apiToolbar', 'kioskMode:devMode'])).toEqual({
+      apiToolbar: 'true',
+      kioskMode: 'devMode',
+    });
+  });
+});
+
+describe('validTogglePresets', () => {
+  const togglesResp: TogglesResp = {
+    featureFlags: [stagingApiFlag],
+    tests: [{ id: 'someTest', title: 'Some test', range: [0, 100] }],
+    modes: [
+      {
+        id: 'kioskMode',
+        title: 'Kiosk mode',
+        description: 'Kiosk mode',
+        options: [{ id: 'devMode', label: 'Developer mode' }],
+      },
+      {
+        id: 'cataloguePipeline',
+        title: 'Catalogue pipeline',
+        description: 'Catalogue pipeline',
+        options: [{ id: 'folio-testing', label: 'FOLIO pipeline' }],
+      },
+    ],
+    phasedFlags: [
+      {
+        id: 'imageSidebarPhases',
+        title: 'Image sidebar',
+        description: 'Image sidebar, phased',
+        type: 'experimental' as const,
+        phases: [
+          { id: 'phase1', label: 'Phase 1', description: 'Phase 1' },
+          { id: 'phase2', label: 'Phase 2', description: 'Phase 2' },
+        ],
+        defaultPhase: null,
+      },
+    ],
+  } as unknown as TogglesResp;
+
+  it('keeps presets with a value the toggle accepts', () => {
+    expect(
+      validTogglePresets(
+        {
+          stagingApi: 'true',
+          someTest: 'false',
+          imageSidebarPhases: 'phase2',
+          cataloguePipeline: 'folio-testing',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({
+      stagingApi: 'true',
+      someTest: 'false',
+      imageSidebarPhases: 'phase2',
+      cataloguePipeline: 'folio-testing',
+    });
+  });
+
+  it('never accepts kiosk mode, as it grants consent', () => {
+    expect(
+      validTogglePresets({ kioskMode: 'devMode' }, togglesResp, createContext())
+    ).toEqual({});
+    expect(
+      validTogglePresets(
+        { kioskMode: TOGGLE_RESET_VALUE },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('drops unknown ids, unknown phases/options and feature flags set to anything but true', () => {
+    expect(
+      validTogglePresets(
+        {
+          notAToggle: 'true',
+          stagingApi: 'false',
+          imageSidebarPhases: 'phase9',
+          cataloguePipeline: 'nope',
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('accepts "off" for experimental feature flags only', () => {
+    const resp = {
+      ...togglesResp,
+      featureFlags: [stagingApiFlag, publicExperimentFlag],
+    };
+    expect(
+      validTogglePresets(
+        { publicExperiment: 'off', stagingApi: 'off' },
+        resp,
+        createContext()
+      )
+    ).toEqual({ publicExperiment: 'off' });
+  });
+
+  it('accepts "off" for a phased flag only once a phase is public', () => {
+    const phasedFlag = togglesResp.phasedFlags?.[0];
+    const resp = (defaultPhase: string | null) => ({
+      ...togglesResp,
+      phasedFlags: [{ ...phasedFlag, defaultPhase }],
+    });
+
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp('phase1') as TogglesResp,
+        createContext()
+      )
+    ).toEqual({ imageSidebarPhases: 'off' });
+    expect(
+      validTogglePresets(
+        { imageSidebarPhases: 'off' },
+        resp(null) as TogglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('only accepts stage-only toggles on stage hosts', () => {
+    const stageResp = { ...togglesResp, featureFlags: [stageOnlyFlag] };
+    expect(
+      validTogglePresets({ stagingApi: 'true' }, stageResp, createContext())
+    ).toEqual({});
+    expect(
+      validTogglePresets(
+        { stagingApi: 'true' },
+        stageResp,
+        createContext({}, 'www-stage.wellcomecollection.org')
+      )
+    ).toEqual({ stagingApi: 'true' });
+  });
+
+  it('accepts a reset for any kind of toggle', () => {
+    expect(
+      validTogglePresets(
+        {
+          stagingApi: TOGGLE_RESET_VALUE,
+          someTest: TOGGLE_RESET_VALUE,
+          imageSidebarPhases: TOGGLE_RESET_VALUE,
+          cataloguePipeline: TOGGLE_RESET_VALUE,
+          notAToggle: TOGGLE_RESET_VALUE,
+        },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({
+      stagingApi: TOGGLE_RESET_VALUE,
+      someTest: TOGGLE_RESET_VALUE,
+      imageSidebarPhases: TOGGLE_RESET_VALUE,
+      cataloguePipeline: TOGGLE_RESET_VALUE,
+    });
+  });
+
+  it('does not accept a reset as an override', () => {
+    expect(
+      validToggleOverrides(
+        { imageSidebarPhases: TOGGLE_RESET_VALUE },
+        togglesResp,
+        createContext()
+      )
+    ).toEqual({});
+  });
+
+  it('ignores the cookie of a toggle being reset, so the public value renders', () => {
+    const context = createContext({
+      toggle_imageSidebarPhases: 'phase2',
+      toggle_stagingApi: 'true',
+    });
+    const { phasedFlags, featureFlags } = getTogglesFromContext(
+      togglesResp,
+      context,
+      {},
+      ['imageSidebarPhases']
+    );
+    expect(phasedFlags.imageSidebarPhases.current).toBeNull();
+    expect(featureFlags.stagingApi).toBe(true);
+  });
+
+  describe('validToggleOverrides', () => {
+    it('accepts false for a feature flag, unlike presets', () => {
+      expect(
+        validToggleOverrides(
+          { stagingApi: 'false' },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({ stagingApi: 'false' });
+    });
+
+    it('drops unknown ids and unknown phases/options', () => {
+      expect(
+        validToggleOverrides(
+          {
+            notAToggle: 'true',
+            imageSidebarPhases: 'phase9',
+            kioskMode: 'nope',
+          },
+          togglesResp,
+          createContext()
+        )
+      ).toEqual({});
+    });
+
+    it('leaves a valid preset in place when the override for the same id is invalid', () => {
+      const context = createContext({
+        toggle_imageSidebarPhases: 'phase1',
+      });
+      const presets = validTogglePresets(
+        { imageSidebarPhases: 'phase2' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { imageSidebarPhases: 'phase9' },
+        togglesResp,
+        context
+      );
+      const { phasedFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(phasedFlags.imageSidebarPhases.current).toBe('phase2');
+    });
+
+    it('lets a valid false override beat a true preset for a feature flag', () => {
+      const context = createContext();
+      const presets = validTogglePresets(
+        { stagingApi: 'true' },
+        togglesResp,
+        context
+      );
+      const overrides = validToggleOverrides(
+        { stagingApi: 'false' },
+        togglesResp,
+        context
+      );
+      const { featureFlags } = getTogglesFromContext(togglesResp, context, {
+        ...presets,
+        ...overrides,
+      });
+      expect(featureFlags.stagingApi).toBe(false);
+    });
+  });
+});
+
+describe('togglePresetCookies', () => {
+  it('shares cookies across wellcomecollection.org, like the dashboard', () => {
+    expect(
+      togglePresetCookies(
+        { imageSidebarPhases: 'phase2' },
+        'www-dev.wellcomecollection.org'
+      )
+    ).toEqual([
+      'toggle_imageSidebarPhases=phase2; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('treats the apex domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'wellcomecollection.org')
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000; Domain=.wellcomecollection.org; Secure',
+    ]);
+  });
+
+  it('does not treat a lookalike domain as a wellcomecollection.org host', () => {
+    expect(
+      togglePresetCookies({ apiToolbar: 'true' }, 'notwellcomecollection.org')
+    ).toEqual(['toggle_apiToolbar=true; Path=/; Max-Age=31536000']);
+  });
+
+  it('deletes a reset toggle, clearing both the shared and any host-only cookie', () => {
+    expect(
+      togglePresetCookies(
+        { imageSidebarPhases: TOGGLE_RESET_VALUE },
+        'www-dev.wellcomecollection.org'
+      )
+    ).toEqual([
+      'toggle_imageSidebarPhases=; Path=/; Max-Age=0; Domain=.wellcomecollection.org; Secure',
+      'toggle_imageSidebarPhases=; Path=/; Max-Age=0',
+    ]);
+  });
+
+  it('deletes a reset toggle once on localhost', () => {
+    expect(
+      togglePresetCookies(
+        { cataloguePipeline: TOGGLE_RESET_VALUE },
+        'localhost:3000'
+      )
+    ).toEqual(['toggle_cataloguePipeline=; Path=/; Max-Age=0']);
+  });
+
+  it('leaves out Domain and Secure on localhost', () => {
+    expect(
+      togglePresetCookies(
+        { apiToolbar: 'true', kioskMode: 'devMode' },
+        'localhost:3000'
+      )
+    ).toEqual([
+      'toggle_apiToolbar=true; Path=/; Max-Age=31536000',
+      'toggle_kioskMode=devMode; Path=/; Max-Age=31536000',
+    ]);
+  });
+});

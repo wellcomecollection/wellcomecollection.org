@@ -1,0 +1,12 @@
+{
+  "extends": "../config/tsconfig-base",
+  "compilerOptions": {
+    "composite": true,
+    "module": "esnext",
+    "moduleResolution": "bundler"
+  },
+  "include": ["src/**/*.ts"],
+  "ts-node": {
+    "skipIgnore": true
+  }
+}

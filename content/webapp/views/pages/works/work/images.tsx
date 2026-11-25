@@ -46,9 +46,9 @@ const WorkImagesPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
       apiToolbarLinks={apiToolbarLinks}
-      hideNewsletterPromo={true}
-      hideFooter={true}
-      hideTopContent={true}
+      hideNewsletterPromo
+      hideFooter
+      hideTopContent
     >
       {iiifImageLocation ? (
         <IIIFViewer

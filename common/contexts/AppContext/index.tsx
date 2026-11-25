@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { useTheme } from 'styled-components';
 
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 import useIsomorphicLayoutEffect from '@weco/common/hooks/useIsomorphicLayoutEffect';
 import {
   ACTIVE_COOKIE_BANNER_ID,
@@ -16,7 +17,7 @@ import {
 } from '@weco/common/services/app/civic-uk';
 import { Size } from '@weco/common/views/themes/config';
 
-type AppContextProps = {
+export type AppContextProps = {
   isEnhanced: boolean;
   isFullSupportBrowser: boolean;
   windowSize: Size;
@@ -29,7 +30,7 @@ type AppContextProps = {
   isMobileOrTabletDevice: boolean;
 };
 
-const appContextDefaults = {
+export const appContextDefaults: AppContextProps = {
   isEnhanced: false,
   isFullSupportBrowser: false,
   windowSize: 'small' as Size,
@@ -80,16 +81,16 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     const md = parseFloat(theme.sizes.md);
     const lg = parseFloat(theme.sizes.lg);
 
-    switch (true) {
-      case viewportWidthInRem < sm:
-        return 'zero';
-      case viewportWidthInRem < md:
-        return 'sm';
-      case viewportWidthInRem < lg:
-        return 'md';
-      default:
-        return 'lg';
+    if (viewportWidthInRem < sm) {
+      return 'zero';
     }
+    if (viewportWidthInRem < md) {
+      return 'sm';
+    }
+    if (viewportWidthInRem < lg) {
+      return 'md';
+    }
+    return 'lg';
   }
   const [isEnhanced, setIsEnhanced] = useState(appContextDefaults.isEnhanced);
   const [isFullSupportBrowser, setIsFullSupportBrowser] = useState(
@@ -105,7 +106,16 @@ export const AppContextProvider: FunctionComponent<PropsWithChildren> = ({
     appContextDefaults.audioPlaybackRate
   );
   const [hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner] =
-    useState(Boolean(getCookies().CookieControl));
+    useState(() => {
+      const cookies = getCookies();
+      // Cookie banner is considered acknowledged if:
+      // 1. The CookieControl cookie exists, OR
+      // 2. We're in kiosk mode (consent is always granted)
+      return (
+        Boolean(cookies.CookieControl) ||
+        isValidKioskMode(cookies.toggle_kioskMode)
+      );
+    });
   const [isMobileOrTabletDevice, setisMobileOrTabletDevice] = useState(
     appContextDefaults.isMobileOrTabletDevice
   );

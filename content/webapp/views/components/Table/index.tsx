@@ -9,7 +9,7 @@ import {
 } from 'react';
 
 import { arrow } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Control from '@weco/common/views/components/Control';
 import Rotator from '@weco/common/views/components/styled/Rotator';
 
@@ -188,24 +188,33 @@ const Table: FunctionComponent<Props> = ({
   return (
     <div data-component="table">
       {caption && (
-        <h2 className={font('brand-bold', 1)} aria-hidden="true">
+        <h2
+          className={typography('heading', 'lg', 'strong', 'brand')}
+          aria-hidden="true"
+        >
           {caption}
         </h2>
       )}
       <ControlsWrap ref={controlsRef}>
         <ScrollButtons $isActive={isOverflown}>
-          <ScrollButtonWrap
-            ref={leftButtonRef}
-            $isLeft
-            $isActive={isLeftActive}
-          >
+          <ScrollButtonWrap ref={leftButtonRef} $isLeft>
             <Rotator $rotate={180}>
-              <Control colorScheme="light" icon={arrow} text="" />
+              <Control
+                colorScheme="light"
+                icon={arrow}
+                text=""
+                disabled={!isLeftActive}
+              />
             </Rotator>
           </ScrollButtonWrap>
 
-          <ScrollButtonWrap $isActive={isRightActive} ref={rightButtonRef}>
-            <Control colorScheme="light" icon={arrow} text="" />
+          <ScrollButtonWrap ref={rightButtonRef}>
+            <Control
+              colorScheme="light"
+              icon={arrow}
+              text=""
+              disabled={!isRightActive}
+            />
           </ScrollButtonWrap>
         </ScrollButtons>
 

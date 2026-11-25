@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div`
   ${props => props.theme.media('sm')`
@@ -35,7 +36,7 @@ export const Preview = styled(Space)`
   max-width: 120px;
   margin-bottom: ${props => props.theme.spacingUnit * 2}px;
   margin-right: 1rem;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
 
   ${props => props.theme.media('sm')`
     margin-bottom: 0;
@@ -57,10 +58,20 @@ export const Details = styled.div`
   `}
 `;
 
-export const WorkInformation = styled(Space).attrs({
-  className: font('sans', -1),
-  $v: { size: '2xs', properties: ['margin-bottom'] },
-})`
+export const ArchiveIconWrapper = styled.span`
+  margin-right: ${props => props.theme.spacingUnits['050']};
+
+  .icon {
+    transform: translateY(0.1em);
+  }
+`;
+
+export const WorkInformation = styled(Space).attrs<{ $isSmall?: boolean }>(
+  props => ({
+    className: typography('body', props.$isSmall ? 'sm' : 'md', 'regular'),
+    $v: { size: '2xs', properties: ['margin-bottom'] },
+  })
+)`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
@@ -77,7 +88,9 @@ export const WorkInformationItemSeparator = styled.span`
 `;
 
 export const WorkTitleHeading = styled.h3.attrs({
-  className: font('sans-bold', 0),
-})`
-  margin-bottom: 0.5rem;
+  className: typography('body', 'lg', 'strong'),
+})<{
+  $isArchiveCollectionRoot?: boolean;
+}>`
+  margin-bottom: ${props => props.theme.spacingUnits[props.$isArchiveCollectionRoot ? '050' : '100']};
 `;

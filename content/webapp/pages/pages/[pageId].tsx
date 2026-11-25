@@ -1,8 +1,11 @@
 import { NextPage } from 'next';
 
-import { isSiteSection } from '@weco/common/model/site-section';
+import {
+  isLandingPageSection,
+  isSiteSection,
+} from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import { serialiseProps } from '@weco/common/utils/json';
 import { toMaybeString } from '@weco/common/utils/routes';
@@ -41,12 +44,13 @@ export const getGenericPageProps = async ({
   canonicalUrl,
 }: {
   page: PageType;
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
   canonicalUrl?: string;
 }) => {
   const bodySliceContexts = await getBodySliceContexts(
     page.untransformedBody,
-    serverData.toggles
+    serverData.toggles.featureFlags.stagingApi,
+    serverData.toggles.modes.cataloguePipeline
   );
 
   const jsonLd = genericPageLd({ page, canonicalUrl });
@@ -85,10 +89,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       const basicDocSiteSection = basicDocument.tags.find(t =>
         isSiteSection(t)
       );
-      const isLandingPage = basicDocSiteSection === pageId;
-
       const redirectUrl =
-        isLandingPage || !basicDocSiteSection
+        isLandingPageSection(pageId) || !basicDocSiteSection
           ? `/${pageId}`
           : `/${basicDocSiteSection}/${pageId}`;
 

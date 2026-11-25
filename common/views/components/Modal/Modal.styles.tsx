@@ -1,9 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 export const Overlay = styled.div`
-  z-index: 1000;
+  z-index: ${props => props.theme.zIndex.modalOverlay};
   position: fixed;
   top: 0;
   left: 0;
@@ -15,6 +16,58 @@ export const Overlay = styled.div`
   `}
 `;
 
+// The brand's round control colours, but only shown on hover, like the header
+// search button. On small screens it floats over the scrolling modal content,
+// so it keeps its fill there, inverting on hover with a ring like the
+// controls. The swap is instant, as fading inverted colours makes the icon
+// flicker out midway
+const BUTTON_SIZE = 44;
+// The space the layout leaves for the button
+const SLOT_SIZE = 28;
+
+const closeButtonStyles = (isOnDark: boolean) => {
+  const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
+  const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
+
+  return css`
+    width: ${BUTTON_SIZE}px;
+    height: ${BUTTON_SIZE}px;
+    background: ${fill};
+    color: ${ink};
+    border: 1px solid transparent;
+    transition: none;
+
+    &:hover {
+      background: ${ink};
+      color: ${fill};
+      border-color: ${fill};
+    }
+
+    .icon {
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    .icon__shape {
+      transition: none;
+    }
+
+    ${props =>
+      props.theme.media('sm')(`
+      background: none;
+      color: ${fill};
+      border: 0;
+
+      /* Bigger than its slot, so keep its centre where the slot's would be */
+      margin: ${(SLOT_SIZE - BUTTON_SIZE) / 2}px ${(SLOT_SIZE - BUTTON_SIZE) / 2}px 0 0;
+
+      &:hover {
+        background: ${fill};
+        color: ${ink};
+      }
+    `)}
+  `;
+};
+
 export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   as: 'button',
   type: props.type || 'button',
@@ -22,8 +75,8 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   $h: { size: 'sm', properties: ['right'] },
 }))`
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: ${SLOT_SIZE}px;
+  height: ${SLOT_SIZE}px;
   border-radius: 50%;
   appearance: none;
   background: rgb(0, 0, 0, 0.7);
@@ -43,8 +96,25 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
     color: ${props.theme.color('neutral.600')};
     position: absolute;
   `)}
+
+  ${closeButtonStyles(false)}
 `;
 
+// Modal positioning is applied in three places, each building on the last:
+//
+// 1. BaseModalWindow (below): default styles — full-screen on mobile, centred
+//    at 50%/50% with translateX/Y(-50%) on sm+ screens.
+//
+// 2. Variant styled components in this file (FiltersModal, InactivityModal,
+//    etc.): override colours, padding, or specific layout concerns for each
+//    modal type.
+//
+// 3. The VisualViewport useEffect in index.tsx: for the 'inactivity' modal
+//    only, dynamically calculates inline styles to re-centre the modal inside
+//    the *visual* viewport when the user is zoomed in. The browser's layout
+//    viewport (used by position:fixed) does not account for pinch-zoom, so
+//    without this the modal can appear off-screen. The inline style overrides
+//    the top/left/maxWidth/maxHeight values set here.
 export const BaseModalWindow = styled(Space).attrs({
   $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'xl', properties: ['padding-left', 'padding-right'] },
@@ -52,7 +122,7 @@ export const BaseModalWindow = styled(Space).attrs({
   $width?: string | null;
   $maxWidth?: string;
 }>`
-  z-index: 10001;
+  z-index: ${props => props.theme.zIndex.modalWindow};
   top: 0;
   bottom: 0;
   left: 0;
@@ -74,7 +144,7 @@ export const BaseModalWindow = styled(Space).attrs({
   &.fade-enter,
   &.fade-exit,
   &.fade-enter-done {
-    z-index: 1001;
+    z-index: ${props => props.theme.zIndex.modalWindow};
     pointer-events: all;
   }
 
@@ -127,7 +197,29 @@ export const FiltersModal = styled(BaseModalWindow).attrs({
   overflow: hidden;
   padding-left: 0;
   padding-right: 0;
+  background-color: ${props => props.theme.color('neutral.05')};
   box-shadow: ${props => props.theme.basicBoxShadow};
+`;
+
+// The mobile filters modal's header scrolls with its content rather than
+// sitting over the top padding, and its footer is fixed, so it needs no
+// vertical padding
+export const MobileFiltersModal = styled(FiltersModal)`
+  padding-top: 0;
+  padding-bottom: 0;
+
+  /* Centre it on the "Filters" heading, and keep it clear of a browser
+  scrollbar on the scrolling filters */
+  ${CloseButton} {
+    ${props =>
+      props.theme.mediaBetween(
+        'zero',
+        'sm'
+      )(`
+        top: 6px;
+        right: 24px;
+      `)}
+  }
 `;
 
 export const VideoModal = styled(BaseModalWindow)`
@@ -137,6 +229,12 @@ export const VideoModal = styled(BaseModalWindow)`
 
   ${CloseButton} {
     color: ${props => props.theme.color('white')};
+
+    ${closeButtonStyles(true)}
+
+    /* Centre it on the BSL video's title bar, which is taller on small
+    screens */
+    ${props => props.theme.mediaBetween('zero', 'sm')('top: 13px;')}
   }
 `;
 
@@ -149,4 +247,9 @@ export const CalendarModal = styled(BaseModalWindow)`
   ${props => props.theme.media('md')`
     left: auto;
   `}
+`;
+
+export const InactivityModal = styled(BaseModalWindow)`
+  background-color: ${props => props.theme.color('warmNeutral.300')};
+  border-radius: 8px;
 `;

@@ -34,7 +34,7 @@ describe('ArchiveBreadcrumb', () => {
       designation: [],
     };
     const { getByText } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
@@ -63,7 +63,6 @@ describe('ArchiveBreadcrumb', () => {
               referenceNumber: 'Wellcome Malay 3',
               partOf: [],
               totalParts: 6,
-              totalDescendentParts: 15,
               type: 'Work',
               alternativeTitles: [],
               availableOnline: true,
@@ -74,7 +73,6 @@ describe('ArchiveBreadcrumb', () => {
           availableOnline: true,
           availabilities: [],
           totalParts: 1,
-          totalDescendentParts: 1,
           type: 'Work',
         },
       ],
@@ -95,7 +93,7 @@ describe('ArchiveBreadcrumb', () => {
     };
 
     const { container } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );
@@ -132,7 +130,7 @@ describe('ArchiveBreadcrumb', () => {
     };
 
     const { container } = renderWithTheme(
-      <IsArchiveContext.Provider value={true}>
+      <IsArchiveContext.Provider value>
         <ArchiveBreadcrumb work={w} />
       </IsArchiveContext.Provider>
     );

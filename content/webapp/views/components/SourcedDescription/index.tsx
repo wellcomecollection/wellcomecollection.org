@@ -8,9 +8,10 @@ import {
 } from 'react';
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
 
 import MeshLogo from './mesh-logo.png';
@@ -44,16 +45,18 @@ const showSourceBox = css`
 `;
 
 const SourcePill = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   position: relative;
   display: inline-flex;
   align-items: center;
   border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.green')}40;
   cursor: default;
   height: 22px;
   vertical-align: middle;
+
+  background-color: ${designSystemColor('green.30')};
+  color: ${designSystemColor('neutral.70')};
 
   @media (hover: hover) {
     &:hover ${SourceBoxContainer} {
@@ -75,7 +78,7 @@ const underlineParagraph = css`
 `;
 
 const Paragraph = styled.p.attrs({
-  className: font('sans', 1),
+  className: typography('body', 'xl', 'regular'),
 })`
   display: inline;
   padding-right: ${props => props.theme.spacingUnits['100']};
@@ -197,7 +200,9 @@ const SourcedDescription: FunctionComponent<{
 
           <SourceBoxContainer $marginLeft={sourceBoxMarginLeft}>
             <SourceBox {...dataGtmPropsToAttributes({ trigger: 'source_box' })}>
-              <span className={font('sans-bold', -2)}>Source:</span>
+              <span className={typography('body', 'sm', 'strong')}>
+                Source:
+              </span>
               <SourceLink>
                 {source === 'wikidata' && <WikidataLogo width={16} />}
                 {source === 'nlm-mesh' && (

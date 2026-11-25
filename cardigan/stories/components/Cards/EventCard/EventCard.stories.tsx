@@ -16,14 +16,12 @@ const meta: Meta<StoryProps> = {
   title: 'Components/Cards/EventCard',
   component: EventCard,
   args: {
-    position: 0,
     event,
     isOnline: true,
     isAvailableOnline: true,
     isPast: false,
   },
   argTypes: {
-    position: { table: { disable: true } },
     event: { table: { disable: true } },
     fromDate: { table: { disable: true } },
     dateString: { table: { disable: true } },
@@ -52,9 +50,9 @@ const Template = (args: StoryProps) => {
   useEffect(() => {
     setFinalEventValue({
       ...passedEvent,
-      isOnline: isOnline,
+      isOnline,
       availableOnline: isAvailableOnline,
-      isPast: isPast,
+      isPast,
     });
   }, [isOnline, isAvailableOnline, isPast, passedEvent]);
 

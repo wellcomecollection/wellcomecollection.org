@@ -5,8 +5,30 @@ import {
   b2178081x,
   b28462270,
 } from '@weco/content/test/fixtures/iiif/manifests';
+import { TransformedCanvas } from '@weco/content/types/manifest';
 
-import { getThumbnailImage } from './canvas';
+import { getDisplayItems, getOriginal, getThumbnailImage } from './canvas';
+
+function createCanvas(
+  overrides: Partial<TransformedCanvas> = {}
+): TransformedCanvas {
+  return {
+    id: 'https://example.com/canvas/1',
+    type: 'Canvas',
+    width: 100,
+    height: 100,
+    imageServiceId: 'https://example.com/image/1',
+    label: 'Page 1',
+    textServiceId: undefined,
+    thumbnailImage: undefined,
+    painting: [],
+    original: [],
+    rendering: [],
+    supplementing: [],
+    metadata: [],
+    ...overrides,
+  };
+}
 
 describe('getThumbnailImage', () => {
   it('if there’s no thumbnail on the canvas', () => {
@@ -27,10 +49,82 @@ describe('getThumbnailImage', () => {
     });
 
     const canvas2 = b2178081x.items[0];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(getThumbnailImage(canvas2 as any)).toStrictEqual({
+    expect(getThumbnailImage(canvas2 as unknown as Canvas)).toStrictEqual({
       url: 'https://iiif-test.wellcomecollection.org/thumbs/b2178081x_0002_0005.jp2/full/299%2C/0/default.jpg',
       width: 299,
+    });
+  });
+
+  it('is undefined when the thumbnail has no image service and no width', () => {
+    // Some thumbnails arrive as just { id, type, format } - there's no usable
+    // size to report, so we treat it as having no thumbnail at all.
+    const canvas = {
+      id: 'example',
+      type: 'Canvas',
+      thumbnail: [
+        {
+          id: 'https://iiif.wellcomecollection.org/thumb/b28462270',
+          type: 'Image',
+          format: 'image/jpeg',
+        },
+      ],
+    };
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toBeUndefined();
+  });
+
+  it('ignores a legacy service that is not an image service', () => {
+    // The legacy auth services carry '@id' and '@type' just like an
+    // ImageService2 does, so matching on '@id' alone would hand this to
+    // iiifImageTemplate and build a thumbnail URL out of an auth endpoint.
+    const canvas = {
+      id: 'example',
+      type: 'Canvas',
+      thumbnail: [
+        {
+          id: 'https://example.com/thumb.jpg',
+          type: 'Image',
+          width: 120,
+          service: [
+            {
+              '@id': 'https://example.com/auth/cookie',
+              '@type': 'AuthCookieService1',
+            },
+          ],
+        },
+      ],
+    };
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
+      url: 'https://example.com/thumb.jpg',
+      width: 120,
+    });
+  });
+
+  it('picks the image service even when a legacy auth service comes first', () => {
+    const canvas = {
+      id: 'example',
+      type: 'Canvas',
+      thumbnail: [
+        {
+          id: 'https://example.com/thumb.jpg',
+          type: 'Image',
+          width: 120,
+          service: [
+            {
+              '@id': 'https://example.com/auth/cookie',
+              '@type': 'AuthCookieService1',
+            },
+            {
+              '@id': 'https://iiif.example.org/thumbs/image.jp2',
+              '@type': 'ImageService2',
+              sizes: [{ width: 400, height: 500 }],
+            },
+          ],
+        },
+      ],
+    };
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
+      url: 'https://iiif.example.org/thumbs/image.jp2/full/400%2C/0/default.jpg',
+      width: 400,
     });
   });
 
@@ -39,10 +133,69 @@ describe('getThumbnailImage', () => {
     // image service on PDF thumbnails.
     // See https://github.com/wellcomecollection/wellcomecollection.org/issues/9727
     const canvas = b28462270.items[0];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    expect(getThumbnailImage(canvas as any)).toStrictEqual({
+    expect(getThumbnailImage(canvas as unknown as Canvas)).toStrictEqual({
       url: 'https://iiif-test.wellcomecollection.org/extensions/born-digital/placeholder-thumb/fmt/20/application/pdf',
       width: 101,
     });
+  });
+});
+
+describe('getOriginal', () => {
+  it('returns only renderings with an "original" behavior', () => {
+    const rendering = [
+      { id: 'original', behavior: 'original', type: 'Image' },
+      { id: 'other', behavior: 'something-else', type: 'Image' },
+      { id: 'no-behavior', type: 'Image' },
+    ];
+    expect(getOriginal(rendering as never).map(o => o.id)).toEqual([
+      'original',
+    ]);
+  });
+
+  it('returns an empty array when there are no originals', () => {
+    const rendering = [
+      { id: 'other', behavior: 'something-else', type: 'Image' },
+      { id: 'no-behavior', type: 'Image' },
+    ];
+
+    expect(getOriginal(rendering as never)).toEqual([]);
+    expect(getOriginal([])).toEqual([]);
+    expect(getOriginal(undefined)).toEqual([]);
+  });
+});
+
+describe('getDisplayItems', () => {
+  it('prefers original PDFs when present', () => {
+    const canvas = createCanvas({
+      original: [
+        { id: 'pdf', format: 'application/pdf', behavior: 'original' },
+      ] as never,
+      painting: [{ id: 'painting', type: 'Image' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'pdf',
+    ]);
+  });
+
+  it('falls back to painting when there is no original PDF', () => {
+    const canvas = createCanvas({
+      original: [],
+      painting: [{ id: 'painting', type: 'Image' }] as never,
+      supplementing: [{ id: 'supplementing', type: 'Text' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'painting',
+    ]);
+  });
+
+  it('falls back to supplementing when there is no original or painting', () => {
+    const canvas = createCanvas({
+      original: [],
+      painting: [],
+      supplementing: [{ id: 'supplementing', type: 'Text' }] as never,
+    });
+    expect(getDisplayItems(canvas).map(i => 'id' in i && i.id)).toEqual([
+      'supplementing',
+    ]);
   });
 });

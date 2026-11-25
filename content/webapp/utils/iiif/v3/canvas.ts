@@ -1,4 +1,4 @@
-import { Canvas } from '@iiif/presentation-3';
+import { Canvas, ImageService } from '@iiif/presentation-3';
 
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -8,45 +8,37 @@ import {
   TransformedCanvas,
 } from '@weco/content/types/manifest';
 
-// Temporary type until iiif3 types are correct
-type Thumbnail = {
-  id: string;
-  width: number;
-  service?: {
-    '@id': string;
-    '@type': string;
-    profile: string;
-    width: number;
-    height: number;
-    sizes: { width: number; height: number }[];
-  }[];
-};
+import { isImageService2 } from './services';
 
+/**
+ * The thumbnail to show for a canvas, at a usable size. Where the thumbnail
+ * has an image service we request a size at least 400px tall from it;
+ * otherwise we take the thumbnail as given.
+ *
+ * The type IIIF allows here is very wide, but the only two shapes we've seen
+ * in our manifests are a thumbnail with an image service, used for digitised
+ * books, and one with type Image and no service, used for e.g. digitised
+ * PDFs. The tests have an example of each.
+ */
 export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
-  if (!canvas.thumbnail) return;
+  const thumbnail = canvas.thumbnail?.[0];
+  if (!thumbnail) return;
 
-  // The potential type here is extremely wide, but in practice we only
-  // see a couple of formats in our manifests:
-  //
-  //    - A thumbnail with an associated IIIF image service, which is used
-  //      for digitised books
-  //    - A thumbnail with type Image but no associated image service, which
-  //      is used for e.g. digitised PDFs
-  //
-  // We use our own type rather than trying to shoehorn this into the ContentResource
-  // type provided by the IIIF libraries.
-  //
-  // See the tests for examples of each of these.
-  const thumbnail = canvas.thumbnail[0] as Thumbnail;
+  // Requiring the ImageService2 discriminator, not just an '@id': the legacy
+  // auth services use '@id' too, so matching on that alone would hand an auth
+  // service to iiifImageTemplate and hide a real image service behind it.
+  const service =
+    'service' in thumbnail
+      ? thumbnail.service?.find(
+          (s): s is ImageService & { '@id': string } =>
+            isImageService2(s) && typeof s['@id'] === 'string'
+        )
+      : undefined;
 
-  if (isNotUndefined(thumbnail.service)) {
-    const thumbnailService = Array.isArray(thumbnail.service)
-      ? thumbnail.service[0]
-      : thumbnail.service;
-
-    const urlTemplate = iiifImageTemplate(thumbnailService['@id']);
+  if (isNotUndefined(service)) {
+    const urlTemplate = iiifImageTemplate(service['@id']);
     const preferredMinThumbnailHeight = 400;
-    const preferredThumbnail = thumbnailService?.sizes
+    const preferredThumbnail = service.sizes
       ?.sort((a, b) => a.height - b.height)
       .find(dimensions => dimensions.height >= preferredMinThumbnailHeight);
     return {
@@ -55,18 +47,23 @@ export function getThumbnailImage(canvas: Canvas): ThumbnailImage | undefined {
         size: preferredThumbnail ? `${preferredThumbnail.width},` : 'max',
       }),
     };
-  } else {
-    return {
-      width: thumbnail.width,
-      url: thumbnail.id,
-    };
   }
+
+  // Some thumbnails carry no width at all, in which case there's no usable
+  // size to report and we treat it as having no thumbnail.
+  return 'width' in thumbnail &&
+    typeof thumbnail.width === 'number' &&
+    thumbnail.id
+    ? { width: thumbnail.width, url: thumbnail.id }
+    : undefined;
 }
 
-// Items considered born digital, i.e. those without width, height or duration properties
-// have a rendering with a behavior of 'original'.
-// This is used to display a link to the original file.
-// See: https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+/**
+ * The born-digital originals in a canvas's rendering, which we offer as a
+ * download of the source file. Born-digital items are those without width,
+ * height or duration, and they carry a rendering with an 'original' behaviour.
+ * @see https://github.com/wellcomecollection/docs/blob/main/rfcs/046-born-digital-iiif/README.md
+ */
 export function getOriginal(
   rendering: Canvas['rendering']
 ): CustomContentResource[] {
@@ -77,11 +74,13 @@ export function getOriginal(
   return original || [];
 }
 
-// Ordinarly we would use the painting array to display an item to the user, see https://iiif.io/api/presentation/3.0/#values-for-motivation
-// However, if there is a PDF in the 'original' array we want to display that.
-// If neither of those things are available we fallback to the supplementing array.
-// This is because pdfs that are ingested via Goobi will be in the supplementing array.
-// (N.B. pdfs ingested via Archivematica follow the Born Digital pattern)
+/**
+ * What to actually render for a canvas: an original PDF if there is one,
+ * otherwise the painting content, otherwise supplementing - which is where
+ * PDFs ingested via Goobi end up. PDFs ingested via Archivematica follow the
+ * born-digital pattern instead, so they turn up in `original`.
+ * @see https://iiif.io/api/presentation/3.0/#values-for-motivation
+ */
 export const getDisplayItems = (canvas: TransformedCanvas) => {
   const originalPdfs = canvas.original.filter(o => {
     if ('format' in o) {

@@ -1,4 +1,4 @@
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { Holding } from '@weco/content/services/wellcome/catalogue/types';
 import {
@@ -43,7 +43,10 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                 )}
                 <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
                   {locationLink && (
-                    <a className={font('sans', -1)} href={locationLink.url}>
+                    <a
+                      className={typography('body', 'md', 'regular')}
+                      href={locationLink.url}
+                    >
                       {locationLink.linkText}
                     </a>
                   )}
@@ -51,17 +54,17 @@ const WorkDetailsHoldings = ({ holdings }: { holdings: Holding[] }) => {
                   {locationShelfmark && (
                     <WorkDetailsText
                       title="Location"
-                      noSpacing={true}
                       text={`${locationLabel} ${locationShelfmark}`}
+                      noSpacing
                     />
                   )}
 
                   {holding.note && (
                     <WorkDetailsText
                       title="Note"
-                      inlineHeading={true}
-                      noSpacing={true}
                       text={holding.note}
+                      inlineHeading
+                      noSpacing
                     />
                   )}
                 </Space>

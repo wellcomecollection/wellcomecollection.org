@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import {
   convertIiifImageUri,
   iiifImageTemplate,
@@ -8,7 +8,6 @@ import {
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import type { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { queryParams } from '@weco/content/utils/concepts';
-import { Toggles } from '@weco/toggles';
 
 /**
  * If displayImages is empty,
@@ -24,14 +23,26 @@ const imagesCache: Map<string, string[]> = new Map();
 
 export type ConceptImagesArray = [string?, string?, string?, string?];
 
-async function fetchImagesBySection(
-  sectionName: string,
-  concept: Concept,
-  limit: number,
-  toggles: Toggles
-): Promise<string[]> {
+async function fetchImagesBySection({
+  sectionName,
+  concept,
+  limit,
+  shouldUseStagingApi,
+  pipelineCluster,
+}: {
+  sectionName: string;
+  concept: Concept;
+  limit: number;
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string | null;
+}): Promise<string[]> {
   const params = queryParams(sectionName, concept);
-  const result = await getImages({ params, toggles, pageSize: limit });
+  const result = await getImages({
+    params,
+    shouldUseStagingApi,
+    pipelineCluster,
+    pageSize: limit,
+  });
   if (!('results' in result) || result.results.length === 0) return [];
   return result.results
     .slice(0, limit)
@@ -40,9 +51,13 @@ async function fetchImagesBySection(
 
 export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
   const [images, setImages] = useState<string[]>([]);
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline: pipelineCluster } = useModes();
 
-  const cacheKey = concept.id;
+  // Include the toggle state in the key so that changing the
+  // cataloguePipeline mode mid-session doesn’t serve cached
+  // image URLs from another pipeline
+  const cacheKey = `${concept.id}:${pipelineCluster ?? 'default'}`;
 
   useEffect(() => {
     let isMounted = true;
@@ -70,16 +85,17 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         return;
       }
 
-      let fetchedImages: string[] = [];
+      let fetchedImages: string[];
 
       const topUpWithAbout = async (images: string[]) => {
         if (images.length >= 4) return images;
-        const aboutImages = await fetchImagesBySection(
-          'imagesAbout',
+        const aboutImages = await fetchImagesBySection({
+          sectionName: 'imagesAbout',
           concept,
-          4 - images.length,
-          toggles
-        );
+          limit: 4 - images.length,
+          shouldUseStagingApi: stagingApi,
+          pipelineCluster,
+        });
         return [...images, ...aboutImages];
       };
 
@@ -91,20 +107,33 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
         ) {
           // Prioritise images by this person/organisation/agent, then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesBy', concept, 4, toggles)
+            await fetchImagesBySection({
+              sectionName: 'imagesBy',
+              concept,
+              limit: 4,
+              shouldUseStagingApi: stagingApi,
+              pipelineCluster,
+            })
           );
         } else if (concept.type === 'Genre') {
           // Prioritise images of this type/technique (imagesIn), then top up with imagesAbout
           fetchedImages = await topUpWithAbout(
-            await fetchImagesBySection('imagesIn', concept, 4, toggles)
+            await fetchImagesBySection({
+              sectionName: 'imagesIn',
+              concept,
+              limit: 4,
+              shouldUseStagingApi: stagingApi,
+              pipelineCluster,
+            })
           );
         } else {
-          fetchedImages = await fetchImagesBySection(
-            'imagesAbout',
+          fetchedImages = await fetchImagesBySection({
+            sectionName: 'imagesAbout',
             concept,
-            4,
-            toggles
-          );
+            limit: 4,
+            shouldUseStagingApi: stagingApi,
+            pipelineCluster,
+          });
         }
 
         // Use a larger size when only one image is available, matching the single-image layout
@@ -129,7 +158,13 @@ export function useConceptImageUrls(concept: Concept): ConceptImagesArray {
     return () => {
       isMounted = false;
     };
-  }, [cacheKey, concept.displayImages, concept.type, toggles]);
+  }, [
+    cacheKey,
+    concept.displayImages,
+    concept.type,
+    stagingApi,
+    pipelineCluster,
+  ]);
 
   return [images[0], images[1], images[2], images[3]] as ConceptImagesArray;
 }

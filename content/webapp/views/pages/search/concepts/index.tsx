@@ -73,7 +73,7 @@ const ConceptsSearchPage: NextPage<Props> = withSearchLayout(
         <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
           <Container>
             {hasNoResults ? (
-              <SearchNoResults query={queryString} hasFilters={false} />
+              <SearchNoResults query={queryString} />
             ) : (
               <>
                 <PaginationWrapper $verticalSpacing="md">

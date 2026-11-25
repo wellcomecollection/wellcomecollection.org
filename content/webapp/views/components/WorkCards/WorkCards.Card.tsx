@@ -1,11 +1,14 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+
+import { getFormatIconPath } from './WorkCards.FormatIcons';
 
 export const POPOUT_IMAGE_OFFSET = 'md' as const;
 
@@ -17,11 +20,13 @@ const Shim = styled.div<{ $hasImage: boolean }>`
 `;
 
 const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
+  display: grid;
+  place-items: center;
   position: ${props => (props.$hasImage ? 'relative' : 'absolute')};
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
   width: 100%;
-  background-color: ${props => props.theme.color('warmNeutral.300')};
+  background-color: ${props => props.theme.color('teal.20')};
   transform: rotate(-2deg);
 `;
 
@@ -30,11 +35,7 @@ const PopoutCardImage = styled(Space).attrs({
 })`
   position: relative;
   width: 66%;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-
-  /** This fixes an alignment issue with cards without images **/
-  display: flex;
+  transform: rotate(2deg);
 
   img {
     width: auto;
@@ -74,7 +75,7 @@ const LinkSpace = styled(Space).attrs<LinkSpaceAttrs>(props => ({
 `;
 
 const Title = styled.h3.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   margin: 0;
   display: -webkit-box;
@@ -85,30 +86,39 @@ const Title = styled.h3.attrs({
 `;
 
 const Meta = styled.p.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.600')};
   margin: 0;
 `;
 
 const NotAvailable = styled.span.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(2deg);
-  text-align: center;
+  transform: rotate(2deg);
+`;
+
+const FormatIconContainer = styled.div`
+  width: 100px;
+  height: 100px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 type Props = {
   item: WorkBasic;
+  dataGtmProps: Pick<DataGtmProps, 'position-in-list' | 'category-label'>;
 };
 
-const WorkCard: FunctionComponent<Props> = ({ item }) => {
+const WorkCard: FunctionComponent<Props> = ({ item, dataGtmProps }) => {
+  const formatIconPath = getFormatIconPath(item.workTypeId);
+
   const transformedWork = {
     title: item.title,
-    url: '/works/' + item.id,
+    url: `/works/${item.id}`,
     // `cardLabels` contains `workType` and `availabilities`, adding a labelColor to the latter.
     // As we only want the workType here, we filter out any with a labelColor.
     // It's not ideal but I prefer that to modifying a transformer that's heavily used elsewhere.
@@ -126,7 +136,11 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
   };
 
   return (
-    <LinkSpace $url={transformedWork.url} data-component="work-card">
+    <LinkSpace
+      data-component="work-card"
+      $url={transformedWork.url}
+      {...dataGtmPropsToAttributes(dataGtmProps)}
+    >
       <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
         <Shim $hasImage={!!transformedWork.imageUrl}>
           <PopoutCardImageContainer $hasImage={!!transformedWork.imageUrl}>
@@ -134,6 +148,10 @@ const WorkCard: FunctionComponent<Props> = ({ item }) => {
               <PopoutCardImage>
                 <img alt="" src={transformedWork.imageUrl} />
               </PopoutCardImage>
+            ) : formatIconPath ? (
+              <FormatIconContainer>
+                <img alt="" src={formatIconPath} />
+              </FormatIconContainer>
             ) : (
               <NotAvailable>Preview not available</NotAvailable>
             )}

@@ -21,13 +21,56 @@ export const workBasic: WorkBasic = {
     },
     type: 'DigitalLocation',
   },
+  workTypeId: 'a',
   productionDates: ['1906'],
   cardLabels: [{ text: 'Books' }, { text: 'Online', labelColor: 'white' }],
   primaryContributorLabel: 'Mannel, Wilhelm, 1870-1935.',
+  physicalDescription: '3 boxes',
   referenceNumber: 'B30609446',
+  shortDescription: undefined,
+  isArchiveCollectionRoot: false,
   notes: [],
   languageId: 'ger',
   archiveLabels: { reference: 'B30609446' },
+};
+
+// A work that is the root of its own collection, and has the "Archives and
+// manuscripts" format, but is a manuscript rather than an archive - it has a
+// `tei-manuscript-id` identifier. So it gets no archive-collection treatment.
+// See https://api.wellcomecollection.org/catalogue/v2/works/k3gfstaz
+export const nonArchiveCollectionWork: WorkBasic = {
+  id: 'k3gfstaz',
+  title: 'MS.632',
+  workTypeId: 'h',
+  productionDates: [],
+  cardLabels: [
+    { text: 'Archives and manuscripts' },
+    { text: 'Online', labelColor: 'white' },
+  ],
+  primaryContributorLabel: undefined,
+  physicalDescription: workBasic.physicalDescription,
+  referenceNumber: undefined,
+  shortDescription: undefined,
+  isArchiveCollectionRoot: false,
+  notes: [],
+  languageId: undefined,
+  archiveLabels: undefined,
+  thumbnail: {
+    url: 'https://iiif.wellcomecollection.org/thumbs/b19695639_0001.jp2/full/!200,200/0/default.jpg',
+    license: {
+      id: 'pdm',
+      label: 'Public Domain Mark',
+      url: 'https://creativecommons.org/share-your-work/public-domain/pdm/',
+      type: 'License',
+    },
+    accessConditions: [],
+    locationType: {
+      id: 'thumbnail-image',
+      label: 'Thumbnail image',
+      type: 'LocationType',
+    },
+    type: 'DigitalLocation',
+  },
 };
 
 export const contentAPILinkedWork: ContentApiLinkedWork = {
@@ -39,4 +82,34 @@ export const contentAPILinkedWork: ContentApiLinkedWork = {
     'https://iiif.wellcomecollection.org/thumbs/b30598977_0001.jp2/full/!200,200/0/default.jpg',
   date: '1900',
   mainContributor: 'Wolter, Hermann (Wilhelm Victor Hermann), 1868-',
+};
+
+export const archiveCollectionWork: WorkBasic = {
+  id: 'a2242545',
+  title:
+    'Draft manuscript notes for a seminar at the Institute de Biologie Moleculaire, Universite Paris',
+  workTypeId: 'h',
+  referenceNumber: 'UGC 198/8/5/8',
+  productionDates: ['19 Apr 1977'],
+  archiveLabels: {
+    reference: 'UGC 198/8/5/8',
+    partOf:
+      'Papers of Guido Pellegrino Arrigo Pontecorvo, geneticist, Professor of Genetics, University of Glasgow, Scotland',
+  },
+  cardLabels: [
+    {
+      text: 'Archives and manuscripts',
+    },
+    {
+      text: 'Online',
+      labelColor: 'white',
+    },
+  ],
+  isArchiveCollectionRoot: true,
+  physicalDescription: '3 boxes',
+  shortDescription: undefined,
+  languageId: undefined,
+  notes: [],
+  thumbnail: workBasic.thumbnail,
+  primaryContributorLabel: undefined,
 };

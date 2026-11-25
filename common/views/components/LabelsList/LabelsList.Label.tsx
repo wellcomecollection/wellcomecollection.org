@@ -1,32 +1,60 @@
 import { CSSProperties, FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
 import { LabelColor, Label as LabelType } from '@weco/common/model/labels';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  DesignSystemColor,
+  ThemeColor,
+} from '@weco/common/views/themes/config';
 
 type LabelContainerProps = {
-  $fontColor: PaletteColor;
-  $labelColor: PaletteColor;
+  $fontColor: ThemeColor;
+  $labelColor: ThemeColor;
+};
+
+const lightBrandColors: DesignSystemColor[] = [
+  'white',
+  'neutral.05',
+  'neutral.10',
+];
+
+// Light labels get an outline. Compare the colour that's actually shown,
+// as an alias (e.g. `white`) and a design system name can be the same colour.
+const isLightLabel = (color: ThemeColor, theme: DefaultTheme) => {
+  const shown = theme.color(color);
+
+  return (
+    shown === 'transparent' ||
+    lightBrandColors.some(light => theme.color(light) === shown)
+  );
 };
 
 const LabelContainer = styled(Space).attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })<LabelContainerProps>`
   white-space: nowrap;
-  line-height: 1;
+
+  /* We need to do .{class}.{class} to override any line-height set by the font utility */
+  && {
+    line-height: 1;
+  }
+
   color: ${props => props.theme.color(props.$fontColor)};
   background-color: ${props => props.theme.color(props.$labelColor)};
 
-  ${props => {
-    if (props.$labelColor === 'white' || props.$labelColor === 'transparent') {
-      return `border: 1px solid ${props.theme.color('neutral.500')};`;
-    } else {
-      return `border: 1px solid ${props.theme.color(props.$labelColor)};`;
-    }
-  }}
+  border: 1px solid
+    ${props =>
+      props.theme.color(
+        isLightLabel(props.$labelColor, props.theme)
+          ? 'neutral.70'
+          : props.$labelColor
+      )};
 `;
+
+// Format labels (Display, Workshop, Book extract…)
+export const formatLabelColor: LabelColor = 'pink.30';
 
 export type Props = {
   label: LabelType;
@@ -35,7 +63,7 @@ export type Props = {
 
 const Label: FunctionComponent<Props> = ({
   label,
-  defaultLabelColor = 'yellow',
+  defaultLabelColor = formatLabelColor,
 }: Props) => {
   return (
     <LabelContainer
@@ -51,7 +79,7 @@ const Label: FunctionComponent<Props> = ({
       $fontColor={
         label.textColor ||
         (label.labelColor === 'black' || defaultLabelColor === 'black'
-          ? 'yellow'
+          ? 'teal.20'
           : 'black')
       }
       $labelColor={label.labelColor || defaultLabelColor}

@@ -17,9 +17,8 @@ updates:
       # Needs more work, they have their own ticket. Remove them from this list once tickets are Done.
       - dependency-name: '@babel/*'
       - dependency-name: 'openseadragon'
-      - dependency-name: 'node-fetch'
-      - dependency-name: '@auth0/nextjs-auth0'
       - dependency-name: 'react-window'
+      - dependency-name: 'undici'
     groups:
       all:
         patterns: ['*']
@@ -27,6 +26,11 @@ updates:
     directory: '/'
     schedule:
       interval: 'monthly'
+    ignore:
+      # Falsely detects a v3 update:
+      # https://github.com/preactjs/compressed-size-action/issues/135
+      # Check once in a while if v3 was actually released.
+      - dependency-name: 'preactjs/compressed-size-action'
     groups:
       all:
         patterns: ['*']

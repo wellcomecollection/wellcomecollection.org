@@ -5,16 +5,8 @@
   "description": "EditorialImageGallery",
   "legacyPaths": {
     "articles::body::editorialImageGallery": "default",
-    "books::body::editorialImageGallery": "default",
-    "event-series::body::editorialImageGallery": "default",
-    "events::body::editorialImageGallery": "default",
     "exhibitions::body::editorialImageGallery": "default",
-    "guides::body::editorialImageGallery": "default",
     "pages::body::editorialImageGallery": "default",
-    "places::body::editorialImageGallery": "default",
-    "projects::body::editorialImageGallery": "default",
-    "seasons::body::editorialImageGallery": "default",
-    "series::body::editorialImageGallery": "default",
     "webcomics::body::editorialImageGallery": "default"
   },
   "variations": [

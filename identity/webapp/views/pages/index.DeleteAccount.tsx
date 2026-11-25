@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import { InputErrorMessage } from '@weco/common/views/components/TextInput';
 import {
@@ -97,7 +97,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
       {submissionErrorMessage && (
         <StatusAlert type="failure">{submissionErrorMessage}</StatusAlert>
       )}
-      <div className={font('sans', -1)}>
+      <div className={typography('body', 'md', 'regular')}>
         <p>
           Are you sure you want to delete your account? Your account will be
           closed and you won’t be able to request any items.
@@ -130,10 +130,12 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
               colors={theme.buttonColors.danger}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
+              isDanger
             />
             <Button
               variant="ButtonSolid"
               colors={theme.buttonColors.greenTransparentGreen}
+              hierarchy="secondary"
               clickHandler={onCancel}
               text="No, go back to my account"
             />

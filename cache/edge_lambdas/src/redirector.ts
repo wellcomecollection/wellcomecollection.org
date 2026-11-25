@@ -14,7 +14,7 @@ export const redirect301 = (
     location: [
       {
         key: 'Location',
-        value: `https://${host}${path}${querystring ? '?' + querystring : ''}`,
+        value: `https://${host}${path}${querystring ? `?${querystring}` : ''}`,
       },
     ],
     'x-powered-by': [

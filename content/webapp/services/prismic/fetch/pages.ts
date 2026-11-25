@@ -5,6 +5,7 @@ import { PagesDocument as RawPagesDocument } from '@weco/common/prismicio-types'
 import { labelsFields } from '@weco/content/services/prismic/fetch-links';
 import {
   articleFormatsFetchLinks,
+  articlesFetchLinks,
   bookFetchLinks,
   cardFetchLinks,
   collectionVenuesFetchLinks,
@@ -17,7 +18,6 @@ import {
   exhibitionsFetchLinks,
   guideFetchLinks,
   guideFormatsFetchLinks,
-  pageFormatsFetchLinks,
   pagesFetchLinks,
   projectFormatsFetchLinks,
   seasonsFetchLinks,
@@ -31,6 +31,7 @@ import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
 export const fetchLinks = [
   ...commonPrismicFieldsFetchLinks,
+  ...articlesFetchLinks,
   ...pagesFetchLinks,
   ...seriesFetchLinks,
   ...eventSeriesFetchLinks,
@@ -46,7 +47,6 @@ export const fetchLinks = [
   ...seasonsFetchLinks,
   ...contributorFetchLinks,
   ...bookFetchLinks,
-  ...pageFormatsFetchLinks,
   ...guideFormatsFetchLinks,
   ...projectFormatsFetchLinks,
   ...guideFetchLinks,

@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Page = styled.div`
-  background-color: ${props => props.theme.color('black')};
+  /* Darker than the neutral.70 bars in the brand, so they stand out */
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
   color: ${props => props.theme.color('white')};
   min-height: 100vh;
 `;
@@ -21,7 +23,7 @@ export const FlushContainer = styled(Container)`
 `;
 
 export const Header = styled.header.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   background-color: ${props => props.theme.color('neutral.700')};
   position: sticky;
@@ -30,7 +32,7 @@ export const Header = styled.header.attrs({
 `;
 
 export const Title = styled.h1.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   margin-bottom: 0;
 `;
@@ -46,28 +48,30 @@ export const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-export const prevNextHeight = '50px';
+const PREV_NEXT_HEIGHT = '50px';
 
 export const PrevNext = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   position: fixed;
   z-index: 2;
   bottom: 0;
   width: 100%;
-  height: ${prevNextHeight};
+  height: ${PREV_NEXT_HEIGHT};
   background: ${props => props.theme.color('neutral.700')};
+`;
+
+export const PrevNextInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: ${PREV_NEXT_HEIGHT};
 `;
 
 export const AudioPlayerNewWrapper = styled.div`
   position: fixed;
-  bottom: ${prevNextHeight};
+  bottom: ${PREV_NEXT_HEIGHT};
   width: 100%;
-`;
-
-export const AlignCenter = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 export const StickyPlayer = styled.div<{ $sticky: boolean }>`

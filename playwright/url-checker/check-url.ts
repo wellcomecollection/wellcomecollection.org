@@ -72,7 +72,21 @@ const safePageCloser =
 export const urlChecker =
   (browser: Browser) =>
   async (url: string, expectedStatus: number): Promise<Result> => {
-    const context = await browser.newContext();
+    // A locale makes headless Chromium send Accept-Language like a real
+    // browser. Without it the WAF /search and /works fabricated-traffic
+    // blocks 403 the checker when it runs from a non-allowlisted IP.
+    const context = await browser.newContext({ locale: 'en-GB' });
+
+    // This checker's page loads against real environments - including prod -
+    // shouldn't count as analytics traffic, so drop those requests before
+    // they're sent rather than let the page load GTM/GA normally. Aborting
+    // with 'aborted' (net::ERR_ABORTED), not the default 'failed', matters
+    // here specifically: the request-failure handling below only tolerates
+    // net::ERR_ABORTED as an expected, ignorable failure.
+    await context.route(/googletagmanager\.com|google-analytics\.com/, route =>
+      route.abort('aborted')
+    );
+
     const page = await context.newPage();
     const failures: Failure[] = [];
 
@@ -149,15 +163,18 @@ export const urlChecker =
 
       inFlight.add(response);
       checkResponse()
-        .then(() => {
-          inFlight.delete(response);
-        })
         .catch(e => {
-          console.error(`Something went wrong checking ${url}`);
-          console.error(
-            `Request was ${response.request().method()} ${response.url()}`
-          );
-          throw e;
+          // A late response (e.g. a lazy-loaded image) can still be being read
+          // when the page closes, which isn't a problem with the page. Throwing
+          // here would be an unhandled rejection that kills the whole run.
+          if (page.isClosed()) return;
+          failures.push({
+            failureType: 'unknown',
+            description: `Something went wrong checking ${response.request().method()} ${response.url()}: ${e}`,
+          });
+        })
+        .finally(() => {
+          inFlight.delete(response);
         });
     });
 

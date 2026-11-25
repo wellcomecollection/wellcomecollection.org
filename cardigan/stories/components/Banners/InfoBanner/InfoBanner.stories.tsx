@@ -26,7 +26,7 @@ const meta: Meta<typeof InfoBanner> = {
   argTypes: {
     variant: {
       control: { type: 'radio' },
-      options: ['default', 'websiteIssues'],
+      options: ['default', 'websiteIssues', 'kioskTRBanners'],
     },
     document: {
       table: { disable: true },

@@ -5,7 +5,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { Tasl as TaslType } from '@weco/common/model/tasl';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import Caption from '@weco/common/views/components/Caption';
 import FeaturedWorkLink, {
@@ -32,7 +32,7 @@ const PlayPause = styled.button.attrs({
 `;
 
 const Text = styled.span.attrs({
-  className: font('mono', -1),
+  className: typography('caption', 'md', 'regular'),
 })<{ $isPlaying: boolean }>`
   display: block;
   background: ${props => props.theme.color('neutral.700')};
@@ -205,7 +205,7 @@ const GifVideo: FunctionComponent<Props> = ({
 
       {tasl && hasLinkedWork(tasl.sourceLink) && (
         <Space
-          className={font('sans-bold', -1)}
+          className={typography('body', 'md', 'strong')}
           style={{ display: 'block' }}
           $v={{ size: 'sm', properties: ['margin-top'] }}
         >

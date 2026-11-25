@@ -24,13 +24,6 @@ export const ignoreErrorLog = (errorText: string): boolean => {
     return true;
   }
 
-  // This is a hard-to-pin down issue which seems to be related to webfonts
-  // being slow to load when the URL checker is run in CI - it seems to be logged from
-  // https://github.com/wellcometrust/wellcomecollection.org/blob/9d9b2e96c82f4ea913c58df6c7daf27ff7eac9b4/common/hooks/useIsFontsLoaded.ts#L27
-  if (errorText.startsWith('Error: 3000ms timeout exceeded')) {
-    return true;
-  }
-
   return false;
 };
 

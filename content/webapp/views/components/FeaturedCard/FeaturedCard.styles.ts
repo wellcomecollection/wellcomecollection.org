@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 export const DateWrapper = styled(Space).attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   padding: 0;
 `;
 
-const shimHeight = '21px';
+const SHIM_HEIGHT = '21px';
 
 export const FeaturedCardWrap = styled.div`
   margin-left: -${props => props.theme.gutter.small};
@@ -25,7 +25,7 @@ export const FeaturedCardWrap = styled.div`
 
   ${props =>
     props.theme.media('md')(`
-    padding-bottom: ${shimHeight};
+    padding-bottom: ${SHIM_HEIGHT};
   `)}
 `;
 
@@ -51,7 +51,7 @@ export const FeaturedCardLeft = styled(GridCell)<HasIsReversed>`
 `;
 
 export const FeaturedCardRight = styled.div.attrs({
-  className: font('sans-bold', -2), // required for em value in label height calc below
+  className: typography('body', 'sm', 'strong'), // required for em value in label height calc below
 })<HasIsReversed>`
   display: flex;
   flex-direction: column;
@@ -63,8 +63,10 @@ export const FeaturedCardRight = styled.div.attrs({
   min-height: 200px;
   position: relative;
 
-  padding-left: ${props => (props.$isReversed ? 0 : props.theme.gutter.small)};
-  padding-right: ${props => (props.$isReversed ? props.theme.gutter.small : 0)};
+  ${props =>
+    props.$isReversed
+      ? `padding-left: 0; padding-right: ${props.theme.gutter.small};`
+      : `padding-left: ${props.theme.gutter.small}; padding-right: 0;`}
 
   ${props => props.theme.media('sm')`
     padding-left: 0;
@@ -80,23 +82,23 @@ export const FeaturedCardRight = styled.div.attrs({
 export const FeaturedCardCopy = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
-})<{ $textColor: PaletteColor; $background: PaletteColor }>`
+})<{ $textColor: ThemeColor; $background: ThemeColor }>`
   flex: 1;
   color: ${props => props.theme.color(props.$textColor)};
   background-color: ${props => props.theme.color(props.$background)};
 `;
 
-export const FeaturedCardShim = styled.div.attrs<{ $background: PaletteColor }>(
-  {
-    className: `is-hidden-s is-hidden-m`,
-  }
-)<{ $background: PaletteColor }>`
+export const FeaturedCardShim = styled.div.attrs<{
+  $background: ThemeColor;
+}>({
+  className: `is-hidden-s is-hidden-m`,
+})<{ $background: ThemeColor }>`
   position: absolute;
   top: 100%;
   left: 0;
   right: 0;
   background-color: ${props => props.theme.color(props.$background)};
-  height: ${shimHeight};
+  height: ${SHIM_HEIGHT};
 `;
 
 export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
@@ -105,7 +107,7 @@ export const FeaturedCardLabelWrap = styled.div<HasIsReversed>`
   ${props =>
     props.theme.media('md')(`
       justify-content: ${props.$isReversed ? 'flex-end' : 'flex-start'};
-      margin-right: ${props.$isReversed ? '-16px' : undefined};
+      ${props.$isReversed ? 'margin-right: -16px;' : ''}
   `)}
 `;
 

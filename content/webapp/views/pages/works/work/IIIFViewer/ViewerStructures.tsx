@@ -1,9 +1,9 @@
 import { Manifest } from '@iiif/presentation-3';
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -15,14 +15,15 @@ import {
 import { ItemViewerQuery } from '@weco/content/types/item-viewer';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import {
-  getDisplayLabel,
+  getPreferredDisplayLabel,
   isCanvas,
   isRange,
 } from '@weco/content/utils/iiif/v3';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
-
-import { arrayIndexToQueryParam } from '.';
-import { thumbnailsPageSize } from './Paginators';
+import {
+  arrayIndexToQueryParam,
+  getThumbnailsPageForCanvas,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
 export const List = styled(PlainList)`
   border-left: 1px solid ${props => props.theme.color('neutral.600')};
@@ -30,7 +31,7 @@ export const List = styled(PlainList)`
 
 export const Item = styled(Space).attrs({
   as: 'li',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })<{ $isActive: boolean }>`
@@ -38,7 +39,7 @@ export const Item = styled(Space).attrs({
 
   ${props =>
     props.$isActive &&
-    `
+    css`
       background: ${props.theme.color('black')};
 
       &::before {
@@ -83,51 +84,46 @@ const Structures: FunctionComponent<Props> = ({
         const canvasIndex =
           canvases?.findIndex(canvas => canvas.id === firstCanvasInRangeId) ||
           0;
+
         const nestedRanges = range?.items?.filter(isRange) || [];
+        const isActiveRange =
+          currentCanvasIndex === arrayIndexToQueryParam(canvasIndex);
+
         return (
-          <Item
-            key={i}
-            $isActive={
-              currentCanvasIndex === arrayIndexToQueryParam(canvasIndex)
-            }
-          >
+          <Item key={i} $isActive={isActiveRange}>
             <ConditionalWrapper
-              condition={Boolean(nestedRanges.length === 0)}
+              condition={nestedRanges.length === 0}
               wrapper={children => (
                 <NextLink
-                  replace={true}
                   {...toWorksItemLink({
                     workId: work.id,
                     props: {
                       manifest: query.manifest,
                       query: query.query,
                       canvas: arrayIndexToQueryParam(canvasIndex),
-                      page: Math.ceil(
-                        arrayIndexToQueryParam(canvasIndex) / thumbnailsPageSize
-                      ),
+                      page: getThumbnailsPageForCanvas({
+                        canvasNumber: arrayIndexToQueryParam(canvasIndex),
+                      }),
                     },
                   })}
                   data-gtm-trigger="contents_nav"
-                  aria-current={
-                    currentCanvasIndex === arrayIndexToQueryParam(canvasIndex)
-                      ? 'page'
-                      : undefined
-                  }
+                  aria-current={isActiveRange ? 'page' : undefined}
                   onClick={() => {
                     setIsMobileSidebarActive(false);
                   }}
+                  replace
                 >
                   {children}
                 </NextLink>
               )}
             >
-              {getDisplayLabel(range.label)}
+              {getPreferredDisplayLabel(range.label)}
             </ConditionalWrapper>
-            {nestedRanges.map((range, i) => {
+            {nestedRanges.map((nestedRange, nestedIndex) => {
               return (
                 <Structures
-                  key={i}
-                  ranges={[range]}
+                  key={nestedIndex}
+                  ranges={[nestedRange]}
                   canvases={canvases}
                   currentCanvasIndex={currentCanvasIndex}
                   setIsMobileSidebarActive={setIsMobileSidebarActive}
@@ -147,14 +143,13 @@ const Structures: FunctionComponent<Props> = ({
 const ViewerStructures: FunctionComponent = () => {
   const { transformedManifest, setIsMobileSidebarActive, query, work } =
     useItemViewerContext();
-  const { canvas } = query;
   const { structures: ranges, canvases } = { ...transformedManifest };
 
   return (
     <Structures
       ranges={ranges || []}
       canvases={canvases || []}
-      currentCanvasIndex={canvas}
+      currentCanvasIndex={query.canvas}
       setIsMobileSidebarActive={setIsMobileSidebarActive}
       work={work}
       query={query}

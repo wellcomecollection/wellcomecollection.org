@@ -1,7 +1,8 @@
+import NextLink from 'next/link';
 import { FunctionComponent, useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { toHtmlId } from '@weco/common/utils/grammar';
 import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -15,7 +16,7 @@ type SelectableTagsProps = {
     id: string;
     label: string;
     controls?: string;
-    gtmData?: DataGtmProps;
+    dataGtmProps?: DataGtmProps;
   }[];
   isMultiSelect?: boolean;
   selectedTags?: string[];
@@ -23,7 +24,7 @@ type SelectableTagsProps = {
 };
 
 export const SelectableTagsWrapper = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   flex-wrap: wrap;
@@ -43,17 +44,28 @@ export const StyledInputCSS = css<
   border: 1px solid ${props => props.theme.color('black')};
   background-color: ${props =>
     props.theme.color(props.$isSelected ? 'neutral.700' : 'transparent')};
-  color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(props.$isSelected ? 'neutral.10' : 'black')};
   padding: 8px 16px;
   border-radius: 100px;
   cursor: pointer;
 
   &:hover {
     background-color: ${props =>
-      props.theme.color(props.$isSelected ? 'neutral.700' : 'warmNeutral.400')};
-    color: ${props => props.theme.color(props.$isSelected ? 'white' : 'black')};
+      props.theme.color(props.$isSelected ? 'neutral.700' : 'neutral.10')};
+    color: ${props =>
+      props.theme.color(props.$isSelected ? 'neutral.10' : 'black')};
   }
 `;
+// The tag style on a link, for tags that go somewhere rather than toggle
+export const SelectableTagLink = styled(NextLink).attrs({
+  className: typography('body', 'md', 'strong'),
+})<AnimatedUnderlineProps & { $isSelected: boolean }>`
+  ${StyledInputCSS}
+
+  text-decoration: none;
+`;
+
 const StyledInput = styled.label<
   AnimatedUnderlineProps & { $isSelected: boolean }
 >`
@@ -123,7 +135,7 @@ export const SelectableTags: FunctionComponent<SelectableTagsProps> = ({
           const isSelected = selected.includes(tag.id);
           const gtmAttributes = dataGtmPropsToAttributes({
             'position-in-list': String(index + 1),
-            ...tag.gtmData,
+            ...tag.dataGtmProps,
           });
 
           return (

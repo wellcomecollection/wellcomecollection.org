@@ -4,7 +4,10 @@ import {
 } from '@wellcometrust/wellcome-design-system/theme';
 import { css, keyframes } from 'styled-components';
 
-import { ButtonColors } from '@weco/common/views/components/Buttons';
+import {
+  ButtonColors,
+  ButtonHierarchy,
+} from '@weco/common/views/components/Buttons';
 import {
   HorizontalSpaceProperty,
   SpaceOverrides,
@@ -15,64 +18,181 @@ type SpaceSize = '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 
 export type ColumnKey =
-  | 's'
-  | 'm'
-  | 'l'
-  | 'xl'
-  | 'shiftM'
-  | 'shiftL'
-  | 'shiftXl';
+  's' | 'm' | 'l' | 'xl' | 'shiftM' | 'shiftL' | 'shiftXl';
 
-// suggested new colors
-const colors = {
-  // Core
-  // Wrap in core? Looks better for lightYellow but worse for the others...
-  white: '#ffffff',
-  black: '#121212',
-  yellow: '#ffce3c',
-  lightYellow: '#ffebad',
+// The design system's colour tokens (`designSystemTheme.color`) are nested
+// objects of tinted scales; we flatten them to a `.`-separated map (e.g.
+// `neutral.10`, `ui.blue.40`) so they can be named in `theme.color(...)`.
+const coreColorKeys = [
+  'white',
+  'black',
+  'neutral',
+  'pink',
+  'yellow',
+  'blue',
+  'indigo',
+  'teal',
+  'orange',
+  'green',
+  'ui',
+] as const;
 
-  // Accents
-  'accent.purple': '#724e91',
-  'accent.lightPurple': '#baa4cd',
-  'accent.turquoise': '#1dbebb',
-  'accent.lightTurquoise': '#a2eeed',
-  'accent.blue': '#27476e',
-  'accent.lightBlue': '#a4bfdf',
-  'accent.green': '#4f7d68',
-  'accent.lightGreen': '#9bc0af',
-  'accent.salmon': '#ff6f59',
-  'accent.lightSalmon': '#ff9585',
+type CoreColorSource = Pick<
+  typeof designSystemTheme.color,
+  (typeof coreColorKeys)[number]
+>;
 
-  // Neutral is a greyscale. Some have a matching warm colour, which sometimes suits our core yellow best.
-  // Their HSL Lightness is commented next to them, which explains how some match warm colours.
-  'neutral.200': '#fbfaf4', // lightness: 97 - matches warmNeutral.200
-  'neutral.300': '#e8e8e8', // lightness: 91 - matches warmNeutral.300
-  'neutral.400': '#d9d9d9', // lightness: 85 - matches warmNeutral.400
-  'neutral.500': '#8f8f8f', // lightness: 56
-  'neutral.600': '#6a6a6a', // suggested: lightness: 42
-  'neutral.700': '#323232', // lightness: 20
+// Recursively derive the `.`-separated union of leaf (i.e. outermost) keys from
+// a nested colour object, giving us `'white' | 'neutral.10' | 'ui.blue.40' |
+// ...`. This keeps type safety: a name that isn't in the design system is a
+// type error.
+type FlattenColorKeys<T, Prefix extends string = ''> = {
+  [K in keyof T & string]: T[K] extends string
+    ? `${Prefix}${K}`
+    : FlattenColorKeys<T[K], `${Prefix}${K}.`>;
+}[keyof T & string];
 
-  // Warm neutrals have equivalents in neutral (see lightness), but with a tinge of yellow to match the core colour.
-  'warmNeutral.200': '#fff9e6', // lightness: 95 - matches neutral.200
-  'warmNeutral.300': '#edece4', // lightness: 91 - matches neutral.300
-  'warmNeutral.400': '#d9d8d0', // lightness: 83 - matches neutral.400
+export type DesignSystemColor = FlattenColorKeys<CoreColorSource>;
 
-  // Validation, should only be used for that purpose. Consider other colours for other purposes.
-  'validation.red': '#e01b2f',
-  'validation.green': '#0b7051',
+// Runtime flatten mirroring the type above.
+function flattenColors(
+  obj: Record<string, unknown>,
+  prefix = ''
+): Record<string, string> {
+  return Object.entries(obj).reduce<Record<string, string>>(
+    (acc, [key, value]) => {
+      const path = prefix ? `${prefix}.${key}` : key;
 
-  // Focus, should only be used for that purpose.
-  'focus.yellow': '#ffea00',
-};
+      if (typeof value === 'string') {
+        acc[path] = value;
+      } else if (value && typeof value === 'object') {
+        Object.assign(
+          acc,
+          flattenColors(value as Record<string, unknown>, path)
+        );
+      }
 
-const getColor = (name: PaletteColor): string => {
-  // In some cases, these get passed in, see ButtonColors for example.
-  // But better not to use it if possible.
-  if (['currentColor', 'transparent', 'inherit'].includes(name)) return name;
+      return acc;
+    },
+    {}
+  );
+}
 
-  return colors[name];
-};
+// We need an object containing only the 'core' colours from the design system…
+const coreColorSource = coreColorKeys.reduce<Record<string, unknown>>(
+  (acc, key) => {
+    acc[key] = designSystemTheme.color[key];
+    return acc;
+  },
+  {}
+);
+// …so the flattened result only contains the keys the `DesignSystemColor` type
+// expects (we deliberately filter out the 'legacy' stuff)
+const designSystemColors = flattenColors(coreColorSource) as Record<
+  DesignSystemColor,
+  string
+>;
+
+// Colour names from before the design system, kept as aliases for their
+// nearest design system colour so existing call sites still work. Prefer
+// design system names in new code. The series `color` field in Prismic stores
+// some of these names, so they can't all go.
+//
+// An alias wins where both use the same name: `black` is `neutral.70`, the
+// text colour, not the design system's black.
+//
+// Some rows are flagged because the design system has no purple, turquoise or
+// salmon, so the nearest match is a poor visual fit. Adjust deliberately if
+// design wants something else.
+const colorAliases = {
+  white: 'white',
+  black: 'neutral.70',
+  yellow: 'yellow.30', // FIXME: such yellow
+  lightYellow: 'yellow.20',
+
+  'accent.purple': 'neutral.50', // FIXME: no purple in core scales; nearest is a grey
+  'accent.lightPurple': 'ui.grey.40', // FIXME: no purple in core scales; nearest is a grey
+  'accent.turquoise': 'blue.50', // FIXME: no turquoise in core scales; nearest is a blue
+  'accent.lightTurquoise': 'blue.20', // FIXME: no turquoise in core scales; nearest is a blue
+  'accent.blue': 'indigo.60',
+  'accent.lightBlue': 'blue.30',
+  'accent.green': 'teal.40',
+  'accent.lightGreen': 'green.40',
+  'accent.salmon': 'orange.40',
+  'accent.lightSalmon': 'orange.30',
+
+  'neutral.200': 'neutral.05',
+  'neutral.300': 'neutral.20',
+  'neutral.400': 'neutral.20',
+  'neutral.500': 'neutral.40',
+  'neutral.600': 'neutral.50',
+  'neutral.700': 'neutral.70',
+
+  'warmNeutral.200': 'yellow.10',
+  'warmNeutral.300': 'neutral.10',
+  'warmNeutral.400': 'neutral.20',
+
+  'validation.red': 'ui.red.40',
+  'validation.green': 'teal.50', // FIXME: nearest is a teal, not a green
+
+  'focus.yellow': 'yellow.30',
+} as const satisfies Record<string, DesignSystemColor>;
+
+type ColorAlias = keyof typeof colorAliases;
+
+// The aliases resolved to hex values, for anything that reads
+// `theme.colors[...]` directly rather than via `color()`.
+const colors = Object.fromEntries(
+  (Object.keys(colorAliases) as ColorAlias[]).map(name => [
+    name,
+    designSystemColors[colorAliases[name]],
+  ])
+) as Record<ColorAlias, string>;
+
+const passthroughColors = {
+  transparent: 'transparent',
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+} as const;
+
+type PassthroughColor = keyof typeof passthroughColors;
+
+export type PaletteColor = ColorAlias | PassthroughColor;
+
+/** Anything `theme.color(...)` accepts: an alias, a value CSS resolves itself,
+ * or a design system colour.
+ */
+export type ThemeColor = PaletteColor | DesignSystemColor;
+
+const isColorAlias = (name: ThemeColor): name is ColorAlias =>
+  name in colorAliases;
+
+const isPassthroughColor = (name: ThemeColor): name is PassthroughColor =>
+  name in passthroughColors;
+
+const getColor = (name: ThemeColor): string =>
+  isColorAlias(name)
+    ? colors[name]
+    : isPassthroughColor(name)
+      ? passthroughColors[name]
+      : designSystemColors[name];
+
+/** The page background. Anything that needs to blend into the page (e.g. a
+ * decorative edge) should use this rather than `white`.
+ */
+export const pageBackgroundColor = 'neutral.05' satisfies DesignSystemColor;
+
+/** The near-black backdrop behind images and video (e.g. the viewer canvas).
+ * Darker than `black`, which is the text colour.
+ */
+export const mediaBackgroundColor = 'neutral.80' satisfies DesignSystemColor;
+
+/** A design system colour by name, for styles outside a theme (e.g. passed to
+ * a third-party script).
+ */
+export const designSystemColor = (
+  name: DesignSystemColor | 'transparent'
+): string => (name === 'transparent' ? name : designSystemColors[name]);
 
 export const sizes = {
   zero: '0rem',
@@ -106,10 +226,12 @@ const dangerButtonColors: ButtonColors = {
 // Button color naming convention: [border][Background][Text]
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
+// The names use the old palette's: charcoal is neutral.700, pumice is
+// warmNeutral.400 or neutral.400
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const greenTransparentGreen: ButtonColors = {
@@ -131,32 +253,23 @@ const whiteTransparentWhite: ButtonColors = {
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
-  border: 'warmNeutral.400', // legacy pumice color
+  border: 'warmNeutral.400',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const charcoalTransparentCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
-};
-
-const charcoalTransparentBlack: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
-  background: 'transparent',
-  text: 'black',
+  text: 'neutral.700',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'neutral.400', // legacy pumice color
+  border: 'neutral.400',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
-// New button style introduction
-// If we chose to move forward with new buttons
-// Remove border prop
 const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
@@ -166,19 +279,84 @@ const yellowYellowBlack: ButtonColors = {
 const whiteWhiteCharcoal: ButtonColors = {
   border: 'white',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
-const silverTransparentBlack: ButtonColors = {
-  border: 'neutral.300',
-  background: 'transparent',
-  text: 'black',
+type BrandButtonColor = DesignSystemColor | 'transparent';
+
+type BrandButtonStateColors = {
+  border: BrandButtonColor;
+  background: BrandButtonColor;
+  text: BrandButtonColor;
 };
 
-const slateTransparentBlack: ButtonColors = {
-  border: 'neutral.600',
+export type BrandButtonColors = {
+  default: BrandButtonStateColors;
+  active: BrandButtonStateColors;
+  disabled: BrandButtonStateColors;
+};
+
+const filledDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
+  background: 'ui.grey.40',
+  text: 'ui.grey.60',
+};
+
+const outlinedDisabled: BrandButtonStateColors = {
+  border: 'ui.grey.40',
   background: 'transparent',
-  text: 'black',
+  text: 'ui.grey.40',
+};
+
+// Button colours from the brand designs. Only tertiary changes on a dark
+// background; hover adds an underline rather than changing colour.
+export const brandButtonColors: Record<
+  ButtonHierarchy | 'tertiaryOnDark' | 'danger',
+  BrandButtonColors
+> = {
+  primary: {
+    default: {
+      border: 'indigo.50',
+      background: 'indigo.50',
+      text: 'neutral.10',
+    },
+    active: {
+      border: 'indigo.60',
+      background: 'indigo.60',
+      text: 'neutral.10',
+    },
+    disabled: filledDisabled,
+  },
+  secondary: {
+    default: { border: 'blue.30', background: 'blue.30', text: 'neutral.70' },
+    active: { border: 'blue.40', background: 'blue.40', text: 'neutral.70' },
+    disabled: filledDisabled,
+  },
+  tertiary: {
+    default: {
+      border: 'neutral.70',
+      background: 'transparent',
+      text: 'neutral.70',
+    },
+    active: {
+      border: 'neutral.80',
+      background: 'transparent',
+      text: 'neutral.80',
+    },
+    disabled: outlinedDisabled,
+  },
+  tertiaryOnDark: {
+    default: { border: 'blue.30', background: 'transparent', text: 'blue.30' },
+    active: { border: 'blue.40', background: 'transparent', text: 'blue.40' },
+    disabled: outlinedDisabled,
+  },
+  // Pure black rather than neutral.70, which doesn't have enough contrast on
+  // ui.red.40. There's no mid red, so pressing adds a darker stroke instead
+  danger: {
+    default: { border: 'ui.red.40', background: 'ui.red.40', text: 'black' },
+    active: { border: 'ui.red.60', background: 'ui.red.40', text: 'black' },
+    disabled: filledDisabled,
+  },
 };
 
 export type Size = keyof typeof sizes;
@@ -213,6 +391,11 @@ const breakpointNames = ['zero', 'sm', 'md'];
 export const containerPadding = '5%';
 const containerPaddingVw = '5vw';
 
+// Where the content of a Container starts: half of the space left either side
+// of its max width, plus its own padding, which is a share of the parent's width
+export const containerEdge = (maxWidth: string) =>
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
+
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
 const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
@@ -227,15 +410,7 @@ const designSystemSpacing: Record<SpaceSize, ResponsiveValue> = {
 // Map spacingUnits to design system static spacing values
 // Used for overrides parameter
 type SpacingUnit =
-  | '050'
-  | '075'
-  | '100'
-  | '150'
-  | '200'
-  | '300'
-  | '400'
-  | '600'
-  | '1200';
+  '050' | '075' | '100' | '150' | '200' | '300' | '400' | '600' | '1200';
 const designSystemStaticSpacing: Record<SpacingUnit, string> = {
   '050': designSystemTheme.spacing.static['space.050'], // 4px → 0.25rem
   '075': designSystemTheme.spacing.static['space.075'], // 6px → 0.375rem
@@ -369,6 +544,25 @@ export const themeValues = {
   },
   spacingUnits: designSystemStaticSpacing,
   navHeight: 85,
+  kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
+  kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
+  // The layers that decide what covers what, lowest to highest. Small values
+  // that only order things inside a single component stay local.
+  // viewerLoading and kioskNavigation share a value as they never show together.
+  zIndex: {
+    header: 6,
+    skipLink: 7, // Focused skip link, just above the header
+    headerMenuOpen: 10, // The fixed header while the mobile menu is open
+    apiToolbar: 100,
+    viewerLoading: 1000,
+    kioskNavigation: 1000,
+    toggleWidget: 1001,
+    modalOverlay: 1002,
+    modalWindow: 1003,
+    loadingIndicator: 1031,
+    headerSearch: 9999,
+    prismicPreviewBar: 2147483000,
+  },
   fontVerticalOffset: '0.15em',
   colors,
   color: getColor,
@@ -379,6 +573,15 @@ export const themeValues = {
   getSpaceValue,
   responsiveSpaceMixin,
   pageGridOffset,
+  getViewerHeight: (isTRKiosk: boolean, isNonTRKiosk: boolean) => {
+    if (isTRKiosk) {
+      return `calc(100vh - ${themeValues.kioskTRBannersHeight + themeValues.kioskNavigationHeight}px)`;
+    } else if (isNonTRKiosk) {
+      return `calc(100vh - ${themeValues.kioskNavigationHeight}px)`;
+    } else {
+      return `calc(100vh - ${themeValues.navHeight}px)`;
+    }
+  },
   buttonColors: {
     default: defaultButtonColors,
     danger: dangerButtonColors,
@@ -387,22 +590,14 @@ export const themeValues = {
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
-    charcoalTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
-    silverTransparentBlack,
-    slateTransparentBlack,
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
   clampLines,
+  typography: designSystemTheme.typography,
 };
 
 export type Breakpoint = keyof typeof sizes;
-
-export type PaletteColor =
-  | keyof typeof colors
-  | 'transparent'
-  | 'inherit'
-  | 'currentColor';

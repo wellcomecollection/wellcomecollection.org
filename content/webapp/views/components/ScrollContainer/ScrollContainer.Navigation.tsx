@@ -1,11 +1,9 @@
 import { FunctionComponent, RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { arrowSmall } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
-import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import useSwipeable, { SwipeDirection } from '@weco/content/hooks/useSwipeable';
+import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
 const ScrollButtonsContainer = styled(Space)<{
   $hasDarkBackground?: boolean;
@@ -18,26 +16,10 @@ const ScrollButtonsContainer = styled(Space)<{
   /* Set CSS variables based on $hasDarkBackground */
   --button-color: ${props =>
     props.theme.color(props.$hasDarkBackground ? 'white' : 'black')};
+
+  ${props => props.theme.makeSpacePropertyValues('sm', ['column-gap'])}
 `;
 
-const ScrollButton = styled('button').attrs({
-  className: font('sans', -2),
-})`
-  color: var(--button-color);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-bottom: ${props => props.theme.spacingUnits['050']};
-
-  &:focus-visible {
-    outline-offset: -2px;
-  }
-
-  &:disabled {
-    color: ${props => props.theme.color('neutral.500')};
-  }
-`;
 type Props = {
   containerRef: RefObject<HTMLElement | null>;
   hasDarkBackground?: boolean;
@@ -61,7 +43,8 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
 
       // Determine whether each button should be enabled or disabled based on current scroll position
       setCanScrollLeft(container.scrollLeft > 0);
-      setCanScrollRight(Math.ceil(container.scrollLeft) < maxScrollLeft);
+      // Button should be active only if there's more than 1 whole pixel remaining to scroll.
+      setCanScrollRight(Math.floor(maxScrollLeft - container.scrollLeft) > 1);
     };
 
     updateScrollButtons();
@@ -148,22 +131,22 @@ const ScrollableNavigation: FunctionComponent<Props> = ({
       $hasDarkBackground={hasDarkBackground}
       $hasLeftOffset={hasLeftOffset}
     >
-      <ScrollButton
+      <PrevNextLink
+        direction="previous"
+        label="Previous"
+        isOnDark={hasDarkBackground}
         disabled={!canScrollLeft}
         onClick={() => scrollByChildImageWidth('left')}
-      >
-        <Icon icon={arrowSmall} rotate={180} />
-        <span aria-hidden="true">Prev</span>
-        <span className="visually-hidden">Previous</span>
-      </ScrollButton>
-
-      <ScrollButton
+        isStacked
+      />
+      <PrevNextLink
+        direction="next"
+        label="Next"
+        isOnDark={hasDarkBackground}
         disabled={!canScrollRight}
         onClick={() => scrollByChildImageWidth('right')}
-      >
-        <Icon icon={arrowSmall} />
-        Next
-      </ScrollButton>
+        isStacked
+      />
     </ScrollButtonsContainer>
   );
 };

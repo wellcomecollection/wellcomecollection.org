@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { bslSquare } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -15,7 +15,7 @@ import VideoEmbed, {
 } from '@weco/common/views/components/VideoEmbed';
 
 const BslLeaftletButtonText = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $h: { size: 'xs', properties: ['margin-left'] },
 })``;
 
@@ -27,6 +27,12 @@ const BslLeafletButton = styled.button`
   ${BslLeaftletButtonText} {
     text-decoration: underline;
   }
+`;
+
+const TitleWrapper = styled(Space).attrs({
+  $h: { size: 'xl', properties: ['padding-right'] },
+})`
+  ${props => props.theme.mediaBetween('zero', 'md')('padding-right: 60px;')}
 `;
 
 const NewWindowVideo = styled.a`
@@ -65,13 +71,20 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
       >
         <Space
           $h={{ size: 'sm', properties: ['padding-left'] }}
-          $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
+          $v={{
+            size: 'sm',
+            properties: ['padding-top', 'padding-bottom'],
+            overrides: { zero: '300', sm: '200', md: '200' },
+          }}
         >
-          <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
-            <h3 className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
+          <TitleWrapper>
+            <h3
+              className={typography('body', 'md', 'strong')}
+              style={{ marginBottom: 0 }}
+            >
               {video.title}
             </h3>
-          </Space>
+          </TitleWrapper>
         </Space>
         {isModalActive ? (
           <>

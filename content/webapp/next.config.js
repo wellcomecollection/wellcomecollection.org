@@ -1,10 +1,6 @@
 const { createConfig } = require('@weco/common/next/next.config');
 
-const CATALOGUE_URL = 'http://localhost:3001/catalogue';
-const localConcurrentDevelopment =
-  process.env.LOCAL_CONCURRENT_DEV_ENV === 'true';
-
-const apiRewrites = [
+const rewriteEntries = [
   {
     source: '/content/management/healthcheck',
     destination: `/api/content/management/healthcheck`,
@@ -13,29 +9,7 @@ const apiRewrites = [
     source: '/newsletter-signup',
     destination: `/api/newsletter-signup`,
   },
-  {
-    source: '/content/management/healthcheck',
-    destination: `/api/content/management/healthcheck`,
-  },
 ];
-
-const rewriteEntries = localConcurrentDevelopment
-  ? [
-      ...apiRewrites,
-      {
-        source: '/:path*',
-        destination: `/:path*`,
-      },
-      {
-        source: '/download',
-        destination: `${CATALOGUE_URL}/download`,
-      },
-      {
-        source: '/image',
-        destination: `${CATALOGUE_URL}/image`,
-      },
-    ]
-  : [...apiRewrites];
 
 module.exports = createConfig({
   applicationName: 'content',

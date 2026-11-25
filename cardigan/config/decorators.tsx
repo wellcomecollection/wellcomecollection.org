@@ -7,16 +7,14 @@ import theme, { GlobalStyle } from '@weco/common/views/themes/default';
 
 export const ContextDecorator: FunctionComponent<PropsWithChildren> = ({
   children,
-}) => {
-  return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle isFontsLoaded={true} />
-      <AppContextProvider>
-        <div className="enhanced">{children}</div>
-      </AppContextProvider>
-    </ThemeProvider>
-  );
-};
+}) => (
+  <ThemeProvider theme={theme}>
+    <GlobalStyle />
+    <AppContextProvider>
+      <div className="enhanced">{children}</div>
+    </AppContextProvider>
+  </ThemeProvider>
+);
 
 export const ReadMeInfo = ({ Readme }: { Readme: ComponentType }) => {
   return (

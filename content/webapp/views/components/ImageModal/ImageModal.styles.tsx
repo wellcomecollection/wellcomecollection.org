@@ -1,8 +1,9 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
 
 export const Container = styled.div`
   color: ${props => props.theme.color('black')};
@@ -15,21 +16,14 @@ export const ImageInfoWrapper = styled.div`
 `;
 
 export const MetadataWrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'xs', properties: ['margin-top', 'margin-bottom'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-export const Metadata = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
-`;
-
 export const ModalTitle = styled.h2.attrs({
-  className: font('sans-bold', 1),
+  className: typography('body', 'xl', 'strong'),
 })`
   margin-bottom: 0;
 `;
@@ -40,7 +34,7 @@ export const ImageWrapper = styled(Space).attrs({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.color('black')};
+  background-color: ${props => props.theme.color(mediaBackgroundColor)};
   height: 50vh;
 
   ${props => props.theme.media('md')`

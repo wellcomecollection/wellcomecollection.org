@@ -40,37 +40,7 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "audioPlayer": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
             "editorialImageGallery": {
-              "type": "SharedSlice"
-            },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
-              "type": "SharedSlice"
-            },
-            "infoBlock": {
-              "type": "SharedSlice"
-            },
-            "quote": {
               "type": "SharedSlice"
             }
           }

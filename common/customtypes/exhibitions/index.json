@@ -11,7 +11,9 @@
         "config": {
           "label": "Format",
           "select": "document",
-          "customtypes": ["exhibition-formats"]
+          "customtypes": [
+            "exhibition-formats"
+          ]
         }
       },
       "title": {
@@ -46,7 +48,9 @@
         "type": "Select",
         "config": {
           "label": "Is permanent?",
-          "options": ["yes"]
+          "options": [
+            "yes"
+          ]
         }
       },
       "statusOverride": {
@@ -61,7 +65,9 @@
         "fieldset": "Place",
         "config": {
           "select": "document",
-          "customtypes": ["places"],
+          "customtypes": [
+            "places"
+          ],
           "label": "Where is it?"
         }
       },
@@ -84,19 +90,10 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
-            "editorialImage": {
+            "text": {
               "type": "SharedSlice"
             },
             "editorialImageGallery": {
-              "type": "SharedSlice"
-            },
-            "map": {
               "type": "SharedSlice"
             },
             "contentList": {
@@ -105,40 +102,29 @@
             "embed": {
               "type": "SharedSlice"
             },
-            "titledTextList": {
-              "type": "SharedSlice"
-            },
-            "textAndImage": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "searchResults": {
-              "type": "SharedSlice"
-            },
-            "textAndIcons": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
+            "infoBlock": {
               "type": "SharedSlice"
             },
             "quote": {
               "type": "SharedSlice"
-            },
-            "infoBlock": {
+            }
+          }
+        }
+      }
+    },
+    "Onward journeys": {
+      "onward_journeys": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {
+            "cardListing": {
               "type": "SharedSlice"
             },
-            "contact": {
+            "portraitVideoList": {
               "type": "SharedSlice"
             },
-            "collectionVenue": {
-              "type": "SharedSlice"
-            },
-            "audioPlayer": {
+            "themeCardsList": {
               "type": "SharedSlice"
             }
           }
@@ -156,7 +142,9 @@
               "config": {
                 "label": "Exhibit",
                 "select": "document",
-                "customtypes": ["exhibitions"]
+                "customtypes": [
+                  "exhibitions"
+                ]
               }
             }
           }
@@ -172,7 +160,9 @@
               "config": {
                 "label": "Gallery tour",
                 "select": "document",
-                "customtypes": ["events"]
+                "customtypes": [
+                  "events"
+                ]
               }
             }
           }
@@ -190,7 +180,11 @@
               "config": {
                 "label": "Story or Story Series",
                 "select": "document",
-                "customtypes": ["articles", "series", "webcomics"]
+                "customtypes": [
+                  "articles",
+                  "series",
+                  "webcomics"
+                ]
               }
             }
           }
@@ -209,7 +203,9 @@
               "config": {
                 "label": "Interpretation",
                 "select": "document",
-                "customtypes": ["interpretation-types"]
+                "customtypes": [
+                  "interpretation-types"
+                ]
               }
             },
             "isPrimary": {
@@ -275,7 +271,9 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": ["editorial-contributor-roles"]
+                "customtypes": [
+                  "editorial-contributor-roles"
+                ]
               }
             },
             "contributor": {
@@ -283,7 +281,10 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": ["people", "organisations"]
+                "customtypes": [
+                  "people",
+                  "organisations"
+                ]
               }
             },
             "description": {
@@ -379,7 +380,9 @@
               "config": {
                 "label": "Season",
                 "select": "document",
-                "customtypes": ["seasons"],
+                "customtypes": [
+                  "seasons"
+                ],
                 "placeholder": "Select a Season"
               }
             }
@@ -402,7 +405,9 @@
               "config": {
                 "label": "Parent",
                 "select": "document",
-                "customtypes": ["exhibitions"],
+                "customtypes": [
+                  "exhibitions"
+                ],
                 "placeholder": "Select a parent"
               }
             }

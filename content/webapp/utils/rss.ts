@@ -43,7 +43,7 @@ export async function buildStoriesRss(req) {
     rssFeed.item({
       title: asText(data.title) as string,
       description,
-      url: `https://wellcomecollection.org/articles/${story.id}`,
+      url: `https://wellcomecollection.org/stories/${story.uid || story.id}`,
       author: contributors.join(', '),
       date: story.first_publication_date,
     });

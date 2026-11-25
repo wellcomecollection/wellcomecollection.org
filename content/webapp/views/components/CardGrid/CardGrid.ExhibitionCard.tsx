@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,7 +18,7 @@ import DateRange from '@weco/content/views/components/DateRange';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 const DateWrapper = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 })`
   padding: 0;
@@ -26,13 +26,9 @@ const DateWrapper = styled(Space).attrs({
 
 type Props = {
   exhibition: ExhibitionBasic;
-  position?: number;
 };
 
-const ExhibitionCard: FunctionComponent<Props> = ({
-  exhibition,
-  position = 0,
-}) => {
+const ExhibitionCard: FunctionComponent<Props> = ({ exhibition }) => {
   const { start, end, statusOverride, isPermanent, hideStatus } = exhibition;
   const url = linkResolver(exhibition);
   const image = exhibition.promo?.image;
@@ -42,12 +38,7 @@ const ExhibitionCard: FunctionComponent<Props> = ({
     : [{ text: 'Exhibition' }];
 
   return (
-    <CardOuter
-      data-component="exhibition-promo"
-      data-component-state={JSON.stringify({ position })}
-      id={exhibition.id}
-      href={url}
-    >
+    <CardOuter data-component="exhibition-promo" id={exhibition.id} href={url}>
       <CardImageWrapper>
         {isNotUndefined(image) ? (
           <PrismicImage

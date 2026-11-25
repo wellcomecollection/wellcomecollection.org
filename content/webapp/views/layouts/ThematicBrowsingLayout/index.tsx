@@ -1,21 +1,32 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
+import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { pageDescriptions } from '@weco/common/data/microcopy';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import Space from '@weco/common/views/components/styled/Space';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import { Page } from '@weco/content/types/pages';
 import { BodySliceContexts } from '@weco/content/views/components/Body';
+import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
+import { phaseIsAtLeast } from '@weco/toggles';
 
-import ThematicBrowsingHeader from './ThematicBrowsing.Header';
+import ThematicBrowsingNavigation from './ThematicBrowsing.Navigation';
+import SubjectsMenu from './ThematicBrowsing.SubjectsMenu';
+
+const Wrapper = styled(Space).attrs<{ $hasPaddingBottom?: boolean }>(props => ({
+  $v: {
+    size: 'xl',
+    properties: props.$hasPaddingBottom
+      ? ['padding-top', 'padding-bottom']
+      : ['padding-top'],
+  },
+}))``;
 
 export type ThematicBrowsingCategories =
-  | 'people-and-organisations'
-  | 'types-and-techniques'
-  | 'subjects'
-  | 'places';
+  'people-and-organisations' | 'types-and-techniques' | 'subjects';
 
 export type ThematicBrowsingCategoryPageProps = {
   thematicBrowsingPage: Page;
@@ -44,12 +55,16 @@ const ThematicBrowsingLayout: FunctionComponent<
   apiToolbarLinks = [],
 }) => {
   const urlPathname = `/${prismicPageIds.collections}/${currentCategory}${subPageUid ? `/${subPageUid}` : ''}`;
+  const { thematicBrowsingPhases } = usePhasedFlags();
+  const showThematicBrowsingSubCategory = phaseIsAtLeast(
+    thematicBrowsingPhases,
+    'subCategoryPages'
+  );
 
   return (
     <PageLayout
       openGraphType={'website' as const}
       jsonLd={jsonLd}
-      hideNewsletterPromo
       siteSection="collections"
       title={page.title}
       description={
@@ -61,17 +76,23 @@ const ThematicBrowsingLayout: FunctionComponent<
       image={page.image}
       apiToolbarLinks={apiToolbarLinks}
       headerProps={{ hasColorBackground: true }}
+      hideNewsletterPromo
       clipOverflowX
     >
-      <ThematicBrowsingHeader
+      <CollectionsHeader
         title={page.title}
         introText={page.introText}
         extraBreadcrumbs={extraBreadcrumbs}
-        currentCategory={currentCategory}
+        navigation={
+          <ThematicBrowsingNavigation currentCategory={currentCategory} />
+        }
+        afterIntro={
+          currentCategory === 'subjects' &&
+          !subPageUid &&
+          showThematicBrowsingSubCategory && <SubjectsMenu />
+        }
       />
-      <Space $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}>
-        {children}
-      </Space>
+      <Wrapper $hasPaddingBottom={!subPageUid}>{children}</Wrapper>
     </PageLayout>
   );
 };

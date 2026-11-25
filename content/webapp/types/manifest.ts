@@ -2,11 +2,11 @@ import type {
   ChoiceBody,
   CollectionItems,
   ContentResource,
-  InternationalString,
   Manifest,
   MetadataItem,
   Range,
   ResourceType,
+  SearchService,
   Service,
   SpecificationBehaviors,
 } from '@iiif/presentation-3';
@@ -30,18 +30,13 @@ import type { TransformedAuthService } from '@weco/content/utils/iiif/v3';
 
 export type ThumbnailImage = { url: string; width: number };
 
-export type Original = {
-  originalFile: string | undefined;
-  label: InternationalString | null | undefined;
-  format: string | undefined;
-};
-
 export type TransformedCanvas = {
   id: string;
   type: NonNullable<ResourceType>;
   width: number | undefined;
   height: number | undefined;
   imageServiceId: string | undefined;
+  probeServiceId?: string;
   label: string | undefined;
   textServiceId: string | undefined;
   thumbnailImage: ThumbnailImage | undefined;
@@ -60,9 +55,7 @@ export type DownloadOption = {
 };
 
 export type ItemsStatus =
-  | 'allStandard'
-  | 'noStandard'
-  | 'mixedStandardAndNonStandard';
+  'allStandard' | 'noStandard' | 'mixedStandardAndNonStandard';
 
 export type TransformedRange = Omit<Range, 'items'> & {
   items: (TransformedRange | TransformedCanvas)[];
@@ -86,7 +79,7 @@ export type TransformedManifest = {
   iiifCredit?: string;
   isCollectionManifest: boolean;
   parentManifestUrl?: string;
-  searchService?: Service;
+  searchService?: SearchService;
   structures: Manifest['structures'];
   manifests: CollectionItems[];
   placeholderId?: string;
@@ -95,9 +88,20 @@ export type TransformedManifest = {
 };
 
 export type CustomSpecificationBehaviors =
-  | SpecificationBehaviors
-  | 'placeholder';
+  SpecificationBehaviors | 'placeholder';
 
 export type CustomContentResource = ContentResource & {
   behavior: 'original';
 } & { type?: string; format?: string };
+
+// Some of our ContentResources can have a type of 'Audio':
+// https://iiif.wellcomecollection.org/presentation/v3/b17276342
+// However, the IIIF Presentation API spec only has a type of 'Sound'
+// so we add 'Audio' to the type here.
+// https://wellcome.slack.com/archives/CBT40CMKQ/p1789640091193999?thread_ts=1789639014.631859&cid=CBT40CMKQ
+export type IIIFItemProps =
+  | (Omit<ContentResource, 'type'> & {
+      type: ContentResource['type'] | 'Audio';
+    })
+  | CustomContentResource
+  | ChoiceBody;

@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -11,12 +11,10 @@ import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import Space from '@weco/common/views/components/styled/Space';
+import { fetchExhibitExhibition } from '@weco/content/services/prismic/fetch/exhibitions';
+import { EventBasic } from '@weco/content/types/events';
 import {
-  fetchExhibitExhibition,
-  fetchExhibitionRelatedContentClientSide,
-} from '@weco/content/services/prismic/fetch/exhibitions';
-import {
-  ExhibitionAbout,
+  AboutThisExhibitionContent,
   Exhibition as InstallationType,
 } from '@weco/content/types/exhibitions';
 import { Page as PageType } from '@weco/content/types/pages';
@@ -29,20 +27,20 @@ import SearchResults from '@weco/content/views/components/SearchResults';
 import StatusIndicator from '@weco/content/views/components/StatusIndicator';
 
 import DateAndStatusIndicator from './exhibition.DateAndStatusIndicator';
-import { ExhibitionOf } from './exhibition.Exhibition';
 import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   installation: InstallationType;
-  pages: PageType[];
+  relatedContent: (InstallationType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
 };
 
-const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
+const Installation: FunctionComponent<Props> = ({
+  installation,
+  relatedContent,
+  aboutThisExhibitionContent,
+}) => {
   const [partOf, setPartOf] = useState<InstallationType>();
-  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
-    []
-  );
   const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
@@ -51,16 +49,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         setPartOf(exhibition);
       }
     });
-
-    fetchExhibitionRelatedContentClientSide(installation.relatedIds).then(
-      relatedContent => {
-        if (isNotUndefined(relatedContent)) {
-          setExhibitionOfs(relatedContent.exhibitionOfs);
-          setExhibitionAbouts(relatedContent.exhibitionAbouts);
-        }
-      }
-    );
-  }, []);
+  }, [installation.id]);
 
   const FeaturedMedia = getFeaturedMedia(installation);
 
@@ -91,7 +80,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         labels={{ labels: installation.labels }}
         title={installation.title}
         FeaturedMedia={FeaturedMedia}
-        Background={<HeaderBackground hasWobblyEdge={true} />}
+        Background={<HeaderBackground hasWobblyEdge />}
         ContentTypeInfo={
           <>
             {installation.start && !installation.statusOverride && (
@@ -109,7 +98,7 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
             )}
           </>
         }
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
       />
 
       {installation.bslLeafletVideo && (
@@ -121,6 +110,9 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
       )}
     </>
   );
+
+  const hasRelatedContent =
+    relatedContent.length > 0 || aboutThisExhibitionContent.length > 0;
 
   return (
     <ContentPage
@@ -140,7 +132,10 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
     >
       {installation.end && !isPast(installation.end) && (
         <InfoBox title="Visit us" items={getInfoItems(installation)}>
-          <p className={font('sans', -1)} style={{ margin: 0 }}>
+          <p
+            className={typography('body', 'md', 'regular')}
+            style={{ margin: 0 }}
+          >
             For more information, please visit our{' '}
             <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
             page. If you have any queries about accessibility, please email us
@@ -161,32 +156,27 @@ const Installation: FunctionComponent<Props> = ({ installation, pages }) => {
         </InfoBox>
       )}
 
-      {(exhibitionOfs.length > 0 ||
-        pages.length > 0 ||
-        exhibitionAbouts.length > 0) && (
+      {hasRelatedContent && (
         <Space $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}>
-          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+          {relatedContent.length > 0 && (
             <SearchResults
               variant="default"
               id="events-list"
-              items={[...exhibitionOfs, ...pages]}
+              items={relatedContent}
               title="Installation events"
             />
           )}
 
-          {exhibitionAbouts.length > 0 && (
+          {aboutThisExhibitionContent.length > 0 && (
             <Space
               $v={{
                 size: 'xl',
-                properties:
-                  exhibitionOfs.length > 0 || pages.length > 0
-                    ? ['margin-top']
-                    : [],
+                properties: relatedContent.length > 0 ? ['margin-top'] : [],
               }}
             >
               <SearchResults
                 variant="default"
-                items={exhibitionAbouts}
+                items={aboutThisExhibitionContent}
                 title="Related stories"
               />
             </Space>

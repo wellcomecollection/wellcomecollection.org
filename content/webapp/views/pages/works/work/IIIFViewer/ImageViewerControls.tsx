@@ -7,7 +7,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import SharedImageViewerControls from '@weco/content/views/pages/works/work/IIIFViewer/SharedImageViewerControls';
 
-const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
+const ImageViewerControlsWrapper = styled.div<{ $showControls?: boolean }>`
   position: absolute;
   bottom: 5%;
   right: 10%;
@@ -35,12 +35,11 @@ const ImageViewerControlsEl = styled.div<{ $showControls?: boolean }>`
 
 const ImageViewerControls: FunctionComponent = () => {
   const { showControls, query, setShowZoomed } = useItemViewerContext();
-  const { canvas } = query;
 
   return (
-    <ImageViewerControlsEl $showControls={showControls}>
+    <ImageViewerControlsWrapper $showControls={showControls}>
       <SharedImageViewerControls
-        canvas={canvas}
+        canvas={query.canvas}
         zoomControls={
           <Space $h={{ size: 'xs', properties: ['margin-left'] }}>
             <Control
@@ -54,7 +53,7 @@ const ImageViewerControls: FunctionComponent = () => {
           </Space>
         }
       />
-    </ImageViewerControlsEl>
+    </ImageViewerControlsWrapper>
   );
 };
 

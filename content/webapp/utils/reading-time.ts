@@ -1,4 +1,3 @@
-import * as prismic from '@prismicio/client';
 import readingTime from 'reading-time';
 
 import { Label } from '@weco/common/model/labels';
@@ -6,22 +5,24 @@ import {
   QuoteSlice as RawQuoteSlice,
   TextSlice as RawTextSlice,
 } from '@weco/common/prismicio-types';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { pluralize } from '@weco/common/utils/grammar';
 import { asText } from '@weco/content/services/prismic/transformers';
 import { Format } from '@weco/content/types/format';
+import { PrismicBodySlice } from '@weco/content/types/generic-content-fields';
 
 // Calculating the full reading time of the article by getting all article text
-function allArticleText(
-  genericBody: prismic.SliceZone<PagesDocumentDataBodySlice>
-) {
+function allArticleText(genericBody: PrismicBodySlice[]) {
   return genericBody
     .map(slice => {
       switch (slice.slice_type) {
         case 'text':
-          return asText(slice.primary.text as RawTextSlice['primary']['text']);
+          // PrismicBodySlice doesn't carry `primary`, but inside these
+          // case branches we know the concrete slice type from the runtime
+          // slice_type check. TypeScript can't narrow a minimal type like
+          // PrismicBodySlice automatically, so we cast explicitly.
+          return asText((slice as RawTextSlice).primary.text);
         case 'quote':
-          return asText(slice.primary.text as RawQuoteSlice['primary']['text']);
+          return asText((slice as RawQuoteSlice).primary.text);
         default:
           return '';
       }
@@ -30,7 +31,7 @@ function allArticleText(
 }
 
 export function calculateReadingTime(
-  body: prismic.SliceZone<PagesDocumentDataBodySlice>
+  body: PrismicBodySlice[]
 ): string | undefined {
   const articleText = allArticleText(body);
 

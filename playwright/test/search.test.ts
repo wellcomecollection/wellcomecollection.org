@@ -1,7 +1,6 @@
 // For overall behaviour / behaviour on category change
 
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { search } from './helpers/contexts';
 import {
   searchQuerySubmitAndWait,
@@ -9,7 +8,7 @@ import {
   selectAndWaitForFilter,
   testIfFilterIsApplied,
 } from './helpers/search';
-import { baseUrl, slowExpect } from './helpers/utils';
+import { baseUrl, slowExpect, urlWithParams } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
 
@@ -25,7 +24,7 @@ test('(1) | The users changes tabs; the query (but not the filters) should be ma
   ).toBeVisible();
   await page.getByRole('link', { name: 'Catalogue' }).click();
   await slowExpect(page).toHaveURL(
-    `${baseUrl}/search/works?query=art%20of%20science`
+    `${baseUrl}${urlWithParams('/search/works', { query: 'art of science' }, { browserUrl: true })}`
   );
 });
 

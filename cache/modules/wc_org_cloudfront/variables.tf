@@ -56,3 +56,107 @@ variable "allowed_countries" {
   type    = list(string)
   default = []
 }
+
+variable "google_bots_ip_set_arn" {
+  type        = string
+  description = "ARN of the shared google-bots IP set (defined at root level)"
+}
+
+variable "github_actions_ip_set_arn" {
+  type        = string
+  description = "ARN of the shared github-actions IP set (defined at root level)"
+}
+
+variable "enable_unrecognised_host_block" {
+  type        = bool
+  default     = false
+  description = "Block requests whose Host header is not one of the distribution's aliases (in practice, its *.cloudfront.net default domain). These fail TLS verification at the origin and pollute the 5xx alarm. Prove on stage before enabling elsewhere."
+}
+
+variable "extra_allowed_hosts" {
+  type        = set(string)
+  default     = []
+  description = "Hostnames beyond this distribution's aliases that the unrecognised-host block must accept. A web ACL evaluates traffic for every distribution associated with it, so any other distribution sharing this ACL must have its aliases listed here or the rule will 403 them."
+}
+
+variable "blocked_user_agent_patterns" {
+  type        = list(string)
+  default     = []
+  description = "Regular expressions matched against the User-Agent; matches are blocked at the end of the ACL. Prove on stage before enabling elsewhere."
+}
+
+variable "count_hosts" {
+  type        = set(string)
+  default     = []
+  description = "Hostnames whose requests are counted at the end of the ACL, so allowed requests for them reach the WAF logs. Count only; changes no response."
+}
+
+variable "enable_search_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve a silent JS challenge to token-less clients on /search* pages. High-risk: prove on stage before enabling elsewhere."
+}
+
+variable "enable_items_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve a silent JS challenge to token-less clients on /works/<id>/items pages, reusing search_challenge_immunity_seconds. High-risk: prove on stage before enabling elsewhere."
+}
+
+variable "enable_search_sqli_exemption" {
+  type        = bool
+  default     = false
+  description = "Stop the SQLi_QUERYARGUMENTS managed rule blocking /search pages, keeping it as a block everywhere else. Prove on stage before enabling elsewhere."
+}
+
+variable "enable_geo_challenge" {
+  type        = bool
+  default     = false
+  description = "Serve the silent JS challenge instead of a CAPTCHA on the geo consent rules, reusing search_challenge_immunity_seconds. Prove on e2e before enabling elsewhere; stage's allowed_countries block keeps these rules from firing there."
+}
+
+variable "enable_search_legacy_ua_block" {
+  type        = bool
+  default     = false
+  description = "Block /search* requests claiming a Chrome major version below 100, ahead of the billed search challenge. Prove on stage before enabling elsewhere."
+}
+
+variable "enable_search_missing_lang_block" {
+  type        = bool
+  default     = false
+  description = "Block /search* requests with no Accept-Language header, ahead of the billed search challenge. Real browsers always send it. Prove on stage before enabling elsewhere."
+}
+
+variable "enable_works_fabricated_ua_block" {
+  type        = bool
+  default     = false
+  description = "Block fabricated-browser traffic on /works*, /images* and /concepts*: a browser-posing User-Agent with no Accept-Language and no self-identification. Exempts honest crawlers, link-preview fetchers and user-triggered AI agents. Prove on stage before enabling elsewhere."
+}
+
+variable "bot_control_inspection_level" {
+  type        = string
+  default     = "COMMON"
+  description = "Bot Control inspection level. TARGETED also scopes the rule group down to /search* (it is billed at 10x per request analysed) and starts its TGT_ rules in count mode."
+
+  validation {
+    condition     = contains(["COMMON", "TARGETED"], var.bot_control_inspection_level)
+    error_message = "bot_control_inspection_level must be COMMON or TARGETED."
+  }
+}
+
+variable "search_challenge_immunity_seconds" {
+  type        = number
+  default     = 300
+  description = "How long a solved challenge token stays valid; applies to the search and items challenge rules and, with enable_geo_challenge, the geo consent rules, since tokens are per web ACL. 300 is the AWS default; longer values mean fewer billed re-challenges for real users but a longer window for a token-holding client before it is re-challenged."
+
+  validation {
+    condition     = var.search_challenge_immunity_seconds >= 60 && var.search_challenge_immunity_seconds <= 259200 && floor(var.search_challenge_immunity_seconds) == var.search_challenge_immunity_seconds
+    error_message = "search_challenge_immunity_seconds must be a whole number of seconds between 60 and 259200 (3 days), the range AWS WAF accepts."
+  }
+}
+
+variable "enable_waf_logging" {
+  type        = bool
+  default     = false
+  description = "Log non-allowed (blocked/counted/challenged) WAF requests to CloudWatch Logs"
+}

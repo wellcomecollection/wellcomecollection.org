@@ -33,9 +33,11 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
       {label}
     </Space>
-    {/* @types/react has some issues currently with react refs */}
-    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-    <StyledInput type="number" ref={ref as any} {...inputProps} />
+    <StyledInput
+      type="number"
+      ref={ref as React.Ref<HTMLInputElement>}
+      {...inputProps}
+    />
   </label>
 );
 

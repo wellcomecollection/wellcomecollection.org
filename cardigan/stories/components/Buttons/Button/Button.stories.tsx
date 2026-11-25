@@ -1,8 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
+import styled, { css } from 'styled-components';
 
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { eye } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
-import Button, { ButtonProps } from '@weco/common/views/components/Buttons';
+import { typography } from '@weco/common/utils/classnames';
+import Button, {
+  ButtonHierarchy,
+  ButtonProps,
+} from '@weco/common/views/components/Buttons';
+import Readme from '@weco/common/views/components/Buttons/README.mdx';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -15,11 +21,23 @@ function getColor(color) {
       return theme.buttonColors.whiteWhiteCharcoal;
     case 'White border':
       return theme.buttonColors.whiteTransparentWhite;
+    case 'Danger':
+      return theme.buttonColors.danger;
     case 'Default':
     default:
       return theme.buttonColors.default;
   }
 }
+
+const Wrapper = styled.div<{ $isOnDark: boolean }>`
+  padding: 20px;
+
+  ${props =>
+    props.$isOnDark &&
+    css`
+      background-color: ${props.theme.color('black')};
+    `}
+`;
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Buttons/Basics/Button',
@@ -30,7 +48,8 @@ export default meta;
 
 type StoryProps = {
   showIcon: boolean;
-  storyColors: 'Default' | 'Green border' | 'Yellow' | 'White' | 'White border';
+  storyColors:
+    'Default' | 'Green border' | 'Yellow' | 'White' | 'White border' | 'Danger';
 };
 
 type Story = StoryObj<ButtonProps & StoryProps>;
@@ -45,6 +64,17 @@ export const Basic: Story = {
     disabled: false,
     storyColors: 'Default',
     showIcon: true,
+    hierarchy: 'primary',
+    isOnDark: false,
+    isDanger: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          '`hierarchy`, `isOnDark` and `isDanger` set the brand colours. With no hierarchy, the preset picked in Colors decides.',
+      },
+    },
   },
   argTypes: {
     variant: {
@@ -62,21 +92,34 @@ export const Basic: Story = {
     disabled: { control: 'boolean', name: 'Disabled' },
     showIcon: { control: 'boolean', name: 'Show icon' },
     storyColors: {
-      options: ['Default', 'Green border', 'Yellow', 'White', 'White border'],
+      options: [
+        'Default',
+        'Green border',
+        'Yellow',
+        'White',
+        'White border',
+        'Danger',
+      ],
       control: 'select',
       name: 'Colors',
     },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy',
+    },
+    isOnDark: { control: 'boolean', name: 'Is on dark background' },
+    isDanger: { control: 'boolean', name: 'Is danger' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <div
-        style={{
-          padding: '20px',
-          backgroundColor: storyColors.includes('White')
-            ? theme.color('black')
-            : undefined,
+      <ReadmeDecorator
+        WrappedComponent={Wrapper}
+        args={{
+          $isOnDark: !!storyColors?.includes('White') || !!args.isOnDark,
         }}
+        Readme={Readme}
       >
         <Button
           text="Click me"
@@ -94,9 +137,63 @@ export const Basic: Story = {
           }}
           {...restOfArgs}
         />
-      </div>
+      </ReadmeDecorator>
     );
   },
+};
+
+const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+`;
+
+const hierarchies: ButtonHierarchy[] = ['primary', 'secondary', 'tertiary'];
+
+export const Hierarchy: Story = {
+  name: 'Hierarchy',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Primary, secondary and tertiary buttons on light and dark backgrounds.',
+      },
+    },
+  },
+  render: () => (
+    <>
+      {[false, true].map(isOnDark => (
+        <Wrapper key={String(isOnDark)} $isOnDark={isOnDark}>
+          {hierarchies.map(hierarchy => (
+            <Row key={hierarchy}>
+              <Button
+                variant="ButtonSolid"
+                text={hierarchy}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+              <Button
+                variant="ButtonSolid"
+                text="Disabled"
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+                disabled
+              />
+              <Button
+                variant="ButtonSolidLink"
+                text="Link"
+                link="#"
+                icon={eye}
+                hierarchy={hierarchy}
+                isOnDark={isOnDark}
+              />
+            </Row>
+          ))}
+        </Wrapper>
+      ))}
+    </>
+  ),
 };
 
 export const DropdownButton: Story = {
@@ -105,19 +202,22 @@ export const DropdownButton: Story = {
     isOnDark: false,
     hasNoOptions: false,
     isTight: false,
+    hierarchy: 'primary',
   },
   argTypes: {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
     hasNoOptions: { control: 'boolean', name: 'Has no options' },
     isTight: { control: 'boolean', name: 'Has a tighter dropdown menu' },
+    hierarchy: {
+      options: [undefined, 'primary', 'secondary', 'tertiary'],
+      control: { type: 'radio' },
+      name: 'Hierarchy',
+    },
   },
   render: args => (
-    <div
-      className={font('sans', -2)}
-      style={{
-        padding: '20px',
-        backgroundColor: args.isOnDark ? theme.color('black') : undefined,
-      }}
+    <Wrapper
+      className={typography('body', 'sm', 'regular')}
+      $isOnDark={args.isOnDark}
     >
       <Button
         variant="DropdownButton"
@@ -128,6 +228,6 @@ export const DropdownButton: Story = {
       >
         <span>Sign in to your library account</span>
       </Button>
-    </div>
+    </Wrapper>
   ),
 };

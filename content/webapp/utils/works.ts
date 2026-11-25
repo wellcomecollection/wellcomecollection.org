@@ -6,6 +6,7 @@ import {
   PhysicalLocation,
 } from '@weco/common/model/catalogue';
 import { Label } from '@weco/common/model/labels';
+import { LinkProps } from '@weco/common/model/link-props';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
 import {
   getCatalogueLicenseData,
@@ -15,6 +16,7 @@ import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import {
   Holding,
   Item,
+  Note,
   PhysicalItem,
   RelatedWork,
   Work,
@@ -22,15 +24,40 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import {
   DownloadOption,
-  ItemsStatus,
-  TransformedCanvas,
+  TransformedManifest,
 } from '@weco/content/types/manifest';
-import { hasItemType } from '@weco/content/utils/iiif/v3';
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
+import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
+import { TagType } from '@weco/content/views/components/Tags';
 
+/**
+ * Returns the label of every production date on a work, flattened into one
+ * array.
+ */
 export function getProductionDates(work: Work): string[] {
   return work.production
     .map(productionEvent => productionEvent.dates.map(date => date.label))
     .reduce((a, b) => a.concat(b), []);
+}
+
+/**
+ * Returns work's language id, but only if it has exactly one - better no
+ * language than a wrong guess.
+ *
+ * The catalogue uses three-letter MARC codes (e.g. `eng`, `fre`), but `lang`
+ * attributes expect the shortest form (`en`, `fr`), so we canonicalise them.
+ */
+export function getLanguageId(
+  work: Pick<Work, 'languages'>
+): string | undefined {
+  if (work.languages?.length !== 1) return undefined;
+
+  try {
+    return Intl.getCanonicalLocales(work.languages[0].id)[0];
+  } catch {
+    // Not a valid language tag, so leave it out
+    return undefined;
+  }
 }
 
 type DownloadImage = {
@@ -39,6 +66,10 @@ type DownloadImage = {
   height?: number;
 };
 
+/**
+ * Builds download options for an image url: full size, plus a smaller
+ * preset width.
+ */
 export function getDownloadOptionsFromImageUrl(
   downloadImage: DownloadImage
 ): DownloadOption[] {
@@ -88,8 +119,10 @@ type StacksItemStatus = {
   type: 'ItemStatus';
 };
 
-// We have the items from the catalogue API and add additional data from the stacks API,
-// data from UI interactions and data we work out based on location and status
+/**
+ * Items from the catalogue API augmented with data from the stacks API, UI
+ * interactions, and values derived from location/status.
+ */
 export type PhysicalItemAugmented = {
   locations: PhysicalLocation[];
   dueDate?: string;
@@ -100,10 +133,12 @@ export type PhysicalItemAugmented = {
   requestSucceeded?: boolean;
 };
 
+/** Returns work's holdings, or an empty array if it has none. */
 export function getHoldings(work: Work): Holding[] {
   return work.holdings || [];
 }
 
+/** Filters items down to those with a physical location. */
 export function getItemsWithPhysicalLocation(
   items: Item<Location>[]
 ): PhysicalItem[] {
@@ -119,6 +154,7 @@ export function getItemsWithPhysicalLocation(
     .filter((item?: PhysicalItem): item is PhysicalItem => Boolean(item));
 }
 
+/** Returns work's items that have a location of the given locationTypeId. */
 export function getItemsByLocationType(
   work: Work,
   locationTypeId: string
@@ -128,6 +164,10 @@ export function getItemsByLocationType(
   );
 }
 
+/**
+ * Returns work's first digital location matching the given locationType, if
+ * any.
+ */
 export function getDigitalLocationOfType(
   work: Pick<Work, 'items'>,
   locationType: string
@@ -144,6 +184,10 @@ export function getDigitalLocationOfType(
   return location;
 }
 
+/**
+ * Returns the status id of the first access condition on digitalLocation
+ * that has one.
+ */
 export function getAccessConditionForDigitalLocation(
   digitalLocation: DigitalLocation
 ): string | undefined {
@@ -153,74 +197,64 @@ export function getAccessConditionForDigitalLocation(
   return accessCondition?.status?.id;
 }
 
-function itemIdentifierWithId(
-  item: Item<PhysicalLocation | DigitalLocation>,
-  id: string
-): boolean {
-  return (item.identifiers || []).some(
-    identifier => identifier.identifierType.id === id
-  );
-}
-
-function itemLocationWithType(
-  item: Item<PhysicalLocation | DigitalLocation>,
-  locationType: string
-): boolean {
-  return item.locations.some(location => location.type === locationType);
-}
-
-type ItemProps = {
-  identifierId: string;
-  locationType: string;
-};
-
-export function getItemsWith(
-  work: Work,
-  { identifierId, locationType }: ItemProps
-): Item<PhysicalLocation | DigitalLocation>[] {
-  return (
-    work.items
-      ?.filter(item => itemIdentifierWithId(item, identifierId))
-      .filter(item => itemLocationWithType(item, locationType)) ?? []
-  );
-}
-
-export function getItemIdentifiersWith(
-  work: Work,
-  { identifierId, locationType }: ItemProps,
-  identifierType: string
-): string[] {
-  const items: Item<PhysicalLocation | DigitalLocation>[] = getItemsWith(work, {
-    identifierId,
-    locationType,
-  });
-
-  return items.reduce(
-    (acc: string[], item: Item<PhysicalLocation | DigitalLocation>) => {
-      const matching = item.identifiers?.find(
-        identifier => identifier.identifierType.id === identifierType
-      );
-
-      const matchingValue = matching?.value;
-
-      if (matchingValue) {
-        acc.push(matchingValue);
-      }
-
-      return acc;
-    },
-    []
-  );
-}
-
 export type ArchiveLabels = {
   reference: string;
   partOf?: string;
 };
 
+/** Whether work is available online. */
 export const isAvailableOnline = (work: Work): boolean =>
   (work.availabilities ?? []).some(({ id }) => id === 'online');
 
+/**
+ * Returns all ancestors of a work, ordered from the most distant, keeping
+ * only partOf items with totalParts (i.e. part of the strict hierarchy).
+ */
+export function getArchiveAncestorArray(work: Work): RelatedWork[] {
+  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
+}
+
+// Formats that can be archives. `b` (Manuscripts) is deliberately absent:
+// everything with that format is a manuscript.
+const archiveFormatIds = ['h', 'hdig'];
+
+const TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID = 'tei-manuscript-id';
+
+const isTeiManuscript = (work: Pick<Work, 'identifiers'>): boolean =>
+  (work.identifiers ?? []).some(
+    ({ identifierType }) =>
+      identifierType.id === TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID
+  );
+
+/**
+ * Whether a work is the root of an archive collection we can display a
+ * hierarchy for, i.e. an archive (not a manuscript) that has children.
+ *
+ * Not `archive.category`: that covers only the 16 recognised archive types, so
+ * it excludes archives whose collection path prefix isn't one of them (e.g.
+ * RAMC), and it isn't an archive/manuscript discriminator anyway.
+ *
+ * The TEI check is a heuristic, and an imperfect one. A TEI work is always a
+ * manuscript, but not all manuscripts come from TEI - ones catalogued in CALM
+ * have no TEI identifier and so still come through here as archives. It's the
+ * best signal available while the catalogue API doesn't model the distinction,
+ * and should give way to a real one when it does.
+ */
+export function isArchiveCollectionRoot(
+  work: Pick<Work, 'collection' | 'workType' | 'identifiers'>
+): boolean {
+  const isRootWithChildren =
+    !!work.collection?.isRoot && (work.collection.root.totalParts ?? 0) > 0;
+
+  const hasArchiveFormat = archiveFormatIds.includes(work.workType?.id ?? '');
+
+  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript(work);
+}
+
+/**
+ * Builds the archive reference/partOf labels for a work, if it has a
+ * reference number.
+ */
 export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   if (work.referenceNumber) {
     const root = getArchiveAncestorArray(work)[0] || work;
@@ -232,86 +266,122 @@ export const getArchiveLabels = (work: Work): ArchiveLabels | undefined => {
   return undefined;
 };
 
+/**
+ * If the thing being linked to is identified, links to its concept page,
+ * otherwise links to a pre-filtered search.
+ */
+export const conceptOrSearchLink = ({
+  id,
+  filterKey,
+  filterValue,
+}: {
+  id?: string;
+  filterKey: 'subjects.label' | 'contributors.agent.label';
+  filterValue: string;
+}): LinkProps =>
+  id
+    ? toConceptLink({ conceptId: id })
+    : toSearchWorksLink({ [filterKey]: [filterValue] });
+
+/**
+ * Builds display tags for a work's subjects, linking each to its concept
+ * page or a pre-filtered search.
+ */
+export const getSubjectTags = (work: Work): TagType[] =>
+  work.subjects.map(s => ({
+    textParts: s.id
+      ? [s.concepts[0].label].concat(s.concepts.slice(1).map(c => c.label))
+      : s.concepts.map(c => c.label),
+    linkAttributes: conceptOrSearchLink({
+      id: s.id,
+      filterKey: 'subjects.label',
+      filterValue: s.label,
+    }),
+  }));
+
+/**
+ * Builds the label chips shown on a work's search result card (its work
+ * type, plus "Online" if available online).
+ */
 export const getCardLabels = (work: Work): Label[] => {
   const cardLabels = work.workType ? [{ text: work.workType.label }] : [];
 
   if (isAvailableOnline(work)) {
-    return [...cardLabels, { text: 'Online', labelColor: 'white' }];
+    return [
+      ...cardLabels,
+      {
+        text: 'Online',
+        labelColor: 'neutral.10',
+      },
+    ];
   } else {
     return cardLabels;
   }
 };
 
-function makeArchiveAncestorArray(
-  partOfArray: RelatedWork[],
-  nextPart: RelatedWork | undefined
-) {
-  /*
-  Recursively populate a list of ancestors (i.e. things that this object is "part of")
-
-  Objects outside of this strict single-parent hierarchy are ignored.
-
-  The returned list is ordered from closest to furthest (parent, grandparent, great grandparent).
-  */
-  if (!nextPart) {
-    return partOfArray;
-  }
-  return makeArchiveAncestorArray(
-    [...partOfArray, nextPart],
-    hierarchicalParentOf(nextPart)
+/**
+ * Puts notes relevant to archives in a consistent order, separating out
+ * anything else so it can still be displayed.
+ */
+export const getOrderedNotes = (
+  work: Pick<Work, 'notes' | 'identifiers'>,
+  excludeNotes: (Note | undefined)[] = []
+): { orderedNotes: Note[]; remainingNotes: Note[] } => {
+  const arrangementNote = work.notes.filter(
+    note => note.noteType.id === 'arrangement-note'
   );
+  const biographicalNote = work.notes.filter(
+    note => note.noteType.id === 'biographical-note'
+  );
+  const relatedMaterial = work.notes.filter(
+    note => note.noteType.id === 'related-material'
+  );
+  // TEI manuscripts keep it with the other history notes, after ownership,
+  // as Collections Information asked
+  const acquisitionNote = isTeiManuscript(work)
+    ? []
+    : work.notes.filter(note => note.noteType.id === 'acquisition-note');
+
+  const orderedNotes = [
+    ...arrangementNote,
+    ...acquisitionNote,
+    ...biographicalNote,
+    ...relatedMaterial,
+  ];
+
+  const excluded = [...orderedNotes, ...excludeNotes];
+  const remainingNotes = work.notes.filter(
+    note => !excluded.some(n => n === note)
+  );
+
+  return { orderedNotes, remainingNotes };
+};
+
+/** Strips HTML tags from a string, for display purposes only (e.g. so a
+ * shortDescription doesn't show literal tag syntax as plain text). NOT a
+ * security sanitizer - the regex can leave fragments behind, but callers
+ * only ever render the result as a JSX text node (auto-escaped by React),
+ * never via dangerouslySetInnerHTML, so that's not a concern here. Don't
+ * reuse this for anything that gets rendered as raw HTML. */
+export function stripHtmlTags(text: string): string {
+  return text.replace(/<[^>]*>/g, '').trim();
 }
 
-function hierarchicalParentOf(work: RelatedWork): RelatedWork | undefined {
-  /*
-  Return the immediate parent of a Work within a strict single parent hierarchy.
-
-  The partOf member of a Work contains a tree of objects to which this Work belongs.
-
-  In strictly hierarchical content (Archive Collection data), each Work will have
-  maximally one partOf value. However, partOf is a list that may contain other
-  parents or containers.
-
-  The number of child objects that any given object in the partOf hierarchy has is
-  stored in the totalParts property.
-
-  Any object in the partOf list that has no parts is not part of the hierarchy.
-
-  These should be excluded from the ancestor hierarchy as they
-  may represent an excessively broad member lists or multi-parent hierarchies
-  such as Library Series.
-  */
-  if (!work || !work.partOf) {
-    return;
-  }
-  for (const candidate of work.partOf) {
-    if (candidate.totalParts) {
-      return candidate;
-    }
-  }
+/** Whether label is a real, displayable value,
+ * i.e. not missing or the API's '-' placeholder for "no label". */
+export function hasRealLabel(label?: string): label is string {
+  return Boolean(label) && label !== '-';
 }
 
-export function getArchiveAncestorArray(work: Work): RelatedWork[] {
-  /*
-  Return all the ancestors of work starting with the most distant.
-  */
-
-  // Works from the legacy (Scala-populated) index have a recursive 'partOf' field, which needs to be flattened
-  // using the `makeArchiveAncestorArray` function. To determine if a work comes from the legacy index, we check
-  // whether it has a 'totalDescendentParts' field.
-  // TODO: Remove this (and the `makeArchiveAncestorArray` function) once we switch to the new index
-  if (work.partOf?.[0]?.totalDescendentParts !== undefined) {
-    return makeArchiveAncestorArray([], hierarchicalParentOf(work)).reverse();
-  }
-
-  return [...(work.partOf || []).filter(item => item.totalParts)].reverse();
-}
-
+/**
+ * Returns label unless it's missing or the API's '-' placeholder for "no
+ * label", in which case falls back to titleOverride (defaults to 'unknown title').
+ */
 export function getFileLabel(
   label?: string,
-  titleOverride?: string
-): string | undefined {
-  return (label !== '-' && label) || titleOverride;
+  titleOverride: string = 'unknown title'
+): string {
+  return hasRealLabel(label) ? label : titleOverride;
 }
 
 export type DigitalLocationInfo = {
@@ -319,6 +389,7 @@ export type DigitalLocationInfo = {
   license: LicenseData | undefined;
 };
 
+/** Builds the access condition and license info for a digital location. */
 export function getDigitalLocationInfo(
   digitalLocation: DigitalLocation
 ): DigitalLocationInfo {
@@ -330,6 +401,10 @@ export function getDigitalLocationInfo(
   };
 }
 
+/**
+ * Returns location's label, if it has one (only PhysicalLocation carries
+ * this field).
+ */
 export function getLocationLabel(
   location: PhysicalLocation | DigitalLocation
 ): string | undefined {
@@ -338,6 +413,10 @@ export function getLocationLabel(
   }
 }
 
+/**
+ * Returns location's shelfmark, if it has one (only PhysicalLocation carries
+ * this field).
+ */
 export function getLocationShelfmark(
   location: PhysicalLocation | DigitalLocation
 ): string | undefined {
@@ -346,6 +425,10 @@ export function getLocationShelfmark(
   }
 }
 
+/**
+ * Returns a url/linkText pair for location, if it has a url (only
+ * DigitalLocation carries this field).
+ */
 export function getLocationLink(
   location: PhysicalLocation | DigitalLocation
 ): { url: string; linkText: string } | undefined {
@@ -359,69 +442,76 @@ export function getLocationLink(
   }
 }
 
+/** Returns the first PhysicalLocation on item, if any. */
 export function getFirstPhysicalLocation(
   item: PhysicalItem
 ): PhysicalLocation | undefined {
   return item.locations?.find(location => location.type === 'PhysicalLocation');
 }
 
+/** Returns the first access condition on location, if any. */
 export function getFirstAccessCondition(
   location?: Location
 ): AccessCondition | undefined {
   return location?.accessConditions?.[0];
 }
 
-export function showItemLink({
+/**
+ * Whether there's IIIF content for the "View" link on a work page to lead
+ * to: an iiif-image location (viewable via the IIIF Image API, no manifest
+ * needed) or an iiif-presentation location whose manifest actually
+ * resolves.
+ *
+ * The manifest is fetched client-side, so this is optimistic while it's
+ * still loading (assumes a manifest exists until proven otherwise) and
+ * corrects itself once the fetch settles - guarding against a born-digital
+ * work whose manifest 404s from getting a "View" link that leads nowhere.
+ */
+export function getHasViewableIIIFContent({
+  iiifImageLocation,
+  iiifPresentationLocation,
+  isLoadingManifest,
+  transformedManifest,
+}: {
+  iiifImageLocation?: DigitalLocation;
+  iiifPresentationLocation?: DigitalLocation;
+  isLoadingManifest: boolean;
+  transformedManifest?: TransformedManifest;
+}): boolean {
+  return (
+    !!iiifImageLocation ||
+    (isLoadingManifest ? !!iiifPresentationLocation : !!transformedManifest)
+  );
+}
+
+/**
+ * Whether the user can view the work's item: whether an iiif-image or
+ * iiif-presentation manifest exists to view (see hasViewableIIIFContent),
+ * and whether the access condition and staff-restricted-access override
+ * actually permit that user to see it.
+ */
+export function canViewItem({
   userIsStaffWithRestricted,
-  allOriginalPdfs,
-  hasIIIFManifest,
-  digitalLocation,
+  hasViewableIIIFContent,
   accessCondition,
-  canvases,
-  itemsStatus,
-  extendedViewer,
 }: {
   userIsStaffWithRestricted: boolean;
-  allOriginalPdfs: boolean;
-  hasIIIFManifest: boolean;
-  digitalLocation?: DigitalLocation;
+  hasViewableIIIFContent: boolean;
   accessCondition?: string;
-  canvases?: TransformedCanvas[];
-  itemsStatus?: ItemsStatus;
-  extendedViewer?: boolean;
 }): boolean {
-  // TODO update these comments when we remove the extendedViewer toggle and always link to the item page for audio/video.
-  // In general we don't show the item link if there are born digital items present, i.e. canvases with a behavior of placeholder, because we display download links on the page instead.
-  // The exception to this is if ALL the items are born digital and they are ALL pdfs, as we know we can show them on the items page.
-  // We also don't show the item link if there are video or sound items present because we display the players on the page instead. The exception to this is if they are restricted items and the user has a role of 'StaffWithRestricted'.
-  // In which case we show the link not the players.
-  // This means we rely on there only being one type of thing in a manifest, otherwise non video/sound items will be hidden from the user.
-  // This is usually the case, except for manifests with 'Born digital' items.
-  // But since we display links to all files when there are 'Born digital' items present, then this should not matter.
-  const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound =
-    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  if (accessCondition === 'restricted' && userIsStaffWithRestricted) {
-    return true;
-  }
   if (
     accessCondition === 'closed' ||
     (accessCondition === 'restricted' && !userIsStaffWithRestricted)
   ) {
     return false;
-  } else if (
-    hasIIIFManifest &&
-    digitalLocation &&
-    // TODO: Remove extendedViewer and (!hasVideo && !hasSound) check when we are happy to remove the toggle and always show the item link for sound and video items
-    ((!hasVideo && !hasSound) || extendedViewer) &&
-    (itemsStatus === 'allStandard' || allOriginalPdfs) // If/when we want to show the link for non standard, i.e. Born Digital items we need to remove the itemsStatus check, but for now we want to hide the link if there are non standard items present unless they are all original pdfs, as we know we are happy to show those on the items page.
-  ) {
-    return true;
-  } else {
-    return false;
   }
+  return hasViewableIIIFContent;
 }
 
+/**
+ * Builds the links shown in the internal API debug toolbar for a work
+ * (JSON, IIIF manifest, identifiers, Library Data Link Explorer).
+ */
 export function createApiToolbarWorkLinks(
   work: WorkType,
   apiUrl: string

@@ -3,7 +3,6 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { ImageType } from '@weco/common/model/image';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -100,7 +99,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
     <DividingLine data-component="text-and-image-or-icons">
       <MediaAndTextWrap>
         {item.type === 'icons' && icons.length > 0 && (
-          <ImageOrIcons $isIcons={true}>
+          <ImageOrIcons $isIcons>
             {/* We're enforcing a maximum of 6 icons within a slice  */}
             {icons.slice(0, 6).map((icon, index) => {
               return (
@@ -122,10 +121,7 @@ const TextAndImageOrIcons: FunctionComponent<Props> = ({ item }) => {
           </ImageOrIcons>
         )}
         <Text>
-          <PrismicHtmlBlock
-            html={item.text}
-            htmlSerializer={defaultSerializer}
-          />
+          <PrismicHtmlBlock html={item.text} />
         </Text>
       </MediaAndTextWrap>
     </DividingLine>

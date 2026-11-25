@@ -1,7 +1,7 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import { useIsArchiveContext } from '@weco/content/contexts/IsArchiveContext';
@@ -15,11 +15,11 @@ const SectionWithDivider = styled(Space).attrs({
 })<{ $isArchive: boolean }>`
   ${props =>
     props.$isArchive &&
-    `
-    &:nth-child(1) {
-      padding-top: 0;
-    }
-  `}
+    css`
+      &:nth-child(1) {
+        padding-top: 0;
+      }
+    `}
   & + & {
     border-top: 1px solid ${props => props.theme.color('neutral.400')};
   }
@@ -35,7 +35,9 @@ const WorkDetailsSection: FunctionComponent<Props> = ({
     <SectionWithDivider $isArchive={isArchive}>
       <SpacingSection>
         {headingText && (
-          <h2 className={font('brand-bold', 0)}>{headingText}</h2>
+          <h2 className={typography('heading', 'md', 'strong', 'brand')}>
+            {headingText}
+          </h2>
         )}
 
         {children}

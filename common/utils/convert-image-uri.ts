@@ -1,13 +1,13 @@
 import urlTemplate from 'url-template';
 
-const prismicBaseUri = 'https://images.prismic.io/wellcomecollection';
-const iiifImageUri = 'https://iiif.wellcomecollection.org/image/';
-const iiifThumbsUri = 'https://iiif.wellcomecollection.org/thumbs/';
+const PRISMIC_BASE_URI = 'https://images.prismic.io/wellcomecollection';
+export const IIIF_IMAGE_URI = 'https://iiif.wellcomecollection.org/image/';
+export const IIIF_THUMBS_URI = 'https://iiif.wellcomecollection.org/thumbs/';
 
 function determineSrc(url: string): string {
-  if (url.startsWith(prismicBaseUri)) {
+  if (url.startsWith(PRISMIC_BASE_URI)) {
     return 'prismic';
-  } else if (url.startsWith(iiifImageUri)) {
+  } else if (url.startsWith(IIIF_IMAGE_URI)) {
     return 'iiif';
   } else {
     return 'unknown';
@@ -52,7 +52,7 @@ export type IIIFUriProps = {
 export function iiifImageTemplate(
   infoJsonLocation: string
 ): (opts: IIIFUriProps) => string {
-  const baseUrl = infoJsonLocation?.replace('/info.json', '');
+  const baseUrl = infoJsonLocation.replace('/info.json', '');
   const templateString = `${baseUrl}/{region}/{size}/{rotation}/{quality}.{format}`;
   const defaultOpts = {
     region: 'full',
@@ -105,22 +105,34 @@ export function convertIiifImageUri(
   sizeByHeight?: boolean
 ): string {
   const isNotIiif =
-    !originalUri.startsWith(iiifImageUri) &&
-    !originalUri.startsWith(iiifThumbsUri);
+    !originalUri.startsWith(IIIF_IMAGE_URI) &&
+    !originalUri.startsWith(IIIF_THUMBS_URI);
 
   if (determineIfGif(originalUri) || isNotIiif) {
     return originalUri;
-  } else if (originalUri.startsWith(iiifThumbsUri)) {
+  } else if (originalUri.startsWith(IIIF_THUMBS_URI)) {
     return originalUri.replace('!200,200', `!${requiredSize},${requiredSize}`);
   } else {
-    const imageIdentifier = originalUri.split(iiifImageUri)[1].split('/', 2)[0];
+    const imageIdentifier = originalUri
+      .split(IIIF_IMAGE_URI)[1]
+      .split('/', 2)[0];
+
+    // Extract rotation from original URL if present
+    // IIIF Image API format: {identifier}/{region}/{size}/{rotation}/{quality}.{format}
+    // https://iiif.io/api/image/3.0/#21-image-request-uri-syntax
+    // For well-formed IIIF URLs, after splitting by base URL and then by '/':
+    //   urlParts[0] = identifier, [1] = region, [2] = size, [3] = rotation, [4] = quality.format
+    const urlParts = originalUri.split(IIIF_IMAGE_URI)[1].split('/');
+    const rotationPart = urlParts[3]; // Assumes well-formed IIIF URL with all required parameters
+    const rotation = rotationPart ? parseInt(rotationPart, 10) : undefined;
 
     const size = sizeByHeight ? `,${requiredSize}` : `${requiredSize},`;
     const params = {
       size: requiredSize === 'full' ? 'full' : `${size}`,
       format: determineFinalFormat(originalUri),
+      ...(rotation !== undefined && !isNaN(rotation) && { rotation }),
     };
-    return iiifImageTemplate(`${iiifImageUri}${imageIdentifier}`)(params);
+    return iiifImageTemplate(`${IIIF_IMAGE_URI}${imageIdentifier}`)(params);
   }
 }
 
@@ -128,7 +140,7 @@ export function convertPrismicImageUri(
   originalUri: string,
   requiredSize: number | 'full'
 ): string {
-  if (!originalUri.startsWith(prismicBaseUri)) {
+  if (!originalUri.startsWith(PRISMIC_BASE_URI)) {
     return originalUri;
   } else {
     const parts = prismicTemplateParts(originalUri, requiredSize);

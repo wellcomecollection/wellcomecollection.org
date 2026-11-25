@@ -1,5 +1,7 @@
 module.exports = function () {
-  const presets = ['next/babel'];
+  const presets = [
+    ['next/babel', { 'preset-react': { runtime: 'automatic' } }],
+  ];
   const plugins = [
     [
       'babel-plugin-styled-components',

@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   ContaineredLayout,
   gridSize12,
@@ -61,12 +61,18 @@ const CardGridFeaturedCard = ({
           text: item.title || '',
         }}
         background="neutral.700"
-        textColor="white"
+        textColor="neutral.10"
         priority={priority}
       >
-        {item.title && <h2 className={font('brand-bold', 2)}>{item.title}</h2>}
+        {item.title && (
+          <h2 className={typography('heading', 'xl', 'strong', 'brand')}>
+            {item.title}
+          </h2>
+        )}
         {item.description && (
-          <p className={font('sans', -1)}>{item.description}</p>
+          <p className={typography('body', 'md', 'regular')}>
+            {item.description}
+          </p>
         )}
       </FeaturedCard>
     </ContaineredLayout>

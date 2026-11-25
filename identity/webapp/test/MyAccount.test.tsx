@@ -2,14 +2,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider } from 'styled-components';
 
-import { UserContextProvider } from '@weco/common/contexts/UserContext';
+import { useUserContext } from '@weco/common/contexts/UserContext';
 import {
-  mockAuth0Profile,
   mockItemRequests,
   mockUser,
 } from '@weco/common/test/fixtures/identity/user';
 import theme from '@weco/common/views/themes/default';
-import AccountPage from '@weco/identity/pages';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import AccountPage from '@weco/identity/views/pages';
 
 // avoid rendering header SVG to help with debugging tests
 jest.mock('@weco/identity/views/layouts/IdentityPageLayout', () => {
@@ -25,36 +25,57 @@ jest.mock('@weco/common/server-data', () => ({
     (await import('@weco/common/server-data/types')).defaultServerData,
 }));
 
-jest.mock('next/config', () => () => ({
-  serverRuntimeConfig: {
-    sessionKeys: 'test_test_test',
-    siteBaseUrl: 'http://test.test',
-    identityBasePath: '/account',
-    auth0: {
-      domain: 'test.test',
-      clientID: 'test',
-      clientSecret: 'test',
-    },
-    remoteApi: {
-      host: 'test.test',
-      apiKey: 'test',
-    },
-  },
-}));
-
+// jest.mock factories are hoisted above imports, so we must use require()
+// rather than the top-level import to access modules here.
 /* eslint-disable @typescript-eslint/no-require-imports */
 jest.mock('next/router', () => require('next-router-mock'));
 
-const renderComponent = (user = mockAuth0Profile) =>
+jest.mock('@weco/common/contexts/UserContext', () => {
+  const {
+    mockUserContext,
+  } = require('@weco/common/test/fixtures/identity/user');
+  return mockUserContext();
+});
+
+jest.mock('@weco/identity/utils/api-client', () => ({
+  accountApiClient: {
+    put: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+    request: jest.fn(),
+  },
+}));
+/* eslint-enable @typescript-eslint/no-require-imports */
+
+const mockRequest = accountApiClient.request as jest.Mock;
+const mockPut = accountApiClient.put as jest.Mock;
+const mockUseUserContext = useUserContext as jest.Mock;
+
+const renderComponent = () =>
   render(
     <ThemeProvider theme={theme}>
-      <UserContextProvider>
-        <AccountPage user={user} />
-      </UserContextProvider>
+      <AccountPage />
     </ThemeProvider>
   );
 
 describe('MyAccount', () => {
+  beforeEach(() => {
+    mockPut.mockReset();
+    mockRequest.mockReset();
+    mockUseUserContext.mockReturnValue({
+      user: mockUser,
+      userIsStaffWithRestricted: false,
+      state: 'signedin' as const,
+      reload: jest.fn(),
+    });
+    mockPut.mockResolvedValue({ status: 200, data: null, statusText: 'OK' });
+    mockRequest.mockResolvedValue({
+      status: 200,
+      data: mockItemRequests,
+      statusText: 'OK',
+    });
+  });
+
   it('shows a page title', async () => {
     renderComponent();
     const heading = await screen.findByRole('heading', { level: 1 });
@@ -63,7 +84,13 @@ describe('MyAccount', () => {
   });
 
   it('informs the user when their email has not been validated', async () => {
-    renderComponent({ ...mockAuth0Profile, email_verified: false });
+    mockUseUserContext.mockReturnValue({
+      user: { ...mockUser, emailValidated: false },
+      userIsStaffWithRestricted: false,
+      state: 'signedin' as const,
+      reload: jest.fn(),
+    });
+    renderComponent();
     expect(
       await screen.findByText(/Please verify your email address/i)
     ).toBeInTheDocument();

@@ -2,7 +2,7 @@ import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 const BackToResults: FunctionComponent = () => {
   const { link } = useSearchContext();
@@ -14,7 +14,7 @@ const BackToResults: FunctionComponent = () => {
     <NextLink
       {...link}
       data-gtm-trigger="back_to_search_results"
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
     >
       <span>Back to search results</span>
     </NextLink>

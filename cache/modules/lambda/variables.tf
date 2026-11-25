@@ -28,6 +28,11 @@ variable "source_file" {
   type = string
 }
 
+variable "extra_source_files" {
+  type    = list(string)
+  default = []
+}
+
 variable "memory_size" {
   default = 128
 }
@@ -40,4 +45,33 @@ variable "log_retention_in_days" {
 
 variable "runtime" {
   type = string
+}
+
+variable "alarm_component" {
+  type        = string
+  default     = null
+  description = "Backplane Component name for the error alarm, set as the backplane:component tag and in the description prefix"
+}
+
+variable "alarm_repository" {
+  type        = string
+  default     = null
+  description = "Owning repository for the error alarm, e.g. wellcomecollection/wellcomecollection.org, set as the github.com/project-slug tag"
+}
+
+variable "alarm_severity" {
+  type        = string
+  default     = "medium"
+  description = "Severity of the error alarm: high, medium or low"
+
+  validation {
+    condition     = contains(["high", "medium", "low"], var.alarm_severity)
+    error_message = "alarm_severity must be high, medium or low."
+  }
+}
+
+variable "alarm_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Extra tags for the error alarm"
 }

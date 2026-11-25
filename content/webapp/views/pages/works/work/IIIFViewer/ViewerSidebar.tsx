@@ -9,25 +9,24 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { arrow, chevron, info2 } from '@weco/common/icons';
+import { arrow, chevron } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
+import { DataGtmProps, dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import { getCatalogueLicenseData } from '@weco/common/utils/licenses';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
-import {
-  getAuthServices,
-  getMultiVolumeLabel,
-} from '@weco/content/utils/iiif/v3';
+import { getMultiVolumeLabel } from '@weco/content/utils/iiif/v3';
 import { removeTrailingFullStop, toHtmlId } from '@weco/content/utils/string';
 import { getDigitalLocationInfo } from '@weco/content/utils/works';
 import LinkLabels from '@weco/content/views/components/LinkLabels';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
-import NestedList from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.NestedList';
+import NestedList from '@weco/content/views/pages/works/work/NestedList';
 import DownloadItemRenderer from '@weco/content/views/pages/works/work/work.DownloadItemRenderer';
+import RestrictedItemMessage from '@weco/content/views/pages/works/work/work.RestrictedItemMessage';
 import WorksTree from '@weco/content/views/pages/works/work/WorkDetails/WorkDetails.Tree';
 
 import IIIFSearchWithin from './IIIFSearchWithin';
@@ -35,24 +34,21 @@ import MultipleManifestList from './MultipleManifestList';
 import ViewerStructures from './ViewerStructures';
 
 const RestrictedMessage = styled(Space).attrs({
-  $h: { size: 'sm', properties: ['margin-left', 'margin-right'] },
+  $h: {
+    size: 'sm',
+    properties: [
+      'margin-left',
+      'margin-right',
+      'padding-left',
+      'padding-right',
+    ],
+  },
+  $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
 })`
   background: ${props => props.theme.color('neutral.200')};
   color: ${props => props.theme.color('black')};
   border-radius: 3px;
   border-left: 5px solid #1672f3;
-`;
-
-const RestrictedMessageTitle = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
-
-  h2 {
-    padding-left: 8px;
-    margin-bottom: 0;
-    color: ${props => props.theme.color('accent.blue')};
-  }
 `;
 
 const Inner = styled(Space).attrs({
@@ -69,7 +65,7 @@ const Inner = styled(Space).attrs({
 `;
 
 const AccordionInner = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
 })`
   button {
@@ -108,12 +104,14 @@ const AccordionButton = styled.button`
 
 type AccordionItemProps = PropsWithChildren<{
   title: string;
+  dataGtmProps: DataGtmProps;
   testId?: string;
   defaultOpen?: boolean;
 }>;
 
 const AccordionItem = ({
   title,
+  dataGtmProps,
   children,
   testId,
   defaultOpen = false,
@@ -127,13 +125,16 @@ const AccordionItem = ({
 
   return (
     <Item data-testid={testId}>
-      <AccordionInner onClick={() => setIsActive(!isActive)}>
+      <AccordionInner
+        onClick={() => setIsActive(!isActive)}
+        {...dataGtmPropsToAttributes(dataGtmProps)}
+      >
         <AccordionButton
           aria-expanded={isActive ? 'true' : 'false'}
           aria-controls={toHtmlId(title)}
         >
           <span>
-            <h2 className={font('sans-bold', -1)}>{title}</h2>
+            <h2 className={typography('body', 'md', 'strong')}>{title}</h2>
             <Icon
               icon={chevron}
               iconColor="white"
@@ -170,27 +171,24 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
     hasOnlyRenderableImages,
     query,
     setIsMobileSidebarActive,
-    archiveTree,
-    setArchiveTree,
+    tree,
+    setTree,
     canvasIndexById,
   } = useItemViewerContext();
-  const { canvas } = query || {};
   const { userIsStaffWithRestricted } = useUserContext();
 
   const [tabbableId, setTabbableId] = useState<string>();
-  const matchingManifest =
-    parentManifest &&
-    parentManifest.canvases.find(canvas => {
-      return !transformedManifest
-        ? false
-        : canvas.id === transformedManifest.id;
-    });
+
+  const matchingCanvas = parentManifest?.canvases.find(
+    parentCanvas => parentCanvas.id === transformedManifest?.id
+  );
 
   const manifestLabel =
-    matchingManifest?.label &&
-    getMultiVolumeLabel(matchingManifest.label, work?.title || '');
+    matchingCanvas?.label &&
+    getMultiVolumeLabel(matchingCanvas.label, work?.title || '');
 
-  const { structures, searchService, auth } = { ...transformedManifest };
+  const { structures, searchService } = { ...transformedManifest };
+  const hasStructures = Boolean(structures && structures.length > 0);
 
   const digitalLocation: DigitalLocation | undefined =
     iiifPresentationLocation || iiifImageLocation;
@@ -209,51 +207,39 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
   const isWorkVisibleWithPermission =
     digitalLocationInfo?.accessCondition === 'restricted' &&
     userIsStaffWithRestricted;
-
-  const authServices = getAuthServices({ auth });
-
-  const manifestNeedsRegeneration =
-    authServices?.external?.id ===
-    'https://iiif.wellcomecollection.org/auth/restrictedlogin';
+  // this check for `behavior === 'multi-part'` is repeated in items.tsx to
+  // avoid sending unnecessary data about parent manifests that we're not
+  // going to render. If you change the display condition here, you'll
+  // likely want to update it there also.
+  const isMultiPartWork = Boolean(
+    parentManifest && parentManifest.behavior?.[0] === 'multi-part'
+  );
 
   useEffect(() => {
     const elementToFocus = tabbableId && document.getElementById(tabbableId);
     if (elementToFocus) {
       elementToFocus.focus();
     }
-  }, [archiveTree, tabbableId]);
+  }, [tree, tabbableId]);
 
   return (
     <>
       {isWorkVisibleWithPermission && (
         <RestrictedMessage>
-          <Space
-            $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
-            $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
-            className={font('sans', -1)}
-          >
-            <RestrictedMessageTitle>
-              <Icon icon={info2} iconColor="accent.blue" />
-              <h2 className={font('sans-bold', -1)}>Restricted item</h2>
-            </RestrictedMessageTitle>
-
-            <p style={{ marginBottom: manifestNeedsRegeneration ? '1rem' : 0 }}>
-              Only staff with the right permissions can view this item online.
-            </p>
-
-            {manifestNeedsRegeneration && (
-              <p style={{ marginBottom: 0 }}>
-                The manifest for this work needs to be regenerated in order for
-                staff with restricted access to be able to view it.
-              </p>
-            )}
-          </Space>
+          <RestrictedItemMessage plural />
         </RestrictedMessage>
       )}
-      <Inner className={font('sans-bold', -1)}>
+
+      <Inner className={typography('body', 'md', 'strong')}>
         {manifestLabel && (
-          <span className={font('sans', -1)}>{manifestLabel}</span>
+          <span
+            data-testid="multi-volume-label"
+            className={typography('body', 'md', 'regular')}
+          >
+            {manifestLabel}
+          </span>
         )}
+
         <h1>
           <WorkTitle title={work.title} />
         </h1>
@@ -281,7 +267,7 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
         <Space $v={{ size: 'sm', properties: ['margin-top'] }}>
           <WorkLink
             id={work.id}
-            className={font('sans', -1)}
+            className={typography('body', 'md', 'regular')}
             style={{ display: 'flex', alignItems: 'center' }}
           >
             Catalogue details
@@ -289,14 +275,18 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
               $h={{ size: 'xs', properties: ['margin-left'] }}
               style={{ display: 'flex', alignItems: 'center' }}
             >
-              <Icon icon={arrow} matchText={true} iconColor="white" />
+              <Icon icon={arrow} iconColor="white" matchText />
             </Space>
           </WorkLink>
         </Space>
       </Inner>
+
       <Inner>
-        <AccordionItem title="Licence and re-use">
-          <div className={font('sans', -2)}>
+        <AccordionItem
+          title="Licence and re-use"
+          dataGtmProps={{ trigger: 'licence_and_re_use' }}
+        >
+          <div className={typography('body', 'sm', 'regular')}>
             {license && license.label && (
               <p>
                 <strong>Licence:</strong>{' '}
@@ -322,59 +312,57 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
           </div>
         </AccordionItem>
 
-        {archiveTree.length > 0 && (
-          <AccordionItem title="Contents" defaultOpen={true}>
-            <WorksTree
-              isDarkMode={true}
-              hasStructures={Boolean(structures && structures.length > 0)}
-            >
-              <NestedList
-                currentWorkId={work.id}
-                fullTree={archiveTree}
-                setArchiveTree={setArchiveTree}
-                archiveTree={archiveTree}
-                level={1}
-                tabbableId={tabbableId}
-                setTabbableId={setTabbableId}
-                archiveAncestorArray={[]}
-                firstItemTabbable={true}
-                showFirstLevelGuideline={true}
-                shouldFetchChildren={false}
-                isDarkMode={true}
-                ItemRenderer={DownloadItemRenderer}
-                itemRendererProps={{
-                  linkToCanvas: true,
-                  workId: work.id,
-                  canvasIndexById,
-                  currentCanvasIndex: canvas,
-                  itemOnClick: () => setIsMobileSidebarActive(false),
-                  canvases: transformedManifest?.canvases,
-                }}
-              />
-            </WorksTree>
+        {tree.length > 0 && (
+          <AccordionItem
+            title="Contents"
+            dataGtmProps={{ trigger: 'contents' }}
+            defaultOpen
+          >
+            <div style={{ overflow: 'auto' }}>
+              <WorksTree hasStructures={hasStructures} isDarkMode>
+                <NestedList
+                  currentWorkId={work.id}
+                  tree={tree}
+                  setTree={setTree}
+                  items={tree}
+                  level={1}
+                  tabbableId={tabbableId}
+                  setTabbableId={setTabbableId}
+                  ItemRenderer={DownloadItemRenderer}
+                  itemRendererProps={{
+                    linkToCanvas: true,
+                    workId: work.id,
+                    canvasIndexById,
+                    currentCanvasIndex: query.canvas,
+                    itemOnClick: () => setIsMobileSidebarActive(false),
+                    canvases: transformedManifest?.canvases,
+                  }}
+                  shouldFetchChildren={false}
+                  firstItemTabbable
+                  showFirstLevelGuideline
+                  isDarkMode
+                />
+              </WorksTree>
+            </div>
           </AccordionItem>
         )}
 
-        {Boolean(structures && structures.length > 0) &&
-          hasOnlyRenderableImages && (
-            <AccordionItem title="Contents">
-              <ViewerStructures />
-            </AccordionItem>
-          )}
-        {/*
-          Note: this check for `behavior === 'multi-part'` is repeated in items.tsx to
-          avoid sending unnecessary data about parent manifests that we're not going
-          to render.  If you change the display condition here, you'll likely want to
-          update it there also.
-        */}
-        {parentManifest &&
-          parentManifest.behavior?.[0] === 'multi-part' &&
-          parentManifest.canvases && (
-            <AccordionItem title="Volumes">
-              <MultipleManifestList />
-            </AccordionItem>
-          )}
+        {hasStructures && hasOnlyRenderableImages && (
+          <AccordionItem
+            title="Contents"
+            dataGtmProps={{ trigger: 'contents' }}
+          >
+            <ViewerStructures />
+          </AccordionItem>
+        )}
+
+        {isMultiPartWork && (
+          <AccordionItem title="Volumes" dataGtmProps={{ trigger: 'volumes' }}>
+            <MultipleManifestList />
+          </AccordionItem>
+        )}
       </Inner>
+
       {searchService && (
         <Inner>
           <IIIFSearchWithin />

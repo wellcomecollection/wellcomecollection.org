@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import {
   CollectionStats,
   createDefaultCollectionStats,
@@ -19,6 +20,8 @@ export function useCollectionStats(): UseCollectionStatsReturn {
     createDefaultCollectionStats()
   );
   const [error, setError] = useState<string | null>(null);
+  const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
 
   useEffect(() => {
     let isMounted = true;
@@ -27,7 +30,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
       try {
         setError(null);
 
-        const stats = await fetchCollectionStats();
+        const stats = await fetchCollectionStats(stagingApi, cataloguePipeline);
 
         if (isMounted) {
           setData(stats);
@@ -48,7 +51,7 @@ export function useCollectionStats(): UseCollectionStatsReturn {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [stagingApi, cataloguePipeline]);
 
   return { data, error };
 }

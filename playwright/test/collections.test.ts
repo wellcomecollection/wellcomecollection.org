@@ -1,8 +1,7 @@
-import { expect, test } from '@playwright/test';
-
+import { expect, test } from './helpers/analytics-blocking';
 import { newOnline } from './helpers/contexts';
 
-test.describe('New online listing page displays a limited and controlled amount of results', () => {
+test.describe('(1) | New online listing page displays a limited and controlled amount of results', () => {
   test('Only 4 pages of works are displayed', async ({ context, page }) => {
     await newOnline(context, page);
 

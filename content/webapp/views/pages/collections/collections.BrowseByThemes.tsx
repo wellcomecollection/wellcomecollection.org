@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
-import { useToggles } from '@weco/common/server-data/Context';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
 import { dasherize, pluralize } from '@weco/common/utils/grammar';
 import {
   ContaineredLayout,
@@ -14,6 +14,7 @@ import { transformThemeCardsList } from '@weco/content/services/prismic/transfor
 import MoreLink from '@weco/content/views/components/MoreLink';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 import ThemeCardsList from '@weco/content/views/components/ThemeCardsList';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type BrowseByThemeProps = {
   gridSizes: SizeMap;
@@ -24,7 +25,6 @@ type BrowseByThemeProps = {
 const BrowsableThemeCategories = [
   'People and organisations',
   'Subjects',
-  'Places',
   'Types and techniques',
 ] as const;
 export type BrowsableThemeCategoriesType =
@@ -68,7 +68,11 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   gridSizes,
   themeCardsListSlices,
 }) => {
-  const { thematicBrowsing } = useToggles();
+  const { thematicBrowsingPhases } = usePhasedFlags();
+  const showThematicBrowsing = phaseIsAtLeast(
+    thematicBrowsingPhases,
+    'categoryPages'
+  );
 
   // Transform slices but ensure we only keep valid ones (valid title + concept IDs)
   const transformedThemeCardsListSlices = themeCardsListSlices
@@ -107,7 +111,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
   const tagData = transformedThemeCardsListSlices.map(category => ({
     id: category.value.title,
     label: category.value.title,
-    gtmData: {
+    dataGtmProps: {
       trigger: 'selectable_tag',
       label: category.value.title,
     },
@@ -120,12 +124,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
 
   return (
     <Space
-      $v={{
-        size: thematicBrowsing ? 'lg' : 'sm',
-        properties: thematicBrowsing
-          ? ['margin-bottom', 'margin-top']
-          : ['margin-top'],
-      }}
+      $v={{ size: 'sm', properties: ['margin-bottom'] }}
       data-component="BrowseByThemes"
     >
       <ContaineredLayout gridSizes={gridSize12()}>
@@ -134,18 +133,14 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
             {announcement}
           </div>
 
-          <SelectableTags
-            tags={tagData}
-            isMultiSelect={false}
-            onChange={handleCategoryChange}
-          />
+          <SelectableTags tags={tagData} onChange={handleCategoryChange} />
         </Space>
       </ContaineredLayout>
 
       <ThemeCardsList
         conceptIds={conceptIds}
         gridSizes={gridSizes}
-        gtmData={{
+        dataGtmProps={{
           'category-label': selectedCategoryLabel,
           'category-position-in-list': `${selectedCategoryPosition}`,
         }}
@@ -153,7 +148,7 @@ const BrowseByThemes: FunctionComponent<BrowseByThemeProps> = ({
         useShim
       />
 
-      {thematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (
+      {showThematicBrowsing && isBrowsableCategory(selectedCategoryLabel) && (
         <ContaineredLayout gridSizes={gridSize12()}>
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <MoreLink

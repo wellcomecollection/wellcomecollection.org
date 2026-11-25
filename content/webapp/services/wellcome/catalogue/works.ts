@@ -13,7 +13,6 @@ import {
   toQuery,
   WorksProps,
 } from '@weco/content/views/components/SearchPagesLink/Works';
-import { Toggles } from '@weco/toggles';
 
 import { catalogueQuery, looksLikeCanonicalId, notFound } from '.';
 import {
@@ -33,27 +32,35 @@ export type ArchiveWorkData = {
 
 type GetWorkProps = {
   id: string;
-  toggles: Toggles;
+  shouldUseStagingApi?: boolean;
+  pipelineCluster?: string | null;
   include?: string[];
 };
 
-const worksIncludes = ['production', 'contributors', 'partOf'];
+// `identifiers` is here rather than in `workIncludes` because
+// `isArchiveCollectionRoot` needs it to spot TEI manuscripts, and that runs on
+// search results too.
+const worksIncludes = [
+  'production',
+  'contributors',
+  'partOf',
+  'collection',
+  'identifiers',
+];
 
 const workIncludes = [
-  'identifiers',
+  ...worksIncludes,
   'images',
   'items',
   'subjects',
   'genres',
-  'contributors',
-  'production',
   'notes',
   'formerFrequency',
   'designation',
   'parts',
-  'partOf',
   'languages',
   'holdings',
+  'archive',
 ];
 
 export const missingAltTextMessage =
@@ -103,23 +110,25 @@ export async function getWorks(
 }
 
 type WorkResponse =
-  | (Work & { url: string })
-  | WellcomeApiError
-  | CatalogueApiRedirect;
+  (Work & { url: string }) | WellcomeApiError | CatalogueApiRedirect;
 
 export async function getWork({
   id,
-  toggles,
+  shouldUseStagingApi,
+  pipelineCluster,
   include = workIncludes,
 }: GetWorkProps): Promise<WorkResponse> {
   if (!looksLikeCanonicalId(id)) {
     return notFound();
   }
 
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
 
   const params = {
     include,
+    // propsToQuery drops undefined values, so no param is added when the
+    // cataloguePipeline mode is unset
+    elasticCluster: pipelineCluster,
   };
 
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
@@ -176,11 +185,17 @@ export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
 
 export async function getArchiveWorks(
   ids: string[],
-  toggles: Toggles
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string | null
 ): Promise<Record<string, ArchiveWorkData>> {
   const settled = await Promise.allSettled(
     ids.map(id =>
-      getWork({ id, toggles, include: ['production', 'contributors'] })
+      getWork({
+        id,
+        shouldUseStagingApi,
+        pipelineCluster,
+        include: ['production', 'contributors'],
+      })
     )
   );
 
@@ -212,6 +227,128 @@ export async function getArchiveWorks(
         ];
       })
   );
+}
+
+// The shape ArchiveCard (content/webapp/views/components/ArchiveCard) needs -
+// computed here, server-side, from the full catalogue Work so the page
+// component doesn't have to know about contributors/production/etc.
+export type ArchiveCategoryWorkCard = {
+  id: string;
+  title: string;
+  label?: string;
+  description?: string;
+  contributor?: string;
+  date?: string;
+  extent?: string;
+};
+
+function toArchiveCategoryWorkCard(work: Work): ArchiveCategoryWorkCard {
+  const primaryContributor = work.contributors.find(
+    contributor => contributor.primary
+  );
+
+  return {
+    id: work.id,
+    title: work.title,
+    label: work.referenceNumber,
+    description: work.shortDescription,
+    contributor: primaryContributor?.agent.label,
+    date: work.production?.[0]?.dates?.[0]?.label,
+    extent: work.physicalDescription || undefined,
+  };
+}
+
+export type ArchiveCategoryWorksResult = {
+  works: ArchiveCategoryWorkCard[];
+  totalResults: number;
+  totalPages: number;
+  pageSize: number;
+  // Surfaced via apiToolbarLinks so staff can debug the underlying query.
+  requestUrl: string;
+};
+
+export const archiveCategoryWorksSortFields = ['production.dates'] as const;
+export type ArchiveCategoryWorksSortField =
+  (typeof archiveCategoryWorksSortFields)[number];
+
+export async function fetchArchiveCategoryWorks({
+  id,
+  page,
+  pageSize = 24,
+  sort = 'production.dates',
+  sortOrder = 'desc',
+}: {
+  id: string;
+  page: number;
+  pageSize?: number;
+  sort?: ArchiveCategoryWorksSortField;
+  sortOrder?: 'asc' | 'desc';
+}): Promise<ArchiveCategoryWorksResult | WellcomeApiError> {
+  const result = await catalogueQuery<unknown, Work>('works', {
+    pageSize,
+    params: {
+      'archive.category': id,
+      'collection.isRoot': 'true',
+      workType: 'h,b,hdig',
+      include: 'contributors,production',
+      sort,
+      sortOrder,
+      page,
+    },
+  });
+
+  if (result.type === 'Error') {
+    return result;
+  }
+
+  return {
+    works: result.results.map(toArchiveCategoryWorkCard),
+    totalResults: result.totalResults,
+    totalPages: result.totalPages,
+    pageSize: result.pageSize,
+    requestUrl: result._requestUrl,
+  };
+}
+
+export const ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE = 50;
+
+// From this many rows up, paging through the whole archive 50 rows at a time
+// isn't practical, so the
+// contents tree switches to the one the work page sidebar uses: first level
+// open, each folder's children fetched when it's opened.
+export const LARGE_ARCHIVE_ROW_THRESHOLD = 300;
+
+type ArchiveCollectionContentsPage = {
+  results: Work[];
+  totalPages: number;
+  totalResults: number;
+};
+
+export async function getArchiveCollectionContents(
+  collectionRootId: string,
+  page: number,
+  shouldUseStagingApi?: boolean,
+  pipelineCluster?: string | null
+): Promise<ArchiveCollectionContentsPage | undefined> {
+  const response = await getWorks({
+    params: {
+      'collection.root': collectionRootId,
+      sort: 'collectionPath',
+      sortOrder: 'asc',
+      page,
+    },
+    pageSize: ARCHIVE_COLLECTION_CONTENTS_PAGE_SIZE,
+    shouldUseStagingApi,
+    pipelineCluster,
+  });
+
+  return response.type === 'ResultList'
+    ? {
+        results: response.results,
+        totalPages: response.totalPages,
+        totalResults: response.totalResults,
+      }
+    : undefined;
 }
 
 export async function getWorkItemsClientSide(

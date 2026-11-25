@@ -84,8 +84,7 @@ export function getFirstStartTime(times: EventTime[]): Date | undefined {
 // This function accepts the generic GroupField type that Prismic now provides.
 export function transformEventPolicyLabels(
   fragment:
-    | RawEventsDocumentData['policies']
-    | RawEventsDocumentData['onlinePolicies']
+    RawEventsDocumentData['policies'] | RawEventsDocumentData['onlinePolicies']
 ): LabelField[] {
   return fragment
     .map(item => item.policy)

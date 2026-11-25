@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { KnownTarget } from 'styled-components/dist/types';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dasherizeShorten } from '@weco/common/utils/grammar';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
@@ -19,7 +19,7 @@ import ZoomedPrismicImage from '@weco/content/views/components/ZoomedPrismicImag
 
 export const StandaloneTitle = styled(Space).attrs({
   as: 'h2',
-  className: `${font('brand-bold', 2)}`,
+  className: `${typography('heading', 'xl', 'strong', 'brand')}`,
   $v: { size: 'sm', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
@@ -34,13 +34,13 @@ type LevelProps = { $level: number };
 
 export const ContextTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 const TranscriptTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand-bold', 0),
+  className: typography('heading', 'md', 'strong', 'brand'),
   $v: { size: 'sm', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
@@ -61,12 +61,12 @@ export const ContextContainer = styled(Space).attrs<ContextContainerProps>(
 
 export const TombstoneTitle = styled(Space).attrs<LevelProps>(props => ({
   as: `h${props.$level}` as KnownTarget,
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 }))<LevelProps>``;
 
 export const Tombstone = styled(Space).attrs({
-  className: font('sans', 0),
+  className: typography('body', 'lg', 'regular'),
   $h: { size: 'md', properties: ['padding-right'] },
 })`
   flex-basis: 100%;
@@ -100,7 +100,7 @@ export const CaptionTranscription = styled.div`
 `;
 
 export const Caption = styled(Space).attrs({
-  className: `spaced-text ${font('sans', -1)}`,
+  className: `spaced-text ${typography('body', 'md', 'regular')}`,
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
 })`
   border-left: 20px solid ${props => props.theme.color('lightYellow')};
@@ -112,7 +112,7 @@ const PrismicImageWrapper = styled.div`
 `;
 
 const Transcription = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $h: { size: 'sm', properties: ['padding-left', 'padding-right'] },
   $v: {
     size: 'sm',
@@ -209,7 +209,7 @@ const Stop: FunctionComponent<{
                 </TombstoneTitle>
               )}
               {tombstone && (
-                <div className={font('sans', 0)}>
+                <div className={typography('body', 'lg', 'regular')}>
                   <PrismicHtmlBlock html={tombstone} />
                 </div>
               )}

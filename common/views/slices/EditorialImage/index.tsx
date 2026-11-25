@@ -31,13 +31,14 @@ const EditorialImageSlice: FunctionComponent<EditorialImageSliceProps> = ({
   const widthDividedByHeight = width / height;
 
   const aspectRatio = () => {
-    switch (true) {
-      case widthDividedByHeight >= 0.9 && widthDividedByHeight <= 1.1:
-        return 'square';
-      case widthDividedByHeight > 1.1:
-        return 'landscape';
-      case widthDividedByHeight < 0.9:
-        return 'portrait';
+    if (widthDividedByHeight >= 0.9 && widthDividedByHeight <= 1.1) {
+      return 'square';
+    }
+    if (widthDividedByHeight > 1.1) {
+      return 'landscape';
+    }
+    if (widthDividedByHeight < 0.9) {
+      return 'portrait';
     }
   };
 

@@ -1,18 +1,24 @@
 import { FocusTrap } from 'focus-trap-react';
-import { FunctionComponent, useEffect, useState } from 'react';
-import { usePopper } from 'react-popper';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { check } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
+import { controlColor } from './AudioPlayer.styles';
+
+const PlayRateContainer = styled.div`
+  position: relative;
+  anchor-scope: --play-rate-button;
+`;
+
 const TogglePlayRateButton = styled.button.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<{ $isDark: boolean }>`
-  color: ${props =>
-    props.$isDark ? props.theme.color('white') : props.theme.color('black')};
+  anchor-name: --play-rate-button;
+  color: ${props => props.theme.color(controlColor(props.$isDark))};
   padding: 0;
   transition: color 0.2s ease-in-out;
 
@@ -20,16 +26,11 @@ const TogglePlayRateButton = styled.button.attrs({
     display: flex;
     justify-content: end;
   }
-
-  &:hover {
-    color: ${props =>
-      props.$isDark ? props.theme.color('yellow') : props.theme.color('black')};
-  }
 `;
 
 const PlayRateButton = styled.div.attrs({
   as: 'button',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<{
   $isDark: boolean;
 }>`
@@ -46,15 +47,35 @@ const PlayRateButton = styled.div.attrs({
   }
 `;
 
-const PlayRateList = styled.div<{ $isActive: boolean; $isDark: boolean }>`
-  padding: ${props => props.theme.spacingUnits['100']} 0;
+const PlayRateList = styled.div<{
+  $isDark: boolean;
+}>`
+  /* Reset popover UA styles */
+  inset: unset;
+  margin: 0;
+  padding: 0;
+  border: none;
+  position: fixed;
+
+  @supports (position-anchor: --play-rate-button) {
+    position-anchor: --play-rate-button;
+    bottom: anchor(top);
+    right: anchor(right);
+    position-try-fallbacks: --below;
+
+    @position-try --below {
+      bottom: auto;
+      top: anchor(bottom);
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+  }
+
   list-style: none;
-  display: ${props => (props.$isActive ? 'block' : 'none')};
   background-color: ${props =>
     props.$isDark
       ? props.theme.color('neutral.700')
       : props.theme.color('white')};
-  z-index: 2;
   border-radius: 8px;
   box-shadow: ${props => props.theme.basicBoxShadow};
 
@@ -75,29 +96,9 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
   isDark,
   id,
 }) => {
-  const [isPopperActive, setIsPopperActive] = useState(false);
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
-  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-    null
-  );
-
-  const { styles, attributes, update } = usePopper(
-    referenceElement,
-    popperElement,
-    {
-      placement: 'top',
-      modifiers: [
-        {
-          name: 'offset',
-          options: {
-            offset: [-25, 10],
-          },
-        },
-      ],
-    }
-  );
-
+  const [isPlayRateActive, setIsPlayRateActive] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { audioPlaybackRate, setAudioPlaybackRate } = useAppContext();
   const speeds = [0.5, 1, 1.5, 2];
 
@@ -109,68 +110,63 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
     audioPlayer.playbackRate = audioPlaybackRate;
   }, [id]);
 
+  // Sync React state with popover toggle events (e.g. light-dismiss)
+  useEffect(() => {
+    const el = popoverRef.current;
+    if (!el) return;
+
+    function handleToggle(event: Event) {
+      setIsPlayRateActive((event as ToggleEvent).newState === 'open');
+    }
+
+    el.addEventListener('toggle', handleToggle);
+    return () => el.removeEventListener('toggle', handleToggle);
+  }, []);
+
   function updatePlaybackRate(speed: number) {
     setAudioPlaybackRate(speed);
     audioPlayer.playbackRate = speed;
-    setIsPopperActive(false);
+    popoverRef.current?.hidePopover();
   }
 
   function toggleShowHidePlayRate() {
-    setIsPopperActive(!isPopperActive);
-
-    if (update) {
-      update();
+    if (isPlayRateActive) {
+      popoverRef.current?.hidePopover();
+    } else {
+      if (
+        !CSS.supports('position-anchor', '--x') &&
+        buttonRef.current &&
+        popoverRef.current
+      ) {
+        const rect = buttonRef.current.getBoundingClientRect();
+        popoverRef.current.style.bottom = `${window.innerHeight - rect.top + 10}px`;
+        popoverRef.current.style.right = `${window.innerWidth - rect.right}px`;
+      }
+      popoverRef.current?.showPopover();
     }
   }
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        popperElement &&
-        referenceElement &&
-        !popperElement.contains(event.target as Node) &&
-        !referenceElement.contains(event.target as Node)
-      ) {
-        setIsPopperActive(false);
-      }
-    }
-
-    if (popperElement) {
-      document.addEventListener('click', handleClickOutside);
-    }
-    return () => {
-      if (popperElement) {
-        document.removeEventListener('click', handleClickOutside);
-      }
-    };
-  }, [popperElement, referenceElement]);
-
   return (
     <FocusTrap
-      active={isPopperActive}
+      active={isPlayRateActive}
       focusTrapOptions={{
         clickOutsideDeactivates: true,
       }}
     >
-      <div style={{ position: 'relative' }}>
+      <PlayRateContainer>
         <TogglePlayRateButton
+          ref={buttonRef}
           $isDark={isDark}
           onClick={toggleShowHidePlayRate}
-          ref={setReferenceElement}
           aria-controls={id}
-          aria-expanded={isPopperActive}
+          aria-expanded={isPlayRateActive}
         >
           Speed
-          <span className={font('sans-bold', 0)}>{audioPlaybackRate}x</span>
+          <span className={typography('body', 'lg', 'strong')}>
+            {audioPlaybackRate}x
+          </span>
         </TogglePlayRateButton>
-        <PlayRateList
-          id={id}
-          $isActive={isPopperActive}
-          $isDark={isDark}
-          ref={setPopperElement}
-          style={styles.popper}
-          {...attributes.popper}
-        >
+        <PlayRateList popover="auto" ref={popoverRef} id={id} $isDark={isDark}>
           <ul>
             {speeds.map(speed => {
               return (
@@ -185,7 +181,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
                       <span
                         style={{ transform: 'scale(1.5)', display: 'flex' }}
                       >
-                        <Icon icon={check} matchText={true} />
+                        <Icon icon={check} matchText />
                       </span>
                     )}
                   </span>
@@ -194,7 +190,7 @@ const PlayRate: FunctionComponent<PlayRateProps> = ({
             })}
           </ul>
         </PlayRateList>
-      </div>
+      </PlayRateContainer>
     </FocusTrap>
   );
 };

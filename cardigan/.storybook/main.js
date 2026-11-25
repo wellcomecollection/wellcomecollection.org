@@ -12,7 +12,7 @@ function getAbsolutePath(value) {
 const monorepoRoot = resolve(__dirname, '../..');
 
 const config = {
-  staticDirs: ['../public'],
+  staticDirs: ['../public', '../../content/webapp/public'],
   stories: [
     '../stories/global/**/*.mdx',
     '../stories/global/**/*.stories.tsx',
@@ -58,7 +58,7 @@ const config = {
       'next/image': resolve(monorepoRoot, 'node_modules/next/image.js'),
       'next/link': resolve(monorepoRoot, 'node_modules/next/link.js'),
       'next/head': resolve(monorepoRoot, 'node_modules/next/head.js'),
-      'node-fetch': resolve(__dirname, './mocks/node-fetch.js'),
+      undici: resolve(__dirname, './mocks/undici.js'),
     };
 
     return config;

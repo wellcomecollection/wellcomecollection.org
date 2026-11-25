@@ -15,23 +15,23 @@ import {
 
 export type State = 'initial' | 'loading' | 'signedin' | 'signedout' | 'failed';
 
-type Props = {
+export type UserContextProps = {
   user?: UserInfo;
   userIsStaffWithRestricted: boolean;
   state: State;
   reload: (abortSignal?: AbortSignal) => Promise<void>;
 };
 
-const defaultUserContext: Props = {
+export const defaultUserContext: UserContextProps = {
   user: undefined,
   userIsStaffWithRestricted: false,
   state: 'initial',
   reload: async () => undefined,
 };
 
-const UserContext = createContext<Props>(defaultUserContext);
+const UserContext = createContext<UserContextProps>(defaultUserContext);
 
-export function useUserContext(): Props {
+export function useUserContext(): UserContextProps {
   const contextState = useContext(UserContext);
   return contextState;
 }
@@ -83,7 +83,12 @@ export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
         }
 
         default:
-          console.error('Failed fetching user', resp.status);
+          // Locally a 502 just means the identity app isn't running
+          if (!(
+            process.env.NODE_ENV === 'development' && resp.status === 502
+          )) {
+            console.error('Failed fetching user', resp.status);
+          }
           setState('failed');
       }
     } catch (e) {

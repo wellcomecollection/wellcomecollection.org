@@ -65,4 +65,5 @@ I have…
 *Remove any discipline if out of scope of the QA*
 - [ ] Visual design
 - [ ] UX
+- [ ] Analytics
 - [ ] Product Manager final sign off (please comment then close the ticket)

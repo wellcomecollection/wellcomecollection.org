@@ -1,12 +1,12 @@
-import { test as base, expect } from '@playwright/test';
-
+import { test as base, expect } from './helpers/analytics-blocking';
 import { concept } from './helpers/contexts';
+import { urlWithParams } from './helpers/utils';
 import { ConceptPage } from './pages/concept';
 
 const test = base.extend<{
   armyPage: ConceptPage;
   mohPage: ConceptPage;
-  statisticsPage: ConceptPage;
+  paintingsPage: ConceptPage;
   thackrahPage: ConceptPage;
 }>({
   armyPage: async ({ context, page }, use) => {
@@ -23,11 +23,11 @@ const test = base.extend<{
     await use(mohPage);
   },
 
-  statisticsPage: async ({ context, page }, use) => {
+  paintingsPage: async ({ context, page }, use) => {
     // A Genre chosen because it has works and images both about and using the technique
-    await concept('y2yes53w', context, page);
-    const statisticsPage = new ConceptPage(page, 'type/technique');
-    await use(statisticsPage);
+    await concept('xfgyamy4', context, page);
+    const paintingsPage = new ConceptPage(page, 'type/technique');
+    await use(paintingsPage);
   },
 
   thackrahPage: async ({ context, page }, use) => {
@@ -40,7 +40,7 @@ const test = base.extend<{
   },
 });
 
-test.describe('navigating to/from a work page from a concept page', () => {
+test.describe('(1) | navigating to/from a work page from a concept page', () => {
   test('the concept -> work -> concept journey with the browser back button', async ({
     armyPage,
   }) => {
@@ -62,7 +62,7 @@ test.describe('navigating to/from a work page from a concept page', () => {
   });
 });
 
-test.describe('a Concept representing an Agent with no Images', () => {
+test.describe('(2) | a Concept representing an Agent with no Images', () => {
   test('only has works tabs', async ({ thackrahPage }) => {
     // It has two tabs for works
     await expect(thackrahPage.worksFeaturingTab).toBeVisible();
@@ -91,7 +91,7 @@ test.describe('a Concept representing an Agent with no Images', () => {
   });
 });
 
-test.describe('a Concept representing an Agent with Works and Images both about and by them', () => {
+test.describe('(3) | a Concept representing an Agent with Works and Images both about and by them', () => {
   test('has both works and image sections grouped into "by" and "about" sections', async ({
     armyPage,
   }) => {
@@ -112,72 +112,80 @@ test.describe('a Concept representing an Agent with Works and Images both about 
     await armyPage.worksAboutTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?subjects.label=%22British+Army%22'
+      urlWithParams('/search/works', {
+        'subjects.label': '"British Army"',
+      })
     );
 
     await armyPage.worksByTab.click();
     await expect(armyPage.allWorksLink).toHaveAttribute(
       'href',
-      '/search/works?contributors.agent.label=%22British+Army%22'
+      urlWithParams('/search/works', {
+        'contributors.agent.label': '"British Army"',
+      })
     );
 
     // It has links to all images by
     await expect(armyPage.allImagesByLink).toHaveAttribute(
       'href',
-      '/search/images?source.contributors.agent.label=%22Great+Britain.+Army%22'
+      urlWithParams('/search/images', {
+        'source.contributors.agent.label': '"British Army"',
+      })
     );
     // ...and images about
     await expect(armyPage.allImagesAboutLink).toHaveAttribute(
       'href',
-      '/search/images?source.subjects.label=%22Great+Britain.+Army%22'
+      urlWithParams('/search/images', {
+        'source.subjects.label': '"British Army"',
+      })
     );
   });
 });
 
-test.describe('a Concept representing a Genre with works and images both about and using them', () => {
+test.describe('(4) | a Concept representing a Genre with works and images both about and using them', () => {
   test('has both works and image sections, each with about and using tabs', async ({
-    statisticsPage,
+    paintingsPage,
   }) => {
-    const title = encodeURIComponent('"Statistics"');
+    const title = encodeURIComponent('"Paintings"');
     // It has two tabs (works)
-    await expect(statisticsPage.worksAboutTab).toBeVisible();
-    await expect(statisticsPage.worksInTab).toBeVisible();
+    await expect(paintingsPage.worksAboutTab).toBeVisible();
+    await expect(paintingsPage.worksInTab).toBeVisible();
 
     // It has images
-    await expect(statisticsPage.imagesSection).toBeVisible();
+    await expect(paintingsPage.imagesSection).toBeVisible();
 
     // The "works in" panel should be visible initially
-    await expect(statisticsPage.worksInTabPanel).toBeVisible();
+    await expect(paintingsPage.worksInTabPanel).toBeVisible();
     await expect(
-      statisticsPage.worksInTabPanel.getByRole('listitem')
+      paintingsPage.worksInTabPanel.getByRole('listitem')
     ).not.toHaveCount(0);
 
     // It has links to filtered searches
-    await statisticsPage.worksInTab.click();
-    await expect(statisticsPage.allWorksLink).toHaveAttribute(
+    await paintingsPage.worksInTab.click();
+    await expect(paintingsPage.allWorksLink).toHaveAttribute(
       'href',
       `/search/works?genres.label=${title}`
     );
 
-    await statisticsPage.worksAboutTab.click();
-    await expect(statisticsPage.allWorksLink).toHaveAttribute(
+    await paintingsPage.worksAboutTab.click();
+    await expect(paintingsPage.allWorksLink).toHaveAttribute(
       'href',
       `/search/works?subjects.label=${title}`
     );
 
-    await expect(statisticsPage.allImagesInLink).toHaveAttribute(
+    await expect(paintingsPage.allImagesInLink).toHaveAttribute(
       'href',
       `/search/images?source.genres.label=${title}`
     );
 
-    await expect(statisticsPage.allImagesAboutLink).toHaveAttribute(
+    await expect(paintingsPage.allImagesAboutLink).toHaveAttribute(
       'href',
       `/search/images?source.subjects.label=${title}`
     );
   });
 });
 
-test.describe('a Concept representing a Genre that is only used as a genre for both works and images', () => {
+test.describe('(5) | a Concept representing a Genre that is only used as a genre for both works and images', () => {
   test('has both works and image sections showing records in that genre', async ({
     mohPage,
   }) => {
@@ -189,15 +197,41 @@ test.describe('a Concept representing a Genre that is only used as a genre for b
     await expect(mohPage.worksAboutTab).not.toBeVisible();
     await expect(mohPage.worksInTab).not.toBeVisible();
 
-    // It has links to filtered searches, (not using encodeURIComponent because the genre includes '+'")
+    // It has links to filtered searches
     await expect(mohPage.allWorksLink).toHaveAttribute(
       'href',
-      `/search/works?genres.label=%22Medical+Officer+of+Health+%28MOH%29+reports%22`
+      urlWithParams('/search/works', {
+        'genres.label': '"Medical Officer of Health (MOH) reports"',
+      })
     );
 
     await expect(mohPage.allImagesInLink).toHaveAttribute(
       'href',
-      `/search/images?source.genres.label=%22MOH+reports%22`
+      urlWithParams('/search/images', {
+        'source.genres.label': '"Medical Officer of Health (MOH) reports"',
+      })
     );
+  });
+});
+
+test.describe('(6) | opening an image on a Concept page', () => {
+  test('an image can be opened, closed and opened again', async ({
+    armyPage,
+    page,
+  }) => {
+    const image = armyPage.imagesSection
+      .getByTitle('Open modal window')
+      .first();
+    const closeButton = page.getByTestId('close-modal-button');
+
+    await image.click();
+    await expect(closeButton).toBeVisible();
+
+    await closeButton.click();
+    await expect(closeButton).toBeHidden();
+
+    // The same image, which used to do nothing the second time
+    await image.click();
+    await expect(closeButton).toBeVisible();
   });
 });

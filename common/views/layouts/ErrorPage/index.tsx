@@ -3,6 +3,7 @@ import { NextPage } from 'next';
 import { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+import { isValidKioskMode } from '@weco/common/contexts/KioskContext/is-valid-kiosk-mode';
 import {
   DefaultErrorText,
   errorMessages,
@@ -19,11 +20,12 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader.styles';
+import { HEADER_SPACE_SIZE } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { personalFeatureFlagValue } from '@weco/toggles';
 import togglesList from '@weco/toggles/toggles';
 
 const MessageBar = styled(Space).attrs({
@@ -41,7 +43,7 @@ const MessageBar = styled(Space).attrs({
 
 /** This shows the user a list of toggles they currently have enabled, e.g.
  *
- *      You have the following toggles enabled: apiToolbar, stagingApi
+ *      You have the following toggles set: apiToolbar, stagingApi
  *
  * Sometimes toggles may cause errors on the site which aren't visible to
  * the public (e.g. the staging API toggle).
@@ -59,29 +61,65 @@ const MessageBar = styled(Space).attrs({
  */
 const TogglesMessage: FunctionComponent = () => {
   // Note: we use this slightly non-standard construction rather than
-  // useToggles() because we don't have access to the server data context
+  // useFeatureFlags() because we don't have access to the server data context
   // here -- we can't use getServerSideProps on an error page.
   // See https://nextjs.org/docs/messages/404-get-initial-props
   const [toggles, setToggles] = useState<string[]>([]);
+  const [isKioskDevice, setIsKioskDevice] = useState(false);
 
   useEffect(() => {
+    setIsKioskDevice(isValidKioskMode(getCookies().toggle_kioskMode));
     setToggles(() => {
+      const cookies = getCookies();
       // dangerouslyGetEnabledToggles returns a list with of all toggle cookies that are set.
       // Those prefixed with a ! have a false value and we only need to show the toggles with a value of true here
       const activeTogglesInBrowser = dangerouslyGetEnabledToggles(
-        getCookies()
+        cookies
       ).filter(v => !v.startsWith('!'));
 
-      // Get the readable name
+      // Get the readable name - for a mode or phased flag, also show which
+      // option/phase is selected (e.g. "API environment (Stage)"), since
+      // knowing one is merely "on" isn't enough to debug from - unlike a
+      // feature flag, their behaviour depends entirely on which was picked.
       if (activeTogglesInBrowser.length > 0) {
-        const allToggles = [...togglesList.toggles, ...togglesList.tests];
+        const flattenedTogglesList = [
+          ...togglesList.featureFlags,
+          ...togglesList.tests,
+          ...togglesList.modes,
+          ...togglesList.phasedFlags,
+        ];
         const activeToggleNames = activeTogglesInBrowser
-          .map(
-            id =>
-              Object.values(allToggles).find(toggle => toggle.id === id)?.title
-          )
-          .filter(f => f);
-        return activeToggleNames as string[];
+          .map(id => {
+            const toggle = Object.values(flattenedTogglesList).find(
+              t => t.id === id
+            );
+            if (!toggle) return undefined;
+
+            const mode = togglesList.modes.find(m => m.id === id);
+            const phasedFlag = togglesList.phasedFlags.find(f => f.id === id);
+            // Normalised to a plain shape rather than left as the union of
+            // ModeOption[]/PhaseDefinition[] - TS can't unify .find() across
+            // two differently-shaped readonly array types (it resolves the
+            // callback parameter to an intersection, which collapses to
+            // never once the two toggles' option literals diverge enough).
+            const options: { id: string; label: string }[] | undefined =
+              mode?.options.map(o => ({ id: o.id, label: o.label })) ??
+              phasedFlag?.phases.map(p => ({ id: p.id, label: p.label }));
+            const optionValue = cookies[`toggle_${id}`];
+            if (!options) {
+              // A personal "off" on an experimental flag means seeing a
+              // different version from the public, so it's worth listing
+              const isPersonalOff =
+                'type' in toggle &&
+                personalFeatureFlagValue(toggle, optionValue) === false;
+              return isPersonalOff ? `${toggle.title} (off)` : toggle.title;
+            }
+
+            const option = options.find(o => o.id === optionValue);
+            return `${toggle.title} (${option?.label ?? optionValue})`;
+          })
+          .filter(isNotUndefined);
+        return activeToggleNames;
       } else {
         return [];
       }
@@ -96,7 +134,7 @@ const TogglesMessage: FunctionComponent = () => {
             <Icon icon={underConstruction} />
           </Space>
           <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
-            You have the following toggles enabled:
+            You have the following toggles set:
             <ul>
               {toggles.map(t => (
                 <li key={t}>
@@ -104,11 +142,30 @@ const TogglesMessage: FunctionComponent = () => {
                 </li>
               ))}
             </ul>
-            This could be what is causing this page to error,{' '}
-            <a href="https://dash.wellcomecollection.org/toggles">
-              please try resetting your toggles
-            </a>
-            .
+            {/* Kiosk devices are set up and reset from the dashboard only, so there's nothing for a visitor to link to or reset */}
+            {isKioskDevice ? (
+              <>This could be what is causing this page to error.</>
+            ) : (
+              <>
+                This could be what is causing this page to error. You can{' '}
+                <a
+                  href="https://dash.wellcomecollection.org/toggles/?resetToggles"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  reset all your toggles
+                </a>
+                , or{' '}
+                <a
+                  href="https://dash.wellcomecollection.org/toggles"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  choose which to change in the dashboard
+                </a>
+                .
+              </>
+            )}
           </Space>
         </MessageBar>
       </ContaineredLayout>
@@ -176,16 +233,16 @@ const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
       url={{ pathname: '/' }}
       jsonLd={{ '@type': 'WebPage' }}
       openGraphType="website"
-      hideNewsletterPromo={true}
+      hideNewsletterPromo
     >
-      <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
+      <Space $v={{ size: HEADER_SPACE_SIZE, properties: ['padding-bottom'] }}>
         <PageHeader
           variant="basic"
           breadcrumbs={{ items: [] }}
           labels={undefined}
           title={errorMessage}
           backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
+          highlightHeading
         />
         <SpacingSection>
           <SpacingComponent>

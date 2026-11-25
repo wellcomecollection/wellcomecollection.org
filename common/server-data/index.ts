@@ -18,11 +18,18 @@ import { GetServerSidePropsContext } from 'next';
 import path from 'path';
 
 import { getAllConsentStates } from '@weco/common/services/app/civic-uk';
-import { simplifyServerData } from '@weco/common/services/prismic/transformers/server-data';
+import { TOGGLE_RESET_VALUE, Toggles, TogglesResp } from '@weco/toggles';
 
 import prismicHandler from './prismic';
-import togglesHandler, { getTogglesFromContext } from './toggles';
-import { SimplifiedServerData } from './types';
+import togglesHandler, {
+  getTogglesFromContext,
+  parseToggleOverrides,
+  parseTogglePresets,
+  togglePresetCookies,
+  validToggleOverrides,
+  validTogglePresets,
+} from './toggles';
+import { ServerData } from './types';
 
 export type Handler<DefaultData, FetchedData> = {
   defaultValue: DefaultData;
@@ -40,7 +47,7 @@ if (typeof window !== 'undefined') {
 }
 
 const pathName = path.join(process.cwd(), '.server-data');
-const minute = 60000;
+const MINUTE = 60000;
 
 const handlers = {
   toggles: togglesHandler,
@@ -93,7 +100,7 @@ async function write(key: Key, fetch: () => Promise<DefaulVal<Key>>) {
   const timer = setTimeout(() => {
     clearTimeout(timer);
     write(key, fetch);
-  }, minute);
+  }, MINUTE);
 
   timers.set(key, timer);
 }
@@ -110,34 +117,95 @@ export function clear(): void {
 }
 
 /**
+ * Read cached toggles from disk for use in API routes.
+ * This is a lighter-weight alternative to getServerData for contexts
+ * where you only need toggles and don't have a GetServerSidePropsContext.
+ *
+ * If the cache is empty (e.g., first request before cache is populated),
+ * returns a minimal fallback configuration with the stagingApi toggle.
+ */
+export async function getCachedToggles(): Promise<TogglesResp> {
+  // Use dynamic import to avoid circular dependency:
+  // toggles.ts imports Handler from this file, so we can't import from toggles.ts at the top level
+  const { fallbackTogglesForApiRoutes } = await import('./toggles');
+  const togglesResp = await read('toggles', handlers.toggles.defaultValue);
+
+  // Fallback to minimal toggle config if cache is empty
+  if (togglesResp.featureFlags.length === 0) {
+    return fallbackTogglesForApiRoutes;
+  }
+
+  return togglesResp;
+}
+
+/**
  * we should always keep the context here irrespective of if we use it
  * to ensure that we only ever run this in `getServerSideProps`, where
  * `fs`, `path`, and other server-side functionality is available
  */
 export const getServerData = async (
   context: GetServerSidePropsContext
-): Promise<SimplifiedServerData> => {
+): Promise<ServerData> => {
+  // Read the cached toggles and prismic data from disk (refreshed every minute)
   const togglesResp = await read('toggles', handlers.toggles.defaultValue);
   const prismic = await read('prismic', handlers.prismic.defaultValue);
-  const { toggle } = context.query;
 
-  const enableToggle: string | undefined =
-    typeof toggle === 'string' ? toggle : undefined;
-
-  const toggles = getTogglesFromContext(togglesResp, context);
-
-  const isEnableToggleValid = Object.keys(toggles).some(
-    id => id === enableToggle
+  // Support ?toggle=someFlag,somePhasedFlag:phase2,someMode:option to set
+  // toggles via query param - saved as cookies, so they stick for later visits.
+  // ?toggle=id:reset resets one by deleting its cookie.
+  const presets = validTogglePresets(
+    parseTogglePresets(context.query.toggle),
+    togglesResp,
+    context
+  );
+  const resetIds = Object.keys(presets).filter(
+    id => presets[id] === TOGGLE_RESET_VALUE
+  );
+  const presetValues = Object.fromEntries(
+    Object.entries(presets).filter(([, value]) => value !== TOGGLE_RESET_VALUE)
   );
 
-  if (enableToggle && isEnableToggleValid) {
-    context.res.setHeader('Set-Cookie', `toggle_${enableToggle}=true; Path=/`);
-    toggles[enableToggle].value = true;
+  // Support ?toggleOverride=id:value,id:value to override toggle state for this
+  // render only, without writing any cookie. Lets two browser tabs render the
+  // same page with different toggle states side by side.
+  const overrides = validToggleOverrides(
+    parseToggleOverrides(context.query.toggleOverride),
+    togglesResp,
+    context
+  );
+
+  // Resolve toggle values from the cached config + user's cookies. Presets go
+  // in as overrides too, so this render reflects them before the cookies land.
+  const { featureFlags, phasedFlags, tests, modes } = getTogglesFromContext(
+    togglesResp,
+    context,
+    { ...presetValues, ...overrides },
+    resetIds
+  );
+
+  const presetCookies = togglePresetCookies(presets, context.req.headers.host);
+  if (presetCookies.length > 0) {
+    const existing = context.res.getHeader('Set-Cookie');
+    context.res.setHeader('Set-Cookie', [
+      ...(Array.isArray(existing)
+        ? existing
+        : existing !== undefined
+          ? [String(existing)]
+          : []),
+      ...presetCookies,
+    ]);
   }
 
+  // Read cookie consent status (analytics, marketing)
   const consentStatus = getAllConsentStates(context);
 
-  const serverData = { toggles, prismic, consentStatus };
+  const toggles: Toggles = { featureFlags, phasedFlags, tests, modes };
 
-  return simplifyServerData(serverData);
+  const serverData = {
+    toggles,
+    prismic,
+    consentStatus,
+  };
+
+  return serverData;
 };

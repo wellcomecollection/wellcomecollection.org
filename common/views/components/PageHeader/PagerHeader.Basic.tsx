@@ -4,9 +4,10 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { typography } from '@weco/common/utils/classnames';
 import AccessibilityProvision from '@weco/common/views/components/AccessibilityProvision';
 import Breadcrumb from '@weco/common/views/components/Breadcrumb';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -21,6 +22,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 import { BackgroundType, FeaturedMedia, pageGridLayout } from '.';
 import {
@@ -31,26 +33,11 @@ import {
   Wrapper,
 } from './PageHeader.styles';
 
-const Heading = styled(Space)`
-  background-color: ${props => props.theme.color('white')};
-  display: inline;
-  line-height: calc(1.1em + 12px);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-`;
-
-const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
-  return (
-    <h1 className={font('brand-bold', 2)}>
-      <Heading
-        $v={{ size: 'xs', properties: ['padding-top', 'padding-bottom'] }}
-        $h={{ size: 'sm', properties: ['padding-left', 'padding-right'] }}
-      >
-        {text}
-      </Heading>
-    </h1>
-  );
-};
+// The title takes the colour the header's `Wrapper` sets (light on a dark
+// header, dark otherwise)
+const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => (
+  <h1 className={typography('heading', 'xl', 'strong', 'brand')}>{text}</h1>
+);
 
 export type Props = {
   title: string;
@@ -61,7 +48,7 @@ export type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isContentTypeInfoBeforeMedia?: boolean;
-  heroImageBgColor?: 'warmNeutral.300' | 'white';
+  heroImageBgColor?: 'warmNeutral.300' | typeof pageBackgroundColor;
   backgroundTexture?: string;
   highlightHeading?: boolean;
   SerialPartNumber?: ReactNode;
@@ -81,7 +68,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   isContentTypeInfoBeforeMedia = false,
   // Not a massive fan of this, but it feels overkill to make a new component
   // for it as it's only used on articles and exhibitions
-  heroImageBgColor = 'white',
+  heroImageBgColor = pageBackgroundColor,
   backgroundTexture,
   highlightHeading,
   SerialPartNumber,
@@ -96,28 +83,47 @@ const BasicPageHeader: FunctionComponent<Props> = ({
   );
 
   const hasMedia = FeaturedMedia || HeroPicture;
+  const { isKiosk } = useKiosk();
 
-  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true
-  // This checks whether or not there are actually any items.
+  // The Background stops short so media can overlap its bottom edge. Without
+  // media, that leaves the brand's light text on the page, so texture the whole
+  // header instead (as guides do).
+  const isTexturingWholeHeader = !!Background && !hasMedia;
+  const containerTexture = isTexturingWholeHeader
+    ? backgroundTexture || headerBackgroundLs
+    : backgroundTexture;
+
+  // Not rendering the Background also drops the wobbly edge it draws, so show
+  // the header's own edge instead, with room for it below the content
+  const hasBottomEdge =
+    !hasMedia &&
+    !isSlim &&
+    (!isContentTypeInfoBeforeMedia || isTexturingWholeHeader);
+  const hasBottomPadding =
+    hasBottomEdge || (!hasMedia && !isContentTypeInfoBeforeMedia);
+
+  // As <Breadcrumb> will automatically add "Home" as the first breadcrumb unless "noHomeLink" is true,
+  // this checks whether or not there are actually any visible items.
   const hasBreadcrumbItems =
+    !isKiosk &&
     breadcrumbs &&
-    (breadcrumbs.items.length > 0 ||
-      !(breadcrumbs.items.length === 0 && breadcrumbs.noHomeLink));
+    (!breadcrumbs.noHomeLink || breadcrumbs.items.some(item => !item.isHidden));
 
   return (
     <>
-      <Container $backgroundTexture={backgroundTexture}>
-        {Background}
+      <Container $backgroundTexture={containerTexture}>
+        {!isTexturingWholeHeader && Background}
         <ContaineredLayout
           gridSizes={fullWidth ? gridSize12() : pageGridLayout}
         >
           <Wrapper
+            // Textured headers are dark
+            $isOnDarkHeader={!!(Background || backgroundTexture)}
             $v={{
               size: isSlim ? '2xs' : 'md',
-              properties:
-                isContentTypeInfoBeforeMedia || hasMedia
-                  ? ['margin-bottom']
-                  : ['margin-bottom', 'padding-bottom'],
+              properties: hasBottomPadding
+                ? ['margin-bottom', 'padding-bottom']
+                : ['margin-bottom'],
             }}
           >
             {hasBreadcrumbItems && (
@@ -137,7 +143,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             <ConditionalWrapper
               condition={!hasBreadcrumbItems}
               wrapper={children => (
-                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                <Space $v={{ size: 'lg', properties: ['margin-top'] }}>
                   {children}
                 </Space>
               )}
@@ -149,7 +155,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
             {isContentTypeInfoBeforeMedia && ContentTypeInfo && (
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                className={font('sans', 0)}
+                className={typography('body', 'lg', 'regular')}
               >
                 {ContentTypeInfo}
               </Space>
@@ -188,15 +194,18 @@ const BasicPageHeader: FunctionComponent<Props> = ({
         )}
       </Container>
 
-      {!hasMedia && !isContentTypeInfoBeforeMedia && !isSlim && (
-        <DecorativeEdge variant="wobbly" backgroundColor="white" />
+      {hasBottomEdge && (
+        <DecorativeEdge
+          variant="wobbly"
+          backgroundColor={pageBackgroundColor}
+        />
       )}
 
       {!isContentTypeInfoBeforeMedia && ContentTypeInfo && (
         <ContaineredLayout gridSizes={pageGridLayout}>
           <Space
             $v={{ size: 'md', properties: ['margin-top'] }}
-            className={font('sans-bold', 0)}
+            className={typography('body', 'lg', 'strong')}
           >
             {ContentTypeInfo}
           </Space>

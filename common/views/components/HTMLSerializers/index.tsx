@@ -79,6 +79,11 @@ export const defaultSerializer: JSXFunctionSerializer = (
       const wrapperClassList = ['block-img'];
       const img = <img src={element.url} alt={element.alt || ''} />;
 
+      // Note: none of our custom types allow image insertion in rich text fields,
+      // so the linkTo branch is never reached in practice. If that changes,
+      // withExternalLinkStripping does not cover this case (it only intercepts
+      // hyperlink nodes), so external link stripping in kiosk mode would need
+      // to be added here too.
       return (
         <p key={key} className={wrapperClassList.join(' ')}>
           {url ? (
@@ -148,9 +153,13 @@ export const defaultSerializer: JSXFunctionSerializer = (
         return (
           <DownloadLink
             href={linkUrl}
-            mimeType={getMimeTypeFromExtension(
-              (fileExtension && fileExtension[0].substring(1)) || ''
-            )}
+            format={
+              fileExtension
+                ? getMimeTypeFromExtension(
+                    fileExtension && fileExtension[0].substring(1)
+                  )
+                : undefined
+            }
           >
             {children}{' '}
             <span style={{ whiteSpace: 'nowrap' }}>
@@ -197,6 +206,20 @@ export const defaultSerializer: JSXFunctionSerializer = (
       return null;
   }
 };
+
+function isInternalLink(url: string): boolean {
+  if (url.startsWith('#')) return true;
+  if (url.startsWith('/') && !url.startsWith('//')) return true;
+  try {
+    const parsed = new URL(url);
+    return (
+      parsed.hostname === 'wellcomecollection.org' ||
+      parsed.hostname.endsWith('.wellcomecollection.org')
+    );
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Safely extract the first string child from a React node.
@@ -248,6 +271,26 @@ export const dropCapSerializer: JSXFunctionSerializer = (
   }
   return defaultSerializer(type, element, content, children, key);
 };
+
+/**
+ * Wraps an existing serializer and replaces external hyperlinks with plain text,
+ * while preserving the wrapped serializer's behaviour for internal links and all
+ * other rich text nodes.
+ */
+export function withExternalLinkStripping(
+  serializer: JSXFunctionSerializer
+): JSXFunctionSerializer {
+  return (type, element, content, children, key) => {
+    if (element.type === prismic.RichTextNodeType.hyperlink) {
+      const linkUrl = prismic.asLink(element.data, { linkResolver }) || '';
+      if (!isInternalLink(linkUrl)) {
+        return <span key={key}>{children}</span>;
+      }
+    }
+
+    return serializer(type, element, content, children, key);
+  };
+}
 
 const ACCESSIBILITY_ICON_MAP: Record<string, IconSvg> = {
   bsl: bslSquare,

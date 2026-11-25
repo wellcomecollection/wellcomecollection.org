@@ -1,6 +1,5 @@
 import { createClient } from '@prismicio/client';
 import 'dotenv/config';
-import fetch from 'node-fetch';
 import fs from 'node:fs';
 import yargs from 'yargs';
 
@@ -90,7 +89,7 @@ async function init() {
         });
       }
     } catch (error) {
-      const { message } = error;
+      const message = error instanceof Error ? error.message : String(error);
       fs.appendFile('migration.log', `${message}\n\n`, err => {
         if (err) {
           logError(`${err}`);

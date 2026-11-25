@@ -30,16 +30,16 @@ function determineSize(viewPortImageDifference: number): string {
   } else {
     // + value means image is more portrait than the aspect ratio of the viewport,
     // so the bigger the difference, the smaller the image will be displayed
-    switch (true) {
-      case viewPortImageDifference > 0.75:
-        return '25vw';
-      case viewPortImageDifference > 0.5:
-        return '50vw';
-      case viewPortImageDifference > 0.25:
-        return '75vw';
-      default:
-        return '100vw';
+    if (viewPortImageDifference > 0.75) {
+      return '25vw';
     }
+    if (viewPortImageDifference > 0.5) {
+      return '50vw';
+    }
+    if (viewPortImageDifference > 0.25) {
+      return '75vw';
+    }
+    return '100vw';
   }
 }
 

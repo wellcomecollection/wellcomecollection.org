@@ -7,18 +7,18 @@ import {
   useEffect,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import ClearInput from '@weco/common/views/components/TextInput/TextInput.Clear';
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
 export const TextInputLabel = styled.label.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: block;
   line-height: 1.2;
@@ -30,7 +30,9 @@ type TextInputWrapProps = {
   $isNewSearchBar?: boolean;
 };
 export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
-  className: font('sans', props.$isNewSearchBar ? 1 : 0),
+  className: props.$isNewSearchBar
+    ? typography('body', 'xl', 'regular')
+    : typography('body', 'lg', 'regular'),
   $v: { size: 'xs', properties: ['margin-top'] },
 }))<TextInputWrapProps>`
   display: flex;
@@ -45,9 +47,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
       ? props.$status === 'error'
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
-      : props.theme.color(
-          props.$isNewSearchBar ? 'accent.green' : 'neutral.600'
-        )};
+      : props.theme.color(props.$isNewSearchBar ? 'indigo.50' : 'neutral.70')};
 
   &:has(:focus-visible) {
     ${focusStyle};
@@ -68,17 +68,18 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 
   &:hover {
     border-color: ${props =>
-      !props.$isNewSearchBar && props.theme.color('black')};
+      !props.$isNewSearchBar && props.theme.color('neutral.80')};
   }
 
   ${props =>
-    props.$isDisabled
-      ? `border-color:  ${props.theme.color('neutral.500')}`
-      : ``}
+    props.$isDisabled &&
+    css`
+      border-color: ${props.theme.color('neutral.500')};
+    `}
 `;
 
-const HintCopy = styled.span.attrs({
-  className: font('sans', -1),
+export const HintCopy = styled.span.attrs({
+  className: typography('body', 'md', 'regular'),
 })`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
@@ -105,7 +106,7 @@ export const TextInputInput = styled.input.attrs<{ $type?: string }>(props => ({
 `;
 
 const StatusMessage = styled(Space).attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: flex;
@@ -234,6 +235,13 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
     }
   }, [value, isNewSearchBar, ref]);
 
+  const status =
+    !isValid && showValidity
+      ? 'error'
+      : isValid && showValidity
+        ? 'success'
+        : undefined;
+
   return (
     <div data-component="text-input">
       <TextInputLabel htmlFor={id}>{label}</TextInputLabel>
@@ -247,13 +255,8 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, Props> = (
       <TextInputWrap
         $isNewSearchBar={isNewSearchBar}
         $isDisabled={disabled}
-        $status={
-          !isValid && showValidity
-            ? 'error'
-            : isValid && showValidity
-              ? 'success'
-              : undefined
-        }
+        $status={status}
+        data-status={status}
       >
         <TextInputInput
           ref={ref}

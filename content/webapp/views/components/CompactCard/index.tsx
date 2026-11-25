@@ -7,7 +7,7 @@ import {
 import styled from 'styled-components';
 
 import { Label } from '@weco/common/model/labels';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import { gridSize12 } from '@weco/common/views/components/Layout';
 import ImageType from '@weco/common/views/components/PrismicImage';
@@ -52,7 +52,7 @@ type CompactArticleProps = ArticleCardProps & {
 export type Props = CompactCardProps | CompactArticleProps;
 
 const BaseTitleWrapper = styled.h3.attrs({
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
 })`
   margin: 0;
 `;
@@ -177,7 +177,9 @@ const CompactCard: FunctionComponent<Props> = (
           {ExtraInfo}
 
           {description && (
-            <div className={`spaced-text ${font('sans', -1)}`}>
+            <div
+              className={`spaced-text ${typography('body', 'md', 'regular')}`}
+            >
               {descriptionIsString ? <p>{description}</p> : description}
             </div>
           )}

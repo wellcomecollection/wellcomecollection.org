@@ -2,6 +2,7 @@ import * as prismic from '@prismicio/client';
 
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
+import { EventsDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 import { LabelField } from '@weco/content/model/label-field';
 
@@ -101,7 +102,7 @@ export type EventBasic = HasTimes & {
   contributors: Contributor[];
 };
 
-export type Event = GenericContentFields & {
+export type Event = GenericContentFields<EventsDocumentDataBodySlice> & {
   type: 'events';
   uid: string;
   format?: Format;

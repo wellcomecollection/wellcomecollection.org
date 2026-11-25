@@ -56,7 +56,7 @@ const BooksPage: NextPage<Props> = ({ books }) => {
             )
           }
           backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
+          highlightHeading
         />
 
         {books.totalPages > 1 && (

@@ -14,6 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 import ScrollableNavigation from './ScrollContainer.Navigation';
 import {
   ContentContainer,
+  CopyContainer,
   ScrollButtonsContainer,
   ScrollShim,
 } from './ScrollContainer.styles';
@@ -26,6 +27,7 @@ type Props = PropsWithChildren<{
   containerRef?: RefObject<HTMLUListElement | null>;
   CopyContent?: JSX.Element;
   useShim?: boolean;
+  hasWorkCards?: boolean;
 }>;
 
 const ScrollContainer: FunctionComponent<Props> = ({
@@ -37,6 +39,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
   useShim = false,
   CopyContent,
   children,
+  hasWorkCards = false,
 }) => {
   const fallbackRef = useRef<HTMLUListElement>(null);
   const scrollContainerRef = containerRef || fallbackRef;
@@ -55,7 +58,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
           </ContaineredLayout>
         )}
       >
-        <div>{CopyContent}</div>
+        <CopyContainer>{CopyContent}</CopyContainer>
       </ConditionalWrapper>
     );
   };
@@ -89,7 +92,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
       <ConditionalWrapper
         condition={!scrollButtonsAfter || !!CopyContent}
         wrapper={children => (
-          <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+          <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
             {children}
           </Space>
         )}
@@ -97,7 +100,7 @@ const ScrollContainer: FunctionComponent<Props> = ({
         {!scrollButtonsAfter ? <ScrollButtons /> : <Copy addContainerWrapper />}
       </ConditionalWrapper>
 
-      <ContentContainer ref={scrollContainerRef}>
+      <ContentContainer ref={scrollContainerRef} $hasWorkCards={hasWorkCards}>
         {useShim && gridSizes && <ScrollShim $gridValues={gridValues} />}
         {children}
       </ContentContainer>

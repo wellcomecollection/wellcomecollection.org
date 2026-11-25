@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 
 import untransformedBody from '@weco/cardigan/stories/data/untransformed-body';
+import { ArticlesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import {
   ArticleBasic,
   Article as TransformedPrismicArticle,
@@ -137,8 +138,6 @@ export const event: Event = {
     {
       id: 'WoLtUioAACkANrUM',
       title: 'Viewing Room',
-      untransformedBody: [],
-      labels: [],
       level: 2,
       capacity: 20,
       information: [
@@ -302,7 +301,8 @@ export const article: TransformedPrismicArticle = {
       },
     },
   ],
-  untransformedBody,
+  untransformedBody:
+    untransformedBody as unknown as ArticlesDocumentDataBodySlice[],
   promo: {
     caption: 'Do you have any dark clouds following you?',
     image: {

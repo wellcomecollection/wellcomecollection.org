@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { arrowSmall, web } from '@weco/common/icons';
 import { ImageType } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import {
   ContaineredLayout,
@@ -59,7 +59,7 @@ const ImageSection = styled.div`
 `;
 
 const SupportText = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: { size: 'md', properties: ['margin-top'] },
 })`
   display: flex;
@@ -74,9 +74,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
   overflow: hidden;
   background-color: ${props =>
-    props.theme.color(
-      props.$isDefaultVariant ? 'accent.lightBlue' : 'accent.lightPurple'
-    )};
+    props.theme.color(props.$isDefaultVariant ? 'indigo.20' : 'teal.20')};
 `;
 
 const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
@@ -85,9 +83,7 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   position: absolute;
   z-index: -1;
   color: ${props =>
-    props.theme.color(
-      props.$isDefaultVariant ? 'accent.salmon' : 'accent.turquoise'
-    )};
+    props.theme.color(props.$isDefaultVariant ? 'green.40' : 'orange.40')};
   display: flex;
   width: 100%;
   height: 150%;

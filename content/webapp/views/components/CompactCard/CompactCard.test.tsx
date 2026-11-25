@@ -7,15 +7,19 @@ import {
   mockDataWithPrismicText,
 } from '@weco/common/test/fixtures/components/compact-card';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import { GridCell, SizeMap } from '@weco/common/views/components/styled/Grid';
 
 import CompactCard, { HasImageProps } from '.';
 
-const getBaseTitleClass = number => {
-  return font('brand-bold', number);
+const getBaseTitleClass = (number: 0 | 1) => {
+  const map = {
+    0: typography('heading', 'md', 'strong', 'brand'),
+    1: typography('heading', 'lg', 'strong', 'brand'),
+  } as const;
+  return map[number];
 };
 
 const mockOnClick = jest.fn();
@@ -62,7 +66,7 @@ const TextWrapper = styled(GridCell).attrs<HasImageProps>(props => {
 })<HasImageProps>``;
 
 const TitleWrapper = styled.div.attrs({
-  className: font('brand-bold', 0),
+  className: typography('heading', 'md', 'strong', 'brand'),
 })``;
 
 const extraClass = 'my_extra_extra_class';

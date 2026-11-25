@@ -1,3 +1,5 @@
+import { ExhibitionsDocument as RawExhibitionsDocument } from '@weco/common/prismicio-types';
+
 import { transformExhibition } from './exhibitions';
 
 const doc = {
@@ -98,9 +100,9 @@ const doc = {
 
 describe('transformExhibition', () => {
   it('sets a caption on the exhibition', () => {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const exhibition = transformExhibition(doc as any);
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+    const exhibition = transformExhibition(
+      doc as unknown as RawExhibitionsDocument
+    );
 
     expect(exhibition.promo?.caption).toBe(
       'Explore our relationship with the air around us. Moving freely across borders and through our bodies, air is both vital to our existence and a threat to our health.'

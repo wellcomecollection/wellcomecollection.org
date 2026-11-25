@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -77,13 +77,13 @@ const ExhibitionGuideLinksCard: FunctionComponent<Props> = ({
         <Space
           $v={{ size: 'sm', properties: ['margin-top', 'margin-bottom'] }}
           as="h3"
-          className={font('brand-bold', 1)}
+          className={typography('heading', 'lg', 'strong', 'brand')}
         >
           {exhibitionGuide.title}
         </Space>
       </ExhibitionTitleLink>
       <Space $v={{ size: 'xs', properties: ['margin-top'] }}>
-        <PlainList className={font('sans', -1)}>
+        <PlainList className={typography('body', 'md', 'regular')}>
           {links.map((link, i) => (
             <Type key={i}>
               <a href={link.url}>{link.text}</a>

@@ -1,8 +1,8 @@
 import { FunctionComponent, SyntheticEvent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
@@ -18,9 +18,9 @@ const List = styled(PlainList)`
 const Item = styled.li<{ $isActive: boolean }>`
   ${props =>
     props.$isActive &&
-    `
-    background: ${props.theme.color('neutral.600')};
-  `}
+    css`
+      background: ${props.theme.color('neutral.600')};
+    `}
 `;
 
 const Button = styled.button.attrs({
@@ -32,7 +32,7 @@ const Button = styled.button.attrs({
 
 const ButtonInner = styled(Space).attrs({
   as: 'span',
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $h: { size: '2xs', properties: ['padding-right', 'padding-left'] },
   $v: { size: '2xs', properties: ['padding-top', 'padding-bottom'] },
 })`
@@ -61,34 +61,37 @@ const ToolbarSegmentedControl: FunctionComponent<Props> = ({
 }: Props) => {
   return (
     <List>
-      {items.map(item => (
-        <Item $isActive={activeId === item.id} key={item.id}>
-          <Button
-            onClick={item.clickHandler}
-            data-gtm-trigger={item.dataGtmTrigger}
-          >
-            <ButtonInner>
-              <Icon
-                icon={item.icon}
-                iconColor={activeId === item.id ? 'yellow' : 'neutral.600'}
-              />
-              <Space
-                $h={
-                  hideLabels
-                    ? undefined
-                    : {
-                        size: '2xs',
-                        properties: ['padding-left', 'padding-right'],
-                      }
-                }
-                className={hideLabels ? 'visually-hidden' : undefined}
-              >
-                {item.label}
-              </Space>
-            </ButtonInner>
-          </Button>
-        </Item>
-      ))}
+      {items.map(item => {
+        const isActive = activeId === item.id;
+        return (
+          <Item $isActive={isActive} key={item.id}>
+            <Button
+              onClick={item.clickHandler}
+              data-gtm-trigger={item.dataGtmTrigger}
+            >
+              <ButtonInner>
+                <Icon
+                  icon={item.icon}
+                  iconColor={isActive ? 'neutral.10' : 'neutral.600'}
+                />
+                <Space
+                  $h={
+                    hideLabels
+                      ? undefined
+                      : {
+                          size: '2xs',
+                          properties: ['padding-left', 'padding-right'],
+                        }
+                  }
+                  className={hideLabels ? 'visually-hidden' : undefined}
+                >
+                  {item.label}
+                </Space>
+              </ButtonInner>
+            </Button>
+          </Item>
+        );
+      })}
     </List>
   );
 };

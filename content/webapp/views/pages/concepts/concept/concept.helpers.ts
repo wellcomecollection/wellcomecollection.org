@@ -24,7 +24,7 @@ export function getSectionTypeLabel(
   tabType: ThemeTabType,
   config: ConceptConfig,
   sectionType: 'images' | 'works'
-): string | undefined {
+): string {
   const capitalisedSectionType = sectionType === 'images' ? 'Images' : 'Works';
 
   switch (tabType) {

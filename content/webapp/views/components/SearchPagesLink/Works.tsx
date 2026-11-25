@@ -35,9 +35,9 @@ const emptyWorksProps: WorksProps = {
   sort: undefined,
   sortOrder: undefined,
   'partOf.title': undefined,
+  'collection.root': undefined,
   'production.dates.from': undefined,
   'production.dates.to': undefined,
-  searchIn: undefined,
 };
 
 const codecMap = {
@@ -60,9 +60,9 @@ const codecMap = {
   sort: maybeStringCodec,
   sortOrder: maybeStringCodec,
   'partOf.title': maybeStringCodec,
+  'collection.root': maybeStringCodec,
   'production.dates.from': maybeStringCodec,
   'production.dates.to': maybeStringCodec,
-  searchIn: maybeStringCodec,
 };
 
 export type WorksProps = FromCodecMap<typeof codecMap>;

@@ -1,7 +1,7 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
-export const homepageId = 'homepage';
+export const HOMEPAGE_UID = 'homepage';
 
 export const collectionVenueId = {
   galleries: {
@@ -66,10 +66,66 @@ export const prismicPageIds = {
 
 export const thematicBrowsingPaths = {
   peopleAndOrganisations: `/${prismicPageIds.collections}/people-and-organisations`,
-  places: `/${prismicPageIds.collections}/places`,
   typesAndTechniques: `/${prismicPageIds.collections}/types-and-techniques`,
   subjects: `/${prismicPageIds.collections}/subjects`,
 } as const;
+
+export const subjectCategories = [
+  {
+    path: 'mental-health',
+    title: 'Mental health & the mind',
+    prismicUid: 'subjects-mental-health',
+    prismicId: 'ae9ocRIAACIA9RQz',
+  },
+  {
+    path: 'the-human-body',
+    title: 'The human body',
+    prismicUid: 'subjects-the-human-body',
+    prismicId: 'ae9okxIAACEA9RR6',
+  },
+  {
+    path: 'public-health',
+    title: 'Public health',
+    prismicUid: 'subjects-public-health',
+    prismicId: 'abGHbREAACAAi2gO',
+  },
+  {
+    path: 'medical-care-and-practices',
+    title: 'Medical care and practices',
+    prismicUid: 'subjects-medical-care-and-practices',
+    prismicId: 'aY2jMBAAACEAHkc6',
+  },
+  {
+    path: 'sex-sexual-health-and-reproduction',
+    title: 'Sex, sexual health and reproduction',
+    prismicUid: 'subjects-sex-sexual-health-and-reproduction',
+    prismicId: 'aaBgRBAAACMAxoYU',
+  },
+  {
+    path: 'diseases-disorders-and-conditions',
+    title: 'Diseases, disorders and conditions',
+    prismicUid: 'subjects-diseases-disorders-and-conditions',
+    prismicId: 'ae9otRIAACEA9RSz',
+  },
+  {
+    path: 'the-natural-world-and-environment',
+    title: 'The natural world and environment',
+    prismicUid: 'subjects-the-natural-world-and-environment',
+    prismicId: 'ae9pMBIAACEA9RWR',
+  },
+  {
+    path: 'society-arts-and-culture',
+    title: 'Society, arts and culture',
+    prismicUid: 'subjects-society-arts-and-culture',
+    prismicId: 'ae9pVxIAACEA9RXc',
+  },
+  {
+    path: 'religion-spirituality-and-the-occult',
+    title: 'Religion, spirituality and the occult',
+    prismicUid: 'subjects-religion-spirituality-and-the-occult',
+    prismicId: 'ae9pfxIAACQA9RYw',
+  },
+] as const;
 
 export const eventPolicyIds = {
   schoolBooking: 'W4Vx5h4AACIAehqz',
@@ -85,25 +141,13 @@ export const getNameFromCollectionVenue = id => {
   }
 };
 
-// This is different to hasLandingPageFormat on the page model,
-// which is true if there is a content list to display on the page.
-// This is a hardcoded list of pages that we want to control the layout and Header of
-export const officialLandingPagesUid = [
-  prismicPageIds.visitUs,
-  prismicPageIds.whatsOn,
-  'stories',
-  prismicPageIds.collections,
-  prismicPageIds.getInvolved,
-  prismicPageIds.aboutUs,
-];
-
 // The only series ("webcomic series") that uses the `webcomics` type.
-export const bodySquabblesSeries = 'body-squabbles';
+export const BODY_SQUABBLES_SERIES_UID = 'body-squabbles';
 
 // Prismic document ID for the commissioning editor contributor role.
 // Contributors with this role are displayed only at the end of articles,
 // not in the top byline.
-export const commissioningEditorRoleId = 'aKcVQBAAACIAhvXf';
+export const COMMISSIONING_EDITOR_ROLE_ID = 'aKcVQBAAACIAhvXf';
 
 // We use this to add an icon when displaying the type of interpretation available for an event,
 // e.g. in the yellow box on the event page.

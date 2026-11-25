@@ -48,5 +48,15 @@ module "e2e_wc_org_cloudfront_distribution" {
   response_policies = module.cloudfront_policies.response_policies
   waf_ip_allowlist  = local.waf_ip_allowlist
 
-  header_shared_secret = local.current_shared_secret
+  google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
+  github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
+  header_shared_secret      = local.current_shared_secret
+
+  # Proven on stage; see cloudfront_prod.tf.
+  enable_unrecognised_host_block = true
+
+  # Trialling the geo consent challenge here before prod; stage's country
+  # block makes it unreachable there.
+  enable_geo_challenge              = true
+  search_challenge_immunity_seconds = 14400
 }

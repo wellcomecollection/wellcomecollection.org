@@ -1,0 +1,26 @@
+name: 'Preview gate'
+on:
+  pull_request:
+    paths:
+      - 'preview/terraform/cloudfront_functions/**'
+      - '.github/workflows/preview-gate.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'preview/terraform/cloudfront_functions/**'
+      - '.github/workflows/preview-gate.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      # No dependencies: the tests use node:test and load the function with node:vm
+      - run: node --test preview/terraform/cloudfront_functions/preview-gate.test.js

@@ -1,7 +1,9 @@
-import { thematicBrowsingPaths } from '@weco/common/data/hardcoded-ids';
+import {
+  subjectCategories,
+  thematicBrowsingPaths,
+} from '@weco/common/data/hardcoded-ids';
 import {
   PagesDocumentDataBodySlice,
-  ContentListSlice as RawContentListSlice,
   PagesDocument as RawPagesDocument,
   ThemeCardsListSlice as RawThemeCardsListSlice,
 } from '@weco/common/prismicio-types';
@@ -19,10 +21,12 @@ import {
 } from '@weco/common/views/pages/_app';
 import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
-import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
-import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
+import {
+  conceptsApiUrl,
+  getConcepts,
+} from '@weco/content/services/wellcome/catalogue/concepts';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import {
   RelatedConcept,
@@ -34,27 +38,37 @@ import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import WellcomeSubThemePage, {
   Props as WellcomeSubThemePageProps,
 } from '@weco/content/views/pages/collections/subjects/sub-theme';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type Props = ServerSideProps<WellcomeSubThemePageProps>;
 
 // We are hand-selecting concept ids for each subject page
 // so we can show results for multiple related concepts
-const CONCEPT_GROUPS: Record<string, string[]> = {
-  'medicine-care-and-treatment': ['hvngn3u7', 'raz92g59'],
+const CONCEPT_GROUPS: Record<
+  (typeof subjectCategories)[number]['path'],
+  string[]
+> = {
+  'mental-health': [],
+  'the-human-body': [],
+  'public-health': [
+    'c8q553d2',
+    'hqbh7xar',
+    'nw4y595d',
+    'h72fhc38',
+    'eva7r2dw',
+    'eg8kmtpb',
+  ],
+  'medical-care-and-practices': ['hvngn3u7', 'raz92g59'],
   'sex-sexual-health-and-reproduction': [
     'brm4ha66',
     'bmfun6aj',
     'gynqvms7',
     'bn2pe2v6',
   ],
-  'public-health': [
-    'c8q553d2',
-    'hqbh7xar',
-    'c3br959t',
-    'h72fhc38',
-    'vsnwvu9k',
-    'eg8kmtpb',
-  ],
+  'diseases-disorders-and-conditions': [],
+  'the-natural-world-and-environment': [],
+  'society-arts-and-culture': [],
+  'religion-spirituality-and-the-occult': [],
 };
 
 export const getServerSideProps: ServerSidePropsOrAppError<
@@ -62,15 +76,17 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 > = async context => {
   setCacheControl(context.res);
   const serverData = await getServerData(context);
+  const shouldUseStagingApi = serverData.toggles.featureFlags.stagingApi;
+  const pipelineCluster = serverData.toggles.modes.cataloguePipeline;
 
   // Ensure this is a valid subject page
   const subjectsEnum = Object.keys(CONCEPT_GROUPS);
   const pageUid = getQueryPropertyValue(context.query.uid);
 
   if (
-    !(
-      serverData.toggles.thematicBrowsing.value &&
-      serverData.toggles.thematicBrowsingSubCategory.value
+    !phaseIsAtLeast(
+      serverData.toggles.phasedFlags.thematicBrowsingPhases,
+      'subCategoryPages'
     ) ||
     !pageUid ||
     !subjectsEnum.includes(pageUid)
@@ -83,7 +99,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const client = createClient(context);
   const wellcomeSubThemePagePromise = await fetchPage(
     client,
-    'subjects-' + pageUid
+    `subjects-${pageUid}`
   );
 
   // We want to show works that have been made available online from 00:01 yesterday
@@ -106,7 +122,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       sortOrder: 'desc',
     },
     pageSize: 3,
-    toggles: serverData.toggles,
+    shouldUseStagingApi,
+    pipelineCluster,
   });
 
   if (newOnlineWorksQuery.type !== 'Error') {
@@ -127,23 +144,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     ) as RawThemeCardsListSlice | undefined;
     /** */
 
-    /**
-     * Related stories
-     */
-    const contentListSlice = wellcomeSubThemePage.untransformedBody.find(
-      (slice: PagesDocumentDataBodySlice) => slice.slice_type === 'contentList'
-    ) as RawContentListSlice | undefined;
-
-    const contentListItems = contentListSlice
-      ? transformContentListSlice(contentListSlice)?.value.items
-      : [];
-
-    const relatedStoriesId = contentListItems
-      .filter(content => content.type === 'articles')
-      .map(story => story.id)
-      .filter(isNotUndefined);
-    /** */
-
     /** Archives
      * TODO
      */
@@ -155,7 +155,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       params: {
         id: CONCEPT_GROUPS[pageUid].join(','),
       },
-      toggles: serverData.toggles,
+      shouldUseStagingApi,
+      pipelineCluster,
     });
 
     if (conceptResponse.type === 'Error') {
@@ -178,7 +179,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               subjects: CONCEPT_GROUPS[pageUid],
             },
-            toggles: serverData.toggles,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 5,
           }),
         byLabel: () =>
@@ -187,7 +189,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
               'subjects.label': displayLabels,
               aggregations: ['workType'],
             },
-            toggles: serverData.toggles,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 5,
           }),
       },
@@ -197,7 +200,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
             params: {
               'source.subjects': CONCEPT_GROUPS[pageUid],
             },
-            toggles: serverData.toggles,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 12,
           }),
         byLabel: () =>
@@ -207,7 +211,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
                 c => c.label
               ),
             },
-            toggles: serverData.toggles,
+            shouldUseStagingApi,
+            pipelineCluster,
             pageSize: 12,
           }),
       },
@@ -261,7 +266,12 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       {
         id: 'json',
         label: 'JSON',
-        link: `https://api.wellcomecollection.org/catalogue/v2/concepts?id=${CONCEPT_GROUPS[pageUid].join(',')}`,
+        link: conceptsApiUrl({
+          params: {
+            id: CONCEPT_GROUPS[pageUid].join(','),
+            elasticCluster: pipelineCluster,
+          },
+        }),
       },
     ];
 
@@ -294,36 +304,34 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     /** */
 
     /**
-     * Frequent collaborators
-     * Deduplicate collaborators across multiple concepts by using a Map
-     * keyed by collaborator id, then convert back to an array
-     * */
-    // Typed Map for type safety
-    const frequentCollaboratorsMap = new Map<string, RelatedConcept>();
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.frequentCollaborators?.forEach(collaborator => {
-        if (!frequentCollaboratorsMap.has(collaborator.id)) {
-          frequentCollaboratorsMap.set(collaborator.id, collaborator);
-        }
-      });
-    });
-    const frequentCollaborators = Array.from(frequentCollaboratorsMap.values());
-    /** */
-
-    /**
      * Related topics
-     * Deduplicate topics across multiple concepts by using a Map
-     * keyed by topic id, then convert back to an array
+     * Round-robin through concepts: take 1st topic from each, then 2nd from each, etc.
      * */
-    const relatedTopicsMap = new Map<string, RelatedConcept>();
-    conceptResponse.results.forEach(concept => {
-      concept.relatedConcepts?.relatedTopics?.forEach(topic => {
-        if (!relatedTopicsMap.has(topic.id)) {
-          relatedTopicsMap.set(topic.id, topic);
+    const relatedTopicsSet = new Set<string>();
+    const relatedTopics: RelatedConcept[] = [];
+    const conceptTopics = conceptResponse.results.map(
+      c => c.relatedConcepts?.relatedTopics || []
+    );
+
+    const MAX_RELATED_TOPICS = 16;
+    const maxTopics = Math.max(...conceptTopics.map(t => t.length));
+
+    for (
+      let i = 0;
+      i < maxTopics && relatedTopics.length < MAX_RELATED_TOPICS;
+      i++
+    ) {
+      for (const topics of conceptTopics) {
+        if (
+          topics[i] &&
+          !relatedTopicsSet.has(topics[i].id) &&
+          relatedTopics.length < MAX_RELATED_TOPICS
+        ) {
+          relatedTopicsSet.add(topics[i].id);
+          relatedTopics.push(topics[i]);
         }
-      });
-    });
-    const relatedTopics = Array.from(relatedTopicsMap.values());
+      }
+    }
     /** */
 
     return {
@@ -334,8 +342,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
         categoryThemeCardsList: themeCardsListSlice,
         curatedUid: pageUid,
         newOnlineWorks: newOnlineWorks.map(toWorkBasic),
-        frequentCollaborators,
-        relatedStoriesId,
         worksAndImagesAbout,
         relatedTopics,
         jsonLd: genericPageLd({

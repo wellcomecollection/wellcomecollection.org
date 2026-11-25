@@ -9,7 +9,18 @@ const siteSectionList = [
 ] as const;
 export type SiteSection = (typeof siteSectionList)[number];
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isSiteSection = (section: any): section is SiteSection => {
-  return siteSectionList.includes(section);
+export const isSiteSection = (section: unknown): section is SiteSection => {
+  return (
+    typeof section === 'string' &&
+    (siteSectionList as readonly string[]).includes(section)
+  );
 };
+
+/** Every site section has a landing page (rendered with its own layout and
+ * Header), except the exhibition guides, whose landing page
+ * (`/guides/exhibitions`) uses the basic header.
+ */
+export const isLandingPageSection = (
+  section: unknown
+): section is SiteSection =>
+  isSiteSection(section) && section !== 'exhibition-guides';

@@ -1,4 +1,3 @@
-
 # NPM / Yarn
 yarn-error.log*
 npm-debug.log
@@ -17,6 +16,7 @@ pa11y-report.html
 *.tfstate.backup
 .terraform.tfstate.lock.info
 terraform.plan
+*.plan
 
 # Privates
 .env
@@ -37,5 +37,7 @@ tsconfig.tsbuildinfo
 # Code editor
 .zed/
 
-# AI
-.claude/
+# AI personal preferences
+.claude/*.local.*
+
+

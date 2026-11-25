@@ -3,7 +3,11 @@ import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { ThemeCardsListSlice as RawThemeCardsListSlice } from '@weco/common/prismicio-types';
+import {
+  PagesDocumentDataBodySlice,
+  CardListingSlice as RawCardListingSlice,
+  ThemeCardsListSlice as RawThemeCardsListSlice,
+} from '@weco/common/prismicio-types';
 import { ReturnedResults } from '@weco/common/utils/search';
 import {
   ApiToolbarLink,
@@ -21,7 +25,6 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { Link } from '@weco/content/types/link';
 import { Page } from '@weco/content/types/pages';
-import CollaboratorCards from '@weco/content/views/components/CollaboratorCards';
 import ImageModal, {
   useExpandedImage,
 } from '@weco/content/views/components/ImageModal';
@@ -32,7 +35,6 @@ import ThematicBrowsingLayout from '@weco/content/views/layouts/ThematicBrowsing
 import SubThemeImages from './sub-theme.Images';
 import SubThemeRelatedTopics from './sub-theme.RelatedTopics';
 import SectionContainer from './sub-theme.SectionContainer';
-import SubThemeStories from './sub-theme.Stories';
 import {
   DarkSectionWrapper,
   PageGrid,
@@ -63,8 +65,6 @@ export type Props = {
   curatedUid: string;
   categoryThemeCardsList?: RawThemeCardsListSlice;
   newOnlineWorks: WorkBasic[];
-  frequentCollaborators: RelatedConcept[];
-  relatedStoriesId: string[];
   worksAndImagesAbout: WorksAndImagesResponse;
   relatedTopics: RelatedConcept[];
   jsonLd: JsonLdObj;
@@ -76,8 +76,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
   thematicBrowsingPage,
   categoryThemeCardsList,
   newOnlineWorks,
-  frequentCollaborators,
-  relatedStoriesId,
   worksAndImagesAbout,
   relatedTopics,
 }) => {
@@ -85,14 +83,19 @@ const WellcomeSubThemePage: NextPage<Props> & {
     worksAndImagesAbout.images?.pageResults || []
   );
 
+  const cardListingSlices = thematicBrowsingPage.untransformedBody.filter(
+    (slice: PagesDocumentDataBodySlice): slice is RawCardListingSlice =>
+      slice.slice_type === 'cardListing'
+  );
   const hasNewOnlineWorks = newOnlineWorks.length > 0;
-  const hasRelatedStories = relatedStoriesId.length > 0;
+  const hasRelatedStories = cardListingSlices.some(
+    slice => slice.items.length > 0
+  );
   const hasWorksAbout =
     !!worksAndImagesAbout.works && worksAndImagesAbout.works.totalResults > 0;
   const hasImagesAbout = !!(
     worksAndImagesAbout.images && worksAndImagesAbout.images.totalResults > 0
   );
-  const hasFrequentCollaborators = frequentCollaborators.length > 0;
   const hasRelatedTopics = relatedTopics.length > 0;
 
   const lowerCasePageTitle = thematicBrowsingPage.title.toLowerCase();
@@ -100,10 +103,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
     hasNewOnlineWorks && {
       text: `New works in ${lowerCasePageTitle}`,
       url: `#new-online`,
-    },
-    hasFrequentCollaborators && {
-      text: 'Frequent collaborators',
-      url: `#frequent-collaborators`,
     },
     hasRelatedStories && {
       text: `Stories about ${lowerCasePageTitle}`,
@@ -135,7 +134,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             <SliceZone
               slices={[categoryThemeCardsList]}
               components={components}
-              context={{ hasNoShim: true }}
+              context={{ hasNoShim: true, themeCardCols: 3 }}
             />
           </ThemeCardsListSection>
         </Space>
@@ -158,17 +157,13 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="new-online"
                 isFirst
               >
-                <WorkCards works={newOnlineWorks} columns={3} />
-              </SectionContainer>
-            )}
-
-            {hasFrequentCollaborators && (
-              <SectionContainer
-                title="Frequent collaborators"
-                id="frequent-collaborators"
-                isFirst={!hasNewOnlineWorks}
-              >
-                <CollaboratorCards collaborators={frequentCollaborators} />
+                <WorkCards
+                  works={newOnlineWorks}
+                  columns={3}
+                  dataGtmProps={{
+                    'category-label': `New works in ${lowerCasePageTitle}`,
+                  }}
+                />
               </SectionContainer>
             )}
 
@@ -176,9 +171,17 @@ const WellcomeSubThemePage: NextPage<Props> & {
               <SectionContainer
                 title={`Stories about ${lowerCasePageTitle}`}
                 id="stories"
-                isFirst={!hasNewOnlineWorks && !hasFrequentCollaborators}
+                isFirst={!hasNewOnlineWorks}
               >
-                <SubThemeStories relatedStoriesId={relatedStoriesId} />
+                <SliceZone
+                  slices={cardListingSlices}
+                  components={components}
+                  context={{
+                    hasNoShim: true,
+                    hasContainer: true,
+                    itemsHaveTransparentBackground: true,
+                  }}
+                />
               </SectionContainer>
             )}
 
@@ -203,10 +206,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 title={`Works about ${lowerCasePageTitle}`}
                 id="works-about"
                 isFirst={
-                  !hasNewOnlineWorks &&
-                  !hasFrequentCollaborators &&
-                  !hasRelatedStories &&
-                  !hasImagesAbout
+                  !hasNewOnlineWorks && !hasRelatedStories && !hasImagesAbout
                 }
               >
                 <SubThemeWorks
@@ -223,7 +223,6 @@ const WellcomeSubThemePage: NextPage<Props> & {
                 id="related-topics"
                 isFirst={
                   !hasNewOnlineWorks &&
-                  !hasFrequentCollaborators &&
                   !hasRelatedStories &&
                   !hasImagesAbout &&
                   !hasWorksAbout

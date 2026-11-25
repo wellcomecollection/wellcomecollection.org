@@ -19,7 +19,6 @@ import {
   GuidesDocument as RawGuidesDocument,
   InterpretationTypesDocument as RawInterpretationTypesDocument,
   OrganisationsDocument as RawOrganisationsDocument,
-  PageFormatsDocument as RawPageFormatsDocument,
   PagesDocument as RawPagesDocument,
   PagesDocumentData as RawPagesDocumentData,
   PeopleDocument as RawPeopleDocument,
@@ -37,12 +36,8 @@ import {
   isFilledLinkToDocumentWithData,
 } from '@weco/common/services/prismic/types';
 export type InferCustomType<T> =
-  T extends prismic.PrismicDocument<
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    any,
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-    infer CustomType
-  >
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  T extends prismic.PrismicDocument<infer _Data, infer CustomType>
     ? CustomType
     : never;
 
@@ -112,7 +107,6 @@ export type GenericDocWithPromo =
 
 export type GenericDoc =
   | GenericDocWithPromo
-  | RawPlacesDocument
   | RawProjectsDocument
   | RawSeasonsDocument
   | RawSeriesDocument
@@ -332,6 +326,8 @@ export const audienceFetchLinks: FetchLinks<RawAudiencesDocument> = [
 
 export const articlesFetchLinks: FetchLinks<RawArticlesDocument> = [
   'articles.title',
+  'articles.promo',
+  'articles.series',
 ];
 
 const contributionRoleFetchLinks: FetchLinks<RawEditorialContributorRolesDocument> =
@@ -383,11 +379,6 @@ export const teamsFetchLinks: FetchLinks<RawTeamsDocument> = [
   'teams.subtitle',
   'teams.email',
   'teams.phone',
-];
-
-export const pageFormatsFetchLinks: FetchLinks<RawPageFormatsDocument> = [
-  'page-formats.title',
-  'page-formats.description',
 ];
 
 export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [
@@ -445,8 +436,8 @@ export type StructuredSearchQuery = {
   id: string[];
   tags: string[];
   tag: string[];
-  pageSize: number;
-  orderings: prismic.Ordering[];
+  orderings: string[];
+  pageSize?: number;
   // content type specific
   'article-series': string[];
 };
@@ -462,4 +453,5 @@ export type ExhibitionRelatedContentPrismicDocument =
   | RawExhibitionsDocument
   | RawEventsDocument
   | RawArticlesDocument
-  | RawBooksDocument;
+  | RawSeriesDocument
+  | RawWebcomicsDocument;

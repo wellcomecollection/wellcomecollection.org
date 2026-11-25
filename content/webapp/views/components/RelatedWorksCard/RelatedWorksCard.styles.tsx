@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 
 export const Card = styled.a<{ $isHover?: boolean }>`
   display: flex;
   padding: ${props => props.theme.spacingUnits['100']};
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.color('neutral.05')};
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   flex-wrap: wrap;
   text-decoration: none;
@@ -13,13 +13,12 @@ export const Card = styled.a<{ $isHover?: boolean }>`
 
   ${props =>
     props.$isHover &&
-    `
-    box-shadow: ${props.theme.basicBoxShadow};
+    css`
+      box-shadow: ${props.theme.basicBoxShadow};
 
-
-    height: 5.25rem;
-    width: 22rem;
-  `}
+      height: 5.25rem;
+      width: 22rem;
+    `}
 
   ${props => props.theme.media('sm')`
     max-height: 10rem;
@@ -66,7 +65,9 @@ export const TextWrapper = styled.div`
 `;
 
 export const Title = styled.h2.attrs<{ $isHover?: boolean }>(props => ({
-  className: !props.$isHover ? font('sans-bold', -1) : font('sans', -1),
+  className: !props.$isHover
+    ? typography('body', 'md', 'strong')
+    : typography('body', 'md', 'regular'),
 }))<{ $linesToClamp: number }>`
   ${props => props.theme.clampLines(props.$linesToClamp)};
   color: ${props => props.theme.color('black')};
@@ -91,7 +92,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
   ${props =>
     props.$isHover &&
-    `
+    css`
       flex: 1;
     `}
 
@@ -105,8 +106,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 
     ${props =>
       props.theme.media('sm')(`
-      margin-left: ${props.$isHover ? '0' : props.theme.spacingUnits['100']};
-      margin-right: ${props.$isHover ? props.theme.spacingUnits['100'] : 'unset'};
+      ${
+        props.$isHover
+          ? `margin-left: 0; margin-right: ${props.theme.spacingUnits['100']};`
+          : `margin-left: ${props.theme.spacingUnits['100']}; margin-right: unset;`
+      }
       width: unset;
       height: 100%;
 
@@ -123,10 +127,11 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
         max-width: 100%;
 
         ${
-          props.$isHover &&
-          `
-          min-width: 60px;
-        `
+          props.$isHover
+            ? css`
+                min-width: 60px;
+              `
+            : ''
         }
       }
     `)}
@@ -144,7 +149,7 @@ export const ImageWrapper = styled.div<{ $isHover?: boolean }>`
 `;
 
 export const MetaContainer = styled.div.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;

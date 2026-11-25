@@ -39,7 +39,7 @@ export function getQueryResults<T>({
 }): ReturnedResults<T> | undefined {
   // An error shouldn't stop the other results from displaying
   if (queryResults.type === 'Error') {
-    console.error(queryResults.label + ': Error fetching ' + categoryName);
+    console.error(`${queryResults.label}: Error fetching ${categoryName}`);
   } else {
     return {
       pageResults: queryResults.results,

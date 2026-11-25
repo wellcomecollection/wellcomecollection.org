@@ -1,0 +1,145 @@
+import NextLink from 'next/link';
+import { FunctionComponent } from 'react';
+
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import {
+  archive,
+  chevron,
+  closedFolder,
+  file,
+  openFolder,
+} from '@weco/common/icons';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import Icon from '@weco/common/views/components/Icon';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
+import WorkTitle from '@weco/content/views/components/WorkTitle';
+import {
+  getWorkLevelLabel,
+  TreeControl,
+} from '@weco/content/views/pages/works/work/NestedList';
+import {
+  TreeDataWork,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
+
+import {
+  ChevronSpacer,
+  compactControlDimensions,
+  ContentsRow,
+  LevelCell,
+  NameCell,
+} from './ArchiveCollection.ContentsTree.styles';
+
+export type ContentsTreeItemRendererProps = {
+  item: UiTreeNode;
+  hasControl: boolean;
+  level: number;
+  isSelected: boolean;
+  highlightCondition?: 'primary' | 'secondary';
+  isDarkMode?: boolean;
+  rowIndexById?: Record<string, number>;
+};
+
+const ContentsTreeItemRenderer: FunctionComponent<
+  ContentsTreeItemRendererProps
+> = ({
+  item,
+  hasControl,
+  level,
+  isSelected,
+  highlightCondition,
+  isDarkMode,
+  rowIndexById,
+}) => {
+  const { isEnhanced } = useAppContext();
+  // Safe assertion: this renderer is only used in the archive collection
+  // contents tree, where data is always TreeDataWork
+  const data = item.data as TreeDataWork;
+
+  // This is exactly how far the ancestor <ul> nesting has already pushed
+  // the row right, so ContentsRow can cancel it out and let the stripe
+  // span full width. Starts from level 2, matching showFirstLevelGuideline
+  // on Tree/NestedList in ArchiveCollection.Contents.tsx.
+  const indentPx =
+    level > 1 ? (level - 1) * compactControlDimensions.controlWidth : 0;
+  const rowIndex = rowIndexById?.[data.id];
+  // The collection root (level 1) represents the archive as a whole,
+  // so it gets the archive icon instead of the folder/file icons
+  // Below that, the icon is driven by data.type
+  // Section/Series/Collection nodes use folder icons, Work nodes use the file icon.
+  // show the openFolder icon only when children are actually being shown
+  // (matching ListItem's own `item.children && item.openStatus` check
+  // This prevents showing an open folder on the last row before "Show more"), before its expanded to show children.
+  const isVisiblyExpanded = Boolean(item.children && item.openStatus);
+  const typeIcon =
+    level === 1
+      ? archive
+      : data.type !== 'Work'
+        ? isVisiblyExpanded
+          ? openFolder
+          : closedFolder
+        : file;
+
+  return (
+    <ContentsRow
+      $isEvenRow={rowIndex !== undefined && rowIndex % 2 === 0}
+      $indentPx={indentPx}
+      $hasControl={hasControl}
+    >
+      <NameCell>
+        {isEnhanced && hasControl ? (
+          <TreeControl
+            $highlightCondition={highlightCondition}
+            $isDarkMode={isDarkMode}
+            $isCompact
+          >
+            <Icon
+              rotate={item.openStatus ? undefined : 270}
+              icon={chevron}
+              sizeOverride={`height: ${compactControlDimensions.iconSize}px; width: ${compactControlDimensions.iconSize}px;`}
+            />
+          </TreeControl>
+        ) : (
+          <ChevronSpacer />
+        )}
+
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          sizeOverride="height: 16px; width: 16px;"
+          matchText
+        />
+
+        <NextLink
+          {...toWorkLink({ id: data.id, scroll: false })}
+          onClick={event => {
+            // Don't toggle the branch when the link itself is activated
+            event.stopPropagation();
+          }}
+          tabIndex={isEnhanced ? (isSelected ? 0 : -1) : 0}
+          {...dataGtmPropsToAttributes({
+            trigger: 'tree_link',
+            label: `${data.title}${data.referenceNumber ? ` (${data.referenceNumber})` : ''}`,
+            'data-tree-level': String(level),
+          })}
+        >
+          <WorkTitle title={data.title} />
+        </NextLink>
+      </NameCell>
+
+      <span>{data.referenceNumber}</span>
+
+      <LevelCell>
+        <Icon
+          icon={typeIcon}
+          iconColor="neutral.600"
+          sizeOverride="height: 16px; width: 16px;"
+          matchText
+        />
+        {getWorkLevelLabel(data.type)}
+      </LevelCell>
+    </ContentsRow>
+  );
+};
+
+export default ContentsTreeItemRenderer;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 
 export const Container = styled(Space).attrs({
@@ -14,7 +14,7 @@ export const Container = styled(Space).attrs({
 export const Wrapper = styled(Space).attrs<{
   $removeBottomPadding?: boolean;
 }>(props => ({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: {
     size: 'md',
     properties: props.$removeBottomPadding
@@ -34,7 +34,7 @@ type SectionHeadingProps = {
 export const SectionHeading = styled(Space).attrs<SectionHeadingProps>(
   props => ({
     as: props.as || 'h2',
-    className: font('brand-bold', 1),
+    className: typography('heading', 'lg', 'strong', 'brand'),
     $v: {
       size: 'sm',
       properties: props.$addBottomPadding ? ['padding-bottom'] : [],

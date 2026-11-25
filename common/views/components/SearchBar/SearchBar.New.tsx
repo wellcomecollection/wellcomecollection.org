@@ -11,7 +11,7 @@ import styled, { useTheme } from 'styled-components';
 import Typed from 'typed.js';
 
 import { search } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import TextInput from '@weco/common/views/components/TextInput';
 import { visuallyHiddenStyles } from '@weco/common/views/themes/utility-classes';
@@ -22,7 +22,7 @@ const Container = styled.div`
 `;
 
 const Typewriter = styled.div.attrs({
-  className: font('sans', 1),
+  className: typography('body', 'xl', 'regular'),
   'aria-hidden': 'true',
 })`
   position: absolute;
@@ -240,20 +240,21 @@ const SearchBar: FunctionComponent<Props> = ({
           setValue={setInputValue}
           ref={inputRef || defaultInputRef}
           form={form}
-          hasClearButton
-          isNewSearchBar={true}
           placeholder=" " // This empty placeholder is required for the :placeholder-shown CSS selector to work
+          hasClearButton
+          isNewSearchBar
         />
       </SearchInputWrapper>
       <SearchButtonWrapper>
         <Button
           variant="ButtonSolid"
+          hierarchy="primary"
           text="Search"
           type={ButtonTypes.submit}
           form={form}
           colors={theme.buttonColors.greenGreenWhite}
           icon={search}
-          isNewSearchBar={true}
+          isNewSearchBar
         />
       </SearchButtonWrapper>
     </Container>

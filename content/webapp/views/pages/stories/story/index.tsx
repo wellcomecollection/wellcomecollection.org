@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ServerData } from '@weco/common/server-data/types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
@@ -14,6 +14,7 @@ import { gridSize10, gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Container } from '@weco/common/views/components/styled/Container';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { ArticleFormatIds } from '@weco/content/data/content-format-ids';
 import { Article as ContentAPIArticle } from '@weco/content/services/wellcome/content/types/api';
 import {
@@ -40,7 +41,7 @@ const RelatedStoryContainer = styled.div`
 export type Props = {
   article: Article;
   jsonLd: JsonLdObj;
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
 };
 
 export type ArticleSeriesList = {
@@ -53,12 +54,15 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const [relatedDocument, setRelatedDocument] = useState<
     ExhibitionBasic | ContentAPIArticle | undefined
   >();
-
   useEffect(() => {
     setSeries(article, setListOfSeries);
 
     if (article.exploreMoreDocument && !relatedDocument) {
-      getRelatedDoc(article, setRelatedDocument, serverData);
+      getRelatedDoc(
+        article,
+        setRelatedDocument,
+        serverData.toggles.featureFlags.stagingApi
+      );
     }
   }, []);
 
@@ -79,6 +83,8 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
       isHidden: true,
     },
   ];
+
+  const breadcrumbs = getBreadcrumbItems('stories', extraBreadcrumbs);
 
   const isPodcast = article.format?.id === ArticleFormatIds.Podcast;
 
@@ -110,7 +116,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
   const Header = (
     <PageHeader
       variant="basic"
-      breadcrumbs={getBreadcrumbItems('stories', extraBreadcrumbs)}
+      breadcrumbs={breadcrumbs}
       labels={{ labels: article.labels }}
       title={article.title}
       ContentTypeInfo={ContentTypeInfo(article)}
@@ -126,9 +132,11 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
           <HeroPicture fields={article} />
         ) : undefined
       }
-      heroImageBgColor={isStandaloneImageGallery ? 'white' : 'warmNeutral.300'}
+      heroImageBgColor={
+        isStandaloneImageGallery ? pageBackgroundColor : 'warmNeutral.300'
+      }
       SerialPartNumber={SerialPartNumber}
-      isContentTypeInfoBeforeMedia={true}
+      isContentTypeInfoBeforeMedia
     />
   );
 
@@ -171,7 +179,6 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
             comicPreviousNext={
               isComicFormat ? getComicPreviousNext() : undefined
             }
-            isDropCapped={true}
             pageId={article.id}
             pageUid={article.uid}
             gridSizes={isPodcast ? gridSize10() : gridSize8()}
@@ -182,6 +189,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                   ? 'standalone-image-gallery'
                   : undefined
             }
+            isDropCapped
           />
         }
         RelatedContent={Siblings}
@@ -194,31 +202,37 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         <>
           <DecorativeEdge
             variant="wobbly"
-            isRotated
             backgroundColor="warmNeutral.300"
+            isRotated
           />
           <Container>
             <RelatedStoryContainer>
               {relatedDocument.type === 'Article' ? (
                 <>
-                  <h2 className={font('brand-bold', 2)}>Your next story</h2>
+                  <h2
+                    className={typography('heading', 'xl', 'strong', 'brand')}
+                  >
+                    Your next story
+                  </h2>
                   <FeaturedCard
                     type="article"
                     background="neutral.700"
-                    textColor="white"
+                    textColor="neutral.10"
                     article={relatedDocument}
                   />
                 </>
               ) : (
                 relatedDocument.type === 'exhibitions' && (
                   <>
-                    <h2 className={font('brand-bold', 2)}>
+                    <h2
+                      className={typography('heading', 'xl', 'strong', 'brand')}
+                    >
                       You may also be interested in
                     </h2>
                     <FeaturedCard
                       type="exhibition"
                       background="neutral.700"
-                      textColor="white"
+                      textColor="neutral.10"
                       exhibition={relatedDocument}
                     />
                   </>

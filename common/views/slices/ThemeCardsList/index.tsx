@@ -28,13 +28,14 @@ const ThemeCardsListSlice: FunctionComponent<ThemeCardsListSliceProps> = ({
         sliceTitle={title}
         conceptIds={transformedSlice.value.conceptIds}
         description={transformedSlice.value.description}
-        gtmData={{
+        dataGtmProps={{
           'category-label': title,
           'category-position-in-list': undefined, // Only for "tabbable" carousels
         }}
         gridSizes={context.gridSizes}
         useShim={!context.hasNoShim}
         showDescriptionForTypes={['Agent', 'Person', 'Organisation']}
+        cols={context.themeCardCols}
       />
     </SpacingComponent>
   );

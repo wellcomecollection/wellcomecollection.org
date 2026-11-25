@@ -4,18 +4,7 @@
   "name": "Iframe",
   "description": "Iframe",
   "legacyPaths": {
-    "articles::body::iframe": "default",
-    "books::body::iframe": "default",
-    "event-series::body::iframe": "default",
-    "events::body::iframe": "default",
-    "exhibitions::body::iframe": "default",
-    "guides::body::iframe": "default",
-    "pages::body::iframe": "default",
-    "places::body::iframe": "default",
-    "projects::body::iframe": "default",
-    "seasons::body::iframe": "default",
-    "series::body::iframe": "default",
-    "webcomics::body::iframe": "default"
+    "articles::body::iframe": "default"
   },
   "variations": [
     {
@@ -26,17 +15,17 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "iframeSrc" : {
-          "type" : "Text",
-          "config" : {
-            "label" : "iframe src",
-            "placeholder" : "iframe src"
+        "iframeSrc": {
+          "type": "Text",
+          "config": {
+            "label": "iframe src",
+            "placeholder": "iframe src"
           }
         },
-        "previewImage" : {
-          "type" : "Image",
-          "config" : {
-            "label" : "Preview image"
+        "previewImage": {
+          "type": "Image",
+          "config": {
+            "label": "Preview image"
           }
         }
       }

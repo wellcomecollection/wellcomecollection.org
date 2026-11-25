@@ -27,7 +27,7 @@ export function transformCardData(work: WorkBasic | ContentApiLinkedWork) {
       ? ([
           {
             text: work.workType,
-            labelColor: 'warmNeutral.300',
+            labelColor: 'green.20',
           },
         ] as Label[])
       : [];

@@ -321,6 +321,14 @@ describe('getLondonTimezone', () => {
   test.each([
     { d: new Date('2023-04-24'), tz: 'BST' },
     { d: new Date('2023-11-24'), tz: 'GMT' },
+    // either side of the clocks changing
+    { d: new Date('2026-03-29T00:59:00Z'), tz: 'GMT' },
+    { d: new Date('2026-03-29T01:00:00Z'), tz: 'BST' },
+    { d: new Date('2026-10-25T00:59:00Z'), tz: 'BST' },
+    { d: new Date('2026-10-25T01:00:00Z'), tz: 'GMT' },
+    // around midnight, when the London and UTC days differ
+    { d: new Date('2026-07-01T23:30:00Z'), tz: 'BST' },
+    { d: new Date('2026-12-01T23:30:00Z'), tz: 'GMT' },
   ])(`in $d London is in $tz`, ({ d, tz }) => {
     expect(getLondonTimezone(d)).toBe(tz);
   });

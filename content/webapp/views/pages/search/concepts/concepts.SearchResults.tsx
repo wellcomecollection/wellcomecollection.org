@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
@@ -27,7 +27,7 @@ const ConceptSearchResult: FunctionComponent<{
   // Create a label for the concept type
   const typeLabel = {
     text: concept.type,
-    labelColor: 'warmNeutral.300' as const,
+    labelColor: 'green.20' as const,
   };
 
   const linkProps = toConceptLink({ conceptId: concept.id });
@@ -38,10 +38,7 @@ const ConceptSearchResult: FunctionComponent<{
         <Container>
           <Details>
             <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-              <LabelsList
-                labels={[typeLabel]}
-                defaultLabelColor="warmNeutral.300"
-              />
+              <LabelsList labels={[typeLabel]} defaultLabelColor="green.20" />
             </Space>
 
             <ConceptTitleHeading>{concept.displayLabel}</ConceptTitleHeading>
@@ -61,7 +58,7 @@ const ConceptSearchResult: FunctionComponent<{
               )}
 
             <ConceptInformation>
-              <span className={font('sans-bold', -1)}>
+              <span className={typography('body', 'md', 'strong')}>
                 Type: {concept.type}
               </span>
               {concept.id && (

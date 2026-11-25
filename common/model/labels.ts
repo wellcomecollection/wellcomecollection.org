@@ -1,4 +1,7 @@
+import { DesignSystemColor } from '@weco/common/views/themes/config';
+
 export type LabelColor =
+  | DesignSystemColor
   | 'accent.salmon'
   | 'yellow'
   | 'black'
@@ -6,7 +9,7 @@ export type LabelColor =
   | 'white'
   | 'transparent';
 
-export type TextColor = 'yellow' | 'black' | 'white';
+export type TextColor = DesignSystemColor | 'yellow' | 'black' | 'white';
 
 export type Label = {
   text: string;

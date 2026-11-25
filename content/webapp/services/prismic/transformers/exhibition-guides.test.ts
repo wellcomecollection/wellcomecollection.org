@@ -1,3 +1,5 @@
+import { ExhibitionGuidesDocument as RawExhibitionGuidesDocument } from '@weco/common/prismicio-types';
+
 import {
   // constructHierarchy,
   transformExhibitionGuide,
@@ -202,8 +204,9 @@ const exhibitionGuidesDoc = {
 
 describe('transformExhibitionGuide', () => {
   it('sets a description on the exhibition guide from the related exhibition', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const exhibition = transformExhibitionGuide(exhibitionGuidesDoc as any);
+    const exhibition = transformExhibitionGuide(
+      exhibitionGuidesDoc as unknown as RawExhibitionGuidesDocument
+    );
 
     expect(exhibition.relatedExhibition?.description).toBe(
       'This exhibition explored the intriguing creations of the Festival Pattern Group – a unique project at the 1951 Festival of Britain involving X-ray crystallographers, designers and manufacturers.'
@@ -211,8 +214,9 @@ describe('transformExhibitionGuide', () => {
   });
 
   it('returns a set of components', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const exhibition = transformExhibitionGuide(exhibitionGuidesDoc as any);
+    const exhibition = transformExhibitionGuide(
+      exhibitionGuidesDoc as unknown as RawExhibitionGuidesDocument
+    );
     expect(exhibition.components.length).toBe(2);
   });
 });

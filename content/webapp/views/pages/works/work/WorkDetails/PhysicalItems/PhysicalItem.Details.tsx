@@ -1,10 +1,10 @@
 import { FunctionComponent, ReactNode, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import StackingTable from '@weco/common/views/components/StackingTable';
 import Space from '@weco/common/views/components/styled/Space';
@@ -29,9 +29,9 @@ const Wrapper = styled(Space).attrs({
 })<{ $underline: boolean }>`
   ${props =>
     props.$underline &&
-    `
-    border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
-  `}
+    css`
+      border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
+    `}
 `;
 
 type ButtonWrapperProps = {
@@ -55,7 +55,7 @@ const ButtonWrapper = styled.div<ButtonWrapperProps>`
 `;
 
 const DetailHeading = styled.h3.attrs({
-  className: `${font('sans-bold', -1)}`,
+  className: `${typography('body', 'md', 'strong')}`,
 })`
   margin-bottom: 0;
 `;
@@ -76,7 +76,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   isLast,
 }) => {
   const { state: userState } = useUserContext();
-  const { disableRequesting } = useToggles();
+  const { disableRequesting } = useFeatureFlags();
   const isArchive = useIsArchiveContext();
   const theme = useTheme();
   const requestButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -95,8 +95,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/7174
   // See https://github.com/wellcomecollection/wellcomecollection.org/issues/8448
   //
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [completedItemRequests, _] = useState<string[]>([]);
+  const [completedItemRequests] = useState<string[]>([]);
 
   function wasJustRequested(item: PhysicalItem): boolean {
     return item.id ? completedItemRequests.indexOf(item.id) !== -1 : false;
@@ -187,6 +186,7 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.greenTransparentGreen}
+          hierarchy="secondary"
           disabled={userState !== 'signedin'}
           ref={requestButtonRef}
           text="Request item"
@@ -242,9 +242,9 @@ const PhysicalItemDetails: FunctionComponent<Props> = ({
         )}
         <StackingTable
           rows={createRows()}
-          plain={true}
           maxWidth={isArchive ? '61.25rem' : '38.75rem'}
           columnWidths={[180, 200, undefined, undefined]}
+          plain
         />
 
         {(accessNote || isHeldByUser) && (

@@ -4,7 +4,7 @@ import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { exhibitionBasic } from '@weco/cardigan/stories/data/content';
 import { contentAPIArticle } from '@weco/cardigan/stories/data/contentAPI.content';
 import { image } from '@weco/cardigan/stories/data/images';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import FeaturedCard from '@weco/content/views/components/FeaturedCard';
 import Readme from '@weco/content/views/components/FeaturedCard/README.mdx';
 
@@ -70,10 +70,10 @@ export const Basic: Story = {
         }}
         Readme={Readme}
       >
-        <h2 className={font('brand-bold', 2)}>
+        <h2 className={typography('heading', 'xl', 'strong', 'brand')}>
           Remote diagnosis from wee to the Web
         </h2>
-        <p className={font('sans', -1)}>
+        <p className={typography('body', 'md', 'regular')}>
           Medical practice might have moved on from when patients posted flasks
           of their urine for doctors to taste, but telehealth today keeps up the
           tradition of remote diagnosis – to our possible detriment.

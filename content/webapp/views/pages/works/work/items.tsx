@@ -1,18 +1,12 @@
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { useToggles } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import Button from '@weco/common/views/components/Buttons';
-import {
-  ContaineredLayout,
-  gridSize12,
-} from '@weco/common/views/components/Layout';
 import Modal from '@weco/common/views/components/Modal';
 import Space from '@weco/common/views/components/styled/Space';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
@@ -26,23 +20,20 @@ import {
   checkModalRequired,
   getAuthServices,
   getIframeTokenSrc,
-  hasItemType,
-  hasOriginalPdf,
+  readTokenServiceMessage,
 } from '@weco/content/utils/iiif/v3';
-import { removeIdiomaticTextTags } from '@weco/content/utils/string';
-import { fromQuery } from '@weco/content/views/components/ItemLink';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 import WorkLink from '@weco/content/views/components/WorkLink';
 import CataloguePageLayout from '@weco/content/views/layouts/CataloguePageLayout';
-import IIIFItemList from '@weco/content/views/pages/works/work/IIIFItemList';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-import IIIFViewer, { queryParamToArrayIndex } from './IIIFViewer';
+import IIIFViewer from './IIIFViewer';
 
 const IframeAuthMessage = styled.iframe`
   display: none;
 `;
 
-const iframeId = 'authMessage';
+const IFRAME_ID = 'authMessage';
 function reloadAuthIframe(document: Document, id: string) {
   const authMessageIframe = document.getElementById(id) as HTMLIFrameElement;
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
@@ -53,14 +44,13 @@ function reloadAuthIframe(document: Document, id: string) {
 export type Props = {
   compressedTransformedManifest?: CompressedTransformedManifest;
   work: WorkBasic;
-  canvas: number;
   canvasOcr?: string;
   iiifImageLocation?: DigitalLocation;
   iiifPresentationLocation?: DigitalLocation;
   serverSearchResults: SearchResults | null;
   parentManifest?: ParentManifest;
   apiToolbarLinks: ApiToolbarLink[];
-  archiveTree?: UiTree;
+  tree?: UiTree;
 };
 
 const WorkItemPage: NextPage<Props> = ({
@@ -70,25 +60,11 @@ const WorkItemPage: NextPage<Props> = ({
   iiifImageLocation,
   iiifPresentationLocation,
   apiToolbarLinks,
-  canvas: serverCanvas,
   serverSearchResults,
   parentManifest,
-  archiveTree,
+  tree,
 }) => {
-  const router = useRouter();
-  const [routerCanvas, setRouterCanvas] = useState<number | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    const parsed = fromQuery(router.query);
-    setRouterCanvas(parsed.canvas);
-  }, [router.asPath, router.query]);
-
-  const canvas = routerCanvas || serverCanvas;
-
   const { userIsStaffWithRestricted } = useUserContext();
-  const { extendedViewer } = useToggles();
   const transformedManifest =
     compressedTransformedManifest &&
     fromCompressedManifest(compressedTransformedManifest);
@@ -97,7 +73,7 @@ const WorkItemPage: NextPage<Props> = ({
   const [origin, setOrigin] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [showViewer, setShowViewer] = useState(true);
-  const { title, canvases, placeholderId, auth } = {
+  const { title, auth } = {
     ...transformedManifest,
   };
 
@@ -105,20 +81,15 @@ const WorkItemPage: NextPage<Props> = ({
     userIsStaffWithRestricted,
     auth,
   });
-  const [accessToken, setAccessToken] = useState();
+  const [accessToken, setAccessToken] = useState<string>();
+  const clickThroughTimerRef = useRef<
+    ReturnType<typeof setInterval> | undefined
+  >(undefined);
+  useEffect(() => () => clearInterval(clickThroughTimerRef.current), []);
   const [searchResults, setSearchResults] = useState(serverSearchResults);
   const authServices = getAuthServices({ auth });
-  const currentCanvas = canvases?.[queryParamToArrayIndex(canvas)];
-
   const displayTitle =
-    title || (work && removeIdiomaticTextTags(work.title)) || '';
-  const { imageServiceId = '' } = { ...currentCanvas };
-  const mainImageService = imageServiceId && {
-    '@id': imageServiceId,
-  };
-
-  const hasImage = hasItemType(canvases, 'Image');
-  const hasPdf = hasOriginalPdf(canvases);
+    title || (work && removeDisplayMarkupTags(work.title)) || '';
   const isTotallyRestricted =
     auth?.accessRequirements &&
     auth.accessRequirements.length > 0 &&
@@ -143,50 +114,54 @@ const WorkItemPage: NextPage<Props> = ({
     setOrigin(`${window.origin}`);
   }, []);
 
+  // IMPORTANT FOR DEVELOPMENT: This popup may be blocked by browser popup blockers.
+  // When testing restricted items, ensure popups are allowed for the site.
+  // See docs/restricted-access-authentication-flow.md for details.
   useEffect(() => {
-    if (userIsStaffWithRestricted && authServices?.external) {
+    if (userIsStaffWithRestricted && authServices?.external && origin) {
       const authServiceWindow = window.open(
         `${authServices?.external?.id || ''}?origin=${window.origin}`
       );
-      authServiceWindow &&
-        authServiceWindow.addEventListener('unload', function () {
-          reloadAuthIframe(document, iframeId);
-        });
+      if (authServiceWindow) {
+        const timer = setInterval(() => {
+          if (authServiceWindow.closed) {
+            clearInterval(timer);
+            reloadAuthIframe(document, IFRAME_ID);
+          }
+        }, 500);
+        return () => clearInterval(timer);
+      }
     }
-  }, [userIsStaffWithRestricted, authServices?.external?.id]);
+  }, [userIsStaffWithRestricted, authServices?.external?.id, origin]);
 
   useEffect(() => {
     function receiveMessage(event: MessageEvent) {
-      const data = event.data;
       const tokenService = getIframeTokenSrc({
         workId: work.id,
         origin: window.origin,
         auth,
       });
-      const service = (tokenService && new URL(tokenService)) as
-        | URL
-        | undefined;
 
-      // We check this is the event we are interested in
-      // N.B. locally react dev tools will create a lot of events
-      if (service?.origin === event.origin) {
-        if (Object.prototype.hasOwnProperty.call(data, 'accessToken')) {
-          setAccessToken(data.accessToken);
-          setShowModal(Boolean(isTotallyRestricted));
+      const message = readTokenServiceMessage(event, tokenService);
+      if (!message) return;
+
+      if (message.hasAccessToken) {
+        setAccessToken(message.accessToken);
+        if (needsModal) {
+          setShowModal(!!isTotallyRestricted);
           setShowViewer(!isTotallyRestricted);
-        } else {
-          setShowModal(true);
-          setShowViewer(false);
         }
+      } else if (needsModal) {
+        setShowModal(true);
+        setShowViewer(false);
       }
     }
-    if (needsModal) {
-      window.addEventListener('message', receiveMessage);
-      return () => window.removeEventListener('message', receiveMessage);
-    } else {
+    window.addEventListener('message', receiveMessage);
+    if (!needsModal) {
       setShowModal(false);
       setShowViewer(true);
     }
+    return () => window.removeEventListener('message', receiveMessage);
   }, [needsModal]);
 
   return (
@@ -198,13 +173,13 @@ const WorkItemPage: NextPage<Props> = ({
       jsonLd={{ '@type': 'WebPage' }}
       siteSection="collections"
       apiToolbarLinks={apiToolbarLinks}
-      hideNewsletterPromo={true}
-      hideFooter={true}
-      hideTopContent={true}
+      hideNewsletterPromo
+      hideFooter
+      hideTopContent
     >
       {shouldUseAuthMessageIframe && (
         <IframeAuthMessage
-          id={iframeId}
+          id={IFRAME_ID}
           title="Authentication"
           src={getIframeTokenSrc({
             workId: work.id,
@@ -214,43 +189,21 @@ const WorkItemPage: NextPage<Props> = ({
         />
       )}
 
-      {/*
-      Pdfs that have been added to the iiif manifest using the born digital pattern
-      will have a hasImage value of true.
-      However, we don't show the viewer for these items,
-      so we check for the presence of a pdf in the original property of the canvas.
-      If it has one we show the IIIFItemList, unless we are using the extended viewer.
-      */}
-      {/* TODO  when we promote extendedViewer code to default we can remove this block
-      as we'll always show the viewer for PDFs*/}
-      {(!hasImage || hasPdf) && showViewer && !extendedViewer && (
-        <ContaineredLayout gridSizes={gridSize12()}>
-          <Space
-            className="body-text"
-            $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-          >
-            <IIIFItemList
-              canvases={canvases}
-              exclude={['Image']}
-              placeholderId={placeholderId}
-            />
-          </Space>
-        </ContaineredLayout>
-      )}
-
       <Modal
         id="auth-modal"
         isActive={showModal}
         setIsActive={setShowModal}
-        removeCloseButton={true}
         openButtonRef={{ current: null }}
+        removeCloseButton
       >
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           {modalContent?.label && (
             // When this modal is displayed, the rest of the page is hidden and we need to make
             // sure there is an appropriate h1 available to assistive technologies
             // https://github.com/wellcomecollection/wellcomecollection.org/issues/7545
-            <h1 className={font('sans-bold', 0)}>{modalContent?.label}</h1>
+            <h1 className={typography('body', 'lg', 'strong')}>
+              {modalContent?.label}
+            </h1>
           )}
           {modalContent?.description && (
             <div
@@ -268,16 +221,22 @@ const WorkItemPage: NextPage<Props> = ({
               >
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="primary"
                   dataGtmProps={{ trigger: 'show_the_content' }}
                   text="Show the content"
                   clickHandler={() => {
                     const authServiceWindow = window.open(
                       `${modalContent?.id || ''}?origin=${origin}`
                     );
-                    authServiceWindow &&
-                      authServiceWindow.addEventListener('unload', function () {
-                        reloadAuthIframe(document, iframeId);
-                      });
+                    if (authServiceWindow) {
+                      clickThroughTimerRef.current = setInterval(() => {
+                        if (authServiceWindow.closed) {
+                          clearInterval(clickThroughTimerRef.current);
+                          clickThroughTimerRef.current = undefined;
+                          reloadAuthIframe(document, IFRAME_ID);
+                        }
+                      }, 500);
+                    }
                   }}
                 />
               </Space>
@@ -286,28 +245,24 @@ const WorkItemPage: NextPage<Props> = ({
         </div>
       </Modal>
 
-      {/* TODO  when we promote extendedViewer code to default we can remove the following conditionals, except for showViewer */}
-      {showViewer &&
-        ((mainImageService && currentCanvas) ||
-          iiifImageLocation ||
-          extendedViewer) && (
-          <IIIFViewer
-            work={work}
-            transformedManifest={transformedManifest}
-            canvasOcr={canvasOcr}
-            iiifImageLocation={iiifImageLocation}
-            iiifPresentationLocation={iiifPresentationLocation}
-            initialArchiveTree={archiveTree}
-            handleImageError={() => {
-              // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
-              reloadAuthIframe(document, iframeId);
-            }}
-            searchResults={searchResults}
-            setSearchResults={setSearchResults}
-            parentManifest={parentManifest}
-            accessToken={accessToken}
-          />
-        )}
+      {showViewer && (
+        <IIIFViewer
+          work={work}
+          transformedManifest={transformedManifest}
+          canvasOcr={canvasOcr}
+          iiifImageLocation={iiifImageLocation}
+          iiifPresentationLocation={iiifPresentationLocation}
+          initialTree={tree}
+          handleImageError={() => {
+            // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
+            reloadAuthIframe(document, IFRAME_ID);
+          }}
+          searchResults={searchResults}
+          setSearchResults={setSearchResults}
+          parentManifest={parentManifest}
+          accessToken={accessToken}
+        />
+      )}
     </CataloguePageLayout>
   );
 };

@@ -16,19 +16,19 @@ jobs:
     steps:
       - name: Generate GitHub App Token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ vars.SYNC_APP_ID }}
           private-key: ${{ secrets.SYNC_APP_PRIVATE_KEY }}
           repositories: content-api
 
       - name: Checkout wellcomecollection.org
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout content-api repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: wellcomecollection/content-api
           token: ${{ steps.app-token.outputs.token }}
@@ -48,35 +48,62 @@ jobs:
             echo "changes=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create Pull Request
+      - name: Install Node
+        if: steps.changes.outputs.changes == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: content-api/.nvmrc
+
+      # The tests run against snapshots of real Prismic data, so refresh them
+      # (and the Jest snapshots) for the new types and review them in the same PR.
+      - name: Commit Prismic types
         if: steps.changes.outputs.changes == 'true'
         run: |
           cd content-api
-
-          # Configure git
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Create and switch to new branch with timestamp
-          TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-          BRANCH_NAME="auto-sync/prismic-types-$TIMESTAMP"
-          git checkout -b $BRANCH_NAME
-
-          # Commit changes
+          git checkout -b "auto-sync/prismic-types-$(date +%Y%m%d-%H%M%S)"
           git add .
           git commit -m "Update Prismic types from wellcomecollection.org"
+
+      - name: Refresh test data
+        if: steps.changes.outputs.changes == 'true'
+        run: |
+          cd content-api
+          yarn install
+          yarn --cwd pipeline refresh-test-data
+          git add pipeline/test
+          git diff --cached --quiet || git commit -m "Refresh Prismic test data and Jest snapshots"
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          cd content-api
+
+          BRANCH_NAME=$(git branch --show-current)
 
           # Push branch
           git push origin $BRANCH_NAME
 
-          # Create pull request using GitHub API
-          curl -X POST \
-            -H "Authorization: Bearer ${{ steps.app-token.outputs.token }}" \
-            -H "Accept: application/vnd.github.v3+json" \
-            https://api.github.com/repos/wellcomecollection/content-api/pulls \
-            -d '{
-              "title": "🤖 Auto-sync: Update Prismic types",
-              "head": "'$BRANCH_NAME'",
-              "base": "main",
-              "body": "This PR syncs the Prismic types from wellcomecollection.org, which have changed.\n\n**Source:** `wellcomecollection.org/common/prismicio-types.d.ts`\n**Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`\n\n**Triggered by commit:** ${{ github.sha }}\n\nPlease review the changes and merge if everything looks correct."
-            }'
+          cat > "$RUNNER_TEMP/pr-body.md" <<'EOF'
+          This PR syncs the Prismic types from wellcomecollection.org, which have changed.
+
+          **Source:** `wellcomecollection.org/common/prismicio-types.d.ts`
+          **Target:** `content-api/pipeline/src/types/prismic/prismicio-types.d.ts`
+
+          The test data (`pipeline/test/prismic-snapshots`) and Jest snapshots are refreshed from live Prismic in a second commit, so some changes may come from content edits rather than the types. Check the Jest snapshot diff for how they change what we index.
+
+          Please review the changes and merge if everything looks correct.
+          EOF
+          echo "**Triggered by commit:** $SOURCE_SHA" >> "$RUNNER_TEMP/pr-body.md"
+
+          # gh reads the app token from GH_TOKEN, so it never appears on a command line.
+          gh pr create \
+            --repo wellcomecollection/content-api \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --title "🤖 Auto-sync: Update Prismic types" \
+            --body-file "$RUNNER_TEMP/pr-body.md"

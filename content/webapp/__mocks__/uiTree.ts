@@ -3,7 +3,7 @@ import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 export const uiTree: UiTree = [
   {
     openStatus: true,
-    work: {
+    data: {
       id: 'hz43r7re',
       title: 'Francis Crick (1916-2004): archives',
       alternativeTitles: [],
@@ -13,7 +13,7 @@ export const uiTree: UiTree = [
     children: [
       {
         openStatus: true,
-        work: {
+        data: {
           id: 'gnfmdk33',
           title: 'Personal Material',
           alternativeTitles: [],
@@ -24,7 +24,7 @@ export const uiTree: UiTree = [
         children: [
           {
             openStatus: true,
-            work: {
+            data: {
               id: 'pwbpp7gj',
               title: 'Miscellaneous Personal Items',
               alternativeTitles: [],
@@ -35,7 +35,7 @@ export const uiTree: UiTree = [
             children: [
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'bqd39jxt',
                   title: 'Fingerprints',
                   alternativeTitles: [],
@@ -47,7 +47,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 't9d9yrsx',
                   title: 'Miscellaneous Photographs',
                   alternativeTitles: [],
@@ -57,7 +57,7 @@ export const uiTree: UiTree = [
                 parentId: 'pwbpp7gj',
                 children: [
                   {
-                    work: {
+                    data: {
                       id: 'pbtyx2xx',
                       title: 'Physics Research Students, Cavendish Laboratory',
                       alternativeTitles: [],
@@ -67,7 +67,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'ytffguzf',
                       title: 'Group Portrait, Gordon Research Conference',
                       alternativeTitles: [],
@@ -77,7 +77,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'jhxw83wa',
                       title: 'Group Portrait, Gordon Research Conference',
                       alternativeTitles: [],
@@ -87,7 +87,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'te2x8hc7',
                       title:
                         'Crick at The Weizmann Institute of Science, Rehovoth, Israel',
@@ -98,7 +98,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'j9cmjvpb',
                       title: 'Crick, Onsager, Dirac and Lamb',
                       alternativeTitles: [],
@@ -108,7 +108,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'gqwjr82x',
                       title: 'National Geographic Society Portrait',
                       alternativeTitles: [],
@@ -118,7 +118,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'gh3ykjcx',
                       title: 'Crick Lecturing (Composite Image)',
                       alternativeTitles: [],
@@ -128,7 +128,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'q8z3a932',
                       title: 'Wall Graffiti',
                       alternativeTitles: [],
@@ -138,7 +138,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'y5vqsvj4',
                       title: 'Crick Lecturing',
                       alternativeTitles: [],
@@ -151,7 +151,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'mtb57a2v',
                   title: 'Pension',
                   alternativeTitles: [],
@@ -163,7 +163,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'vkvsg5k6',
                   title: 'Miscellaneous Press Cuttings',
                   alternativeTitles: [],
@@ -175,7 +175,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'amj3bhyc',
                   title: 'Greetings Cards and Postcards',
                   alternativeTitles: [],
@@ -187,7 +187,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'mpghw4ts',
                   title: 'Family',
                   alternativeTitles: [],
@@ -197,7 +197,7 @@ export const uiTree: UiTree = [
                 parentId: 'pwbpp7gj',
                 children: [
                   {
-                    work: {
+                    data: {
                       id: 'mpavxuge',
                       title: 'Arthur Crick',
                       alternativeTitles: [],
@@ -207,7 +207,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'xdqe9hee',
                       title: '[Shoe-making]',
                       alternativeTitles: [],
@@ -222,7 +222,7 @@ export const uiTree: UiTree = [
           },
           {
             openStatus: false,
-            work: {
+            data: {
               id: 'van23hmk',
               title: 'Correspondence',
               alternativeTitles: [],
@@ -233,7 +233,7 @@ export const uiTree: UiTree = [
             children: [
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'r5qjqhks',
                   title: 'MRC: Studentship and Employment Correspondence',
                   alternativeTitles: [],
@@ -245,7 +245,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'udkfdt42',
                   title: "<i>Who's Who</i>",
                   alternativeTitles: [],
@@ -257,7 +257,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'cmzxr6rr',
                   title: 'National Academy of Sciences',
                   alternativeTitles: [],
@@ -269,7 +269,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'e2g99ruy',
                   title: 'Medical Research Council',
                   alternativeTitles: [],
@@ -281,7 +281,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'e5hygbhe',
                   title: 'Personal Letters',
                   alternativeTitles: [],
@@ -295,7 +295,7 @@ export const uiTree: UiTree = [
           },
           {
             openStatus: false,
-            work: {
+            data: {
               id: 'nrr87whc',
               title: 'Prizes and Honours',
               alternativeTitles: [],
@@ -306,7 +306,7 @@ export const uiTree: UiTree = [
             children: [
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'a8kpqvas',
                   title: 'Nobel Foundation',
                   alternativeTitles: [],
@@ -317,7 +317,7 @@ export const uiTree: UiTree = [
                 children: [
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'uhqgqgjx',
                       title: 'Nobel Prize Telegram',
                       alternativeTitles: [],
@@ -327,7 +327,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'setqk52f',
                       title: 'Nobel Prize, General Arrangements',
                       alternativeTitles: [],
@@ -337,7 +337,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'x75n2wmn',
                       title: 'Nobel Prize, Congratulatory Letters',
                       alternativeTitles: [],
@@ -347,7 +347,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'd9mzmcga',
                       title: 'Nobel Lecture: "Uber den genetischen Code"',
                       alternativeTitles: [],
@@ -357,7 +357,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'fbekxg3b',
                       title: 'MRC Dinner for Nobel Laureates',
                       alternativeTitles: [],
@@ -367,7 +367,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'ydt9xbgp',
                       title: 'Nobel Committee: Nominations',
                       alternativeTitles: [],
@@ -377,7 +377,7 @@ export const uiTree: UiTree = [
                   },
                   {
                     openStatus: false,
-                    work: {
+                    data: {
                       id: 'rf5fvnuc',
                       title: 'Lindau Meeting of Nobel Prize Winners',
                       alternativeTitles: [],
@@ -389,7 +389,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'dhkdktah',
                   title: 'The Royal Society',
                   alternativeTitles: [],
@@ -399,7 +399,7 @@ export const uiTree: UiTree = [
                 parentId: 'nrr87whc',
                 children: [
                   {
-                    work: {
+                    data: {
                       id: 'sxsft7g2',
                       title: 'Election to the Royal Society',
                       alternativeTitles: [],
@@ -409,7 +409,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'jbgpufgv',
                       title: 'Royal Society Royal Medal',
                       alternativeTitles: [],
@@ -422,7 +422,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 't3rhfrvd',
                   title: 'Prix Charles-Léopold Mayer',
                   alternativeTitles: [],
@@ -432,7 +432,7 @@ export const uiTree: UiTree = [
                 parentId: 'nrr87whc',
                 children: [
                   {
-                    work: {
+                    data: {
                       id: 'cgxz4mcf',
                       title: 'Prix Charles-Léopold Mayer: Crick',
                       alternativeTitles: [],
@@ -442,7 +442,7 @@ export const uiTree: UiTree = [
                     openStatus: false,
                   },
                   {
-                    work: {
+                    data: {
                       id: 'hs6j83s2',
                       title:
                         'Prix Charles-Léopold Mayer: Subsequent Correspondence',
@@ -456,7 +456,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'attg42h8',
                   title: 'Gairdner Foundation',
                   alternativeTitles: [],
@@ -468,7 +468,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'kemezv2g',
                   title: 'Deutsche Akademie der Naturforscher Leopoldina',
                   alternativeTitles: [],
@@ -480,7 +480,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'dmfbnjz5',
                   title: 'Other Awards',
                   alternativeTitles: [],
@@ -492,7 +492,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'bzsw3e7b',
                   title: 'Antonio Feltrinelli Prize (Brenner and Huxley)',
                   alternativeTitles: [],
@@ -506,7 +506,7 @@ export const uiTree: UiTree = [
           },
           {
             openStatus: false,
-            work: {
+            data: {
               id: 'cy3jp4ha',
               title: 'Cetus Corporation',
               alternativeTitles: [],
@@ -517,7 +517,7 @@ export const uiTree: UiTree = [
             children: [
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'h63dunqf',
                   title: '[About Cetus]',
                   alternativeTitles: [],
@@ -529,7 +529,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'xsr4mnca',
                   title: 'Communication with Shareholders',
                   alternativeTitles: [],
@@ -541,7 +541,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'kem4cm7k',
                   title: 'Correspondence: Consultancy',
                   alternativeTitles: [],
@@ -553,7 +553,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'r2vvq33x',
                   title: 'Scientific Meeting II',
                   alternativeTitles: [],
@@ -565,7 +565,7 @@ export const uiTree: UiTree = [
               },
               {
                 openStatus: false,
-                work: {
+                data: {
                   id: 'e6p3a7br',
                   title: 'Scientific Meeting III',
                   alternativeTitles: [],
@@ -581,7 +581,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'qb48f246',
           title: 'Medical Research Council',
           alternativeTitles: [],
@@ -591,7 +591,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'u6wdm7v3',
               title: 'Reports',
               alternativeTitles: [],
@@ -601,7 +601,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'dq6mckxq',
               title: 'Wooster Machine',
               alternativeTitles: [],
@@ -611,7 +611,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'au63bj5p',
               title: "'Francis Crick's 2 x 2 Cambridge Slides'",
               alternativeTitles: [],
@@ -624,7 +624,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'p8gmdatg',
           title: 'Salk Institute for Biological Studies',
           alternativeTitles: [],
@@ -634,7 +634,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'zrzq8f32',
               title: 'Correspondence',
               alternativeTitles: [],
@@ -644,7 +644,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'qz2esra6',
               title: 'Meetings',
               alternativeTitles: [],
@@ -654,7 +654,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'g2wu6exq',
               title: 'Systems Development Foundation',
               alternativeTitles: [],
@@ -664,7 +664,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'wvdruakx',
               title: 'Salk Institute Scientific Report',
               alternativeTitles: [],
@@ -674,7 +674,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'yhckbf9y',
               title:
                 'Kieckhefer Center for Theoretical Biology Progress Reports',
@@ -685,7 +685,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'frjukyw5',
               title: "'Accounting Info. 1998'",
               alternativeTitles: [],
@@ -695,7 +695,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'z4webjhq',
               title: 'Helmholtz Club',
               alternativeTitles: [],
@@ -705,7 +705,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'mtzm44g9',
               title: 'First Thursday Club',
               alternativeTitles: [],
@@ -718,7 +718,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'ss8nh2gk',
           title: 'Correspondence',
           alternativeTitles: [],
@@ -728,7 +728,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'z8ssg9su',
               title: 'Individual Correspondents',
               alternativeTitles: [],
@@ -738,7 +738,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'qmj6am9x',
               title: 'Outgoing Letters',
               alternativeTitles: [],
@@ -748,7 +748,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'vaj43uvm',
               title: 'Copied Correspondence',
               alternativeTitles: [],
@@ -761,7 +761,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'db9mrvut',
           title: 'Travels and Meetings',
           alternativeTitles: [],
@@ -771,7 +771,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'st7vfjh9',
               title: 'Meetings Attended',
               alternativeTitles: [],
@@ -781,7 +781,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'mtfnd5z4',
               title: 'Invitations Refused',
               alternativeTitles: [],
@@ -791,7 +791,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'bj6t458v',
               title: 'Invitations Pending',
               alternativeTitles: [],
@@ -804,7 +804,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'rvq226dv',
           title: 'Doctorate',
           alternativeTitles: [],
@@ -814,7 +814,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'rhsqsj9w',
               title: 'Dissertation in Draft',
               alternativeTitles: [],
@@ -824,7 +824,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'eum3u88p',
               title:
                 'PhD Dissertation: <i>Polypeptides and Proteins: X-Ray Studies</i>',
@@ -838,7 +838,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'efgere9v',
           title: 'Notebooks',
           alternativeTitles: [],
@@ -848,7 +848,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'wcpdgjcf',
               title: 'Notebooks in the name of Francis Crick',
               alternativeTitles: [],
@@ -858,7 +858,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'q8vn728d',
               title: 'Notebooks in the names of others',
               alternativeTitles: [],
@@ -871,7 +871,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'z63c2sac',
           title: 'Notes and Drafts',
           alternativeTitles: [],
@@ -881,7 +881,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'u7bm6dsk',
               title: 'Notes and Drafts 1950-1955',
               alternativeTitles: [],
@@ -891,7 +891,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'c6umw9ez',
               title: 'Notes and Drafts 1956-1960',
               alternativeTitles: [],
@@ -901,7 +901,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'emjmwz9a',
               title: 'Notes and Drafts 1961-1965',
               alternativeTitles: [],
@@ -911,7 +911,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'kns59yv8',
               title: 'Notes and Drafts 1966-1970',
               alternativeTitles: [],
@@ -921,7 +921,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'b6r5zu4h',
               title: 'Notes and Drafts 1971-1975',
               alternativeTitles: [],
@@ -931,7 +931,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'fnh4dvby',
               title: 'Notes and Drafts 1976-1980',
               alternativeTitles: [],
@@ -941,7 +941,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'skgjaabc',
               title: 'Notes and Drafts 1981-1985',
               alternativeTitles: [],
@@ -951,7 +951,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'tudtwfpz',
               title: 'Miscellaneous unidentified notes',
               alternativeTitles: [],
@@ -964,7 +964,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'phqvkcup',
           title: 'Correspondence 1976-2004',
           alternativeTitles: [],
@@ -974,7 +974,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'erzrfwy6',
               title: "Alphabetical Correspondence ('General Filing')",
               alternativeTitles: [],
@@ -984,7 +984,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'pwmw6rbk',
               title: "Outgoing Letters ('Chronological Correspondence')",
               alternativeTitles: [],
@@ -994,7 +994,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'qv3vf9pm',
               title: 'Autograph Requests',
               alternativeTitles: [],
@@ -1004,7 +1004,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'p6dhfjk6',
               title: 'Refusal Letters',
               alternativeTitles: [],
@@ -1014,7 +1014,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'nfwcudpf',
               title: 'Permissions Granted',
               alternativeTitles: [],
@@ -1024,7 +1024,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'jag6y34v',
               title: 'Requests for References',
               alternativeTitles: [],
@@ -1034,7 +1034,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'sue69vaz',
               title: "'MIT Summaries'",
               alternativeTitles: [],
@@ -1044,7 +1044,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'k9y7qbyp',
               title: 'Interviews Granted',
               alternativeTitles: [],
@@ -1054,7 +1054,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'b28d46ne',
               title: 'Correspondence with University of California San Diego',
               alternativeTitles: [],
@@ -1064,7 +1064,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'b4fppjde',
               title: "'Telephone Notes'",
               alternativeTitles: [],
@@ -1074,7 +1074,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'zb5xu2eq',
               title: "Correspondence unsorted at the time of Crick's death",
               alternativeTitles: [],
@@ -1087,7 +1087,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'd6cw6cnd',
           title: 'Travel and Lectures 1982-2004',
           alternativeTitles: [],
@@ -1097,7 +1097,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'g5veq7ca',
               title: 'Travel and lectures 1982',
               alternativeTitles: [],
@@ -1107,7 +1107,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'gt6nz226',
               title: 'Travel and lectures 1983',
               alternativeTitles: [],
@@ -1117,7 +1117,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'j3qerye7',
               title: 'Travel and lectures 1984',
               alternativeTitles: [],
@@ -1127,7 +1127,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'rerecwra',
               title: 'Travel and lectures 1985',
               alternativeTitles: [],
@@ -1137,7 +1137,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'y3xz7qk8',
               title: 'Travel and lectures 1986',
               alternativeTitles: [],
@@ -1147,7 +1147,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'hxuctr5s',
               title: 'Travel and lectures 1987',
               alternativeTitles: [],
@@ -1157,7 +1157,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'vfjpp69b',
               title: 'Travel and lectures 1988',
               alternativeTitles: [],
@@ -1167,7 +1167,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'fmwyrzwc',
               title: 'Travel and lectures 1989',
               alternativeTitles: [],
@@ -1177,7 +1177,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'jmhsgt44',
               title: 'Travel and lectures 1990',
               alternativeTitles: [],
@@ -1187,7 +1187,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'varwtuce',
               title: 'Travel and lectures 1991',
               alternativeTitles: [],
@@ -1197,7 +1197,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'c7tybkgy',
               title: 'Travel and lectures 1992',
               alternativeTitles: [],
@@ -1207,7 +1207,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'hzbqkg6w',
               title: 'Travel and lectures 1993',
               alternativeTitles: [],
@@ -1217,7 +1217,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'w6x5bh55',
               title: 'Travel and lectures 1994',
               alternativeTitles: [],
@@ -1227,7 +1227,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'gbj47txt',
               title: 'Travel and lectures 1995',
               alternativeTitles: [],
@@ -1237,7 +1237,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'e2rbmy2d',
               title: 'Travel and lectures 1996',
               alternativeTitles: [],
@@ -1247,7 +1247,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'bcegay6f',
               title: 'Travel and lectures 1998',
               alternativeTitles: [],
@@ -1257,7 +1257,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'jwzs6bwx',
               title: 'Travel and lectures 1999',
               alternativeTitles: [],
@@ -1267,7 +1267,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'ervrq9zd',
               title: 'Travels and Lectures 2000',
               alternativeTitles: [],
@@ -1277,7 +1277,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'h4e7k2rn',
               title: 'Travels and Lectures 2001',
               alternativeTitles: [],
@@ -1287,7 +1287,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'm8mxebf7',
               title: 'Travels and Lectures 2002',
               alternativeTitles: [],
@@ -1297,7 +1297,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'bups2cpk',
               title: 'Travels and Lectures 2003',
               alternativeTitles: [],
@@ -1307,7 +1307,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'ancjqt8f',
               title: 'Travels and Lectures 2004',
               alternativeTitles: [],
@@ -1320,7 +1320,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'k4q5uy3z',
           title: 'Notes, Drafts and Models [1976]-2004',
           alternativeTitles: [],
@@ -1330,7 +1330,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'tg2kvjgq',
               title: "'Notes, Drafts and Lectures' 1982-2004",
               alternativeTitles: [],
@@ -1340,7 +1340,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'dhcbbswq',
               title: 'Notepads',
               alternativeTitles: [],
@@ -1350,7 +1350,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'fydwnn9u',
               title: 'Perspex Slides',
               alternativeTitles: [],
@@ -1360,7 +1360,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'h9tfdvk2',
               title: '3-D Models',
               alternativeTitles: [],
@@ -1370,7 +1370,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'rg364wuz',
               title: 'Draft Writings',
               alternativeTitles: [],
@@ -1380,7 +1380,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'r4ndvb9m',
               title: 'Lecture Notes',
               alternativeTitles: [],
@@ -1390,7 +1390,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'acw4g4cr',
               title: 'Seminar Notes',
               alternativeTitles: [],
@@ -1403,7 +1403,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'bxpf5qxz',
           title: 'Publications 1950-2001',
           alternativeTitles: [],
@@ -1413,7 +1413,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'f5777zur',
               title: 'Publications by Crick',
               alternativeTitles: [],
@@ -1423,7 +1423,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'kry9wqft',
               title: 'Publications concerning Crick',
               alternativeTitles: [],
@@ -1436,7 +1436,7 @@ export const uiTree: UiTree = [
       },
       {
         openStatus: false,
-        work: {
+        data: {
           id: 'xqskm5tz',
           title: 'Societies',
           alternativeTitles: [],
@@ -1446,7 +1446,7 @@ export const uiTree: UiTree = [
         parentId: 'hz43r7re',
         children: [
           {
-            work: {
+            data: {
               id: 'he3fyjwd',
               title: 'American Academy of Achievement',
               alternativeTitles: [],
@@ -1456,7 +1456,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'jaa77w6b',
               title: 'American Academy of Art and Sciences',
               alternativeTitles: [],
@@ -1466,7 +1466,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'a27gsvy2',
               title: 'American Association for the Advancement of Science',
               alternativeTitles: [],
@@ -1476,7 +1476,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'g93tm8v8',
               title: 'American Philosophical Society',
               alternativeTitles: [],
@@ -1486,7 +1486,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'a6f5cmec',
               title: 'Deutsche Akademie der Naturforscher Leopoldina',
               alternativeTitles: [],
@@ -1496,7 +1496,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'k4vrtx4b',
               title: 'European Molecular Biology Organization',
               alternativeTitles: [],
@@ -1506,7 +1506,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'jd6vjgy8',
               title: 'Euroscience',
               alternativeTitles: [],
@@ -1516,7 +1516,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'vwg93c7h',
               title: 'Institut de France Académie des Sciences',
               alternativeTitles: [],
@@ -1526,7 +1526,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'qd42w74u',
               title:
                 'Institute for Neural Computation, University of California, San Diego',
@@ -1537,7 +1537,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'dzn3d4zv',
               title: 'National Academy of Sciences',
               alternativeTitles: [],
@@ -1547,7 +1547,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'hfn9urgg',
               title: 'Royal Society',
               alternativeTitles: [],
@@ -1557,7 +1557,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'sbmna6xh',
               title: 'Royal Society of Edinburgh',
               alternativeTitles: [],
@@ -1567,7 +1567,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'rcjk8uww',
               title: 'Society for Neuroscience',
               alternativeTitles: [],
@@ -1577,7 +1577,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'u4zhg9dd',
               title: 'Miscellaneous Societies',
               alternativeTitles: [],
@@ -1587,7 +1587,7 @@ export const uiTree: UiTree = [
             openStatus: false,
           },
           {
-            work: {
+            data: {
               id: 'kwx35sdb',
               title: 'Mind Science Foundation proposals',
               alternativeTitles: [],

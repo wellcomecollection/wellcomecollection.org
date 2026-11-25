@@ -70,12 +70,12 @@ const ArticleSeriesPage: NextPage<Props> = props => {
       ContentTypeInfo={ContentTypeInfo}
       Background={
         <HeaderBackground
-          hasWobblyEdge={true}
           backgroundTexture={headerBackgroundLs}
+          hasWobblyEdge
         />
       }
       FeaturedMedia={FeaturedMedia}
-      isContentTypeInfoBeforeMedia={true}
+      isContentTypeInfoBeforeMedia
     />
   );
 
@@ -110,11 +110,11 @@ const ArticleSeriesPage: NextPage<Props> = props => {
               <CompactCard
                 variant="article"
                 article={article}
-                showPosition={true}
                 xOfY={{
                   x: index + 1,
                   y: articles.results.length + scheduledItems.length,
                 }}
+                showPosition
               />
             </SeriesItem>
           ))}

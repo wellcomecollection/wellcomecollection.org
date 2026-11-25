@@ -32,12 +32,15 @@ export const Picture: FunctionComponent<Props> = ({
   return (
     <Figure data-component="picture">
       <picture>
-        {images.map(image => {
+        {images.map((image, index) => {
           if (image.width) {
             const sizes = imageSizes(image.width);
             return (
               <source
-                key={image.contentUrl}
+                // Crops can share an identical contentUrl (e.g. when an
+                // editor hasn't set a distinct crop), so the index keeps
+                // each <source> distinct even when the URLs collide.
+                key={`${image.contentUrl}-${index}`}
                 media={image.minWidth ? `(min-width: ${image.minWidth})` : ''}
                 sizes="100vw"
                 srcSet={sizes

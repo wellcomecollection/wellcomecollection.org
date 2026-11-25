@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react';
 import { ComponentProps } from 'react';
+import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import {
@@ -8,11 +9,8 @@ import {
   image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
-import { font } from '@weco/common/utils/classnames';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
+import { typography } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
@@ -21,7 +19,6 @@ import PageHeaderStandfirst from '@weco/common/views/components/PageHeaderStandf
 import Picture from '@weco/common/views/components/Picture';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
-import theme from '@weco/common/views/themes/default';
 import Body from '@weco/content/views/components/Body';
 import ContentPage from '@weco/content/views/components/ContentPage';
 import PartNumberIndicator from '@weco/content/views/components/PartNumberIndicator';
@@ -44,7 +41,7 @@ const meta: Meta<typeof PageHeader> = {
     highlightHeading: false,
     fullWidth: false,
     includeAccessibilityProvision: false,
-    heroImageBgColor: 'white',
+    heroImageBgColor: 'neutral.05',
   },
   argTypes: {
     backgroundTexture: {
@@ -53,9 +50,8 @@ const meta: Meta<typeof PageHeader> = {
       mapping: {
         None: undefined,
         'Example 1': headerBackgroundLs,
-        'Example 2': landingHeaderBackgroundLs,
       },
-      options: ['None', 'Example 1', 'Example 2'],
+      options: ['None', 'Example 1'],
     },
     isContentTypeInfoBeforeMedia: {
       control: 'boolean',
@@ -76,6 +72,10 @@ const meta: Meta<typeof PageHeader> = {
 
 export default meta;
 
+const DateText = styled.span`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
 const ContentTypeInfo = (
   <>
     <PageHeaderStandfirst
@@ -89,19 +89,18 @@ const ContentTypeInfo = (
     />
     <div style={{ display: 'flex', alignItems: 'baseline' }}>
       <Space
-        className={font('sans', -2)}
+        className={typography('body', 'sm', 'regular')}
         $h={{ size: 'xs', properties: ['margin-right'] }}
         $v={{ size: 'xs', properties: ['margin-top'] }}
       >
         <p style={{ marginBottom: 0 }}>
           <span>By </span>
-          <span className={font('sans-bold', -2)}>Naomi Paxton</span>{' '}
-          <span
-            className={font('sans', -2)}
-            style={{ color: theme.color('neutral.600') }}
-          >
+          <span className={typography('body', 'sm', 'strong')}>
+            Naomi Paxton
+          </span>{' '}
+          <DateText className={typography('body', 'sm', 'regular')}>
             17 April 2019
-          </span>
+          </DateText>
         </p>
       </Space>
     </div>
@@ -147,7 +146,7 @@ export const Article: Meta<typeof PageHeader> = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo,
@@ -176,18 +175,17 @@ export const ShortFilm: Meta<typeof PageHeader> = {
           <ContentPage
             uid="123"
             id="123"
-            isCreamy
             Header={
               <PageHeader
                 {...args}
                 variant="basic"
-                isContentTypeInfoBeforeMedia={true}
                 ContentTypeInfo={ContentTypeInfo}
                 labels={{ labels: [{ text: 'Short film' }] }}
                 title="Audrey's archivist"
                 breadcrumbs={{
                   items: [{ text: 'Stories', url: '#' }],
                 }}
+                isContentTypeInfoBeforeMedia
               />
             }
             Body={
@@ -231,6 +229,7 @@ export const ShortFilm: Meta<typeof PageHeader> = {
                 gridSizes={gridSize8()}
               />
             }
+            isCreamy
           ></ContentPage>
         )}
         args={args}
@@ -239,8 +238,13 @@ export const ShortFilm: Meta<typeof PageHeader> = {
   },
 };
 
-export const Event: Meta<typeof PageHeader> = {
+type EventStory = ComponentProps<typeof PageHeader> & {
+  hasFeaturedMedia?: boolean;
+};
+
+export const Event: Meta<EventStory> = {
   argTypes: {
+    hasFeaturedMedia: { name: 'Has featured media', control: 'boolean' },
     variant: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
@@ -252,6 +256,7 @@ export const Event: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
+    hasFeaturedMedia: true,
     FeaturedMedia: (
       <PrismicImage
         image={image(florenceWinterfloodImageUrl('3200x1800'))}
@@ -268,7 +273,7 @@ export const Event: Meta<typeof PageHeader> = {
         </Space>
         <div style={{ display: 'flex' }}>
           <TextWithDot
-            className={font('sans-bold', -1)}
+            className={typography('body', 'md', 'strong')}
             dotColor="neutral.500"
             text="Past"
           />
@@ -277,12 +282,15 @@ export const Event: Meta<typeof PageHeader> = {
     ),
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground
-        hasWobblyEdge={true}
-        backgroundTexture={headerBackgroundLs}
-      />
+      <HeaderBackground backgroundTexture={headerBackgroundLs} hasWobblyEdge />
     ),
   },
+  render: ({ hasFeaturedMedia, FeaturedMedia, ...args }) => (
+    <PageHeader
+      {...args}
+      FeaturedMedia={hasFeaturedMedia ? FeaturedMedia : undefined}
+    />
+  ),
 };
 
 export const Exhibition: Meta<typeof PageHeader> = {
@@ -311,13 +319,13 @@ export const Exhibition: Meta<typeof PageHeader> = {
           }),
           image(florenceWinterfloodImageUrl('3200x3200'), 3200, 3200),
         ]}
-        isFull={true}
+        isFull
       />
     ),
     ContentTypeInfo: (
       <div style={{ display: 'flex' }}>
         <TextWithDot
-          className={font('sans-bold', -1)}
+          className={typography('body', 'md', 'strong')}
           dotColor="neutral.500"
           text="Closed"
         />
@@ -419,7 +427,10 @@ export const Book: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'Together',
     ContentTypeInfo: (
-      <p className={font('sans-bold', 1)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'xl', 'strong')}
+        style={{ marginBottom: 0 }}
+      >
         Loneliness, Health & What Happens When We Find Connection
       </p>
     ),

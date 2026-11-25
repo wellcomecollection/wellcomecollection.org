@@ -1,4 +1,4 @@
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -17,14 +17,14 @@ const DesktopDateRangeFilter = ({
   hasNoOptions,
 }: DesktopDateRangeFilterProps) => {
   return (
-    <Space className={font('sans', -1)}>
+    <Space className={typography('body', 'md', 'regular')}>
       <Button
         variant="DropdownButton"
-        isPill
         label={f.label}
         buttonType="inline"
         id={f.id}
         hasNoOptions={hasNoOptions}
+        isPill
       >
         <DateRangeFilter f={f} changeHandler={changeHandler} form={form} />
       </Button>

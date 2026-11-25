@@ -1,34 +1,49 @@
-import { forwardRef, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import {
+  convertIiifImageUri,
+  IIIF_THUMBS_URI,
+} from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
+import { IIIFImage } from '@weco/content/services/iiif/types/image/v2';
 import { convertRequestUriToInfoUri } from '@weco/content/utils/iiif/convert-iiif-uri';
-async function getImageMax(url: string): Promise<number> {
+
+async function getImageMax(url: string): Promise<number | undefined> {
+  // /thumbs/ is a fixed-size derivative service with no maxWidth/access-cap
+  // concept, so there's no point requesting its info.json at all
+  if (url.startsWith(IIIF_THUMBS_URI)) return undefined;
+
+  const infoUrl = convertRequestUriToInfoUri(url);
+
+  if (!infoUrl) return undefined;
+
   try {
-    const infoUrl = convertRequestUriToInfoUri(url);
     const resp = await fetch(infoUrl);
-    const info = await resp.json();
+    const info: Partial<IIIFImage> = await resp.json();
+
     // N.B property is called maxWidth, but it is actually the max allowed for the longest side, see https://wellcome.slack.com/archives/CBT40CMKQ/p1702897884100559
-    const max = info.profile?.find(item => item.maxWidth)?.maxWidth || 1000;
-    return max || 1001;
+    return info.profile?.find(
+      (item): item is { maxWidth: number } =>
+        typeof item !== 'string' && Boolean(item.maxWidth)
+    )?.maxWidth;
   } catch {
-    return 1000;
+    return undefined;
   }
 }
 
 const Image = styled.img<{
-  $highlightImage?: boolean;
+  $isHighlighted?: boolean;
   $zoomOnClick?: boolean;
   $useInvertedColours?: boolean;
   $useGrayscaleColours?: boolean;
   $contrast?: number;
 }>`
   ${props => {
-    if (props.$highlightImage) {
+    if (props.$isHighlighted) {
       // highlight filter for thumbnails that contain search terms
-      return `filter: grayscale(100%) sepia(100%) hue-rotate(15deg) saturate(400%) brightness(115%);`;
+      return `filter: grayscale(100%) brightness(70%) sepia(40%) hue-rotate(-120deg) saturate(400%) contrast(1);`;
     }
     let filter = '';
     if (props.$useInvertedColours) filter += 'invert(100%) ';
@@ -48,12 +63,13 @@ type Props = {
   srcSet: string | undefined;
   sizes: string | undefined;
   alt: string;
+  ariaDescribedBy?: string;
   lang?: string;
   clickHandler?: () => void | Promise<void>;
   loadHandler?: () => void | Promise<void>;
   errorHandler?: () => void | Promise<void>;
   tabIndex?: number;
-  highlightImage?: boolean;
+  isHighlighted?: boolean;
   zoomOnClick?: boolean;
   useInvertedColours?: boolean;
   useGrayscaleColours?: boolean;
@@ -69,35 +85,45 @@ const IIIFViewerImage = (
     srcSet,
     sizes,
     alt,
+    ariaDescribedBy,
     lang,
     clickHandler,
     loadHandler,
     errorHandler,
     tabIndex,
-    highlightImage,
+    isHighlighted,
     zoomOnClick,
     useInvertedColours,
     useGrayscaleColours,
     contrast,
   }: Props,
-  ref
+  ref: ForwardedRef<HTMLImageElement>
 ) => {
   const { isFullSupportBrowser } = useAppContext();
   const [tryLoadingSmallerImg, setTryLoadingSmallerImg] = useState(true);
   const [hasLoaded, setHasLoaded] = useState(false);
+
+  // Reset tryLoadingSmallerImg when src changes so each new image
+  // gets a chance to try the smaller size conversion if it errors
+  useEffect(() => {
+    setTryLoadingSmallerImg(true);
+    setHasLoaded(false);
+  }, [src]);
+
   return (
     <>
-      {!hasLoaded && isFullSupportBrowser && <LL $lighten={true} />}
+      {!hasLoaded && isFullSupportBrowser && <LL $lighten />}
       <Image
         data-testid={index !== undefined ? `image-${index}` : null}
         ref={ref}
         tabIndex={tabIndex}
         lang={lang}
+        aria-describedby={ariaDescribedBy}
         width={width}
         height={height}
         className="image"
         $zoomOnClick={zoomOnClick}
-        $highlightImage={highlightImage}
+        $isHighlighted={isHighlighted}
         onLoad={() => {
           loadHandler && loadHandler();
           setHasLoaded(true);
@@ -117,17 +143,20 @@ const IIIFViewerImage = (
             setTryLoadingSmallerImg(false); // prevent looping if image fails to load again
             // we need to know the max size of the longest side first
             const imageMax = await getImageMax(currentTarget.src);
-            const isPortrait = Boolean(height && height > width);
-            const newSrc = isPortrait
-              ? convertIiifImageUri(currentTarget.src, imageMax, true)
-              : convertIiifImageUri(currentTarget.src, imageMax);
-            currentTarget.src = newSrc;
-            currentTarget.removeAttribute('srcset');
-            currentTarget.removeAttribute('sizes');
-          } else {
-            // If the image still fails to load, we check to see if it's because the authorisation cookie is missing/no longer valid
-            errorHandler && errorHandler();
+            if (imageMax) {
+              const isPortrait = Boolean(height && height > width);
+              const newSrc = isPortrait
+                ? convertIiifImageUri(currentTarget.src, imageMax, true)
+                : convertIiifImageUri(currentTarget.src, imageMax);
+              currentTarget.src = newSrc;
+              currentTarget.removeAttribute('srcset');
+              currentTarget.removeAttribute('sizes');
+            }
           }
+          // Even if we found a smaller size to retry, the failure may also be
+          // because the authorisation cookie is missing/no longer valid, so
+          // we always check that too
+          errorHandler && errorHandler();
         }}
         src={src}
         srcSet={srcSet}

@@ -2,7 +2,7 @@ import { Fragment, FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { eventPolicyIds } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
@@ -59,7 +59,7 @@ const EventContainer = styled(Space).attrs({
     size: 'sm',
     properties: ['padding-left', 'padding-right'],
   },
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: inline-block;
   background-color: ${props => props.theme.color('yellow')};
@@ -72,7 +72,7 @@ const eventLocations = (locations: Place[], isHybridEvent: boolean) => {
   return (
     <Space
       $v={{ size: 'xs', properties: ['margin-bottom'] }}
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
       style={{ display: 'flex', alignItems: 'center' }}
     >
       {locations.map((l, i) => {
@@ -170,7 +170,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
               <h4
                 style={{ marginBottom: 0 }}
                 key={`${event.title} ${startTimeString}`}
-                className={font('sans-bold', -1)}
+                className={typography('body', 'md', 'strong')}
               >
                 <HTMLDateAndTime variant="time" date={t.range.startDateTime} />
                 {' – '}
@@ -197,7 +197,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             <Space
               $v={{ size: 'xs', properties: ['margin-bottom'] }}
               as="h5"
-              className={font('brand-bold', 1)}
+              className={typography('heading', 'lg', 'strong', 'brand')}
             >
               {event.title}
             </Space>
@@ -207,7 +207,7 @@ const EventScheduleItem: FunctionComponent<Props> = ({
             {event.promo?.caption && (
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
-                className={font('sans', -1)}
+                className={typography('body', 'md', 'regular')}
                 dangerouslySetInnerHTML={{ __html: event.promo?.caption }}
               />
             )}
@@ -219,7 +219,10 @@ const EventScheduleItem: FunctionComponent<Props> = ({
                   properties: ['margin-top', 'margin-bottom'],
                 }}
               >
-                <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+                <p
+                  className={typography('body', 'md', 'regular')}
+                  style={{ marginBottom: 0 }}
+                >
                   <a href={`/events/${event.id}`}>
                     Full event details
                     <span className="visually-hidden">

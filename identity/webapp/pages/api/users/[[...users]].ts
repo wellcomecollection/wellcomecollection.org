@@ -1,32 +1,101 @@
-import { AccessTokenError } from '@auth0/nextjs-auth0';
-import axios, { AxiosInstance, Method as AxiosMethod } from 'axios';
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
-import getConfig from 'next/config';
+import { AccessTokenError } from '@auth0/nextjs-auth0/errors';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import auth0 from '@weco/identity/utils/auth0';
+import { FetchClient } from '@weco/identity/utils/fetch-helpers';
+import {
+  chooseIdentityApi,
+  folioUserIdFromAccessToken,
+  IdentityApi,
+  identityApiV1,
+  identityApiV2,
+  isAuth0StoredUser,
+  patronIp,
+  subFromAccessToken,
+} from '@weco/identity/utils/identity-api';
 
-const { serverRuntimeConfig: config } = getConfig();
+const fetchClientFor = (api: IdentityApi): FetchClient =>
+  new FetchClient({
+    baseURL: api.host,
+    headers: {
+      'x-api-key': api.apiKey,
+    },
+  });
 
-export const identityAxios: AxiosInstance = axios.create({
-  baseURL: config.remoteApi.host,
-  headers: {
-    'x-api-key': config.remoteApi.apiKey,
-  },
-});
+const identityFetchClients = new Map<IdentityApi, FetchClient>(
+  [identityApiV1, identityApiV2]
+    .filter((api): api is IdentityApi => api !== undefined)
+    .map(api => [api, fetchClientFor(api)])
+);
 
-const handleIdentityApiRequest: NextApiHandler = auth0.withApiAuthRequired(
+// Identity API routes for the signed-in user, so nothing else is reachable with
+// their token and our API key. A Map so request values can't hit inherited keys.
+const allowedRoutes = new Map<string, string[]>([
+  ['me', ['GET', 'PUT']],
+  ['me/password', ['PUT']],
+  ['me/deletion-request', ['PUT']],
+  ['me/send-verification-email', ['POST']],
+  ['me/validate', ['POST']],
+  ['me/item-requests', ['GET', 'POST']],
+]);
+
+const handleIdentityApiRequest = auth0.withApiAuthRequired(
   async (req: NextApiRequest, res: NextApiResponse) => {
+    const route = ((req.query.users as string[] | undefined) || []).join('/');
+    const method = req.method || 'GET';
+    const allowedMethods = allowedRoutes.get(route);
+    if (!allowedMethods) {
+      return res.status(404).json({ message: 'Not found' });
+    }
+    if (!allowedMethods.includes(method)) {
+      return res.status(405).json({ message: 'Method not allowed' });
+    }
+
     try {
-      const { accessToken } = await auth0.getAccessToken(req, res);
-      const path = '/users/' + (req.query.users as string[]).join('/');
-      const remoteResponse = await identityAxios
+      const { token } = await auth0.getAccessToken(req, res);
+      const path = `/users/${route}`;
+
+      const sub = subFromAccessToken(token);
+      const api = await chooseIdentityApi(
+        req,
+        folioUserIdFromAccessToken(token),
+        sub
+      );
+      // Only where v2 doesn't exist, since v1 can't serve these users
+      if (api.version === 1 && isAuth0StoredUser(sub)) {
+        return res
+          .status(403)
+          .json({ message: "This account can't be used at the moment" });
+      }
+      const identityFetchClient = identityFetchClients.get(api)!;
+
+      // v2 refuses password checks without the patron's IP address
+      const ip = api.version === 2 ? patronIp(req) : undefined;
+      if (api.version === 2 && !ip) {
+        console.warn('No patron IP address for a v2 identity API request');
+      }
+
+      // req.body is '' (not undefined) when the original request had no body
+      // at all - Next.js's parseBody falls back to text/plain and yields ''
+      // for zero bytes (see parseBody in
+      // next/dist/server/api-utils/node/parse-body.js). Treat that the same
+      // as "no body" so we don't forward a bogus JSON.stringify('') === '""'
+      // payload to the identity API.
+      const body = req.body === '' ? undefined : req.body;
+
+      // GET and HEAD requests cannot have a body
+      const remoteResponse = await identityFetchClient
         .request({
           url: path,
-          method: req.method as AxiosMethod,
-          data: req.body,
+          method,
+          // Only include body for methods that support it
+          ...(method !== 'GET' && method !== 'HEAD' && body !== undefined
+            ? { data: body }
+            : {}),
           headers: {
-            ...identityAxios.defaults.headers.common,
-            Authorization: `Bearer ${accessToken}`,
+            ...identityFetchClient.defaults.headers.common,
+            Authorization: `Bearer ${token}`,
+            ...(ip ? { 'X-Forwarded-For': ip } : {}),
           },
           validateStatus: (status: number) => status >= 200 && status < 500,
         })

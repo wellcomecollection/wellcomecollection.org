@@ -1,9 +1,18 @@
 import styled, { css } from 'styled-components';
 
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
+import {
+  BrandButtonColors,
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
-import { ButtonSize, SolidButtonStyledProps } from './Buttons.types';
+import {
+  ButtonHierarchy,
+  ButtonSize,
+  SolidButtonStyledProps,
+} from './Buttons.types';
 
 export const BaseButtonInner = styled.span.attrs<{
   $isInline?: boolean;
@@ -11,12 +20,25 @@ export const BaseButtonInner = styled.span.attrs<{
   $isNewSearchBar?: boolean;
 }>(props => ({
   className: !props.$isInline
-    ? font('sans-bold', props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1)
-    : font('sans', props.$isPill ? -2 : props.$isNewSearchBar ? 0 : -1),
+    ? props.$isPill
+      ? typography('body', 'sm', 'strong')
+      : props.$isNewSearchBar
+        ? typography('body', 'lg', 'strong')
+        : typography('body', 'md', 'strong')
+    : props.$isPill
+      ? typography('body', 'sm', 'regular')
+      : props.$isNewSearchBar
+        ? typography('body', 'lg', 'regular')
+        : typography('body', 'md', 'regular'),
 }))`
   display: flex;
   align-items: center;
   height: 1em;
+
+  /* We need to do .{class}.{class} to override any line-height set by the typography utility */
+  && {
+    line-height: 1;
+  }
 `;
 
 export const ButtonIconWrapper = styled(Space).attrs({
@@ -70,18 +92,79 @@ export const BasicButton = styled.button.attrs<{
 
 // Default to medium button
 const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
-  if (isNewSearchBar) {
-    return '13px 16px';
-  }
+  if (isNewSearchBar) return '13px 16px';
+
   switch (size) {
     case 'small':
       return '8px 12px';
     case 'medium':
+    default:
       return '13px 20px';
   }
 };
 
-export const StyledButtonCSS = css<SolidButtonStyledProps>`
+/** The brand colours for a button, or undefined if it should keep its preset
+ * colours: it's a pill (styled separately), or it has no `hierarchy` and
+ * isn't `isDanger`.
+ */
+export const getBrandButtonColors = ({
+  hierarchy,
+  isOnDark,
+  isPill,
+  isDanger,
+}: {
+  hierarchy?: ButtonHierarchy;
+  isOnDark?: boolean;
+  isPill?: boolean;
+  isDanger?: boolean;
+}): BrandButtonColors | undefined => {
+  if (isPill) return undefined;
+
+  if (isDanger) return brandButtonColors.danger;
+  if (!hierarchy) return undefined;
+
+  return brandButtonColors[
+    hierarchy === 'tertiary' && isOnDark ? 'tertiaryOnDark' : hierarchy
+  ];
+};
+
+// A dark ring with a light gap, which reads on both light and dark backgrounds
+export const brandButtonFocusStyle = css`
+  outline: 2px solid ${designSystemColor('neutral.70')};
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')};
+`;
+
+export const brandButtonStyles = (colors: BrandButtonColors) => `
+  background: ${designSystemColor(colors.default.background)};
+  color: ${designSystemColor(colors.default.text)};
+  border: 2px solid ${designSystemColor(colors.default.border)};
+
+  &:not([disabled]):hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  &:not([disabled]):active,
+  &[aria-expanded='true']:not([disabled]) {
+    background: ${designSystemColor(colors.active.background)};
+    color: ${designSystemColor(colors.active.text)};
+    border-color: ${designSystemColor(colors.active.border)};
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+
+  &[disabled],
+  &.disabled {
+    background: ${designSystemColor(colors.disabled.background)};
+    color: ${designSystemColor(colors.disabled.text)};
+    border-color: ${designSystemColor(colors.disabled.border)};
+  }
+`;
+
+const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:
@@ -96,32 +179,60 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
   ${props =>
     props.$isPill
-      ? `
-        border-radius: 20px;
-        border: 1px solid ${props.theme.color('black')};
-        padding: ${
-          props.$hasIcon
-            ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
-                props.$isIconAfter ? '16px' : '8px'
-              }`
-            : '8px 16px'
-        };
+      ? css`
+          border-radius: 20px;
+          border: 1px solid ${props.theme.color('black')};
+          padding: ${
+            props.$hasIcon
+              ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
+                  props.$isIconAfter ? '16px' : '8px'
+                }`
+              : '8px 16px'
+          };
 
-        &:not([disabled]):hover {
-          box-shadow: ${props.theme.focusBoxShadow};
+          background: transparent;
+
+          &:not([disabled]):hover {
+            background: ${props.theme.color('neutral.10')};
+            text-decoration: underline;
+          }
+
+          /* An open dropdown */
+          &[aria-expanded='true']:not([disabled]) {
+            background: ${props.theme.color('black')};
+            color: ${props.theme.color('neutral.10')};
+          }
+        `
+      : css`
+          border: 2px solid
+            ${props.theme.color(
+              props?.$colors?.border || props.theme.buttonColors.default.border
+            )};
+
+          &:not([disabled]):hover {
+            text-decoration: underline;
+          }
+        `};
+
+  ${props => {
+    const brandColors = getBrandButtonColors({
+      hierarchy: props.$hierarchy,
+      isOnDark: props.$isOnDark,
+      isPill: props.$isPill,
+      isDanger: props.$isDanger,
+    });
+
+    return (
+      brandColors &&
+      css`
+        ${brandButtonStyles(brandColors)}
+
+        &:focus-visible {
+          ${brandButtonFocusStyle}
         }
       `
-      : `
-
-        border: 2px solid
-        ${props.theme.color(
-          props?.$colors?.border || props.theme.buttonColors.default.border
-        )};
-
-        &:not([disabled]):hover {
-          text-decoration: underline;
-        }
-      `};
+    );
+  }}
 `;
 
 export const StyledButton = styled(BasicButton).attrs<SolidButtonStyledProps>(

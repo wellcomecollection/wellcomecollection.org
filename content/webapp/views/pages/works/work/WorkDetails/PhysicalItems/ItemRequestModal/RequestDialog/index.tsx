@@ -2,9 +2,9 @@ import { FormEvent, FunctionComponent, useEffect } from 'react';
 import styled, { useTheme } from 'styled-components';
 
 import { itemRequestDialog } from '@weco/common/data/microcopy';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDayMonth, formatDayName } from '@weco/common/utils/format-date';
-import { allowedRequests } from '@weco/common/values/requests';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import Button, { ButtonTypes } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -62,7 +62,7 @@ const WorkTitle = styled.span`
 `;
 
 const PickupDeadline = styled.p.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })`
   ${props => props.theme.media('md')`
     margin: 0;
@@ -131,13 +131,18 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
   return (
     <Request onSubmit={handleConfirmRequest}>
       <Header>
-        <span className={font('brand-bold', 1)}>Request item</span>
+        <span className={typography('heading', 'lg', 'strong', 'brand')}>
+          Request item
+        </span>
         <CurrentRequests
-          allowedHoldRequests={allowedRequests}
+          allowedHoldRequests={ALLOWED_REQUESTS}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
-      <p className={font('sans-bold', -1)} style={{ marginBottom: 0 }}>
+      <p
+        className={typography('body', 'md', 'strong')}
+        style={{ marginBottom: 0 }}
+      >
         You are about to request the following item:
       </p>
       <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
@@ -189,6 +194,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         <ConfirmRequestButtonWrapper>
           <Button
             variant="ButtonSolid"
+            hierarchy="primary"
             text="Confirm request"
             dataGtmProps={{
               trigger: 'requesting_confirm',
@@ -199,6 +205,7 @@ const RequestDialog: FunctionComponent<RequestDialogProps> = ({
         <Button
           variant="ButtonSolid"
           colors={theme.buttonColors.greenTransparentGreen}
+          hierarchy="secondary"
           type={ButtonTypes.button}
           text="Cancel"
           clickHandler={() => setIsActive(false)}

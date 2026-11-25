@@ -8,10 +8,6 @@ export const ArticleFormatIds = {
   ShortFilm: 'ZBH6PRQAAIrrFirA',
 };
 
-export const PageFormatIds = {
-  Landing: 'YBwQWxMAACAAuno1',
-};
-
 export const GuideFormatIds = {
   HowTo: 'YC_GIhMAACAADdCN',
   Topic: 'YC_GQRMAACIADdEh',
@@ -25,6 +21,5 @@ export const ExhibitionFormatIds = {
 
 export type ArticleFormatId =
   (typeof ArticleFormatIds)[keyof typeof ArticleFormatIds];
-export type PageFormatId = (typeof PageFormatIds)[keyof typeof PageFormatIds];
 export type GuideFormatId =
   (typeof GuideFormatIds)[keyof typeof GuideFormatIds];

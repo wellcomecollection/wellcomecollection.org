@@ -1,17 +1,28 @@
-import * as prismic from '@prismicio/client';
-
 import { ImageType } from '@weco/common/model/image';
 import { Label } from '@weco/common/model/labels';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import { StandfirstSlice as RawStandfirstSlice } from '@weco/common/prismicio-types';
 
 import { ImagePromo } from './image-promo';
 
-export type GenericContentFields = {
+/** Minimal shape satisfied by all Prismic REST v2 body slices. */
+export type PrismicBodySlice = {
+  slice_type: string;
+  id: string;
+};
+
+/** Extracts the body slice union from a Prismic document type. */
+export type BodySliceOf<T> = T extends { data?: { body?: (infer S)[] } }
+  ? NonNullable<S>
+  : never;
+
+/** Fields shared by every content type. `TSlice` defaults to the minimal `PrismicBodySlice`. */
+export type GenericContentFields<
+  TSlice extends PrismicBodySlice = PrismicBodySlice,
+> = {
   id: string;
   title: string;
   promo?: ImagePromo;
-  untransformedBody: prismic.SliceZone<PagesDocumentDataBodySlice>;
+  untransformedBody: TSlice[];
   untransformedStandfirst?: RawStandfirstSlice;
   image?: ImageType;
   metadataDescription?: string;

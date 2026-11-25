@@ -110,7 +110,7 @@ export const request = (event: CloudFrontRequestEvent): void => {
         key: 'Cookie',
         value:
           request.headers.cookie && request.headers.cookie[0]
-            ? request.headers.cookie[0].value + '; ' + togglesCookieString
+            ? `${request.headers.cookie[0].value}; ${togglesCookieString}`
             : togglesCookieString,
       },
     ];

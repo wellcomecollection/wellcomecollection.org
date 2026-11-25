@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { links, NavLink } from '@weco/common/views/components/Header';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -21,7 +21,7 @@ const NavList = styled.ul<{
 
   ${props =>
     props.$isInline &&
-    `
+    css`
       li {
         display: inline-block;
         margin-right: 1.1rem;
@@ -30,11 +30,11 @@ const NavList = styled.ul<{
           margin-right: 0;
         }
       }
-  `}
+    `}
 `;
 
 const NavLinkElement = styled(Space).attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   $v: {
     size: 'xs',
     properties: ['padding-top', 'padding-bottom'],

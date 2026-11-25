@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
+import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor,
+  ThemeColor,
+} from '@weco/common/views/themes/config';
 
 export const MobileNavBackground = styled(Space).attrs({
   className: 'is-hidden-l is-hidden-xl',
@@ -10,14 +14,19 @@ export const MobileNavBackground = styled(Space).attrs({
 })<{ $isOnWhite: boolean }>`
   display: block;
   background-color: ${props =>
-    props.theme.color(props.$isOnWhite ? 'white' : 'neutral.700')};
+    props.theme.color(props.$isOnWhite ? pageBackgroundColor : 'neutral.700')};
 `;
 
 export const FromCollectionsHeading = styled.h2.attrs({
-  className: font('brand-bold', 2),
-})<{ $color: PaletteColor }>`
+  className: typography('heading', 'xl', 'strong', 'brand'),
+})<{ $color: ThemeColor }>`
   color: ${props => props.theme.color(props.$color)};
   margin-bottom: 0;
+`;
+
+export const BodyGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
 `;
 
 export const StretchWrapper = styled.div`

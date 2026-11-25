@@ -9,22 +9,23 @@
     "chromatic": "chromatic --only-changed"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.1.0",
-    "@storybook/addon-a11y": "10.2.15",
-    "@storybook/addon-docs": "10.2.15",
-    "@storybook/cli": "10.2.15",
-    "chromatic": "^15.2.0",
-    "next": "15.5.10",
+    "@faker-js/faker": "^10.6.0",
+    "@prismicio/client": "^7.23.0",
+    "@storybook/addon-a11y": "10.6.2",
+    "@storybook/addon-docs": "10.6.2",
+    "@storybook/cli": "10.6.2",
+    "chromatic": "^18.13.4",
+    "next": "16.4.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.9.3",
-    "webpack": "^5.105.4"
+    "webpack": "^5.112.2"
   },
   "devDependencies": {
-    "@storybook/nextjs-vite": "10.2.15",
-    "eslint-plugin-storybook": "10.2.15",
-    "msw": "^2.12.7",
-    "storybook": "10.2.15",
-    "vite": "^7.3.1"
+    "@storybook/nextjs-vite": "10.6.2",
+    "eslint-plugin-storybook": "10.6.2",
+    "storybook": "10.6.2",
+    "util": "^0.12.5",
+    "vite": "^8.2.0"
   }
 }

@@ -2,15 +2,25 @@ import * as prismic from '@prismicio/client';
 
 import { Props as VideoEmbedProps } from '@weco/common/views/components/VideoEmbed';
 
+export type VideoEmbedTransform = VideoEmbedProps & {
+  title?: string;
+  thumbnailUrl?: string;
+  thumbnailWidth?: number;
+  thumbnailHeight?: number;
+};
+
 export function transformVideoEmbed(
   embed: prismic.EmbedField
-): (VideoEmbedProps & { title?: string }) | undefined {
+): VideoEmbedTransform | undefined {
   if (embed.provider_name === 'Vimeo') {
     return {
       embedUrl: getVimeoEmbedUrl(embed),
       videoProvider: 'Vimeo',
       videoThumbnail:
         (embed.thumbnail_url_with_play_button as string) || undefined,
+      thumbnailUrl: embed.thumbnail_url || undefined,
+      thumbnailWidth: embed.thumbnail_width || undefined,
+      thumbnailHeight: embed.thumbnail_height || undefined,
       title: embed.title || '',
     };
   }
@@ -20,6 +30,9 @@ export function transformVideoEmbed(
       embedUrl: getYouTubeEmbedUrl(embed),
       videoProvider: 'YouTube',
       videoThumbnail: embed.thumbnail_url || undefined,
+      thumbnailUrl: embed.thumbnail_url || undefined,
+      thumbnailWidth: embed.thumbnail_width || undefined,
+      thumbnailHeight: embed.thumbnail_height || undefined,
       title: embed.title || '',
     };
   }

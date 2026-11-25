@@ -6,11 +6,13 @@ import {
 } from '@iiif/presentation-3';
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { file, imageFile } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import {
   CustomContentResource,
@@ -26,7 +28,7 @@ import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
 import { controlDimensions } from '@weco/content/views/pages/works/work/work.helpers';
 
 export const DownloadTable = styled.table.attrs({
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
 })<{ $padFirstHeading?: boolean; $isActive?: boolean }>`
   border-collapse: collapse;
   position: relative;
@@ -37,7 +39,7 @@ export const DownloadTable = styled.table.attrs({
 
   ${props =>
     props.$isActive &&
-    `
+    css`
       tr {
         background: ${props.theme.color('black')};
 
@@ -71,11 +73,11 @@ export const DownloadTable = styled.table.attrs({
 
   ${props =>
     props.$padFirstHeading &&
-    `
-    th:first-child {
-      padding-left: ${controlDimensions.controlWidth}px;
-    }
-  `}
+    css`
+      th:first-child {
+        padding-left: ${controlDimensions.controlWidth}px;
+      }
+    `}
 
   th:first-child,
   td:first-child {
@@ -138,6 +140,7 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
   currentCanvasIndex,
   onClick,
 }) => {
+  const { isKiosk } = useKiosk();
   const { userIsStaffWithRestricted } = useUserContext();
   const isRestricted = canvas && hasRestrictedItem(canvas);
   const isActive =
@@ -172,12 +175,12 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
       icon={
         format?.endsWith('jpeg') || format?.endsWith('gif') ? imageFile : file
       }
-      matchText={true}
       sizeOverride={
         format?.endsWith('jpeg') || format?.endsWith('gif')
           ? undefined
           : 'height: 15px; width: 14px;'
       }
+      matchText
     />
   );
 
@@ -215,15 +218,23 @@ const DownloadItem: FunctionComponent<DownloadItemProps> = ({
                 </>
               )}
             </td>
-            <td>
-              {!isRestricted || userIsStaffWithRestricted ? (
-                <a data-gtm-trigger="download_table_link" href={displayItem.id}>
-                  Download
-                </a>
-              ) : (
-                <>Restricted</>
-              )}
-            </td>
+            {!isKiosk && (
+              <td>
+                {!isRestricted || userIsStaffWithRestricted ? (
+                  <a
+                    href={displayItem.id}
+                    {...dataGtmPropsToAttributes({
+                      trigger: 'download_table_link',
+                      'mime-type': format,
+                    })}
+                  >
+                    Download
+                  </a>
+                ) : (
+                  <>Restricted</>
+                )}
+              </td>
+            )}
           </tr>
         </tbody>
       </DownloadTable>

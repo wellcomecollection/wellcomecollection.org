@@ -70,7 +70,28 @@ resource "aws_cloudfront_cache_policy" "weco_apps" {
     }
 
     query_strings_config {
-      query_string_behavior = "all"
+      query_string_behavior = "allExcept"
+
+      query_strings {
+        items = [
+          # Client-side only: the viewer reads this to decide whether to scroll to a
+          # canvas when a thumbnail link is clicked. The server always returns identical
+          # HTML regardless of its value, so including it in the cache key fragments
+          # the cache without any benefit.
+          "shouldScrollToCanvas",
+          # Client-side only: triggers a redirect banner for users arriving from old
+          # Wellcome Images URLs. Read via window.location.search in a useEffect in
+          # CataloguePageLayout — the server renders identical HTML regardless.
+          "wellcomeImagesUrl",
+          # Tracking/analytics parameters — never read by the server.
+          "utm_campaign",
+          "utm_content",
+          "utm_id",
+          "utm_medium",
+          "utm_source",
+          "utm_term",
+        ]
+      }
     }
   }
 }

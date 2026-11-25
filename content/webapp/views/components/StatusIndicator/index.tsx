@@ -1,7 +1,7 @@
 // eslint-data-component: intentionally omitted
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import {
   addDays,
   isFuture,
@@ -10,7 +10,7 @@ import {
   isSameDayOrBefore,
   today,
 } from '@weco/common/utils/dates';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 
 type Props = {
@@ -26,7 +26,7 @@ export function formatDateRangeWithMessage({
 }: {
   start: Date;
   end: Date;
-}): { text: string; color: PaletteColor } {
+}): { text: string; color: ThemeColor } {
   const closesInThisWeek = isSameDayOrBefore(end, addDays(today(), 6));
 
   const opensToday = isSameDay(start, today());
@@ -39,7 +39,10 @@ export function formatDateRangeWithMessage({
   } else if (closesInThisWeek) {
     return { text: 'Final week', color: 'accent.salmon' };
   } else {
-    return { text: 'Now on', color: 'validation.green' };
+    return {
+      text: 'Now on',
+      color: 'ui.green.40',
+    };
   }
 }
 
@@ -50,12 +53,16 @@ const StatusIndicator: FunctionComponent<Props> = ({
   isLarge = false,
 }: Props) => {
   const { color, text } = statusOverride
-    ? { color: 'neutral.500' as PaletteColor, text: statusOverride }
+    ? { color: 'neutral.500' as ThemeColor, text: statusOverride }
     : formatDateRangeWithMessage({ start, end });
 
   return (
     <TextWithDot
-      className={isLarge ? font('sans', 0) : font('sans', -1)}
+      className={
+        isLarge
+          ? typography('body', 'lg', 'regular')
+          : typography('body', 'md', 'regular')
+      }
       dotColor={color}
       text={text}
     />

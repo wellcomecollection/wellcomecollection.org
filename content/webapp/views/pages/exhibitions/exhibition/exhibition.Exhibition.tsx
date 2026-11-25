@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { getCrop } from '@weco/common/model/image';
 import {
@@ -7,19 +7,17 @@ import {
   ExhibitionTextsDocument,
 } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
-import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { getBreadcrumbItems } from '@weco/common/views/components/Breadcrumb';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { fetchExhibitionRelatedContentClientSide } from '@weco/content/services/prismic/fetch/exhibitions';
 import { EventBasic } from '@weco/content/types/events';
 import {
-  ExhibitionAbout,
+  AboutThisExhibitionContent,
   Exhibition as ExhibitionType,
 } from '@weco/content/types/exhibitions';
 import { Link } from '@weco/content/types/link';
@@ -41,41 +39,44 @@ import { getInfoItems } from './exhibition.helpers';
 
 type Props = {
   exhibition: ExhibitionType;
-  pages: PageType[];
+  relatedContent: (ExhibitionType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
   accessResourceLinks: (Link & { type: string })[];
   exhibitionTexts: ExhibitionTextsDocument[];
   exhibitionHighlightTours: ExhibitionHighlightToursDocument[];
+  shouldHideRelatedStories: boolean;
 };
 
 export type ExhibitionOf = (ExhibitionType | EventBasic)[];
 
+const DateInfo = ({
+  endDate,
+  startDate,
+}: {
+  endDate?: Date;
+  startDate: Date;
+}) => {
+  return endDate ? (
+    <DateRange start={startDate} end={endDate} />
+  ) : (
+    <HTMLDateAndTime variant="date" date={startDate} />
+  );
+};
+
 const Exhibition: FunctionComponent<Props> = ({
   exhibition,
-  pages,
+  relatedContent,
+  aboutThisExhibitionContent,
   accessResourceLinks,
   exhibitionTexts,
   exhibitionHighlightTours,
+  shouldHideRelatedStories,
 }) => {
-  const [exhibitionOfs, setExhibitionOfs] = useState<ExhibitionOf>([]);
-  const [exhibitionAbouts, setExhibitionAbouts] = useState<ExhibitionAbout[]>(
-    []
-  );
   const [isModalActive, setIsModalActive] = useState(false);
 
   const visualStoryLink = accessResourceLinks.find(
     link => link.type === 'visual-story'
   );
-
-  useEffect(() => {
-    const ids = exhibition.relatedIds;
-
-    fetchExhibitionRelatedContentClientSide(ids).then(relatedContent => {
-      if (isNotUndefined(relatedContent)) {
-        setExhibitionOfs(relatedContent.exhibitionOfs);
-        setExhibitionAbouts(relatedContent.exhibitionAbouts);
-      }
-    });
-  }, []);
 
   const extraBreadcrumbs = [
     {
@@ -88,12 +89,6 @@ const Exhibition: FunctionComponent<Props> = ({
       isHidden: true,
     },
   ];
-
-  const DateInfo = exhibition.end ? (
-    <DateRange start={exhibition.start} end={exhibition.end} />
-  ) : (
-    <HTMLDateAndTime variant="date" date={exhibition.start} />
-  );
 
   // This is for content that we don't have the crops for in Prismic.
   const squareImage = getCrop(exhibition.image, 'square');
@@ -108,6 +103,10 @@ const Exhibition: FunctionComponent<Props> = ({
       ? 'Exhibition'
       : exhibition.format.title;
 
+  const isCurrentExhibition = Boolean(
+    exhibition.end && !isPast(exhibition.end)
+  );
+
   const Header = (
     <>
       <PageHeader
@@ -115,7 +114,6 @@ const Exhibition: FunctionComponent<Props> = ({
         breadcrumbs={getBreadcrumbItems('whats-on', extraBreadcrumbs)}
         labels={{ labels: exhibition.labels }}
         title={exhibition.title}
-        fullWidth={true}
         ContentTypeInfo={
           <>
             {!exhibition.isPermanent && (
@@ -124,13 +122,16 @@ const Exhibition: FunctionComponent<Props> = ({
                 style={{ display: 'flex', flexWrap: 'wrap' }}
               >
                 <Space $h={{ size: 'sm', properties: ['margin-right'] }}>
-                  {DateInfo}
+                  <DateInfo
+                    startDate={exhibition.start}
+                    endDate={exhibition.end}
+                  />
                 </Space>
                 <StatusIndicator
                   start={exhibition.start}
                   end={exhibition.end || new Date()}
                   statusOverride={exhibition.statusOverride}
-                  isLarge={true}
+                  isLarge
                 />
               </Space>
             )}
@@ -140,9 +141,10 @@ const Exhibition: FunctionComponent<Props> = ({
         HeroPicture={
           hasHeroPicture ? <HeroPicture fields={exhibition} /> : undefined
         }
-        isFree={true}
-        isContentTypeInfoBeforeMedia={true}
-        includeAccessibilityProvision={true}
+        fullWidth
+        isFree
+        isContentTypeInfoBeforeMedia
+        includeAccessibilityProvision
       />
 
       {exhibition.bslLeafletVideo && (
@@ -170,43 +172,42 @@ const Exhibition: FunctionComponent<Props> = ({
         />
       }
       seasons={exhibition.seasons}
-      hideContributors={true} // We hide contributors as we show them further up the page
+      hideContributors // We hide contributors as we show them further up the page
     >
       {exhibition.uid === 'being-human' ? (
         <ExhibitionBeingHuman
           exhibition={exhibition}
           accessResourceLinks={accessResourceLinks}
           exhibitionFormat={exhibitionFormat}
-          exhibitionOfs={exhibitionOfs}
-          exhibitionAbouts={exhibitionAbouts}
-          pages={pages}
+          relatedContent={relatedContent}
+          aboutThisExhibitionContent={aboutThisExhibitionContent}
         />
       ) : (
         <>
-          {exhibition.end && !isPast(exhibition.end) && (
+          {isCurrentExhibition && (
             <InfoBox title="Visit us" items={getInfoItems(exhibition)} />
           )}
 
-          {(exhibitionOfs.length > 0 || pages.length > 0) && (
+          {relatedContent.length > 0 && (
             <Space
               $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
             >
               <SearchResults
                 variant="default"
                 id="events-list"
-                items={[...exhibitionOfs, ...pages]}
+                items={relatedContent}
                 title={`${exhibitionFormat} events`}
               />
             </Space>
           )}
 
-          {exhibition.end && !isPast(exhibition.end) && (
+          {isCurrentExhibition && (
             <>
               <Grid>
                 <GridCell $sizeMap={{ s: [12] }}>
                   <Space
                     as="h2"
-                    className={font('brand-bold', 1)}
+                    className={typography('heading', 'lg', 'strong', 'brand')}
                     $v={{
                       size: 'md',
                       properties: ['margin-top', 'margin-bottom'],
@@ -219,7 +220,9 @@ const Exhibition: FunctionComponent<Props> = ({
 
               {visualStoryLink && (
                 <>
-                  <h3 className={font('sans-bold', 0)}>Plan your visit</h3>
+                  <h3 className={typography('body', 'lg', 'strong')}>
+                    Plan your visit
+                  </h3>
                   <NextLink href={visualStoryLink.url}>
                     Exhibition visual story
                   </NextLink>{' '}
@@ -230,7 +233,9 @@ const Exhibition: FunctionComponent<Props> = ({
                 </>
               )}
 
-              <h3 className={font('sans-bold', 0)}>{`When you're here`}</h3>
+              <h3
+                className={typography('body', 'lg', 'strong')}
+              >{`When you're here`}</h3>
               <p>
                 Resources designed to support your visit are available online
                 and in the gallery.
@@ -246,7 +251,7 @@ const Exhibition: FunctionComponent<Props> = ({
 
               <Space
                 as="h3"
-                className={font('sans-bold', 0)}
+                className={typography('body', 'lg', 'strong')}
                 $v={{ size: 'md', properties: ['margin-bottom'] }}
               >
                 Access information, tours and queries
@@ -262,17 +267,18 @@ const Exhibition: FunctionComponent<Props> = ({
             </>
           )}
 
-          {exhibitionAbouts.length > 0 && (
-            <Space
-              $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
-            >
-              <SearchResults
-                variant="default"
-                items={exhibitionAbouts}
-                title="Related stories"
-              />
-            </Space>
-          )}
+          {!shouldHideRelatedStories &&
+            aboutThisExhibitionContent.length > 0 && (
+              <Space
+                $v={{ size: 'xl', properties: ['margin-top', 'margin-bottom'] }}
+              >
+                <SearchResults
+                  variant="default"
+                  items={aboutThisExhibitionContent}
+                  title="Related stories"
+                />
+              </Space>
+            )}
 
           {exhibition.contributors.length > 0 && (
             <Contributors contributors={exhibition.contributors} />

@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { DataGtmProps } from '@weco/common/utils/gtm';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
@@ -50,24 +51,41 @@ const WorkContainer = styled.li<{ $columns: 3 | 4 }>`
 
 type Props = {
   works: WorkBasic[];
+  dataGtmProps?: Pick<DataGtmProps, 'category-label'>;
   columns?: 3 | 4;
 };
 
-const WorkCards: FunctionComponent<Props> = ({ works, columns = 4 }) => {
+const WorkCards: FunctionComponent<Props> = ({
+  works,
+  dataGtmProps,
+  columns = 4,
+}) => {
   if (works.length === 0) return null;
 
   return (
     <Space
-      $v={{ size: POPOUT_IMAGE_OFFSET, properties: ['padding-top'] }}
       data-component="work-cards"
+      $v={{ size: POPOUT_IMAGE_OFFSET, properties: ['padding-top'] }}
     >
       {works.length === 1 ? (
-        <WorkCard item={works[0]} />
+        <WorkCard
+          item={works[0]}
+          dataGtmProps={{
+            'position-in-list': '1',
+            'category-label': dataGtmProps?.['category-label'],
+          }}
+        />
       ) : (
         <WorksList>
-          {works.map(item => (
+          {works.map((item, index) => (
             <WorkContainer key={item.id} $columns={columns}>
-              <WorkCard item={item} />
+              <WorkCard
+                item={item}
+                dataGtmProps={{
+                  'position-in-list': `${index + 1}`,
+                  'category-label': dataGtmProps?.['category-label'],
+                }}
+              />
             </WorkContainer>
           ))}
         </WorksList>

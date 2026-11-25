@@ -2,19 +2,19 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { ticket } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { Event } from '@weco/content/types/events';
 
 const Location = styled(Space).attrs({
   as: 'p',
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })``;
 
 const Copy = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
@@ -30,7 +30,12 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
   return (
     <div data-component="eventbrite-buttons">
       {event.isCompletelySoldOut ? (
-        <Button variant="ButtonSolid" disabled={true} text="Fully booked" />
+        <Button
+          variant="ButtonSolid"
+          hierarchy="primary"
+          text="Fully booked"
+          disabled
+        />
       ) : (
         <>
           {event.eventbriteId && (
@@ -47,12 +52,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 {event.inVenueSoldOut ? (
                   <Button
                     variant="ButtonSolid"
-                    disabled={true}
+                    hierarchy="primary"
                     text="Fully booked"
+                    disabled
                   />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
                     icon={ticket}
                     dataGtmProps={{
@@ -73,12 +80,14 @@ const EventbriteButtons: FunctionComponent<Props> = ({ event }) => {
                 {event.onlineSoldOut ? (
                   <Button
                     variant="ButtonSolid"
-                    disabled={true}
+                    hierarchy="primary"
                     text="Fully booked"
+                    disabled
                   />
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`https://www.eventbrite.com/e/${event.onlineEventbriteId}`}
                     icon={ticket}
                     dataGtmProps={{

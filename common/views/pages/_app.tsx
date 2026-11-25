@@ -5,16 +5,19 @@ import { ThemeProvider } from 'styled-components';
 
 import { ApmContextProvider } from '@weco/common/contexts/ApmContext';
 import { AppContextProvider } from '@weco/common/contexts/AppContext';
+import {
+  getKioskExperienceName,
+  kioskExperienceNames,
+  KioskProvider,
+} from '@weco/common/contexts/KioskContext';
 import { SearchContextProvider } from '@weco/common/contexts/SearchContext';
 import { UserContextProvider } from '@weco/common/contexts/UserContext';
-import useIsFontsLoaded from '@weco/common/hooks/useIsFontsLoaded';
 import { useScrollTracking } from '@weco/common/hooks/useScrollTracking';
 import { ServerDataContext } from '@weco/common/server-data/Context';
 import {
   defaultServerData,
   isServerData,
   ServerData,
-  SimplifiedServerData,
 } from '@weco/common/server-data/types';
 import { AppErrorProps } from '@weco/common/services/app';
 import { HotjarLoader } from '@weco/common/services/app/analytics-scripts/hotjar-loader';
@@ -23,13 +26,14 @@ import useMaintainPageHeight from '@weco/common/services/app/useMaintainPageHeig
 import usePrismicPreview from '@weco/common/services/app/usePrismicPreview';
 import { deserialiseProps } from '@weco/common/utils/json';
 import CivicUK from '@weco/common/views/components/CivicUK';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import GlobalSvgDefinitions from '@weco/common/views/components/GlobalSvgDefinitions';
+import InactivityRedirect from '@weco/common/views/components/InactivityRedirect';
+import InfoBanner from '@weco/common/views/components/InfoBanner';
 import LoadingIndicator from '@weco/common/views/components/LoadingIndicator';
 import ErrorPage from '@weco/common/views/layouts/ErrorPage';
-import {
-  createThemeValues,
-  GlobalStyle,
-} from '@weco/common/views/themes/default';
+import { themeValues as theme } from '@weco/common/views/themes/config';
+import { GlobalStyle } from '@weco/common/views/themes/default';
 
 // Error pages can't send anything via the data fetching methods as
 // the page needs to be rendered as soon as the error happens.
@@ -77,10 +81,10 @@ export type ServerSideProps<T = NonNullable<unknown>> = [T] extends [
   Record<string, never>,
 ]
   ? {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     }
   : NotAny<T> & {
-      serverData: SimplifiedServerData;
+      serverData: ServerData;
     };
 
 export type ServerSidePropsOrAppError<T extends ServerSideProps<unknown>> =
@@ -108,6 +112,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
 
   const serverData = isServerDataSet ? pageProps.serverData : defaultServerData;
 
+  const kioskModeCookie = serverData.toggles.modes.kioskMode;
+  const experienceName = getKioskExperienceName(kioskModeCookie);
+
   useMaintainPageHeight();
 
   const onConsentChanged = (event: CookieConsentEvent) => {
@@ -125,8 +132,6 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   };
 
   useEffect(() => {
-    document.documentElement.classList.add('enhanced');
-
     window.addEventListener('consentChanged', onConsentChanged);
 
     return () => {
@@ -148,6 +153,9 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
     // Banner shouldn't appear in Prismic's Slice Simulator (or Page Builder)
     if (router.route === '/slice-simulator') return true;
 
+    // Banner shouldn't appear in kiosk mode (consent is always granted)
+    if (kioskModeCookie) return true;
+
     return false;
   };
 
@@ -157,22 +165,42 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
   const componentProps = deserialiseProps(pageProps) as Record<string, unknown>;
 
   return (
-    <>
-      <ApmContextProvider>
-        <ServerDataContext.Provider value={serverData}>
-          <ThemeProvider theme={createThemeValues(serverData.toggles)}>
-            <UserContextProvider>
-              <AppContextProvider>
-                <SearchContextProvider>
-                  <GlobalStyle
-                    toggles={serverData.toggles}
-                    isFontsLoaded={useIsFontsLoaded()}
-                  />
+    <ApmContextProvider>
+      <ServerDataContext.Provider value={serverData}>
+        <ThemeProvider theme={theme}>
+          <UserContextProvider>
+            <AppContextProvider>
+              <SearchContextProvider>
+                <ConditionalWrapper
+                  condition={!!kioskModeCookie}
+                  wrapper={children => (
+                    <KioskProvider
+                      cookieContent={kioskModeCookie!}
+                      readingRoomStories={serverData.prismic.readingRoomStories}
+                      tendernessAndRageContent={
+                        serverData.prismic.tendernessAndRageContent
+                      }
+                    >
+                      {children}
+                    </KioskProvider>
+                  )}
+                >
+                  <GlobalStyle />
 
                   <GlobalSvgDefinitions />
                   <LoadingIndicator />
 
-                  {displayCookieBanner && <CivicUK apiKey={civicUkApiKey} />}
+                  {experienceName ===
+                    kioskExperienceNames.tendernessAndRage && (
+                    <InfoBanner variant="kioskTRBanners" />
+                  )}
+
+                  {displayCookieBanner && (
+                    <CivicUK
+                      apiKey={civicUkApiKey}
+                      defer={serverData.consentStatus.cookieExists}
+                    />
+                  )}
                   <HotjarLoader />
 
                   {!pageProps.err &&
@@ -183,13 +211,15 @@ const WecoApp: NextPage<WecoAppProps> = ({ pageProps, router, Component }) => {
                       title={pageProps.err.message}
                     />
                   )}
-                </SearchContextProvider>
-              </AppContextProvider>
-            </UserContextProvider>
-          </ThemeProvider>
-        </ServerDataContext.Provider>
-      </ApmContextProvider>
-    </>
+
+                  {kioskModeCookie && <InactivityRedirect />}
+                </ConditionalWrapper>
+              </SearchContextProvider>
+            </AppContextProvider>
+          </UserContextProvider>
+        </ThemeProvider>
+      </ServerDataContext.Provider>
+    </ApmContextProvider>
   );
 };
 

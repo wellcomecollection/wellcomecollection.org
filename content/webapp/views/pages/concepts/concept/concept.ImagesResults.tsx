@@ -1,7 +1,7 @@
 import { FunctionComponent, useMemo } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import { ReturnedResults } from '@weco/common/utils/search';
 import Space from '@weco/common/views/components/styled/Space';
@@ -32,10 +32,10 @@ const ThemeImagesWrapper = styled(Space).attrs({
 
 const SectionHeading = styled(Space).attrs({
   as: 'h3',
-  className: font('sans-bold', 1),
+  className: typography('body', 'xl', 'strong'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('neutral.10')};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -95,6 +95,7 @@ const ImageSection: FunctionComponent<Props> = ({
             name="View all"
             url={getAllImagesLink(type, concept)}
             colors={theme.buttonColors.greenGreenWhite}
+            hierarchy="secondary"
           />
         )}
       </Space>
@@ -118,7 +119,7 @@ const ImagesResults: FunctionComponent<{
     <>
       <ThemeImagesWrapper as="section" data-testid="images-section">
         <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-          <FromCollectionsHeading $color="white" id="images">
+          <FromCollectionsHeading $color="neutral.10" id="images">
             Images from the collections
           </FromCollectionsHeading>
         </Space>

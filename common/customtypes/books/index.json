@@ -93,61 +93,16 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "gifVideo": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
-            "editorialImageGallery": {
-              "type": "SharedSlice"
-            },
-            "map": {
-              "type": "SharedSlice"
-            },
-            "contentList": {
-              "type": "SharedSlice"
-            },
-            "embed": {
-              "type": "SharedSlice"
-            },
-            "titledTextList": {
-              "type": "SharedSlice"
-            },
-            "textAndImage": {
-              "type": "SharedSlice"
-            },
             "text": {
-              "type": "SharedSlice"
-            },
-            "searchResults": {
-              "type": "SharedSlice"
-            },
-            "textAndIcons": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
               "type": "SharedSlice"
             },
             "quote": {
               "type": "SharedSlice"
             },
+            "contentList": {
+              "type": "SharedSlice"
+            },
             "infoBlock": {
-              "type": "SharedSlice"
-            },
-            "contact": {
-              "type": "SharedSlice"
-            },
-            "collectionVenue": {
-              "type": "SharedSlice"
-            },
-            "audioPlayer": {
               "type": "SharedSlice"
             }
           }
@@ -165,7 +120,9 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": ["editorial-contributor-roles"]
+                "customtypes": [
+                  "editorial-contributor-roles"
+                ]
               }
             },
             "contributor": {
@@ -173,7 +130,10 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": ["people", "organisations"]
+                "customtypes": [
+                  "people",
+                  "organisations"
+                ]
               }
             },
             "description": {
@@ -269,7 +229,9 @@
               "config": {
                 "label": "Season",
                 "select": "document",
-                "customtypes": ["seasons"],
+                "customtypes": [
+                  "seasons"
+                ],
                 "placeholder": "Select a Season"
               }
             }
@@ -292,7 +254,9 @@
               "config": {
                 "label": "Parent",
                 "select": "document",
-                "customtypes": ["exhibitions"],
+                "customtypes": [
+                  "exhibitions"
+                ],
                 "placeholder": "Select a parent"
               }
             }

@@ -1,4 +1,4 @@
-export type ToggleTypes = 'permanent' | 'experimental' | 'test' | 'stage';
+type ToggleTypes = 'permanent' | 'experimental' | 'test' | 'stage';
 
 type ToggleBase = {
   id: string;
@@ -8,13 +8,21 @@ type ToggleBase = {
   documentationLink?: string;
 };
 
-export type ToggleDefinition = ToggleBase & {
+export type FeatureFlagDefinition = ToggleBase & {
   initialValue: boolean;
 };
 
-export type PublishedToggle = ToggleBase & {
-  defaultValue: boolean;
+// Only ever populated for experimental toggles. Shared by feature flags and
+// phased flags - both go public and get tracked this way; a mode never does.
+type WithLifecycleDates = {
+  dateCreated?: string;
+  dateActivated?: string;
 };
+
+export type PublishedFeatureFlag = ToggleBase &
+  WithLifecycleDates & {
+    defaultValue: boolean;
+  };
 
 export type ABTest = {
   id: string;
@@ -23,15 +31,67 @@ export type ABTest = {
   range: [number, number];
 };
 
-const toggles = {
-  // This should probably be called `features` as we have feature toggles, and a/b testing toggles.
+export type ModeOption = {
+  id: string;
+  label: string;
+  /** Shown under the mode's dropdown on the dashboard once this option is selected. */
+  description?: string;
+};
+
+export type ModeDefinition = {
+  id: string;
+  title: string;
+  description: string;
+  options: readonly ModeOption[];
+};
+
+export type PhaseDefinition = {
+  id: string;
+  label: string;
+  // What THIS phase specifically adds — keep to ~20 words. Anything longer
+  // belongs in the feature's own `documentationLink` instead.
+  description: string;
+};
+
+export type PhasedFlagDefinition = ToggleBase & {
+  // Ordered earliest to latest. Selecting a phase in the dashboard shows
+  // that phase's work plus everything from the phases before it.
+  phases: readonly PhaseDefinition[];
+  // The phase that's public the first time this flag is published - for a
+  // feature whose earlier phases already shipped behind a boolean flag.
+  // Like a feature flag's initialValue, it's only read for a brand new
+  // flag; after that the public phase changes via setDefaultValueFor.
+  initialPhase?: string;
+};
+
+export type PublishedPhasedFlag = ToggleBase &
+  WithLifecycleDates & {
+    phases: readonly PhaseDefinition[];
+    // What's actually public. Null the first time a phased flag is
+    // published, unless its definition set an initialPhase (for a feature
+    // whose earlier phases already shipped behind a boolean flag) - either
+    // way, set explicitly from then on as each phase ships, the same way
+    // PublishedFeatureFlag.defaultValue works for booleans.
+    defaultPhase: string | null;
+  };
+
+const toggleConfig = {
+  // Feature flags (permanent toggles, experiments, stage toggles)
   // Toggles of type 'stage' will only be applied on stage
-  toggles: [
+  featureFlags: [
     {
       id: 'apiToolbar',
       title: 'API toolbar',
       initialValue: false,
       description: 'A toolbar to help us navigate the secret depths of the API',
+      type: 'permanent',
+    },
+    {
+      id: 'toggleWidget',
+      title: 'Toggle widget',
+      initialValue: false,
+      description:
+        'A floating widget to preview a toggle a dashboard user has starred, without going through the toggles dashboard.',
       type: 'permanent',
     },
     {
@@ -57,6 +117,14 @@ const toggles = {
       title: 'Staging API',
       initialValue: false,
       description: 'Use the staging Wellcome APIs',
+      type: 'permanent',
+    },
+    {
+      id: 'identityApiV2',
+      title: 'Identity API v2',
+      initialValue: false,
+      description:
+        'Send account requests to the v2 identity API, which is backed by FOLIO, for patrons linked to FOLIO. Everyone else stays on v1.',
       type: 'permanent',
     },
     {
@@ -91,56 +159,138 @@ const toggles = {
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
       type: 'permanent',
     },
+    // Not read by the code any more. Kept so a toggles deploy before the code
+    // reaches prod can't switch the brand off; remove it in #13923
     {
-      id: 'extendedViewer',
-      title: 'Allow viewer to render video, audio and pdfs',
+      id: 'brandUpdate',
+      title: 'Brand update',
+      initialValue: false,
+      description: 'Shows the new brand values.',
+      type: 'experimental',
+    },
+    {
+      id: 'largeArchiveContentsTree',
+      title: 'Large archive contents tree',
       initialValue: false,
       description:
-        'Displays a new version of the viewer that can render video, audio and pdfs in addition to images',
+        'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
       type: 'experimental',
     },
     {
-      id: 'a11yPrototype',
-      title: 'Accessibility prototype page',
-      initialValue: false,
-      description: 'Allows access to the accessibility prototype page',
-      type: 'experimental',
-    },
-    {
-      id: 'thematicBrowsing',
-      title: 'Thematic browsing: category pages',
-      initialValue: false,
-      description: 'Enables access to new thematic browsing category pages.',
-      type: 'experimental',
-    },
-    {
-      id: 'thematicBrowsingSubCategory',
-      title: 'Thematic browsing: sub-category pages',
+      id: 'masonryImages',
+      title: 'Masonry images',
       initialValue: false,
       description:
-        'Enables access to new thematic browsing sub-category pages.',
+        'Shows image search results in a masonry grid, with titles under the images. Only applies when the image sidebar preview is on.',
       type: 'experimental',
     },
+  ] as const,
+  // Phased flags: like a feature flag, but with an ordered set of phases
+  // instead of on/off. Selecting a phase always includes every phase before it.
+  phasedFlags: [
     {
-      id: 'semanticSearchPrototype',
-      title: 'Semantic search prototype',
-      initialValue: false,
+      id: 'thematicBrowsingPhases',
+      title: 'Thematic browsing',
       description:
-        'Enables the semantic search prototype with predefined search terms and API selection. If enabled, please ensure the Semantic search comparison toggle is disabled.',
+        'Staged rollout of thematic browsing, replacing the thematicBrowsing and thematicBrowsingSubCategory feature flags.',
       type: 'experimental',
+      phases: [
+        {
+          id: 'categoryPages',
+          label: 'Phase 1',
+          description:
+            'The three thematic browsing category pages (subjects, people & organisations, types & techniques) become accessible.',
+        },
+        {
+          id: 'subCategoryPages',
+          label: 'Phase 2',
+          description:
+            'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
+        },
+      ],
     },
     {
-      id: 'semanticSearchComparison',
-      title: 'Semantic search comparison',
-      initialValue: false,
-      description:
-        'Allows use of semantic searches and facilitates the display of the semantic search results side by side with the standard search results for comparison. If enabled, please ensure the Semantic search prototype toggle is disabled.',
+      id: 'archiveBrowsingPhases',
+      title: 'Archive browsing',
+      description: 'Staged rollout of archive browsing.',
       type: 'experimental',
+      phases: [
+        {
+          id: 'mvp',
+          label: 'Phase 1',
+          description:
+            "The archives landing page, archive category pages, and the 'Browse archives' link on the archive card list.",
+        },
+      ],
+    },
+    {
+      id: 'imageSidebarPhases',
+      title: 'Image sidebar preview',
+      description:
+        'Staged rollout of the image sidebar preview, replacing the image modal on the image search page.',
+      type: 'experimental',
+      phases: [
+        {
+          id: 'phase1',
+          label: 'Phase 1',
+          description:
+            'Clicking an image opens its details in a sidebar instead of a modal, with the selected image highlighted in the grid.',
+        },
+        {
+          id: 'phase2',
+          label: 'Phase 2',
+          description: 'Re-sizable viewing pane.',
+        },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
+          description:
+            'Previous and next buttons (and arrow keys) in the sidebar, to move through the results without going back to the grid.',
+        },
+      ],
     },
   ] as const,
   // We have to include a reference to any test toggles here as well as in the cache dir
   // because they are deployed separately and consequently can't share a source of truth
   tests: [] as ABTest[],
+  // Modes are toggles whose value is a selected option string rather than a boolean.
+  // They are activated via a cookie containing the option value.
+  modes: [
+    {
+      id: 'kioskMode',
+      title: 'Kiosk mode',
+      description:
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
+      options: [
+        {
+          id: 'devMode',
+          label: 'Developer mode',
+          description:
+            'Test kiosk features without setting off the Inactivity modal.',
+        },
+        { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
+        { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
+        { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
+        { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+        { id: 'LIB-iPad1', label: 'Library entrance: iPad 1' },
+        { id: 'LIB-iPad2', label: 'Library entrance: iPad 2' },
+      ],
+    },
+    {
+      id: 'cataloguePipeline',
+      title: 'Catalogue pipeline',
+      description:
+        'Serves works, images and concepts from the selected catalogue pipeline, by adding its <code>elasticCluster</code> param to every catalogue API query. If that cluster is unavailable, requests fail with an error page rather than falling back to the default pipeline (theme cards render empty instead).',
+      options: [
+        {
+          id: 'folio-testing',
+          label: 'FOLIO pipeline',
+          description:
+            'A preview of the 2026-10-20 FOLIO pipeline, so it can be checked before it replaces the default.',
+        },
+      ],
+    },
+  ] as const,
 };
 
-export default toggles;
+export default toggleConfig;

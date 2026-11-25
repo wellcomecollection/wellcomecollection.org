@@ -1,25 +1,34 @@
 import NextLink from 'next/link';
 import styled from 'styled-components';
 
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
 import { toWorksItemLink } from '@weco/content/views/components/ItemLink';
+import {
+  getCanvasesForPage,
+  queryParamToArrayIndex,
+  thumbnailsPageSize,
+} from '@weco/content/views/pages/works/work/work.helpers';
 
-import { queryParamToArrayIndex } from '.';
 import IIIFCanvasThumbnail from './IIIFCanvasThumbnail';
-import { thumbnailsPageSize } from './Paginators';
 
-const ThumbnailsContainer = styled.div`
+const ThumbnailsContainer = styled.div<{
+  $isTRKiosk?: boolean;
+  $isNonTRKiosk?: boolean;
+}>`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   position: relative;
   border-top: none;
   height: 1800px;
-  ${props => `
-    ${props.theme.media('lg')(`
-    height: calc(100vh - ${props.theme.navHeight}px);
+  ${props =>
+    props.theme.media('lg')(`
+    height: ${props.theme.getViewerHeight(
+      props.$isTRKiosk || false,
+      props.$isNonTRKiosk || false
+    )};
     `)}
-  `}
 `;
 
 const ThumbnailLink = styled(NextLink)`
@@ -31,30 +40,29 @@ const ThumbnailLink = styled(NextLink)`
 
 export const Thumbnails = () => {
   const { work, query, transformedManifest } = useItemViewerContext();
-  const { canvases } = { ...transformedManifest };
-  const navigationCanvases = canvases
-    ? [...Array(thumbnailsPageSize)]
-        .map(
-          (_, i) => thumbnailsPageSize * queryParamToArrayIndex(query.page) + i
-        )
-        .map(i => canvases?.[i])
-        .filter(Boolean)
-    : [];
+  const { isKiosk, isTendernessAndRageKiosk } = useKiosk();
+  const navigationCanvases = getCanvasesForPage({
+    canvases: transformedManifest?.canvases,
+    page: query.page,
+  });
 
   return (
-    <ThumbnailsContainer id="xyz">
+    <ThumbnailsContainer
+      $isTRKiosk={isTendernessAndRageKiosk}
+      $isNonTRKiosk={isKiosk && !isTendernessAndRageKiosk}
+    >
       {navigationCanvases &&
         navigationCanvases.map((canvas, i) => {
-          const canvasParam =
+          const canvasNumber =
             thumbnailsPageSize * queryParamToArrayIndex(query.page) + (i + 1);
           return (
             <ThumbnailLink
               key={canvas.id}
-              aria-current={canvasParam === query.canvas}
+              aria-current={canvasNumber === query.canvas}
               {...toWorksItemLink({
                 workId: work.id,
                 props: {
-                  canvas: canvasParam,
+                  canvas: canvasNumber,
                   page: query.page,
                   manifest: query.manifest,
                   query: query.query,
@@ -63,7 +71,7 @@ export const Thumbnails = () => {
               scroll={false}
               replace
             >
-              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasParam} />
+              <IIIFCanvasThumbnail canvas={canvas} thumbNumber={canvasNumber} />
             </ThumbnailLink>
           );
         })}

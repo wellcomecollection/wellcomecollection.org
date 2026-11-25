@@ -10,7 +10,7 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { WorkTypeStats } from '@weco/content/services/wellcome/catalogue/workTypeAggregations';
 import { toSearchImagesLink } from '@weco/content/views/components/SearchPagesLink/Images';
@@ -301,7 +301,7 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
           <div>
             <CountDisplayContainer
               aria-hidden="true"
-              className={font('brand-bold', 1)}
+              className={typography('heading', 'lg', 'strong', 'brand')}
               ref={el => {
                 countContainerRef.current = el as HTMLDivElement | null;
                 if (registerNumberRef)
@@ -313,9 +313,11 @@ const WorkTypeItem: FunctionComponent<WorkTypeItemProps> = ({
             {/* Screen reader only text with stable count */}
             <span className="visually-hidden">{accessibleCountText}</span>
           </div>
-          <div className={font('sans', 1)}>{stats.label}</div>
+          <div className={typography('body', 'xl', 'regular')}>
+            {stats.label}
+          </div>
           {description && (
-            <DescriptionText className={font('sans', 0)}>
+            <DescriptionText className={typography('body', 'lg', 'regular')}>
               {description}
             </DescriptionText>
           )}
@@ -333,25 +335,30 @@ type WorkTypesListProps = {
     audioAndVideo: WorkTypeStats;
     ephemera: WorkTypeStats;
   };
-  icons?: {
-    book: string;
-    image: string;
-    archives: string;
-    videoAudio: string;
-    ephemera: string;
-  };
+  icons?: WorkTypeIcons;
+};
+
+type WorkTypeIcons = {
+  book: string;
+  image: string;
+  archives: string;
+  videoAudio: string;
+  ephemera: string;
+};
+
+const defaultIcons: WorkTypeIcons = {
+  book: '/icons/book.svg',
+  image: '/icons/image.svg',
+  archives: '/icons/archives.svg',
+  videoAudio: '/icons/video-audio.svg',
+  ephemera: '/icons/ephemera.svg',
 };
 
 const WorkTypesList: React.FC<WorkTypesListProps> = ({
   collectionStats,
-  icons = {
-    book: '/icons/book.svg',
-    image: '/icons/image.svg',
-    archives: '/icons/archives.svg',
-    videoAudio: '/icons/video-audio.svg',
-    ephemera: '/icons/ephemera.svg',
-  },
+  icons: iconsOverride,
 }) => {
+  const icons = iconsOverride || defaultIcons;
   const [startAnimations, setStartAnimations] = useState(false);
   const numberEls = useRef<Set<Element>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);

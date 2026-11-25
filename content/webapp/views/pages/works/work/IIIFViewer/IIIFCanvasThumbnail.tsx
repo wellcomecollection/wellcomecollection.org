@@ -4,18 +4,19 @@ import styled from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { audio, file, pdf, video } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import Icon from '@weco/common/views/components/Icon';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
-import { TransformedCanvas } from '@weco/content/types/manifest';
+import { mediaBackgroundColor } from '@weco/common/views/themes/config';
+import { IIIFItemProps, TransformedCanvas } from '@weco/content/types/manifest';
 import {
   hasRestrictedItem,
   isChoiceBody,
-  isPDFCanvas,
+  shouldTreatAsPDFCanvas,
 } from '@weco/content/utils/iiif/v3';
-import { IIIFItemProps } from '@weco/content/views/pages/works/work/IIIFItem';
+import { hasRealLabel } from '@weco/content/utils/works';
 
 import IIIFViewerImage from './IIIFViewerImage';
 import Padlock from './Padlock';
@@ -27,7 +28,7 @@ const IIIFViewerThumb = styled.span`
   width: 300px;
   max-width: 90%;
   border-radius: 8px;
-  background: ${props => props.theme.color('black')};
+  background: ${props => props.theme.color(mediaBackgroundColor)};
   padding: 12px 16px;
   text-align: center;
   margin: auto;
@@ -59,8 +60,15 @@ const ImageContainer = styled.span`
   }
 `;
 
+const IconWrapper = styled.span`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const IIIFViewerThumbNumber = styled.span.attrs({
-  className: font('sans-bold', -2),
+  className: typography('body', 'sm', 'strong'),
 })`
   padding: 3px 6px;
   border-radius: 3px;
@@ -69,51 +77,51 @@ const IIIFViewerThumbNumber = styled.span.attrs({
 
   [aria-current='true'] & {
     color: ${props => props.theme.color('black')};
-    background-color: ${props => props.theme.color('yellow')};
+    background-color: ${props => props.theme.color('neutral.10')};
   }
 `;
 
-const IconWrapper = styled.span`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+function getPlaceholderIcon(
+  itemType: string | undefined,
+  canvas: TransformedCanvas
+) {
+  if (itemType === 'Sound') return audio;
+  if (itemType === 'Video') return video;
+  if (shouldTreatAsPDFCanvas(canvas)) return pdf;
+  return file;
+}
 
 type IIIFCanvasThumbnailProps = {
   canvas: TransformedCanvas;
   thumbNumber: number;
-  highlightImage?: boolean;
+  isHighlighted?: boolean;
   placeholderId?: string;
 };
 
 const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
   canvas,
   thumbNumber,
-  highlightImage,
+  isHighlighted,
   placeholderId,
 }: IIIFCanvasThumbnailProps) => {
   const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
   const { userIsStaffWithRestricted } = useUserContext();
+
   const isRestricted = hasRestrictedItem(canvas);
   const urlTemplate = canvas.imageServiceId
     ? iiifImageTemplate(canvas.imageServiceId)
     : undefined;
-
   const thumbnailSrc =
     canvas?.thumbnailImage?.url ||
     (urlTemplate && urlTemplate({ size: '200,' })) ||
     placeholderId;
-
   const itemType = isChoiceBody(canvas?.painting?.[0])
     ? (canvas.painting[0].items[0] as IIIFExternalWebResource | IIIFItemProps)
         ?.type
     : canvas.painting?.[0]?.type;
-
-  const thumbnailSrcIsPlaceholder =
+  const isThumbnailSrcPlaceholder =
     thumbnailSrc?.includes('/born-digital/placeholder-thumb/') || false;
-
-  const hasIconPlaceholder = !thumbnailSrc || thumbnailSrcIsPlaceholder;
+  const shouldShowIconPlaceholder = !thumbnailSrc || isThumbnailSrcPlaceholder;
 
   return (
     <IIIFViewerThumb>
@@ -128,14 +136,13 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
             </>
           )}
 
-          {!isRestricted && (
+          {(!isRestricted || userIsStaffWithRestricted) && (
             <>
-              {!hasIconPlaceholder ? (
+              {!shouldShowIconPlaceholder ? (
                 <>
-                  {!thumbnailLoaded && <LL $small={true} $lighten={true} />}
+                  {!thumbnailLoaded && <LL $small $lighten />}
 
                   <IIIFViewerImage
-                    highlightImage={highlightImage}
                     width={canvas?.thumbnailImage?.width || 30}
                     src={thumbnailSrc}
                     srcSet=""
@@ -144,28 +151,17 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
                     loadHandler={() => {
                       setThumbnailLoaded(true);
                     }}
+                    isHighlighted={isHighlighted}
                   />
                 </>
               ) : (
-                <>
-                  {hasIconPlaceholder && (
-                    <IconWrapper>
-                      <Icon
-                        icon={
-                          itemType === 'Sound'
-                            ? audio
-                            : itemType === 'Video'
-                              ? video
-                              : isPDFCanvas(canvas)
-                                ? pdf
-                                : file
-                        }
-                        iconColor="white"
-                        sizeOverride="width: 53px; height: 53px;"
-                      />
-                    </IconWrapper>
-                  )}
-                </>
+                <IconWrapper>
+                  <Icon
+                    icon={getPlaceholderIcon(itemType, canvas)}
+                    iconColor="white"
+                    sizeOverride="width: 53px; height: 53px;"
+                  />
+                </IconWrapper>
               )}
             </>
           )}
@@ -174,7 +170,7 @@ const IIIFCanvasThumbnail: FunctionComponent<IIIFCanvasThumbnailProps> = ({
         <div>
           <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
             <IIIFViewerThumbNumber>
-              {canvas.label?.trim() !== '-' && 'page'} {canvas.label}
+              {hasRealLabel(canvas.label?.trim()) && 'page'} {canvas.label}
             </IIIFViewerThumbNumber>
           </Space>
           <div>

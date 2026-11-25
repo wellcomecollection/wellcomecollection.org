@@ -8,15 +8,14 @@ import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { plus } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
-
 const IconContainer = styled.div<{ $darkTheme?: boolean }>`
   .icon {
     border-radius: 50%;
     border: 2px solid
-      ${props => props.theme.color(props.$darkTheme ? 'yellow' : 'black')};
+      ${props => props.theme.color(props.$darkTheme ? 'blue.30' : 'black')};
     width: 20px;
     height: 20px;
     transition: transform ${props => props.theme.transitionProperties};
@@ -24,12 +23,12 @@ const IconContainer = styled.div<{ $darkTheme?: boolean }>`
 `;
 
 const Control = styled.button.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   color: inherit;
   display: flex;
   align-items: center;
-
+  line-height: 1;
   cursor: pointer;
   padding: 0;
 `;
@@ -90,7 +89,7 @@ const CollapsibleContent: FunctionComponent<Props> = ({
           <Space as="span" $h={{ size: 'xs', properties: ['margin-right'] }}>
             <IconContainer $darkTheme={darkTheme}>
               <Icon
-                iconColor={darkTheme ? 'yellow' : undefined}
+                iconColor={darkTheme ? 'blue.30' : undefined}
                 icon={plus}
                 rotate={showContent ? 45 : undefined}
               />

@@ -1,7 +1,6 @@
-const babelParser = require('@babel/eslint-parser');
 const js = require('@eslint/js');
 const prettierConfig = require('eslint-config-prettier');
-const importPlugin = require('eslint-plugin-import');
+const importXPlugin = require('eslint-plugin-import-x');
 const jestPlugin = require('eslint-plugin-jest');
 const jestPlaywrightPlugin = require('eslint-plugin-jest-playwright');
 const localRulesPlugin = require('eslint-plugin-local-rules');
@@ -12,7 +11,7 @@ const tseslint = require('typescript-eslint');
 
 const sharedRules = {
   'eol-last': 'error',
-  'import/order': [
+  'import-x/order': [
     'warn',
     {
       groups: [
@@ -45,15 +44,31 @@ const sharedRules = {
   'no-restricted-syntax': [
     'error',
     "JSXElement.children > [expression.callee.property.name='stringify']",
+    {
+      // `${cond && '...'}` in a plain (untagged) string prints the text "false" (or
+      // "null"/"undefined") when cond is falsy. Tagged templates (styled, css) are
+      // excluded: styled-components drops falsy interpolations there.
+      selector:
+        ":not(TaggedTemplateExpression) > TemplateLiteral > LogicalExpression[operator='&&']",
+      message:
+        "`&&` directly inside a plain template literal prints 'false' when falsy. Use a ternary with an empty string fallback instead.",
+    },
   ],
   'no-return-assign': 'off',
+  'object-shorthand': ['warn', 'always'],
+  'prefer-arrow-callback': 'warn',
+  'prefer-template': 'warn',
   'prettier/prettier': 'error',
-  'react/jsx-uses-vars': 'error',
   'react/no-deprecated': 'error',
   'react/react-in-jsx-scope': 'off',
+  'react/jsx-boolean-value': 'warn',
   'react/jsx-curly-brace-presence': [
     'warn',
     { props: 'never', children: 'never', propElementValues: 'always' },
+  ],
+  'react/jsx-sort-props': [
+    'error',
+    { shorthandLast: true, noSortAlphabetically: true },
   ],
   'react-hooks/rules-of-hooks': 'error',
   'sort-imports': [
@@ -83,14 +98,11 @@ module.exports = [
   {
     files: ['**/*.js', '**/*.jsx'],
     languageOptions: {
-      parser: babelParser,
       parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
         ecmaFeatures: {
           jsx: true,
-        },
-        requireConfigFile: false,
-        babelOptions: {
-          presets: ['@babel/preset-react'],
         },
       },
       globals: {
@@ -123,7 +135,7 @@ module.exports = [
       },
     },
     plugins: {
-      import: importPlugin,
+      'import-x': importXPlugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       jest: jestPlugin,
@@ -178,7 +190,7 @@ module.exports = [
       },
     },
     plugins: {
-      import: importPlugin,
+      'import-x': importXPlugin,
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       jest: jestPlugin,

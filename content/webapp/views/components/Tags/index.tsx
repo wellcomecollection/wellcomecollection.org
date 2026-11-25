@@ -1,15 +1,11 @@
-import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
-import {
-  SolidButtonStyledProps,
-  StyledButtonCSS,
-} from '@weco/common/views/components/Buttons';
+import { typography } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 import Space from '@weco/common/views/components/styled/Space';
+import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
 
 export type TagType = {
   textParts: string[];
@@ -31,7 +27,7 @@ type PartWithSeparatorProps = {
 const nbsp = '\\00a0';
 
 const PartWithSeparator = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })<PartWithSeparatorProps>`
   &::after {
     display: ${props => (props.$isLast ? 'none' : 'inline')};
@@ -48,11 +44,6 @@ const LinkWrapper = styled(Space).attrs({
   display: inline-block;
 `;
 
-const StyledLink = styled(NextLink)<SolidButtonStyledProps>`
-  display: block;
-  ${StyledButtonCSS}
-`;
-
 export type Props = {
   tags: TagType[];
   isFirstPartBold?: boolean;
@@ -64,8 +55,6 @@ const Tags: FunctionComponent<Props> = ({
   isFirstPartBold = true,
   separator = '–',
 }) => {
-  const theme = useTheme();
-
   return (
     <Space
       data-component="tags"
@@ -74,33 +63,38 @@ const Tags: FunctionComponent<Props> = ({
       <PlainList>
         {/* Have to use index for key because some LCSH and MSH are the same and therefore textParts aren't unique */}
         {tags.map(({ textParts, linkAttributes }, i) => {
+          const tagInner = (
+            <TagInner>
+              {textParts.map((part, i, arr) => (
+                <PartWithSeparator
+                  key={part}
+                  $separator={i === 0 ? '|' : separator}
+                  $isLast={i === arr.length - 1}
+                >
+                  <span
+                    className={
+                      i === 0 && isFirstPartBold
+                        ? typography('body', 'md', 'strong')
+                        : typography('body', 'md', 'regular')
+                    }
+                  >
+                    {part}
+                  </span>
+                </PartWithSeparator>
+              ))}
+            </TagInner>
+          );
+
           return (
             <LinkWrapper as="li" key={i}>
-              <StyledLink
+              <SelectableTagLink
                 href={linkAttributes.href}
-                $size="small"
-                $colors={theme.buttonColors.pumiceTransparentCharcoal}
+                $lineColor="black"
+                $lineThickness={1.4}
+                $isSelected={false}
               >
-                <TagInner>
-                  {textParts.map((part, i, arr) => (
-                    <PartWithSeparator
-                      key={part}
-                      $separator={i === 0 ? '|' : separator}
-                      $isLast={i === arr.length - 1}
-                    >
-                      <span
-                        className={
-                          i === 0 && isFirstPartBold
-                            ? font('sans-bold', -1)
-                            : font('sans', -1)
-                        }
-                      >
-                        {part}
-                      </span>
-                    </PartWithSeparator>
-                  ))}
-                </TagInner>
-              </StyledLink>
+                {tagInner}
+              </SelectableTagLink>
             </LinkWrapper>
           );
         })}

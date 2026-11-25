@@ -10,6 +10,7 @@ export type CatalogueWorksApiProps = {
   sort?: string;
   sortOrder?: string;
   'partOf.title'?: string;
+  'collection.root'?: string;
   'production.dates.from'?: string;
   'production.dates.to'?: string;
   'genres.label'?: string[];
@@ -20,13 +21,6 @@ export type CatalogueWorksApiProps = {
   languages?: string[];
   identifiers?: string[];
   aggregations?: string[];
-  // Optional override for selecting a specific Elastic cluster for
-  // semantic-search prototype experiments. Expected values:
-  // - 'openai'
-  // - 'elser'
-  // This is intentionally optional and experimental; production callers
-  // should omit this.
-  elasticCluster?: 'openai' | 'elser';
 };
 
 export type CatalogueImagesApiProps = {

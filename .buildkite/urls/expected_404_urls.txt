@@ -4,7 +4,7 @@
 /works/%E2%80%8Cqvku%E2%80%8Czu%E2%80%8C5w?wellcomeImagesUrl=/indexplus/image/L0025863.html
 
 # See https://github.com/wellcomecollection/wellcomecollection.org/issues/7417
-/articles/notfound
+/stories/notfound
 /books/notfound
 /exhibitions/notfound
 

@@ -7,15 +7,14 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
-import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
-import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { getArchiveCategories } from '@weco/content/server-data/archiveCategories';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
-import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import WorkPage, {
   Props as WorkPageProps,
 } from '@weco/content/views/pages/works/work';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 const Page: NextPage<WorkPageProps> = props => {
   return <WorkPage {...props} />;
@@ -36,7 +35,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const workResponse = await getWork({
     id: workId,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline,
   });
 
   if (workResponse.type === 'Redirect') {
@@ -57,24 +57,25 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const { url, ...work } = workResponse;
 
-  const iiifPresentationLocation = getDigitalLocationOfType(
-    work,
-    'iiif-presentation'
+  // Only link to a category page that exists: the browse data leaves some
+  // categories out (e.g. PSY and TP, see HIDDEN_ARCHIVE_CATEGORY_IDS) and
+  // their pages 404, so a category missing from the list stays as plain text
+  const archiveCategoryId = work.archive?.category.id;
+  const showArchiveBrowsing = phaseIsAtLeast(
+    serverData.toggles.phasedFlags.archiveBrowsingPhases,
+    'mvp'
   );
-
-  const iiifManifest =
-    iiifPresentationLocation &&
-    (await fetchIIIFPresentationManifest({
-      location: iiifPresentationLocation.url,
-      workTypeId: work.workType?.id,
-    }));
-
-  const transformedManifest = iiifManifest && transformManifest(iiifManifest);
+  const archiveCategorySlug =
+    archiveCategoryId && showArchiveBrowsing
+      ? (await getArchiveCategories()).find(
+          category => category.id === archiveCategoryId
+        )?.slug
+      : undefined;
 
   return {
     props: serialiseProps<Props>({
       work,
-      transformedManifest,
+      archiveCategorySlug,
       apiUrl: url,
       serverData,
     }),

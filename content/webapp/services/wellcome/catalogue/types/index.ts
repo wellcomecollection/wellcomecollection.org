@@ -37,8 +37,21 @@ export type Work = {
   id: string;
   title: string;
   alternativeTitles: string[];
+  collection?: {
+    root: RelatedWork;
+    // Only present when true.
+    isRoot?: boolean;
+  };
+  archive?: {
+    category: {
+      id: string;
+      type: 'ArchiveCategory';
+      label: string;
+    };
+  };
   referenceNumber?: string;
   description?: string;
+  shortDescription?: string;
   physicalDescription: string;
   workType?: WorkType;
   lettering?: string;
@@ -61,7 +74,6 @@ export type Work = {
   parts: RelatedWork[];
   partOf: RelatedWork[];
   totalParts?: number;
-  totalDescendentParts?: number;
   availableOnline?: boolean;
   availabilities?: Availability[];
   holdings: Holding[];
@@ -118,11 +130,7 @@ type Genre = {
 };
 
 export type SourceOntology =
-  | 'nlm-mesh'
-  | 'wikidata'
-  | 'lc-names'
-  | 'lc-subjects'
-  | 'weco-authority';
+  'nlm-mesh' | 'wikidata' | 'lc-names' | 'lc-subjects' | 'weco-authority';
 
 export type ConceptType =
   | 'Subject'
@@ -149,7 +157,7 @@ export type Concept = {
   type: ConceptType;
   displayImages: DigitalLocation[];
   identifiers?: Identifier[];
-  sameAs?: string[];
+  sameAs: string[];
   description?: {
     sourceLabel: SourceOntology;
     sourceUrl: string;
@@ -165,7 +173,7 @@ export type Concept = {
     frequentCollaborators?: RelatedConcept[];
     relatedTopics?: RelatedConcept[];
   };
-  alternativeLabels?: string[];
+  alternativeLabels: string[];
 };
 
 type Availability = {

@@ -1,7 +1,12 @@
-import { Claims } from '@auth0/nextjs-auth0';
+import { User } from '@auth0/nextjs-auth0/types';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { FunctionComponent, PropsWithChildren, useState } from 'react';
+import {
+  Fragment,
+  FunctionComponent,
+  PropsWithChildren,
+  useState,
+} from 'react';
 import { useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
@@ -11,8 +16,8 @@ import {
   Auth0UserProfile,
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
-import { font } from '@weco/common/utils/classnames';
-import { allowedRequests } from '@weco/common/values/requests';
+import { typography } from '@weco/common/utils/classnames';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon';
@@ -62,10 +67,12 @@ const DetailList: FunctionComponent<{
   return (
     <StyledDl>
       {listItems.map(item => (
-        <>
-          <dt className={font('sans-bold', -1)}>{item.label}</dt>
-          <StyledDd className={font('sans', -1)}>{item.value}</StyledDd>
-        </>
+        <Fragment key={item.label}>
+          <dt className={typography('body', 'md', 'strong')}>{item.label}</dt>
+          <StyledDd className={typography('body', 'md', 'regular')}>
+            {item.value}
+          </StyledDd>
+        </Fragment>
       ))}
     </StyledDl>
   );
@@ -74,10 +81,10 @@ const DetailList: FunctionComponent<{
 const RequestsFailed: FunctionComponent<{ retry: () => void }> = ({
   retry,
 }) => (
-  <p className={font('sans', -1)}>
+  <p className={typography('body', 'md', 'regular')}>
     Something went wrong fetching your item requests.
     <button
-      className={font('sans', -1)}
+      className={typography('body', 'md', 'regular')}
       style={{
         border: 'none',
         background: 'none',
@@ -108,7 +115,7 @@ const AccountStatus: FunctionComponent<PropsWithChildren<StatusAlertProps>> = ({
 const NoRequestedItems = () => (
   <Space
     as="p"
-    className={font('sans', -1)}
+    className={typography('body', 'md', 'regular')}
     $v={{
       size: 'xs',
       properties: ['margin-bottom'],
@@ -120,7 +127,7 @@ const NoRequestedItems = () => (
 );
 
 export type Props = {
-  user?: Claims;
+  user?: User;
 };
 
 const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
@@ -169,7 +176,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           <Space
             $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           >
-            <h1 className={font('brand-bold', 5)}>Library account</h1>
+            <h1 className={typography('display', 'md', 'strong')}>
+              Library account
+            </h1>
           </Space>
         </ContaineredLayout>
         <div className="is-hidden-s">
@@ -189,11 +198,9 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
           {isPasswordUpdated && (
             <AccountStatus type="success">Password updated</AccountStatus>
           )}
-          <SectionHeading $addBottomPadding={true}>
-            Personal details
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Personal details</SectionHeading>
           <Container>
-            <Wrapper $removeBottomPadding={true}>
+            <Wrapper $removeBottomPadding>
               <DetailList listItems={listItems} />
               <ButtonWrapper>
                 <ChangeDetailsModal
@@ -218,9 +225,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
-            Item requests
-          </SectionHeading>
+          <SectionHeading $addBottomPadding>Item requests</SectionHeading>
           <Container>
             <Wrapper>
               {!requestedItems ? (
@@ -238,8 +243,10 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <Loading variant="inline" />
                           </Space>
                         );
+
                       case 'failed':
                         return <RequestsFailed retry={fetchRequests} />;
+
                       case 'success':
                         if (requestedItems.totalResults === 0) {
                           return <NoRequestedItems />;
@@ -248,17 +255,17 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                             <>
                               <Space
                                 as="p"
-                                className={font('sans-bold', -1)}
+                                className={typography('body', 'md', 'strong')}
                                 $v={{
                                   size: 'xs',
                                   properties: ['margin-bottom'],
                                 }}
-                              >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
+                              >{`You have requested ${requestedItems.totalResults} out of ${ALLOWED_REQUESTS} items`}</Space>
                               <ProgressBar>
                                 <ProgressIndicator
                                   $percentage={
                                     (requestedItems.totalResults /
-                                      allowedRequests) *
+                                      ALLOWED_REQUESTS) *
                                     100
                                   }
                                 />
@@ -319,7 +326,7 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                 ]}
                               />
                               <Space
-                                className={font('sans', -1)}
+                                className={typography('body', 'md', 'regular')}
                                 $v={{
                                   size: 'md',
                                   properties: ['margin-top'],
@@ -343,12 +350,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
             </Wrapper>
           </Container>
 
-          <SectionHeading $addBottomPadding={true}>
+          <SectionHeading $addBottomPadding>
             Cancel library membership
           </SectionHeading>
           <Container>
             <Wrapper>
-              <p className={font('sans', -1)}>
+              <p className={typography('body', 'md', 'regular')}>
                 If you no longer wish to be a library member, you can cancel
                 your membership. The library team will be notified and your
                 online account will be closed.

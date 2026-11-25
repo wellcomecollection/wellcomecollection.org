@@ -10,4 +10,14 @@ declare global {
       open: () => void;
     };
   }
+
+  // Prefixed fullscreen APIs, still required for Safari
+  interface Document {
+    webkitFullscreenElement?: Element | null;
+    webkitExitFullscreen?: () => void;
+  }
+
+  interface HTMLElement {
+    webkitRequestFullscreen?: () => void;
+  }
 }

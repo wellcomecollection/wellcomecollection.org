@@ -8,7 +8,15 @@ import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import theme from '@weco/common/views/themes/default';
 
+import { allModes } from './modes';
 import wellcomeTheme from './wellcome-theme';
+
+// Docs pages don't go through decorators, so they need the theme here too
+const ThemedDocsContainer = ({ children, context }) => (
+  <DocsContainer context={context}>
+    <ContextDecorator>{children}</ContextDecorator>
+  </DocsContainer>
+);
 
 export const decorators = [
   (Story, context) => {
@@ -58,6 +66,7 @@ export const parameters = {
           'Inputs',
           'Links',
           'Media',
+          'Modals',
           'Tags',
         ],
         'To be made reusable',
@@ -74,11 +83,7 @@ export const parameters = {
 
   docs: {
     theme: wellcomeTheme,
-    container: ({ children, context }) => (
-      <DocsContainer context={context}>
-        <ContextDecorator>{children}</ContextDecorator>
-      </DocsContainer>
-    ),
+    container: ThemedDocsContainer,
   },
   a11y: {
     config: {
@@ -91,7 +96,7 @@ export const parameters = {
     },
   },
   chromatic: {
-    viewports: [375, 1200],
+    modes: allModes,
   },
   actions: { disable: true },
   interactions: { disable: true },

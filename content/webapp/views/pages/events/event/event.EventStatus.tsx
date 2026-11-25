@@ -1,19 +1,19 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { typography } from '@weco/common/utils/classnames';
+import { ThemeColor } from '@weco/common/views/themes/config';
 import TextWithDot from '@weco/content/views/components/TextWithDot';
 
 type EventStatusProps = {
   text: string;
-  color: PaletteColor;
+  color: ThemeColor;
 };
 
 const EventStatus: FunctionComponent<EventStatusProps> = ({ text, color }) => {
   return (
     <div style={{ display: 'flex' }}>
       <TextWithDot
-        className={font('sans-bold', -1)}
+        className={typography('body', 'md', 'strong')}
         dotColor={color}
         text={text}
       />

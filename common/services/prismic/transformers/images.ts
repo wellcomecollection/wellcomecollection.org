@@ -15,9 +15,7 @@ function isImageLink(
 
 export function transformImage(
   maybeImage:
-    | prismic.EmptyImageFieldImage
-    | prismic.FilledImageFieldImage
-    | undefined
+    prismic.EmptyImageFieldImage | prismic.FilledImageFieldImage | undefined
 ): ImageType | undefined {
   return maybeImage && isImageLink(maybeImage)
     ? transformFilledImage(maybeImage)

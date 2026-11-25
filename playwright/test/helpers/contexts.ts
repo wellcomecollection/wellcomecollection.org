@@ -90,10 +90,16 @@ export const requiredCookies = useStageApis
 
 const multiVolumeItem = async (
   context: BrowserContext,
-  page: Page
+  page: Page,
+  params?: { canvasNumber?: number }
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/mg56yqa4/items`, page);
+  await gotoWithoutCache(
+    `${baseUrl}/works/mg56yqa4/items${
+      params?.canvasNumber ? `?canvas=${params.canvasNumber}` : ''
+    }`,
+    page
+  );
 };
 
 const itemWithAltText = async (
@@ -217,23 +223,59 @@ const workWithDigitalLocationAndLocationNote = async (
   await gotoWithoutCache(`${baseUrl}/works/a235xn8e`, page);
 };
 
-const workWithBornDigitalDownloads = async (
+const itemWithBornDigitalDownloads = async (
   context: BrowserContext,
   page: Page
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
-  await gotoWithoutCache(`${baseUrl}/works/htzhunbw`, page);
+  await gotoWithoutCache(`${baseUrl}/works/htzhunbw/items`, page);
+};
+
+const workWithBornDigitalItem = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/yhgvjsga`, page);
+};
+
+const itemWithVideo = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/sx4p4b75/items`, page);
+};
+
+const itemWithAudio = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/tp9njewm/items`, page);
+};
+
+const itemWithPdf = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/zu2q4k2w/items`, page);
+};
+
+const itemWithMixedBornDigital = async (
+  context: BrowserContext,
+  page: Page
+): Promise<void> => {
+  await context.addCookies(requiredCookies);
+  await gotoWithoutCache(`${baseUrl}/works/dn9jwck6/items`, page);
 };
 
 const search = async (
   context: BrowserContext,
   page: Page,
   searchType:
-    | 'overview'
-    | 'stories'
-    | 'events'
-    | 'images'
-    | 'works' = 'overview'
+    'overview' | 'stories' | 'events' | 'images' | 'works' = 'overview'
 ): Promise<void> => {
   await context.addCookies(requiredCookies);
 
@@ -353,15 +395,19 @@ export {
   event,
   isMobile,
   itemWithAltText,
+  itemWithAudio,
   itemWithNonRestrictedAndOpenAccess,
   itemWithOnlyOpenAccess,
   itemWithOnlyRestrictedAccessImages,
   itemWithOnlyRestrictedAccessNonImages,
+  itemWithPdf,
   itemWithReferenceNumber,
   itemWithRestrictedAndNonRestrictedAccess,
   itemWithRestrictedAndOpenAccess,
   itemWithSearchAndStructures,
   itemWithSearchAndStructuresAndQuery,
+  itemWithVideo,
+  itemWithMixedBornDigital,
   mediaOffice,
   multiVolumeItem,
   apiToolbarPage,
@@ -370,7 +416,8 @@ export {
   visualStory,
   whatsOn,
   newOnline,
-  workWithBornDigitalDownloads,
+  itemWithBornDigitalDownloads,
+  workWithBornDigitalItem,
   workWithDigitalLocationAndLocationNote,
   workWithDigitalLocationAndRestricted,
   workWithDigitalLocationOnly,

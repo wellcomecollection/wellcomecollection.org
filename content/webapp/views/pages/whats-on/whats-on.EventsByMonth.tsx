@@ -31,14 +31,10 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
 
           return {
             id,
-            url: `#${id}`,
             text: month.month,
             month,
             // Add daily tour promo to each month's events array during grouping
             events: events.concat(dailyTourPromo),
-            dataGtmProps: {
-              label: month.month,
-            },
           };
         })
         .slice(0, 4) // never show more than 4 months
@@ -74,35 +70,31 @@ const EventsByMonth: FunctionComponent<Props> = ({ events, links }) => {
         </Container>
       </Space>
 
-      {monthsWithEvents
-        .filter(i =>
-          isEnhanced ? i.id === (activeId || monthsWithEvents[0].id) : true
-        )
-        .map(({ id, month, events }) => (
-          <GridCell
-            $sizeMap={gridSize12()}
-            key={id}
+      {monthsWithEvents.map(({ id, month, events }) => (
+        <GridCell
+          $sizeMap={gridSize12()}
+          key={id}
+          role="tabpanel"
+          id={`tabpanel-${id}`}
+          aria-labelledby={`tab-${id}`}
+          hidden={isEnhanced && id !== (activeId || monthsWithEvents[0].id)}
+        >
+          <Container
+            as="h2"
             className={classNames({
-              'is-hidden': Boolean(activeId) && activeId !== id,
+              'is-hidden': Boolean(isEnhanced),
             })}
           >
-            <Container
-              as="h2"
-              className={classNames({
-                'is-hidden': Boolean(isEnhanced),
-              })}
-              id={id}
-            >
-              {month.month}
-            </Container>
-            <CardGrid
-              items={events}
-              itemsPerRow={3}
-              links={links}
-              fromDate={startOf(month)}
-            />
-          </GridCell>
-        ))}
+            {month.month}
+          </Container>
+          <CardGrid
+            items={events}
+            itemsPerRow={3}
+            links={links}
+            fromDate={startOf(month)}
+          />
+        </GridCell>
+      ))}
     </>
   );
 };

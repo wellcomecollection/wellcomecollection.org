@@ -2,7 +2,8 @@ import { SliceComponentProps } from '@prismicio/react';
 import { FunctionComponent } from 'react';
 
 import { ArchiveCardListSlice as RawArchiveCardListSlice } from '@weco/common/prismicio-types';
-import { font } from '@weco/common/utils/classnames';
+import { usePhasedFlags } from '@weco/common/server-data/Context';
+import { typography } from '@weco/common/utils/classnames';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { Container } from '@weco/common/views/components/styled/Container';
 import {
@@ -15,6 +16,8 @@ import SpacingComponent from '@weco/common/views/components/styled/SpacingCompon
 import { asText } from '@weco/content/services/prismic/transformers';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import { SliceZoneContext } from '@weco/content/views/components/Body';
+import MoreLink from '@weco/content/views/components/MoreLink';
+import { phaseIsAtLeast } from '@weco/toggles';
 
 type ArchiveCardListSliceProps = SliceComponentProps<
   RawArchiveCardListSlice,
@@ -25,6 +28,8 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
   slice,
   context,
 }) => {
+  const { archiveBrowsingPhases } = usePhasedFlags();
+  const showArchiveBrowsing = phaseIsAtLeast(archiveBrowsingPhases, 'mvp');
   const { title, items } = slice.primary;
   const archiveWorks = context?.archiveWorks ?? {};
 
@@ -40,7 +45,6 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
         id,
         label: asText(item.label),
         description: asText(item.archive_description),
-        isOrganisation: item.is_organisation ?? false,
         title: work.title,
         contributor: work.primaryContributorLabel,
         date: work.productionDates[0],
@@ -58,7 +62,9 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
       <Container>
         {title && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-            <h2 className={font('sans-bold', 2)}>{title}</h2>
+            <h2 className={typography('heading', 'xl', 'strong', 'sans')}>
+              {title}
+            </h2>
           </Space>
         )}
         <Grid>
@@ -78,6 +84,16 @@ const ArchiveCardListSlice: FunctionComponent<ArchiveCardListSliceProps> = ({
             </GridCell>
           ))}
         </Grid>
+        {showArchiveBrowsing && (
+          <Space
+            $v={{
+              size: 'sm',
+              properties: ['margin-top'],
+            }}
+          >
+            <MoreLink url="/collections/archives" name="Browse archives" />
+          </Space>
+        )}
       </Container>
     </SpacingComponent>
   );

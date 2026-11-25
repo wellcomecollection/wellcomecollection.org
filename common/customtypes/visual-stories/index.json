@@ -47,28 +47,25 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "infoBlock": {
+            "textAndImage": {
               "type": "SharedSlice"
             },
             "textAndIcons": {
               "type": "SharedSlice"
             },
-            "textAndImage": {
+            "contact": {
               "type": "SharedSlice"
             },
             "embed": {
               "type": "SharedSlice"
             },
-            "editorialImage": {
-              "type": "SharedSlice"
-            },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "contact": {
+            "infoBlock": {
               "type": "SharedSlice"
             },
             "standfirst": {
+              "type": "SharedSlice"
+            },
+            "text": {
               "type": "SharedSlice"
             }
           }

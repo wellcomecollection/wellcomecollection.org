@@ -7,11 +7,11 @@ import {
 } from 'react';
 import styled from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import PlainList from '@weco/common/views/components/styled/PlainList';
 
 const ShowHideButton = styled.button.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   margin: 0 !important;
   padding: 0;
@@ -58,7 +58,7 @@ const ExpandableList: FunctionComponent<Props> = ({
             item,
             index // TODO way of getting better key?
           ) => (
-            <li className={font('sans', -1)} key={index}>
+            <li className={typography('body', 'md', 'regular')} key={index}>
               {item}
             </li>
           )
@@ -66,7 +66,7 @@ const ExpandableList: FunctionComponent<Props> = ({
         {isShowingRemainingListItems && (
           <>
             {remainingListItems.map((item, index) => (
-              <li className={font('sans', -1)} key={index}>
+              <li className={typography('body', 'md', 'regular')} key={index}>
                 {/* if item is a link then add href and index 0 */}
                 {item}
               </li>

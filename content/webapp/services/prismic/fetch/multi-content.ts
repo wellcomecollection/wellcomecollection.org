@@ -26,6 +26,12 @@ import {
   GetServerSidePropsPrismicClient,
 } from '.';
 
+/** Converts e.g. 'my.pages.datePublished desc' to the object form Prismic expects. */
+const toOrdering = (ordering: string): prismic.Ordering => {
+  const [field, direction] = ordering.split(' ');
+  return direction === 'desc' ? { field, direction } : { field };
+};
+
 export const fetchMultiContent = async (
   { client }: GetServerSidePropsPrismicClient,
   structuredSearchQuery: StructuredSearchQuery
@@ -81,7 +87,7 @@ export const fetchMultiContent = async (
     ],
     filters,
     pageSize: pageSize || 100,
-    orderings: orderings || [],
+    orderings: orderings.map(toOrdering),
   });
 };
 

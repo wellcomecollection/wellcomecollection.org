@@ -1,6 +1,6 @@
 import { Fragment, FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -27,7 +27,7 @@ const EventScheduleList: FunctionComponent<{
               <Space
                 $v={{ size: 'sm', properties: ['margin-bottom'] }}
                 as="h3"
-                className={font('brand-bold', 0)}
+                className={typography('heading', 'md', 'strong', 'brand')}
               >
                 {eventsGroup.label}
               </Space>
@@ -78,7 +78,9 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
     <div data-component="event-schedule">
       {futureEvents.length > 0 && (
         <>
-          <h2 className={font('brand-bold', 1)}>Events</h2>
+          <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+            Events
+          </h2>
           <EventScheduleList
             groupedEvents={futureEvents}
             isNotLinkedIds={isNotLinkedIds}
@@ -87,7 +89,9 @@ const EventSchedule: FunctionComponent<Props> = ({ schedule }) => {
       )}
       {pastEvents.length > 0 && (
         <>
-          <h2 className={font('brand-bold', 1)}>Past events</h2>
+          <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+            Past events
+          </h2>
           <EventScheduleList
             groupedEvents={pastEvents}
             isNotLinkedIds={isNotLinkedIds}

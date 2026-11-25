@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 export const components = {
   archiveCardList: dynamic(() => import('./ArchiveCardList')),
   audioPlayer: dynamic(() => import('./AudioPlayer')),
+  cardListing: dynamic(() => import('./CardListing')),
   collectionVenue: dynamic(() => import('./CollectionVenue')),
   contact: dynamic(() => import('./Contact')),
   contentList: dynamic(() => import('./ContentList')),
@@ -19,6 +20,7 @@ export const components = {
   iframe: dynamic(() => import('./Iframe')),
   infoBlock: dynamic(() => import('./InfoBlock')),
   map: dynamic(() => import('./Map')),
+  portraitVideoList: dynamic(() => import('./PortraitVideoList')),
   quote: dynamic(() => import('./Quote')),
   searchResults: dynamic(() => import('./SearchResults')),
   standfirst: dynamic(() => import('./Standfirst')),

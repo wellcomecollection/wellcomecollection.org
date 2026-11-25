@@ -10,12 +10,19 @@ import { init as initServerData } from '@weco/common/server-data';
 import { apmErrorMiddleware } from '@weco/common/services/apm/errorMiddleware';
 import { redactUrl } from '@weco/identity/utils/logging';
 
+const startedAt = new Date().toISOString();
+
 export async function createApp(): Promise<Koa> {
   const isProduction = process.env.NODE_ENV === 'production';
   await initServerData();
 
+  // Next 16 defaults to Turbopack, which doesn't run the custom `webpack()`
+  // hook in common/next/next.config.js (moment-timezone swap, undici
+  // exclusion) - see --webpack in build:next too. Migrating that hook to
+  // Turbopack config is tracked separately.
   const nextApp = next({
     dev: !isProduction,
+    webpack: true,
   });
   const nextHandler = nextApp.getRequestHandler();
   await nextApp.prepare();
@@ -85,6 +92,26 @@ export async function createApp(): Promise<Koa> {
       status: 'ok',
     };
   });
+
+  // Lets deploy tooling confirm which commit is live; must never be cached.
+  // Lets deploy tooling confirm which commit is live; must never be cached.
+  // The contract this implements: https://github.com/wellcomecollection/deploy-tracker/blob/main/SPEC.md#the-manifest-endpoint
+  //
+  // Registered on both paths: the ALB hits the app directly, CloudFront
+  // routes it under /account.
+  router.get(
+    ['/management/manifest', '/account/management/manifest'],
+    async ctx => {
+      ctx.set(
+        'Cache-Control',
+        'private, no-cache, no-store, max-age=0, must-revalidate'
+      );
+      ctx.body = {
+        commit: process.env.BUILD_COMMIT || 'unknown',
+        startedAt,
+      };
+    }
+  );
 
   router.all('{/*path}', async ctx => {
     await nextHandler(ctx.req, ctx.res);

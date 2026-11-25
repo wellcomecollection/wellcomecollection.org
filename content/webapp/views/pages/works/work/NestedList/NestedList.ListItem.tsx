@@ -1,0 +1,373 @@
+import { FunctionComponent } from 'react';
+
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import { getWorkClientSide } from '@weco/content/services/wellcome/catalogue/works';
+import {
+  UiTree,
+  UiTreeNode,
+} from '@weco/content/views/pages/works/work/work.types';
+
+import NestedList from '.';
+import {
+  getAriaLabel,
+  getTabbableIds,
+  isTreeDataWork,
+  ListProps,
+  updateChildren,
+} from './NestedList.helpers';
+import { TreeItem } from './NestedList.styles';
+
+const LEFT = [37, 'ArrowLeft'];
+const RIGHT = [39, 'ArrowRight'];
+const DOWN = [40, 'ArrowDown'];
+const UP = [38, 'ArrowUp'];
+
+function updateOpenStatus({
+  id,
+  tree,
+  value,
+}: {
+  id: string;
+  tree: UiTree;
+  value: boolean;
+}): UiTree {
+  const newTree = tree.map(node => {
+    if (node.data.id === id) {
+      return {
+        ...node,
+        openStatus: value,
+      };
+    } else if (node.data.id !== id && node.children) {
+      return {
+        ...node,
+        children: updateOpenStatus({ id, tree: node.children, value }),
+      };
+    } else {
+      return node;
+    }
+  });
+  return newTree;
+}
+
+export async function getChildren(workId: string): Promise<UiTree> {
+  const work = await getWorkClientSide(workId);
+
+  return work.type !== 'Error' && work.type !== 'Redirect' && work.parts
+    ? work.parts.map(part => ({
+        data: part,
+        openStatus: false,
+        parentId: workId,
+      }))
+    : [];
+}
+
+function getNextTabbableId({
+  currentId,
+  tree,
+}: {
+  currentId: string;
+  tree: UiTree;
+}): string | undefined {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex + 1];
+}
+
+function getPreviousTabbableId({
+  currentId,
+  tree,
+}: {
+  currentId: string;
+  tree: UiTree;
+}): string | undefined {
+  const tabbableIds = getTabbableIds(tree);
+  const currIndex = tabbableIds.indexOf(currentId);
+  return tabbableIds[currIndex - 1];
+}
+
+async function expandTree({
+  item,
+  setTree,
+  tree,
+}: {
+  item: UiTreeNode;
+  setTree: (tree: UiTree) => void;
+  tree: UiTree;
+}) {
+  const children = await getChildren(item.data.id);
+
+  setTree(
+    updateChildren({
+      tree,
+      id: item.data.id,
+      value: children,
+      manualUpdate: true,
+    })
+  );
+}
+
+type ListItemProps = ListProps & {
+  setSize: number;
+  posInSet: number;
+  index: number;
+  shouldFetchChildren: boolean;
+  isDarkMode?: boolean;
+  itemRendererProps?: Record<string, unknown>;
+};
+
+function getTabIndex({
+  isEnhanced,
+  isSelected,
+  level,
+  index,
+  firstItemTabbable,
+}: {
+  isEnhanced: boolean;
+  isSelected: boolean;
+  level: number;
+  index: number;
+  firstItemTabbable: boolean;
+}): 0 | -1 | undefined {
+  if (isEnhanced) {
+    if (firstItemTabbable && level === 1 && index === 0) {
+      return 0;
+    } else {
+      return isSelected ? 0 : -1;
+    }
+  } else {
+    return undefined;
+  }
+}
+
+const ListItem: FunctionComponent<ListItemProps> = ({
+  index,
+  item,
+  currentWorkId,
+  setTree,
+  tree,
+  level,
+  setSize,
+  posInSet,
+  tabbableId,
+  setTabbableId,
+  workAncestors,
+  firstItemTabbable,
+  showFirstLevelGuideline,
+  ItemRenderer,
+  shouldFetchChildren,
+  isDarkMode = false,
+  itemRendererProps,
+  isCompact,
+}: ListItemProps) => {
+  const { isEnhanced } = useAppContext();
+  const isSelected =
+    (tabbableId && tabbableId === item.data.id) ||
+    (!tabbableId && currentWorkId === item.data.id);
+  const descendentIsSelected = workAncestors?.some(
+    ancestor => ancestor.id === item.data.id
+  );
+  const highlightCondition = item.openStatus
+    ? 'primary'
+    : descendentIsSelected
+      ? 'secondary'
+      : undefined;
+
+  const isExpandable = Boolean(
+    (item.data.totalParts && item.data.totalParts > 0) ||
+    (isTreeDataWork(item.data) && item.data.parts && item.data.parts.length > 0)
+  );
+
+  const isEndNode = !isExpandable;
+
+  const showGuideline =
+    isEnhanced &&
+    isExpandable &&
+    item.openStatus &&
+    (level > 1 || showFirstLevelGuideline);
+
+  function trackChevron() {
+    if (isExpandable) {
+      window.dataLayer?.push({
+        event: 'tree_chevron',
+        treeItem: {
+          level: String(level),
+          label: `${item.data.title}${isTreeDataWork(item.data) && item.data.referenceNumber ? ` (${item.data.referenceNumber})` : ''}`,
+        },
+      });
+    }
+  }
+
+  function toggleBranch() {
+    trackChevron();
+
+    if (item.children === undefined && shouldFetchChildren) {
+      expandTree({
+        item,
+        setTree,
+        tree,
+      });
+    } else {
+      setTree(
+        updateOpenStatus({
+          id: item.data.id,
+          tree,
+          value: !item.openStatus,
+        })
+      );
+    }
+  }
+
+  return (
+    <TreeItem
+      id={item.data.id}
+      role={isEnhanced ? 'treeitem' : undefined}
+      $isEnhanced={isEnhanced}
+      $showGuideline={showGuideline}
+      $isDarkMode={isDarkMode}
+      $isCompact={isCompact}
+      aria-level={isEnhanced ? level : undefined}
+      aria-setsize={isEnhanced ? setSize : undefined}
+      aria-posinset={isEnhanced ? posInSet : undefined}
+      aria-expanded={
+        isEnhanced
+          ? item.children && item.children.length > 0
+            ? item.openStatus
+            : undefined
+          : undefined
+      }
+      aria-label={isEnhanced ? getAriaLabel(item) : undefined}
+      aria-selected={isEnhanced ? isSelected : undefined}
+      tabIndex={getTabIndex({
+        isEnhanced,
+        isSelected,
+        level,
+        index,
+        firstItemTabbable,
+      })}
+      onKeyDown={event => {
+        event.stopPropagation();
+        const key = event.key || event.keyCode;
+        const isKeyOfInterest = [...LEFT, ...RIGHT, ...DOWN, ...UP].includes(
+          key
+        );
+
+        if (!isKeyOfInterest) return;
+
+        const nextId = getNextTabbableId({
+          currentId: item.data.id,
+          tree,
+        });
+        const previousId = getPreviousTabbableId({
+          currentId: item.data.id,
+          tree,
+        });
+
+        if (RIGHT.includes(key)) {
+          // When focus is on an open node, moves focus to the first child node.
+          if (item.openStatus) {
+            if (nextId) {
+              setTabbableId(nextId);
+            }
+          }
+
+          // When focus is on an end node, does nothing.
+          if (isEndNode) {
+            return;
+          }
+
+          // When focus is on a closed node, opens the node; focus does not move.
+          if (!item.openStatus) {
+            toggleBranch();
+            setTabbableId(item.data.id);
+          }
+        } else if (LEFT.includes(key)) {
+          // When focus is on an open node, closes the node.
+          if (item.openStatus && isExpandable) {
+            trackChevron();
+            setTree(
+              updateOpenStatus({
+                id: item.data.id,
+                tree,
+                value: !item.openStatus,
+              })
+            );
+            setTabbableId(item.data.id);
+          }
+          // When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
+          // When focus is on a root node that is also either an end node or a closed node, does nothing.
+          if (isEndNode || !item.openStatus) {
+            if (item.parentId) {
+              setTabbableId(item.parentId);
+            }
+          }
+        } else if (DOWN.includes(key)) {
+          // Moves focus to the next node that is focusable without opening or closing a node.
+          if (nextId) {
+            setTabbableId(nextId);
+          }
+        } else if (UP.includes(key)) {
+          // Moves focus to the previous node that is focusable without opening or closing a node.
+          if (previousId) {
+            setTabbableId(previousId);
+          }
+        }
+      }}
+      onClick={event => {
+        // We had previously used event.stopPropagation() to stop the clicking
+        // of an inner TreeItem from bubbling up to any outer TreeItems, but
+        // this prevented a GTM trigger that we have set on download links from
+        // firing. Instead, we now check that we only fire the click event on
+        // the _original_ target of the click by comparing `target` (original)
+        // with `currentTarget` (whatever is currently being evaluated in the
+        // bubbling phase)
+        if (
+          event.currentTarget !==
+          (event.target as HTMLElement)?.closest('[role="treeitem"]')
+        )
+          return;
+
+        if (level > 0) {
+          toggleBranch();
+          setTabbableId(item.data.id);
+        }
+      }}
+    >
+      {ItemRenderer && (
+        <ItemRenderer
+          currentWorkId={currentWorkId}
+          item={item}
+          isSelected={isSelected}
+          isEnhanced={isEnhanced}
+          level={level}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          highlightCondition={highlightCondition}
+          isDarkMode={isDarkMode}
+          hasControl={isExpandable}
+          {...itemRendererProps}
+        />
+      )}
+
+      {item.children && item.openStatus && (
+        <NestedList
+          currentWorkId={currentWorkId}
+          items={item.children}
+          tree={tree}
+          level={level + 1}
+          tabbableId={tabbableId}
+          setTabbableId={setTabbableId}
+          workAncestors={workAncestors}
+          setTree={setTree}
+          firstItemTabbable={firstItemTabbable}
+          showFirstLevelGuideline={showFirstLevelGuideline}
+          ItemRenderer={ItemRenderer}
+          shouldFetchChildren={shouldFetchChildren}
+          isDarkMode={isDarkMode}
+          itemRendererProps={itemRendererProps}
+          isCompact={isCompact}
+        />
+      )}
+    </TreeItem>
+  );
+};
+
+export default ListItem;

@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import CollapsibleContent from '@weco/common/views/components/CollapsibleContent';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
@@ -180,7 +180,10 @@ export const AudioPlayer: FunctionComponent<AudioPlayerProps> = ({
       <AudioPlayerWrapper $isDark={!!isDark}>
         {title && (
           <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-            <figcaption className={font('sans-bold', -1)} {...titleProps}>
+            <figcaption
+              className={typography('body', 'md', 'strong')}
+              {...titleProps}
+            >
               <TitleWrapper $isDark={!!isDark}>{title}</TitleWrapper>
             </figcaption>
           </Space>

@@ -27,7 +27,7 @@ export const hexToRgb = (hex: string): RGB => {
 export const rgbToHex = (rgb: RGB): string =>
   Object.values(rgb).reduce((hex, x) => {
     const n = x.toString(16);
-    return hex + (n.length === 1 ? '0' + n : n);
+    return hex + (n.length === 1 ? `0${n}` : n);
   }, '');
 
 // Code taken from https://css-tricks.com/converting-color-spaces-in-javascript/
@@ -41,9 +41,9 @@ export const rgbToHsl = ({ r, g, b }: RGB): HSL => {
   const cmin = Math.min(r, g, b);
   const cmax = Math.max(r, g, b);
   const delta = cmax - cmin;
-  let h = 0;
-  let s = 0;
-  let l = 0;
+  let h: number;
+  let s: number;
+  let l: number;
 
   // Calculate hue
   // No difference

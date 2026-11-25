@@ -104,7 +104,7 @@ const StoriesPage: NextPage<Props> = ({
                 type="article"
                 article={firstArticle}
                 background="neutral.700"
-                textColor="white"
+                textColor="neutral.10"
                 priority
               />
             </ContaineredLayout>
@@ -171,13 +171,13 @@ const StoriesPage: NextPage<Props> = ({
           <CardGrid
             items={comicSeries}
             itemsPerRow={3}
-            itemsHaveTransparentBackground={true}
             links={[
               {
                 text: 'More comics',
                 url: '/search/stories?format=W7d_ghAAALWY3Ujc',
               },
             ]}
+            itemsHaveTransparentBackground
           />
         </SpacingComponent>
       </SpacingSection>

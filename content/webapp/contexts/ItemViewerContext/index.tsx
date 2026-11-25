@@ -1,6 +1,9 @@
 import { createContext, RefObject, useContext } from 'react';
 
-import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
+import {
+  emptySearchResults,
+  SearchResults,
+} from '@weco/content/services/iiif/types/search/v3';
 import {
   Work,
   WorkBasic,
@@ -10,22 +13,31 @@ import {
   CanvasRotatedImage,
   ItemViewerQuery,
   ParentManifest,
+  PartialImageService,
 } from '@weco/content/types/item-viewer';
-import { TransformedManifest } from '@weco/content/types/manifest';
+import {
+  TransformedCanvas,
+  TransformedManifest,
+} from '@weco/content/types/manifest';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
-type Props = {
+export type ItemViewerContextProps = {
   // DATA props:
   query: ItemViewerQuery;
   work: WorkBasic & Pick<Work, 'description'>;
   transformedManifest: TransformedManifest | undefined;
   parentManifest: ParentManifest | undefined;
   searchResults: SearchResults | null;
-  setSearchResults: (v) => void;
+  setSearchResults: (v: SearchResults | null) => void;
   accessToken: string | undefined;
-  archiveTree: UiTree;
-  setArchiveTree: (v: UiTree) => void;
+  tree: UiTree;
+  setTree: (v: UiTree) => void;
   canvasIndexById: Record<string, number>;
+  currentCanvas: TransformedCanvas | undefined;
+  isCurrentCanvasRestricted: boolean;
+  totalCanvases: number;
+  hasMultipleCanvases: boolean;
+  mainImageService: PartialImageService;
 
   // UI props:
   viewerRef: RefObject<HTMLDivElement | null> | undefined;
@@ -65,19 +77,6 @@ type Props = {
   hasOnlyRenderableImages: boolean;
 };
 
-export const results = {
-  '@context': '',
-  '@id': '',
-  '@type': 'sc:AnnotationList',
-  within: {
-    '@type': '',
-    total: null,
-  },
-  startIndex: 0,
-  resources: [],
-  hits: [],
-};
-
 const query = {
   canvas: 1,
   manifest: 1,
@@ -89,7 +88,9 @@ const query = {
 const work: WorkBasic & Pick<Work, 'description'> = {
   id: '',
   title: '',
+  workTypeId: undefined,
   description: undefined,
+  shortDescription: undefined,
   languageId: undefined,
   thumbnail: undefined,
   referenceNumber: undefined,
@@ -98,20 +99,27 @@ const work: WorkBasic & Pick<Work, 'description'> = {
   cardLabels: [],
   primaryContributorLabel: undefined,
   notes: [],
+  physicalDescription: '',
+  isArchiveCollectionRoot: false,
 };
 
-const ItemViewerContext = createContext<Props>({
+export const defaultItemViewerContext: ItemViewerContextProps = {
   // DATA props:
   query,
   work,
   transformedManifest: undefined,
   parentManifest: undefined,
-  searchResults: results,
+  searchResults: emptySearchResults,
   setSearchResults: () => undefined,
   accessToken: undefined,
-  archiveTree: [],
-  setArchiveTree: () => undefined,
+  tree: [],
+  setTree: () => undefined,
   canvasIndexById: {},
+  currentCanvas: undefined,
+  isCurrentCanvasRestricted: false,
+  totalCanvases: 0,
+  hasMultipleCanvases: false,
+  mainImageService: { '@id': undefined },
 
   // UI props:
   viewerRef: undefined,
@@ -143,11 +151,14 @@ const ItemViewerContext = createContext<Props>({
   isResizing: false,
   errorHandler: () => undefined,
   hasOnlyRenderableImages: false,
-});
+};
 
-export function useItemViewerContext(): Props {
-  const contextState = useContext(ItemViewerContext);
-  return contextState;
+const ItemViewerContext = createContext<ItemViewerContextProps>(
+  defaultItemViewerContext
+);
+
+export function useItemViewerContext(): ItemViewerContextProps {
+  return useContext(ItemViewerContext);
 }
 
 export default ItemViewerContext;

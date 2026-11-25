@@ -8,32 +8,56 @@ import {
 import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import {
   BaseButtonInner,
   BasicButton,
   ButtonIconWrapper,
 } from '@weco/common/views/components/Buttons/Buttons.styles';
 import Icon from '@weco/common/views/components/Icon';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
+
+// The hover circle and pill are taller than the header row allows for, so
+// negative margins split the difference to keep the row height
+const PILL_HEIGHT = 44;
+const HEADER_ROW_HEIGHT = 36;
+
+const pillStyles = (isActive?: boolean) => {
+  const inverted = `
+    background: ${designSystemColor('neutral.70')};
+    color: ${designSystemColor('neutral.10')};
+  `;
+
+  return `
+    color: ${designSystemColor('neutral.70')};
+    border-radius: ${PILL_HEIGHT / 2}px;
+    height: ${PILL_HEIGHT}px;
+    padding: 0 12px;
+    transition: none;
+    margin-top: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
+    margin-bottom: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
+
+    .icon__shape {
+      transition: none;
+    }
+
+    &:hover {
+      ${inverted}
+    }
+
+    ${isActive ? inverted : ''}
+  `;
+};
 
 const BorderlessClickableStyle = styled(BasicButton)<{
   $isActive?: boolean;
 }>`
   background: transparent;
-  color: ${props => props.theme.color('neutral.700')};
   padding: 10px 8px;
 
-  &:hover {
-    background: ${props => props.theme.color('neutral.300')};
-  }
-
-  ${props =>
-    props.$isActive &&
-    `
-    background: ${props.theme.color('neutral.300')};
-  `}
+  ${props => pillStyles(props.$isActive)}
 `;
 
 type Props = {
@@ -68,17 +92,17 @@ const Button: ForwardRefRenderFunction<
       ref={ref}
       {...elementProps}
     >
-      <BaseButtonInner $isInline={true}>
+      <BaseButtonInner $isInline>
         <>
           {iconLeft && (
-            <ButtonIconWrapper $iconAfter={false}>
+            <ButtonIconWrapper>
               {/* This is all a little hacky and will need some tidy up */}
               {/* We currently only use this in the header sign in button */}
               <span
-                className={font('sans', 0)}
+                className={typography('body', 'lg', 'regular')}
                 style={{ transform: 'translateY(0.01em)' }}
               >
-                <Icon icon={iconLeft} matchText={true} />
+                <Icon icon={iconLeft} matchText />
               </span>
             </ButtonIconWrapper>
           )}
@@ -90,7 +114,7 @@ const Button: ForwardRefRenderFunction<
             {text}
           </span>
           {icon && (
-            <ButtonIconWrapper $iconAfter={true}>
+            <ButtonIconWrapper $iconAfter>
               <Icon icon={icon} />
             </ButtonIconWrapper>
           )}

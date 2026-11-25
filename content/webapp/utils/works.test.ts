@@ -1,0 +1,188 @@
+import { Work } from '@weco/content/services/wellcome/catalogue/types';
+
+import {
+  getLanguageId,
+  getOrderedNotes,
+  isArchiveCollectionRoot,
+} from './works';
+
+type PredicateWork = Pick<Work, 'collection' | 'workType' | 'identifiers'>;
+
+const teiIdentifier: Work['identifiers'][number] = {
+  value: 'MS_632',
+  identifierType: {
+    id: 'tei-manuscript-id',
+    label: 'TEI manuscript id',
+    type: 'IdentifierType',
+  },
+  type: 'Identifier',
+};
+
+const calmIdentifier: Work['identifiers'][number] = {
+  value: 'RAMC',
+  identifierType: {
+    id: 'calm-ref-no',
+    label: 'Calm RefNo',
+    type: 'IdentifierType',
+  },
+  type: 'Identifier',
+};
+
+const work = ({
+  isRoot = true,
+  totalParts = 5,
+  workTypeId = 'h',
+  identifiers = [calmIdentifier],
+}: {
+  isRoot?: boolean;
+  totalParts?: number;
+  workTypeId?: string;
+  identifiers?: Work['identifiers'];
+} = {}): PredicateWork => ({
+  collection: {
+    root: {
+      id: 'abcd1234',
+      title: 'A collection',
+      alternativeTitles: [],
+      totalParts,
+      type: 'Collection',
+    },
+    ...(isRoot ? { isRoot: true } : {}),
+  },
+  workType: { id: workTypeId, label: 'A format', type: 'Format' },
+  identifiers,
+});
+
+describe('isArchiveCollectionRoot', () => {
+  // Nothing here has an `archive.category`, which is the point: an archive
+  // whose collection path prefix isn't one of the 16 recognised types (e.g.
+  // RAMC) has no category, and the old check wrongly excluded it.
+  it('is true for an archive collection root with children', () => {
+    expect(isArchiveCollectionRoot(work())).toBe(true);
+  });
+
+  it('is true for a born-digital archive', () => {
+    expect(isArchiveCollectionRoot(work({ workTypeId: 'hdig' }))).toBe(true);
+  });
+
+  it('is false for a singleton, i.e. a root with no children', () => {
+    expect(isArchiveCollectionRoot(work({ totalParts: 0 }))).toBe(false);
+  });
+
+  it('is false for a work that is not a collection root', () => {
+    expect(isArchiveCollectionRoot(work({ isRoot: false }))).toBe(false);
+  });
+
+  it('is false for a work with no collection at all', () => {
+    expect(isArchiveCollectionRoot({ ...work(), collection: undefined })).toBe(
+      false
+    );
+  });
+
+  it('is false for a TEI manuscript, even though its format is "Archives and manuscripts"', () => {
+    expect(
+      isArchiveCollectionRoot(
+        work({ totalParts: 1, identifiers: [teiIdentifier, calmIdentifier] })
+      )
+    ).toBe(false);
+  });
+
+  it('is false for a Manuscripts-format collection root', () => {
+    expect(isArchiveCollectionRoot(work({ workTypeId: 'b' }))).toBe(false);
+  });
+
+  it('is false for a collection root that is not an archive format', () => {
+    // e.g. a Pictures or Books root - a collection, but not an archive.
+    expect(isArchiveCollectionRoot(work({ workTypeId: 'a' }))).toBe(false);
+  });
+
+  it('is false when the work has no format', () => {
+    expect(isArchiveCollectionRoot({ ...work(), workType: undefined })).toBe(
+      false
+    );
+  });
+});
+
+describe('getLanguageId', () => {
+  const withLanguages = (...ids: string[]) => ({
+    languages: ids.map(id => ({
+      id,
+      label: id,
+      type: 'Language' as const,
+    })),
+  });
+
+  it('shortens three-letter catalogue codes to the form lang expects', () => {
+    expect(getLanguageId(withLanguages('eng'))).toBe('en');
+    expect(getLanguageId(withLanguages('fre'))).toBe('fr');
+    expect(getLanguageId(withLanguages('ger'))).toBe('de');
+  });
+
+  it('keeps codes that have no shorter form', () => {
+    expect(getLanguageId(withLanguages('enm'))).toBe('enm');
+  });
+
+  it('returns undefined unless there is exactly one language', () => {
+    expect(getLanguageId(withLanguages())).toBeUndefined();
+    expect(getLanguageId(withLanguages('eng', 'fre'))).toBeUndefined();
+  });
+
+  it('returns undefined for an id that is not a valid language tag', () => {
+    expect(getLanguageId(withLanguages('not a language'))).toBeUndefined();
+  });
+});
+
+describe('getOrderedNotes', () => {
+  const note = (id: string, contents: string): Work['notes'][number] => ({
+    noteType: { id, label: id, type: 'NoteType' },
+    contents: [contents],
+    type: 'Note',
+  });
+  const notes = [
+    note('ownership-note', 'Owned by a test library'),
+    note('acquisition-note', 'Bought at a test sale'),
+  ];
+
+  it('puts the archive notes in a consistent order', () => {
+    const scrambled = [
+      note('related-material', 'See also a test collection'),
+      note('ownership-note', 'Owned by a test library'),
+      note('acquisition-note', 'Bought at a test sale'),
+      note('arrangement-note', 'Arranged by a test archivist'),
+      note('biographical-note', 'Born in a test year'),
+    ];
+
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes: scrambled,
+      identifiers: [],
+    });
+
+    expect(orderedNotes.map(n => n.noteType.id)).toEqual([
+      'arrangement-note',
+      'acquisition-note',
+      'biographical-note',
+      'related-material',
+    ]);
+    expect(remainingNotes.map(n => n.noteType.id)).toEqual(['ownership-note']);
+  });
+
+  it('moves the acquisition note up for most works', () => {
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes,
+      identifiers: [],
+    });
+
+    expect(orderedNotes).toEqual([notes[1]]);
+    expect(remainingNotes).toEqual([notes[0]]);
+  });
+
+  it('keeps the acquisition note after ownership for TEI manuscripts', () => {
+    const { orderedNotes, remainingNotes } = getOrderedNotes({
+      notes,
+      identifiers: [teiIdentifier],
+    });
+
+    expect(orderedNotes).toEqual([]);
+    expect(remainingNotes).toEqual(notes);
+  });
+});

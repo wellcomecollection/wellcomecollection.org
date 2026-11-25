@@ -1,6 +1,8 @@
 module "identity-service-18012021" {
   source = "../../../infrastructure/modules/service"
 
+  sidecar_tier = var.env_suffix == "prod" ? "prod" : "stage"
+
   namespace = "identity-18012021-${var.env_suffix}"
 
   namespace_id = var.environment["namespace_id"]
@@ -34,16 +36,15 @@ module "identity-service-18012021" {
   # We have a custom nginx container that redacts the values of
   # sensitive query parameters, e.g. email, to avoid leaking PII
   # into the shared logging cluster.
-  nginx_container_config = {
-    image_name    = "uk.ac.wellcome/nginx_frontend_identity"
-    container_tag = "b809c6ef4363ff0cbac8da7ff5e80d865cfcd008"
-  }
+  nginx_image_name = "uk.ac.wellcome/nginx_frontend_identity"
 
   vpc_id  = local.vpc_id
   subnets = local.private_subnets
 
   allow_scaling_to_zero = var.env_suffix != "prod"
 
+  desired_task_count            = var.desired_task_count
+  app_user                      = var.app_user
   use_fargate_spot              = var.use_fargate_spot
   turn_off_outside_office_hours = var.turn_off_outside_office_hours
 }

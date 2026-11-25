@@ -70,8 +70,7 @@ export const ProjectPage: NextPage<Props> = ({
       title={project.title}
       FeaturedMedia={featuredMedia}
       backgroundTexture={!featuredMedia ? headerBackgroundLs : undefined}
-      highlightHeading={true}
-      isContentTypeInfoBeforeMedia={false}
+      highlightHeading
     />
   );
 

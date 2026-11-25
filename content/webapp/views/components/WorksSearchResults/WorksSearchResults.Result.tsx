@@ -1,14 +1,19 @@
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
 
+import { archive } from '@weco/common/icons';
 import { convertIiifImageUri } from '@weco/common/utils/convert-image-uri';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
+import Icon from '@weco/common/views/components/Icon';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import Space from '@weco/common/views/components/styled/Space';
-import { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import type { WorkBasic } from '@weco/content/services/wellcome/catalogue/types';
+import { stripHtmlTags } from '@weco/content/utils/works';
 import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import WorkTitle from '@weco/content/views/components/WorkTitle';
 
 import {
+  ArchiveIconWrapper,
   Container,
   Details,
   Preview,
@@ -29,10 +34,13 @@ const WorkSearchResult: FunctionComponent<Props> = ({
   resultPosition,
 }) => {
   const {
-    productionDates,
     archiveLabels,
     cardLabels,
+    physicalDescription,
     primaryContributorLabel,
+    productionDates,
+    shortDescription,
+    isArchiveCollectionRoot,
   } = work;
 
   return (
@@ -41,8 +49,10 @@ const WorkSearchResult: FunctionComponent<Props> = ({
       style={{ textDecoration: 'none', display: 'inline-block' }}
     >
       <Wrapper
-        data-gtm-trigger="works_search_result"
-        data-gtm-position-in-list={resultPosition + 1}
+        {...dataGtmPropsToAttributes({
+          trigger: 'works_search_result',
+          'position-in-list': `${resultPosition + 1}`,
+        })}
       >
         <Container>
           {work.thumbnail && (
@@ -50,27 +60,51 @@ const WorkSearchResult: FunctionComponent<Props> = ({
               <PreviewImage
                 alt=""
                 src={convertIiifImageUri(work.thumbnail.url, 120)}
+                loading="lazy"
               />
             </Preview>
           )}
+
           <Details>
             {cardLabels.length > 0 && (
               <Space $v={{ size: 'xs', properties: ['margin-bottom'] }}>
-                <LabelsList
-                  labels={cardLabels}
-                  defaultLabelColor="warmNeutral.300"
-                />
+                <LabelsList labels={cardLabels} defaultLabelColor="green.20" />
               </Space>
             )}
-            <WorkTitleHeading>
+
+            <WorkTitleHeading
+              $isArchiveCollectionRoot={isArchiveCollectionRoot}
+            >
               <WorkTitle title={work.title} />
             </WorkTitleHeading>
 
+            {isArchiveCollectionRoot && shortDescription && (
+              <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
+                {stripHtmlTags(shortDescription)}
+              </Space>
+            )}
+
             <WorkInformation>
-              {primaryContributorLabel && (
-                <span className="searchable-selector">
-                  {primaryContributorLabel}
-                </span>
+              {isArchiveCollectionRoot && (
+                <>
+                  <ArchiveIconWrapper>
+                    <Icon icon={archive} matchText />
+                  </ArchiveIconWrapper>
+                  <span className="searchable-selector">
+                    Archive Collection
+                  </span>
+                </>
+              )}
+
+              {!isArchiveCollectionRoot && primaryContributorLabel && (
+                <>
+                  <WorkInformationItemSeparator aria-hidden>
+                    {' | '}
+                  </WorkInformationItemSeparator>
+                  <span className="searchable-selector">
+                    {primaryContributorLabel}
+                  </span>
+                </>
               )}
 
               {productionDates.length > 0 && (
@@ -93,9 +127,16 @@ const WorkSearchResult: FunctionComponent<Props> = ({
                 </>
               )}
             </WorkInformation>
+
             {archiveLabels?.partOf && (
               <WorkInformation>
                 Part of:&nbsp;{archiveLabels?.partOf}
+              </WorkInformation>
+            )}
+
+            {isArchiveCollectionRoot && physicalDescription && (
+              <WorkInformation $isSmall>
+                Archive Collection contains: {physicalDescription}
               </WorkInformation>
             )}
           </Details>

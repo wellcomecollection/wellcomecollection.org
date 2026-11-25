@@ -28,5 +28,49 @@ module "stage_wc_org_cloudfront_distribution" {
   /* We only need access where servers are running and we don't want to allow access from other countries as we have seen malicious traffic which disrupted staging. */
   allowed_countries = ["GB", "US", "IE"]
 
-  header_shared_secret = local.current_shared_secret
+  google_bots_ip_set_arn    = aws_wafv2_ip_set.google_bots.arn
+  github_actions_ip_set_arn = aws_wafv2_ip_set.github_actions.arn
+  header_shared_secret      = local.current_shared_secret
+
+  # Trialling the unrecognised-Host block here before prod: scanners hitting
+  # the distribution's *.cloudfront.net default domain get cert-mismatch 502s
+  # at the origin, which trip the CloudFront 5xx alarm (three times on
+  # 2026-08-12/13). Nothing legitimate uses that hostname.
+  enable_unrecognised_host_block = true
+
+  # Trialling the /search challenge here before prod (see the search-challenge
+  # rule in the module for why this is high-risk).
+  enable_search_challenge = true
+
+  # Trialling the /works/<id>/items challenge here before prod (see the items-challenge rule in the module).
+  enable_items_challenge = true
+
+  # Trialling the /search exemption from SQLi_QUERYARGUMENTS here before prod (see sqli-query-arguments-block in the module).
+  enable_search_sqli_exemption = true
+
+  # Cuts billed challenge responses by blocking provably fabricated user
+  # agents first. Matches prod.
+  enable_search_legacy_ua_block = true
+
+  # Real users get re-challenged (and billed) once per window instead of
+  # every 5 minutes. Matches prod.
+  search_challenge_immunity_seconds = 14400
+
+  # Targeted Bot Control, scoped to /search with TGT_ rules counting only.
+  # Matches prod.
+  bot_control_inspection_level = "TARGETED"
+
+  # Trialling the missing-Accept-Language block here before prod: real
+  # browsers always send the header; the clients that omit it are crawlers
+  # and bots that never solve the challenge they would otherwise be served.
+  enable_search_missing_lang_block = true
+
+  # Trialling the works/images/concepts fabricated-browser block here before
+  # prod: blocks fraud that poses as a browser without self-identifying,
+  # while leaving honest crawlers and user-triggered AI agents untouched.
+  enable_works_fabricated_ua_block = true
+
+  # Lightpanda harvests item pages from rotating IPv6 proxies and solves the
+  # challenge. Stage first, then prod.
+  blocked_user_agent_patterns = ["Lightpanda/"]
 }

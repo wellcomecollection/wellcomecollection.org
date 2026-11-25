@@ -1,13 +1,12 @@
 import { NextPage } from 'next';
 import { useMemo } from 'react';
-import { useTheme } from 'styled-components';
 
 import { pageDescriptionConcepts } from '@weco/common/data/microcopy';
-import { useToggles } from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { useFeatureFlags } from '@weco/common/server-data/Context';
+import { typography } from '@weco/common/utils/classnames';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
+import { GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept as ConceptType } from '@weco/content/services/wellcome/catalogue/types';
@@ -24,6 +23,7 @@ import { ThemePageSectionsData, themeTabOrder } from './concept.helpers';
 import ImagesResults from './concept.ImagesResults';
 import RelatedConceptsGroup from './concept.RelatedConceptsGroup';
 import {
+  BodyGrid,
   HotJarPlaceholder,
   MobileNavBackground,
   StretchWrapper,
@@ -48,10 +48,9 @@ const ConceptPage: NextPage<Props> = ({
         .flat(),
     [sectionsData]
   );
-  const { themePagesAllFields } = useToggles();
+  const { themePagesAllFields } = useFeatureFlags();
   const [expandedImage, setExpandedImage] = useExpandedImage(allImages);
   const { config } = useConceptPageContext();
-  const theme = useTheme();
 
   const { frequentCollaborators, relatedTopics } =
     conceptResponse.relatedConcepts || {};
@@ -123,17 +122,17 @@ const ConceptPage: NextPage<Props> = ({
         openGraphType="website"
         siteSection="collections"
         jsonLd={{ '@type': 'WebPage' }}
-        hideNewsletterPromo={true}
         apiToolbarLinks={apiToolbarLinks}
-        clipOverflowX={true}
         headerProps={{ hasColorBackground: true }}
+        hideNewsletterPromo
+        clipOverflowX
       >
         <ThemeHeader concept={conceptResponse} hasImages={hasImages} />
 
         <MobileNavBackground $isOnWhite={!hasImages} />
 
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <BodyGrid>
             <InPageNavigation
               links={navLinks}
               isOnWhite={!hasImages}
@@ -167,7 +166,12 @@ const ConceptPage: NextPage<Props> = ({
                   >
                     <section>
                       <h2
-                        className={font('brand-bold', 2)}
+                        className={typography(
+                          'heading',
+                          'xl',
+                          'strong',
+                          'brand'
+                        )}
                         id="frequent-collaborators"
                       >
                         {config.collaborators.label || 'Frequent collaborators'}
@@ -192,7 +196,6 @@ const ConceptPage: NextPage<Props> = ({
                     label={relatedConceptsGroupLabel}
                     labelType="heading"
                     relatedConcepts={relatedTopics}
-                    buttonColors={theme.buttonColors.silverTransparentBlack}
                   />
                 </Space>
               )}
@@ -205,7 +208,7 @@ const ConceptPage: NextPage<Props> = ({
                 <HotJarPlaceholder id="hotjar-embed-placeholder-concept-person" />
               )}
             </GridCell>
-          </Grid>
+          </BodyGrid>
         </Container>
       </CataloguePageLayout>
 

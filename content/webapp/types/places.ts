@@ -1,8 +1,6 @@
 import * as prismic from '@prismicio/client';
 
-import { GenericContentFields } from './generic-content-fields';
-
-export type Place = GenericContentFields & {
+export type Place = {
   id: string;
   title: string;
   level: number;

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export type StartSpan = [span: number, start?: number];
 export type SizeMap = Record<string, StartSpan>;
@@ -9,9 +9,9 @@ export const Grid = styled.div<{ $noGap?: boolean }>`
 
   ${props =>
     !props.$noGap &&
-    `
-    gap: ${props.theme.gutter.small};
-  `}
+    css`
+      gap: ${props.theme.gutter.small};
+    `}
 
   ${props =>
     !props.$noGap &&

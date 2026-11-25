@@ -6,7 +6,7 @@ import {
   VisualStoriesDocument as RawVisualStoriesDocument,
 } from '@weco/common/prismicio-types';
 import { getServerData } from '@weco/common/server-data';
-import { SimplifiedServerData } from '@weco/common/server-data/types';
+import { ServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
 import {
   InferDataInterface,
@@ -112,7 +112,7 @@ export const returnVisualStoryProps = ({
 }: {
   visualStoryDocument?: RawVisualStoriesDocument;
   otherCurrentVisualStories?: RawVisualStoriesDocument[];
-  serverData: SimplifiedServerData;
+  serverData: ServerData;
 }) => {
   if (isNotUndefined(visualStoryDocument)) {
     const visualStory = transformVisualStory(visualStoryDocument);

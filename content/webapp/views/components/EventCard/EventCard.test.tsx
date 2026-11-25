@@ -18,9 +18,9 @@ import EventCard, { getLocationText } from '.';
 
 jest
   .spyOn(Context, 'usePrismicData')
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  .mockImplementation(() => prismicData as any);
-/* eslint-enable @typescript-eslint/no-explicit-any */
+  .mockImplementation(
+    () => prismicData as unknown as ReturnType<typeof Context.usePrismicData>
+  );
 
 const renderComponent = (event: Event) => {
   return render(

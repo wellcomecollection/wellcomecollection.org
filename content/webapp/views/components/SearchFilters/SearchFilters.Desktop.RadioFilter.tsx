@@ -14,11 +14,11 @@ const RadioFilter = ({ f, changeHandler, form }: RadioFilterProps) => {
   return (
     <Button
       variant="DropdownButton"
-      isPill
       label={f.label}
       buttonType="inline"
       id={f.id}
       hasNoOptions={f.options.length === 0}
+      isPill
       isTight
     >
       <PlainList>

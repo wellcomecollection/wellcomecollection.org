@@ -80,7 +80,7 @@ export const resultTable = ({
         ...failures.map(([url, state]) => [
           styleText('red', url),
           state.failures
-            .map(({ description }) => styleText('yellow', '- ' + description))
+            .map(({ description }) => styleText('yellow', `- ${description}`))
             .join('\n'),
         ])
       );

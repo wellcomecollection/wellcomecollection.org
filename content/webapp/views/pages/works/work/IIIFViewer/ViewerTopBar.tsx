@@ -1,98 +1,25 @@
-import { ChoiceBody, ImageService } from '@iiif/presentation-3';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import {
-  chevrons,
-  gridView,
-  maximise,
-  minimise,
-  singlePage,
-} from '@weco/common/icons';
+import { chevron, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import useDownloadOptions from '@weco/content/hooks/useDownloadOptions';
 import useIsFullscreenEnabled from '@weco/content/hooks/useIsFullscreenEnabled';
-import useTransformedIIIFImage from '@weco/content/hooks/useTransformedIIIFImage';
-import { hasRestrictedItem } from '@weco/content/utils/iiif/v3';
-import {
-  getDownloadOptionsFromCanvasRenderingAndSupplementing,
-  getDownloadOptionsFromManifestRendering,
-  getImageServiceFromItem,
-  getVideoAudioDownloadOptions,
-  isChoiceBody,
-} from '@weco/content/utils/iiif/v3';
-import { getDownloadOptionsFromImageUrl } from '@weco/content/utils/works';
+import { hasRealLabel } from '@weco/content/utils/works';
 import Download from '@weco/content/views/components/Download';
 
-import { queryParamToArrayIndex } from '.';
+import CanvasPositionIndicator from './CanvasPositionIndicator';
+import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-
-export const ViewerButton = styled.button.attrs({
-  className: font('sans-bold', -1),
-})<{ $isDark?: boolean }>`
-  line-height: 1.5;
-  border-radius: ${props => props.theme.borderRadiusUnit}px;
-  text-decoration: none;
-  text-align: center;
-  white-space: nowrap;
-  padding: 6px 12px;
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  &:not([disabled]):hover {
-    cursor: pointer;
-  }
-
-  &[disabled],
-  &.disabled {
-    background: ${props => props.theme.color('neutral.600')};
-    border-color: ${props => props.theme.color('neutral.600')};
-    cursor: not-allowed;
-  }
-
-  &.disabled {
-    pointer-events: none;
-  }
-
-  .icon {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  overflow: hidden;
-
-  ${props =>
-    props.$isDark &&
-    `
-    border: 2px solid transparent;
-    color: ${props.theme.color('white')};
-    background: transparent;
-
-    &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
-    }
-  `}
-
-  ${props =>
-    !props.$isDark &&
-    `
-    background: ${props.theme.color('white')};
-    color: ${props.theme.color('accent.green')};
-    border: 1px solid ${props.theme.color('accent.green')};
-
-    &:not([disabled]):hover {
-      background: ${props.theme.color('accent.green')};
-      color: ${props.theme.color('white')};
-    }
-  `}
-`;
+import { TertiaryViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -125,9 +52,9 @@ const TopBar = styled.div<{
 
   ${props =>
     !props.$isDesktopSidebarActive &&
-    `
+    css`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+    `}
 
   ${props =>
     !props.$isDesktopSidebarActive &&
@@ -136,7 +63,7 @@ const TopBar = styled.div<{
   `}
 `;
 
-const Sidebar = styled(Space).attrs({
+const TopBarSidebarZone = styled(Space).attrs({
   $v: { size: 'xs', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'xs', properties: ['padding-left', 'padding-right'] },
 })<{ $isZooming: boolean }>`
@@ -177,7 +104,7 @@ const LeftZone = styled.div`
 `;
 
 const MiddleZone = styled.div.attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
 })`
   display: flex;
   justify-content: center;
@@ -188,7 +115,7 @@ const RightZone = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  width: 200px;
+  width: 150px;
 `;
 
 type ViewerTopBarProps = OptionalToUndefined<{
@@ -199,180 +126,115 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
-
+  const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
     gridVisible,
     setGridVisible,
-    work,
     isMobileSidebarActive,
     setIsMobileSidebarActive,
     isDesktopSidebarActive,
     setIsDesktopSidebarActive,
     showZoomed,
     isResizing,
-    transformedManifest,
-    query,
-    viewerRef,
     showFullscreenControl,
     hasOnlyRenderableImages,
+    currentCanvas,
+    isCurrentCanvasRestricted,
+    hasMultipleCanvases,
   } = useItemViewerContext();
-  const { canvas } = query;
-  const { canvases, rendering } = { ...transformedManifest };
-  const currentCanvas = canvases?.[queryParamToArrayIndex(query.canvas)];
-  const transformedIIIFImage = useTransformedIIIFImage(work);
   const { userIsStaffWithRestricted } = useUserContext();
-  const imageServices = (currentCanvas?.painting
-    .map(p => {
-      if (isChoiceBody(p)) {
-        return p.items.map(item =>
-          getImageServiceFromItem(item as unknown as ChoiceBody)
-        );
-      } else {
-        return getImageServiceFromItem(p);
-      }
-    })
-    .flat()
-    .filter(Boolean) || []) as ImageService[];
-  const isRestricted = currentCanvas && hasRestrictedItem(currentCanvas);
+  const downloadOptions = useDownloadOptions(iiifImageLocation);
 
-  // Works can have a DigitalLocation of type iiif-presentation and/or iiif-image.
-  // For a iiif-presentation DigitalLocation we get the download options from the manifest to which it points.
-  // For a iiif-image DigitalLocation we create the download options
-  // from a combination of the DigitalLocation and the iiif-image json to which it points.
-  // The json provides the image width and height used in the link text.
-  // Since this isn't vital to rendering the links, the useTransformedIIIFImage hook
-  // gets this data client side.
-  // Sometimes we render images for works that have neither a iiif-image or a iiif-presentation location type.
-  // In this case we use the iiifImageLocation passed from the serverSideProps of the /images.tsx
-  const iiifImageDownloadOptions = iiifImageLocation
-    ? getDownloadOptionsFromImageUrl({
-        url: iiifImageLocation.url,
-        width: transformedIIIFImage.width,
-        height: transformedIIIFImage.height,
-      })
-    : [];
+  const currentPageLabel = currentCanvas?.label?.trim();
 
-  // We also want to offer download options for each canvas image
-  // in the iiif-presentation manifest when it is being viewed.
-  const canvasImageDownloads = imageServices
-    .map(imageService => {
-      if (imageService['@id']) {
-        return getDownloadOptionsFromImageUrl({
-          url: imageService['@id'],
-          width: imageService.width || undefined,
-          height: imageService.height || undefined,
-        });
-      } else {
-        return [];
-      }
-    })
-    .flat()
-    .filter(Boolean);
-
-  const canvasDownloadOptions = currentCanvas
-    ? getDownloadOptionsFromCanvasRenderingAndSupplementing(currentCanvas)
-    : [];
-
-  const manifestDownloadOptions =
-    getDownloadOptionsFromManifestRendering(rendering);
-
-  const videoAudioDownloadOptions = getVideoAudioDownloadOptions(currentCanvas);
-
-  const downloadOptions = [
-    ...iiifImageDownloadOptions,
-    ...canvasImageDownloads,
-    ...canvasDownloadOptions,
-    ...manifestDownloadOptions,
-    ...videoAudioDownloadOptions,
-  ];
+  const shouldShowViewToggle =
+    !showZoomed && hasMultipleCanvases && isFullSupportBrowser;
+  const shouldShowPageIndicator =
+    hasMultipleCanvases && !showZoomed && !isResizing;
 
   return (
     <TopBar
+      data-testid="topbar"
       $isZooming={showZoomed}
       $isDesktopSidebarActive={isDesktopSidebarActive}
       $useFixedList={hasOnlyRenderableImages}
-      $hasMultipleCanvases={!!(canvases && canvases.length > 1)}
+      $hasMultipleCanvases={hasMultipleCanvases}
     >
-      <Sidebar $isZooming={showZoomed}>
+      <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ViewerButton
+            <TertiaryViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
-              $isDark
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
             >
-              <Icon
-                icon={chevrons}
-                iconColor="white"
-                rotate={isDesktopSidebarActive ? undefined : 180}
-              />
-              <span className="visually-hidden">
-                {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-              </span>
-            </ViewerButton>
+              {isDesktopSidebarActive ? (
+                <>
+                  <Icon icon={chevron} rotate={90} />
+                  <span style={{ marginLeft: '4px' }}>Hide info</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ marginRight: '4px' }}>Show info</span>
+                  <Icon icon={chevron} rotate={270} />
+                </>
+              )}
+            </TertiaryViewerButton>
 
-            <ViewerButton
+            <TertiaryViewerButton
               className="viewer-mobile"
-              $isDark
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ViewerButton>
+            </TertiaryViewerButton>
           </>
         )}
-      </Sidebar>
+      </TopBarSidebarZone>
+
       <Main>
         {hasOnlyRenderableImages && (
           <LeftZone className="viewer-desktop">
-            {!showZoomed &&
-              canvases &&
-              canvases.length > 1 &&
-              isFullSupportBrowser && (
-                <ToolbarSegmentedControl
-                  hideLabels={true}
-                  items={[
-                    {
-                      id: 'pageView',
-                      label: 'Page',
-                      icon: singlePage,
-                      dataGtmTrigger: 'item_view_page_button',
-                      clickHandler() {
-                        setGridVisible(false);
-                      },
+            {shouldShowViewToggle && (
+              <ToolbarSegmentedControl
+                items={[
+                  {
+                    id: 'pageView',
+                    label: 'Page',
+                    icon: singlePage,
+                    dataGtmTrigger: 'item_view_page_button',
+                    clickHandler() {
+                      setGridVisible(false);
                     },
-                    {
-                      id: 'gridView',
-                      label: 'Grid',
-                      icon: gridView,
-                      dataGtmTrigger: 'item_view_grid_button',
-                      clickHandler() {
-                        setGridVisible(true);
-                      },
+                  },
+                  {
+                    id: 'gridView',
+                    label: 'Grid',
+                    icon: gridView,
+                    dataGtmTrigger: 'item_view_grid_button',
+                    clickHandler() {
+                      setGridVisible(true);
                     },
-                  ]}
-                  activeId={gridVisible ? 'gridView' : 'pageView'}
-                />
-              )}
+                  },
+                ]}
+                activeId={gridVisible ? 'gridView' : 'pageView'}
+                hideLabels
+              />
+            )}
           </LeftZone>
         )}
+
         <MiddleZone className="viewer-desktop">
-          {canvases && canvases.length > 1 && !showZoomed && !isResizing && (
+          {shouldShowPageIndicator && (
             <>
-              <span data-testid="active-index">{`${canvas || 0}`}</span>
-              {`/${canvases?.length || ''}`}{' '}
-              {!(
-                canvases[queryParamToArrayIndex(canvas)]?.label?.trim() === '-'
-              ) &&
+              <CanvasPositionIndicator positionTestId="active-index" />{' '}
+              {hasRealLabel(currentPageLabel) &&
                 hasOnlyRenderableImages &&
-                `page ${canvases[
-                  queryParamToArrayIndex(canvas)
-                ]?.label?.trim()}`}
+                `page ${currentPageLabel}`}
             </>
           )}
         </MiddleZone>
@@ -381,59 +243,21 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
           {isEnhanced && (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {downloadOptions.length > 0 &&
-                (!isRestricted || userIsStaffWithRestricted) && (
+                (!isCurrentCanvasRestricted || userIsStaffWithRestricted) &&
+                !isKiosk && (
                   <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
-                      useDarkControl={true}
-                      isInline={true}
+                      hierarchy="secondary"
+                      useDarkControl
+                      isInline
                     />
                   </Space>
                 )}
 
               {isFullscreenEnabled && showFullscreenControl && (
-                <ViewerButton
-                  className="viewer-desktop"
-                  $isDark
-                  onClick={() => {
-                    if (viewerRef && viewerRef.current) {
-                      if (
-                        !document.fullscreenElement &&
-                        !document['webkitFullscreenElement']
-                      ) {
-                        if (viewerRef.current.requestFullscreen) {
-                          viewerRef.current.requestFullscreen();
-                        } else if (
-                          viewerRef.current['webkitRequestFullscreen']
-                        ) {
-                          viewerRef.current['webkitRequestFullscreen']();
-                        }
-                      } else {
-                        if (document.exitFullscreen) {
-                          document.exitFullscreen();
-                        } else if (document['webkitExitFullscreen']) {
-                          document['webkitExitFullscreen']();
-                        }
-                      }
-                    }
-                  }}
-                >
-                  {document.fullscreenElement ||
-                  document['webkitFullscreenElement'] ? (
-                    <>
-                      <Icon icon={minimise} />
-                      <span style={{ marginLeft: '7px' }}>
-                        Exit full screen
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <Icon icon={maximise} />
-                      <span style={{ marginLeft: '7px' }}>Full screen</span>
-                    </>
-                  )}
-                </ViewerButton>
+                <FullscreenToggleButton className="viewer-desktop" />
               )}
             </div>
           )}

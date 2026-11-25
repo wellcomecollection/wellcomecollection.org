@@ -8,6 +8,7 @@ import {
   GlobalInfoBarContextProvider,
   useGlobalInfoBarContext,
 } from '@weco/common/contexts/GlobalInfoBarContext';
+import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import cookies from '@weco/common/data/cookies';
 import { collectionVenueId } from '@weco/common/data/hardcoded-ids';
@@ -16,11 +17,15 @@ import { wellcomeCollectionGallery } from '@weco/common/data/organization';
 import { getCrop, ImageType } from '@weco/common/model/image';
 import { Url } from '@weco/common/model/link-props';
 import { SiteSection } from '@weco/common/model/site-section';
-import { usePrismicData, useToggles } from '@weco/common/server-data/Context';
+import {
+  useFeatureFlags,
+  usePrismicData,
+} from '@weco/common/server-data/Context';
 import { getVenueById } from '@weco/common/services/prismic/opening-times';
 import { transformCollectionVenues } from '@weco/common/services/prismic/transformers/collection-venues';
 import { convertImageUri } from '@weco/common/utils/convert-image-uri';
 import convertUrlToString from '@weco/common/utils/convert-url-to-string';
+import { serialiseForInlineScript } from '@weco/common/utils/json';
 import {
   libraryLd,
   museumLd,
@@ -34,8 +39,11 @@ import Footer from '@weco/common/views/components/Footer';
 import Header, { NavLink } from '@weco/common/views/components/Header';
 import InfoBanner from '@weco/common/views/components/InfoBanner';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
+import KioskNavigation from '@weco/common/views/components/KioskNavigation';
 import NewsletterPromo from '@weco/common/views/components/NewsletterPromo';
 import PopupDialog from '@weco/common/views/components/PopupDialog';
+import { Container } from '@weco/common/views/components/styled/Container';
+import ToggleWidget from '@weco/common/views/components/ToggleWidget';
 
 import Favicons from './PageLayout.Favicons';
 
@@ -90,7 +98,8 @@ const PageLayoutComponent: NextPage<Props> = ({
   clipOverflowX = false,
   isNoIndex = false,
 }) => {
-  const { apiToolbar, issuesBanner } = useToggles();
+  const { apiToolbar, issuesBanner, toggleWidget } = useFeatureFlags();
+  const { isKiosk } = useKiosk();
   const urlString = convertUrlToString(url);
   const fullTitle =
     title !== ''
@@ -118,6 +127,17 @@ const PageLayoutComponent: NextPage<Props> = ({
   const globalInfoBar = useGlobalInfoBarContext();
   const { extraApiToolbarLinks } = useSearchContext();
   const { isEnhanced } = useAppContext();
+
+  // Parse URL to extract page type and ID for kiosk navigation
+  const pathname = url.pathname || '';
+  const pathMatch = pathname.match(/^\/(works|stories)\/([^/]+)/);
+  const pageType =
+    pathMatch?.[1] === 'works'
+      ? 'work'
+      : pathMatch?.[1] === 'stories'
+        ? 'story'
+        : null;
+  const pageId = pathMatch?.[2];
 
   // For Twitter cards in particular, we prefer a crop as close to 2:1 as
   // possible.  This avoids an automated crop by Twitter, which may be less
@@ -246,23 +266,31 @@ const PageLayoutComponent: NextPage<Props> = ({
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
+          __html: serialiseForInlineScript(jsonLd),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(museumLd(wellcomeCollectionGalleryWithHours)),
+          __html: serialiseForInlineScript(
+            museumLd(wellcomeCollectionGalleryWithHours)
+          ),
         }}
       />
       <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(libraryLd(wellcomeLibraryWithHours)),
+          __html: serialiseForInlineScript(libraryLd(wellcomeLibraryWithHours)),
         }}
       />
 
-      <div id="root">
+      <div
+        id="root"
+        style={{
+          // Match the fixed height of KioskNavigation (padding + content)
+          paddingBottom: isKiosk ? '88px' : undefined,
+        }}
+      >
         {apiToolbar && (
           <ApiToolbar
             links={[
@@ -272,37 +300,53 @@ const PageLayoutComponent: NextPage<Props> = ({
           />
         )}
 
-        {skipToContentLinks.map(({ anchorId, label }) => (
-          <a
-            className="visually-hidden visually-hidden-focusable"
-            href={`#${anchorId}`}
-            key={anchorId}
-          >
-            {label}
-          </a>
-        ))}
-        <a className="visually-hidden visually-hidden-focusable" href="#main">
-          Skip to main content
-        </a>
-        {!hideHeader && <Header siteSection={siteSection} {...headerProps} />}
-        {issuesBanner && <InfoBanner variant="websiteIssues" />}
-        {globalAlert.data.isShown === 'show' &&
-          (!globalAlert.data.routeRegex ||
-            urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
-            <InfoBanner
-              variant="default"
-              document={globalAlert}
-              cookieName={cookies.globalAlert}
-              onVisibilityChange={isVisible => {
-                globalInfoBar.setIsVisible(isVisible);
-              }}
-            />
-          )}
+        {toggleWidget && <ToggleWidget />}
+
+        {!isKiosk && (
+          <>
+            {skipToContentLinks.map(({ anchorId, label }) => (
+              <a
+                className="visually-hidden visually-hidden-focusable"
+                href={`#${anchorId}`}
+                key={anchorId}
+              >
+                {label}
+              </a>
+            ))}
+            <a
+              className="visually-hidden visually-hidden-focusable"
+              href="#main"
+            >
+              Skip to main content
+            </a>
+
+            {!hideHeader && (
+              <Header siteSection={siteSection} {...headerProps} />
+            )}
+
+            {issuesBanner && <InfoBanner variant="websiteIssues" />}
+
+            {globalAlert.data.isShown === 'show' &&
+              (!globalAlert.data.routeRegex ||
+                urlString.match(new RegExp(globalAlert.data.routeRegex))) && (
+                <InfoBanner
+                  variant="default"
+                  document={globalAlert}
+                  cookieName={cookies.globalAlert}
+                  onVisibilityChange={isVisible => {
+                    globalInfoBar.setIsVisible(isVisible);
+                  }}
+                />
+              )}
+          </>
+        )}
+
         {popupDialog?.data?.isShown &&
           (!popupDialog.data.routeRegex ||
             urlString.match(new RegExp(popupDialog.data.routeRegex))) && (
             <PopupDialog document={popupDialog} />
           )}
+
         <div
           id="main"
           className="main"
@@ -317,12 +361,25 @@ const PageLayoutComponent: NextPage<Props> = ({
           {children}
         </div>
 
-        {!hideNewsletterPromo && <NewsletterPromo />}
+        {isKiosk && (
+          <Container>
+            <KioskNavigation
+              pageId={pageId || undefined}
+              pageType={pageType || undefined}
+              currentPathname={pathname}
+            />
+          </Container>
+        )}
+
+        {!hideNewsletterPromo && !isKiosk && <NewsletterPromo />}
 
         {/* The no javascript version of the burger menu relies on the footer being present on the page,
         as we then use an anchor link to take people to the navigation links in the footer.
-        We only completely remove the footer if you've got JS. If we've hidden the header, then we don't need to worry about this because the navigation links aren't there at all */}
-        {(!hideFooter || !isEnhanced) && <Footer venues={venues} />}
+        We only completely remove the footer if you've got JS.
+        In kiosk mode, we render a simplified footer without navigation links, but this is ok since we also remove the page header so there is no navigation at all */}
+        {(!hideFooter || !isEnhanced) && (
+          <Footer venues={venues} isSimpleFooter={isKiosk} />
+        )}
       </div>
     </>
   );

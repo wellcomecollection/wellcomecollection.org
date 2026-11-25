@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
 import { UpdatePasswordSchema } from '@weco/identity/types/schemas/update-password';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 
 export enum UpdatePasswordError {
   INCORRECT_PASSWORD,
@@ -26,21 +27,28 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<UpdatePasswordError>();
 
-  const updatePassword: UseUpdatePasswordMutation['updatePassword'] = (
+  const updatePassword: UseUpdatePasswordMutation['updatePassword'] = async (
     updatePasswordBody,
     onComplete
   ) => {
     setIsLoading(true);
-    axios
-      .put('/account/api/users/me/password', updatePasswordBody)
-      .then(() => {
-        setIsSuccess(true);
-        onComplete();
-      })
-      .catch((err: AxiosError) => {
+    try {
+      await accountApiClient.put('/users/me/password', updatePasswordBody);
+      setIsSuccess(true);
+      onComplete();
+    } catch (err) {
+      // Ensure error is FetchError before accessing response property
+      if (err instanceof FetchError) {
         switch (err.response?.status) {
           case 400: {
-            if (err.message.includes('PIN is not valid : PIN is trivial')) {
+            // Check response data for backend validation message
+            const errorData = err.response?.data;
+            const errorMessage =
+              typeof errorData === 'object' && errorData !== null
+                ? JSON.stringify(errorData)
+                : String(errorData || '');
+
+            if (errorMessage.includes('PIN is not valid : PIN is trivial')) {
               setError(UpdatePasswordError.REPEATED_CHARACTERS);
               break;
             } else {
@@ -65,8 +73,13 @@ export function useUpdatePassword(): UseUpdatePasswordMutation {
             break;
           }
         }
-      })
-      .finally(() => setIsLoading(false));
+      } else {
+        // Non-FetchError (network error, etc.)
+        setError(UpdatePasswordError.UNKNOWN);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return { updatePassword, isLoading, isSuccess, error };

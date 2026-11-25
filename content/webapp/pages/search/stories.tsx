@@ -69,7 +69,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       aggregations: ['format', 'contributors.contributor'],
     },
     pageSize: 25,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
   });
 
   if (storyResponseList?.type === 'Error') {

@@ -3,13 +3,17 @@ import { useTheme } from 'styled-components';
 
 import cookies from '@weco/common/data/cookies';
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
+import {
+  brandButtonColors,
+  designSystemColor,
+} from '@weco/common/views/themes/config';
 
 const headingStyles =
   'style="font-weight: 500; font-family: Inter, sans-serif;"';
 
 // This format is required by Civic UK
-export const policyUpdatedDate = '04/06/2025';
+export const policyUpdatedDate = '01/10/2026';
 
 // Should your privacy policy change after a user gives consent,
 // Cookie Control will invalidate prior records of consent and seek the user's preferences using the latest information available.
@@ -28,7 +32,10 @@ const necessaryCookies = () => {
   const wcCookies = Object.values(cookies).map(c => c);
 
   // See @weco/toggles/webapp/toggles for details on each
-  const featureFlags = ['toggle_*'];
+  // starred_toggles: which toggles a dashboard user has starred for the
+  // on-site ToggleWidget - not a toggle_<id> override itself, so it needs
+  // its own entry (see dash/webapp/.../toggles.helpers.ts).
+  const featureFlags = ['toggle_*', 'starred_toggles'];
 
   // Allows Prismic previews
   const prismicPreview = ['io.prismic.preview', 'isPreview'];
@@ -39,22 +46,27 @@ const necessaryCookies = () => {
   // Auth0 related
   const auth0 = ['wecoIdentitySession*'];
 
+  // AWS WAF challenge token. Without this Cookie Control deletes it on load
+  // and visitors who have not consented are re-challenged on every page.
+  const wafToken = ['aws-waf-token'];
+
   return [
     ...wcCookies,
     ...featureFlags,
     ...prismicPreview,
     ...digiratiCookies,
     ...auth0,
+    ...wafToken,
   ];
 };
 
 const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
 
-const CivicUK = ({ apiKey }: { apiKey: string }) => {
+const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   const theme = useTheme();
 
   const notifyTitleStyles = `
-  class="${font('sans-bold', 1)}"
+  class="${typography('body', 'xl', 'strong')}"
   style="display: block; margin: ${theme.spacingUnits['150']} 0;"
 `;
 
@@ -65,17 +77,72 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
     fontSize: '0.9375rem',
     fontSizeHeaders: '1.175rem',
     fontColor: theme.color('black'),
-    backgroundColor: theme.color('warmNeutral.200'),
-    acceptText: theme.color('black'),
-    acceptBackground: theme.color('yellow'),
-    rejectText: theme.color('black'),
-    toggleColor: '#0055cc',
-    toggleBackground: theme.color('neutral.300'),
+    backgroundColor: theme.color('neutral.10'),
+    // In the brand, Accept and Essential only are equal primary buttons
+    acceptText: theme.color('neutral.10'),
+    acceptBackground: theme.color('indigo.50'),
+    rejectText: theme.color('neutral.10'),
+    rejectBackground: designSystemColor('indigo.50'),
+    toggleColor: designSystemColor('indigo.50'),
+    toggleBackground: theme.color('neutral.20'),
     toggleText: theme.color('black'),
   };
 
+  // What Civic's branding options can't set: button shapes and states, and
+  // Manage cookies as a secondary button. Civic uses !important, so we do too
+  const primary = brandButtonColors.primary;
+  const secondary = brandButtonColors.secondary;
+  const primaryButtons =
+    '#ccc .ccc-notify-button.ccc-accept-button, #ccc .ccc-notify-button.ccc-reject-button, #ccc .ccc-notify-button.ccc-close-button';
+  const secondaryButton =
+    '#ccc .ccc-notify-button:not(.ccc-accept-button):not(.ccc-reject-button):not(.ccc-close-button)';
+  const brandStyles = `
+    #ccc .ccc-content--light h1,
+    #ccc .ccc-content--light h2,
+    #ccc .ccc-content--light h3,
+    #ccc .ccc-content--light span {
+      color: ${designSystemColor('neutral.70')} !important;
+    }
+    #ccc .ccc-notify-button {
+      border-radius: 0 !important;
+    }
+    ${primaryButtons} {
+      border-color: ${designSystemColor(primary.default.border)} !important;
+    }
+    ${primaryButtons.replaceAll(', ', ':active, ')}:active {
+      background-color: ${designSystemColor(primary.active.background)} !important;
+      border-color: ${designSystemColor(primary.active.border)} !important;
+    }
+    /* Civic gives the label span the button's background too */
+    ${primaryButtons.replaceAll(', ', ':active span, ')}:active span {
+      background-color: ${designSystemColor(primary.active.background)} !important;
+    }
+    ${secondaryButton} {
+      background-color: ${designSystemColor(secondary.default.background)} !important;
+      border-color: ${designSystemColor(secondary.default.border)} !important;
+    }
+    ${secondaryButton}:active {
+      background-color: ${designSystemColor(secondary.active.background)} !important;
+      border-color: ${designSystemColor(secondary.active.border)} !important;
+    }
+    ${secondaryButton}, ${secondaryButton} span {
+      color: ${designSystemColor(secondary.default.text)} !important;
+    }
+    #ccc .ccc-notify-button:hover span,
+    #ccc .ccc-notify-button:active span {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.2em;
+    }
+    #ccc .ccc-notify-button:focus-visible {
+      outline: 2px solid ${designSystemColor('neutral.70')} !important;
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')} !important;
+    }
+  `;
+
   const text = {
-    title: `<h1 class="${font('sans-bold', 2)}">Manage cookies</h1>`,
+    title: `<h1 class="${typography('heading', 'xl', 'strong', 'sans')}">Manage cookies</h1>`,
     intro:
       "We use cookies to make our website work. To help us make our marketing and website better, we'd like your consent to use cookies on behalf of third parties too.",
     necessaryTitle: `<h2 ${headingStyles}>Essential cookies</h2>`,
@@ -92,15 +159,12 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
     rejectSettings: 'Essential only',
   };
 
-  return (
-    <>
-      <script
-        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
-        type="text/javascript"
-      ></script>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `CookieControl.load({
+  // Defer the Civic script for returning users who have interacted with the banner.
+  // The config script uses type="module" when deferred — module scripts are implicitly
+  // deferred and execute in document order after preceding defer scripts, so
+  // CookieControl is guaranteed to be defined when .load() is called.
+  // On a first visit, both scripts remain render-blocking.
+  const cookieControlConfig = `CookieControl.load({
             product: 'PRO_MULTISITE',
             apiKey: '${apiKey}',
             initialState: 'notify',
@@ -175,7 +239,20 @@ const CivicUK = ({ apiKey }: { apiKey: string }) => {
             statement: ${JSON.stringify(statement)},
             branding: ${JSON.stringify(branding)},
             text: ${JSON.stringify(text)}
-          });`,
+          });`;
+
+  return (
+    <>
+      <style>{brandStyles}</style>
+      <script
+        src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
+        type="text/javascript"
+        defer={defer}
+      ></script>
+      <script
+        type={defer ? 'module' : 'text/javascript'}
+        dangerouslySetInnerHTML={{
+          __html: cookieControlConfig,
         }}
       />
     </>

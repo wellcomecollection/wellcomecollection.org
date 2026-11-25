@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
-import { allowedRequests } from '@weco/common/values/requests';
+import { typography } from '@weco/common/utils/classnames';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import Button from '@weco/common/views/components/Buttons';
 
 import CurrentRequests from './ItemRequestModal.CurrentRequests';
@@ -19,9 +19,11 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
   return (
     <>
       <Header>
-        <span className={font('brand-bold', 1)}>Request confirmed</span>
+        <span className={typography('heading', 'lg', 'strong', 'brand')}>
+          Request confirmed
+        </span>
         <CurrentRequests
-          allowedHoldRequests={allowedRequests}
+          allowedHoldRequests={ALLOWED_REQUESTS}
           currentHoldRequests={currentHoldNumber}
         />
       </Header>
@@ -33,6 +35,7 @@ const ConfirmedDialog: FunctionComponent<ConfirmedDialogProps> = ({
       <CTAs>
         <Button
           variant="ButtonSolidLink"
+          hierarchy="primary"
           text="View your library account"
           link="/account"
         />

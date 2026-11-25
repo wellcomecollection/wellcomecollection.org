@@ -63,7 +63,7 @@ const NewOnlinePage: NextPage<Props> = ({ works, apiToolbarLinks }) => {
             )
           }
           backgroundTexture={headerBackgroundLs}
-          highlightHeading={true}
+          highlightHeading
         />
 
         {works.totalPages > 1 && (

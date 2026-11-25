@@ -18,6 +18,7 @@ import yargs from 'yargs';
 
 import { logError, logInfo, logSuccess } from '@weco/common/utils/console-logs';
 import { pluralize } from '@weco/common/utils/grammar';
+import { region } from '@weco/prismic-model/config';
 import {
   downloadPrismicSnapshot,
   getPrismicDocuments,
@@ -30,12 +31,62 @@ type ErrorProps = {
   errors: string[];
 };
 
+// CI sets PRISMIC_LINTING_SLACK_WEBHOOK_URL so the webhook stays off the command line.
 const { slackWebhookUrl } = yargs(process.argv.slice(2))
-  .usage('Usage: $0 --slackWebhookUrl [string]')
+  .usage('Usage: $0 [--slackWebhookUrl string]')
+  .env('PRISMIC_LINTING')
   .options({
     slackWebhookUrl: { type: 'string' },
   })
   .parseSync();
+
+// Metadata describing each check, included in the report so the
+// dashboard can display it without hardcoding.
+const checks = [
+  {
+    name: 'Outlook safelinks',
+    description: 'URLs that have been copy/pasted from email',
+  },
+  {
+    name: 'Invalid link formats',
+    description:
+      "Links that don't start with http://, https://, /, mailto:, or tel:",
+  },
+  {
+    name: 'Preview links',
+    description:
+      'Links to preview.wellcomecollection.org instead of the live site',
+  },
+  {
+    name: 'Broken interpretation types',
+    description: 'Events with missing interpretation type links',
+  },
+  {
+    name: 'Contributor links',
+    description: "URLs that don't start with http:// or https://",
+  },
+  {
+    name: 'Promo images',
+    description:
+      'Articles missing promo images or required aspect ratios (square, 32:15, 16:9)',
+  },
+  {
+    name: 'Audio/video duration',
+    description: 'Format should be xx:xx (e.g. 03:30)',
+  },
+  {
+    name: 'Incomplete contributor data',
+    description: '"Same as" fields with either link or title missing',
+  },
+  {
+    name: 'Missing UIDs',
+    description: "Documents that should have a UID but don't",
+  },
+  {
+    name: 'Misplaced H2 tags',
+    description: 'H2 headings in text slices (should use H3)',
+  },
+];
 
 // Look for eur01 safelinks.  These occur when somebody has copied
 // a URL directly from Outlook and isn't using the original URL.
@@ -108,13 +159,19 @@ function detectNonHTTPWWWLinks(doc: any): string[] {
 // the object to get more debugging information, but I hope this
 // is good enough for now.
 function detectPreviewLinks(doc: any): string[] {
-  if (
-    JSON.stringify(doc).indexOf('https://preview.wellcomecollection.org/') !==
-    -1
-  ) {
-    return [
-      'One of the links is a preview.wellcomecollection.org URL, which should be replaced with a link to the live site.',
-    ];
+  // Match http/https URL-like substrings, stopping at whitespace, backslashes, or common HTML delimiters.
+  const urls = JSON.stringify(doc).match(/https?:\/\/[^\\\s"'<>]+/gi) ?? [];
+
+  for (const rawUrl of urls) {
+    try {
+      if (new URL(rawUrl).hostname === 'preview.wellcomecollection.org') {
+        return [
+          'One of the links is a preview.wellcomecollection.org URL, which should be replaced with a link to the live site.',
+        ];
+      }
+    } catch {
+      continue;
+    }
   }
 
   return [];
@@ -143,7 +200,7 @@ function detectBrokenInterpretationTypeLinks(doc: any): string[] {
 }
 
 // Contributor links that don't begin with http or https will be treated as
-// relative URLs on the front-end, e.g. www.example.com becomes wc.org/articles/www.example.com.
+// relative URLs on the front-end, e.g. www.example.com becomes wc.org/stories/www.example.com.
 //
 // This obviously isn't what we want; this will find any cases where the link
 // doesn't have an http[s] prefix.
@@ -277,8 +334,7 @@ const getContentTypesWithUid = () => {
       if (file) {
         const fileObject = JSON.parse(file);
         const firstChildJsonSection = Object.values(fileObject.json)?.[0] as
-          | { uid?: string }
-          | undefined;
+          { uid?: string } | undefined;
 
         if (firstChildJsonSection && 'uid' in firstChildJsonSection)
           label = fileObject.id;
@@ -438,32 +494,33 @@ async function run() {
         console.log(`- ${msg}`);
       }
       console.log('');
-
-      // Send an alert to Editors if anything is found on a GitHub Action run
-      // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
-      if (slackWebhookUrl) {
-        try {
-          await fetch(slackWebhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
-            body: JSON.stringify({
-              message: `The Prismic linting script has found ${pluralize(errors.length, 'thing')} that require${errors.length > 1 ? '' : 's'} your attention.`,
-            }),
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
     }
   }
 
-  const s3Client = new S3Client({ region: 'eu-west-1' });
+  // Send a single alert to Editors if anything is found on a GitHub Action run
+  // https://github.com/wellcomecollection/wellcomecollection.org/actions/workflows/prismic-linting.yml
+  if (slackWebhookUrl && totalErrors > 0) {
+    try {
+      await fetch(slackWebhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          message: `The Prismic linting script has found ${pluralize(totalErrors, 'thing')} that require${totalErrors > 1 ? '' : 's'} your attention.`,
+        }),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const s3Client = new S3Client({ region });
 
   console.log('Uploading Prismic linting reporting to S3');
   const putObjectCommand = new PutObjectCommand({
     Bucket: 'dash.wellcomecollection.org',
     Key: 'prismic-linting/report.json',
     Body: JSON.stringify({
+      checks,
       errors: allErrors,
       totalErrors,
       ref: snapshotFile.split('.')[snapshotFile.split('.').length - 1],
@@ -475,7 +532,7 @@ async function run() {
 
   await s3Client.send(putObjectCommand);
 
-  const cloudFrontClient = new CloudFrontClient({ region: 'eu-west-1' });
+  const cloudFrontClient = new CloudFrontClient({ region });
   const command = new CreateInvalidationCommand({
     DistributionId: 'EIOS79GG23UUY',
     InvalidationBatch: {

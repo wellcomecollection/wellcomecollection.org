@@ -1,21 +1,32 @@
-import { idArray, uiTree } from '@weco/content/__mocks__/uiTree';
+import { DigitalLocation } from '@weco/common/model/catalogue';
 import {
-  legacyWorkWithMixedPartOf,
-  legacyWorkWithPartOf,
   workFixture,
   workWithLibrarySeriesPartOf,
   workWithMixedPartOf,
   workWithPartOf,
 } from '@weco/content/test/fixtures/catalogueApi/work';
+import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  canViewItem,
   getAccessConditionForDigitalLocation,
   getArchiveAncestorArray,
   getDigitalLocationOfType,
-  getItemIdentifiersWith,
-  getItemsWith,
+  getFileLabel,
+  getHasViewableIIIFContent,
   getProductionDates,
 } from '@weco/content/utils/works';
-import { getTabbableIds } from '@weco/content/views/pages/works/work/ArchiveTree/ArchiveTree.helpers';
+
+const iiifImageLocation = getDigitalLocationOfType(
+  workFixture,
+  'iiif-image'
+) as DigitalLocation;
+
+const iiifPresentationLocation = getDigitalLocationOfType(
+  workFixture,
+  'iiif-presentation'
+) as DigitalLocation;
+
+const transformedManifest = {} as TransformedManifest;
 
 describe('getProductionDates', () => {
   it('extracts date labels from a work', () => {
@@ -25,173 +36,12 @@ describe('getProductionDates', () => {
   });
 });
 
-describe('getItemsWith', () => {
-  it('gets the items with indicated by the parameters', () => {
-    const items = getItemsWith(workFixture, {
-      identifierId: 'sierra-system-number',
-      locationType: 'PhysicalLocation',
-    });
-
-    expect(items.length).toBe(1);
-    expect(items[0].id).toBe('ys3ern6x');
-  });
-});
-
-describe('getItemIdentifiersWith', () => {
-  it('gets the item identifiers indicated by the parameters', () => {
-    const identifiers = getItemIdentifiersWith(
-      workFixture,
-      {
-        identifierId: 'sierra-system-number',
-        locationType: 'PhysicalLocation',
-      },
-      'sierra-system-number'
-    );
-
-    expect(identifiers.length).toBe(1);
-    expect(identifiers[0]).toBe('i16010176');
-  });
-});
-
 describe('getArchiveAncestorArray', () => {
   it('Does not get the ancestors of a non-archive work', () => {
     const archiveAncestorArray = getArchiveAncestorArray(
       workWithLibrarySeriesPartOf
     );
     expect(archiveAncestorArray).toStrictEqual([]);
-  });
-
-  // TODO: Remove this test (and the legacy fixture) once we remove the legacy works index
-  it('gets the ancestors of a legacy archive work', () => {
-    const archiveAncestorArray = getArchiveAncestorArray(legacyWorkWithPartOf);
-    expect(archiveAncestorArray).toStrictEqual([
-      {
-        id: 'hz43r7re',
-        title: 'Francis Crick (1916-2004): archives',
-        alternativeTitles: [],
-        referenceNumber: 'PP/CRI',
-        availableOnline: false,
-        availabilities: [],
-        totalDescendentParts: 2678,
-        totalParts: 14,
-        partOf: [],
-        type: 'Collection',
-      },
-      {
-        id: 'gnfmdk33',
-        title: 'Personal Material',
-        alternativeTitles: [],
-        referenceNumber: 'PP/CRI/A',
-        availableOnline: false,
-        availabilities: [],
-        partOf: [
-          {
-            alternativeTitles: [],
-            availableOnline: false,
-            availabilities: [],
-            id: 'hz43r7re',
-            partOf: [],
-            referenceNumber: 'PP/CRI',
-            title: 'Francis Crick (1916-2004): archives',
-            totalDescendentParts: 2678,
-            totalParts: 14,
-            type: 'Collection',
-          },
-        ],
-        totalDescendentParts: 50,
-        totalParts: 4,
-        type: 'Section',
-      },
-      {
-        id: 'pwbpp7gj',
-        title: 'Miscellaneous Personal Items',
-        alternativeTitles: [],
-        referenceNumber: 'PP/CRI/A/1',
-        availableOnline: false,
-        availabilities: [],
-        partOf: [
-          {
-            alternativeTitles: [],
-            availableOnline: false,
-            availabilities: [],
-            id: 'gnfmdk33',
-            partOf: [
-              {
-                alternativeTitles: [],
-                availableOnline: false,
-                availabilities: [],
-                id: 'hz43r7re',
-                partOf: [],
-                referenceNumber: 'PP/CRI',
-                title: 'Francis Crick (1916-2004): archives',
-                totalDescendentParts: 2678,
-                totalParts: 14,
-                type: 'Collection',
-              },
-            ],
-            referenceNumber: 'PP/CRI/A',
-            title: 'Personal Material',
-            totalDescendentParts: 50,
-            totalParts: 4,
-            type: 'Section',
-          },
-        ],
-        totalDescendentParts: 17,
-        totalParts: 6,
-        type: 'Section',
-      },
-      {
-        id: 't9d9yrsx',
-        title: 'Miscellaneous Photographs',
-        alternativeTitles: [],
-        referenceNumber: 'PP/CRI/A/1/2',
-        availableOnline: false,
-        availabilities: [],
-        partOf: [
-          {
-            alternativeTitles: [],
-            availableOnline: false,
-            availabilities: [],
-            id: 'pwbpp7gj',
-            partOf: [
-              {
-                alternativeTitles: [],
-                availableOnline: false,
-                availabilities: [],
-                id: 'gnfmdk33',
-                partOf: [
-                  {
-                    alternativeTitles: [],
-                    availableOnline: false,
-                    availabilities: [],
-                    id: 'hz43r7re',
-                    partOf: [],
-                    referenceNumber: 'PP/CRI',
-                    title: 'Francis Crick (1916-2004): archives',
-                    totalDescendentParts: 2678,
-                    totalParts: 14,
-                    type: 'Collection',
-                  },
-                ],
-                referenceNumber: 'PP/CRI/A',
-                title: 'Personal Material',
-                totalDescendentParts: 50,
-                totalParts: 4,
-                type: 'Section',
-              },
-            ],
-            referenceNumber: 'PP/CRI/A/1',
-            title: 'Miscellaneous Personal Items',
-            totalDescendentParts: 17,
-            totalParts: 6,
-            type: 'Section',
-          },
-        ],
-        totalDescendentParts: 9,
-        totalParts: 9,
-        type: 'Series',
-      },
-    ]);
   });
 
   it('gets the ancestors of an archive work', () => {
@@ -240,50 +90,6 @@ describe('getArchiveAncestorArray', () => {
       },
     ]);
   });
-
-  // TODO: Remove this test (and the legacy fixture) once we remove the legacy works index
-  it('Does not return legacy non-archive parents', () => {
-    const archiveAncestorArray = getArchiveAncestorArray(
-      legacyWorkWithMixedPartOf
-    );
-    expect(archiveAncestorArray).toStrictEqual([
-      {
-        id: 'f00dcafe',
-        referenceNumber: 'a',
-        title: 'An Archive Series',
-        type: 'Series',
-        totalParts: 1,
-        totalDescendentParts: 2,
-        alternativeTitles: [],
-        availableOnline: false,
-        availabilities: [],
-      },
-      {
-        id: 'cafebeef',
-        referenceNumber: 'a/b',
-        title: 'An Archive Collection',
-        type: 'Collection',
-        totalParts: 1,
-        totalDescendentParts: 1,
-        alternativeTitles: [],
-        availableOnline: false,
-        availabilities: [],
-        partOf: [
-          {
-            id: 'f00dcafe',
-            referenceNumber: 'a',
-            title: 'An Archive Series',
-            type: 'Series',
-            totalParts: 1,
-            totalDescendentParts: 2,
-            alternativeTitles: [],
-            availableOnline: false,
-            availabilities: [],
-          },
-        ],
-      },
-    ]);
-  });
 });
 
 it('Does not return non-archive parents', () => {
@@ -310,13 +116,6 @@ it('Does not return non-archive parents', () => {
       availabilities: [],
     },
   ]);
-});
-
-describe('getTabbableIds', () => {
-  it('gets the ids from only the open branches of a uiTree and returns them as a flat array', () => {
-    const tabbableIds = getTabbableIds(uiTree);
-    expect(idArray).toEqual(tabbableIds);
-  });
 });
 
 describe('getDigitalLocationOfType', () => {
@@ -365,5 +164,132 @@ describe('getAccessConditionForDigitalLocation', () => {
       const statusId = getAccessConditionForDigitalLocation(manifestLocation);
       expect(statusId).toEqual('open');
     }
+  });
+});
+
+describe('canViewItem', () => {
+  it('returns false when the access condition is closed', () => {
+    expect(
+      canViewItem({
+        userIsStaffWithRestricted: false,
+        hasViewableIIIFContent: true,
+        accessCondition: 'closed',
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when the access condition is restricted and the user is not staff with restricted access', () => {
+    expect(
+      canViewItem({
+        userIsStaffWithRestricted: false,
+        hasViewableIIIFContent: true,
+        accessCondition: 'restricted',
+      })
+    ).toBe(false);
+  });
+
+  it('returns true when the access condition is restricted and the user is staff with restricted access', () => {
+    expect(
+      canViewItem({
+        userIsStaffWithRestricted: true,
+        hasViewableIIIFContent: true,
+        accessCondition: 'restricted',
+      })
+    ).toBe(true);
+  });
+
+  it('returns true for an open work with viewable IIIF content', () => {
+    expect(
+      canViewItem({
+        userIsStaffWithRestricted: false,
+        hasViewableIIIFContent: true,
+        accessCondition: 'open',
+      })
+    ).toBe(true);
+  });
+
+  it('returns false when there is no viewable IIIF content', () => {
+    expect(
+      canViewItem({
+        userIsStaffWithRestricted: false,
+        hasViewableIIIFContent: false,
+        accessCondition: 'open',
+      })
+    ).toBe(false);
+  });
+});
+
+describe('getHasViewableIIIFContent', () => {
+  it('returns true for an iiif-image-only work, with no manifest to load', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation,
+        iiifPresentationLocation: undefined,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
+      })
+    ).toBe(true);
+  });
+
+  it('returns true for a born-digital work while its manifest is still loading (optimistic)', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: true,
+        transformedManifest: undefined,
+      })
+    ).toBe(true);
+  });
+
+  it('returns true for a born-digital work whose manifest has loaded successfully', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: false,
+        transformedManifest,
+      })
+    ).toBe(true);
+  });
+
+  it('returns false for a born-digital work whose manifest 404s', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
+      })
+    ).toBe(false);
+  });
+
+  it('returns false when there is no digital location at all', () => {
+    expect(
+      getHasViewableIIIFContent({
+        iiifImageLocation: undefined,
+        iiifPresentationLocation: undefined,
+        isLoadingManifest: false,
+        transformedManifest: undefined,
+      })
+    ).toBe(false);
+  });
+});
+
+describe('getFileLabel', () => {
+  it('returns the given label', () => {
+    expect(getFileLabel('A file title')).toBe('A file title');
+  });
+
+  it('falls back to unknown title when label is missing', () => {
+    expect(getFileLabel(undefined)).toBe('unknown title');
+  });
+
+  it("falls back to unknown title when label is the API's '-' placeholder", () => {
+    expect(getFileLabel('-')).toBe('unknown title');
+  });
+
+  it('falls back to a given titleOverride instead of the default', () => {
+    expect(getFileLabel(undefined, 'a custom title')).toBe('a custom title');
   });
 });

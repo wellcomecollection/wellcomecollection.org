@@ -6,7 +6,7 @@ import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
 import { cross } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import { SizeMap } from '@weco/common/views/components/styled/Grid';
@@ -29,7 +29,7 @@ export type Props = {
   isOnWhite?: boolean;
 };
 
-const titleText = 'On this page';
+const TITLE_TEXT = 'On this page';
 
 const InPageNavigation: FunctionComponent<Props> = ({
   links,
@@ -186,7 +186,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
 
   const activeLinkText =
     links.find(link => link.url.replace('#', '') === activeId)?.text ||
-    titleText;
+    TITLE_TEXT;
 
   const textRef = useRef<HTMLSpanElement>(null);
 
@@ -204,8 +204,8 @@ const InPageNavigation: FunctionComponent<Props> = ({
           consider removing once moved to v21 */}
           {createPortal(
             <BackgroundOverlay
-              data-lock-scroll={true}
               onClick={() => setIsListActive(false)}
+              data-lock-scroll
             />,
             document.body
           )}
@@ -221,8 +221,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
         }}
       >
         <Root $hasStuck={hasStuck} data-in-page-navigation="true">
-          <h2 className={`${font('sans-bold', -1)} is-hidden-s is-hidden-m`}>
-            {titleText}
+          <h2
+            className={`${typography('body', 'md', 'strong')} is-hidden-s is-hidden-m`}
+          >
+            {TITLE_TEXT}
           </h2>
 
           <MobileNavButton
@@ -247,7 +249,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
             <AnimatedTextContainer>
               <SwitchTransition mode="out-in">
                 <CSSTransition
-                  key={hasStuck ? activeLinkText : titleText}
+                  key={hasStuck ? activeLinkText : TITLE_TEXT}
                   timeout={200}
                   nodeRef={textRef}
                   onEnter={() => {
@@ -290,10 +292,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
                     }}
                   >
                     {isListActive
-                      ? titleText
+                      ? TITLE_TEXT
                       : hasStuck
                         ? activeLinkText
-                        : titleText}
+                        : TITLE_TEXT}
                   </span>
                 </CSSTransition>
               </SwitchTransition>

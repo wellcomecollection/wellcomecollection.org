@@ -14,7 +14,7 @@ import { arrow, email, ticket } from '@weco/common/icons';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDayDate, formatTime } from '@weco/common/utils/format-date';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -66,14 +66,14 @@ const DateWrapper = styled.div.attrs({
 `;
 
 const ThirdParty = styled.span.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   color: ${props => props.theme.color('neutral.700')};
   margin: 0;
 `;
 
 const EmailTeamCopy = styled(Space).attrs({
-  className: font('sans-bold', -1),
+  className: typography('body', 'md', 'strong'),
   $v: { size: 'xs', properties: ['margin-top'] },
 })`
   display: block;
@@ -171,8 +171,8 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         FeaturedMedia={maybeFeaturedMedia}
         Background={
           <HeaderBackground
-            hasWobblyEdge={true}
             backgroundTexture={headerBackgroundLs}
+            hasWobblyEdge
           />
         }
         ContentTypeInfo={
@@ -199,7 +199,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           </>
         }
         isFree={!event.cost}
-        isContentTypeInfoBeforeMedia={true}
+        isContentTypeInfoBeforeMedia
       />
 
       {event.bslLeafletVideo && (
@@ -238,7 +238,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
         }
         seasons={event.seasons}
         // We hide contributors as we render them higher up the page on events
-        hideContributors={true}
+        hideContributors
       >
         <DateWrapper>
           <h2 id="dates">Dates</h2>
@@ -251,12 +251,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           showTicketSalesStart(event.ticketSalesStart) && (
             <>
               <Message
-                text={
-                  'Booking opens ' +
-                  formatDayDate(event.ticketSalesStart) +
-                  ' ' +
-                  formatTime(event.ticketSalesStart)
-                }
+                text={`Booking opens ${formatDayDate(
+                  event.ticketSalesStart
+                )} ${formatTime(event.ticketSalesStart)}`}
               />
             </>
           )}
@@ -270,14 +267,16 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                   <>
                     <Button
                       variant="ButtonSolid"
-                      disabled={true}
+                      hierarchy="primary"
                       text="Fully booked"
+                      disabled
                     />
                   </>
                 ) : (
                   <>
                     <Button
                       variant="ButtonSolidLink"
+                      hierarchy="primary"
                       link={event.thirdPartyBooking.url}
                       icon={ticket}
                       text="Check for tickets"
@@ -303,6 +302,7 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                 ) : (
                   <Button
                     variant="ButtonSolidLink"
+                    hierarchy="primary"
                     link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
                     icon={email}
                     text="Email to book"
@@ -343,7 +343,9 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
 
         {accessResourceLinks && accessResourceLinks.length > 0 && (
           <>
-            <h2 className={font('brand-bold', 1)}>Event access content</h2>
+            <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+              Event access content
+            </h2>
             <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
               <ResourcesList>
                 {accessResourceLinks.map((link, i) => {
@@ -355,9 +357,13 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
                         $borderColor="accent.turquoise"
                       >
                         {link.type === 'visual-story' && (
-                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
+                          <h3 className={typography('body', 'lg', 'strong')}>
+                            Visual story
+                          </h3>
                         )}
-                        <span className={font('sans', -2)}>{link.text}</span>
+                        <span className={typography('body', 'sm', 'regular')}>
+                          {link.text}
+                        </span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -416,13 +422,21 @@ const EventPage: NextPage<Props> = ({ event, accessResourceLinks, jsonLd }) => {
           {isNotUndefined(
             event.policies.find(p => p.id === eventPolicyIds.schoolBooking)
           ) ? (
-            <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+            <p
+              className={typography('body', 'md', 'regular')}
+              style={{ marginBottom: 0 }}
+            >
               {a11y.defaultEventMessage}
             </p>
           ) : (
             <>
-              <p className={font('sans', -1)}>{a11y.defaultEventMessage}</p>
-              <p className={font('sans', -1)} style={{ marginBottom: 0 }}>
+              <p className={typography('body', 'md', 'regular')}>
+                {a11y.defaultEventMessage}
+              </p>
+              <p
+                className={typography('body', 'md', 'regular')}
+                style={{ marginBottom: 0 }}
+              >
                 <a
                   href={`https://wellcomecollection.org/visit-us/${prismicPageIds.bookingAndAttendingOurEvents}`}
                 >

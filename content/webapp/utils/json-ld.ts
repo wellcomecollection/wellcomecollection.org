@@ -1,6 +1,7 @@
 import { objToJsonLd } from '@weco/common/utils/json-ld';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
 import { Work as WorkType } from '@weco/content/services/wellcome/catalogue/types';
+import { removeDisplayMarkupTags } from '@weco/content/utils/string';
 
 export function workLd(work: WorkType): JsonLdObj {
   const creators = (work.contributors || []).map(c => {
@@ -16,7 +17,7 @@ export function workLd(work: WorkType): JsonLdObj {
     {
       creator: creators,
       keywords,
-      name: work.title,
+      name: removeDisplayMarkupTags(work.title),
       description: work.description,
 
       thumbnailUrl: work?.thumbnail?.url,

@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { WobblyBottom } from '@weco/common/views/components/DecorativeEdge';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import {
@@ -13,6 +13,7 @@ import {
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { Season } from '@weco/content/types/seasons';
 import DateRange from '@weco/content/views/components/DateRange';
 
@@ -35,7 +36,7 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
   return (
     <ContaineredLayout gridSizes={gridSize12()}>
       <HeaderWrapper>
-        <WobblyBottom backgroundColor="white">
+        <WobblyBottom backgroundColor={pageBackgroundColor}>
           {superWidescreenImage && (
             <div style={{ position: 'relative' }}>
               <PrismicImage
@@ -61,14 +62,19 @@ const SeasonsHeader: FunctionComponent<Props> = ({ season }) => {
                     <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                       <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
                         <h1
-                          className={font('brand-bold', 4)}
+                          className={typography(
+                            'heading',
+                            'xxl',
+                            'strong',
+                            'brand'
+                          )}
                           style={{ display: 'inline-block', marginBottom: 0 }}
                         >
                           {title}
                         </h1>
                       </Space>
                       {start && end && (
-                        <div className={font('sans', -1)}>
+                        <div className={typography('body', 'md', 'regular')}>
                           <DateRange start={start} end={end} />
                         </div>
                       )}

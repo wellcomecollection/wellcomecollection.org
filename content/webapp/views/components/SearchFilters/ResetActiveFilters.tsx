@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import { cross } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 import {
@@ -52,7 +52,7 @@ const CancelFilter: FunctionComponent<CancelFilterProps> = ({
   return (
     <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
       <IconWrapper as="span">
-        <Icon icon={cross} matchText={true} iconColor="neutral.500" />
+        <Icon icon={cross} iconColor="neutral.500" matchText />
       </IconWrapper>
       <span className="visually-hidden">remove </span>
       {text || children}
@@ -162,7 +162,7 @@ export const ResetActiveFilters: FunctionComponent<ResetActiveFilters> = ({
     ) : null;
 
   return (
-    <div className={font('sans-bold', -1)}>
+    <div className={typography('body', 'md', 'strong')}>
       <h2 style={{ display: 'inline' }}>
         <Space as="span" $h={{ size: 'sm', properties: ['margin-right'] }}>
           Active filters:

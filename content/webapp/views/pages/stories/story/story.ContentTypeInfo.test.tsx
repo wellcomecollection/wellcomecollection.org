@@ -1,4 +1,4 @@
-import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
+import { COMMISSIONING_EDITOR_ROLE_ID } from '@weco/common/data/hardcoded-ids';
 import { renderWithTheme } from '@weco/common/test/fixtures/test-helpers';
 import { Article } from '@weco/content/types/articles';
 import { Contributor } from '@weco/content/types/contributors';
@@ -66,7 +66,7 @@ describe('ContentTypeInfo byline', () => {
         {
           contributor: makePerson('Jane Smith'),
           role: {
-            id: commissioningEditorRoleId,
+            id: COMMISSIONING_EDITOR_ROLE_ID,
             title: 'Commissioning editor',
           },
         },
@@ -90,7 +90,7 @@ describe('ContentTypeInfo byline', () => {
         {
           contributor: makePerson('Jane Smith'),
           role: {
-            id: commissioningEditorRoleId,
+            id: COMMISSIONING_EDITOR_ROLE_ID,
             title: 'Commissioning editor',
           },
         },

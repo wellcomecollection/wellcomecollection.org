@@ -1,35 +1,43 @@
 import { createContext, useContext } from 'react';
 
-import { TestId, ToggleId } from '@weco/toggles';
+import { FeatureFlags, Modes, PhasedFlags, Tests } from '@weco/toggles';
 
 import { SimplifiedPrismicData } from './prismic';
-import { defaultServerData, SimplifiedServerData } from './types';
+import { defaultServerData, ServerData } from './types';
 
 /**
  * `AppData` is data that we retrieve from ServerData (data cached on the filesystem)
  * and make available via `Context`
  */
-export const ServerDataContext =
-  createContext<SimplifiedServerData>(defaultServerData);
+export const ServerDataContext = createContext<ServerData>(defaultServerData);
 
 /**
  * These are convenience methods to access properties off ServerData
  * without having to decontruct it. i.e.
  * This:
- * `const { toggleName } = useToggles()`
+ * `const { featureFlagName } = useFeatureFlags()`
  * Over:
- * `const { toggles: { toggleName } } = useContext(ServerDataContext)`
+ * `const { toggles: { featureFlagName } } = useContext(ServerDataContext)`
  */
 
-type ClientToggleValues = Record<ToggleId | TestId, boolean | undefined>;
-
-export const useToggles = (): ClientToggleValues => {
+export const useFeatureFlags = (): FeatureFlags => {
   const data = useContext(ServerDataContext);
-  const toggles = Object.keys(data.toggles).reduce((acc, key) => {
-    acc[key] = data.toggles[key].value;
-    return acc;
-  }, {});
-  return toggles;
+  return data.toggles.featureFlags;
+};
+
+export const usePhasedFlags = (): PhasedFlags => {
+  const data = useContext(ServerDataContext);
+  return data.toggles.phasedFlags;
+};
+
+export const useABTest = (): Tests => {
+  const data = useContext(ServerDataContext);
+  return data.toggles.tests;
+};
+
+export const useModes = (): Modes => {
+  const data = useContext(ServerDataContext);
+  return data.toggles.modes;
 };
 
 export const usePrismicData = (): SimplifiedPrismicData => {

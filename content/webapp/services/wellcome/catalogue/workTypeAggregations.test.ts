@@ -161,7 +161,7 @@ describe('workTypeAggregations', () => {
       const result = await fetchImagesCount();
 
       expect(mockCatalogueQuery).toHaveBeenCalledWith('images', {
-        toggles: {},
+        shouldUseStagingApi: undefined,
         pageSize: 1,
         params: {},
       });

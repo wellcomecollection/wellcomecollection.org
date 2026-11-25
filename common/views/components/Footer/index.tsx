@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { Venue } from '@weco/common/model/opening-hours';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
+import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import Divider from '@weco/common/views/components/Divider';
 import FindUs from '@weco/common/views/components/FindUs';
 import OpeningTimes from '@weco/common/views/components/OpeningTimes';
@@ -17,22 +18,28 @@ import FooterWellcomeLogo from './Footer.WellcomeLogo';
 
 type Props = {
   venues: Venue[];
+  isSimpleFooter?: boolean;
 };
 
 // Styles
 const Wrapper = styled(Space).attrs({
   as: 'footer',
-  className: `${font('sans', -1)} is-hidden-print`,
+  className: `${typography('body', 'md', 'regular')} is-hidden-print`,
   $v: { size: 'xl', properties: ['padding-top'] },
 })`
   position: relative;
   background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('neutral.10')};
 `;
 
 /** ************************ */
 // START OF FOOTER BODY STYLES
 /** ************************ */
+
+const SimpleFooterLogoHeading = styled(Space).attrs({
+  as: 'h3',
+  $v: { size: 'lg', properties: ['margin-bottom'] },
+})``;
 
 const FooterNavigationContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['margin-bottom'] },
@@ -155,7 +162,9 @@ const FooterBottom = styled(Space).attrs({
   justify-content: space-between;
 `;
 
-const FooterLicense = styled.p.attrs({ className: font('sans', -2) })`
+const FooterLicense = styled.p.attrs({
+  className: typography('body', 'sm', 'regular'),
+})`
   display: inline;
   margin: 0 1rem 1rem 0;
 `;
@@ -164,7 +173,7 @@ const BackToTopButton = styled.button.attrs({
   className: 'is-hidden-s',
 })`
   text-decoration: underline;
-  color: ${props => props.theme.color('white')};
+  color: ${props => props.theme.color('neutral.10')};
   padding: 0;
   cursor: pointer;
   margin-bottom: 1rem;
@@ -175,7 +184,11 @@ const BackToTopButton = styled.button.attrs({
 `;
 
 // Component
-const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
+
+const Footer: FunctionComponent<Props> = ({
+  venues,
+  isSimpleFooter = false,
+}: Props) => {
   const footer = useRef<HTMLDivElement>(null);
 
   const hasVenuesInfo = Array.isArray(venues) && venues.length > 0;
@@ -183,75 +196,88 @@ const Footer: FunctionComponent<Props> = ({ venues }: Props) => {
   return (
     <Wrapper ref={footer} data-component="footer">
       <Container>
-        <h3>
-          <FooterWellcomeLogo />
-        </h3>
+        {isSimpleFooter ? (
+          <SimpleFooterLogoHeading>
+            <FooterWellcomeLogo />
+          </SimpleFooterLogoHeading>
+        ) : (
+          <h3>
+            <FooterWellcomeLogo />
+          </h3>
+        )}
+        {!isSimpleFooter && (
+          <FooterNavigationContainer>
+            <FindUsContainer>
+              <FindUs hideAccessibility />
+            </FindUsContainer>
 
-        <FooterNavigationContainer>
-          <FindUsContainer>
-            <FindUs hideAccessibility={true} />
-          </FindUsContainer>
-
-          <OpeningTimesContainer>
-            {/* Error pages do not receive serverData so should only display
+            <OpeningTimesContainer>
+              {/* Error pages do not receive serverData so should only display
             openingtimes link */}
-            {hasVenuesInfo && (
-              <>
-                <h4 className={font('sans-bold', -1)}>
-                  Today&rsquo;s opening times
-                </h4>
-                <OpeningTimes venues={venues} />
-              </>
-            )}
-            <Space
-              as="p"
-              $v={{
-                size: 'sm',
-                properties: hasVenuesInfo ? ['margin-top'] : [],
-              }}
-              style={{ marginBottom: 0 }}
-            >
-              <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
-                Opening times
-              </a>
-            </Space>
-          </OpeningTimesContainer>
+              {hasVenuesInfo && (
+                <>
+                  <h4 className={typography('body', 'md', 'strong')}>
+                    Today&rsquo;s opening times
+                  </h4>
+                  <OpeningTimes venues={venues} />
+                </>
+              )}
+              <Space
+                as="p"
+                $v={{
+                  size: 'sm',
+                  properties: hasVenuesInfo ? ['margin-top'] : [],
+                }}
+                style={{ marginBottom: 0 }}
+              >
+                <a href={`/visit-us/${prismicPageIds.openingTimes}`}>
+                  Opening times
+                </a>
+              </Space>
+            </OpeningTimesContainer>
 
-          <FooterA11y />
+            <FooterA11y />
 
-          <InternalNavigationContainer>
-            <FooterNav
-              type="InternalNavigation"
-              ariaLabel="Useful internal links"
-            />
-          </InternalNavigationContainer>
-        </FooterNavigationContainer>
-
+            <InternalNavigationContainer>
+              <FooterNav
+                type="InternalNavigation"
+                ariaLabel="Useful internal links"
+              />
+            </InternalNavigationContainer>
+          </FooterNavigationContainer>
+        )}
         <FullWidthDivider>
           <Divider lineColor="neutral.700" />
         </FullWidthDivider>
+        {!isSimpleFooter && (
+          <PoliciesAndSocials>
+            <PoliciesContainer>
+              <FooterNav
+                type="PoliciesNavigation"
+                ariaLabel="Policies navigation"
+                isInline
+              />
+            </PoliciesContainer>
 
-        <PoliciesAndSocials>
-          <PoliciesContainer>
-            <FooterNav
-              isInline
-              type="PoliciesNavigation"
-              ariaLabel="Policies navigation"
-            />
-          </PoliciesContainer>
-
-          <SocialsContainer>
-            <FooterSocial />
-          </SocialsContainer>
-        </PoliciesAndSocials>
-
+            <SocialsContainer>
+              <FooterSocial />
+            </SocialsContainer>
+          </PoliciesAndSocials>
+        )}
         <FooterBottom>
           <FooterLicense>
             Except where otherwise noted, content on this site is licensed under
             a{' '}
-            <a href="https://creativecommons.org/licenses/by/4.0/">
+            <ConditionalWrapper
+              condition={!isSimpleFooter}
+              wrapper={children => (
+                <a href="https://creativecommons.org/licenses/by/4.0/">
+                  {children}
+                </a>
+              )}
+            >
               Creative Commons Attribution 4.0 International Licence
-            </a>
+            </ConditionalWrapper>
           </FooterLicense>
 
           <BackToTopButton

@@ -2,12 +2,12 @@ import { FunctionComponent, ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 import { underConstruction } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
 const StyledBetaMessage = styled.div.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   display: flex;
   align-items: center;

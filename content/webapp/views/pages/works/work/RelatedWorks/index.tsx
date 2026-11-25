@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { classNames, typography } from '@weco/common/utils/classnames';
+import { toHtmlId } from '@weco/common/utils/grammar';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import LL from '@weco/common/views/components/styled/LL';
@@ -16,6 +17,9 @@ import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
 import { fetchRelatedWorks } from './RelatedWorks.helpers';
+
+// Distinct from the tag's own id (the tab key), which its input already uses
+const getPanelId = (key: string) => toHtmlId(`related-works-${key}`);
 
 const SectionWrapper = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
@@ -51,7 +55,8 @@ const RelatedWorks = ({
   typesTechniques,
   date,
 }: WorkQueryProps) => {
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
   const [isLoading, setIsLoading] = useState(true);
   const [relatedWorksTabs, setRelatedWorksTabs] = useState<RelatedWork>();
   const [selectedTab, setSelectedTab] = useState<string | undefined>();
@@ -67,7 +72,8 @@ const RelatedWorks = ({
         subjects,
         typesTechniques,
         date,
-        toggles,
+        shouldUseStagingApi: stagingApi,
+        pipelineCluster: cataloguePipeline,
         setIsLoading,
       }).then(data => {
         setRelatedWorksTabs(data);
@@ -118,15 +124,17 @@ const RelatedWorks = ({
   return (
     <SectionWrapper>
       <Container>
-        <h2 className={font('brand-bold', 1)}>More works</h2>
+        <h2 className={typography('heading', 'lg', 'strong', 'brand')}>
+          More works
+        </h2>
 
         {Object.keys(relatedWorksTabs).length > 1 && (
           <SelectableTags
             tags={Object.entries(relatedWorksTabs).map(([key, value]) => ({
               id: key,
               label: value.label,
-              controls: `#${key}`,
-              gtmData: {
+              controls: getPanelId(key),
+              dataGtmProps: {
                 trigger: 'selectable_tag_related_works_control',
                 category: value.category,
                 label: value.label,
@@ -140,6 +148,7 @@ const RelatedWorks = ({
       {Object.entries(relatedWorksTabs).map(([key, value], tabIndex) => (
         <Space
           key={key}
+          id={getPanelId(key)}
           $v={{ size: 'md', properties: ['padding-top', 'padding-bottom'] }}
           className={classNames({
             'is-hidden': selectedTab !== key,
@@ -155,7 +164,7 @@ const RelatedWorks = ({
                   <RelatedWorksCard
                     variant="default"
                     work={result}
-                    gtmData={{
+                    dataGtmProps={{
                       category: value.category,
                       'category-label': value.label,
                       'category-position-in-list': `${tabIndex + 1}`,

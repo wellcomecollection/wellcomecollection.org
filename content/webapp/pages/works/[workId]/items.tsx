@@ -30,7 +30,6 @@ import {
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { toCompressedTransformedManifest } from '@weco/content/types/compressed-manifest';
 import { TransformedManifest } from '@weco/content/types/manifest';
-import { fetchJson } from '@weco/content/utils/http';
 import {
   getCollectionManifests,
   hasNonImagesOrOriginals,
@@ -38,11 +37,13 @@ import {
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { getDigitalLocationOfType } from '@weco/content/utils/works';
 import { fromQuery } from '@weco/content/views/components/ItemLink';
-import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/IIIFViewer';
 import WorkItemPage, {
   Props as WorkItemPageProps,
 } from '@weco/content/views/pages/works/work/items';
-import { createDownloadTree } from '@weco/content/views/pages/works/work/work.helpers';
+import {
+  createDownloadTree,
+  queryParamToArrayIndex,
+} from '@weco/content/views/pages/works/work/work.helpers';
 import { UiTree } from '@weco/content/views/pages/works/work/work.types';
 
 const Page: NextPage<WorkItemPageProps> = props => {
@@ -76,7 +77,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
   const work = await getWork({
     id: context.query.workId,
-    toggles: serverData.toggles,
+    shouldUseStagingApi: serverData.toggles.featureFlags.stagingApi,
+    pipelineCluster: serverData.toggles.modes.cataloguePipeline,
     include: ['items', 'languages', 'contributors', 'production', 'notes'],
   });
 
@@ -155,12 +157,14 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     const canvasOcr = transformCanvasOcr(canvasOcrText);
 
     const getSearchResults = async () => {
-      if (displayManifest.searchService && context.query?.query?.length) {
+      const { searchService } = displayManifest;
+      if (searchService && context.query?.query?.length) {
+        // The spec allows either the JSON-LD v2-style @id or the v3-style id
+        const searchServiceId =
+          '@id' in searchService ? searchService['@id'] : searchService.id;
         try {
           return await (
-            await fetch(
-              `${displayManifest.searchService['@id']}?q=${context.query.query}`
-            )
+            await fetch(`${searchServiceId}?q=${context.query.query}`)
           ).json();
         } catch {
           return undefined;
@@ -172,10 +176,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 
     const serverSearchResults = await getSearchResults();
 
-    // Build archive tree on server for progressive enhancement
+    // Build download tree on server for progressive enhancement
+    // This tree represents IIIF manifest structures (ranges/canvases) for downloads
     const hasMultipleCanvases = (canvases?.length || 0) > 1;
     const hasOnlyRenderableImages = !hasNonImagesOrOriginals(canvases || []);
-    const archiveTree: UiTree =
+    const downloadTree: UiTree =
       hasMultipleCanvases && !hasOnlyRenderableImages
         ? createDownloadTree(displayManifest.structures, canvases, {
             skipObjectsNode: true,
@@ -187,9 +192,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         compressedTransformedManifest:
           toCompressedTransformedManifest(displayManifest),
-        archiveTree,
+        tree: downloadTree,
         canvasOcr,
-        canvas,
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
@@ -227,7 +231,6 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       props: serialiseProps<Props>({
         compressedTransformedManifest: undefined,
         work: toWorkBasic(work),
-        canvas,
         iiifImageLocation,
         iiifPresentationLocation,
         apiToolbarLinks,
@@ -245,8 +248,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
 async function getParentManifest(
   parentManifestUrl: string | undefined
 ): Promise<Manifest | undefined> {
+  // The helper returns undefined on 404 and throws on fetch/parse errors; neither is fatal here.
   try {
-    return parentManifestUrl && (await fetchJson(parentManifestUrl));
+    return parentManifestUrl
+      ? await fetchIIIFPresentationManifest({ location: parentManifestUrl })
+      : undefined;
   } catch {
     return undefined;
   }

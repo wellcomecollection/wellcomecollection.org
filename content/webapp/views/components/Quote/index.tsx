@@ -2,7 +2,7 @@ import * as prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -16,7 +16,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
   props => ({
     className: classNames({
       'quote--pull': props.$isPullOrReview,
-      [font('sans', 2)]: props.$isPullOrReview,
+      [typography('body', 'xl', 'regular')]: props.$isPullOrReview,
       'body-text': true,
       quote: true,
     }),
@@ -26,7 +26,7 @@ const Blockquote = styled.blockquote.attrs<{ $isPullOrReview: boolean }>(
 `;
 
 const Cite = styled.cite.attrs({
-  className: `quote__cite ${font('sans', -1)}`,
+  className: `quote__cite ${typography('body', 'md', 'regular')}`,
 })`
   color: ${props => props.theme.color('neutral.600')};
   display: flex;

@@ -1,17 +1,18 @@
 import { FocusTrap } from 'focus-trap-react';
 import {
   FunctionComponent,
-  MutableRefObject,
   PropsWithChildren,
   RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react';
 import { CSSTransition } from 'react-transition-group';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { cross } from '@weco/common/icons';
 import { ACTIVE_COOKIE_BANNER_ID } from '@weco/common/services/app/civic-uk';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 
 import {
@@ -19,6 +20,8 @@ import {
   CalendarModal,
   CloseButton,
   FiltersModal,
+  InactivityModal,
+  MobileFiltersModal,
   Overlay,
   VideoModal,
 } from './Modal.styles';
@@ -30,20 +33,25 @@ type Props = PropsWithChildren<{
   maxWidth?: string;
   id: string;
   dataTestId?: string;
-  openButtonRef?: MutableRefObject<HTMLElement | null>;
+  openButtonRef?: RefObject<HTMLElement | null>;
   removeCloseButton?: boolean;
   showOverlay?: boolean;
-  modalStyle?: 'filters' | 'calendar' | 'video';
+  modalStyle?:
+    'filters' | 'mobileFilters' | 'calendar' | 'video' | 'inactivity';
 }>;
 
 function determineModal(modalStyle: Props['modalStyle']) {
   switch (modalStyle) {
     case 'filters':
       return FiltersModal;
+    case 'mobileFilters':
+      return MobileFiltersModal;
     case 'calendar':
       return CalendarModal;
     case 'video':
       return VideoModal;
+    case 'inactivity':
+      return InactivityModal;
     default:
       return BaseModalWindow;
   }
@@ -68,6 +76,8 @@ const Modal: FunctionComponent<Props> = ({
   const nodeRef = useRef(null);
   const { hasAcknowledgedCookieBanner, setHasAcknowledgedCookieBanner } =
     useAppContext();
+  const [visualViewportStyle, setVisualViewportStyle] =
+    useState<React.CSSProperties>({});
 
   useEffect(() => {
     if (isActive) {
@@ -98,6 +108,43 @@ const Modal: FunctionComponent<Props> = ({
     }
   }, [isActive]);
 
+  // VisualViewport positioning (see Modal.styles.tsx for the base styles this overrides):
+  // position:fixed is relative to the layout viewport, which does not move when
+  // the user pinch-zooms. The VisualViewport API gives us the coordinates of the
+  // actual visible area, so we can override top/left/maxWidth/maxHeight to keep
+  // the modal centred within what the user can actually see.
+  // We only do this when scale !== 1 (i.e. the user is zoomed); at scale 1 the
+  // default CSS centering works correctly.
+  useEffect(() => {
+    if (modalStyle !== 'inactivity' || !isActive) {
+      setVisualViewportStyle({});
+      return;
+    }
+
+    if (typeof window === 'undefined' || !window.visualViewport) {
+      return;
+    }
+
+    const vv = window.visualViewport;
+
+    if (vv.scale === 1) {
+      setVisualViewportStyle({});
+      return;
+    }
+
+    setVisualViewportStyle({
+      position: 'fixed',
+      top: `${vv.offsetTop + vv.height / 2}px`,
+      left: `${vv.offsetLeft + vv.width / 2}px`,
+      right: 'auto',
+      bottom: 'auto',
+      transform: 'translate(-50%, -50%)',
+      maxWidth: `${Math.min(550, vv.width * 0.9)}px`,
+      maxHeight: `${vv.height * 0.9}px`,
+      width: '80%',
+    });
+  }, [modalStyle, isActive]);
+
   return (
     <FocusTrap
       active={isActive && hasAcknowledgedCookieBanner}
@@ -127,10 +174,12 @@ const Modal: FunctionComponent<Props> = ({
             ref={nodeRef}
             $width={width}
             $maxWidth={maxWidth}
+            style={visualViewportStyle}
           >
             {!removeCloseButton && (
               <CloseButton
                 data-testid="close-modal-button"
+                {...dataGtmPropsToAttributes({ trigger: 'close-modal-button' })}
                 ref={closeButtonRef}
                 onClick={() => {
                   setIsActive(false);

@@ -9,8 +9,10 @@ locals {
   blanket_rate_limit = 2500
 
   // A more restrictive limit for expensive URLs (eg /works)
+  // Prefix matches, so subpaths like /search/works and /works/{id}/items
+  // are covered too.
   restrictive_rate_limit  = 1000
-  restricted_path_regexes = ["^\\/works$", "^\\/images$", "^\\/concepts$", "^\\/search$"]
+  restricted_path_regexes = ["^\\/works", "^\\/images", "^\\/concepts", "^\\/search"]
 
   // These come from the information security team
   // Qualys is an "enterprise vulnerability management tool"
@@ -70,13 +72,48 @@ locals {
     "SignalAutomatedBrowser",    // No substantial traffic
     "SignalKnownBotDataCenter",  // Known bot data centres include "good" bots such as Updown
     "SignalNonBrowserUserAgent", // High risk for breaking scripts and other application services
-    // These are for targeted Bot Control, which we don't use
-    // "TGT_VolumetricIpTokenAbsent",
-    // "TGT_VolumetricSession",
-    // "TGT_SignalAutomatedBrowser",
-    // "TGT_SignalBrowserInconsistency",
-    // "TGT_TokenReuseIp",
-    // "TGT_ML_CoordinatedActivityMedium and TGT_ML_CoordinatedActivityHigh"
+  ]
+
+  // The targeted-inspection rules start in count mode: they label /search
+  // traffic for analysis without acting. Remove a rule from this list to
+  // enable its default action once the label soak supports it.
+  bot_control_targeted_count_list = [
+    // CAUTION: names must exactly match the rules in the pinned rule set
+    // version (aws wafv2 describe-managed-rule-group); an override for a
+    // name that does not exist is silently ignored and the real rule runs
+    // with its default action (Captcha or Block for several of these).
+    "TGT_VolumetricIpTokenAbsent",
+    "TGT_VolumetricSession",
+    "TGT_VolumetricSessionMaximum",
+    "TGT_SignalBrowserAutomationExtension",
+    "TGT_SignalAutomatedBrowser",
+    "TGT_SignalBrowserInconsistency",
+    "TGT_TokenAbsent",
+    "TGT_TokenReuseIpLow",
+    "TGT_TokenReuseIpMedium",
+    "TGT_TokenReuseIpHigh",
+    "TGT_TokenReuseCountryLow",
+    "TGT_TokenReuseCountryMedium",
+    "TGT_TokenReuseCountryHigh",
+    "TGT_TokenReuseAsnLow",
+    "TGT_TokenReuseAsnMedium",
+    "TGT_TokenReuseAsnHigh",
+    "TGT_ML_CoordinatedActivityLow",
+    "TGT_ML_CoordinatedActivityMedium",
+    "TGT_ML_CoordinatedActivityHigh",
+  ]
+
+  // Unverified SEO crawlers blocked unconditionally, site-wide. This
+  // replaces Bot Control's CategorySeo coverage, which only sees /search
+  // once the group is scoped down for targeted inspection. Measured
+  // 2026-07-07: SemrushBot was ~85% of CategorySeo's blocks.
+  seo_block_user_agents = [
+    "SemrushBot",
+    "DotBot",
+    "MJ12bot",
+    "MojeekBot",
+    "TinEye",
+    "yacybot",
   ]
 }
 
@@ -117,9 +154,63 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  dynamic "rule" {
+    for_each = var.enable_unrecognised_host_block ? [1] : []
+    content {
+      name     = "unrecognised-host-block"
+      priority = 1
+
+      action {
+        block {}
+      }
+
+      // Requests whose Host header is not one of this distribution's aliases
+      // (in practice, its *.cloudfront.net default domain) fail TLS
+      // verification at the ALB origin and surface as 502s, polluting the
+      // 5xxErrorRate alarm. Turn them away with a 403 before the allow rules
+      // below, which would otherwise let them through to the origin.
+      // Explicit default ports (alias:443, alias:80) are a legal Host form
+      // that CloudFront accepts for our aliases, so match those too.
+      statement {
+        not_statement {
+          statement {
+            or_statement {
+              dynamic "statement" {
+                for_each = toset(flatten([for a in setunion(var.aliases, var.extra_allowed_hosts) : [a, "${a}:443", "${a}:80"]]))
+                content {
+                  byte_match_statement {
+                    positional_constraint = "EXACTLY"
+                    search_string         = lower(statement.value)
+
+                    field_to_match {
+                      single_header {
+                        name = "host"
+                      }
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "LOWERCASE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "unrecognised-host-block-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "ip-allowlist"
-    priority = 1
+    priority = 2
 
     action {
       allow {}
@@ -139,8 +230,29 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
+    name     = "ip-blocklist"
+    priority = 3
+
+    action {
+      block {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = aws_wafv2_ip_set.blocklist.arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "weco-cloudfront-acl-blocklist-${var.namespace}"
+    }
+  }
+
+  rule {
     name     = "ip-watchlist"
-    priority = 2
+    priority = 4
 
     action {
       count {}
@@ -160,8 +272,71 @@ resource "aws_wafv2_web_acl" "wc_org" {
   }
 
   rule {
+    name     = "allow-google-bots"
+    priority = 5
+
+    action {
+      allow {}
+    }
+
+    statement {
+      and_statement {
+        statement {
+          ip_set_reference_statement {
+            arn = var.google_bots_ip_set_arn
+          }
+        }
+        statement {
+          byte_match_statement {
+            positional_constraint = "CONTAINS"
+            search_string         = "Googlebot"
+
+            field_to_match {
+              single_header {
+                name = "user-agent"
+              }
+            }
+
+            text_transformation {
+              priority = 0
+              type     = "NONE"
+            }
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-google-bots-${var.namespace}"
+    }
+  }
+
+  rule {
+    name     = "allow-github-actions"
+    priority = 6
+
+    action {
+      allow {}
+    }
+
+    statement {
+      ip_set_reference_statement {
+        arn = var.github_actions_ip_set_arn
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-github-actions-${var.namespace}"
+    }
+  }
+
+  rule {
     name     = "managed-ip-blocking"
-    priority = 3
+    priority = 7
 
     override_action {
       none {}
@@ -182,34 +357,179 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Crawlers must always be able to read the file that tells them what not to
+  // fetch; the bot rules below share one budget and otherwise refuse it to them.
   rule {
-    name     = "geo-rate-limit-APAC"
-    priority = 4
+    name     = "allow-robots-txt"
+    priority = 8
 
     action {
-      block {
-        custom_response {
-          response_code = 429
+      allow {}
+    }
+
+    statement {
+      byte_match_statement {
+        positional_constraint = "EXACTLY"
+        search_string         = "/robots.txt"
+
+        field_to_match {
+          uri_path {}
+        }
+
+        // NONE, not LOWERCASE: paths are case-sensitive and so is the
+        // /robots.txt cache behaviour, so case variants belong on the dynamic
+        // origin under the normal rate limits rather than exempted here.
+        text_transformation {
+          priority = 0
+          type     = "NONE"
         }
       }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      sampled_requests_enabled   = true
+      metric_name                = "allow-robots-txt-${var.namespace}"
+    }
+  }
+
+
+  rule {
+    name     = "bot-user-agent-manual"
+    priority = 9
+
+    action {
+      block {}
     }
 
     statement {
       rate_based_statement {
         aggregate_key_type    = "CONSTANT"
         evaluation_window_sec = 60
-        limit                 = 250
+        limit                 = 300
 
         scope_down_statement {
-          geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "CN",
-              "SG",
-              "HK",
-              "VN",
-            ]
+          or_statement {
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "Amazonbot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "Applebot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "Claude-SearchBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "ClaudeBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GoogleOther"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "GPTBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
+            statement {
+              byte_match_statement {
+                positional_constraint = "CONTAINS"
+                search_string         = "PetalBot"
+
+                field_to_match {
+                  single_header {
+                    name = "user-agent"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
           }
         }
       }
@@ -217,36 +537,69 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      metric_name                = "bot-user-agent-manual"
       sampled_requests_enabled   = true
     }
   }
 
+  // Geo consent rules: first-visit traffic from mostly-bot regions gets a
+  // CAPTCHA, or the silent challenge with enable_geo_challenge. JS-capable
+  // bots pass the challenge, so watch ChallengesSolved and
+  // RequestsWithValidChallengeToken here (numbers in wc.org#13665).
   rule {
-    name     = "geo-rate-limit-LATAM"
-    priority = 5
+    name     = "apac-captcha-consent-block"
+    priority = 10
 
     action {
-      block {
-        custom_response {
-          response_code = 429
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
         }
       }
     }
 
     statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 200
-
-        scope_down_statement {
+      and_statement {
+        statement {
           geo_match_statement {
-            // We have seen significant bot traffic from these regions,
-            // so we rate limit to a lower threshold.
-            country_codes = [
-              "BR",
-            ]
+            country_codes = ["CN", "JP", "SG", "TW", "VN"]
+          }
+        }
+        statement {
+          not_statement {
+            statement {
+              size_constraint_statement {
+                comparison_operator = "GT"
+                size                = 0
+
+                field_to_match {
+                  cookies {
+                    match_pattern {
+                      included_cookies = ["CookieControl"]
+                    }
+                    match_scope       = "ALL"
+                    oversize_handling = "MATCH"
+                  }
+                }
+
+                text_transformation {
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+            }
           }
         }
       }
@@ -254,17 +607,33 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "geo-rate-limit-latam-${var.namespace}"
+      metric_name                = "apac-captcha-consent-block"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
     name     = "latam-captcha-consent-block"
-    priority = 6
+    priority = 11
 
     action {
-      captcha {}
+      dynamic "captcha" {
+        for_each = var.enable_geo_challenge ? [] : [1]
+        content {}
+      }
+      dynamic "challenge" {
+        for_each = var.enable_geo_challenge ? [1] : []
+        content {}
+      }
+    }
+
+    dynamic "challenge_config" {
+      for_each = var.enable_geo_challenge ? [1] : []
+      content {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
     }
 
     statement {
@@ -308,44 +677,368 @@ resource "aws_wafv2_web_acl" "wc_org" {
       sampled_requests_enabled   = true
     }
   }
-  rule {
-    name     = "apac-captcha-consent-block"
-    priority = 7
 
-    action {
-      captcha {}
-    }
+  // Blocks /search requests whose User-Agent claims a Chrome major version
+  // below 100 (released 2017-2022). Chrome auto-updates, so genuinely old
+  // majors are vanishingly rare, and the 2026-07 flood rotates these strings
+  // (a flat distribution across v60-77, with impossible pairings like Vista +
+  // Chrome 76) and never attempts the JS challenge. Blocking here is free;
+  // every challenge response the rule below serves instead is billed.
+  dynamic "rule" {
+    for_each = var.enable_search_legacy_ua_block ? [1] : []
+    content {
+      name     = "search-legacy-ua-block"
+      priority = 12
 
-    statement {
-      and_statement {
-        statement {
-          geo_match_statement {
-            country_codes = ["CN", "JP", "SG", "TW"]
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          statement {
+            regex_match_statement {
+              regex_string = "Chrome/[0-9]{1,2}\\."
+
+              field_to_match {
+                single_header {
+                  name = "user-agent"
+                }
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
           }
         }
-        statement {
-          not_statement {
-            statement {
-              size_constraint_statement {
-                comparison_operator = "GT"
-                size                = 0
+      }
 
-                field_to_match {
-                  cookies {
-                    match_pattern {
-                      included_cookies = ["CookieControl"]
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-legacy-ua-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks /search requests with no Accept-Language header, ahead of the
+  // billed challenge. Every real browser sends Accept-Language on every page
+  // navigation; the clients that omit it are crawlers and bots that cannot
+  // solve the challenge anyway (measured 2026-07-08: 46% of challenged
+  // traffic). Blocking here is free; each challenge response is billed.
+  dynamic "rule" {
+    for_each = var.enable_search_missing_lang_block ? [1] : []
+    content {
+      name     = "search-missing-lang-block"
+      priority = 13
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
                     }
-                    match_scope       = "ALL"
-                    oversize_handling = "MATCH"
                   }
-                }
 
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
                 }
               }
             }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-missing-lang-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks fabricated-browser traffic on the works, images and concepts
+  // pages, which unlike /search are indexable content with no challenge
+  // behind them. The signal is a request that poses as a mainstream browser
+  // (Chrome/Safari/Firefox/Edge version token) but sends no Accept-Language
+  // and carries no self-identification (no "+http" URL and no "compatible;"
+  // token). Real browsers always send Accept-Language; honest bots always
+  // self-identify, so this exempts every declared crawler, link-preview
+  // fetcher and user-triggered AI agent (measured 2026-07-08) and blocks only
+  // the fraud fleet. Crawler-vs-agent policy for honest bots is deliberately
+  // left to robots.txt and separate rules; this rule takes no side on it.
+  dynamic "rule" {
+    for_each = var.enable_works_fabricated_ua_block ? [1] : []
+    content {
+      name     = "works-fabricated-ua-block"
+      priority = 14
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            or_statement {
+              dynamic "statement" {
+                for_each = ["/works", "/images", "/concepts"]
+                content {
+                  byte_match_statement {
+                    positional_constraint = "STARTS_WITH"
+                    search_string         = statement.value
+
+                    field_to_match {
+                      uri_path {}
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          # Poses as a mainstream browser.
+          statement {
+            regex_match_statement {
+              regex_string = "(Chrome|CriOS|Firefox|FxiOS|Edg|Version)/[0-9]"
+
+              field_to_match {
+                single_header {
+                  name = "user-agent"
+                }
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
+          }
+
+          # No Accept-Language: real browsers always send it.
+          statement {
+            not_statement {
+              statement {
+                size_constraint_statement {
+                  comparison_operator = "GT"
+                  size                = 0
+
+                  field_to_match {
+                    single_header {
+                      name = "accept-language"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+
+          # No self-identification: honest bots carry a "+http" contact URL or
+          # a "compatible;" token; modern real browsers carry neither.
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  regex_string = "(\\+https?://|compatible;)"
+
+                  field_to_match {
+                    single_header {
+                      name = "user-agent"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "works-fabricated-ua-block-${var.namespace}"
+      }
+    }
+  }
+
+  // Silently challenges clients that don't run JavaScript on /search pages,
+  // which are expensive to render and effectively uncacheable. Real browsers
+  // solve the challenge invisibly. Only the works search page is
+  // noindex,nofollow, so this can affect crawling of the other /search pages.
+  //
+  // CAUTION: a challenge served to a fetch/XHR or asset request cannot render
+  // its interstitial and breaks the page. Keep the scope to /search page URLs
+  // only, and test any change on stage first.
+  dynamic "rule" {
+    for_each = var.enable_search_challenge ? [1] : []
+    content {
+      name     = "search-challenge"
+      priority = 16
+
+      action {
+        challenge {}
+      }
+
+      challenge_config {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
+
+      statement {
+        byte_match_statement {
+          positional_constraint = "STARTS_WITH"
+          search_string         = "/search"
+
+          field_to_match {
+            uri_path {}
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "search-challenge-${var.namespace}"
+      }
+    }
+  }
+
+  // JS challenge on /works/<id>/items: since 2026-08-18 a headless fleet on
+  // residential proxies (few requests per IP, current browser UAs and headers)
+  // loads these pages, so nothing keyed on IP, UA or headers catches it.
+  // Page URL only, never assets or /_next data routes; prove on stage first.
+  // As with search-challenge, non-Google crawlers and link-preview fetchers
+  // receive the challenge instead of the page.
+  dynamic "rule" {
+    for_each = var.enable_items_challenge ? [1] : []
+    content {
+      name     = "items-challenge"
+      priority = 17
+
+      action {
+        challenge {}
+      }
+
+      challenge_config {
+        immunity_time_property {
+          immunity_time = var.search_challenge_immunity_seconds
+        }
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^/works/[^/]+/items$"
+
+          field_to_match {
+            uri_path {}
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "items-challenge-${var.namespace}"
+      }
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-USA"
+    priority = 18
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 1750
+
+        scope_down_statement {
+          geo_match_statement {
+            country_codes = [
+              "US",
+            ]
           }
         }
       }
@@ -353,14 +1046,91 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "apac-captcha-consent-block"
+      metric_name                = "geo-rate-limit-USA-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-APAC"
+    priority = 19
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 250
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "CN",
+              "SG",
+              "HK",
+              "VN",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-apac-${var.namespace}"
+      sampled_requests_enabled   = true
+    }
+  }
+
+  rule {
+    name     = "geo-rate-limit-LATAM"
+    priority = 20
+
+    action {
+      block {
+        custom_response {
+          response_code = 429
+        }
+      }
+    }
+
+    statement {
+      rate_based_statement {
+        aggregate_key_type    = "CONSTANT"
+        evaluation_window_sec = 60
+        limit                 = 200
+
+        scope_down_statement {
+          geo_match_statement {
+            // We have seen significant bot traffic from these regions,
+            // so we rate limit to a lower threshold.
+            country_codes = [
+              "BR",
+            ]
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "geo-rate-limit-latam-${var.namespace}"
       sampled_requests_enabled   = true
     }
   }
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 8
+    priority = 21
 
     action {
       block {}
@@ -382,7 +1152,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 9
+    priority = 22
 
     action {
       block {}
@@ -420,7 +1190,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 10
+    priority = 23
 
     override_action {
       none {}
@@ -443,7 +1213,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 11
+    priority = 24
 
     override_action {
       none {}
@@ -453,6 +1223,17 @@ resource "aws_wafv2_web_acl" "wc_org" {
       managed_rule_group_statement {
         name        = "AWSManagedRulesSQLiRuleSet"
         vendor_name = "AWS"
+
+        // Count only, so sqli-query-arguments-block can exempt /search.
+        dynamic "rule_action_override" {
+          for_each = var.enable_search_sqli_exemption ? ["SQLi_QUERYARGUMENTS"] : []
+          content {
+            name = rule_action_override.value
+            action_to_use {
+              count {}
+            }
+          }
+        }
       }
     }
 
@@ -466,7 +1247,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 12
+    priority = 25
 
     override_action {
       none {}
@@ -488,7 +1269,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "bot-control-rule-group"
-    priority = 13
+    priority = 15
 
     // Because the Bot Control rules are quite aggressive, they block some useful bots
     // such as Updown. While we could add overrides for specific bots, we don"t want to have to
@@ -510,12 +1291,39 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
         managed_rule_group_configs {
           aws_managed_rules_bot_control_rule_set {
-            inspection_level = "COMMON"
+            inspection_level        = var.bot_control_inspection_level
+            enable_machine_learning = var.bot_control_inspection_level == "TARGETED"
+          }
+        }
+
+        // TARGETED is billed per request analysed at 10x the COMMON rate, so
+        // it is only affordable scoped down to the /search pages it exists to
+        // protect. The seo-user-agent-block rule replaces the group's
+        // site-wide CategorySeo coverage while this scope-down is active.
+        dynamic "scope_down_statement" {
+          for_each = var.bot_control_inspection_level == "TARGETED" ? [1] : []
+          content {
+            byte_match_statement {
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/search"
+
+              field_to_match {
+                uri_path {}
+              }
+
+              text_transformation {
+                priority = 0
+                type     = "NONE"
+              }
+            }
           }
         }
 
         dynamic "rule_action_override" {
-          for_each = local.bot_control_rule_no_block_list
+          for_each = concat(
+            local.bot_control_rule_no_block_list,
+            var.bot_control_inspection_level == "TARGETED" ? local.bot_control_targeted_count_list : [],
+          )
           content {
             name = rule_action_override.value
             action_to_use {
@@ -533,101 +1341,174 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Replaces Bot Control's site-wide CategorySeo blocking, which only covers
+  // /search once the group is scoped down for targeted inspection.
   rule {
-    name     = "bot-user-agent-manual"
-    priority = 14
+    name     = "seo-user-agent-block"
+    priority = 26
 
     action {
       block {}
     }
 
     statement {
-      rate_based_statement {
-        aggregate_key_type    = "CONSTANT"
-        evaluation_window_sec = 60
-        limit                 = 300
+      regex_match_statement {
+        regex_string = join("|", local.seo_block_user_agents)
 
-        scope_down_statement {
-          or_statement {
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "PetalBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "ClaudeBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "GPTBot"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
-            statement {
-              byte_match_statement {
-                positional_constraint = "CONTAINS"
-                search_string         = "GoogleOther"
-
-                field_to_match {
-                  single_header {
-                    name = "user-agent"
-                  }
-                }
-
-                text_transformation {
-                  priority = 0
-                  type     = "NONE"
-                }
-              }
-            }
+        field_to_match {
+          single_header {
+            name = "user-agent"
           }
+        }
+
+        text_transformation {
+          priority = 0
+          type     = "NONE"
         }
       }
     }
 
     visibility_config {
       cloudwatch_metrics_enabled = true
-      metric_name                = "bot-user-agent-manual"
       sampled_requests_enabled   = true
+      metric_name                = "seo-user-agent-block-${var.namespace}"
     }
   }
+
+  // Count every request for these hosts that reaches the end of the ACL, so
+  // the allowed ones land in the WAF logs (the logging filter drops plain
+  // allows). Used to see real editor traffic on preview before restricting it.
+  dynamic "rule" {
+    for_each = length(var.count_hosts) > 0 ? [1] : []
+    content {
+      name     = "host-count"
+      priority = 27
+
+      action {
+        count {}
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = "^(${join("|", [for h in var.count_hosts : replace(h, ".", "\\.")])})(:[0-9]+)?$"
+
+          field_to_match {
+            single_header {
+              name = "host"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "LOWERCASE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "host-count-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks self-identifying automation that solves the challenge and loads
+  // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
+  // Near the end, so it only sees what earlier rules would allow;
+  // sqli-query-arguments-block (29) can still block after it.
+  dynamic "rule" {
+    for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
+    content {
+      name     = "blocked-user-agent"
+      priority = 28
+
+      action {
+        block {}
+      }
+
+      rule_label {
+        name = "blocked-user-agent"
+      }
+
+      statement {
+        regex_match_statement {
+          regex_string = join("|", var.blocked_user_agent_patterns)
+
+          field_to_match {
+            single_header {
+              name = "user-agent"
+            }
+          }
+
+          text_transformation {
+            priority = 0
+            type     = "NONE"
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "blocked-user-agent-${var.namespace}"
+      }
+    }
+  }
+
+  // Blocks what SQLi_QUERYARGUMENTS matches everywhere except /search pages
+  // and their Next.js data routes. Catalogue filter labels such as
+  // "Keys (Legends)" or "Smith, John, 1700 or 1701-" look like SQL to it, and
+  // search arguments only reach Elasticsearch and Prismic, never SQL.
+  dynamic "rule" {
+    for_each = var.enable_search_sqli_exemption ? [1] : []
+    content {
+      name     = "sqli-query-arguments-block"
+      priority = 29
+
+      action {
+        block {}
+      }
+
+      statement {
+        and_statement {
+          statement {
+            label_match_statement {
+              scope = "LABEL"
+              key   = "awswaf:managed:aws:sql-database:SQLi_QueryArguments"
+            }
+          }
+
+          statement {
+            not_statement {
+              statement {
+                regex_match_statement {
+                  // Anchored, with no dots but .json, so ../ paths can't borrow the exemption.
+                  regex_string = "^(/_next/data/[^/]+)?/search(/[a-z0-9-]+)?(\\.json)?$"
+
+                  field_to_match {
+                    uri_path {}
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "sqli-query-arguments-block-${var.namespace}"
+      }
+    }
+  }
+
   visibility_config {
     cloudwatch_metrics_enabled = true
     sampled_requests_enabled   = true
@@ -656,6 +1537,22 @@ resource "aws_wafv2_ip_set" "allowlist" {
 
   # These need to be CIDR blocks rather than plain addresses
   addresses = [for ip in local.ip_allowlist : "${ip}/32"]
+}
+
+resource "aws_wafv2_ip_set" "blocklist" {
+  name        = "blocklist-${var.namespace}"
+  description = "IPs blocked outright, an emergency lever for use during incidents"
+
+  scope              = "CLOUDFRONT"
+  ip_address_version = "IPV4"
+
+  # Managed with `aws wafv2 update-ip-set` during incidents; terraform
+  # ignores the contents so a routine apply cannot revert a live block.
+  addresses = []
+
+  lifecycle {
+    ignore_changes = [addresses]
+  }
 }
 
 resource "aws_wafv2_ip_set" "watchlist" {

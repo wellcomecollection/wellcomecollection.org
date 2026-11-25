@@ -1,13 +1,10 @@
 import { NextPage } from 'next';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useSearchContext } from '@weco/common/contexts/SearchContext';
 import { arrow } from '@weco/common/icons';
-import {
-  ServerDataContext,
-  useToggles,
-} from '@weco/common/server-data/Context';
-import { font } from '@weco/common/utils/classnames';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
+import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import { getQueryResults } from '@weco/common/utils/search';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
@@ -65,9 +62,9 @@ const SearchPage: NextPage<Props> = withSearchLayout(
     const { query: queryString } = query;
     const { extraApiToolbarLinks, setExtraApiToolbarLinks } =
       useSearchContext();
-    const { apiToolbar } = useToggles();
+    const { apiToolbar, stagingApi } = useFeatureFlags();
+    const { cataloguePipeline } = useModes();
     const params = fromQuery(query);
-    const data = useContext(ServerDataContext);
     const { setLink } = useSearchContext();
     const [clientSideWorkTypes, setClientSideWorkTypes] = useState<
       WorkTypes | undefined
@@ -102,7 +99,8 @@ const SearchPage: NextPage<Props> = withSearchLayout(
             aggregations: ['workType'],
           },
           pageSize: 1,
-          toggles: data.toggles,
+          shouldUseStagingApi: stagingApi,
+          pipelineCluster: cataloguePipeline,
         });
 
         const workTypeBuckets = getQueryWorkTypeBuckets({
@@ -128,7 +126,8 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         const imagesResults = await getImages({
           params,
           pageSize: 7,
-          toggles: data.toggles,
+          shouldUseStagingApi: stagingApi,
+          pipelineCluster: cataloguePipeline,
         });
 
         const images = getQueryResults({
@@ -225,7 +224,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
         ) : (
           <BasicSection>
             <Container>
-              <p className={font('sans', -1)}>
+              <p className={typography('body', 'md', 'regular')}>
                 {contentQueryFailed ? (
                   <>
                     There was a problem fetching some search results. Please try
@@ -239,7 +238,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                       <>
                         {' '}
                         for{' '}
-                        <span className={font('sans-bold', -1)}>
+                        <span className={typography('body', 'md', 'strong')}>
                           {queryString}
                         </span>
                       </>
@@ -267,7 +266,7 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                         properties: ['margin-left', 'margin-right'],
                       }}
                     >
-                      <h3 className={font('sans-bold', 0)}>
+                      <h3 className={typography('body', 'lg', 'strong')}>
                         Are you looking for our online collections?
                       </h3>
                     </Space>
@@ -378,7 +377,6 @@ const SearchPage: NextPage<Props> = withSearchLayout(
                     <Pagination
                       totalPages={contentResults.totalPages}
                       ariaLabel="Content search results pagination"
-                      isHiddenMobile={false}
                     />
                   )}
                 </ContentResults>

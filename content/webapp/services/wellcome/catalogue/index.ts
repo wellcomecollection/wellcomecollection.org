@@ -23,11 +23,15 @@ export const notFound = (): WellcomeApiError => ({
 
 export async function catalogueQuery<Params, Result extends ResultType>(
   endpoint: string,
-  { params, toggles, pageSize }: QueryProps<Params>
+  { params, shouldUseStagingApi, pipelineCluster, pageSize }: QueryProps<Params>
 ): Promise<CatalogueResultsList<Result> | WellcomeApiError> {
-  const apiOptions = globalApiOptions(toggles);
+  const apiOptions = globalApiOptions(shouldUseStagingApi);
+
+  // The cataloguePipeline mode toggle routes the request to that pipeline's
+  // cluster. When the mode is unset no param is added.
   const extendedParams = {
     ...params,
+    elasticCluster: pipelineCluster,
     pageSize,
   };
 
@@ -37,8 +41,7 @@ export async function catalogueQuery<Params, Result extends ResultType>(
   const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/${endpoint}?${searchParams}`;
 
   return wellcomeApiQuery(url) as unknown as
-    | CatalogueResultsList<Result>
-    | WellcomeApiError;
+    CatalogueResultsList<Result> | WellcomeApiError;
 }
 
 // Returns true if a string is plausibly a canonical ID, false otherwise.

@@ -2,13 +2,19 @@ import { S3Client } from '@aws-sdk/client-s3';
 import { info } from 'console';
 
 import { TogglesResp } from '.';
+import { dateActivatedFor, dateCreatedFor } from './lifecycleDates';
 import { getTogglesObject, putTogglesObject } from './s3-utils';
-import localToggles, { PublishedToggle, ToggleDefinition } from './toggles';
+import localToggles, {
+  FeatureFlagDefinition,
+  PhasedFlagDefinition,
+  PublishedFeatureFlag,
+  PublishedPhasedFlag,
+} from './toggles';
 
 export const withDefaultValuesUnmodified = (
-  publishedToggles: PublishedToggle[],
-  definitions: ToggleDefinition[]
-): PublishedToggle[] => {
+  publishedToggles: PublishedFeatureFlag[],
+  definitions: FeatureFlagDefinition[]
+): PublishedFeatureFlag[] => {
   /**
    * We don't deploy over the defaultValue as this can be set manually by
    * updating the toggle via setDefaultValueFor.  We want to make updating
@@ -20,11 +26,9 @@ export const withDefaultValuesUnmodified = (
    */
   return definitions.map(toggle => {
     const matchingToggle = publishedToggles.find(({ id }) => id === toggle.id);
+    const isNew = typeof matchingToggle === 'undefined';
 
-    if (
-      typeof matchingToggle !== 'undefined' &&
-      matchingToggle.defaultValue !== toggle.initialValue
-    ) {
+    if (!isNew && matchingToggle.defaultValue !== toggle.initialValue) {
       info(
         `${toggle.id}: the published value is ${matchingToggle.defaultValue} and will not be replaced`
       );
@@ -33,38 +37,140 @@ export const withDefaultValuesUnmodified = (
       info('');
     }
 
-    const defaultValue =
-      typeof matchingToggle !== 'undefined'
-        ? matchingToggle?.defaultValue
-        : toggle.initialValue;
+    const defaultValue = isNew
+      ? toggle.initialValue
+      : matchingToggle.defaultValue;
+
+    const isExperimental = toggle.type === 'experimental';
+    const dateCreated = dateCreatedFor(
+      isExperimental,
+      matchingToggle?.dateCreated
+    );
+    const dateActivated = dateActivatedFor(
+      isExperimental,
+      defaultValue,
+      matchingToggle?.dateActivated
+    );
 
     const { initialValue, ...otherFields } = toggle;
 
     return {
       ...otherFields,
       defaultValue,
+      // Omit rather than set undefined, so a non-experimental toggle's
+      // published shape doesn't carry these keys at all.
+      ...(dateCreated !== undefined && { dateCreated }),
+      ...(dateActivated !== undefined && { dateActivated }),
+    };
+  });
+};
+
+export const withDefaultPhaseUnmodified = (
+  publishedPhasedFlags: PublishedPhasedFlag[],
+  definitions: PhasedFlagDefinition[]
+): PublishedPhasedFlag[] => {
+  /**
+   * Same reasoning as withDefaultValuesUnmodified: defaultPhase is only ever
+   * set explicitly (via setDefaultValueFor), never by deploying over it. A
+   * brand new phased flag starts at its initialPhase if it has one, otherwise
+   * with nothing public (null).
+   */
+  return definitions.map(flag => {
+    const matchingFlag = publishedPhasedFlags.find(({ id }) => id === flag.id);
+    const isNew = typeof matchingFlag === 'undefined';
+
+    if (
+      isNew &&
+      flag.initialPhase !== undefined &&
+      !flag.phases.some(phase => phase.id === flag.initialPhase)
+    ) {
+      throw new Error(
+        `${flag.id}: initialPhase "${flag.initialPhase}" isn't one of this flag's phases (${flag.phases.map(phase => phase.id).join(', ')}).`
+      );
+    }
+
+    const defaultPhase = isNew
+      ? (flag.initialPhase ?? null)
+      : matchingFlag.defaultPhase;
+
+    if (
+      !isNew &&
+      defaultPhase !== null &&
+      !flag.phases.some(phase => phase.id === defaultPhase)
+    ) {
+      info(
+        `${flag.id}: the published defaultPhase "${defaultPhase}" is no longer in this flag's phases list.`
+      );
+      info(`If that phase graduated, update the default phase manually.`);
+      info('');
+    }
+
+    const isExperimental = flag.type === 'experimental';
+    const dateCreated = dateCreatedFor(
+      isExperimental,
+      matchingFlag?.dateCreated
+    );
+    const dateActivated = dateActivatedFor(
+      isExperimental,
+      defaultPhase !== null,
+      matchingFlag?.dateActivated
+    );
+
+    const { initialPhase, ...otherFields } = flag;
+
+    return {
+      ...otherFields,
+      defaultPhase,
+      // Omit rather than set undefined, so a non-experimental flag's
+      // published shape doesn't carry these keys at all.
+      ...(dateCreated !== undefined && { dateCreated }),
+      ...(dateActivated !== undefined && { dateActivated }),
     };
   });
 };
 
 export async function deploy(client: S3Client): Promise<void> {
-  const remoteToggles = await getTogglesObject(client);
+  // Check for duplicate IDs across feature flags, phased flags, tests, and modes
+  const allIds = [
+    ...localToggles.featureFlags.map(f => f.id),
+    ...localToggles.phasedFlags.map((f: PhasedFlagDefinition) => f.id),
+    ...localToggles.tests.map(t => t.id),
+    ...localToggles.modes.map(m => m.id),
+  ];
+  const duplicates = allIds.filter((id, index) => allIds.indexOf(id) !== index);
+  if (duplicates.length > 0) {
+    throw new Error(
+      `Duplicate toggle IDs found across feature flags, phased flags, tests, and modes: ${duplicates.join(', ')}. ` +
+        `All IDs must be unique because they share the toggle_ cookie prefix.`
+    );
+  }
 
-  const togglesToDeploy = withDefaultValuesUnmodified(remoteToggles.toggles, [
-    ...localToggles.toggles,
+  const remoteToggles = await getTogglesObject(client);
+  const remoteFeatureFlags = remoteToggles.featureFlags ?? [];
+  const remotePhasedFlags = remoteToggles.phasedFlags ?? [];
+
+  const featureFlagsToDeploy = withDefaultValuesUnmodified(remoteFeatureFlags, [
+    ...localToggles.featureFlags,
+  ]);
+  const phasedFlagsToDeploy = withDefaultPhaseUnmodified(remotePhasedFlags, [
+    ...localToggles.phasedFlags,
   ]);
 
   // We don't bother looking at the `.tests` during deployments as the `defaultValue`s
   // don't do anything as values are randomly assigned.
   // We should probably look at the structure of features vs tests.
-  const togglesAndTests: TogglesResp = {
-    toggles: togglesToDeploy,
+  const toggles: TogglesResp = {
+    featureFlags: featureFlagsToDeploy,
+    phasedFlags: phasedFlagsToDeploy,
     tests: localToggles.tests,
+    // Spread to convert from readonly (due to `as const` in the config, which
+    // gives us literal ModeId types) to a mutable array for the response type.
+    modes: [...localToggles.modes],
   };
 
   // GA4 now limits event parameter values to 100 characters: https://support.google.com/analytics/answer/9267744?hl=en
   // So instead of sending the whole toggles JSON blob we send a concatenated string of only the toggle names (preceeded with a ! if the toggle is false).
-  const potentialToggleString = togglesAndTests.tests
+  const potentialToggleString = toggles.tests
     .map(toggle => `!${toggle.id}`) // replicating the condition of all toggles being false gives the longest possible string.
     .join(',');
 
@@ -81,7 +187,7 @@ export async function deploy(client: S3Client): Promise<void> {
 
   const { $metadata: putObjectResponseMetadata } = await putTogglesObject(
     client,
-    togglesAndTests
+    toggles
   );
 
   if (putObjectResponseMetadata.httpStatusCode === 200) {

@@ -1,10 +1,12 @@
 import { FunctionComponent, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 
-import { font } from '@weco/common/utils/classnames';
+import { useAppContext } from '@weco/common/contexts/AppContext';
+import { typography } from '@weco/common/utils/classnames';
 import { capitalize, pluralize } from '@weco/common/utils/grammar';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 import { useConceptPageContext } from '@weco/content/contexts/ConceptPageContext';
 import { Concept } from '@weco/content/services/wellcome/catalogue/types';
 import { allRecordsLinkParams } from '@weco/content/utils/concepts';
@@ -24,11 +26,11 @@ import { FromCollectionsHeading } from './concept.styles';
 
 const WorksCount = styled(Space).attrs({
   as: 'p',
-  className: font('sans', -2),
+  className: typography('body', 'sm', 'regular'),
   $v: { size: 'xs', properties: ['padding-top'] },
 })`
   color: ${props => props.theme.color('neutral.600')};
-  border-top: 1px solid ${props => props.theme.color('warmNeutral.300')};
+  border-top: 1px solid ${props => props.theme.color('neutral.20')};
 `;
 
 const DecorativeEdgeWrapper = styled.div`
@@ -50,6 +52,7 @@ type Props = {
 
 const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
   const theme = useTheme();
+  const { isEnhanced } = useAppContext();
   const { config } = useConceptPageContext();
   const tabs = themeTabOrder
     .filter(
@@ -60,9 +63,6 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     .map(tabType => ({
       id: tabType,
       text: getSectionTypeLabel(tabType, config, 'works'),
-      dataGtmProps: {
-        label: getSectionTypeLabel(tabType, config, 'works') || '""',
-      },
     }));
 
   const [selectedTab, setSelectedTab] = useState<ThemeTabType | null>(
@@ -73,16 +73,13 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
     return null;
   }
 
-  const activePanel: SectionData = sectionsData[selectedTab];
-  if (!activePanel.works || activePanel.totalResults.works === undefined)
-    return null;
-
-  const labelBasedCount = activePanel.totalResults.works;
-
   return (
     <>
       <DecorativeEdgeWrapper>
-        <DecorativeEdge variant="wobbly" backgroundColor="white" />
+        <DecorativeEdge
+          variant="wobbly"
+          backgroundColor={pageBackgroundColor}
+        />
       </DecorativeEdgeWrapper>
       <Space $v={{ size: 'xl', properties: ['margin-top'] }} as="section">
         <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
@@ -105,31 +102,41 @@ const WorksResults: FunctionComponent<Props> = ({ concept, sectionsData }) => {
           as="section"
           data-testid="works-section"
         >
-          <div
-            {...(tabs.length > 1 && {
-              role: 'tabpanel',
-              id: `tabpanel-${selectedTab}`,
-              'aria-labelledby': `tab-${selectedTab}`,
-            })}
-          >
-            <WorksCount>
-              {pluralize(activePanel.works.totalResults, 'work')}
-            </WorksCount>
-            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-              <WorksSearchResults works={activePanel.works!.pageResults} />
-            </Space>
+          {tabs.map(tab => {
+            const panel: SectionData = sectionsData[tab.id];
+            const works = panel.works!;
+            const labelBasedCount =
+              panel.totalResults.works ?? works.pageResults.length;
 
-            {labelBasedCount > activePanel.works.pageResults.length && (
-              <Space $v={{ size: 'md', properties: ['padding-top'] }}>
-                <MoreLink
-                  ariaLabel={`View all works for ${concept.displayLabel}`}
-                  name="View all"
-                  url={getAllWorksLink(selectedTab, concept)}
-                  colors={theme.buttonColors.greenGreenWhite}
-                />
-              </Space>
-            )}
-          </div>
+            return (
+              <div
+                key={tab.id}
+                {...(tabs.length > 1 && {
+                  role: 'tabpanel',
+                  id: `tabpanel-${tab.id}`,
+                  'aria-labelledby': `tab-${tab.id}`,
+                })}
+                hidden={isEnhanced && selectedTab !== tab.id}
+              >
+                <WorksCount>{pluralize(works.totalResults, 'work')}</WorksCount>
+                <Space $v={{ size: 'md', properties: ['margin-top'] }}>
+                  <WorksSearchResults works={works.pageResults} />
+                </Space>
+
+                {labelBasedCount > works.pageResults.length && (
+                  <Space $v={{ size: 'md', properties: ['padding-top'] }}>
+                    <MoreLink
+                      ariaLabel={`View all works for ${concept.displayLabel}`}
+                      name="View all"
+                      url={getAllWorksLink(tab.id, concept)}
+                      colors={theme.buttonColors.greenGreenWhite}
+                      hierarchy="secondary"
+                    />
+                  </Space>
+                )}
+              </div>
+            );
+          })}
         </Space>
       </Space>
     </>

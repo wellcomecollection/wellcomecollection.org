@@ -34,15 +34,7 @@ export type HorizontalSpaceProperty =
   | 'width';
 
 type SpacingUnitsIndex =
-  | '050'
-  | '075'
-  | '100'
-  | '150'
-  | '200'
-  | '300'
-  | '400'
-  | '600'
-  | '1200';
+  '050' | '075' | '100' | '150' | '200' | '300' | '400' | '600' | '1200';
 export type SpaceOverrides = {
   zero?: SpacingUnitsIndex;
   sm?: SpacingUnitsIndex;

@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 type WrapperProps = {
   $rotate?: number;
-  $iconColor?: PaletteColor;
+  $iconColor?: ThemeColor;
   $matchText?: boolean;
   $sizeOverride?: string;
 };
@@ -22,20 +22,16 @@ const Wrapper = styled.span.attrs({
 
   ${props =>
     props.$iconColor && `color: ${props.theme.color(props.$iconColor)};`}
-  ${props => props.$rotate && `transform: rotate(${props.$rotate}deg);`}
+  ${props => (props.$rotate ? `transform: rotate(${props.$rotate}deg);` : '')}
 
   ${props =>
     props.$matchText &&
-    `
-    height: 1em;
-    width: 1em;
-  `}
+    css`
+      height: 1em;
+      width: 1em;
+    `}
 
-  ${props =>
-    props.$sizeOverride &&
-    `
-    ${props.$sizeOverride}
-  `}
+  ${props => props.$sizeOverride}
 
 
   .icon__svg {
@@ -54,7 +50,7 @@ const Wrapper = styled.span.attrs({
 type Props = {
   icon: IconSvg;
   rotate?: number;
-  iconColor?: PaletteColor;
+  iconColor?: ThemeColor;
   matchText?: boolean;
   sizeOverride?: string;
   title?: string;
@@ -93,8 +89,11 @@ const Icon: FunctionComponent<Props> = ({
         (() => {
           const result = icon({});
           // Only render if result is not a Promise
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          if (result && typeof (result as any).then === 'function') {
+          if (
+            result &&
+            typeof (result as unknown as PromiseLike<unknown>).then ===
+              'function'
+          ) {
             // If it's a Promise, do not render anything
             return null;
           }

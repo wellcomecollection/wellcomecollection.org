@@ -39,7 +39,7 @@ export const getActiveFiltersLabel = ({
       } else if (f.type === 'dateRange') {
         let dateRange = '';
         if (f.from.value) dateRange = `From ${f.from.value} `;
-        if (f.to.value) dateRange = dateRange + `to up to ${f.to.value}`;
+        if (f.to.value) dateRange = `${dateRange}to up to ${f.to.value}`;
         return dateRange || undefined;
       } else if (f.type === 'color' && f.color) {
         return getColorDisplayName(f.color) || undefined;

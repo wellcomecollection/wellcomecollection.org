@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { getCrop } from '@weco/common/model/image';
 import { Label as LabelType } from '@weco/common/model/labels';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import LabelsList from '@weco/common/views/components/LabelsList';
 import PrismicImage from '@weco/common/views/components/PrismicImage';
 import Space from '@weco/common/views/components/styled/Space';
@@ -16,6 +16,7 @@ export const CardImageWrapper = styled.div`
 
 type Props = {
   item: CardType;
+  positionInList?: number;
 };
 
 const sharedCardOuter = css`
@@ -30,7 +31,7 @@ const sharedCardOuter = css`
   overflow: hidden;
   flex-direction: column;
 
-  background: ${props => props.theme.color('warmNeutral.300')};
+  background: ${props => props.theme.color('teal.20')};
   min-height: ${props => props.theme.minCardHeight}px;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
 
@@ -51,7 +52,7 @@ const sharedCardOuter = css`
   }
 
   .card-theme.card-theme--white & {
-    background: ${props => props.theme.color('white')};
+    background: ${props => props.theme.color('neutral.05')};
   }
 
   .card-theme.card-theme--transparent & {
@@ -157,7 +158,7 @@ export const CardLabels: FunctionComponent<{ labels: LabelType[] }> = ({
 );
 
 const Description = styled.p.attrs({
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
 })`
   padding: 0;
   margin: 0;
@@ -165,17 +166,21 @@ const Description = styled.p.attrs({
 
 export const CardTitle = styled(Space).attrs({
   as: 'h3',
-  className: font('brand-bold', 1),
+  className: typography('heading', 'lg', 'strong', 'brand'),
   $v: { size: 'xs', properties: ['margin-bottom'] },
 })`
   transition: color 400ms ease;
 `;
 
-const Card: FunctionComponent<Props> = ({ item }: Props) => {
+const Card: FunctionComponent<Props> = ({ item, positionInList }: Props) => {
   const image = getCrop(item.image, '16:9');
 
   return (
-    <CardOuter data-component="card" href={item.link}>
+    <CardOuter
+      data-component="card"
+      data-gtm-position-in-list={positionInList}
+      href={item.link}
+    >
       <CardImageWrapper>
         {image && (
           <PrismicImage

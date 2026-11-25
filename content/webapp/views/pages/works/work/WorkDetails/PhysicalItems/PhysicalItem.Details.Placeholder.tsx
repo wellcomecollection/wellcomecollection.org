@@ -1,5 +1,5 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { DefaultTheme, keyframes } from 'styled-components';
 
 type Props = {
   isLoading: boolean;
@@ -7,9 +7,8 @@ type Props = {
   maxWidth?: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getGradient = (theme: any) => {
-  const bgColor = theme.colors['neutral.300'];
+const getGradient = (theme: DefaultTheme) => {
+  const bgColor = theme.color('neutral.300');
   const highlightColor = 'rgb(255, 255, 255, 0.6)';
 
   // We make the background periodic so that it can be animated easily
@@ -57,6 +56,10 @@ const widthOffsets = [0.8, 0.6, 0.3, 0.5, 0.8, 0.5, 0.2, 0.4, 0.3, 0.1];
 const randomWidth = ({ min, i }: { min: number; i: number }) =>
   100 - (100 - min) * widthOffsets[i % widthOffsets.length];
 
+/**
+ * Wraps things that have a loading state, rendering a "skeleton state"
+ * placeholder while they load.
+ */
 const Placeholder: FunctionComponent<PropsWithChildren<Props>> = ({
   children,
   isLoading,

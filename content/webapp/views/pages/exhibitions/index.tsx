@@ -85,7 +85,7 @@ const ExhibitionsPage: NextPage<Props> = props => {
           )
         }
         backgroundTexture={headerBackgroundLs}
-        highlightHeading={true}
+        highlightHeading
       />
       {partitionedExhibitionItems.currentAndUpcoming.length > 0 && (
         <>
@@ -119,8 +119,8 @@ const ExhibitionsPage: NextPage<Props> = props => {
           <SpacingSection>
             <CardGrid
               items={partitionedExhibitionItems.past}
-              itemsHaveTransparentBackground={true}
               itemsPerRow={3}
+              itemsHaveTransparentBackground
             />
             {exhibitions.totalPages > 1 && (
               <Container>

@@ -19,7 +19,9 @@
         "config": {
           "label": "Format",
           "select": "document",
-          "customtypes": ["article-formats"]
+          "customtypes": [
+            "article-formats"
+          ]
         }
       },
       "uid": {
@@ -34,37 +36,37 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "embed": {
-              "type": "SharedSlice"
-            },
             "audioPlayer": {
-              "type": "SharedSlice"
-            },
-            "tagList": {
-              "type": "SharedSlice"
-            },
-            "iframe": {
-              "type": "SharedSlice"
-            },
-            "editorialImageGallery": {
               "type": "SharedSlice"
             },
             "editorialImage": {
               "type": "SharedSlice"
             },
+            "editorialImageGallery": {
+              "type": "SharedSlice"
+            },
+            "embed": {
+              "type": "SharedSlice"
+            },
             "gifVideo": {
               "type": "SharedSlice"
             },
-            "text": {
-              "type": "SharedSlice"
-            },
-            "standfirst": {
+            "iframe": {
               "type": "SharedSlice"
             },
             "infoBlock": {
               "type": "SharedSlice"
             },
             "quote": {
+              "type": "SharedSlice"
+            },
+            "standfirst": {
+              "type": "SharedSlice"
+            },
+            "tagList": {
+              "type": "SharedSlice"
+            },
+            "text": {
               "type": "SharedSlice"
             }
           }
@@ -82,7 +84,9 @@
               "config": {
                 "label": "Role",
                 "select": "document",
-                "customtypes": ["editorial-contributor-roles"]
+                "customtypes": [
+                  "editorial-contributor-roles"
+                ]
               }
             },
             "contributor": {
@@ -90,7 +94,10 @@
               "config": {
                 "label": "Contributor",
                 "select": "document",
-                "customtypes": ["people", "organisations"]
+                "customtypes": [
+                  "people",
+                  "organisations"
+                ]
               }
             },
             "description": {
@@ -181,7 +188,10 @@
         "config": {
           "label": "\"Explore more\" document",
           "select": "document",
-          "customtypes": ["articles", "exhibitions"]
+          "customtypes": [
+            "articles",
+            "exhibitions"
+          ]
         }
       },
       "series": {
@@ -194,7 +204,9 @@
               "config": {
                 "label": "Series",
                 "select": "document",
-                "customtypes": ["series"]
+                "customtypes": [
+                  "series"
+                ]
               }
             },
             "positionInSeries": {
@@ -216,7 +228,9 @@
               "config": {
                 "label": "Season",
                 "select": "document",
-                "customtypes": ["seasons"],
+                "customtypes": [
+                  "seasons"
+                ],
                 "placeholder": "Select a Season"
               }
             }
@@ -239,7 +253,9 @@
               "config": {
                 "label": "Parent",
                 "select": "document",
-                "customtypes": ["exhibitions"],
+                "customtypes": [
+                  "exhibitions"
+                ],
                 "placeholder": "Select a parent"
               }
             }

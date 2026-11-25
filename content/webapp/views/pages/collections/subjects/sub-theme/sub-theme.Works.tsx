@@ -1,12 +1,6 @@
-import {
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-import { ServerDataContext } from '@weco/common/server-data/Context';
+import { useFeatureFlags, useModes } from '@weco/common/server-data/Context';
 import { formatNumber } from '@weco/common/utils/grammar';
 import LL from '@weco/common/views/components/styled/LL';
 import Space from '@weco/common/views/components/styled/Space';
@@ -35,7 +29,8 @@ const SubThemeWorks = ({
   works: WorksForTabs;
   conceptsDisplayLabels: string[];
 }) => {
-  const { toggles } = useContext(ServerDataContext);
+  const { stagingApi } = useFeatureFlags();
+  const { cataloguePipeline } = useModes();
   const [selectedTab, setSelectedTab] = useState(ALL_WORKS_TAB_ID);
   const [displayedWorks, setDisplayedWorks] = useState<WorkBasic[]>(
     works.pageResults
@@ -92,7 +87,8 @@ const SubThemeWorks = ({
             workType: [selectedTab],
           },
           pageSize: works.pageResults.length,
-          toggles,
+          shouldUseStagingApi: stagingApi,
+          pipelineCluster: cataloguePipeline,
         });
 
         // Only update state if this is still the current tab (prevent race conditions)
@@ -129,7 +125,13 @@ const SubThemeWorks = ({
     };
 
     fetchFilteredWorks();
-  }, [selectedTab, conceptsDisplayLabels, toggles, works.pageResults]);
+  }, [
+    selectedTab,
+    conceptsDisplayLabels,
+    stagingApi,
+    cataloguePipeline,
+    works.pageResults,
+  ]);
 
   // Use useLayoutEffect to measure the DOM synchronously after render but before paint
   // This ensures we capture the accurate height after results have rendered
@@ -197,6 +199,7 @@ const SubThemeWorks = ({
                   : { workType: [selectedTab] }),
               })}
               colors={themeValues.buttonColors.greenGreenWhite}
+              hierarchy="secondary"
             />
           </div>
         )}

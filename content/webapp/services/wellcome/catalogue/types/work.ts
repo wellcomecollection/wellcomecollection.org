@@ -6,7 +6,9 @@ import {
   ArchiveLabels,
   getArchiveLabels,
   getCardLabels,
+  getLanguageId,
   getProductionDates,
+  isArchiveCollectionRoot,
 } from '@weco/content/utils/works';
 
 import { Work } from '.';
@@ -14,31 +16,41 @@ import { Work } from '.';
 export type WorkBasic = OptionalToUndefined<{
   id: string;
   title: string;
-  languageId?: string;
+  workTypeId?: string;
   thumbnail?: DigitalLocation;
   referenceNumber?: string;
+  shortDescription?: string;
+  languageId?: string;
   productionDates: string[];
   archiveLabels?: ArchiveLabels;
   cardLabels: Label[];
   primaryContributorLabel?: string;
   notes: Note[];
+  isArchiveCollectionRoot: boolean;
+  physicalDescription: string;
 }>;
 
 export function toWorkBasic(work: Work): WorkBasic {
-  const { id, title, thumbnail, referenceNumber, notes } = work;
+  const {
+    id,
+    title,
+    notes,
+    physicalDescription,
+    referenceNumber,
+    shortDescription,
+    thumbnail,
+    workType,
+  } = work;
 
-  // We only send a lang if it's unambiguous -- better to send
-  // no language than the wrong one.
-  const languageId =
-    work.languages && work.languages.length === 1
-      ? work.languages[0].id
-      : undefined;
+  const languageId = getLanguageId(work);
 
   return {
     id,
     title,
+    workTypeId: workType?.id,
     thumbnail,
     referenceNumber,
+    shortDescription,
     languageId,
     productionDates: getProductionDates(work),
     archiveLabels: getArchiveLabels(work),
@@ -47,5 +59,7 @@ export function toWorkBasic(work: Work): WorkBasic {
       contributor => contributor.primary
     )?.agent.label,
     notes,
+    isArchiveCollectionRoot: isArchiveCollectionRoot(work),
+    physicalDescription,
   };
 }

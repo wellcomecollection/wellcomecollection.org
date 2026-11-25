@@ -1,15 +1,13 @@
 import * as prismic from '@prismicio/client';
 import { SliceZone } from '@prismicio/react';
 import { Fragment, FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-import { officialLandingPagesUid } from '@weco/common/data/hardcoded-ids';
+import { isLandingPageSection } from '@weco/common/model/site-section';
 import { ContentListSlice as RawContentListSlice } from '@weco/common/prismicio-types';
-import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
-import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
 import {
   ContaineredLayout,
   gridSize12,
@@ -23,11 +21,16 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { components } from '@weco/common/views/slices';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor,
+  PaletteColor,
+  ThemeColor,
+} from '@weco/common/views/themes/config';
 import { transformContentListSlice } from '@weco/content/services/prismic/transformers/body';
 import { ArchiveWorkData } from '@weco/content/services/wellcome/catalogue/works';
 import { isContentList } from '@weco/content/types/body';
 import { convertItemToCardProps } from '@weco/content/types/card';
+import { PrismicBodySlice } from '@weco/content/types/generic-content-fields';
 import { Link } from '@weco/content/types/link';
 import Card from '@weco/content/views/components/Card';
 import FeaturedCard, {
@@ -41,24 +44,32 @@ import SectionHeader from '@weco/content/views/components/SectionHeader';
 
 import GridFactory, { landingPageGrid } from './GridFactory';
 
+const TwoColumnGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
+`;
+
 const BodyWrapper = styled.div<{ $splitBackground: boolean }>`
   ${props =>
     props.$splitBackground &&
-    `
-  > div:first-child {
-    background: linear-gradient(180deg, ${props.theme.color(
-      'white'
-    )} 50%, transparent 50%);
-  }
-`}
+    css`
+      > div:first-child {
+        background: linear-gradient(
+          180deg,
+          ${props.theme.color(pageBackgroundColor)} 50%,
+          transparent 50%
+        );
+      }
+    `}
 `;
 
 export type BodySliceContexts = {
   archiveWorks?: Record<string, ArchiveWorkData>;
+  themeCardCols?: 3 | 4;
 };
 
 export type Props = {
-  untransformedBody: prismic.SliceZone<PagesDocumentDataBodySlice>;
+  untransformedBody: PrismicBodySlice[];
   introText?: prismic.RichTextField;
   onThisPage?: Link[];
   showOnThisPage?: boolean;
@@ -66,8 +77,7 @@ export type Props = {
   pageId: string;
   pageUid: string;
   gridSizes?: SizeMap;
-  hasLandingPageFormat?: boolean;
-  isOfficialLandingPage?: boolean;
+  isLandingPage?: boolean;
   staticContent?: ReactElement | null;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
@@ -75,15 +85,15 @@ export type Props = {
 };
 
 type SectionTheme = {
-  rowBackground: PaletteColor;
+  rowBackground: ThemeColor;
   cardBackground: PaletteColor;
-  featuredCardBackground: PaletteColor;
-  featuredCardText: PaletteColor;
+  featuredCardBackground: ThemeColor;
+  featuredCardText: ThemeColor;
 };
 
 type WrapperProps = {
   $cardBackgroundColor: PaletteColor;
-  $rowBackgroundColor: PaletteColor;
+  $rowBackgroundColor: ThemeColor;
 };
 const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
   className: classNames({
@@ -94,7 +104,7 @@ const Wrapper = styled(Space).attrs<WrapperProps>(props => ({
       'transparent',
     ].includes(props.$cardBackgroundColor),
   }),
-}))<{ $rowBackgroundColor: PaletteColor }>`
+}))<{ $rowBackgroundColor: ThemeColor }>`
   background-color: ${props => props.theme.color(props.$rowBackgroundColor)};
 `;
 
@@ -104,13 +114,18 @@ export type SliceZoneContext = {
   isShortFilm: boolean;
   pageId: string;
   pageUid: string;
-  hasLandingPageFormat: boolean;
+  isLandingPage: boolean;
   isDropCapped: boolean;
   gridSizes?: SizeMap;
   comicPreviousNext?: ComicPreviousNextProps;
   contentType?: 'short-film' | 'visual-story' | 'standalone-image-gallery';
   archiveWorks?: Record<string, ArchiveWorkData>;
   hasNoShim?: boolean;
+  hasContainer?: boolean;
+  itemsHaveTransparentBackground?: boolean;
+  cardSizeMap?: SizeMap;
+  themeCardCols?: 3 | 4;
+  isFirstCardFeatured?: boolean;
 };
 
 export const defaultContext: SliceZoneContext = {
@@ -119,7 +134,7 @@ export const defaultContext: SliceZoneContext = {
   isShortFilm: false,
   pageId: '',
   pageUid: '',
-  hasLandingPageFormat: false,
+  isLandingPage: false,
   isDropCapped: false,
   hasNoShim: false,
 };
@@ -133,15 +148,14 @@ const Body: FunctionComponent<Props> = ({
   pageId,
   pageUid,
   gridSizes,
-  hasLandingPageFormat = false,
-  isOfficialLandingPage = false,
+  isLandingPage = false,
   staticContent = null,
   comicPreviousNext,
   contentType,
   bodySliceContexts,
 }: Props) => {
   const filteredUntransformedBody = untransformedBody.filter(
-    (slice: prismic.Slice) => slice.slice_type !== 'standfirst'
+    slice => slice.slice_type !== 'standfirst'
   );
 
   const firstTextSliceIndex =
@@ -154,27 +168,27 @@ const Body: FunctionComponent<Props> = ({
 
   const sectionThemes: SectionTheme[] = [
     {
-      rowBackground: 'white',
+      rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
       featuredCardBackground: 'neutral.700',
-      featuredCardText: 'white',
+      featuredCardText: 'neutral.10',
     },
     {
       rowBackground: 'warmNeutral.300',
       cardBackground: 'white',
-      featuredCardBackground: 'white',
+      featuredCardBackground: 'neutral.05',
       featuredCardText: 'black',
     },
     {
-      rowBackground: 'white',
+      rowBackground: pageBackgroundColor,
       cardBackground: 'warmNeutral.300',
-      featuredCardBackground: 'warmNeutral.300',
+      featuredCardBackground: 'teal.20',
       featuredCardText: 'black',
     },
     {
       rowBackground: 'neutral.700',
       cardBackground: 'transparent',
-      featuredCardBackground: 'white',
+      featuredCardBackground: 'neutral.05',
       featuredCardText: 'black',
     },
   ];
@@ -188,6 +202,8 @@ const Body: FunctionComponent<Props> = ({
         const isFirst = index === 0;
         const isLast = index === sections.length - 1;
         const sectionTheme = sectionThemes[index % sectionThemes.length];
+        const isPageBackground =
+          sectionTheme.rowBackground === pageBackgroundColor;
         const hasFeatured = section.value.items.length === 1;
         const firstItem = section.value.items?.[0];
         const isCardType = firstItem?.type === 'card';
@@ -207,15 +223,20 @@ const Body: FunctionComponent<Props> = ({
               {...firstItemProps}
               background={sectionTheme.featuredCardBackground}
               textColor={sectionTheme.featuredCardText}
-              isReversed={false}
               priority={isFirst}
             >
-              <h3 className={font('brand-bold', 2)}>{firstItem.title}</h3>
+              <h3 className={typography('heading', 'xl', 'strong', 'brand')}>
+                {firstItem.title}
+              </h3>
               {isCardType && firstItem.description && (
-                <p className={font('sans', -1)}>{firstItem.description}</p>
+                <p className={typography('body', 'md', 'regular')}>
+                  {firstItem.description}
+                </p>
               )}
               {'promo' in firstItem && firstItem.promo && (
-                <p className={font('sans', -1)}>{firstItem.promo.caption}</p>
+                <p className={typography('body', 'md', 'regular')}>
+                  {firstItem.promo.caption}
+                </p>
               )}
             </FeaturedCard>
           ) : null;
@@ -239,9 +260,9 @@ const Body: FunctionComponent<Props> = ({
               $v={{
                 size: 'xl',
                 properties:
-                  isLast && sectionTheme.rowBackground === 'white'
+                  isLast && isPageBackground
                     ? ['padding-top']
-                    : isFirst && sectionTheme.rowBackground === 'white'
+                    : isFirst && isPageBackground
                       ? ['padding-bottom']
                       : ['padding-top', 'padding-bottom'],
               }}
@@ -252,9 +273,7 @@ const Body: FunctionComponent<Props> = ({
                 <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
                   <SectionHeader
                     title={section.value.title}
-                    gridSize={
-                      isOfficialLandingPage ? gridSize12() : gridSize8()
-                    }
+                    gridSize={isLandingPage ? gridSize12() : gridSize8()}
                   />
                 </Space>
               )}
@@ -269,7 +288,7 @@ const Body: FunctionComponent<Props> = ({
                 <GridFactory
                   items={cards}
                   overrideGridSizes={
-                    isOfficialLandingPage ? landingPageGrid : undefined
+                    isLandingPage ? landingPageGrid : undefined
                   }
                 />
               )}
@@ -277,7 +296,7 @@ const Body: FunctionComponent<Props> = ({
             {!isLast && (
               <DecorativeEdge
                 variant="wobbly"
-                backgroundColor="white"
+                backgroundColor={pageBackgroundColor}
                 isStatic
               />
             )}
@@ -299,7 +318,7 @@ const Body: FunctionComponent<Props> = ({
       condition={isTwoColumns}
       wrapper={children => (
         <Container>
-          <Grid style={{ background: 'white', rowGap: 0 }}>
+          <TwoColumnGrid>
             <InPageNavigation
               links={onThisPage!}
               sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
@@ -311,7 +330,7 @@ const Body: FunctionComponent<Props> = ({
                 {children}
               </Space>
             </GridCell>
-          </Grid>
+          </TwoColumnGrid>
         </Container>
       )}
     >
@@ -320,21 +339,18 @@ const Body: FunctionComponent<Props> = ({
         className={`content-type-${contentType}`}
         $splitBackground={isShortFilm}
       >
-        {!officialLandingPagesUid.includes(pageUid) &&
+        {!isLandingPageSection(pageUid) &&
           introText &&
           introText.length > 0 && (
-            <ContaineredLayout gridSizes={gridSize8(!isOfficialLandingPage)}>
+            <ContaineredLayout gridSizes={gridSize8(!isLandingPage)}>
               <div className="body-text spaced-text">
                 <Space
                   $v={{
-                    size: isOfficialLandingPage ? 'xl' : 'md',
+                    size: isLandingPage ? 'xl' : 'md',
                     properties: ['margin-bottom'],
                   }}
                 >
-                  <FeaturedText
-                    html={introText}
-                    htmlSerializer={defaultSerializer}
-                  />
+                  <FeaturedText html={introText} />
                 </Space>
               </div>
             </ContaineredLayout>
@@ -342,7 +358,7 @@ const Body: FunctionComponent<Props> = ({
 
         {staticContent}
 
-        {hasLandingPageFormat && <LandingPageSections sections={sections} />}
+        {isLandingPage && <LandingPageSections sections={sections} />}
 
         <SliceZone
           slices={filteredUntransformedBody}
@@ -354,7 +370,7 @@ const Body: FunctionComponent<Props> = ({
             comicPreviousNext,
             pageId,
             pageUid,
-            hasLandingPageFormat,
+            isLandingPage,
             isDropCapped,
             contentType,
             isShortFilm,

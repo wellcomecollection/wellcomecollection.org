@@ -101,6 +101,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
     switch (requestingState) {
       case 'requesting':
         return <LL />;
+
       case 'error':
         return (
           <ErrorDialog
@@ -108,6 +109,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
             errorMessage={requestingErrorMessage}
           />
         );
+
       case 'confirmed':
         return (
           <ConfirmedDialog
@@ -115,6 +117,7 @@ const ItemRequestModal: FunctionComponent<Props> = ({
             pickUpDate={pickUpDate}
           />
         );
+
       case 'initial':
         return (
           <RequestDialog

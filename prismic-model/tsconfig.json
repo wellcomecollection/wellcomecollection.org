@@ -1,12 +1,9 @@
 {
   "extends": "../config/tsconfig-base",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "composite": true,
     "module": "commonjs",
     "moduleResolution": "node"
-  },
-  // This is for https://github.com/wellcomecollection/ts-aws
-  "ts-node": {
-    "skipIgnore": true
   }
 }

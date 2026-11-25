@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 
 import { RequestDeleteSchema } from '@weco/identity/types/schemas/request-delete';
+import { accountApiClient } from '@weco/identity/utils/api-client';
+import { FetchError } from '@weco/identity/utils/fetch-helpers';
 
 export enum RequestDeleteError {
   INCORRECT_PASSWORD,
@@ -21,14 +22,17 @@ export function useRequestDelete(): UseRequestDeleteMutation {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<RequestDeleteError>();
 
-  const requestDelete = (requestDeleteBody: RequestDeleteSchema) => {
+  const requestDelete = async (requestDeleteBody: RequestDeleteSchema) => {
     setIsLoading(true);
-    axios
-      .put('/account/api/users/me/deletion-request', requestDeleteBody)
-      .then(() => {
-        setIsSuccess(true);
-      })
-      .catch((err: AxiosError) => {
+    try {
+      await accountApiClient.put(
+        '/users/me/deletion-request',
+        requestDeleteBody
+      );
+      setIsSuccess(true);
+    } catch (err) {
+      // Ensure error is FetchError before accessing response property
+      if (err instanceof FetchError) {
         switch (err.response?.status) {
           case 401: {
             setError(RequestDeleteError.INCORRECT_PASSWORD);
@@ -43,8 +47,13 @@ export function useRequestDelete(): UseRequestDeleteMutation {
             break;
           }
         }
-      })
-      .finally(() => setIsLoading(false));
+      } else {
+        // Non-FetchError (network error, etc.)
+        setError(RequestDeleteError.UNKNOWN);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return { requestDelete, isLoading, isSuccess, error };

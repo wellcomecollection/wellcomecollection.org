@@ -147,7 +147,7 @@ async function main() {
   console.info(contentTypeMatches);
   logInfo(
     `found ${
-      slicesMatches ? slicesMatches + ' ' + type : totalSlices + ' slices'
+      slicesMatches ? `${slicesMatches} ${type}` : `${totalSlices} slices`
     } in ${contentTypeMatches.length} ${contentTFinal.join(', ')}`
   );
 }

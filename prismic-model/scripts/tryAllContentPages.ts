@@ -8,7 +8,6 @@
  * a non-catastrophic way.
  */
 
-import fetch from 'node-fetch';
 import tqdm from 'tqdm';
 
 import { logError } from '@weco/common/utils/console-logs';
@@ -40,7 +39,6 @@ const nonVisibleTypes = new Set([
   'interpretation-types',
   'labels',
   'organisations',
-  'page-formats',
   'people',
   'places',
   'popup-dialog',
@@ -51,7 +49,7 @@ const nonVisibleTypes = new Set([
 function createUrl(prefix: string, { id, type }: PrismicDocument): string {
   switch (type) {
     case 'webcomics':
-      return `${prefix}/articles/${id}`;
+      return `${prefix}/stories/${id}`;
 
     case 'webcomic-series':
       return `${prefix}/series/${id}`;

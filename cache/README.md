@@ -2,7 +2,12 @@
 
 We use CloudFront for the cache of wellcomecollection.org.
 
-## lambda@edge
+- [lambda@edge](#lambdaedge)
+  - [Redirector](#redirector)
+  - [Toggler (A/B testing)](#toggler-ab-testing)
+- [WAF IP Set Updaters](#waf-ip-set-updaters)
+
+## lambda@edge functions
 
 ### [Redirector](./edge_lambdas/src/redirector.test.ts)
 
@@ -59,9 +64,9 @@ end
 
 `toggler` runs @ the `origin-request` and `origin-response` of [the lambda@edgfe lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/lambda-edge.html).
 
-### Steps to create an A/B test
+#### Steps to create an A/B test
 
-#### Adding the test
+##### Adding the test
 1. Add a test object to [`toggler.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/edge_lambdas/src/toggler.ts) and add an equivalent test object with the same id (without the `when` key) to [`toggles.ts`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/toggles/webapp/toggles.ts)  – this second object is important because it allows us to determine [what should be sent to GA](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/common/services/app/analytics-scripts/google-analytics.tsx)
 
 **toggler.ts**
@@ -107,9 +112,13 @@ terraform apply terraform.plan
 8. Update [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) with values from previous terraform and re-run the terraform steps above to get the changes in to production
 9. Use the toggle to conditionally serve different UI in the same way as you would for feature flags
 
-#### Removing the test
+##### Removing the test
 1. Remove the test objects from `toggler.ts` and `toggles.ts` that were added above and remove any code that responds to the toggle cookie in the same PR. _Note: if there's clear evidence that we will move ahead with the UI code from the test condition, we may want to keep it and remove the control condition code at this stage rather than going back to the state before the test started_
 2. Deploy the new lambdas and apply the terraform changes as per steps 2–5 of ["adding the test"](#adding-the-test) above.
 3. Make a second PR to update the [`locals.tf`](https://github.com/wellcomecollection/wellcomecollection.org/blob/main/cache/locals.tf) from the result of the previous step
 4. Merge and deploy the first PR and check the UI and toggle changes have been removed on `www-stage`
 5. Merge the second PR and apply the terraform change resulting from the updated locals.tf and check the UI and toggle changes have been removed in production
+
+## WAF IP Set Updaters
+
+Automated Lambda functions that keep the WAF IP allowlists up to date. See [`ip-updaters/README.md`](./ip-updaters/README.md) for a full description, manual run instructions, and troubleshooting.

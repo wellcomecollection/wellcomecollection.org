@@ -77,42 +77,32 @@ export const Basic: Story = {
   name: 'FullWidthBanner',
   render: args => {
     const { variant } = args;
-    let finalArgs = args;
-
-    if (variant === 'twoLinks') {
-      const links: { text: string; url: string }[] = [];
-      if (args.linkNumber > 0) {
-        links.push({
-          text: 'Visit the Reading Room',
-          url: '#',
-        });
-      }
-      if (args.linkNumber > 1) {
-        links.push({
-          text: 'History and context of our collections',
-          url: '#',
-        });
-      }
-      finalArgs = {
-        ...args,
-        links,
-      };
-    } else {
-      finalArgs = {
-        ...args,
-        link: {
-          text: args.linkCopy,
-          url: '#',
-        },
-        supportText: [
-          {
-            type: 'paragraph',
-            text: args.supportTextCopy,
-            spans: [],
-          },
-        ],
-      };
-    }
+    const finalArgs =
+      variant === 'twoLinks'
+        ? {
+            ...args,
+            links: Array.from({ length: args.linkNumber }, (_, index) => ({
+              text:
+                index === 0
+                  ? 'Visit the Reading Room'
+                  : 'History and context of our collections',
+              url: '#',
+            })),
+          }
+        : {
+            ...args,
+            link: {
+              text: args.linkCopy,
+              url: '#',
+            },
+            supportText: [
+              {
+                type: 'paragraph',
+                text: args.supportTextCopy,
+                spans: [],
+              },
+            ],
+          };
 
     return <FullWidthBanner {...finalArgs} />;
   },

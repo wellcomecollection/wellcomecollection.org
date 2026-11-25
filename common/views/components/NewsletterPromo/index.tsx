@@ -1,19 +1,49 @@
 import { FunctionComponent, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { newsletterAddressBook } from '@weco/common/data/dotdigital';
 import useValidation from '@weco/common/hooks/useValidation';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Button from '@weco/common/views/components/Buttons';
-import CheckboxRadio from '@weco/common/views/components/CheckboxRadio';
+import CheckboxRadio, {
+  CheckboxRadioBox,
+} from '@weco/common/views/components/CheckboxRadio';
 import {
   ContaineredLayout,
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import { Container } from '@weco/common/views/components/styled/Container';
 import Space from '@weco/common/views/components/styled/Space';
-import TextInput from '@weco/common/views/components/TextInput';
+import TextInput, {
+  HintCopy,
+  TextInputWrap,
+} from '@weco/common/views/components/TextInput';
+
+const Wrapper = styled(Space).attrs({
+  className: 'is-hidden-print',
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})`
+  background-color: ${props => props.theme.color('teal.50')};
+
+  /* The promo is dark, so its text and form parts need lightening */
+  color: ${props => props.theme.color('neutral.10')};
+
+  ${HintCopy} {
+    color: inherit;
+  }
+
+  /* Leave error/success and hover borders as they are */
+  ${TextInputWrap}:not([data-status]):not(:hover) {
+    border-color: ${props => props.theme.color('neutral.10')};
+  }
+
+  ${CheckboxRadioBox} {
+    background-color: ${props => props.theme.color('white')};
+    border-color: ${props => props.theme.color('white')};
+    color: ${props => props.theme.color('black')};
+  }
+`;
 
 const NewsletterForm = styled.form.attrs({
   name: 'newsletter-signup',
@@ -31,7 +61,7 @@ const NewsletterForm = styled.form.attrs({
 `;
 
 const PrivacyNotice = () => (
-  <p className={font('sans', -2)}>
+  <p className={typography('body', 'sm', 'regular')}>
     By clicking subscribe, you agree to receive this newsletter. You can
     unsubscribe any time. For information about how we handle your data,{' '}
     <a
@@ -46,7 +76,6 @@ const PrivacyNotice = () => (
 );
 
 const NewsletterPromo: FunctionComponent = () => {
-  const theme = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitError, setIsSubmitError] = useState(false);
@@ -92,6 +121,7 @@ const NewsletterPromo: FunctionComponent = () => {
         setIsSuccess(true);
         break;
       case 'error':
+      default:
         setIsSubmitError(true);
         emailValidation.setIsValid(false);
     }
@@ -100,20 +130,21 @@ const NewsletterPromo: FunctionComponent = () => {
   }
 
   return (
-    <Space
-      data-component="newsletter-promo"
-      className="is-hidden-print"
-      style={{ backgroundColor: theme.color('lightYellow') }}
-      $v={{ size: 'xl', properties: ['padding-top', 'padding-bottom'] }}
-    >
+    <Wrapper data-component="newsletter-promo">
       <Container>
         <ContaineredLayout gridSizes={gridSize8()}>
-          <h2 className={font('brand-bold', 1)} style={{ textAlign: 'center' }}>
+          <h2
+            className={typography('heading', 'lg', 'strong', 'brand')}
+            style={{ textAlign: 'center' }}
+          >
             {isSuccess ? 'Thank you for signing up!' : 'Stay in the know'}
           </h2>
           {!isSuccess && (
             <>
-              <p className={font('sans', -1)} style={{ marginBottom: '1rem' }}>
+              <p
+                className={typography('body', 'md', 'regular')}
+                style={{ marginBottom: '1rem' }}
+              >
                 Sign up to our newsletter to find out what’s on, read our latest
                 stories and get involved.
               </p>
@@ -125,7 +156,6 @@ const NewsletterPromo: FunctionComponent = () => {
                   value={newsletterAddressBook.id}
                 />
                 <TextInput
-                  required={true}
                   id="newsletter-input"
                   type="email"
                   name="email"
@@ -138,11 +168,12 @@ const NewsletterPromo: FunctionComponent = () => {
                   }
                   value={value}
                   setValue={setValue}
+                  required
                   {...emailValidation}
                 />
 
                 <p
-                  className={font('sans', -2)}
+                  className={typography('body', 'sm', 'regular')}
                   style={{ marginBottom: 0, marginTop: '1rem' }}
                 >
                   <a href="/newsletter">All our newsletters</a>
@@ -158,7 +189,7 @@ const NewsletterPromo: FunctionComponent = () => {
                       setHasCheckedMarketing(currentValue => !currentValue);
                     }}
                     text={
-                      <p className={font('sans', -2)}>
+                      <p className={typography('body', 'sm', 'regular')}>
                         Tick this box if you’re happy to receive other emails
                         about Wellcome Collection, upcoming events and
                         exhibitions and/or other relevant opportunities.
@@ -171,18 +202,22 @@ const NewsletterPromo: FunctionComponent = () => {
 
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="secondary"
                   dataGtmProps={{
                     trigger: 'newsletter_promo_subscribe',
                   }}
                   text={isSubmitting ? 'Sending…' : 'Subscribe'}
                   disabled={isSubmitting}
+                  isOnDark
                 />
               </NewsletterForm>
             </>
           )}
 
           {isSuccess && (
-            <div className={`${font('sans', -1)} spaced-text`}>
+            <div
+              className={`${typography('body', 'md', 'regular')} spaced-text`}
+            >
               <p>
                 If this is the first time you have subscribed to one of our
                 newsletters, you will receive an email asking you to confirm
@@ -198,7 +233,7 @@ const NewsletterPromo: FunctionComponent = () => {
           )}
         </ContaineredLayout>
       </Container>
-    </Space>
+    </Wrapper>
   );
 };
 

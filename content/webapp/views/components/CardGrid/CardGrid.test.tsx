@@ -3,7 +3,6 @@ import { placeHolderImage } from '@weco/content/services/prismic/transformers/im
 import { MultiContent } from '@weco/content/types/multi-content';
 
 import CardGrid from '.';
-import '@testing-library/jest-dom';
 
 describe('CardGrid', () => {
   // This could be moved into fixture directory if used in more places

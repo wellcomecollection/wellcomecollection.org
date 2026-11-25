@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { hexToHsv, hsvToHex } from '@weco/content/utils/convert-colors';
 
 import HueSlider from './PaletteColorPicker.HueSlider';
@@ -82,7 +82,7 @@ const Swatch = styled.button.attrs<{
   $hexColor: string;
 }>((props: SwatchProps) => ({
   type: 'button',
-  className: font('sans', -1),
+  className: typography('body', 'md', 'regular'),
   'aria-pressed': !!props.$ariaPressed,
 }))<SwatchProps>`
   position: relative;
@@ -154,17 +154,20 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
   // Because the form is not controlled we need to maintain state internally
   const [colorState, setColorState] = useState(color);
   const { isEnhanced } = useAppContext();
-  const firstRender = useRef(true);
+  const lastColorState = useRef(colorState);
 
   useEffect(() => {
     setColorState(color);
   }, [color]);
 
+  // Only report a change when the colour is different to the previous one.
+  // React can run effects again without the value changing (e.g. when hidden
+  // content is shown again), which would submit the search form as the page
+  // loads, so skipping only the first run isn't enough.
   useEffect(() => {
-    if (!firstRender.current) {
-      onChangeColor(color);
-    } else {
-      firstRender.current = false;
+    if (colorState !== lastColorState.current) {
+      lastColorState.current = colorState;
+      onChangeColor(colorState);
     }
   }, [colorState]);
 
@@ -179,7 +182,7 @@ const PaletteColorPicker: FunctionComponent<PaletteColorPickerProps> = ({
             color
               ? color[0] === '#' || color[0] === '%' // url encoded value for the hash symbol is '%23'
                 ? color
-                : '#' + color
+                : `#${color}`
               : ''
           }
         />

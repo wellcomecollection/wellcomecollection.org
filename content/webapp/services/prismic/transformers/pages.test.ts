@@ -31,9 +31,6 @@ export const pageWithoutBody: RawPagesDocument = {
     datePublished: null,
     showOnThisPage: false,
     metadataDescription: exampleTextSlice.primary.text,
-    format: {
-      link_type: 'Any' as const, // Marks it as an empty field
-    },
     contributorsTitle: [],
     contributors: [],
     parents: [],
@@ -97,9 +94,7 @@ describe('pages', () => {
         },
         tags: [],
       };
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      const fields = transformPage(doc as any);
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+      const fields = transformPage(doc as unknown as RawPagesDocument);
 
       expect(fields.metadataDescription).toBe(
         'Positive attitudes towards touch are linked with greater wellbeing and lower levels of loneliness, according to a huge new global study investigating public attitudes and experiences of touch.'

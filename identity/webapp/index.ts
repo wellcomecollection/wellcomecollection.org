@@ -1,4 +1,5 @@
 import { port } from '@weco/identity/config';
+import { missingRequiredEnvVars } from '@weco/identity/utils/required-env';
 
 import { createApp } from './app';
 
@@ -31,14 +32,22 @@ async function main() {
       JSON.parse(process.env.CREDENTIALS).SecretString
     );
 
-    process.env.AUTH0_CLIENT_ID = credentials.client_id;
-    process.env.AUTH0_DOMAIN = 'stage.account.wellcomecollection.org';
-    process.env.IDENTITY_API_HOST =
+    // Values set in .env take precedence
+    process.env.AUTH0_CLIENT_ID ||= credentials.client_id;
+    process.env.AUTH0_DOMAIN ||= 'stage.account.wellcomecollection.org';
+    process.env.IDENTITY_API_HOST ||=
       'https://v1-api.stage.account.wellcomecollection.org';
-    process.env.SITE_BASE_URL = siteBaseUrl;
-    process.env.AUTH0_CLIENT_SECRET = credentials.client_secret;
-    process.env.IDENTITY_API_KEY = credentials.api_key;
-    process.env.SESSION_KEYS = 'correct-horse-battery-staple'; // https://xkcd.com/936/
+    process.env.SITE_BASE_URL ||= siteBaseUrl;
+    process.env.AUTH0_CLIENT_SECRET ||= credentials.client_secret;
+    process.env.IDENTITY_API_KEY ||= credentials.api_key;
+    process.env.SESSION_KEYS ||= 'correct-horse-battery-staple'; // https://xkcd.com/936/
+  }
+
+  if (process.env.NODE_ENV === 'production') {
+    const missing = missingRequiredEnvVars(process.env);
+    if (missing.length > 0) {
+      throw new Error(`Missing required env vars: ${missing.join(', ')}`);
+    }
   }
 
   const app = await createApp();

@@ -1,9 +1,10 @@
 // We should aim to delete this as soon as possible
 // https://github.com/wellcomecollection/wellcomecollection.org/issues/11732
+import { FunctionComponent } from 'react';
 
 import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import { arrow, download } from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { isPast } from '@weco/common/utils/dates';
 import { createScreenreaderLabel } from '@weco/common/utils/telephone-numbers';
 import { defaultSerializer } from '@weco/common/views/components/HTMLSerializers';
@@ -11,6 +12,13 @@ import Icon from '@weco/common/views/components/Icon';
 import PrismicHtmlBlock from '@weco/common/views/components/PrismicHtmlBlock';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
+import { EventBasic } from '@weco/content/types/events';
+import {
+  AboutThisExhibitionContent,
+  Exhibition as ExhibitionType,
+} from '@weco/content/types/exhibitions';
+import { Link } from '@weco/content/types/link';
+import { Page as PageType } from '@weco/content/types/pages';
 import Contributors from '@weco/content/views/components/Contributors';
 import InfoBox from '@weco/content/views/components/InfoBox';
 import SearchResults from '@weco/content/views/components/SearchResults';
@@ -22,6 +30,14 @@ import {
 } from '@weco/content/views/components/styled/AccessResources';
 
 import { getInfoItems } from './exhibition.helpers';
+
+type Props = {
+  exhibition: ExhibitionType;
+  relatedContent: (ExhibitionType | EventBasic | PageType)[];
+  aboutThisExhibitionContent: AboutThisExhibitionContent[];
+  accessResourceLinks: (Link & { type: string })[];
+  exhibitionFormat: string;
+};
 
 function getBorderColor({
   type,
@@ -41,13 +57,12 @@ function getBorderColor({
   }
 }
 
-const ExhibitionBeingHuman = ({
+const ExhibitionBeingHuman: FunctionComponent<Props> = ({
   exhibition,
+  relatedContent,
+  aboutThisExhibitionContent,
   accessResourceLinks,
-  exhibitionAbouts,
   exhibitionFormat,
-  exhibitionOfs,
-  pages,
 }) => {
   const hasResources = Boolean(
     exhibition.accessResourcesText ||
@@ -62,7 +77,7 @@ const ExhibitionBeingHuman = ({
           <Space
             as="h2"
             $v={{ size: 'sm', properties: ['margin-bottom'] }}
-            className={font('brand-bold', 1)}
+            className={typography('heading', 'lg', 'strong', 'brand')}
           >{`${exhibitionFormat} access content`}</Space>
           {(accessResourceLinks.length > 0 ||
             exhibition.accessResourcesPdfs.length > 0) && (
@@ -81,14 +96,18 @@ const ExhibitionBeingHuman = ({
                         $borderColor={borderColor}
                       >
                         {link.type === 'exhibition-guide' && (
-                          <h3 className={font('sans-bold', 0)}>
+                          <h3 className={typography('body', 'lg', 'strong')}>
                             Digital exhibition guide
                           </h3>
                         )}
                         {link.type === 'visual-story' && (
-                          <h3 className={font('sans-bold', 0)}>Visual story</h3>
+                          <h3 className={typography('body', 'lg', 'strong')}>
+                            Visual story
+                          </h3>
                         )}
-                        <span className={font('sans', -2)}>{link.text}</span>
+                        <span className={typography('body', 'sm', 'regular')}>
+                          {link.text}
+                        </span>
                         <ResourceLinkIconWrapper>
                           <Icon icon={arrow} />
                         </ResourceLinkIconWrapper>
@@ -107,9 +126,9 @@ const ExhibitionBeingHuman = ({
                         key={i}
                         href={pdf.url}
                         $borderColor={borderColor}
-                        $underlineText={true}
+                        $underlineText
                       >
-                        <span className={font('sans', -1)}>
+                        <span className={typography('body', 'md', 'regular')}>
                           {`${pdf.text} PDF`} {`(${pdf.size}kb)`}
                         </span>
                         <ResourceLinkIconWrapper>
@@ -135,12 +154,12 @@ const ExhibitionBeingHuman = ({
         <Contributors contributors={exhibition.contributors} />
       )}
 
-      {(exhibitionOfs.length > 0 || pages.length > 0) && (
+      {relatedContent.length > 0 && (
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <SearchResults
             variant="default"
             id="events-list"
-            items={[...exhibitionOfs, ...pages]}
+            items={relatedContent}
             title={`${exhibitionFormat} events`}
           />
         </Space>
@@ -149,7 +168,10 @@ const ExhibitionBeingHuman = ({
       {exhibition.end && !isPast(exhibition.end) && (
         <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
           <InfoBox title="Visit us" items={getInfoItems(exhibition)}>
-            <p className={font('sans', -1)} style={{ margin: 0 }}>
+            <p
+              className={typography('body', 'md', 'regular')}
+              style={{ margin: 0 }}
+            >
               For more information, please visit our{' '}
               <a href={`/visit-us/${prismicPageIds.access}`}>Accessibility</a>{' '}
               page. If you have any queries about accessibility, please email us
@@ -171,10 +193,10 @@ const ExhibitionBeingHuman = ({
         </Space>
       )}
 
-      {exhibitionAbouts.length > 0 && (
+      {aboutThisExhibitionContent.length > 0 && (
         <SearchResults
           variant="default"
-          items={exhibitionAbouts}
+          items={aboutThisExhibitionContent}
           title="Related stories"
         />
       )}

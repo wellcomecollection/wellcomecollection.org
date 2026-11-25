@@ -1,9 +1,8 @@
 import { FunctionComponent, useMemo } from 'react';
 import { useTheme } from 'styled-components';
 
-import { useUserContext } from '@weco/common/contexts/UserContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import { formatDuration } from '@weco/common/utils/format-date';
 import Button from '@weco/common/views/components/Buttons';
 import {
@@ -19,15 +18,18 @@ import {
 } from '@weco/content/services/wellcome/catalogue/types';
 import { TransformedManifest } from '@weco/content/types/manifest';
 import {
+  deduplicateDownloadOptions,
   getDownloadOptionsFromCanvasRenderingAndSupplementing,
   getDownloadOptionsFromManifestRendering,
-  hasItemType,
 } from '@weco/content/utils/iiif/v3';
 import {
+  conceptOrSearchLink,
   DigitalLocationInfo,
   getDownloadOptionsFromImageUrl,
   getHoldings,
   getItemsWithPhysicalLocation,
+  getOrderedNotes,
+  getSubjectTags,
 } from '@weco/content/utils/works';
 import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import CopyButtons from '@weco/content/views/components/CopyButtons';
@@ -61,11 +63,10 @@ const WorkDetails: FunctionComponent<Props> = ({
   digitalLocationInfo,
   transformedManifest,
 }: Props) => {
-  const { userIsStaffWithRestricted } = useUserContext();
   const isArchive = useIsArchiveContext();
   const transformedIIIFImage = useTransformedIIIFImage(toWorkBasic(work));
   const theme = useTheme();
-  const { canvases, rendering, itemsStatus } = {
+  const { canvases, rendering } = {
     ...transformedManifest,
   };
 
@@ -95,6 +96,13 @@ const WorkDetails: FunctionComponent<Props> = ({
         getDownloadOptionsFromCanvasRenderingAndSupplementing(canvas)
       )
       .flat() || [];
+
+  // The same file can appear in multiple sources, so deduplicate by id
+  const downloadOptions = deduplicateDownloadOptions([
+    ...iiifImageDownloadOptions,
+    ...canvasDownloadOptions,
+    ...manifestDownloadOptions,
+  ]);
 
   // 'About this work' data
   const duration = work.duration && formatDuration(work.duration);
@@ -127,62 +135,35 @@ const WorkDetails: FunctionComponent<Props> = ({
   const locationOfWork = work.notes.find(
     note => note.noteType.id === 'location-of-original'
   );
-  const arrangementNote = work.notes.filter(
-    note => note.noteType.id === 'arrangement-note'
-  );
-  const biographicalNote = work.notes.filter(
-    note => note.noteType.id === 'biographical-note'
-  );
-  const relatedMaterial = work.notes.filter(
-    note => note.noteType.id === 'related-material'
-  );
-  const acquisitionNote = work.notes.filter(
-    note => note.noteType.id === 'acquisition-note'
-  );
-
-  const orderedNotes = [
-    ...arrangementNote,
-    ...acquisitionNote,
-    ...biographicalNote,
-    ...relatedMaterial,
-  ];
-
-  const remainingNotes = work.notes.filter(note => {
-    return ![...orderedNotes, locationOfWork].some(n => n === note);
-  });
+  const { orderedNotes, remainingNotes } = getOrderedNotes(work, [
+    locationOfWork,
+  ]);
 
   const holdings = getHoldings(work);
-  const hasVideo = hasItemType(canvases, 'Video');
-  const hasSound =
-    hasItemType(canvases, 'Sound') || hasItemType(canvases, 'Audio');
-  const hasNonStandardItems = itemsStatus && itemsStatus !== 'allStandard';
 
-  const treatAsRestricted =
-    digitalLocationInfo?.accessCondition === 'restricted' &&
-    !userIsStaffWithRestricted;
-
-  const showAvailableOnlineSection =
-    ((digitalLocation && shouldShowItemLink) ||
-      hasVideo ||
-      hasSound ||
-      hasNonStandardItems) &&
-    !treatAsRestricted;
+  // Miro works have a iiif-image location and no iiif-presentation manifest,
+  // and their single image is built from that same location. In that case the
+  // View link already opens the image, so 'Selected images' would be a duplicate.
+  // Works with a manifest keep the section, as their images differ from it.
+  // The length check is a safeguard: if a work without a manifest ever has
+  // more than one image, they can't all be what the View link opens.
+  const selectedImageIsViewableItem =
+    shouldShowItemLink &&
+    digitalLocation?.locationType.id === 'iiif-image' &&
+    work.images?.length === 1;
 
   const renderContent = () => (
     <>
-      {showAvailableOnlineSection && (
+      {/* shouldShowItemLink accounts for
+          restricted access condition and for digitalLocation being available */}
+      {shouldShowItemLink && (
         <WorkDetailsAvailableOnline
           work={work}
-          downloadOptions={[
-            ...manifestDownloadOptions,
-            ...iiifImageDownloadOptions,
-            ...canvasDownloadOptions,
-          ]}
+          downloadOptions={downloadOptions}
           itemUrl={toWorksItemLink({
             workId: work.id,
             props: {},
           })}
-          shouldShowItemLink={shouldShowItemLink}
           digitalLocationInfo={digitalLocationInfo}
           digitalLocation={digitalLocation}
           locationOfWork={locationOfWork}
@@ -192,23 +173,26 @@ const WorkDetails: FunctionComponent<Props> = ({
 
       <OnlineResources work={work} />
 
-      {work.images && work.images.length > 0 && (
-        <WorkDetailsSection headingText="Selected images from this work">
-          <Button
-            variant="ButtonSolidLink"
-            dataGtmProps={{
-              trigger: 'view_selected_images',
-            }}
-            colors={theme.buttonColors.greenTransparentGreen}
-            text={
-              work.images.length > 1
-                ? `View ${work.images.length} images`
-                : 'View 1 image'
-            }
-            link={toSearchImagesLink({ query: work.id })}
-          />
-        </WorkDetailsSection>
-      )}
+      {work.images &&
+        work.images.length > 0 &&
+        !selectedImageIsViewableItem && (
+          <WorkDetailsSection headingText="Selected images from this work">
+            <Button
+              variant="ButtonSolidLink"
+              hierarchy="tertiary"
+              dataGtmProps={{
+                trigger: 'view_selected_images',
+              }}
+              colors={theme.buttonColors.greenTransparentGreen}
+              text={
+                work.images.length > 1
+                  ? `View ${work.images.length} images`
+                  : 'View 1 image'
+              }
+              link={toSearchImagesLink({ query: work.id })}
+            />
+          </WorkDetailsSection>
+        )}
 
       <WorkDetailsSection headingText="About this work">
         {/*
@@ -228,7 +212,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsText
             title="Description"
             html={work.description}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         )}
 
@@ -263,7 +247,7 @@ const WorkDetails: FunctionComponent<Props> = ({
           <WorkDetailsText
             title="Physical description"
             html={work.physicalDescription}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         )}
         {seriesPartOfs.length > 0 && (
@@ -284,29 +268,17 @@ const WorkDetails: FunctionComponent<Props> = ({
         {work.contributors.length > 0 && (
           <WorkDetailsTags
             title="Contributors"
-            tags={work.contributors.map(contributor => {
-              const textParts = [
+            tags={work.contributors.map(contributor => ({
+              textParts: [
                 contributor.agent.label,
                 ...contributor.roles.map(role => role.label),
-              ];
-              /*
-              If this is an identified contributor, link to the concepts prototype
-              page instead.
-              */
-              return contributor.agent.id
-                ? {
-                    textParts,
-                    linkAttributes: toConceptLink({
-                      conceptId: contributor.agent.id,
-                    }),
-                  }
-                : {
-                    textParts,
-                    linkAttributes: toSearchWorksLink({
-                      'contributors.agent.label': [contributor.agent.label],
-                    }),
-                  };
-            })}
+              ],
+              linkAttributes: conceptOrSearchLink({
+                id: contributor.agent.id,
+                filterKey: 'contributors.agent.label',
+                filterValue: contributor.agent.label,
+              }),
+            }))}
             separator=""
           />
         )}
@@ -316,7 +288,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         ))}
 
@@ -341,7 +313,7 @@ const WorkDetails: FunctionComponent<Props> = ({
             key={note.noteType.label}
             title={note.noteType.label}
             html={note.contents}
-            allowDangerousRawHtml={true}
+            allowDangerousRawHtml
           />
         ))}
         {/*
@@ -387,29 +359,10 @@ const WorkDetails: FunctionComponent<Props> = ({
           />
         )}
       </WorkDetailsSection>
+
       {work.subjects.length > 0 && (
         <WorkDetailsSection headingText="Subjects">
-          <WorkDetailsTags
-            tags={work.subjects.map(s => {
-              /*
-              If this is an identified subject, link to the concepts prototype
-              page instead.
-              */
-              return s.id
-                ? {
-                    textParts: [s.concepts[0].label].concat(
-                      s.concepts.slice(1).map(c => c.label)
-                    ),
-                    linkAttributes: toConceptLink({ conceptId: s.id }),
-                  }
-                : {
-                    textParts: s.concepts.map(c => c.label),
-                    linkAttributes: toSearchWorksLink({
-                      'subjects.label': [s.label],
-                    }),
-                  };
-            })}
-          />
+          <WorkDetailsTags tags={getSubjectTags(work)} />
         </WorkDetailsSection>
       )}
 
@@ -424,7 +377,7 @@ const WorkDetails: FunctionComponent<Props> = ({
       )}
 
       <WorkDetailsSection headingText="Permanent link">
-        <div className={font('sans', -1)}>
+        <div className={typography('body', 'md', 'regular')}>
           <CopyButtons
             variant="url"
             url={`https://wellcomecollection.org/works/${work.id}`}

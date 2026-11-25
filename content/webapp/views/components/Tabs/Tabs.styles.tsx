@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { classNames, font } from '@weco/common/utils/classnames';
+import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import { focusStyle } from '@weco/common/views/themes/base/wellcome-normalize';
 
@@ -50,14 +50,16 @@ type NavItemProps = {
 };
 
 export const Tab = styled.div.attrs<NavItemProps>(props => ({
-  className: props.$selected ? font('sans-bold', -1) : font('sans', -1),
+  className: props.$selected
+    ? typography('body', 'md', 'strong')
+    : typography('body', 'md', 'regular'),
 }))<NavItemProps>`
   padding: 0;
   margin: 0;
   flex-shrink: 0;
   border-bottom: ${props =>
     props.$selected
-      ? `3px solid ${props.theme.color('yellow')}`
+      ? `3px solid ${props.theme.color('blue.30')}`
       : `1px solid ${props.theme.color(
           props.$hideBorder
             ? 'transparent'
@@ -98,7 +100,10 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   position: relative;
   z-index: 1;
   cursor: pointer;
-  color: ${props => props.theme.color(props.$isWhite ? 'white' : 'black')};
+  color: ${props =>
+    props.theme.color(
+      props.$isWhite ? 'white' : props.$selected ? 'black' : 'neutral.50'
+    )};
   transition: all ${props => props.theme.transitionProperties};
 
   &::after {
@@ -116,7 +121,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(props.$selected ? 'yellow' : 'lightYellow')};
+        props.theme.color(props.$selected ? 'blue.30' : 'blue.20')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
@@ -131,7 +136,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     background-color: transparent;
 
     ${Tab}:focus-within & {
-      background-color: ${props => props.theme.color('yellow')};
+      background-color: ${props => props.theme.color('blue.30')};
     }
   }
 `;

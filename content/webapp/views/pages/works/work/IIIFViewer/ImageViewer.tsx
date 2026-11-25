@@ -1,15 +1,17 @@
 import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { IIIFUriProps } from '@weco/common/utils/convert-image-uri';
 import { imageSizes } from '@weco/common/utils/image-sizes';
 import { useItemViewerContext } from '@weco/content/contexts/ItemViewerContext';
+import { queryParamToArrayIndex } from '@weco/content/views/pages/works/work/work.helpers';
 
-import { queryParamToArrayIndex } from '.';
 import IIIFViewerImage from './IIIFViewerImage';
 
-const ImageWrapper = styled.div<{ $isFullSupportBrowser: boolean }>`
+const ImageWrapper = styled.div<{
+  $isFullSupportBrowser: boolean;
+}>`
   position: absolute;
   top: 0;
   left: 0;
@@ -19,22 +21,21 @@ const ImageWrapper = styled.div<{ $isFullSupportBrowser: boolean }>`
 
   img {
     margin: 10px auto;
-    overflow: scroll; /* for alt text, which can be long */
     width: unset;
     height: revert-layer;
     display: block;
 
     ${props =>
       props.$isFullSupportBrowser &&
-      `
-      position: relative;
-      top: 50%;
-      width: auto;
-      height: auto;
-      transform: translateY(-50%);
-      max-width: 80%;
-      max-height: 95%;
-    `}
+      css`
+        position: relative;
+        top: 50%;
+        width: auto;
+        height: auto;
+        transform: translateY(-50%);
+        max-width: 80%;
+        max-height: 95%;
+      `}
   }
 `;
 
@@ -42,7 +43,7 @@ type ImageViewerProps = {
   id: string;
   width: number;
   height?: number;
-  infoUrl: string;
+  imageUrl: string;
   alt: string;
   urlTemplate: (v: IIIFUriProps) => string;
   loadHandler?: () => void;
@@ -55,7 +56,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   width,
   height,
   alt,
-  infoUrl,
+  imageUrl,
   urlTemplate,
   loadHandler,
   index,
@@ -72,8 +73,10 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
     grayscaleImages,
     contrastedImages,
   } = useItemViewerContext();
+
   const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
   const [imageSrc, setImageSrc] = useState(urlTemplate({ size: '640,' }));
   const [imageSrcSet, setImageSrcSet] = useState(
     imageSizes(2048)
@@ -86,9 +89,11 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
       })
       .join(',')
   );
-  const matching = rotatedImages.find(
-    canvas => queryParamToArrayIndex(canvas.canvas) === index
+
+  const matchingRotatedImage = rotatedImages.find(
+    image => queryParamToArrayIndex(image.canvas) === index
   );
+  const rotation = matchingRotatedImage?.rotation || 0;
 
   const useInvertedColours = invertedImages.find(
     canvas => queryParamToArrayIndex(canvas) === index
@@ -97,8 +102,6 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
   const useGrayscaleColours = grayscaleImages.find(
     canvas => queryParamToArrayIndex(canvas) === index
   );
-
-  const rotation = matching ? matching.rotation : 0;
 
   // Get current contrast for this canvas/index
   const matchingContrast = contrastedImages?.find(
@@ -138,7 +141,7 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         })
         .join(',')
     );
-  }, [infoUrl, rotation]);
+  }, [imageUrl, rotation]);
 
   const escapeCloseViewer = ({ keyCode }: KeyboardEvent) => {
     if (keyCode === 27) {
@@ -169,7 +172,8 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
         srcSet={imageSrcSet}
         sizes="(min-width: 860px) 800px, calc(92.59vw + 22px)"
         lang={work.languageId}
-        alt={alt}
+        ariaDescribedBy={alt ? `image-${index + 1}` : undefined}
+        alt={`digitised image ${index + 1}`}
         clickHandler={() => {
           setShowZoomed(true);
         }}
@@ -177,11 +181,16 @@ const ImageViewer: FunctionComponent<ImageViewerProps> = ({
           updateImagePosition();
         }}
         errorHandler={errorHandler}
-        zoomOnClick={true}
+        contrast={contrast}
         useInvertedColours={!!useInvertedColours}
         useGrayscaleColours={!!useGrayscaleColours}
-        contrast={contrast}
+        zoomOnClick
       />
+      {alt ? (
+        <span className="visually-hidden" id={`image-${index + 1}`}>
+          {alt}
+        </span>
+      ) : null}
     </ImageWrapper>
   );
 };

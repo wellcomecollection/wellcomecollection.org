@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import * as icons from '@weco/common/icons';
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Icon from '@weco/common/views/components/Icon';
 
 const IconWrapper = styled.div`
@@ -16,7 +16,7 @@ const IconWrapper = styled.div`
 `;
 
 const IconId = styled.p.attrs({
-  className: font('mono', -1),
+  className: typography('caption', 'md', 'regular'),
 })`
   hyphens: auto;
 `;

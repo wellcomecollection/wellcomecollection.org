@@ -1,7 +1,4 @@
-import { HttpsAgent as Agent } from 'agentkeepalive';
-import fetch, { Response } from 'node-fetch';
-
-import { Toggles } from '@weco/toggles';
+import { fetchWithUndiciAgent } from '@weco/common/utils/undici-agent';
 
 type envOptions = 'prod' | 'stage' | 'dev';
 
@@ -31,15 +28,17 @@ export type GlobalApiOptions = {
   index?: string;
 };
 
-export const globalApiOptions = (toggles?: Toggles): GlobalApiOptions => {
-  const toggleDefinedApiOption =
-    DEFAULT_API_ENV_OVERRIDE || (toggles?.stagingApi?.value ? 'stage' : 'prod');
+export const globalApiOptions = (
+  shouldUseStagingApi?: boolean
+): GlobalApiOptions => {
+  const toggleDefinedApiEnv =
+    DEFAULT_API_ENV_OVERRIDE || (shouldUseStagingApi ? 'stage' : 'prod');
 
   const apiConfig = {
     env: {
-      catalogue: CATALOGUE_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
-      concepts: CONCEPTS_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
-      content: CONTENT_API_ENV_OVERRIDE ?? toggleDefinedApiOption,
+      catalogue: CATALOGUE_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
+      concepts: CONCEPTS_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
+      content: CONTENT_API_ENV_OVERRIDE ?? toggleDefinedApiEnv,
     },
   };
 
@@ -96,9 +95,8 @@ export type BooleanBucketData = UnidentifiedBucketData & {
 
 export type WellcomeAggregation<
   BucketData extends
-    | IdentifiedBucketData
-    | BooleanBucketData
-    | UnidentifiedBucketData = IdentifiedBucketData,
+    IdentifiedBucketData | BooleanBucketData | UnidentifiedBucketData =
+    IdentifiedBucketData,
 > = {
   buckets: {
     count: number;
@@ -111,37 +109,20 @@ export type WellcomeAggregation<
 export type QueryProps<Params> = {
   params: Params;
   pageSize?: number;
-  toggles: Toggles;
+  shouldUseStagingApi?: boolean;
+  // Only used by catalogue queries, where catalogueQuery maps it to the
+  // elasticCluster param; carries the cataloguePipeline mode toggle value.
+  // undefined means the normal pipeline setup
+  pipelineCluster?: string | null;
 };
 
-// By default, the next.js polyfill for node-fetch enables keep-alive by default.
-// https://nextjs.org/docs/api-reference/next.config.js/disabling-http-keep-alive
-//
-// This is great, but it leads us occasionally to see errors like this one:
-//
-//      FetchError: request to https://api.wellcomecollection.org/catalogue/v2/works/...
-//      failed, reason: read ECONNRESET
-//
-// That's because the (client) HTTP agent is keeping the socket open indefinitely, but
-// the server has other ideas:
-//
-// - default "idle-timeout" in akka-http is 60s https://doc.akka.io/docs/akka-http/current/configuration.html
-// - NLBs have a fixed idle timeout of 350s https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#connection-idle-timeout
-//
-// As such, we use an agent which is configured to expire free sockets after 59s
-// A good explanation of the problem, as well as the solution, is available here:
-
-// https://connectreport.com/blog/tuning-http-keep-alive-in-node-js/
-const agentKeepAlive = new Agent({
-  keepAlive: true,
-  freeSocketTimeout: 1000 * 59, // 1s less than the akka-http idle timeout
-});
-
-export const wellcomeApiFetch = (
+// Use shared undici agent configuration for keep-alive connections.
+// See common/utils/undici-agent.ts for details.
+export const wellcomeApiFetch = async (
   url: string,
-  options?: Record<string, string>
+  options?: RequestInit
 ): Promise<Response> => {
-  return fetch(url, { ...options, agent: agentKeepAlive });
+  return fetchWithUndiciAgent(url, options);
 };
 
 export const wellcomeApiError = (): WellcomeApiError => ({
@@ -170,8 +151,9 @@ export const wellcomeApiQuery = async (url: string) => {
     // automated tool trying to inject malicious data, and thus can be ignored.
     if (json.type === 'Error' && json.httpStatus !== 414) {
       console.warn(
-        `Received HTTP ${json.httpStatus} error from the API query ${url}: ` +
-          JSON.stringify(json)
+        `Received HTTP ${json.httpStatus} error from the API query ${url}: ${JSON.stringify(
+          json
+        )}`
       );
     }
 

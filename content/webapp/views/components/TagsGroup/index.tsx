@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-import { font } from '@weco/common/utils/classnames';
+import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
 import Tags, { TagType } from '@weco/content/views/components/Tags';
 
@@ -15,7 +15,7 @@ const TagsGroup: FunctionComponent<Props> = ({ tags, title }: Props) => {
       {title && (
         <Space
           as="h2"
-          className={font('brand-bold', -1)}
+          className={typography('heading', 'sm', 'strong', 'brand')}
           $v={{ size: 'sm', properties: ['margin-bottom'] }}
         >
           {title}

@@ -6,8 +6,8 @@ const Template = args => (
   <div
     style={{
       padding: '10px',
-      backgroundColor: args.hasDarkBg ? 'black' : 'transparent',
-      color: args.hasDarkBg ? 'white' : 'black',
+      backgroundColor: args.isOnDark ? 'black' : 'transparent',
+      color: args.isOnDark ? 'white' : 'black',
     }}
   >
     <Pagination {...args} ariaLabel="Cardigan pagination" />
@@ -24,7 +24,7 @@ const meta: Meta<typeof Pagination> = {
       options: [5, 10, 250],
       control: { type: 'radio' },
     },
-    hasDarkBg: { name: 'Has dark background', control: 'boolean' },
+    isOnDark: { name: 'Is on dark background', control: 'boolean' },
     ariaLabel: { table: { disable: true } },
     isHiddenMobile: { table: { disable: true } },
   },
@@ -38,7 +38,7 @@ export const Start: Story = {
   name: 'Start',
   args: {
     totalPages: 10,
-    hasDarkBg: false,
+    isOnDark: false,
     isHiddenMobile: false,
   },
   argTypes: {
@@ -55,7 +55,7 @@ export const Midway: Story = {
   name: 'Midway or end',
   args: {
     totalPages: 10,
-    hasDarkBg: false,
+    isOnDark: false,
     isHiddenMobile: false,
   },
   argTypes: {
