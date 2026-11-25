@@ -3,12 +3,12 @@ variable "name" {
 }
 
 variable "subnets" {
-  type = list(string)
+  type        = list(string)
   description = "subnets to which ALB will route"
 }
 
 variable "security_groups" {
-  type = list(string)
+  type        = list(string)
   description = "Load balancer security group ID"
 }
 
