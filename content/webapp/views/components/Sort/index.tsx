@@ -23,6 +23,11 @@ type Props = {
   options: Option[];
   jsLessOptions: JsLessOptions;
   defaultValues?: DefaultSortValuesType;
+  // Overrides which option is shown as selected, which otherwise comes from
+  // the URL. Needed where the page fills in or corrects the sort: e.g.
+  // ?sort=production.dates has no sortOrder, so it matches no option, but
+  // the page sorts newest first and this should show "Newest to oldest"
+  selectedValue?: string;
   darkBg?: boolean;
 };
 
@@ -41,6 +46,7 @@ const Sort: FunctionComponent<Props> = ({
   options,
   jsLessOptions,
   defaultValues,
+  selectedValue,
   darkBg,
 }) => {
   const router = useRouter();
@@ -50,9 +56,21 @@ const Sort: FunctionComponent<Props> = ({
   const [sortOrder, setSortOrder] = useState(currentSortOrder);
   const [sortType, setSortType] = useState(currentSortType);
 
+  const hasPendingChange =
+    sortOrder !== currentSortOrder || sortType !== currentSortType;
+
+  // selectedValue comes from the current page's props, so it's stale while
+  // the route change for a newly chosen option is still loading
+  const enhancedValue =
+    selectedValue !== undefined && !hasPendingChange
+      ? selectedValue
+      : sortType
+        ? `${sortType}.${sortOrder}`
+        : '';
+
   useEffect(() => {
     // Only push changes if the sort order is a new one than currently used
-    if (sortOrder !== currentSortOrder || sortType !== currentSortType) {
+    if (hasPendingChange) {
       const queryParams = { ...router.query, sortOrder, sort: sortType };
       const newQuery = propsToQuery(queryParams);
 
@@ -106,7 +124,7 @@ const Sort: FunctionComponent<Props> = ({
       {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
       {isEnhanced && (
         <Select
-          value={sortType ? `${sortType}.${sortOrder}` : ''}
+          value={enhancedValue}
           form={formId}
           name="sortOrder"
           label="sort results by:"
