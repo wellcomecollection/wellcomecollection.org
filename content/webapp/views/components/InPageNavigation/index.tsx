@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { FunctionComponent, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
-import { useTheme } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useActiveAnchor } from '@weco/common/hooks/useActiveAnchor';
@@ -51,7 +50,6 @@ const InPageNavigation: FunctionComponent<Props> = ({
   const inPageNavigationRef = useRef<HTMLDivElement>(null);
   const navGridCellRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
-  const theme = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const { isEnhanced, windowSize } = useAppContext();
@@ -189,13 +187,11 @@ const InPageNavigation: FunctionComponent<Props> = ({
   const router = useRouter();
   const pagePath = router?.asPath.split('#')[0];
 
-  // In the new brand the desktop nav colours its text by what's behind it,
-  // switching where a dark band ends (see Root's styles). If the band ends in
-  // a wobbly edge, follow its slope under each piece of text; the edge should
-  // use `fixedUntil` so that slope is straight under the nav.
+  // Invert text colour with a clipped background gradient as it crosses the
+  // light/dark background
   useEffect(() => {
     const root = rootRef.current;
-    if (!theme.brandUpdate || !root) return;
+    if (!root) return;
 
     const band = document.querySelector('[data-in-page-nav-dark]');
     // Without a band the edge is light on light, so there's nothing to follow
@@ -297,7 +293,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
     };
     // Next keeps this mounted between pages (e.g. one concept to another), so
     // look for the new page's band and edge
-  }, [theme.brandUpdate, pagePath]);
+  }, [pagePath]);
 
   // Determine the active id based on whether sticky is enabled
   const activeId = clickedId || observedActiveId;

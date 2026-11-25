@@ -343,7 +343,7 @@ export const NavGridCell = styled(GridCell)<{
         color: transparent;
         background-image: linear-gradient(
           var(--angle, 180deg),
-          ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })} var(--split, 0px),
+          ${props.theme.color('neutral.10')} var(--split, 0px),
           ${props.theme.color('black')} var(--split, 0px)
         );
         -webkit-background-clip: text;
@@ -351,7 +351,7 @@ export const NavGridCell = styled(GridCell)<{
       }
 
       a {
-        --line-color: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+        --line-color: ${props.theme.color('blue.30')};
       }
 
       a > span {
@@ -359,7 +359,7 @@ export const NavGridCell = styled(GridCell)<{
       }
 
       a::before {
-        background: ${props.theme.color({ brand: 'blue.30', legacy: 'white' })};
+        background: ${props.theme.color('blue.30')};
       }
 
       li::before {
