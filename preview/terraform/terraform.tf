@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.6"
+
   backend "s3" {
     key            = "terraform/experience/preview.tfstate"
     dynamodb_table = "terraform-locktable"
