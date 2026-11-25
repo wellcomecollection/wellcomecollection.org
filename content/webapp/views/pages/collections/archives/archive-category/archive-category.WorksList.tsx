@@ -10,7 +10,11 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import type {
+  ArchiveCategoryWorksResult,
+  ArchiveCategoryWorksSortField,
+  SortOrder,
+} from '@weco/content/services/wellcome/catalogue/works';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import Pagination from '@weco/content/views/components/Pagination';
 import Sort from '@weco/content/views/components/Sort';
@@ -31,8 +35,8 @@ const ArchiveCategoryWorksList = ({
 }: {
   works: ArchiveCategoryWorksResult;
   archiveCategoryLabel: string;
-  sort?: string;
-  sortOrder?: string;
+  sort: ArchiveCategoryWorksSortField;
+  sortOrder: SortOrder;
 }) => {
   const colsToSpan: StartSpan = works.works.length >= 4 ? [3] : [4];
 
