@@ -1,4 +1,8 @@
 locals {
+  // crawler-fingerprint-rate-limit takes priority 18 where enabled; later rules move
+  // up one only then, so ACLs without it keep their priorities.
+  crawler_fingerprint_shift = var.enable_crawler_fingerprint_rate_limit ? 1 : 0
+
   // Rate limits cover 5 minute windows
 
   // We saw significant performance degradation for
@@ -1094,7 +1098,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 19
+    priority = 18 + local.crawler_fingerprint_shift
 
     action {
       block {
@@ -1129,7 +1133,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 20
+    priority = 19 + local.crawler_fingerprint_shift
 
     action {
       block {
@@ -1169,7 +1173,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 21
+    priority = 20 + local.crawler_fingerprint_shift
 
     action {
       block {
@@ -1206,7 +1210,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 22
+    priority = 21 + local.crawler_fingerprint_shift
 
     action {
       block {}
@@ -1228,7 +1232,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 23
+    priority = 22 + local.crawler_fingerprint_shift
 
     action {
       block {}
@@ -1266,7 +1270,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 24
+    priority = 23 + local.crawler_fingerprint_shift
 
     override_action {
       none {}
@@ -1289,7 +1293,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 25
+    priority = 24 + local.crawler_fingerprint_shift
 
     override_action {
       none {}
@@ -1323,7 +1327,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 26
+    priority = 25 + local.crawler_fingerprint_shift
 
     override_action {
       none {}
@@ -1421,7 +1425,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 27
+    priority = 26 + local.crawler_fingerprint_shift
 
     action {
       block {}
@@ -1458,7 +1462,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = length(var.count_hosts) > 0 ? [1] : []
     content {
       name     = "host-count"
-      priority = 28
+      priority = 27 + local.crawler_fingerprint_shift
 
       action {
         count {}
@@ -1492,12 +1496,12 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // Blocks self-identifying automation that solves the challenge and loads
   // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
   // Near the end, so it only sees what earlier rules would allow;
-  // sqli-query-arguments-block (30) can still block after it.
+  // sqli-query-arguments-block (last) can still block after it.
   dynamic "rule" {
     for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
     content {
       name     = "blocked-user-agent"
-      priority = 29
+      priority = 28 + local.crawler_fingerprint_shift
 
       action {
         block {}
@@ -1540,7 +1544,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_sqli_exemption ? [1] : []
     content {
       name     = "sqli-query-arguments-block"
-      priority = 30
+      priority = 29 + local.crawler_fingerprint_shift
 
       action {
         block {}
