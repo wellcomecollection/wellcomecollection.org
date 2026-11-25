@@ -1016,9 +1016,85 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
+  // Caps the works.www crawler, which spreads over tens of thousands of
+  // addresses (so per-IP limits miss it) and fills geo-rate-limit-USA's
+  // shared US budget, getting real US readers 429s. It sends one stale
+  // Chrome UA with one TLS fingerprint, a pair no reader was seen sending
+  // (measured 2026-11-24). One shared budget: anyone else with exactly this
+  // pair is throttled with it. Before the US limit so it stops counting there.
+  dynamic "rule" {
+    for_each = var.enable_crawler_fingerprint_rate_limit ? [1] : []
+    content {
+      name     = "crawler-fingerprint-rate-limit"
+      priority = 18
+
+      action {
+        block {
+          custom_response {
+            response_code = 429
+          }
+        }
+      }
+
+      statement {
+        rate_based_statement {
+          aggregate_key_type    = "CONSTANT"
+          evaluation_window_sec = 60
+          limit                 = var.crawler_fingerprint_rate_limit
+
+          scope_down_statement {
+            and_statement {
+              statement {
+                byte_match_statement {
+                  positional_constraint = "CONTAINS"
+                  search_string         = "Chrome/142.0.0.0"
+
+                  field_to_match {
+                    single_header {
+                      name = "user-agent"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+
+              statement {
+                byte_match_statement {
+                  positional_constraint = "EXACTLY"
+                  search_string         = "t13d1516h2_8daaf6152771_d8a2da3f94cd"
+
+                  field_to_match {
+                    ja4_fingerprint {
+                      fallback_behavior = "NO_MATCH"
+                    }
+                  }
+
+                  text_transformation {
+                    priority = 0
+                    type     = "NONE"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      visibility_config {
+        cloudwatch_metrics_enabled = true
+        sampled_requests_enabled   = true
+        metric_name                = "crawler-fingerprint-rate-limit-${var.namespace}"
+      }
+    }
+  }
+
   rule {
     name     = "geo-rate-limit-USA"
-    priority = 18
+    priority = 19
 
     action {
       block {
@@ -1053,7 +1129,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-APAC"
-    priority = 19
+    priority = 20
 
     action {
       block {
@@ -1093,7 +1169,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "geo-rate-limit-LATAM"
-    priority = 20
+    priority = 21
 
     action {
       block {
@@ -1130,7 +1206,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "blanket-rate-limiting"
-    priority = 21
+    priority = 22
 
     action {
       block {}
@@ -1152,7 +1228,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
 
   rule {
     name     = "restrictive-rate-limiting"
-    priority = 22
+    priority = 23
 
     action {
       block {}
@@ -1190,7 +1266,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-crs
   rule {
     name     = "core-rule-group"
-    priority = 23
+    priority = 24
 
     override_action {
       none {}
@@ -1213,7 +1289,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-use-case.html#aws-managed-rule-groups-use-case-sql-db
   rule {
     name     = "sqli-rule-group"
-    priority = 24
+    priority = 25
 
     override_action {
       none {}
@@ -1247,7 +1323,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // See: https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-baseline.html#aws-managed-rule-groups-baseline-known-bad-inputs
   rule {
     name     = "known-bad-inputs-rule-group"
-    priority = 25
+    priority = 26
 
     override_action {
       none {}
@@ -1345,7 +1421,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // /search once the group is scoped down for targeted inspection.
   rule {
     name     = "seo-user-agent-block"
-    priority = 26
+    priority = 27
 
     action {
       block {}
@@ -1382,7 +1458,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = length(var.count_hosts) > 0 ? [1] : []
     content {
       name     = "host-count"
-      priority = 27
+      priority = 28
 
       action {
         count {}
@@ -1416,12 +1492,12 @@ resource "aws_wafv2_web_acl" "wc_org" {
   // Blocks self-identifying automation that solves the challenge and loads
   // the origin, e.g. the Lightpanda harvest of item pages since 2026-10-22.
   // Near the end, so it only sees what earlier rules would allow;
-  // sqli-query-arguments-block (29) can still block after it.
+  // sqli-query-arguments-block (30) can still block after it.
   dynamic "rule" {
     for_each = length(var.blocked_user_agent_patterns) > 0 ? [1] : []
     content {
       name     = "blocked-user-agent"
-      priority = 28
+      priority = 29
 
       action {
         block {}
@@ -1464,7 +1540,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
     for_each = var.enable_search_sqli_exemption ? [1] : []
     content {
       name     = "sqli-query-arguments-block"
-      priority = 29
+      priority = 30
 
       action {
         block {}

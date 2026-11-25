@@ -133,6 +133,18 @@ variable "enable_works_fabricated_ua_block" {
   description = "Block fabricated-browser traffic on /works*, /images* and /concepts*: a browser-posing User-Agent with no Accept-Language and no self-identification. Exempts honest crawlers, link-preview fetchers and user-triggered AI agents. Prove on stage before enabling elsewhere."
 }
 
+variable "enable_crawler_fingerprint_rate_limit" {
+  type        = bool
+  default     = false
+  description = "Rate-limit, as one shared budget, requests with the works.www crawler's Chrome/142 User-Agent and TLS (JA4) fingerprint, ahead of the shared US limit. Prove on stage before enabling elsewhere."
+}
+
+variable "crawler_fingerprint_rate_limit" {
+  type        = number
+  default     = 300
+  description = "Requests a minute allowed in total for crawler-fingerprint-rate-limit before it answers 429."
+}
+
 variable "bot_control_inspection_level" {
   type        = string
   default     = "COMMON"
