@@ -326,11 +326,6 @@ export const NavGridCell = styled(GridCell)<{
     transition: unset;
     mix-blend-mode: difference;
 
-    /* In the new brand, once the scroll handler (in index.tsx) has measured
-       where the dark band ends, swap the blend for chosen colours: each piece
-       of text is light above its --split and dark below. It's set per element,
-       as Chrome won't show a parent's text-clipped background through
-       positioned children. Until then (or without JavaScript) the blend stays */
     &[data-in-page-nav-split] {
       mix-blend-mode: normal;
 

@@ -291,8 +291,6 @@ const InPageNavigation: FunctionComponent<Props> = ({
       cancelAnimationFrame(frame);
       navGridCell?.removeAttribute('data-in-page-nav-split');
     };
-    // Next keeps this mounted between pages (e.g. one concept to another), so
-    // look for the new page's band and edge
   }, [pagePath]);
 
   // Determine the active id based on whether sticky is enabled
