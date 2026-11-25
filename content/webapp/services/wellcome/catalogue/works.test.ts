@@ -8,7 +8,7 @@ describe('getArchiveCategoryWorksSort', () => {
     });
   });
 
-  it('uses the requested sort and sortOrder when both are valid', () => {
+  it('uses the requested date sort order', () => {
     expect(
       getArchiveCategoryWorksSort({
         sort: 'production.dates',
@@ -17,14 +17,17 @@ describe('getArchiveCategoryWorksSort', () => {
     ).toEqual({ sort: 'production.dates', sortOrder: 'asc' });
 
     expect(
-      getArchiveCategoryWorksSort({ sort: 'title', sortOrder: 'desc' })
-    ).toEqual({ sort: 'title', sortOrder: 'desc' });
+      getArchiveCategoryWorksSort({
+        sort: 'production.dates',
+        sortOrder: 'desc',
+      })
+    ).toEqual({ sort: 'production.dates', sortOrder: 'desc' });
   });
 
-  it("falls back to the field's own default order when sortOrder is missing or invalid", () => {
-    expect(getArchiveCategoryWorksSort({ sort: 'title' })).toEqual({
-      sort: 'title',
-      sortOrder: 'asc',
+  it('sorts dates newest first when sortOrder is missing or invalid', () => {
+    expect(getArchiveCategoryWorksSort({ sort: 'production.dates' })).toEqual({
+      sort: 'production.dates',
+      sortOrder: 'desc',
     });
 
     expect(
@@ -35,22 +38,27 @@ describe('getArchiveCategoryWorksSort', () => {
     ).toEqual({ sort: 'production.dates', sortOrder: 'desc' });
   });
 
-  it('falls back to title when sort is missing or unknown', () => {
-    expect(getArchiveCategoryWorksSort({ sortOrder: 'desc' })).toEqual({
-      sort: 'title',
-      sortOrder: 'desc',
-    });
+  it('always sorts titles A-Z, ignoring a requested Z-A', () => {
+    expect(
+      getArchiveCategoryWorksSort({ sort: 'title', sortOrder: 'desc' })
+    ).toEqual({ sort: 'title', sortOrder: 'asc' });
+  });
 
-    expect(getArchiveCategoryWorksSort({ sort: 'nonsense' })).toEqual({
+  it('falls back to title A-Z when sort is missing or unknown', () => {
+    expect(getArchiveCategoryWorksSort({ sortOrder: 'desc' })).toEqual({
       sort: 'title',
       sortOrder: 'asc',
     });
+
+    expect(
+      getArchiveCategoryWorksSort({ sort: 'nonsense', sortOrder: 'desc' })
+    ).toEqual({ sort: 'title', sortOrder: 'asc' });
   });
 
   it('ignores repeated params rather than picking one', () => {
     expect(
       getArchiveCategoryWorksSort({
-        sort: ['title', 'production.dates'],
+        sort: ['production.dates', 'title'],
         sortOrder: ['asc', 'desc'],
       })
     ).toEqual({ sort: 'title', sortOrder: 'asc' });
