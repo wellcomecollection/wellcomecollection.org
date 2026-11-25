@@ -30,6 +30,14 @@ const stageApiToggleCookie = {
   domain: new URL(baseUrl).host,
 };
 
+// Temporarily running the whole suite with the image sidebar at Phase 3.
+const imageSidebarToggleCookie = {
+  name: 'toggle_imageSidebarPhases',
+  value: 'phase3',
+  path: '/',
+  domain: new URL(baseUrl).host,
+};
+
 /**
  * Helper to set up a kiosk context with the required cookies
  */
@@ -37,7 +45,11 @@ const setupKioskContext = async (
   context: BrowserContext,
   kioskMode: string
 ): Promise<void> => {
-  const cookies = [acceptCookieCookie, createKioskModeCookie(kioskMode)];
+  const cookies = [
+    acceptCookieCookie,
+    createKioskModeCookie(kioskMode),
+    imageSidebarToggleCookie,
+  ];
   if (useStageApis) {
     cookies.push(stageApiToggleCookie);
   }

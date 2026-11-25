@@ -86,8 +86,12 @@ const searchImages = async (
   page: Page,
   phase?: ImageSidebarPhase
 ) => {
-  await enableImageSidebar(context, phase);
+  // While the whole suite runs at Phase 3, search's required cookies carry a
+  // phase3 cookie, and the last cookie written wins — so the phase a test pins
+  // itself to has to be set after them. The query submit below is the
+  // navigation that picks it up.
   await search(context, page, 'images');
+  await enableImageSidebar(context, phase);
   await searchQuerySubmitAndWait(query, page);
 };
 

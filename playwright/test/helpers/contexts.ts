@@ -83,10 +83,15 @@ const stageApiToggleCookie = createCookie({
   name: 'toggle_stagingApi',
   value: 'true',
 });
+// Temporarily running the whole suite with the image sidebar at Phase 3.
+const imageSidebarToggleCookie = createCookie({
+  name: 'toggle_imageSidebarPhases',
+  value: 'phase3',
+});
 
 export const requiredCookies = useStageApis
-  ? [acceptCookieCookie, stageApiToggleCookie]
-  : [acceptCookieCookie];
+  ? [acceptCookieCookie, stageApiToggleCookie, imageSidebarToggleCookie]
+  : [acceptCookieCookie, imageSidebarToggleCookie];
 
 const multiVolumeItem = async (
   context: BrowserContext,
