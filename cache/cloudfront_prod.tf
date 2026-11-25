@@ -79,6 +79,10 @@ module "prod_wc_org_cloudfront_distribution" {
 
   # Silent challenge rather than a CAPTCHA for the geo consent rules (wc.org#13665).
   enable_geo_challenge = true
+
+  # Caps the works.www crawler's UA and TLS fingerprint pair as one budget,
+  # so it stops filling the shared US rate limit.
+  enable_crawler_fingerprint_rate_limit = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {
