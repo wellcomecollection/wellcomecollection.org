@@ -111,8 +111,9 @@ resource "aws_cloudfront_distribution" "wc_org" {
 
     // Caching should be always be disabled for the account/identity app, so that we
     // never send responses meant for one user to another
-    cache_policy_id            = var.cache_policies["Managed-CachingDisabled"]
-    origin_request_policy_id   = var.request_policies["Managed-AllViewer"]
+    cache_policy_id = var.cache_policies["Managed-CachingDisabled"]
+    // The identity webapp needs CloudFront-Viewer-Address, the patron's IP
+    origin_request_policy_id   = var.request_policies["Managed-AllViewerAndCloudFrontHeaders-2022-06"]
     response_headers_policy_id = var.response_policies["weco-security"]
 
     # Note: we deliberately omit the Lambda function association here; this avoids the

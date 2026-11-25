@@ -59,7 +59,7 @@ export const Tab = styled.div.attrs<NavItemProps>(props => ({
   flex-shrink: 0;
   border-bottom: ${props =>
     props.$selected
-      ? `3px solid ${props.theme.color({ brand: 'blue.30', legacy: 'yellow' })}`
+      ? `3px solid ${props.theme.color('blue.30')}`
       : `1px solid ${props.theme.color(
           props.$hideBorder
             ? 'transparent'
@@ -102,11 +102,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
   cursor: pointer;
   color: ${props =>
     props.theme.color(
-      props.$isWhite
-        ? 'white'
-        : props.$selected
-          ? 'black'
-          : { brand: 'neutral.50', legacy: 'black' }
+      props.$isWhite ? 'white' : props.$selected ? 'black' : 'neutral.50'
     )};
   transition: all ${props => props.theme.transitionProperties};
 
@@ -125,11 +121,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     &::after {
       width: 100%;
       background-color: ${props =>
-        props.theme.color(
-          props.$selected
-            ? { brand: 'blue.30', legacy: 'yellow' }
-            : { brand: 'blue.20', legacy: 'lightYellow' }
-        )};
+        props.theme.color(props.$selected ? 'blue.30' : 'blue.20')};
 
       /* Prevent iOS double-tap link issue
        https://css-tricks.com/annoying-mobile-double-tap-link-issue/ */
@@ -144,7 +136,7 @@ export const NavItemInner = styled(Space).attrs<{ $selected: boolean }>(
     background-color: transparent;
 
     ${Tab}:focus-within & {
-      background-color: ${props => props.theme.color({ brand: 'blue.30', legacy: 'yellow' })};
+      background-color: ${props => props.theme.color('blue.30')};
     }
   }
 `;

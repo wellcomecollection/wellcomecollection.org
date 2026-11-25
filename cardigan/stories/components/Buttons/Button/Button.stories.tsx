@@ -1,12 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
 import styled, { css } from 'styled-components';
 
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { eye } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import Button, {
   ButtonHierarchy,
   ButtonProps,
 } from '@weco/common/views/components/Buttons';
+import Readme from '@weco/common/views/components/Buttons/README.mdx';
 import theme from '@weco/common/views/themes/default';
 
 function getColor(color) {
@@ -46,7 +48,8 @@ export default meta;
 
 type StoryProps = {
   showIcon: boolean;
-  storyColors: 'Default' | 'Green border' | 'Yellow' | 'White' | 'White border';
+  storyColors:
+    'Default' | 'Green border' | 'Yellow' | 'White' | 'White border' | 'Danger';
 };
 
 type Story = StoryObj<ButtonProps & StoryProps>;
@@ -62,12 +65,14 @@ export const Basic: Story = {
     storyColors: 'Default',
     showIcon: true,
     hierarchy: 'primary',
+    isOnDark: false,
+    isDanger: false,
   },
   parameters: {
     docs: {
       description: {
         story:
-          'With the brandUpdate toolbar toggle on, `hierarchy`, `isOnDark` and `isDanger` set the brand colours. With it off, or with no hierarchy, the preset picked in Colors decides.',
+          '`hierarchy`, `isOnDark` and `isDanger` set the brand colours. With no hierarchy, the preset picked in Colors decides.',
       },
     },
   },
@@ -101,15 +106,21 @@ export const Basic: Story = {
     hierarchy: {
       options: [undefined, 'primary', 'secondary', 'tertiary'],
       control: { type: 'radio' },
-      name: 'Hierarchy (brand)',
+      name: 'Hierarchy',
     },
-    isOnDark: { control: 'boolean', name: 'Is on dark background (brand)' },
-    isDanger: { control: 'boolean', name: 'Is danger (brand)' },
+    isOnDark: { control: 'boolean', name: 'Is on dark background' },
+    isDanger: { control: 'boolean', name: 'Is danger' },
   },
   render: args => {
     const { showIcon, storyColors, variant, ...restOfArgs } = args;
     return (
-      <Wrapper $isOnDark={!!storyColors?.includes('White') || !!args.isOnDark}>
+      <ReadmeDecorator
+        WrappedComponent={Wrapper}
+        args={{
+          $isOnDark: !!storyColors?.includes('White') || !!args.isOnDark,
+        }}
+        Readme={Readme}
+      >
         <Button
           text="Click me"
           ariaLabel="Cardigan button example"
@@ -126,7 +137,7 @@ export const Basic: Story = {
           }}
           {...restOfArgs}
         />
-      </Wrapper>
+      </ReadmeDecorator>
     );
   },
 };
@@ -141,12 +152,12 @@ const Row = styled.div`
 const hierarchies: ButtonHierarchy[] = ['primary', 'secondary', 'tertiary'];
 
 export const Hierarchy: Story = {
-  name: 'Hierarchy (brand)',
+  name: 'Hierarchy',
   parameters: {
     docs: {
       description: {
         story:
-          'Primary, secondary and tertiary buttons on light and dark backgrounds. Turn the brandUpdate toolbar toggle on to see them; with it off every button uses the default preset.',
+          'Primary, secondary and tertiary buttons on light and dark backgrounds.',
       },
     },
   },
@@ -191,6 +202,7 @@ export const DropdownButton: Story = {
     isOnDark: false,
     hasNoOptions: false,
     isTight: false,
+    hierarchy: 'primary',
   },
   argTypes: {
     isOnDark: { control: 'boolean', name: 'Is on dark background' },
@@ -199,7 +211,7 @@ export const DropdownButton: Story = {
     hierarchy: {
       options: [undefined, 'primary', 'secondary', 'tertiary'],
       control: { type: 'radio' },
-      name: 'Hierarchy (brand)',
+      name: 'Hierarchy',
     },
   },
   render: args => (

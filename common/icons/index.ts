@@ -13,7 +13,6 @@ export { default as calendar } from './components/Calendar';
 export { default as chat } from './components/Chat';
 export { default as check } from './components/Check';
 export { default as chevron } from './components/Chevron';
-export { default as chevrons } from './components/Chevrons';
 export { default as clear } from './components/Clear';
 export { default as clock } from './components/Clock';
 export { default as closedFolder } from './components/ClosedFolder';

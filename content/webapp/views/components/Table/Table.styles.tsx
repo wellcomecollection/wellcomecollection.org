@@ -6,20 +6,11 @@ export const ControlsWrap = styled.div`
   position: relative;
 `;
 
-export const ScrollButtonWrap = styled.div<{
-  $isActive?: boolean;
-  $isLeft?: boolean;
-}>`
+export const ScrollButtonWrap = styled.div<{ $isLeft?: boolean }>`
   position: absolute;
   z-index: 2;
   top: 50%;
   cursor: pointer;
-  pointer-events: ${props =>
-    props.$isActive || props.theme.brandUpdate ? 'all' : 'none'};
-
-  /* The brand shows the control's disabled style instead of fading it */
-  opacity: ${props => (props.$isActive || props.theme.brandUpdate ? 1 : 0.2)};
-  transition: opacity ${props => props.theme.transitionProperties};
 
   /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
   .spaced-text & {

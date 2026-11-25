@@ -10,8 +10,11 @@ import {
 } from '@weco/common/server-data/Context';
 import Icon from '@weco/common/views/components/Icon';
 import {
+  featureFlagCookieValue,
   ModeOption,
-  PhaseDefinition,
+  personalPhaseValue,
+  phaseLadder,
+  PhaseLadderStep,
   ResolvedPhasedFlag,
   TogglesResp,
 } from '@weco/toggles';
@@ -19,14 +22,19 @@ import {
 import {
   ButtonRow,
   DismissButton,
+  Ladder,
+  LadderMarker,
+  LadderRung,
   Panel,
   PanelHeader,
+  PublicTag,
+  ResetButton,
   Segmented,
   SegmentLabel,
-  SegmentState,
   SelectToggleOption,
   ToggleBlock,
   ToggleButton,
+  ToggleHeading,
   ToggleLabel,
   ToggleNote,
   ToggleWidgetWrapper,
@@ -45,21 +53,20 @@ type StarredEntry = {
   title: string;
   current: string;
   options: Option[];
-  // Feature flags only: true once a flag's defaultValue is true (Public) -
-  // the cookie resolver only ever checks for 'true', so a 'false' override
-  // can never turn a Public flag off, same as the dashboard's own
-  // disabled-switch-when-Public behaviour.
+  /** Feature flags: defaultValue is true, so On is what everyone sees. */
+  isPublic?: boolean;
+  /** Feature flags: the switch is disabled, as a public non-experimental flag can't be turned off for yourself. */
   locked?: boolean;
-  // Phased flags only: whether a toggle_<id> override cookie actually exists,
-  // so the segmented control's own "Default view" pill can show as selected -
-  // unlike a mode's "Off" or an A/B test's "Randomly allocate me", none of a
-  // phased flag's own options can get back to "no override" on their own.
-  // Keyed off the cookie's presence rather than "does current differ from
-  // public", since an override that happens to match today's public phase
-  // still pins the user to it if the public phase later advances - and the
-  // widget should let them clear it before that happens, not just once it's
-  // visibly out of date.
+  /**
+   * Phased flags: whether a toggle_<id> cookie exists, so Reset shows. True
+   * even if the cookie matches the public phase, as it would still pin the
+   * user if the public phase moved on.
+   */
   hasOverride?: boolean;
+  /** Phased flags: the id of the public phase, or null if none is public yet. */
+  publicId?: string | null;
+  /** Phased flags: their steps, in place of `current` and `options`. */
+  ladder?: PhaseLadderStep[];
 };
 
 const AB_TEST_OPTIONS: Option[] = [
@@ -68,18 +75,20 @@ const AB_TEST_OPTIONS: Option[] = [
   { id: 'random', label: 'Randomly allocate me' },
 ];
 
-const FEATURE_FLAG_OPTIONS: Option[] = [
-  { id: 'true', label: 'On' },
-  { id: 'false', label: 'Off' },
+// The option that matches what everyone sees has the empty id, which clears the
+// cookie (see applyOverride), so going back to the public value keeps no cookie
+const featureFlagOptions = (flag: {
+  type: string;
+  defaultValue: boolean;
+}): Option[] => [
+  { id: featureFlagCookieValue(flag, false) ?? '', label: 'Off' },
+  { id: featureFlagCookieValue(flag, true) ?? '', label: 'On' },
 ];
 
 const modeOptions = (options: readonly ModeOption[]): Option[] => [
   { id: '', label: 'Off' },
   ...options.map(option => ({ id: option.id, label: option.label })),
 ];
-
-const phaseOptions = (phases: readonly PhaseDefinition[]): Option[] =>
-  phases.map(phase => ({ id: phase.id, label: phase.label }));
 
 // Matches the anchor ids dash puts on each toggle's list item - modes use
 // their own prefix, everything else shares toggle-.
@@ -120,11 +129,7 @@ function applyOverride(id: string, optionId: string) {
   window.location.reload();
 }
 
-/**
- * Clears a starred toggle's override entirely, back to whatever's public -
- * for phased flags, which (unlike a mode's "Off" or an A/B test's
- * "Randomly allocate me") have no such option among their own phases.
- */
+/** Clears a starred toggle's override entirely, back to whatever's public. */
 function resetOverride(id: string) {
   const { domain } = cookieDomainOptions();
   deleteCookie(`toggle_${id}`, { domain, path: '/' });
@@ -183,22 +188,39 @@ const ToggleWidget: FunctionComponent = () => {
             phasedFlags as Record<string, ResolvedPhasedFlag>
           )[id];
           if (phasedFlag) {
-            // Matches resolveOptionValue's own validation (common/server-data
-            // /toggles.ts) - a cookie whose value isn't one of this flag's
-            // current phases (e.g. left over from one that's since graduated
-            // or been removed) isn't a live override, so it shouldn't count
-            // as one here either (Default view stays selected).
+            // Same validation as the server (personalPhaseValue): a cookie that
+            // isn't one of this flag's current phases (e.g. left over from one
+            // that's since graduated or been removed), or `off` before
+            // anything is public, isn't a live override, so there's nothing
+            // to reset.
             const rawOverride = getCookie(`toggle_${id}`);
-            const hasOverride =
-              typeof rawOverride === 'string' &&
-              phasedFlag.phases.some(phase => phase.id === rawOverride);
+            const publicPhaseId =
+              togglesJson.phasedFlags?.find(f => f.id === id)?.defaultPhase ??
+              null;
+            const personalValue =
+              typeof rawOverride === 'string'
+                ? personalPhaseValue(
+                    {
+                      phases: phasedFlag.phases,
+                      defaultPhase: publicPhaseId,
+                    },
+                    rawOverride
+                  )
+                : undefined;
+            const publicFlag = {
+              phases: phasedFlag.phases,
+              defaultPhase: publicPhaseId,
+            };
+
             return {
               kind: 'phasedFlag',
               id,
               title: phasedFlag.title,
-              current: phasedFlag.current ?? '',
-              options: phaseOptions(phasedFlag.phases),
-              hasOverride,
+              current: '',
+              options: [],
+              ladder: phaseLadder(publicFlag, personalValue),
+              hasOverride: personalValue !== undefined,
+              publicId: publicPhaseId,
             };
           }
 
@@ -207,13 +229,17 @@ const ToggleWidget: FunctionComponent = () => {
             const current = (
               featureFlags as Record<string, boolean | undefined>
             )[id];
+            const isExperimental = featureFlag.type === 'experimental';
+            const isOn = current ?? featureFlag.defaultValue;
+
             return {
               kind: 'featureFlag',
               id,
               title: featureFlag.title,
-              current: (current ?? featureFlag.defaultValue) ? 'true' : 'false',
-              options: FEATURE_FLAG_OPTIONS,
-              locked: featureFlag.defaultValue === true,
+              current: featureFlagCookieValue(featureFlag, isOn) ?? '',
+              options: featureFlagOptions(featureFlag),
+              isPublic: featureFlag.defaultValue === true,
+              locked: featureFlag.defaultValue === true && !isExperimental,
             };
           }
 
@@ -298,24 +324,52 @@ const ToggleWidget: FunctionComponent = () => {
           aria-label="toggle states"
         >
           <PanelHeader>
+            Starred toggles (
             <a href={DASH_URL} target="_blank" rel="noopener noreferrer">
-              Toggles
+              view dashboard
               <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
+            )
           </PanelHeader>
           {entries.map(entry => (
             <ToggleBlock key={entry.id}>
-              <ToggleLabel>
-                <a
-                  href={dashAnchorUrl(entry)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {entry.title}
-                  <span className="visually-hidden"> (opens in a new tab)</span>
-                </a>
-                {entry.locked && <ToggleNote>(Public)</ToggleNote>}
-              </ToggleLabel>
+              <ToggleHeading>
+                <ToggleLabel>
+                  <a
+                    href={dashAnchorUrl(entry)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {entry.title}
+                    <span className="visually-hidden">
+                      {' '}
+                      (opens in a new tab)
+                    </span>
+                  </a>
+                  {entry.isPublic && <ToggleNote>(Public)</ToggleNote>}
+                </ToggleLabel>
+                {entry.kind === 'phasedFlag' && entry.hasOverride && (
+                  <ResetButton
+                    type="button"
+                    onClick={() => resetOverride(entry.id)}
+                    aria-label={`Reset ${entry.title} to the public view`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.4"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M3 12a9 9 0 1 0 3-6.7" />
+                      <path d="M3 4v5h5" />
+                    </svg>
+                    Reset
+                  </ResetButton>
+                )}
+              </ToggleHeading>
 
               {entry.kind === 'mode' ? (
                 <SelectToggleOption
@@ -329,50 +383,52 @@ const ToggleWidget: FunctionComponent = () => {
                     </option>
                   ))}
                 </SelectToggleOption>
+              ) : entry.kind === 'phasedFlag' ? (
+                <Ladder aria-label={`Value for ${entry.title}`}>
+                  {entry.ladder?.map(step => {
+                    const isSelected = step.state === 'current';
+
+                    return (
+                      <LadderRung
+                        key={step.id}
+                        $state={step.state}
+                        $line={step.line}
+                      >
+                        <input
+                          type="radio"
+                          name={`toggle-widget-${entry.id}`}
+                          checked={isSelected}
+                          onChange={() => applyOverride(entry.id, step.id)}
+                          // A change event doesn't fire for the step that's
+                          // already selected, so pin the public one on click
+                          onClick={() => {
+                            if (isSelected && !entry.hasOverride) {
+                              applyOverride(entry.id, step.id);
+                            }
+                          }}
+                        />
+                        <LadderMarker $state={step.state} aria-hidden="true" />
+                        <span>{step.label}</span>
+                        {step.id === entry.publicId && (
+                          <PublicTag>Public</PublicTag>
+                        )}
+                      </LadderRung>
+                    );
+                  })}
+                </Ladder>
               ) : (
                 <Segmented
                   aria-label={`Value for ${entry.title}`}
                   disabled={entry.locked}
                 >
-                  {entry.kind === 'phasedFlag' && (
-                    <SegmentLabel
-                      $state={entry.hasOverride ? 'inactive' : 'current'}
-                    >
-                      <input
-                        type="radio"
-                        name={`toggle-widget-${entry.id}`}
-                        checked={!entry.hasOverride}
-                        onChange={() => resetOverride(entry.id)}
-                      />
-                      Default view
-                    </SegmentLabel>
-                  )}
-                  {entry.options.map((option, index) => {
-                    // For a phased flag, a phase pill only reads as
-                    // "current" once there's an actual override cookie -
-                    // otherwise that's what the Default view pill above is
-                    // for, same distinction dash's PhasedFlags draws.
-                    const isSelected =
-                      entry.kind === 'phasedFlag'
-                        ? entry.hasOverride === true &&
-                          entry.current === option.id
-                        : entry.current === option.id;
-                    // Phases are cumulative - reaching phase 2 means phase 1
-                    // shipped too, so show every phase up to and including
-                    // the current one as active, not just the exact match.
-                    // Earlier phases get a paler shade than the current one
-                    // so it's clear which phase we're actually on.
-                    const currentIndex = entry.options.findIndex(
-                      o => o.id === entry.current
-                    );
-                    const state: SegmentState = isSelected
-                      ? 'current'
-                      : entry.kind === 'phasedFlag' && index <= currentIndex
-                        ? 'included'
-                        : 'inactive';
+                  {entry.options.map(option => {
+                    const isSelected = entry.current === option.id;
 
                     return (
-                      <SegmentLabel key={option.id} $state={state}>
+                      <SegmentLabel
+                        key={option.id}
+                        $state={isSelected ? 'current' : 'inactive'}
+                      >
                         <input
                           type="radio"
                           name={`toggle-widget-${entry.id}`}

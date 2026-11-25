@@ -14,7 +14,7 @@ import Space from '@weco/common/views/components/styled/Space';
 const Cell = styled(Space).attrs({
   $h: { size: 'sm', properties: ['margin-right'] },
 })`
-  background-color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'neutral.200' })};
+  background-color: ${props => props.theme.color('neutral.10')};
   color: ${props => props.theme.color('black')};
   border-radius: 50%;
   transition: all ${props => props.theme.transitionProperties};
@@ -22,7 +22,7 @@ const Cell = styled(Space).attrs({
   /* The link inside takes focus, not this div */
   &:hover,
   &:focus-within {
-    color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'neutral.200' })};
+    color: ${props => props.theme.color('neutral.10')};
     background-color: ${props => props.theme.color('black')};
   }
 `;

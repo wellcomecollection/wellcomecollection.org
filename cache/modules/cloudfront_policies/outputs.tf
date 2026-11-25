@@ -15,7 +15,8 @@ output "request_policies" {
   value = {
     for policy in [
       aws_cloudfront_origin_request_policy.host_query_and_toggles,
-      data.aws_cloudfront_origin_request_policy.managed_all_viewer
+      data.aws_cloudfront_origin_request_policy.managed_all_viewer,
+      data.aws_cloudfront_origin_request_policy.managed_all_viewer_and_cloudfront_headers
     ]
     : policy.name => policy.id
   }

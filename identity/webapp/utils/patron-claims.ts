@@ -20,7 +20,7 @@ export const patronClaims = [
 // A non-claim session field used only to carry the patron claims across token
 // refreshes. It round-trips through the encrypted session cookie and is never
 // exposed to clients (the /api/auth/me endpoint returns session.user only).
-const patronClaimsStashKey = 'wecoPatronClaims';
+const PATRON_CLAIMS_STASH_KEY = 'wecoPatronClaims';
 
 /**
  * Keep the namespaced patron claims on `session.user` across token refreshes.
@@ -39,8 +39,9 @@ export const preservePatronClaims = (session: SessionData): SessionData => {
   // use a wider view to read/write the namespaced claim keys.
   const user = { ...session.user };
   const claims = user as Record<string, unknown>;
-  const stash = (session as Record<string, unknown>)[patronClaimsStashKey] as
-    Record<string, unknown> | undefined;
+  const stash = (session as Record<string, unknown>)[
+    PATRON_CLAIMS_STASH_KEY
+  ] as Record<string, unknown> | undefined;
 
   for (const claim of patronClaims) {
     if (claims[claim] === undefined && stash?.[claim] !== undefined) {
@@ -51,7 +52,7 @@ export const preservePatronClaims = (session: SessionData): SessionData => {
   return {
     ...session,
     user,
-    [patronClaimsStashKey]: Object.fromEntries(
+    [PATRON_CLAIMS_STASH_KEY]: Object.fromEntries(
       patronClaims.map(claim => [claim, claims[claim]])
     ),
   } as SessionData;

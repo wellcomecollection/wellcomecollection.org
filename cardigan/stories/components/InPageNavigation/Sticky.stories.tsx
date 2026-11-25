@@ -3,6 +3,7 @@ import { themeColors } from '@weco/cardigan/.storybook/preview';
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
+import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { links } from '@weco/cardigan/stories/components/InPageNavigation/links';
 import Footer from '@weco/common/views/components/Footer';
 import PageHeader from '@weco/common/views/components/PageHeader';
@@ -10,6 +11,7 @@ import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import { PaletteColor } from '@weco/common/views/themes/config';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
+import Readme from '@weco/content/views/components/InPageNavigation/README.mdx';
 
 type BackgroundGridProps = {
   $percent?: number;
@@ -112,4 +114,11 @@ export const SideBar: Story = {
       description: 'Color used for the top background',
     },
   },
+  render: args => (
+    <ReadmeDecorator
+      WrappedComponent={InPageNavigationInColsContext}
+      args={args}
+      Readme={Readme}
+    />
+  ),
 };

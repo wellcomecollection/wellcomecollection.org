@@ -15,7 +15,7 @@
     "@storybook/addon-docs": "10.6.2",
     "@storybook/cli": "10.6.2",
     "chromatic": "^18.13.4",
-    "next": "16.4.2",
+    "next": "16.4.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "typescript": "^5.9.3",

@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -104,23 +104,21 @@ const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
 };
 
 /** The brand colours for a button, or undefined if it should keep its preset
- * colours: the toggle is off, it's a pill (styled separately), or it has no
- * `hierarchy` and isn't `isDanger`.
+ * colours: it's a pill (styled separately), or it has no `hierarchy` and
+ * isn't `isDanger`.
  */
 export const getBrandButtonColors = ({
-  theme,
   hierarchy,
   isOnDark,
   isPill,
   isDanger,
 }: {
-  theme: DefaultTheme;
   hierarchy?: ButtonHierarchy;
   isOnDark?: boolean;
   isPill?: boolean;
   isDanger?: boolean;
 }): BrandButtonColors | undefined => {
-  if (!theme.brandUpdate || isPill) return undefined;
+  if (isPill) return undefined;
 
   if (isDanger) return brandButtonColors.danger;
   if (!hierarchy) return undefined;
@@ -166,7 +164,7 @@ export const brandButtonStyles = (colors: BrandButtonColors) => `
   }
 `;
 
-export const StyledButtonCSS = css<SolidButtonStyledProps>`
+const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:
@@ -192,33 +190,17 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
               : '8px 16px'
           };
 
-          ${
-            props.theme.brandUpdate
-              ? css`
-                  background: transparent;
+          background: transparent;
 
-                  &:not([disabled]):hover {
-                    background: ${props.theme.color({
-                      brand: 'neutral.10',
-                      legacy: 'white',
-                    })};
-                    text-decoration: underline;
-                  }
+          &:not([disabled]):hover {
+            background: ${props.theme.color('neutral.10')};
+            text-decoration: underline;
+          }
 
-                  /* An open dropdown */
-                  &[aria-expanded='true']:not([disabled]) {
-                    background: ${props.theme.color('black')};
-                    color: ${props.theme.color({
-                      brand: 'neutral.10',
-                      legacy: 'white',
-                    })};
-                  }
-                `
-              : css`
-                  &:not([disabled]):hover {
-                    box-shadow: ${props.theme.focusBoxShadow};
-                  }
-                `
+          /* An open dropdown */
+          &[aria-expanded='true']:not([disabled]) {
+            background: ${props.theme.color('black')};
+            color: ${props.theme.color('neutral.10')};
           }
         `
       : css`
@@ -234,7 +216,6 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
   ${props => {
     const brandColors = getBrandButtonColors({
-      theme: props.theme,
       hierarchy: props.$hierarchy,
       isOnDark: props.$isOnDark,
       isPill: props.$isPill,

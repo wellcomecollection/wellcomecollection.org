@@ -5,7 +5,7 @@ import {
   ReactNode,
   SyntheticEvent,
 } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
 import { classNames, typography } from '@weco/common/utils/classnames';
@@ -19,12 +19,12 @@ import { designSystemColor } from '@weco/common/views/themes/config';
 
 type ClickableElement = 'a' | 'button';
 
-// The brand's hover circle and pill are taller than the legacy button (about
-// 36px), so negative margins split the difference to keep the header row height
-const brandHeight = 44;
-const legacyHeight = 36;
+// The hover circle and pill are taller than the header row allows for, so
+// negative margins split the difference to keep the row height
+const PILL_HEIGHT = 44;
+const HEADER_ROW_HEIGHT = 36;
 
-const brandStyles = (isActive?: boolean) => {
+const pillStyles = (isActive?: boolean) => {
   const inverted = `
     background: ${designSystemColor('neutral.70')};
     color: ${designSystemColor('neutral.10')};
@@ -32,12 +32,12 @@ const brandStyles = (isActive?: boolean) => {
 
   return `
     color: ${designSystemColor('neutral.70')};
-    border-radius: ${brandHeight / 2}px;
-    height: ${brandHeight}px;
+    border-radius: ${PILL_HEIGHT / 2}px;
+    height: ${PILL_HEIGHT}px;
     padding: 0 12px;
     transition: none;
-    margin-top: ${(legacyHeight - brandHeight) / 2}px;
-    margin-bottom: ${(legacyHeight - brandHeight) / 2}px;
+    margin-top: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
+    margin-bottom: ${(HEADER_ROW_HEIGHT - PILL_HEIGHT) / 2}px;
 
     .icon__shape {
       transition: none;
@@ -57,22 +57,7 @@ const BorderlessClickableStyle = styled(BasicButton)<{
   background: transparent;
   padding: 10px 8px;
 
-  ${props =>
-    props.theme.brandUpdate
-      ? brandStyles(props.$isActive)
-      : css`
-          color: ${props.theme.color('neutral.700')};
-
-          &:hover {
-            background: ${props.theme.color('neutral.300')};
-          }
-
-          ${
-            props.$isActive
-              ? `background: ${props.theme.color('neutral.300')};`
-              : ''
-          }
-        `}
+  ${props => pillStyles(props.$isActive)}
 `;
 
 type Props = {

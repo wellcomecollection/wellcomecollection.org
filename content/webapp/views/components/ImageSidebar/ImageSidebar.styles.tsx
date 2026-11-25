@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -31,6 +31,8 @@ export const SidebarWrapper = styled.section<{
   position: fixed;
   inset: 0;
   z-index: 1001;
+  display: flex;
+  flex-direction: column;
   background-color: ${props => props.theme.color(pageBackgroundColor)};
   color: ${props => props.theme.color('black')};
   transform: ${props => (props.$isOpen ? 'none' : 'translateY(100%)')};
@@ -53,10 +55,7 @@ export const SidebarWrapper = styled.section<{
       min-width: 0;
       max-width: calc(100% - ${edge} - ${containerPadding} - ${MIN_GRID_WIDTH}px);
       height: 100vh;
-      border-left: ${gap} solid ${props.theme.color({
-        brand: 'neutral.10',
-        legacy: 'warmNeutral.300',
-      })};
+      border-left: ${gap} solid ${props.theme.color('neutral.10')};
       box-shadow: inset 1px 0 0 ${props.theme.color('neutral.300')};
     `);
   }}
@@ -72,7 +71,10 @@ export const SidebarScroller = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
 })`
-  height: 100%;
+  flex: 1;
+
+  /* Without this it grows to fit the details rather than scrolling them */
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
 
@@ -102,11 +104,23 @@ export const ResizeHandle = styled.div`
   }
 `;
 
-export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
+const labelledIconButton = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 44px;
+`;
+
+export const CloseButton = styled(Space).attrs<{
+  type?: string;
+  $hasLabel?: boolean;
+}>(props => ({
   as: 'button',
   type: props.type || 'button',
   $v: { size: 'md', properties: ['margin-bottom'] },
-}))`
+  className: props.$hasLabel ? typography('body', 'sm', 'regular') : undefined,
+}))<{ $hasLabel?: boolean }>`
   appearance: none;
   display: block;
   margin-left: auto;
@@ -115,6 +129,74 @@ export const CloseButton = styled(Space).attrs<{ type?: string }>(props => ({
   background: transparent;
   color: inherit;
   cursor: pointer;
+
+  /* Full screen, the label sits to the left of the icon rather than under it */
+  ${props =>
+    props.$hasLabel &&
+    css`
+      ${labelledIconButton}
+      flex-direction: row-reverse;
+      gap: ${props.theme.spacingUnits['100']};
+
+      ${props.theme.media('sm')(`
+        flex-direction: column;
+        gap: 2px;
+      `)}
+    `}
+`;
+
+export const SidebarHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+`;
+
+export const StepButtons = styled.div`
+  display: flex;
+  gap: ${props => props.theme.spacingUnits['200']};
+`;
+
+export const StepButton = styled.button.attrs({
+  type: 'button',
+  className: typography('body', 'sm', 'regular'),
+})`
+  ${labelledIconButton}
+  appearance: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+
+  /* aria-disabled rather than disabled, so it keeps focus at the first or last image */
+  &[aria-disabled='true'] {
+    color: ${props => props.theme.color('neutral.500')};
+    cursor: default;
+  }
+`;
+
+/**
+ * Full screen only, where the header's step buttons are hidden. Sits below the
+ * scrolling details rather than over them, so it doesn't cover their scrollbar.
+ */
+export const StepBar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 ${props => props.theme.spacingUnits['200']}
+    ${props => props.theme.spacingUnits['400']};
+  background-color: ${props => props.theme.color('black')};
+  color: ${props => props.theme.color(pageBackgroundColor)};
+
+  ${StepButton} {
+    flex-direction: row;
+    gap: ${props => props.theme.spacingUnits['100']};
+    padding: ${props => props.theme.spacingUnits['150']} 0;
+  }
+
+  ${StepButton}:last-child {
+    flex-direction: row-reverse;
+  }
 `;
 
 export const LoadingWrapper = styled.div`

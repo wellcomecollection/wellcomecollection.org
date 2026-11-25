@@ -120,6 +120,14 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'identityApiV2',
+      title: 'Identity API v2',
+      initialValue: false,
+      description:
+        'Send account requests to the v2 identity API, which is backed by FOLIO, for patrons linked to FOLIO. Everyone else stays on v1.',
+      type: 'permanent',
+    },
+    {
       id: 'aggregationsInSearch',
       title: 'Aggregations in search',
       initialValue: true,
@@ -151,6 +159,8 @@ const toggleConfig = {
         'Show all experimental fields on theme pages, including alternative labels, broader topics, etc.',
       type: 'permanent',
     },
+    // Not read by the code any more. Kept so a toggles deploy before the code
+    // reaches prod can't switch the brand off; remove it in #13923
     {
       id: 'brandUpdate',
       title: 'Brand update',
@@ -164,6 +174,14 @@ const toggleConfig = {
       initialValue: false,
       description:
         'On archive collection pages with 300 or more rows, the collection contents tree opens with only the first level shown and loads each folder when it is opened, instead of paging through 50 rows at a time.',
+      type: 'experimental',
+    },
+    {
+      id: 'masonryImages',
+      title: 'Masonry images',
+      initialValue: false,
+      description:
+        'Shows image search results in a masonry grid, with titles under the images. Only applies when the image sidebar preview is on.',
       type: 'experimental',
     },
   ] as const,
@@ -188,28 +206,6 @@ const toggleConfig = {
           label: 'Phase 2',
           description:
             'Subject sub-category pages become accessible, and the subjects category page gains a sub-category menu.',
-        },
-      ],
-    },
-    {
-      id: 'archiveCollectionPhases',
-      title: 'Archive collection',
-      description: 'Staged rollout of archive collection level pages.',
-      type: 'experimental',
-      // MVP was already public behind archiveCollection when we created it as a phased flag.
-      initialPhase: 'mvp',
-      phases: [
-        {
-          id: 'mvp',
-          label: 'Phase 1',
-          description:
-            'Archive collection level pages, plus the archive collection treatment on the work page and in search results.',
-        },
-        {
-          id: 'phase2',
-          label: 'Phase 2',
-          description:
-            "The catalogue API's shortDescription is shown on the archive collection hero and in search results.",
         },
       ],
     },
@@ -243,8 +239,13 @@ const toggleConfig = {
         {
           id: 'phase2',
           label: 'Phase 2',
+          description: 'Re-sizable viewing pane.',
+        },
+        {
+          id: 'phase3',
+          label: 'Phase 3',
           description:
-            'Updated image results grid and a re-sizable viewing pane.',
+            'Previous and next buttons (and arrow keys) in the sidebar, to move through the results without going back to the grid.',
         },
       ],
     },
@@ -259,20 +260,27 @@ const toggleConfig = {
       id: 'kioskMode',
       title: 'Kiosk mode',
       description:
-        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\nDeveloper mode is also available to allow testing of kiosk features without setting off the Inactivity modal.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
+        'Select which kiosk device this browser represents and it will activate kiosk-specific behaviour and layout.\n\n<strong>Selecting a kiosk mode will override any cookie consent settings and automatically grant consent for analytics and marketing.</strong>',
       options: [
-        { id: 'devMode', label: 'Developer mode' },
+        {
+          id: 'devMode',
+          label: 'Developer mode',
+          description:
+            'Test kiosk features without setting off the Inactivity modal.',
+        },
         { id: 'RR-iPad1', label: 'Reading Room: iPad 1' },
         { id: 'RR-iPad2', label: 'Reading Room: iPad 2' },
         { id: 'TR-iPad1', label: 'Tenderness & Rage: iPad 1' },
         { id: 'TR-iPad2', label: 'Tenderness & Rage: iPad 2' },
+        { id: 'LIB-iPad1', label: 'Library entrance: iPad 1' },
+        { id: 'LIB-iPad2', label: 'Library entrance: iPad 2' },
       ],
     },
     {
       id: 'cataloguePipeline',
       title: 'Catalogue pipeline',
       description:
-        'Choose which catalogue pipeline serves works, images and concepts.\n\nWhen one is selected, an <code>elasticCluster</code> param carrying its value is added to every catalogue works, images and concepts API query (search and detail), so they’re served from that pipeline’s cluster.\n\nIf the selected cluster is unavailable, requests fail with an error page instead of falling back to the default pipeline. The exception is theme cards, which render empty.\n\nWith nothing selected, the normal pipeline setup is used.',
+        'Serves works, images and concepts from the selected catalogue pipeline, by adding its <code>elasticCluster</code> param to every catalogue API query. If that cluster is unavailable, requests fail with an error page rather than falling back to the default pipeline (theme cards render empty instead).',
       options: [
         {
           id: 'folio-testing',

@@ -4,6 +4,10 @@ These guidelines are read by all Copilot surfaces (IDE agent, PR reviewer, cloud
 
 Use British English spelling throughout everything that is not code (e.g. CSS values are in American English).
 
+## Writing
+
+Where the surrounding context doesn't already make it clear, say which `Next`, `Back` or `page` is meant, in prose, comments and test names. Image search has a Next/Previous button in the sidebar, Next/Previous page links in the pagination, and Next.js, all at once; `Back` is either the browser's or a control in the UI; a `page` is either a page of results or the browser page. Write "the sidebar's Next button", "the browser's Back", "a page of results".
+
 ## Workspace Structure
 
 This is a monorepo with multiple Next.js apps managed by Yarn workspaces:
@@ -23,8 +27,33 @@ Follow these patterns consistently:
 - Test files: same name as source with `.test.ts` / `.test.tsx` suffix (match the source extension, e.g. `Component.tsx` → `Component.test.tsx`) - except when the test itself needs JSX (e.g. a context-provider wrapper for a hook test), which takes `.tsx` regardless of the source file's own extension
 - Type declarations: `.d.ts` extension for ambient declarations
 - Service/utility folders: use `index.ts` as the main export point
-- Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveCollectionPhases`, `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
+- Hooks pulled out of a component or page go in their own file, one per file, named after the hook: bare inside the component's own folder (`ImageModal/useExpandedImage.ts`), with the page prefix in a flat page folder (`images.useResultsPages.ts`). The `Component.` prefix is for styles and sub-components (`Buttons.Solid.tsx`, `Tasl.styles.tsx`), and `.helpers` files hold pure functions, types and constants — never hooks
+- Phased flag phases: id `phase1`, `phase2`, ... and label `Phase 1`, `Phase 2`, ... Only `archiveBrowsingPhases` and `thematicBrowsingPhases` keep their older ids (`mvp`, `categoryPages`, `subCategoryPages`), because those are in cookies and links; flag any new phase that doesn't follow the convention
 - Booleans derived from a toggle (feature flag or phased flag) that gate rendering: name them `show<FlagName>`, after the flag itself rather than the UI element it happens to control (e.g. `showThematicBrowsing`, not `shouldShowMoreLink`) - keeps the name traceable back to the toggle dashboard entry
+- Module-level constants whose value is a single number or string: `SCREAMING_SNAKE_CASE` (`ZOOM_STEP`, `CLICK_TOLERANCE_PX`, `SOURCE_BOX_WIDTH`). Ones that hold CSS or a style block stay camelCase (`layout`, `normalize`). Plenty of older files use camelCase for the numbers and strings too - follow the convention in anything new rather than the file you happen to be in
+
+## JSX
+
+Boolean props go after the props carrying the data, and before any shorthand ones. Lint enforces the shorthand half (`react/jsx-sort-props` with `shorthandLast`) but has nothing to say about a boolean written with an explicit value, so that one sits between the two: `<X a={1} hidden={false} isOpen />` passes, `<X a={1} isOpen hidden={false} />` doesn't.
+
+## Comments
+
+Comment what the code can't say for itself. If a reader would get the same thing from the line below, the comment is noise - it's one more thing to keep true, and it goes stale quietly.
+
+Worth writing down:
+- A constraint the code can't show: a browser bug being worked around, an ordering that matters, a value that has to match something elsewhere
+- A domain fact recorded nowhere else, e.g. why the API gives us a field in a particular shape
+- What something is for, where that isn't clear from its name. A link to the PR or issue beats retelling the whole story
+
+Not worth writing down:
+- Names. Props, constants and functions whose names already say what they are don't need a line restating it - `showAllText?: string` and `MAX_VISIBLE_SUBJECTS = 10` are clear on their own. Save the comment for the part that would surprise someone, like a `maxVisible` prop that doesn't just truncate a list but puts a control after it
+- Test steps. A comment narrating the next line (`// Click the button`, `// Check the heading is visible`) says less than the line does, and the test name is usually the better place for it. Do comment what the code can't show: why a wait is there, what a test is working around, why an assertion is written the odd way
+- Function openers. A JSDoc block that restates the signature adds nothing. Write one where there's a contract worth stating - what it assumes, what it returns in the awkward cases, what it touches besides its return value
+- CSS declarations. `/* Centre the label */` above `display: flex; align-items: center;` is the declaration again. Give the reason instead: what it lines up with, which browser needs it, what breaks without it
+
+Inside a type or props literal, a comment that does earn its place sits directly above its field, with no blank line separating them.
+
+When tidying comments, keep anything recording something the code doesn't, and don't harden a hedge into a fact - if the original said a thing "seems to" happen, leave it saying that.
 
 ## Accessibility
 
@@ -33,7 +62,7 @@ We aim for WCAG AA compliance as a minimum:
 - Semantic HTML (proper heading hierarchy, landmarks, form labels)
 - Keyboard navigation for all interactive elements
 - Alt text for meaningful images (empty `alt=""` for decorative ones)
-- Colour contrast ratios meet AA standards
+- Colour contrast ratios meet AA standards, except for disabled controls: WCAG 1.4.3 and 1.4.11 both exempt inactive components, defined as "visible but not currently operable", so pick a disabled state that reads as unavailable rather than one that hits a ratio
 - ARIA attributes used correctly (don't over-use them — semantic HTML is usually better)
 - Focus management in interactive components (modals, dropdowns, etc.)
 - Screen reader navigation and announcements
@@ -85,7 +114,7 @@ Don't add, remove, rename or move these attributes, change their values, or rest
 
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
 
 ### TODOs and Technical Debt
 

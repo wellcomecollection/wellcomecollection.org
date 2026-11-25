@@ -17,7 +17,7 @@ import {
   auth0UserProfileToUserInfo,
 } from '@weco/common/model/user';
 import { typography } from '@weco/common/utils/classnames';
-import { allowedRequests } from '@weco/common/values/requests';
+import { ALLOWED_REQUESTS } from '@weco/common/values/requests';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import Icon from '@weco/common/views/components/Icon';
@@ -260,12 +260,12 @@ const AccountPage: NextPage<Props> = ({ user: auth0UserClaims }) => {
                                   size: 'xs',
                                   properties: ['margin-bottom'],
                                 }}
-                              >{`You have requested ${requestedItems.totalResults} out of ${allowedRequests} items`}</Space>
+                              >{`You have requested ${requestedItems.totalResults} out of ${ALLOWED_REQUESTS} items`}</Space>
                               <ProgressBar>
                                 <ProgressIndicator
                                   $percentage={
                                     (requestedItems.totalResults /
-                                      allowedRequests) *
+                                      ALLOWED_REQUESTS) *
                                     100
                                   }
                                 />

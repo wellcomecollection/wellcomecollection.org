@@ -26,6 +26,14 @@ export type {
  */
 export const TOGGLE_RESET_VALUE = 'reset';
 
+/**
+ * The cookie value, or `?toggle=id:off` link, that turns a toggle off for you
+ * even though it's public: an experimental feature flag, or a phased flag (see
+ * personalFeatureFlagValue and personalPhaseValue). Reserved, so no phase or
+ * mode option can use it as an id (see below).
+ */
+export const TOGGLE_OFF_VALUE = 'off';
+
 export type FeatureFlagId = (typeof toggleConfig.featureFlags)[number]['id'];
 export type PhasedFlagId = (typeof toggleConfig.phasedFlags)[number]['id'];
 
@@ -39,16 +47,24 @@ export type KioskModeOptionId = Extract<
   { id: 'kioskMode' }
 >['options'][number]['id'];
 
-// Fails `yarn tsc` if a phase or mode option id is TOGGLE_RESET_VALUE: the
-// website reads `?toggle=id:reset` as a reset, so that phase/option could
-// never be picked by link. `yarn deploy` runs via tsx without type checking,
-// so run `yarn tsc` before deploying a new phase or mode option.
+// Fails `yarn tsc` if a phase or mode option id is TOGGLE_RESET_VALUE or
+// TOGGLE_OFF_VALUE: the website reads `?toggle=id:reset` as a reset and
+// `id:off` as turning a phased flag off, so that phase/option could never be
+// picked by link. `yarn deploy` runs via tsx without type checking, so run
+// `yarn tsc` before deploying a new phase or mode option.
 type PhaseOrModeOptionId =
   | (typeof toggleConfig.phasedFlags)[number]['phases'][number]['id']
   | (typeof toggleConfig.modes)[number]['options'][number]['id'];
 type AssertNotReserved<T extends true> = T;
 export type NoReservedPhaseOrModeOptionIds = AssertNotReserved<
-  typeof TOGGLE_RESET_VALUE extends PhaseOrModeOptionId ? false : true
+  [
+    Extract<
+      PhaseOrModeOptionId,
+      typeof TOGGLE_RESET_VALUE | typeof TOGGLE_OFF_VALUE
+    >,
+  ] extends [never]
+    ? true
+    : false
 >;
 
 // Extracts the experience prefix from a kiosk option ID.
@@ -130,6 +146,112 @@ export function phaseIsAtLeast(
     p => p.id === resolved.current
   );
   return currentIndex >= targetIndex;
+}
+
+/**
+ * What a personal cookie, or a `?toggle=` link, says about a feature flag:
+ * `true` turns it on for you, and for an experimental flag `off` turns it off
+ * for you, so you can keep the version from before it went public. Anything
+ * else is no preference (undefined), including `false`, which older versions
+ * of the dashboard wrote and which has always meant "use the public value".
+ *
+ * Every place that reads one of these values should use this, so they agree
+ * on what a value means.
+ */
+export function personalFeatureFlagValue(
+  flag: { type: string },
+  value: string | undefined
+): boolean | undefined {
+  if (value === 'true') return true;
+  if (value === TOGGLE_OFF_VALUE && flag.type === 'experimental') return false;
+  return undefined;
+}
+
+/**
+ * What to store when a feature flag's switch is set to `isOn`, or undefined
+ * when no cookie should be kept because that's what everyone already sees.
+ * The counterpart of `personalFeatureFlagValue`. Only an experimental flag can
+ * be off while public, and it stores that as `off`. Other flags store `false`,
+ * which the site ignores.
+ */
+export function featureFlagCookieValue(
+  flag: { type: string; defaultValue: boolean },
+  isOn: boolean
+): string | undefined {
+  if (isOn === flag.defaultValue) return undefined;
+  if (isOn) return 'true';
+  return flag.type === 'experimental' ? TOGGLE_OFF_VALUE : 'false';
+}
+
+/**
+ * What a personal cookie, or a `?toggle=` link, says about a phased flag: a
+ * phase id picks that phase for you, and `off` turns the flag off for you once
+ * a phase is public, so you can keep the version from before it was released
+ * (null, which ranks below every phase). Anything else is no preference
+ * (undefined), including `off` while nothing is public, since that would do
+ * nothing until release and then hold you on the old version.
+ *
+ * Use this wherever such a value is read, so they agree on what it means.
+ */
+export function personalPhaseValue(
+  flag: { phases: readonly { id: string }[]; defaultPhase: string | null },
+  value: string | undefined
+): string | null | undefined {
+  if (value !== undefined && flag.phases.some(phase => phase.id === value)) {
+    return value;
+  }
+  if (value === TOGGLE_OFF_VALUE && flag.defaultPhase !== null) return null;
+  return undefined;
+}
+
+export type PhaseLadderStep = PhaseDefinition & {
+  /** The chosen step, one before it (included), or one after it. */
+  state: 'current' | 'included' | 'inactive';
+  /** The line down to the next step, filled in as far as the chosen step. Absent on the last step. */
+  line?: 'active' | 'inactive';
+};
+
+/**
+ * A phased flag's steps in order, for showing which one is chosen: Off, once
+ * a phase is public, then each phase. Steps are cumulative, so every step
+ * before the chosen one counts as included. Nothing is chosen while nothing is
+ * public and there's no personal choice.
+ *
+ * @param personal - the flag's personalPhaseValue, or undefined for no choice
+ *   (the public phase is chosen)
+ */
+export function phaseLadder(
+  flag: { phases: readonly PhaseDefinition[]; defaultPhase: string | null },
+  personal: string | null | undefined
+): PhaseLadderStep[] {
+  const steps: PhaseDefinition[] = [
+    ...(flag.defaultPhase !== null
+      ? [
+          {
+            id: TOGGLE_OFF_VALUE,
+            label: 'Off',
+            description: `The version from before ${flag.phases[0].label}`,
+          },
+        ]
+      : []),
+    ...flag.phases,
+  ];
+  let chosenId: string | null;
+  if (personal === undefined) chosenId = flag.defaultPhase;
+  else chosenId = personal === null ? TOGGLE_OFF_VALUE : personal;
+  const chosenIndex = steps.findIndex(step => step.id === chosenId);
+
+  return steps.map((step, index) => {
+    let state: PhaseLadderStep['state'] = 'inactive';
+    if (index === chosenIndex) state = 'current';
+    else if (index < chosenIndex) state = 'included';
+
+    const isLast = index === steps.length - 1;
+    let line: PhaseLadderStep['line'];
+    if (!isLast) line = index + 1 <= chosenIndex ? 'active' : 'inactive';
+
+    return { ...step, state, line };
+  });
 }
 
 export type Toggles = {

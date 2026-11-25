@@ -72,8 +72,7 @@ const IIIFViewerThumbNumber = styled.span.attrs({
 
   [aria-current='true'] & {
     color: ${props => props.theme.color('black')};
-    background-color: ${props =>
-      props.theme.color({ brand: 'neutral.10', legacy: 'yellow' })};
+    background-color: ${props => props.theme.color('neutral.10')};
   }
 `;
 

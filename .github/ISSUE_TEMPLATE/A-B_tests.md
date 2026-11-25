@@ -2,8 +2,9 @@
 name: A/B tests
 about: Including what's needed for an A/B test
 title: ''
+labels: ''
 assignees: ''
-projects: ['wellcomecollection/18']
+
 ---
 
 - Test name: 

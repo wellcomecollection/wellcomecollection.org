@@ -22,10 +22,10 @@ export function useApmContext(): ApmContextData {
 // The client APM config depends on env vars that are only set at runtime (they
 // differ between stage and prod, which share a build), so _document writes it
 // into the page as JSON and we read it back here in the browser.
-export const apmConfigScriptId = 'apm-config';
+export const APM_CONFIG_SCRIPT_ID = 'apm-config';
 
 const readApmConfig = (): AgentConfigOptions | undefined => {
-  const script = document.getElementById(apmConfigScriptId);
+  const script = document.getElementById(APM_CONFIG_SCRIPT_ID);
   if (!script?.textContent) return undefined;
 
   try {

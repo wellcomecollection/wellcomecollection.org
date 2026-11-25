@@ -74,11 +74,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   position: relative;
   overflow: hidden;
   background-color: ${props =>
-    props.theme.color(
-      props.$isDefaultVariant
-        ? { brand: 'indigo.20', legacy: 'accent.lightBlue' }
-        : { brand: 'teal.20', legacy: 'accent.lightPurple' }
-    )};
+    props.theme.color(props.$isDefaultVariant ? 'indigo.20' : 'teal.20')};
 `;
 
 const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
@@ -87,11 +83,7 @@ const ImageShapeWrapper = styled.div.attrs({ 'aria-hidden': 'true' })<{
   position: absolute;
   z-index: -1;
   color: ${props =>
-    props.theme.color(
-      props.$isDefaultVariant
-        ? { brand: 'green.40', legacy: 'accent.salmon' }
-        : { brand: 'orange.40', legacy: 'accent.turquoise' }
-    )};
+    props.theme.color(props.$isDefaultVariant ? 'green.40' : 'orange.40')};
   display: flex;
   width: 100%;
   height: 150%;

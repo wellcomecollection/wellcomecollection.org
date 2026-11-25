@@ -45,10 +45,10 @@ type GalleryImageProps = Image & {
   averageColor?: string;
 };
 
-const imageMargin = 16;
+const IMAGE_MARGIN = 16;
 
 const GalleryContainer = styled.div`
-  margin: 0 -${imageMargin / 2}px;
+  margin: 0 -${IMAGE_MARGIN / 2}px;
 
   /* This div is rendered by Gallery so we're targeting it on mobile only to ensure images are aligned on both sides */
 
@@ -58,7 +58,7 @@ const GalleryContainer = styled.div`
 
   ${props =>
     props.theme.media('sm')(`
-    margin: 0 -${imageMargin}px;
+    margin: 0 -${IMAGE_MARGIN}px;
 
     .react-photo-gallery--gallery > div {
       justify-content: flex-start;

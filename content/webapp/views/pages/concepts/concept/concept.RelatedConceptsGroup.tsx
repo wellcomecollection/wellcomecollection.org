@@ -1,10 +1,9 @@
 import { FunctionComponent } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { dasherize } from '@weco/common/utils/grammar';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
-import Button, { ButtonColors } from '@weco/common/views/components/Buttons';
 import Space from '@weco/common/views/components/styled/Space';
 import { RelatedConcept } from '@weco/content/services/wellcome/catalogue/types';
 import { SelectableTagLink } from '@weco/content/views/components/SelectableTags';
@@ -43,7 +42,6 @@ type Props = {
   label: string;
   labelType: 'inline' | 'heading';
   relatedConcepts?: RelatedConcept[];
-  buttonColors?: ButtonColors;
   dataGtmTriggerName?: string;
 };
 
@@ -51,11 +49,8 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
   label,
   labelType,
   relatedConcepts,
-  buttonColors,
   dataGtmTriggerName,
 }: Props) => {
-  const theme = useTheme();
-
   if (!relatedConcepts || relatedConcepts.length === 0) {
     return null;
   }
@@ -74,39 +69,19 @@ const RelatedConceptsGroup: FunctionComponent<Props> = ({
               !!item.relationshipType && item.relationshipType?.length > 0
             }
           >
-            {theme.brandUpdate ? (
-              <SelectableTagLink
-                href={`/concepts/${item.id}`}
-                $isSelected={false}
-                $lineColor="black"
-                $lineThickness={1.4}
-                {...(dataGtmTriggerName &&
-                  dataGtmPropsToAttributes({
-                    trigger: dataGtmTriggerName,
-                    'position-in-list': `${index + 1}`,
-                  }))}
-              >
-                <span>{item.label}</span>
-              </SelectableTagLink>
-            ) : (
-              <Space className={typography('body', 'md', 'regular')}>
-                <Button
-                  {...(dataGtmTriggerName && {
-                    dataGtmProps: {
-                      trigger: dataGtmTriggerName,
-                      'position-in-list': `${index + 1}`,
-                    },
-                  })}
-                  variant="ButtonSolidLink"
-                  colors={
-                    buttonColors || theme.buttonColors.slateTransparentBlack
-                  }
-                  text={item.label}
-                  link={`/concepts/${item.id}`}
-                  size="small"
-                ></Button>
-              </Space>
-            )}
+            <SelectableTagLink
+              href={`/concepts/${item.id}`}
+              $lineColor="black"
+              $lineThickness={1.4}
+              $isSelected={false}
+              {...(dataGtmTriggerName &&
+                dataGtmPropsToAttributes({
+                  trigger: dataGtmTriggerName,
+                  'position-in-list': `${index + 1}`,
+                }))}
+            >
+              <span>{item.label}</span>
+            </SelectableTagLink>
             {item.relationshipType?.replace('has_', '')}
           </RelatedConceptItem>
         ))}

@@ -28,7 +28,7 @@ export const TreeItem = styled.li.attrs<TreeItemStyledProps>(props => ({
     const guidelinePosition = getVerticalGuidePosition(props.$isCompact);
     const guidelineColor = props.$isDarkMode
       ? props.theme.color('neutral.600')
-      : props.theme.color({ brand: 'blue.30', legacy: 'yellow' });
+      : props.theme.color('blue.30');
 
     return css`
       &.guideline::before {
@@ -98,9 +98,9 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
         ? props.theme.color('neutral.600')
         : props.theme.color(
             props.$highlightCondition === 'primary'
-              ? { brand: 'blue.30', legacy: 'yellow' }
+              ? 'blue.30'
               : props.$highlightCondition === 'secondary'
-                ? { brand: 'blue.20', legacy: 'lightYellow' }
+                ? 'blue.20'
                 : 'neutral.300'
           ))};
     border: ${props =>
@@ -108,7 +108,7 @@ export const TreeControl = styled.span<TreeControlStyledProps>`
       (props.$isDarkMode
         ? `2px solid ${props.theme.color('neutral.700')}`
         : props.$highlightCondition === 'secondary'
-          ? `1px solid ${props.theme.color({ brand: 'blue.30', legacy: 'yellow' })}`
+          ? `1px solid ${props.theme.color('blue.30')}`
           : `2px solid ${props.theme.color('white')}`)};
     border-radius: 50%;
   }

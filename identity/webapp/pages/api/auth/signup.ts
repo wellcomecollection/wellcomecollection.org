@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { identityBasePath } from '@weco/identity/utils/auth0';
+import { IDENTITY_BASE_PATH } from '@weco/identity/utils/auth0';
 
 // This will redirect the user directly to the sign-up page: the SDK's login
 // handler forwards arbitrary authorization params from the query string.
@@ -21,5 +21,5 @@ export default async (
   }
   params.set('screen_hint', 'signup');
 
-  res.redirect(`${identityBasePath}/api/auth/login?${params.toString()}`);
+  res.redirect(`${IDENTITY_BASE_PATH}/api/auth/login?${params.toString()}`);
 };

@@ -4,7 +4,6 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import styled, { css, useTheme } from 'styled-components';
 
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
@@ -23,10 +22,7 @@ import {
 } from '@weco/common/views/components/Layout';
 import { Picture } from '@weco/common/views/components/Picture';
 import Space from '@weco/common/views/components/styled/Space';
-import {
-  pageBackgroundColor,
-  Pinnable,
-} from '@weco/common/views/themes/config';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 import { BackgroundType, FeaturedMedia, pageGridLayout } from '.';
 import {
@@ -37,45 +33,11 @@ import {
   Wrapper,
 } from './PageHeader.styles';
 
-// With the brand update the title is plain text in the colour the header's
-// `Wrapper` sets (light on a dark header, dark otherwise), rather than black
-// text in a white box.
-const Heading = styled(Space)`
-  display: inline;
-
-  ${props =>
-    !props.theme.brandUpdate &&
-    css`
-      background-color: ${props.theme.color('white')};
-      color: ${props.theme.color('black')};
-      line-height: calc(1.1em + 12px);
-      -webkit-box-decoration-break: clone;
-      box-decoration-break: clone;
-    `}
-`;
-
-const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => {
-  const { brandUpdate } = useTheme();
-
-  return (
-    <h1 className={typography('heading', 'xl', 'strong', 'brand')}>
-      <Heading
-        $v={
-          brandUpdate
-            ? undefined
-            : { size: 'xs', properties: ['padding-top', 'padding-bottom'] }
-        }
-        $h={
-          brandUpdate
-            ? undefined
-            : { size: 'sm', properties: ['padding-left', 'padding-right'] }
-        }
-      >
-        {text}
-      </Heading>
-    </h1>
-  );
-};
+// The title takes the colour the header's `Wrapper` sets (light on a dark
+// header, dark otherwise)
+const HighlightedHeading: FunctionComponent<{ text: string }> = ({ text }) => (
+  <h1 className={typography('heading', 'xl', 'strong', 'brand')}>{text}</h1>
+);
 
 export type Props = {
   title: string;
@@ -86,7 +48,7 @@ export type Props = {
   FeaturedMedia?: FeaturedMedia;
   HeroPicture?: ReactElement<typeof Picture>;
   isContentTypeInfoBeforeMedia?: boolean;
-  heroImageBgColor?: Pinnable<'warmNeutral.300' | 'white'>;
+  heroImageBgColor?: 'warmNeutral.300' | typeof pageBackgroundColor;
   backgroundTexture?: string;
   highlightHeading?: boolean;
   SerialPartNumber?: ReactNode;
@@ -122,12 +84,11 @@ const BasicPageHeader: FunctionComponent<Props> = ({
 
   const hasMedia = FeaturedMedia || HeroPicture;
   const { isKiosk } = useKiosk();
-  const { brandUpdate } = useTheme();
 
   // The Background stops short so media can overlap its bottom edge. Without
   // media, that leaves the brand's light text on the page, so texture the whole
   // header instead (as guides do).
-  const isTexturingWholeHeader = brandUpdate && !!Background && !hasMedia;
+  const isTexturingWholeHeader = !!Background && !hasMedia;
   const containerTexture = isTexturingWholeHeader
     ? backgroundTexture || headerBackgroundLs
     : backgroundTexture;
@@ -156,7 +117,7 @@ const BasicPageHeader: FunctionComponent<Props> = ({
           gridSizes={fullWidth ? gridSize12() : pageGridLayout}
         >
           <Wrapper
-            // The brand update's textured headers are dark
+            // Textured headers are dark
             $isOnDarkHeader={!!(Background || backgroundTexture)}
             $v={{
               size: isSlim ? '2xs' : 'md',

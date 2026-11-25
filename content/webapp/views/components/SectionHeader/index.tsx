@@ -16,8 +16,7 @@ const AccentBar = styled(Space).attrs({
   display: block;
   width: 60px;
   height: 16px;
-  background: ${props =>
-    props.theme.color({ brand: 'orange.40', legacy: 'yellow' })};
+  background: ${props => props.theme.color('orange.40')};
 
   ${props => props.theme.media('sm')`
     width: 58px;
@@ -32,8 +31,7 @@ const Title = styled.h2`
   margin-bottom: 0;
 
   .bg-dark & {
-    color: ${props =>
-      props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+    color: ${props => props.theme.color('neutral.10')};
   }
 `;
 

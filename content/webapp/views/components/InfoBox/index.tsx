@@ -22,8 +22,7 @@ const InfoContainer = styled(Space).attrs({
   $v: { size: 'md', properties: ['padding-top', 'padding-bottom'] },
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
 })`
-  background-color: ${props =>
-    props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
+  background-color: ${props => props.theme.color('pink.30')};
 `;
 
 export const InfoIconWrapper = styled(Space).attrs({

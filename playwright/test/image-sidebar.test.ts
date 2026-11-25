@@ -8,12 +8,13 @@ import { baseUrl } from './helpers/utils';
 // Acceptance criteria from https://github.com/wellcomecollection/wellcomecollection.org/issues/13529
 //
 // These run with the imageSidebarPhases toggle at Phase 1, apart from the
-// resizing ones, which are Phase 2. A test marked
+// resizing ones, which are Phase 2, and moving to the next and previous image
+// (#13536, and with the arrow keys #13874), which are Phase 3. A test marked
 // `fixme` covers a criterion a later PR delivers; take the `fixme` off in
 // that PR.
 test.describe.configure({ mode: 'parallel' });
 
-type ImageSidebarPhase = 'phase1' | 'phase2';
+type ImageSidebarPhase = 'phase1' | 'phase2' | 'phase3';
 
 const enableImageSidebar = (
   context: BrowserContext,
@@ -37,18 +38,27 @@ const thumbnail = (page: Page, nthChild: number) =>
     .getByRole('link')
     .nth(nthChild - 1);
 
-// Each thumbnail's title, from its alt text. Empty where the title has display
-// markup in it (<i>, <sup>), as the sidebar shows that formatted, so it
-// wouldn't match.
-const plainThumbnailTitles = (page: Page) =>
-  resultsGrid(page)
-    .getByRole('link')
-    .evaluateAll(links =>
-      links.map(link => {
-        const alt = link.querySelector('img')?.getAttribute('alt') ?? '';
-        return alt.includes('<') ? '' : alt.replace(/\s+/g, ' ').trim();
-      })
-    );
+// Each thumbnail's title, from its heading (masonry grid) or its alt text.
+// Empty where the title has display markup in it (<i>, <sup>), as the sidebar
+// shows that formatted, so it wouldn't match.
+const plainThumbnailTitles = async (page: Page) => {
+  const links = await resultsGrid(page).getByRole('link').all();
+  return Promise.all(
+    links.map(async link => {
+      const heading = link.getByRole('heading');
+      const text = (await heading.count())
+        ? await heading.evaluate(h =>
+            // The title's own wrapper, plus any markup inside it
+            h.querySelectorAll('*').length > 1 ? '' : (h.textContent ?? '')
+          )
+        : await link.getByRole('img').evaluate(img => {
+            const alt = img.getAttribute('alt') ?? '';
+            return alt.includes('<') ? '' : alt;
+          });
+      return text.replace(/\s+/g, ' ').trim();
+    })
+  );
+};
 
 // Something inside the element has focus
 const expectFocusInside = (element: Locator) =>
@@ -63,6 +73,9 @@ const sidebar = (page: Page) =>
 
 const closeButton = (page: Page) =>
   sidebar(page).getByRole('button', { name: 'Close image details' });
+
+const announcement = (page: Page) =>
+  page.getByTestId('image-sidebar-announcement');
 
 const resizeHandle = (page: Page) =>
   page.getByRole('separator', { name: 'Resize image details' });
@@ -432,6 +445,23 @@ test.describe('Desktop', () => {
         )
         .toBeLessThanOrEqual(1);
       expect(await width(resultsGrid(page))).toBeLessThan(gridBefore);
+
+      // One event for the whole drag, pushed by the page itself, so it's there
+      // even with GTM blocked
+      const events = await page.evaluate(() =>
+        (
+          window as unknown as {
+            dataLayer: {
+              event?: string;
+              resize_direction?: string;
+              width?: number;
+            }[];
+          }
+        ).dataLayer.filter(event => event.event === 'sidebar_resize')
+      );
+      expect(events).toHaveLength(1);
+      expect(events[0].resize_direction).toBe('increase');
+      expect(events[0].width).toBeGreaterThan(6);
     });
 
     test('keeps the chosen width when the window is too narrow for it', async ({
@@ -472,6 +502,373 @@ test.describe('Desktop', () => {
       await expect(resizeHandle(page)).toBeFocused();
       await page.keyboard.press('Shift+Tab');
       await expect(thumbnail(page, 1)).toBeFocused();
+    });
+  });
+
+  test.describe('Moving to the next and previous image', () => {
+    const previousButton = (page: Page) =>
+      sidebar(page).getByRole('button', { name: 'Previous image' });
+    const nextButton = (page: Page) =>
+      sidebar(page).getByRole('button', { name: 'Next image' });
+
+    test('the Next and Previous buttons move through the results in order, moving the highlight with them', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await expect(thumbnail(page, 1)).not.toHaveAttribute('aria-current');
+      await expect(page).toHaveURL(
+        new RegExp(`#${await thumbnail(page, 2).getAttribute('id')}$`)
+      );
+      await expect(nextButton(page)).toBeFocused();
+
+      await previousButton(page).click();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await expect(previousButton(page)).toBeFocused();
+    });
+
+    // A search with one page of results, so the last image is the last result
+    test('Previous is disabled on the first result, and Next on the last', async ({
+      page,
+      context,
+    }) => {
+      await searchImages(imageWithContributor, context, page, 'phase3');
+      await openSidebar(1, page);
+      await expect(previousButton(page)).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      );
+
+      // Clicking it does nothing. It's aria-disabled, which Playwright won't
+      // click without forcing it, and forcing skips waiting for the sidebar to
+      // finish sliding in, so that's waited for first.
+      await expect(sidebar(page)).toHaveCSS('transform', 'none');
+      await previousButton(page).click({ force: true });
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+      await expect(nextButton(page)).toHaveAttribute('aria-disabled', 'true');
+      await expect(previousButton(page)).toHaveAttribute(
+        'aria-disabled',
+        'false'
+      );
+    });
+
+    test('the grid scrolls to keep the selected thumbnail in view', async ({
+      page,
+      context,
+    }) => {
+      await page.setViewportSize({ width: 1400, height: 700 });
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+
+      for (let n = 2; n <= 10; n++) {
+        await nextButton(page).click();
+        await expect(thumbnail(page, n)).toHaveAttribute(
+          'aria-current',
+          'true'
+        );
+        await expect(thumbnail(page, n)).toBeInViewport();
+      }
+    });
+
+    test('each step is its own browser history entry, so Back and Forward go through the images one at a time', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await nextButton(page).click();
+      await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
+
+      // Back through each image stepped through, then out to the results
+      await page.goBack();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goBack();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await page.goBack();
+      await expect(sidebar(page)).toHaveCount(0);
+      expect(page.url()).not.toContain('#');
+
+      // And Forward through them again, as going Back mustn't have added an
+      // entry that cuts them off
+      await page.goForward();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.goForward();
+      await expect(thumbnail(page, 3)).toHaveAttribute('aria-current', 'true');
+    });
+
+    test("the browser's Back and Forward announce each image they land on", async ({
+      page,
+      context,
+    }) => {
+      type WithAnnounced = Window & { announced: string[] };
+
+      await searchImages('cats', context, page, 'phase3');
+
+      // Counted rather than compared, as neighbouring images can share a title
+      await announcement(page).evaluate(region => {
+        (window as unknown as WithAnnounced).announced = [];
+        new MutationObserver(() => {
+          if (region.textContent) {
+            (window as unknown as WithAnnounced).announced.push(
+              region.textContent
+            );
+          }
+        }).observe(region, {
+          childList: true,
+          subtree: true,
+          characterData: true,
+        });
+      });
+      const announced = () =>
+        page.evaluate(() => (window as unknown as WithAnnounced).announced);
+      const expectAnnouncements = (count: number) =>
+        expect.poll(async () => (await announced()).length).toBe(count);
+
+      await openSidebar(1, page);
+      // Picking announces nothing; waits past the announcement delay
+      await page.waitForTimeout(1000);
+      expect(await announced()).toEqual([]);
+
+      await nextButton(page).click();
+      await expectAnnouncements(1);
+      await nextButton(page).click();
+      await expectAnnouncements(2);
+
+      await page.goBack();
+      await expectAnnouncements(3);
+      await page.goBack();
+      await expectAnnouncements(4);
+      await page.goForward();
+      await expectAnnouncements(5);
+
+      const [second, , backToSecond, , forwardToSecond] = await announced();
+      expect(backToSecond).toBe(second);
+      expect(forwardToSecond).toBe(second);
+    });
+
+    test("the browser's Back and Forward leave focus where it was, as the sidebar's Next and Previous do", async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+
+      await page.goBack();
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+
+      await page.goForward();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await expect(nextButton(page)).toBeFocused();
+    });
+
+    test('each step records which image was stepped to', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      await openSidebar(1, page);
+
+      await nextButton(page).click();
+      await expect(thumbnail(page, 2)).toHaveAttribute('aria-current', 'true');
+      await page.keyboard.press('ArrowLeft');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      // Not recorded at the start of the results, where there's nothing to
+      // step to
+      await page.keyboard.press('ArrowLeft');
+
+      // The page pushes these to the dataLayer itself, so they're there even
+      // with GTM blocked
+      const events = await page.evaluate(() =>
+        (
+          (window as unknown as { dataLayer?: Record<string, unknown>[] })
+            .dataLayer ?? []
+        ).filter(
+          ({ event }) =>
+            event === 'sidebar_next_image' || event === 'sidebar_previous_image'
+        )
+      );
+      const href = await thumbnail(page, 2).getAttribute('href');
+      const workId = href?.match(/works\/([^/]+)\/images/)?.[1];
+      expect(events).toEqual([
+        {
+          event: 'sidebar_next_image',
+          work_id: workId,
+          image_id: await thumbnail(page, 2).getAttribute('id'),
+          query: 'cats',
+          position_in_list: 2,
+        },
+        expect.objectContaining({
+          event: 'sidebar_previous_image',
+          position_in_list: 1,
+        }),
+      ]);
+    });
+
+    test('Shift+Tab from the close button goes through the Next and Previous buttons and the handle to the selected thumbnail', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+
+      await thumbnail(page, 1).focus();
+      await page.keyboard.press('Enter');
+      await expect(closeButton(page)).toBeFocused();
+
+      await page.keyboard.press('Shift+Tab');
+      await expect(nextButton(page)).toBeFocused();
+      await page.keyboard.press('Shift+Tab');
+      await expect(previousButton(page)).toBeFocused();
+      await page.keyboard.press('Shift+Tab');
+      await expect(resizeHandle(page)).toBeFocused();
+      await page.keyboard.press('Shift+Tab');
+      await expect(thumbnail(page, 1)).toBeFocused();
+    });
+
+    test("the sidebar's Next button on the last image of a page of results opens the first image of the next page, and Previous returns to the last image of the page before", async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      const currentPage = page.getByTestId('current-page').first();
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+
+      await nextButton(page).click();
+      await expect(currentPage).toHaveText('2');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+      await expect(page).toHaveURL(
+        new RegExp(`page=2.*#${await thumbnail(page, 1).getAttribute('id')}$`)
+      );
+      await expect(nextButton(page)).toBeFocused();
+
+      await previousButton(page).click();
+      await expect(currentPage).toHaveText('1');
+      await expect(thumbnail(page, count)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+      await expect(previousButton(page)).toBeFocused();
+
+      // The sidebar's controls stay on screen, with the thumbnail in view.
+      // Tidying `?page=1` out of the URL used to scroll the page a moment
+      // later, taking the controls off screen, so this gives it time to.
+      await page.waitForLoadState('networkidle');
+      await page.waitForTimeout(1000);
+      await expect(page).not.toHaveURL(/page=1/);
+      await expect(previousButton(page)).toBeInViewport();
+      await expect(thumbnail(page, count)).toBeInViewport();
+    });
+
+    test('Back after crossing a page of results returns to the last image of the page before', async ({
+      page,
+      context,
+    }) => {
+      await searchImages('cats', context, page, 'phase3');
+      const currentPage = page.getByTestId('current-page').first();
+      const count = await resultsGrid(page).getByRole('link').count();
+      await openSidebar(count, page);
+
+      await nextButton(page).click();
+      await expect(currentPage).toHaveText('2');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+
+      // Crossing a page of results is a full navigation rather than a change
+      // of hash, so Back and Forward reload the results either side
+      await page.goBack();
+      await expect(currentPage).toHaveText('1');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, count)).toHaveAttribute(
+        'aria-current',
+        'true'
+      );
+
+      await page.goForward();
+      await expect(currentPage).toHaveText('2');
+      await page.waitForLoadState('networkidle');
+      await expect(thumbnail(page, 1)).toHaveAttribute('aria-current', 'true');
+    });
+
+    // The rest of what the keys do is shared with the buttons, or covered in
+    // ImageSidebar.test.tsx
+    test.describe('with the arrow keys', () => {
+      const expectOpen = (page: Page, nthChild: number) =>
+        expect(thumbnail(page, nthChild)).toHaveAttribute(
+          'aria-current',
+          'true'
+        );
+
+      test('ArrowRight and ArrowLeft step like the Next and Previous buttons, leaving focus where it was and announcing the image', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+        await expect(closeButton(page)).toBeFocused();
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+        await expect(page).toHaveURL(
+          new RegExp(`#${await thumbnail(page, 2).getAttribute('id')}$`)
+        );
+        await expect(closeButton(page)).toBeFocused();
+
+        await expect(announcement(page)).not.toBeEmpty();
+        const title = await sidebar(page)
+          .getByRole('heading', { level: 2 })
+          .textContent();
+        await expect(announcement(page)).toHaveText(title!.trim());
+
+        await page.keyboard.press('ArrowLeft');
+        await expectOpen(page, 1);
+        await expect(closeButton(page)).toBeFocused();
+      });
+
+      test('ArrowRight on the last image of a page of results opens the first image of the next page, and ArrowLeft returns to the last image of the page before', async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        const currentPage = page.getByTestId('current-page').first();
+        const count = await resultsGrid(page).getByRole('link').count();
+        await openSidebar(count, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expect(currentPage).toHaveText('2');
+        await expectOpen(page, 1);
+
+        await page.keyboard.press('ArrowLeft');
+        await expect(currentPage).toHaveText('1');
+        await expectOpen(page, count);
+      });
+
+      test("the browser's Back goes to the image stepped from, as Alt+ArrowLeft is Back", async ({
+        page,
+        context,
+      }) => {
+        await searchImages('cats', context, page, 'phase3');
+        await openSidebar(1, page);
+
+        await page.keyboard.press('ArrowRight');
+        await expectOpen(page, 2);
+
+        await page.goBack();
+        await expectOpen(page, 1);
+      });
     });
   });
 
@@ -605,9 +1002,42 @@ test.describe('Small screens', () => {
       .getByRole('button', { name: 'Close image details' })
       .click();
     await expect(sidebar(page)).toHaveCount(0);
+
     // Scroll positions can be fractional, so allow for a pixel of rounding
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(Math.abs(scrollAfter - scrolledDown)).toBeLessThanOrEqual(1);
+  });
+
+  test('the step buttons are in a bar at the bottom, and the grid is left on the image stepped to', async ({
+    page,
+    context,
+  }) => {
+    await searchImages('cats', context, page, 'phase3');
+    await openSidebar(1, page);
+
+    // The sidebar slides up into place, so this waits for it to settle. It
+    // also catches a bar rendered off screen, which toBeVisible doesn't.
+    const bar = sidebar(page).getByRole('button', { name: 'Next image' });
+    await expect(bar).toBeInViewport();
+
+    const box = (await bar.boundingBox())!;
+    const close = (await closeButton(page).boundingBox())!;
+
+    // Down on the bottom edge, the bar's padding aside, rather than up in the
+    // header beside Close
+    expect(box.y).toBeGreaterThan(close.y + close.height);
+    expect(screen.height - (box.y + box.height)).toBeLessThan(box.height);
+
+    await bar.click();
+    await bar.click();
+    const steppedTo = new URL(page.url()).hash.slice(1);
+    expect(steppedTo).not.toBe('');
+
+    // The grid is behind the sidebar, but still scrolled, so closing leaves
+    // the image stepped to in view
+    await closeButton(page).click();
+    await expect(sidebar(page)).toHaveCount(0);
+    await expect(page.locator(`#${steppedTo}`)).toBeInViewport();
   });
 });
 

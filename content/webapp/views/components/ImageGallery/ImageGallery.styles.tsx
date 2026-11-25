@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import Space from '@weco/common/views/components/styled/Space';
-import { Pinnable } from '@weco/common/views/themes/config';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 export const FrameGridWrap = styled(Space).attrs({
   $h: { size: 'md', properties: ['padding-left', 'padding-right'] },
@@ -51,7 +51,7 @@ export const GalleryTitle = styled(Space).attrs({
 type GalleryProps = {
   $isActive: boolean;
   $isStandalone: boolean;
-  $pageBackground: Pinnable<'warmNeutral.300' | 'white'>;
+  $pageBackground: 'warmNeutral.300' | typeof pageBackgroundColor;
 };
 export const Gallery = styled.div<GalleryProps>`
   position: relative;
@@ -87,7 +87,7 @@ export const Gallery = styled.div<GalleryProps>`
         display: inherit;
       }
 
-      color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+      color: ${props.theme.color('neutral.10')};
       background: linear-gradient(
         ${props.theme.color(props.$pageBackground)} 100px,
         ${props.theme.color('neutral.700')} 100px

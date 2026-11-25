@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
-import styled, { css, useTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { chevron, chevrons, gridView, singlePage } from '@weco/common/icons';
+import { chevron, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -126,7 +126,6 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
   iiifImageLocation,
 }) => {
   const { isEnhanced, isFullSupportBrowser } = useAppContext();
-  const { brandUpdate: showBrandUpdate } = useTheme();
   const { isKiosk } = useKiosk();
   const isFullscreenEnabled = useIsFullscreenEnabled();
   const {
@@ -172,28 +171,15 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
             >
-              {showBrandUpdate ? (
-                isDesktopSidebarActive ? (
-                  <>
-                    <Icon icon={chevron} rotate={90} />
-                    <span style={{ marginLeft: '4px' }}>Hide info</span>
-                  </>
-                ) : (
-                  <>
-                    <span style={{ marginRight: '4px' }}>Show info</span>
-                    <Icon icon={chevron} rotate={270} />
-                  </>
-                )
+              {isDesktopSidebarActive ? (
+                <>
+                  <Icon icon={chevron} rotate={90} />
+                  <span style={{ marginLeft: '4px' }}>Hide info</span>
+                </>
               ) : (
                 <>
-                  <Icon
-                    icon={chevrons}
-                    iconColor="white"
-                    rotate={isDesktopSidebarActive ? undefined : 180}
-                  />
-                  <span className="visually-hidden">
-                    {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-                  </span>
+                  <span style={{ marginRight: '4px' }}>Show info</span>
+                  <Icon icon={chevron} rotate={270} />
                 </>
               )}
             </TertiaryViewerButton>

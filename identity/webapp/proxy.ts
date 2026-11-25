@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import auth0, {
-  identityBasePath,
+  IDENTITY_BASE_PATH,
   siteBaseUrl,
 } from '@weco/identity/utils/auth0';
 
@@ -83,7 +83,7 @@ export async function proxy(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.searchParams.set(
         'returnTo',
-        requestOrigin(request) + identityBasePath + returnTo
+        requestOrigin(request) + IDENTITY_BASE_PATH + returnTo
       );
       return NextResponse.redirect(url);
     }

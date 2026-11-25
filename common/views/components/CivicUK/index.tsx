@@ -77,22 +77,14 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
     fontSize: '0.9375rem',
     fontSizeHeaders: '1.175rem',
     fontColor: theme.color('black'),
-    backgroundColor: theme.color({
-      brand: 'neutral.10',
-      legacy: 'warmNeutral.200',
-    }),
+    backgroundColor: theme.color('neutral.10'),
     // In the brand, Accept and Essential only are equal primary buttons
-    acceptText: theme.color({ brand: 'neutral.10', legacy: 'black' }),
-    acceptBackground: theme.color({ brand: 'indigo.50', legacy: 'yellow' }),
-    rejectText: theme.color({ brand: 'neutral.10', legacy: 'black' }),
-    ...(theme.brandUpdate && {
-      rejectBackground: designSystemColor('indigo.50'),
-    }),
-    toggleColor: theme.brandUpdate ? designSystemColor('indigo.50') : '#0055cc',
-    toggleBackground: theme.color({
-      brand: 'neutral.20',
-      legacy: 'neutral.300',
-    }),
+    acceptText: theme.color('neutral.10'),
+    acceptBackground: theme.color('indigo.50'),
+    rejectText: theme.color('neutral.10'),
+    rejectBackground: designSystemColor('indigo.50'),
+    toggleColor: designSystemColor('indigo.50'),
+    toggleBackground: theme.color('neutral.20'),
     toggleText: theme.color('black'),
   };
 
@@ -251,7 +243,7 @@ const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
 
   return (
     <>
-      {theme.brandUpdate && <style>{brandStyles}</style>}
+      <style>{brandStyles}</style>
       <script
         src="https://cc.cdn.civiccomputing.com/9/cookieControl-9.x.min.js"
         type="text/javascript"
