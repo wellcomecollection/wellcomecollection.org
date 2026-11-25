@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import { newsletterDescription } from '@weco/common/data/microcopy';
-import { landingHeaderBackgroundLs } from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import {
   ContaineredLayout,
   gridSize8,
@@ -37,7 +37,7 @@ const NewsletterPage: NextPage<Props> = ({ result }) => {
         variant="basic"
         breadcrumbs={{ items: [] }}
         title="Newsletters"
-        backgroundTexture={landingHeaderBackgroundLs}
+        backgroundTexture={headerBackgroundLs}
         highlightHeading
       />
 

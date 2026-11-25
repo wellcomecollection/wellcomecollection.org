@@ -33,7 +33,7 @@ const IframeAuthMessage = styled.iframe`
   display: none;
 `;
 
-const iframeId = 'authMessage';
+const IFRAME_ID = 'authMessage';
 function reloadAuthIframe(document: Document, id: string) {
   const authMessageIframe = document.getElementById(id) as HTMLIFrameElement;
   // assigning the iframe src to itself reloads the iframe and refires the window.message event
@@ -126,7 +126,7 @@ const WorkItemPage: NextPage<Props> = ({
         const timer = setInterval(() => {
           if (authServiceWindow.closed) {
             clearInterval(timer);
-            reloadAuthIframe(document, iframeId);
+            reloadAuthIframe(document, IFRAME_ID);
           }
         }, 500);
         return () => clearInterval(timer);
@@ -179,7 +179,7 @@ const WorkItemPage: NextPage<Props> = ({
     >
       {shouldUseAuthMessageIframe && (
         <IframeAuthMessage
-          id={iframeId}
+          id={IFRAME_ID}
           title="Authentication"
           src={getIframeTokenSrc({
             workId: work.id,
@@ -221,6 +221,7 @@ const WorkItemPage: NextPage<Props> = ({
               >
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="primary"
                   dataGtmProps={{ trigger: 'show_the_content' }}
                   text="Show the content"
                   clickHandler={() => {
@@ -232,7 +233,7 @@ const WorkItemPage: NextPage<Props> = ({
                         if (authServiceWindow.closed) {
                           clearInterval(clickThroughTimerRef.current);
                           clickThroughTimerRef.current = undefined;
-                          reloadAuthIframe(document, iframeId);
+                          reloadAuthIframe(document, IFRAME_ID);
                         }
                       }, 500);
                     }
@@ -254,7 +255,7 @@ const WorkItemPage: NextPage<Props> = ({
           initialTree={tree}
           handleImageError={() => {
             // If the image fails to load, we check to see if it's because the cookie is missing/no longer valid
-            reloadAuthIframe(document, iframeId);
+            reloadAuthIframe(document, IFRAME_ID);
           }}
           searchResults={searchResults}
           setSearchResults={setSearchResults}

@@ -1,7 +1,7 @@
 # Note: if you add a URL to this list, consider whether it would be valuable
 # to add it to the list of URLs checked by pa11y.
 #
-# See pa11y/webapp/report-and-deploy.js
+# See pa11y/webapp/report/urls.js
 
 # Some pages we can't let break!
 /
@@ -92,4 +92,7 @@
 
 # Not landing pages but useful to track
 /collections/new-online
+
+# Thematic browsing category pages, behind the thematicBrowsingPhases toggle
+/collections/people-and-organisations?toggleOverride=thematicBrowsingPhases:categoryPages
 

@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
 import { pageDescriptions } from '@weco/common/data/microcopy';
-import { arrow, cross } from '@weco/common/icons';
+import { cross } from '@weco/common/icons';
 import { getCrop } from '@weco/common/model/image';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
@@ -31,15 +31,17 @@ import AudioPlayer from '@weco/content/views/components/AudioPlayer';
 import ImagePlaceholder, {
   placeholderBackgroundColor,
 } from '@weco/content/views/components/ImagePlaceholder';
+import PrevNextLink from '@weco/content/views/components/PrevNextLink';
 
+import { getStopLinks } from './stop.helpers';
 import {
-  AlignCenter,
   AudioPlayerNewWrapper,
   FlushContainer,
   Header,
   HeaderInner,
   Page,
   PrevNext,
+  PrevNextInner,
   StickyPlayer,
   Title,
 } from './stop.styles';
@@ -115,6 +117,12 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
 
   const relatedText =
     type === 'bsl' ? currentStop.subtitles : currentStop.transcript;
+
+  const stopLinks = getStopLinks({
+    guideTypeUrl,
+    stopNumber,
+    totalStops: allStops.length,
+  });
 
   return (
     <PageLayout
@@ -226,76 +234,20 @@ const ExhibitionGuideStopPage: NextPage<Props> = ({
 
         <PrevNext>
           <Container>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                {stopNumber > 1 && (
-                  <NextLink
-                    style={{
-                      textDecoration: 'none',
-                      display: 'inline-block',
-                    }}
-                    href={`${guideTypeUrl}/${stopNumber - 1}`}
-                    shallow
-                  >
-                    <Space
-                      $v={{
-                        size: 'xs',
-                        properties: ['padding-top', 'padding-bottom'],
-                        overrides: {
-                          zero: '150',
-                          sm: '150',
-                          md: '150',
-                        },
-                      }}
-                    >
-                      <AlignCenter>
-                        <Space
-                          $h={{ size: 'sm', properties: ['margin-right'] }}
-                          style={{ display: 'flex' }}
-                        >
-                          <Icon icon={arrow} rotate={180} />
-                        </Space>
-                        <span>Previous</span>
-                      </AlignCenter>
-                    </Space>
-                  </NextLink>
-                )}
-              </div>
-              <div>
-                {stopNumber < allStops.length && (
-                  <NextLink
-                    style={{
-                      textDecoration: 'none',
-                      display: 'inline-block',
-                    }}
-                    href={`${guideTypeUrl}/${stopNumber + 1}`}
-                    shallow
-                  >
-                    <Space
-                      $v={{
-                        size: 'xs',
-                        properties: ['padding-top', 'padding-bottom'],
-                        overrides: {
-                          zero: '150',
-                          sm: '150',
-                          md: '150',
-                        },
-                      }}
-                    >
-                      <AlignCenter>
-                        <Space
-                          $h={{ size: 'sm', properties: ['margin-right'] }}
-                          style={{ display: 'flex' }}
-                        >
-                          <span>Next</span>
-                        </Space>
-                        <Icon icon={arrow} />
-                      </AlignCenter>
-                    </Space>
-                  </NextLink>
-                )}
-              </div>
-            </div>
+            <PrevNextInner>
+              <PrevNextLink
+                direction="previous"
+                label="Previous stop"
+                link={stopLinks.previous}
+                isOnDark
+              />
+              <PrevNextLink
+                direction="next"
+                label="Next stop"
+                link={stopLinks.next}
+                isOnDark
+              />
+            </PrevNextInner>
           </Container>
         </PrevNext>
       </Page>

@@ -83,7 +83,12 @@ export const UserContextProvider: FunctionComponent<PropsWithChildren> = ({
         }
 
         default:
-          console.error('Failed fetching user', resp.status);
+          // Locally a 502 just means the identity app isn't running
+          if (!(
+            process.env.NODE_ENV === 'development' && resp.status === 502
+          )) {
+            console.error('Failed fetching user', resp.status);
+          }
           setState('failed');
       }
     } catch (e) {

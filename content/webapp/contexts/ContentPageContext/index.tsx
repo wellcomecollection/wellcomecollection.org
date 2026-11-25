@@ -1,12 +1,9 @@
 import { createContext, useContext } from 'react';
 
-import {
-  pageBackgroundColor,
-  Pinnable,
-} from '@weco/common/views/themes/config';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 type Props = {
-  pageBackgroundColor: Pinnable<'warmNeutral.300' | 'white'>;
+  pageBackgroundColor: 'warmNeutral.300' | typeof pageBackgroundColor;
 };
 
 const ContentPageContext = createContext<Props>({

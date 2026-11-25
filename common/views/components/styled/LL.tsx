@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 type LLProps = {
   $small?: boolean;
@@ -22,9 +22,11 @@ const LL = styled.div<LLProps>`
 
   ${props =>
     props.$position === 'relative' &&
-    ` position: relative;
+    css`
+      position: relative;
       top: 0;
-      transform: translateX(-50%);`}
+      transform: translateX(-50%);
+    `}
 
   &::before,
   &::after {

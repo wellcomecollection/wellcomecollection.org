@@ -77,7 +77,7 @@ export const utilityClasses = css`
       margin: 0;
       overflow: visible;
       position: relative;
-      z-index: 7;
+      z-index: ${props => props.theme.zIndex.skipLink};
       width: auto;
       white-space: inherit;
     }

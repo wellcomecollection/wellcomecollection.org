@@ -26,8 +26,7 @@ const PopoutCardImageContainer = styled.div<{ $hasImage: boolean }>`
   height: ${props => (props.$hasImage ? 'auto' : '100%')};
   bottom: 0;
   width: 100%;
-  background-color: ${props =>
-    props.theme.color({ brand: 'teal.20', legacy: 'warmNeutral.300' })};
+  background-color: ${props => props.theme.color('teal.20')};
   transform: rotate(-2deg);
 `;
 

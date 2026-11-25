@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { treeInstructions } from '@weco/common/data/microcopy';
 import Space from '@weco/common/views/components/styled/Space';
@@ -14,23 +14,22 @@ export const TreeInstructions = styled.p.attrs({
 
 export const TreeBand = styled(Space)<{ $isDarkMode?: boolean }>`
   ${props =>
-    !props.$isDarkMode &&
-    `background: ${props.theme.color({ brand: 'neutral.20', legacy: 'warmNeutral.300' })};`}
+    !props.$isDarkMode && `background: ${props.theme.color('neutral.20')};`}
 `;
 
 export const TreeContainer = styled.div<{ $isDarkMode?: boolean }>`
   ${props =>
     !props.$isDarkMode &&
-    `
-    background: linear-gradient(
-      to bottom,
-      ${props.theme.color('warmNeutral.200')},
-      ${props.theme.color('warmNeutral.200')} 50%,
-      ${props.theme.color('white')} 50%,
-      ${props.theme.color('white')}
-    );
-    background-size: 100% ${controlDimensions.controlHeight * 2}px;
-  `}
+    css`
+      background: linear-gradient(
+        to bottom,
+        ${props.theme.color('warmNeutral.200')},
+        ${props.theme.color('warmNeutral.200')} 50%,
+        ${props.theme.color('white')} 50%,
+        ${props.theme.color('white')}
+      );
+      background-size: 100% ${controlDimensions.controlHeight * 2}px;
+    `}
 `;
 
 export const Tree = styled.div<{

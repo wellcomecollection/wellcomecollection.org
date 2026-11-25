@@ -7,12 +7,16 @@ import { chevron } from '@weco/common/icons';
 import { typography } from '@weco/common/utils/classnames';
 import { formatNumber } from '@weco/common/utils/grammar';
 import Icon from '@weco/common/views/components/Icon';
+import { designSystemColor } from '@weco/common/views/themes/config';
+import useUrlHash from '@weco/content/hooks/useUrlHash';
 
 export type Props = {
   totalPages: number;
   ariaLabel: string;
-  hasDarkBg?: boolean;
+  isOnDark?: boolean;
   isHiddenMobile?: boolean;
+  /** Keeps the current URL's hash on the links, e.g. the open image's id. */
+  keepHash?: boolean;
 };
 
 const Container = styled.nav.attrs({
@@ -27,13 +31,13 @@ const Container = styled.nav.attrs({
       'sm',
       'max-width'
     )(`
-    ${props.$isHiddenMobile && 'display: none;'};
+    ${props.$isHiddenMobile ? 'display: none;' : ''}
   `)}
 `;
 
 const ChevronWrapper = styled(Link)<{
   $isPrev?: boolean;
-  $hasDarkBg?: boolean;
+  $isOnDark?: boolean;
 }>`
   display: inline-flex;
   align-items: center;
@@ -55,38 +59,74 @@ const ChevronWrapper = styled(Link)<{
   &[disabled] {
     pointer-events: none;
     color: ${props =>
-      props.theme.color(props.$hasDarkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.$isOnDark ? 'neutral.300' : 'neutral.500')};
     border-color: ${props =>
-      props.theme.color(props.$hasDarkBg ? 'neutral.300' : 'neutral.500')};
+      props.theme.color(props.$isOnDark ? 'neutral.300' : 'neutral.500')};
   }
 
   ${props => props.$isPrev && `margin: 0 1rem 0 0;`}
 
   ${props => `
-    color: ${props.theme.color(props.$hasDarkBg ? 'white' : 'black')};
+    color: ${props.theme.color(props.$isOnDark ? 'white' : 'black')};
     border: 1px solid ${props.theme.color(
-      props.$hasDarkBg
-        ? 'neutral.400'
-        : { brand: 'neutral.70', legacy: 'neutral.600' }
+      props.$isOnDark ? 'neutral.400' : 'neutral.70'
     )};
     transform: rotate(${props.$isPrev ? '90' : '270'}deg);
 
     &:hover {
       background-color: ${props.theme.color(
-        props.$hasDarkBg ? 'neutral.600' : 'neutral.300'
+        props.$isOnDark ? 'neutral.600' : 'neutral.300'
       )};
     }
   `}
+
+  /* The brand outlines it, then fills it and thickens the ring on hover */
+  ${props => {
+    const ink = designSystemColor(
+      props.$isOnDark ? 'neutral.10' : 'neutral.70'
+    );
+    const paper = designSystemColor(
+      props.$isOnDark ? 'neutral.70' : 'neutral.10'
+    );
+
+    // Swap instantly, as fading inverted colours makes the chevron flicker out
+    return `
+      box-sizing: border-box;
+      color: ${ink};
+      border: 1px solid ${ink};
+      transition: none;
+
+      .icon,
+      .icon__shape {
+        transition: none;
+      }
+
+      &:hover {
+        background-color: ${ink};
+        border: 2px solid ${paper};
+        color: ${paper};
+      }
+
+      &[disabled] {
+        background-color: ${designSystemColor('ui.grey.40')};
+        border-color: ${designSystemColor('ui.grey.60')};
+        color: ${designSystemColor('ui.grey.60')};
+      }
+    `;
+  }}
 `;
 
 export const Pagination: FunctionComponent<Props> = ({
   totalPages,
   ariaLabel,
-  hasDarkBg,
+  isOnDark,
   isHiddenMobile,
+  keepHash,
 }) => {
   const router = useRouter();
   const { query, pathname } = router;
+  const currentHash = useUrlHash(router.asPath);
+  const hash = keepHash ? currentHash : undefined;
 
   const pageNumber = query.page ? Number(query.page) : 1;
   const [currentPage, setCurrentPage] = useState(pageNumber);
@@ -96,12 +136,17 @@ export const Pagination: FunctionComponent<Props> = ({
     if (currentPage !== pageNumber) {
       setCurrentPage(pageNumber);
 
-      // Remove page from query if it's the first page
+      // Remove page from query if it's the first page, e.g. `?page=1`, keeping
+      // any hash (like an open image's id)
       // Using router.replace won't add this URL change to the browser history
-      if (pageNumber === 1) {
+      if (pageNumber === 1 && query.page !== undefined) {
         const { page, ...rest } = query;
         router.replace(
-          { pathname: router.pathname, query: { ...rest } },
+          {
+            pathname: router.pathname,
+            query: { ...rest },
+            hash: router.asPath.split('#')[1],
+          },
           undefined,
           { shallow: true }
         );
@@ -121,8 +166,8 @@ export const Pagination: FunctionComponent<Props> = ({
     >
       {showPrev && (
         <ChevronWrapper
-          href={{ pathname, query: { ...query, page: currentPage - 1 } }}
-          $hasDarkBg={hasDarkBg}
+          href={{ pathname, query: { ...query, page: currentPage - 1 }, hash }}
+          $isOnDark={isOnDark}
           $isPrev
         >
           <Icon icon={chevron} />
@@ -139,8 +184,8 @@ export const Pagination: FunctionComponent<Props> = ({
 
       {showNext && (
         <ChevronWrapper
-          href={{ pathname, query: { ...query, page: currentPage + 1 } }}
-          $hasDarkBg={hasDarkBg}
+          href={{ pathname, query: { ...query, page: currentPage + 1 }, hash }}
+          $isOnDark={isOnDark}
         >
           <Icon icon={chevron} />
           <span className="visually-hidden">

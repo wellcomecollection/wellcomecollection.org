@@ -202,8 +202,8 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
         <>
           <DecorativeEdge
             variant="wobbly"
-            isRotated
             backgroundColor="warmNeutral.300"
+            isRotated
           />
           <Container>
             <RelatedStoryContainer>
@@ -217,7 +217,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                   <FeaturedCard
                     type="article"
                     background="neutral.700"
-                    textColor={{ brand: 'neutral.10', legacy: 'white' }}
+                    textColor="neutral.10"
                     article={relatedDocument}
                   />
                 </>
@@ -232,7 +232,7 @@ const ArticlePage: NextPage<Props> = ({ article, serverData, jsonLd }) => {
                     <FeaturedCard
                       type="exhibition"
                       background="neutral.700"
-                      textColor={{ brand: 'neutral.10', legacy: 'white' }}
+                      textColor="neutral.10"
                       exhibition={relatedDocument}
                     />
                   </>

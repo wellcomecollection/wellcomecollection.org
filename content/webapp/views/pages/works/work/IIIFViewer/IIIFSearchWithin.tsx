@@ -15,7 +15,7 @@ import {
   emptySearchResults,
   SearchResults,
 } from '@weco/content/services/iiif/types/search/v3';
-import { searchWithinLabel } from '@weco/content/text/aria-labels';
+import { SEARCH_WITHIN_LABEL } from '@weco/content/text/aria-labels';
 import { TransformedCanvas } from '@weco/content/types/manifest';
 import { hasRealLabel } from '@weco/content/utils/works';
 import {
@@ -250,7 +250,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         <SearchInputWrapper>
           <TextInput
             id="searchWithin"
-            label={searchWithinLabel}
+            label={SEARCH_WITHIN_LABEL}
             type="search"
             name="query"
             value={searchQuery}
@@ -264,6 +264,7 @@ const IIIFSearchWithin: FunctionComponent = () => {
         <SearchButtonWrapper>
           <Button
             variant="ButtonSolid"
+            hierarchy="secondary"
             icon={search}
             text="search within"
             colors={theme.buttonColors.yellowYellowBlack}

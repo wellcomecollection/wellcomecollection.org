@@ -43,13 +43,21 @@ export function getProductionDates(work: Work): string[] {
 /**
  * Returns work's language id, but only if it has exactly one - better no
  * language than a wrong guess.
+ *
+ * The catalogue uses three-letter MARC codes (e.g. `eng`, `fre`), but `lang`
+ * attributes expect the shortest form (`en`, `fr`), so we canonicalise them.
  */
 export function getLanguageId(
   work: Pick<Work, 'languages'>
 ): string | undefined {
-  return work.languages && work.languages.length === 1
-    ? work.languages[0].id
-    : undefined;
+  if (work.languages?.length !== 1) return undefined;
+
+  try {
+    return Intl.getCanonicalLocales(work.languages[0].id)[0];
+  } catch {
+    // Not a valid language tag, so leave it out
+    return undefined;
+  }
 }
 
 type DownloadImage = {
@@ -210,7 +218,13 @@ export function getArchiveAncestorArray(work: Work): RelatedWork[] {
 // everything with that format is a manuscript.
 const archiveFormatIds = ['h', 'hdig'];
 
-const teiManuscriptIdentifierTypeId = 'tei-manuscript-id';
+const TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID = 'tei-manuscript-id';
+
+const isTeiManuscript = (work: Pick<Work, 'identifiers'>): boolean =>
+  (work.identifiers ?? []).some(
+    ({ identifierType }) =>
+      identifierType.id === TEI_MANUSCRIPT_IDENTIFIER_TYPE_ID
+  );
 
 /**
  * Whether a work is the root of an archive collection we can display a
@@ -234,11 +248,7 @@ export function isArchiveCollectionRoot(
 
   const hasArchiveFormat = archiveFormatIds.includes(work.workType?.id ?? '');
 
-  const isTeiManuscript = (work.identifiers ?? []).some(
-    ({ identifierType }) => identifierType.id === teiManuscriptIdentifierTypeId
-  );
-
-  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript;
+  return isRootWithChildren && hasArchiveFormat && !isTeiManuscript(work);
 }
 
 /**
@@ -301,7 +311,7 @@ export const getCardLabels = (work: Work): Label[] => {
       ...cardLabels,
       {
         text: 'Online',
-        labelColor: { brand: 'neutral.10', legacy: 'white' },
+        labelColor: 'neutral.10',
       },
     ];
   } else {
@@ -314,7 +324,7 @@ export const getCardLabels = (work: Work): Label[] => {
  * anything else so it can still be displayed.
  */
 export const getOrderedNotes = (
-  work: Pick<Work, 'notes'>,
+  work: Pick<Work, 'notes' | 'identifiers'>,
   excludeNotes: (Note | undefined)[] = []
 ): { orderedNotes: Note[]; remainingNotes: Note[] } => {
   const arrangementNote = work.notes.filter(
@@ -326,9 +336,11 @@ export const getOrderedNotes = (
   const relatedMaterial = work.notes.filter(
     note => note.noteType.id === 'related-material'
   );
-  const acquisitionNote = work.notes.filter(
-    note => note.noteType.id === 'acquisition-note'
-  );
+  // TEI manuscripts keep it with the other history notes, after ownership,
+  // as Collections Information asked
+  const acquisitionNote = isTeiManuscript(work)
+    ? []
+    : work.notes.filter(note => note.noteType.id === 'acquisition-note');
 
   const orderedNotes = [
     ...arrangementNote,

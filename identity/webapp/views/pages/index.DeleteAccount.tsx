@@ -130,6 +130,7 @@ const DeleteAccount: FunctionComponent<ChangeDetailsModalContentProps> = ({
               colors={theme.buttonColors.danger}
               type={ButtonTypes.submit}
               text="Yes, delete my account"
+              isDanger
             />
             <Button
               variant="ButtonSolid"

@@ -22,13 +22,6 @@ export const MetadataWrapper = styled(Space).attrs({
   color: ${props => props.theme.color('neutral.600')};
 `;
 
-export const Metadata = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
-`;
-
 export const ModalTitle = styled.h2.attrs({
   className: typography('body', 'xl', 'strong'),
 })`

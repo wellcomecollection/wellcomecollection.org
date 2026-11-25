@@ -106,8 +106,8 @@ const ContentsTreeItemRenderer: FunctionComponent<
         <Icon
           icon={typeIcon}
           iconColor="neutral.600"
-          matchText
           sizeOverride="height: 16px; width: 16px;"
+          matchText
         />
 
         <NextLink
@@ -133,8 +133,8 @@ const ContentsTreeItemRenderer: FunctionComponent<
         <Icon
           icon={typeIcon}
           iconColor="neutral.600"
-          matchText
           sizeOverride="height: 16px; width: 16px;"
+          matchText
         />
         {getWorkLevelLabel(data.type)}
       </LevelCell>

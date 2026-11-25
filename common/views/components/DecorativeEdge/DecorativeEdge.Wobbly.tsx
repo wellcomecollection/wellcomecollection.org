@@ -8,11 +8,14 @@ import {
   useRef,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { prefixedPropertyStyleObject } from '@weco/common/utils/prefixed-property-style-object';
-import { Pinnable, PinnableColor } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor,
+  ThemeColor,
+} from '@weco/common/views/themes/config';
 
 export const WobblyEdgeWrapper = styled.div`
   position: relative;
@@ -24,7 +27,7 @@ export const WobblyEdgeWrapper = styled.div`
 export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
   'data-chromatic': 'ignore',
 })<{
-  $backgroundColor: PinnableColor;
+  $backgroundColor: ThemeColor;
   $isRotated: boolean;
   $isEnhanced: boolean;
 }>`
@@ -45,30 +48,32 @@ export const Edge = styled.div.attrs<{ 'data-chromatic'?: 'ignore' }>({
 
   ${props =>
     props.$isEnhanced &&
-    `
-    @supports ((clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))) {
-      display: block;
+    css`
+      @supports (
+        (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0))
+      ) {
+        display: block;
 
-      @media screen and (prefers-reduced-motion: reduce) {
-        display: none;
+        @media screen and (prefers-reduced-motion: reduce) {
+          display: none;
+        }
       }
-    }
-  `}
+    `}
 
   background: ${props => props.theme.color(props.$backgroundColor)};
 
   ${props =>
     props.$isRotated &&
-    `
-    transform: rotate(180deg);
-    margin-top: 0;
-    top: -2px;
+    css`
+      transform: rotate(180deg);
+      margin-top: 0;
+      top: -2px;
 
-    ${props.theme.media('md')`
+      ${props.theme.media('md')`
       margin-top: 0;
       top: -2px;
     `}
-  `}
+    `}
 `;
 
 function randomIntFromInterval(min: number, max: number): number {
@@ -76,7 +81,7 @@ function randomIntFromInterval(min: number, max: number): number {
 }
 
 export type Props = {
-  backgroundColor: PinnableColor;
+  backgroundColor: ThemeColor;
   isRotated?: boolean;
   intensity?: number;
   points?: number;
@@ -214,7 +219,7 @@ const WobblyEdge: FunctionComponent<Props> = ({
 
 export const WobblyBottom: FunctionComponent<
   PropsWithChildren<{
-    backgroundColor: Pinnable<'warmNeutral.300' | 'white'>;
+    backgroundColor: 'warmNeutral.300' | typeof pageBackgroundColor;
   }>
 > = ({ backgroundColor, children }) => (
   <WobblyEdgeWrapper>

@@ -1,7 +1,7 @@
 // Place to store id's of prismic of dynamic content if required.
 // We can always reference all hardcoded prismic id where they are called and remove them later to maintain
 
-export const homepageId = 'homepage';
+export const HOMEPAGE_UID = 'homepage';
 
 export const collectionVenueId = {
   galleries: {
@@ -141,25 +141,13 @@ export const getNameFromCollectionVenue = id => {
   }
 };
 
-// This is different to hasLandingPageFormat on the page model,
-// which is true if there is a content list to display on the page.
-// This is a hardcoded list of pages that we want to control the layout and Header of
-export const officialLandingPagesUid = [
-  prismicPageIds.visitUs,
-  prismicPageIds.whatsOn,
-  'stories',
-  prismicPageIds.collections,
-  prismicPageIds.getInvolved,
-  prismicPageIds.aboutUs,
-];
-
 // The only series ("webcomic series") that uses the `webcomics` type.
-export const bodySquabblesSeries = 'body-squabbles';
+export const BODY_SQUABBLES_SERIES_UID = 'body-squabbles';
 
 // Prismic document ID for the commissioning editor contributor role.
 // Contributors with this role are displayed only at the end of articles,
 // not in the top byline.
-export const commissioningEditorRoleId = 'aKcVQBAAACIAhvXf';
+export const COMMISSIONING_EDITOR_ROLE_ID = 'aKcVQBAAACIAhvXf';
 
 // We use this to add an icon when displaying the type of interpretation available for an event,
 // e.g. in the yellow box on the event page.

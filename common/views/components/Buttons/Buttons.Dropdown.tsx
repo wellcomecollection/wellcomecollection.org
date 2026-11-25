@@ -45,7 +45,7 @@ const Dropdown = styled(Space).attrs<{
   $isActive: boolean;
   $isEnhanced: boolean;
 }>`
-  background-color: ${props => props.theme.color('white')};
+  background-color: ${props => props.theme.color('neutral.05')};
   overflow: auto;
   white-space: nowrap;
   transition:
@@ -109,7 +109,7 @@ const DropdownButton: FunctionComponent<
   isPill,
   hasNoOptions,
   isTight,
-  hierarchy,
+  hierarchy = 'tertiary',
 }) => {
   const { isEnhanced } = useAppContext();
   const theme = useTheme();
@@ -241,9 +241,9 @@ const DropdownButton: FunctionComponent<
           <Dropdown
             id={id}
             ref={dropdownRef}
-            $isActive
             $isEnhanced={isEnhanced}
             $isTight={!!isTight}
+            $isActive
           >
             {children}
           </Dropdown>

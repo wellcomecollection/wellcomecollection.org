@@ -232,7 +232,10 @@ const ViewerSidebar: FunctionComponent<ViewerSidebarProps> = ({
 
       <Inner className={typography('body', 'md', 'strong')}>
         {manifestLabel && (
-          <span className={typography('body', 'md', 'regular')}>
+          <span
+            data-testid="multi-volume-label"
+            className={typography('body', 'md', 'regular')}
+          >
             {manifestLabel}
           </span>
         )}

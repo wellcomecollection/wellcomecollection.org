@@ -1,6 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken';
 import { NextPage } from 'next';
-import getConfig from 'next/config';
 
 import { getServerData } from '@weco/common/server-data';
 import { appError } from '@weco/common/services/app';
@@ -10,6 +9,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { getConfig } from '@weco/identity/config';
 import { decodeToken } from '@weco/identity/utils/jwt-codec';
 import RegistrationPage, {
   Props as RegistrationPageProps,
@@ -18,8 +18,6 @@ import RegistrationPage, {
 const Page: NextPage<RegistrationPageProps> = props => {
   return <RegistrationPage {...props} />;
 };
-
-const { serverRuntimeConfig: config } = getConfig();
 
 type Props = ServerSideProps<RegistrationPageProps>;
 
@@ -44,7 +42,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // We can get an error here if somebody tries to use an invalid session token;
   // which we return as a user error.
   try {
-    token = decodeToken(sessionToken, config.auth0.actionSecret);
+    token = decodeToken(sessionToken, getConfig().auth0.actionSecret);
   } catch (error) {
     // There are non-nefarious reasons this might happen (eg expiry), so we redirect
     // to login as logging in will give the user a new token.

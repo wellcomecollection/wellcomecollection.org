@@ -197,18 +197,24 @@ const Table: FunctionComponent<Props> = ({
       )}
       <ControlsWrap ref={controlsRef}>
         <ScrollButtons $isActive={isOverflown}>
-          <ScrollButtonWrap
-            ref={leftButtonRef}
-            $isLeft
-            $isActive={isLeftActive}
-          >
+          <ScrollButtonWrap ref={leftButtonRef} $isLeft>
             <Rotator $rotate={180}>
-              <Control colorScheme="light" icon={arrow} text="" />
+              <Control
+                colorScheme="light"
+                icon={arrow}
+                text=""
+                disabled={!isLeftActive}
+              />
             </Rotator>
           </ScrollButtonWrap>
 
-          <ScrollButtonWrap $isActive={isRightActive} ref={rightButtonRef}>
-            <Control colorScheme="light" icon={arrow} text="" />
+          <ScrollButtonWrap ref={rightButtonRef}>
+            <Control
+              colorScheme="light"
+              icon={arrow}
+              text=""
+              disabled={!isRightActive}
+            />
           </ScrollButtonWrap>
         </ScrollButtons>
 

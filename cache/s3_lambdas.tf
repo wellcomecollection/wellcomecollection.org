@@ -24,3 +24,20 @@ resource "aws_s3_bucket_versioning" "lambdas" {
     status = "Enabled"
   }
 }
+
+# The edge Lambdas keep their own copy of the code, so old zips are only needed for a rollback
+# from S3; keep 90 days of them.
+resource "aws_s3_bucket_lifecycle_configuration" "lambdas" {
+  bucket = aws_s3_bucket.lambdas.id
+
+  rule {
+    id     = "expire_old_versions"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+  }
+}

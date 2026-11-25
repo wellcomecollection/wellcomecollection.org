@@ -22,6 +22,7 @@ const BookingButtonLink: FunctionComponent<Props> = ({ event }) => {
       <div data-eventbrite-ticket-id={event.eventbriteId}>
         <Button
           variant="ButtonSolidLink"
+          hierarchy="primary"
           link={`https://www.eventbrite.com/e/${event.eventbriteId}`}
           icon={ticketAvailable}
           text="Book free tickets"
@@ -40,6 +41,7 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
     return (
       <Button
         variant="ButtonSolidLink"
+        hierarchy="primary"
         link={`mailto:${event.bookingEnquiryTeam.email}?subject=${event.title}`}
         icon={email}
         text="Email to book"
@@ -51,18 +53,10 @@ const BookingEnquiryLink: FunctionComponent<Props> = ({ event }) => {
   }
 };
 
-type EventBookingButtonProps = {
-  email: string;
-  title: string;
-};
-
-const EventBookingButtonLink = styled(Space).attrs<EventBookingButtonProps>(
-  props => ({
-    className: typography('body', 'lg', 'regular'),
-    href: `mailto:${props.email}?subject=${props.title}`,
-    $v: { size: 'xs', properties: ['margin-top'] },
-  })
-)<EventBookingButtonProps>`
+const EventBookingButtonLink = styled(Space).attrs({
+  className: typography('body', 'lg', 'regular'),
+  $v: { size: 'xs', properties: ['margin-top'] },
+})`
   display: block;
   color: ${props => props.theme.color('neutral.700')};
 `;
@@ -75,7 +69,10 @@ const EventBookingButton: FunctionComponent<Props> = ({ event }) => {
       <BookingButtonLink event={event} />
       <BookingEnquiryLink event={event} />
       {team && (
-        <EventBookingButtonLink email={team.email} title={event.title}>
+        <EventBookingButtonLink
+          as="a"
+          href={`mailto:${team.email}?subject=${event.title}`}
+        >
           {team.email}
         </EventBookingButtonLink>
       )}

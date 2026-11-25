@@ -2,10 +2,8 @@
 import { Children, ReactElement, ReactNode, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import {
-  commissioningEditorRoleId,
-  officialLandingPagesUid,
-} from '@weco/common/data/hardcoded-ids';
+import { COMMISSIONING_EDITOR_ROLE_ID } from '@weco/common/data/hardcoded-ids';
+import { isLandingPageSection } from '@weco/common/model/site-section';
 import { useFeatureFlags } from '@weco/common/server-data/Context';
 import { ContentApiType } from '@weco/common/services/prismic/content-types';
 import { ElementFromComponent } from '@weco/common/utils/utility-types';
@@ -15,7 +13,7 @@ import {
   gridSize8,
 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
-import { headerSpaceSize } from '@weco/common/views/components/PageHeader/PageHeader.styles';
+import { HEADER_SPACE_SIZE } from '@weco/common/views/components/PageHeader/PageHeader.styles';
 import Space from '@weco/common/views/components/styled/Space';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
@@ -120,11 +118,13 @@ const ContentPage = ({
       }}
     >
       <article data-wio-id={id}>
-        {officialLandingPagesUid.includes(uid) ? (
+        {isLandingPageSection(uid) ? (
           Header
         ) : (
           // This space is coupled to the `bottom` value in PageHeader.js
-          <Space $v={{ size: headerSpaceSize, properties: ['padding-bottom'] }}>
+          <Space
+            $v={{ size: HEADER_SPACE_SIZE, properties: ['padding-bottom'] }}
+          >
             {Header}
           </Space>
         )}
@@ -162,10 +162,10 @@ const ContentPage = ({
                 <Contributors
                   contributors={[
                     ...contributors.filter(
-                      c => c.role?.id !== commissioningEditorRoleId
+                      c => c.role?.id !== COMMISSIONING_EDITOR_ROLE_ID
                     ),
                     ...contributors.filter(
-                      c => c.role?.id === commissioningEditorRoleId
+                      c => c.role?.id === COMMISSIONING_EDITOR_ROLE_ID
                     ),
                   ]}
                   titleOverride={contributorTitle}

@@ -19,7 +19,11 @@ import { buildStoriesRss } from '@weco/content/utils/rss';
 
 const startedAt = new Date().toISOString();
 const dev = process.env.NODE_ENV !== 'production';
-const nextApp = next({ dev });
+// Next 16 defaults to Turbopack, which doesn't run the custom `webpack()`
+// hook in common/next/next.config.js (moment-timezone swap, undici
+// exclusion) - see --webpack in the build script too. Migrating that hook to
+// Turbopack config is tracked separately. https://github.com/wellcomecollection/wellcomecollection.org/issues/13591
+const nextApp = next({ dev, webpack: true });
 const handle = nextApp.getRequestHandler();
 
 const appPromise = nextApp
@@ -59,7 +63,7 @@ const appPromise = nextApp
     });
 
     // Lets deploy tooling confirm which commit is live; must never be cached.
-    // The contract this implements: https://github.com/wellcomecollection/deploy-tracker/blob/main/SPEC.md#the-manifest-endpoint
+    // The contract this implements: https://backplane.wellcome.digital/guides/manifest-endpoint
     router.get('/management/manifest', async ctx => {
       ctx.set(
         'Cache-Control',

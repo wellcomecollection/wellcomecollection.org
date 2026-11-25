@@ -19,7 +19,6 @@ import {
   GuidesDocument as RawGuidesDocument,
   InterpretationTypesDocument as RawInterpretationTypesDocument,
   OrganisationsDocument as RawOrganisationsDocument,
-  PageFormatsDocument as RawPageFormatsDocument,
   PagesDocument as RawPagesDocument,
   PagesDocumentData as RawPagesDocumentData,
   PeopleDocument as RawPeopleDocument,
@@ -382,11 +381,6 @@ export const teamsFetchLinks: FetchLinks<RawTeamsDocument> = [
   'teams.phone',
 ];
 
-export const pageFormatsFetchLinks: FetchLinks<RawPageFormatsDocument> = [
-  'page-formats.title',
-  'page-formats.description',
-];
-
 export const placesFetchLinks: FetchLinks<RawPlacesDocument> = [
   'places.title',
   'places.geolocation',
@@ -442,8 +436,8 @@ export type StructuredSearchQuery = {
   id: string[];
   tags: string[];
   tag: string[];
-  pageSize: number;
-  orderings: prismic.Ordering[];
+  orderings: string[];
+  pageSize?: number;
   // content type specific
   'article-series': string[];
 };

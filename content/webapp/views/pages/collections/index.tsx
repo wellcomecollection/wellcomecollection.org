@@ -40,9 +40,7 @@ const MainBackground = styled.div<{ $isDefaultVariant: boolean }>`
   /* split background: top half the chosen colour, bottom half transparent */
   background: ${props =>
     `linear-gradient(to bottom, ${props.theme.color(
-      props.$isDefaultVariant
-        ? { brand: 'green.40', legacy: 'accent.lightBlue' }
-        : 'accent.lightPurple'
+      props.$isDefaultVariant ? 'green.40' : 'accent.lightPurple'
     )} 65%, transparent 65%)`};
 `;
 
@@ -104,19 +102,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
 
       <ContaineredLayout gridSizes={gridSize12()}>
         <DecorativeEdgeContainer>
-          <DecorativeEdge
-            variant="w"
-            color={{ brand: 'green.40', legacy: 'accent.lightBlue' }}
-          />
+          <DecorativeEdge variant="w" color="green.40" />
         </DecorativeEdgeContainer>
       </ContaineredLayout>
 
       <div
         style={{
-          backgroundColor: theme.color({
-            brand: 'green.40',
-            legacy: 'accent.lightBlue',
-          }),
+          backgroundColor: theme.color('green.40'),
         }}
       >
         <ContaineredLayout gridSizes={gridSize10(false)}>
@@ -189,13 +181,13 @@ const CollectionsLandingPage: NextPage<Props> = ({
         <CardGrid
           items={insideOurCollectionsCards}
           itemsPerRow={3}
-          itemsHaveTransparentBackground
           links={[
             {
               text: 'Read all stories',
               url: '/series/inside-our-collections',
             },
           ]}
+          itemsHaveTransparentBackground
         />
       </Space>
 

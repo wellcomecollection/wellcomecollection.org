@@ -1,4 +1,4 @@
-import { homepageId, prismicPageIds } from '@weco/common/data/hardcoded-ids';
+import { HOMEPAGE_UID, prismicPageIds } from '@weco/common/data/hardcoded-ids';
 
 import { looksLikePrismicId } from '.';
 
@@ -7,7 +7,7 @@ describe('looksLikePrismicId', () => {
     expect(looksLikePrismicId('sun')).toBeTruthy();
     expect(looksLikePrismicId('sun-set')).toBeTruthy();
     expect(looksLikePrismicId(prismicPageIds.press)).toBeTruthy();
-    expect(looksLikePrismicId(homepageId)).toBeTruthy();
+    expect(looksLikePrismicId(HOMEPAGE_UID)).toBeTruthy();
   });
 
   it('thinks malicious inputs don’t look like Prismic IDs', () => {

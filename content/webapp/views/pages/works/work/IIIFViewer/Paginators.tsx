@@ -45,6 +45,7 @@ const PaginatorButtons = ({
               text="Previous page"
               scroll={false}
               replace
+              isOnDark
             />
           </Rotator>
         </Space>
@@ -59,6 +60,7 @@ const PaginatorButtons = ({
               text="Next page"
               scroll={false}
               replace
+              isOnDark
             />
           </Rotator>
         </Space>

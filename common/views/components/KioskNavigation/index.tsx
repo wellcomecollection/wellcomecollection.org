@@ -12,6 +12,7 @@ import { useNavigationHistory } from '@weco/common/hooks/useNavigationHistory';
 import { arrowSmall, chevron, home } from '@weco/common/icons';
 import { useModes } from '@weco/common/server-data/Context';
 import { typography } from '@weco/common/utils/classnames';
+import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Icon from '@weco/common/views/components/Icon';
 import Space from '@weco/common/views/components/styled/Space';
 
@@ -28,7 +29,7 @@ const KioskNavigationWrapper = styled(Space).attrs({
   right: 0;
   background: ${props => props.theme.color('neutral.700')};
   color: ${props => props.theme.color('white')};
-  z-index: 1000;
+  z-index: ${props => props.theme.zIndex.kioskNavigation};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -226,8 +227,9 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
     const { isReadingRoomKiosk, kioskHomepageUrl } = useKiosk();
     const kiosksContent = useKiosksContent();
 
-    const isOnHomePage =
-      currentPathname === '/' || currentPathname === kioskHomepageUrl;
+    // A kiosk without a home page of its own falls back to the site homepage.
+    const homeUrl = kioskHomepageUrl || '/';
+    const isOnHomePage = currentPathname === homeUrl;
 
     const { back, forward, canGoBack, canGoForward } = useNavigationHistory();
 
@@ -292,8 +294,11 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
             </DisabledHomeLink>
           ) : (
             <HomeLink
-              href={kioskHomepageUrl || '/'}
+              href={homeUrl}
               aria-label="Return to kiosk home page"
+              {...dataGtmPropsToAttributes({
+                trigger: 'return-to-kiosk-home-page',
+              })}
             >
               <Icon icon={home} aria-hidden="true" />
               <HomeText>Back to: Home</HomeText>
@@ -315,6 +320,10 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
                 <NavLink
                   href={`/${urlPath}/${navigation.prevPageId}`}
                   aria-label="Go to previous page"
+                  {...dataGtmPropsToAttributes({
+                    trigger: 'go-to-previous-page',
+                    'category-label': label,
+                  })}
                 >
                   <Icon icon={arrowSmall} rotate={180} aria-hidden="true" />
                   <span>Prev</span>
@@ -332,6 +341,10 @@ export const KioskNavigation: FunctionComponent<Props> = memo(
                 <NavLink
                   href={`/${urlPath}/${navigation.nextPageId}`}
                   aria-label="Go to next page"
+                  {...dataGtmPropsToAttributes({
+                    trigger: 'go-to-next-page',
+                    'category-label': label,
+                  })}
                 >
                   <Icon icon={arrowSmall} aria-hidden="true" />
                   <span>Next</span>

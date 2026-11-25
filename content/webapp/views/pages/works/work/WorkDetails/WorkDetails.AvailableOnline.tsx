@@ -193,6 +193,7 @@ const ItemPageLink = ({
               >
                 <Button
                   variant="ButtonSolidLink"
+                  hierarchy="primary"
                   icon={eye}
                   text="View"
                   link={itemUrl}

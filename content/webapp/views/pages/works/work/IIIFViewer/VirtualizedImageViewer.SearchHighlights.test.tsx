@@ -3,8 +3,6 @@ import {
   RotationValue,
 } from './VirtualizedImageViewer.SearchHighlights';
 
-// Kept identical to its counterpart in legacy/MainViewer.test.tsx, so the two
-// stay in sync - this function is duplicated between the two viewers.
 describe('getOverlayTopLeft', () => {
   const imageContainerRect = { top: 10, left: 20 } as unknown as DOMRect;
   const imageRect = {

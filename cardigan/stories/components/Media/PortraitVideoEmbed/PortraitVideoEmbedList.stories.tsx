@@ -16,11 +16,6 @@ const meta: Meta<typeof PortraitVideoList> = {
     gridSizes: { table: { disable: true } },
     useShim: { table: { disable: true } },
   },
-  parameters: {
-    chromatic: {
-      viewports: [375, 1200],
-    },
-  },
 };
 
 export default meta;

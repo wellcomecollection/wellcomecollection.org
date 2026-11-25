@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 import cookies from '@weco/common/data/cookies';
-import { chat, clear } from '@weco/common/icons';
+import { chat, cross } from '@weco/common/icons';
 import { PopupDialogDocument as RawPopupDialogDocument } from '@weco/common/prismicio-types';
 import { transformLink } from '@weco/common/services/prismic/transformers';
 import { InferDataInterface } from '@weco/common/services/prismic/types';
@@ -158,7 +158,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
             overrides: { sm: '075', md: '075' },
           }}
         >
-          <Icon icon={chat} iconColor="accent.purple" />
+          <Icon icon={chat} iconColor="neutral.70" />
         </Space>
         {openButtonText}
       </PopupDialogOpen>
@@ -176,7 +176,7 @@ const PopupDialog: FunctionComponent<Props> = ({ document }: Props) => {
               openDialogRef.current.focus();
           }}
         >
-          <Icon icon={clear} title="Close dialog" iconColor="accent.purple" />
+          <Icon icon={cross} title="Close dialog" iconColor="neutral.70" />
         </PopupDialogClose>
         <Space
           $h={{

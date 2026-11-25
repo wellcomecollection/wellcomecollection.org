@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { exclamation, tickCircle } from '@weco/common/icons';
@@ -47,11 +47,7 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
       ? props.$status === 'error'
         ? props.theme.color('validation.red')
         : props.theme.color('validation.green')
-      : props.theme.color(
-          props.$isNewSearchBar
-            ? { brand: 'indigo.50', legacy: 'accent.green' }
-            : { brand: 'neutral.70', legacy: 'neutral.600' }
-        )};
+      : props.theme.color(props.$isNewSearchBar ? 'indigo.50' : 'neutral.70')};
 
   &:has(:focus-visible) {
     ${focusStyle};
@@ -72,14 +68,14 @@ export const TextInputWrap = styled(Space).attrs<TextInputWrapProps>(props => ({
 
   &:hover {
     border-color: ${props =>
-      !props.$isNewSearchBar &&
-      props.theme.color({ brand: 'neutral.80', legacy: 'black' })};
+      !props.$isNewSearchBar && props.theme.color('neutral.80')};
   }
 
   ${props =>
-    props.$isDisabled
-      ? `border-color:  ${props.theme.color('neutral.500')}`
-      : ``}
+    props.$isDisabled &&
+    css`
+      border-color: ${props.theme.color('neutral.500')};
+    `}
 `;
 
 export const HintCopy = styled.span.attrs({

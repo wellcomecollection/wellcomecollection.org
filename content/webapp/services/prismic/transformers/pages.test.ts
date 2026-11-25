@@ -31,9 +31,6 @@ export const pageWithoutBody: RawPagesDocument = {
     datePublished: null,
     showOnThisPage: false,
     metadataDescription: exampleTextSlice.primary.text,
-    format: {
-      link_type: 'Any' as const, // Marks it as an empty field
-    },
     contributorsTitle: [],
     contributors: [],
     parents: [],

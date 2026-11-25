@@ -1,24 +1,15 @@
 import { useEffect } from 'react';
 
-import {
-  PrismicData,
-  SimplifiedPrismicData,
-} from '@weco/common/server-data/prismic';
-
-declare global {
-  interface Window {
-    prismic: PrismicData | SimplifiedPrismicData | { endpoint: string };
-  }
-}
+import { themeValues } from '@weco/common/views/themes/config';
 
 const usePrismicPreview = (shouldDisplay: () => boolean): void =>
   useEffect(() => {
     if (shouldDisplay()) {
-      window.prismic = {
-        endpoint: 'https://wellcomecollection.cdn.prismic.io/api/v2',
-      };
+      // The toolbar reads the repository from the `repo` param, and does
+      // nothing without it (so the preview cookie wouldn't get set)
       const prismicScript = document.createElement('script');
-      prismicScript.src = '//static.cdn.prismic.io/prismic.min.js';
+      prismicScript.src =
+        'https://static.cdn.prismic.io/prismic.js?repo=wellcomecollection';
       document.head && document.head.appendChild(prismicScript);
       (function () {
         const validationBar = document.createElement('div');
@@ -30,7 +21,9 @@ const usePrismicPreview = (shouldDisplay: () => boolean): void =>
         validationBar.style.bottom = '0';
         validationBar.style.right = '0';
         validationBar.style.fontSize = '12px';
-        validationBar.style.zIndex = '2147483000';
+        validationBar.style.zIndex = String(
+          themeValues.zIndex.prismicPreviewBar
+        );
 
         const validationFails: string[] = [];
 

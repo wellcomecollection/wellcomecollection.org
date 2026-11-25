@@ -78,10 +78,10 @@ const LinkedWorks: FunctionComponent<LinkedWorkProps> = ({
 
       <ScrollContainer
         gridSizes={gridSizes}
-        useShim
         CopyContent={
           <DetailsCopy>{`${linkedWorks.length} works from our catalogue`}</DetailsCopy>
         }
+        useShim
       >
         {linkedWorks.map((work, i) => {
           return (

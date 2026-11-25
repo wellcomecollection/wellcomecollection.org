@@ -12,11 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: aws-actions/configure-aws-credentials@v6
+      - uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
         with:
           aws-region: eu-west-1
           role-to-assume: ${{ secrets.EXPERIENCE_GHA_ROLE_ARN }}
-      - uses: aws-actions/amazon-ecr-login@v2
+      - uses: aws-actions/amazon-ecr-login@03f1aad4c6c7ffd436567f42f9384779290529bd # v2.1.7
         env:
           AWS_REGION: us-east-1
         with:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
-        uses: slackapi/slack-github-action@v4.0.0
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
         with:
           # This data can be any valid JSON from a previous step in the GitHub Action
           payload: |

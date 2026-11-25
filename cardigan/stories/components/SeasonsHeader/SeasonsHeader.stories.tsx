@@ -58,11 +58,6 @@ const meta: Meta<typeof SeasonsHeader> = {
   component: SeasonsHeader,
   args: { season },
   argTypes: { season: { table: { disable: true } } },
-  parameters: {
-    chromatic: {
-      viewports: [375, 1200],
-    },
-  },
 };
 
 export default meta;

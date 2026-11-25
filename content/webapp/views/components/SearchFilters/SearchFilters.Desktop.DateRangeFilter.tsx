@@ -20,11 +20,11 @@ const DesktopDateRangeFilter = ({
     <Space className={typography('body', 'md', 'regular')}>
       <Button
         variant="DropdownButton"
-        isPill
         label={f.label}
         buttonType="inline"
         id={f.id}
         hasNoOptions={hasNoOptions}
+        isPill
       >
         <DateRangeFilter f={f} changeHandler={changeHandler} form={form} />
       </Button>

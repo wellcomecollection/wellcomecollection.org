@@ -11,6 +11,7 @@ import styled, { css } from 'styled-components';
 import { typography } from '@weco/common/utils/classnames';
 import { dataGtmPropsToAttributes } from '@weco/common/utils/gtm';
 import Space from '@weco/common/views/components/styled/Space';
+import { designSystemColor } from '@weco/common/views/themes/config';
 import { SourceOntology } from '@weco/content/services/wellcome/catalogue/types';
 
 import MeshLogo from './mesh-logo.png';
@@ -50,10 +51,12 @@ const SourcePill = styled.div.attrs({
   display: inline-flex;
   align-items: center;
   border-radius: 20px;
-  background-color: ${props => props.theme.color('accent.green')}40;
   cursor: default;
   height: 22px;
   vertical-align: middle;
+
+  background-color: ${designSystemColor('green.30')};
+  color: ${designSystemColor('neutral.70')};
 
   @media (hover: hover) {
     &:hover ${SourceBoxContainer} {

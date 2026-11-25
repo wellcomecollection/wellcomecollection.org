@@ -32,7 +32,7 @@ export type Props = {
   isOnWhite?: boolean;
 };
 
-const titleText = 'On this page';
+const TITLE_TEXT = 'On this page';
 
 const InPageNavigation: FunctionComponent<Props> = ({
   links,
@@ -304,7 +304,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
 
   const activeLinkText =
     links.find(link => link.url.replace('#', '') === activeId)?.text ||
-    titleText;
+    TITLE_TEXT;
 
   const textRef = useRef<HTMLSpanElement>(null);
 
@@ -342,7 +342,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
           <h2
             className={`${typography('body', 'md', 'strong')} is-hidden-s is-hidden-m`}
           >
-            {titleText}
+            {TITLE_TEXT}
           </h2>
 
           <MobileNavButton
@@ -367,7 +367,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
             <AnimatedTextContainer>
               <SwitchTransition mode="out-in">
                 <CSSTransition
-                  key={hasStuck ? activeLinkText : titleText}
+                  key={hasStuck ? activeLinkText : TITLE_TEXT}
                   timeout={200}
                   nodeRef={textRef}
                   onEnter={() => {
@@ -410,10 +410,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
                     }}
                   >
                     {isListActive
-                      ? titleText
+                      ? TITLE_TEXT
                       : hasStuck
                         ? activeLinkText
-                        : titleText}
+                        : TITLE_TEXT}
                   </span>
                 </CSSTransition>
               </SwitchTransition>

@@ -57,6 +57,22 @@ export const squareImage = (
   },
 });
 
+export const icons: ImageType[] = [
+  'unwell-stay-home.png',
+  'wash-hands.jpg',
+  'two-faces.png',
+  'mask-icon.png',
+].map(filename => {
+  const contentUrl = `${imagesBaseUrl}/icons/${filename}`;
+  return {
+    contentUrl,
+    width: 300,
+    height: 300,
+    alt: '',
+    simpleCrops: { square: { contentUrl, width: 300, height: 300 } },
+  };
+});
+
 export const captionedImage = (extraProps?: string): CaptionedImageProps => ({
   image: image(extraProps),
   caption: [
@@ -128,13 +144,13 @@ export const imageWithCrops = {
 export const contentAPIImage: ContentApiImage = {
   type: 'PrismicImage',
   dimensions: {
-    width: 3543,
-    height: 1993,
+    width: 1600,
+    height: 900,
   },
   alt: 'A collage combining photos and illustration featuring a woman in a blue hairnet.',
   copyright:
     'The personal cost of mental illness | Tanya Cooper for Wellcome Collection | | | CC-BY-NC-ND | |',
-  url: 'https://images.prismic.io/wellcomecollection/Z1BdtpbqstJ98BwR_WellcomeCollection_Main.jpg?auto=format,compress',
+  url: florenceWinterfloodImageUrl('1600x900'),
   id: 'Z1BdtpbqstJ98BwR',
   edit: {
     x: 0,

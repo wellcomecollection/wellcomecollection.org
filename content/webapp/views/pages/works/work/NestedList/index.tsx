@@ -80,4 +80,6 @@ export {
   getTabbableIds,
   getWorkLevelLabel,
   isTreeDataWork,
+  updateChildren,
 } from './NestedList.helpers';
+export { getChildren } from './NestedList.ListItem';

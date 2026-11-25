@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { IconSvg } from '@weco/common/icons';
-import { PinnableColor } from '@weco/common/views/themes/config';
+import { ThemeColor } from '@weco/common/views/themes/config';
 
 type WrapperProps = {
   $rotate?: number;
-  $iconColor?: PinnableColor;
+  $iconColor?: ThemeColor;
   $matchText?: boolean;
   $sizeOverride?: string;
 };
@@ -22,20 +22,16 @@ const Wrapper = styled.span.attrs({
 
   ${props =>
     props.$iconColor && `color: ${props.theme.color(props.$iconColor)};`}
-  ${props => props.$rotate && `transform: rotate(${props.$rotate}deg);`}
+  ${props => (props.$rotate ? `transform: rotate(${props.$rotate}deg);` : '')}
 
   ${props =>
     props.$matchText &&
-    `
-    height: 1em;
-    width: 1em;
-  `}
+    css`
+      height: 1em;
+      width: 1em;
+    `}
 
-  ${props =>
-    props.$sizeOverride &&
-    `
-    ${props.$sizeOverride}
-  `}
+  ${props => props.$sizeOverride}
 
 
   .icon__svg {
@@ -54,7 +50,7 @@ const Wrapper = styled.span.attrs({
 type Props = {
   icon: IconSvg;
   rotate?: number;
-  iconColor?: PinnableColor;
+  iconColor?: ThemeColor;
   matchText?: boolean;
   sizeOverride?: string;
   title?: string;

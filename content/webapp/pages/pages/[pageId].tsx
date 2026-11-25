@@ -1,6 +1,9 @@
 import { NextPage } from 'next';
 
-import { isSiteSection } from '@weco/common/model/site-section';
+import {
+  isLandingPageSection,
+  isSiteSection,
+} from '@weco/common/model/site-section';
 import { getServerData } from '@weco/common/server-data';
 import { ServerData } from '@weco/common/server-data/types';
 import { looksLikePrismicId } from '@weco/common/services/prismic';
@@ -86,10 +89,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       const basicDocSiteSection = basicDocument.tags.find(t =>
         isSiteSection(t)
       );
-      const isLandingPage = basicDocSiteSection === pageId;
-
       const redirectUrl =
-        isLandingPage || !basicDocSiteSection
+        isLandingPageSection(pageId) || !basicDocSiteSection
           ? `/${pageId}`
           : `/${basicDocSiteSection}/${pageId}`;
 

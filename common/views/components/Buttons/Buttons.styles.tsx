@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { classNames, typography } from '@weco/common/utils/classnames';
 import Space from '@weco/common/views/components/styled/Space';
@@ -9,7 +9,6 @@ import {
 } from '@weco/common/views/themes/config';
 
 import {
-  ButtonColors,
   ButtonHierarchy,
   ButtonSize,
   SolidButtonStyledProps,
@@ -105,31 +104,27 @@ const getPadding = (size: ButtonSize = 'medium', isNewSearchBar?: boolean) => {
 };
 
 /** The brand colours for a button, or undefined if it should keep its preset
- * colours: the toggle is off, it's a pill (styled separately), or its colours
- * have no place in the hierarchy (e.g. `danger`).
+ * colours: it's a pill (styled separately), or it has no `hierarchy` and
+ * isn't `isDanger`.
  */
 export const getBrandButtonColors = ({
-  theme,
-  colors,
   hierarchy,
   isOnDark,
   isPill,
+  isDanger,
 }: {
-  theme: DefaultTheme;
-  colors?: ButtonColors;
   hierarchy?: ButtonHierarchy;
   isOnDark?: boolean;
   isPill?: boolean;
+  isDanger?: boolean;
 }): BrandButtonColors | undefined => {
-  if (!theme.brandUpdate || isPill) return undefined;
+  if (isPill) return undefined;
 
-  const presetColors = colors || theme.buttonColors.default;
-  const level = hierarchy || presetColors.hierarchy;
-  if (!level) return undefined;
+  if (isDanger) return brandButtonColors.danger;
+  if (!hierarchy) return undefined;
 
-  const onDark = isOnDark ?? presetColors.isOnDark;
   return brandButtonColors[
-    level === 'tertiary' && onDark ? 'tertiaryOnDark' : level
+    hierarchy === 'tertiary' && isOnDark ? 'tertiaryOnDark' : hierarchy
   ];
 };
 
@@ -140,7 +135,7 @@ export const brandButtonFocusStyle = css`
   box-shadow: 0 0 0 2px ${designSystemColor('neutral.05')};
 `;
 
-const brandButtonStyles = (colors: BrandButtonColors) => `
+export const brandButtonStyles = (colors: BrandButtonColors) => `
   background: ${designSystemColor(colors.default.background)};
   color: ${designSystemColor(colors.default.text)};
   border: 2px solid ${designSystemColor(colors.default.border)};
@@ -169,7 +164,7 @@ const brandButtonStyles = (colors: BrandButtonColors) => `
   }
 `;
 
-export const StyledButtonCSS = css<SolidButtonStyledProps>`
+const StyledButtonCSS = css<SolidButtonStyledProps>`
   padding: ${props => getPadding(props.$size, props.$isNewSearchBar)};
   ${props => `
     background:
@@ -184,59 +179,47 @@ export const StyledButtonCSS = css<SolidButtonStyledProps>`
 
   ${props =>
     props.$isPill
-      ? `
-        border-radius: 20px;
-        border: 1px solid ${props.theme.color('black')};
-        padding: ${
-          props.$hasIcon
-            ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
-                props.$isIconAfter ? '16px' : '8px'
-              }`
-            : '8px 16px'
-        };
+      ? css`
+          border-radius: 20px;
+          border: 1px solid ${props.theme.color('black')};
+          padding: ${
+            props.$hasIcon
+              ? `8px ${props.$isIconAfter ? '8px' : '16px'} 8px ${
+                  props.$isIconAfter ? '16px' : '8px'
+                }`
+              : '8px 16px'
+          };
 
-        ${
-          props.theme.brandUpdate
-            ? `
-              background: transparent;
+          background: transparent;
 
-              &:not([disabled]):hover {
-                background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-                text-decoration: underline;
-              }
+          &:not([disabled]):hover {
+            background: ${props.theme.color('neutral.10')};
+            text-decoration: underline;
+          }
 
-              /* An open dropdown */
-              &[aria-expanded='true']:not([disabled]) {
-                background: ${props.theme.color('black')};
-                color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-              }
-            `
-            : `
-              &:not([disabled]):hover {
-                box-shadow: ${props.theme.focusBoxShadow};
-              }
-            `
-        }
-      `
-      : `
+          /* An open dropdown */
+          &[aria-expanded='true']:not([disabled]) {
+            background: ${props.theme.color('black')};
+            color: ${props.theme.color('neutral.10')};
+          }
+        `
+      : css`
+          border: 2px solid
+            ${props.theme.color(
+              props?.$colors?.border || props.theme.buttonColors.default.border
+            )};
 
-        border: 2px solid
-        ${props.theme.color(
-          props?.$colors?.border || props.theme.buttonColors.default.border
-        )};
-
-        &:not([disabled]):hover {
-          text-decoration: underline;
-        }
-      `};
+          &:not([disabled]):hover {
+            text-decoration: underline;
+          }
+        `};
 
   ${props => {
     const brandColors = getBrandButtonColors({
-      theme: props.theme,
-      colors: props.$colors,
       hierarchy: props.$hierarchy,
       isOnDark: props.$isOnDark,
       isPill: props.$isPill,
+      isDanger: props.$isDanger,
     });
 
     return (

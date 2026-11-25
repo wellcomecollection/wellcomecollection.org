@@ -45,6 +45,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # Trialling the /works/<id>/items challenge here before prod (see the items-challenge rule in the module).
   enable_items_challenge = true
 
+  # Trialling the /search exemption from SQLi_QUERYARGUMENTS here before prod (see sqli-query-arguments-block in the module).
+  enable_search_sqli_exemption = true
+
   # Cuts billed challenge responses by blocking provably fabricated user
   # agents first. Matches prod.
   enable_search_legacy_ua_block = true
@@ -66,4 +69,8 @@ module "stage_wc_org_cloudfront_distribution" {
   # prod: blocks fraud that poses as a browser without self-identifying,
   # while leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
+
+  # Lightpanda harvests item pages from rotating IPv6 proxies and solves the
+  # challenge. Stage first, then prod.
+  blocked_user_agent_patterns = ["Lightpanda/"]
 }

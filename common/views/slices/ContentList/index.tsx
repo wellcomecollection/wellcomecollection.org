@@ -25,7 +25,7 @@ const ContentListSlice: FunctionComponent<ContentListProps> = ({
   const options = { ...defaultContext, ...context };
 
   const transformedSlice = transformContentListSlice(slice);
-  if (!options.hasLandingPageFormat) {
+  if (!options.isLandingPage) {
     return (
       <SpacingComponent $sliceType={transformedSlice.type}>
         <ConditionalWrapper

@@ -85,6 +85,7 @@ const IIIFItemDownload: FunctionComponent<Props> = ({
       {!isKiosk && (
         <Buttons
           variant="ButtonSolidLink"
+          hierarchy="primary"
           link={src}
           text={action}
           ariaLabel={`${action} ${hasRealLabel(label) ? label : 'document'}`}

@@ -4,7 +4,6 @@ import { SiteSection } from '@weco/common/model/site-section';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 
 import { Contributor } from './contributors';
-import { Format } from './format';
 import { GenericContentFields } from './generic-content-fields';
 import { Link } from './link';
 import { Season } from './seasons';
@@ -12,7 +11,6 @@ import { Season } from './seasons';
 export type BasePage = GenericContentFields<PagesDocumentDataBodySlice> & {
   introText?: prismic.RichTextField;
   uid: string;
-  format: Format | undefined;
   seasons: Season[];
   onThisPage: Link[];
   datePublished?: Date;

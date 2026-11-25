@@ -1,4 +1,9 @@
-import { deserialiseDates, removeUndefinedProps, serialiseDates } from './json';
+import {
+  deserialiseDates,
+  removeUndefinedProps,
+  serialiseDates,
+  serialiseForInlineScript,
+} from './json';
 
 describe('date serialisation', () => {
   it('serialises and deserialises instances of Date via JSON', () => {
@@ -87,5 +92,16 @@ describe('removeUndefinedProps', () => {
         },
       ],
     });
+  });
+});
+
+describe('serialiseForInlineScript', () => {
+  it('escapes < so content cannot end the script element', () => {
+    const serialised = serialiseForInlineScript({
+      name: 'Test </script> title',
+    });
+
+    expect(serialised).not.toContain('<');
+    expect(JSON.parse(serialised)).toEqual({ name: 'Test </script> title' });
   });
 });

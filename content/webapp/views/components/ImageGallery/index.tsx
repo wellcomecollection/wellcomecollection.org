@@ -206,6 +206,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
                     icon={cross}
                     clickHandler={handleCloseClicked}
                     replace
+                    isOnDark
                   />
                 </ControlContainer>
               </CloseWrapper>
@@ -267,6 +268,7 @@ const ImageGallery: FunctionComponent<{ id: string } & Props> = ({
               <ButtonContainer $isHidden={isActive}>
                 <Button
                   variant="ButtonSolid"
+                  hierarchy="primary"
                   ref={openButtonRef}
                   ariaControls={id}
                   ariaExpanded={isActive}

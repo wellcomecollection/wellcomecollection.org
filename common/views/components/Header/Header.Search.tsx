@@ -20,10 +20,8 @@ const Overlay = styled.div.attrs<OverlayProps>(props => ({
   width: 100%;
   height: 100%;
   background-color: ${props =>
-    props.theme.brandUpdate
-      ? `${props.theme.color(mediaBackgroundColor)}99` // 60%
-      : 'rgb(0, 0, 0, 0.6)'};
-  z-index: 9999;
+    `${props.theme.color(mediaBackgroundColor)}99`}; /* 60% */
+  z-index: ${props => props.theme.zIndex.headerSearch};
 `;
 
 const SearchBarWrapper = styled(Space).attrs({

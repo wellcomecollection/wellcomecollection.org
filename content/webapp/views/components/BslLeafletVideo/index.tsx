@@ -29,6 +29,12 @@ const BslLeafletButton = styled.button`
   }
 `;
 
+const TitleWrapper = styled(Space).attrs({
+  $h: { size: 'xl', properties: ['padding-right'] },
+})`
+  ${props => props.theme.mediaBetween('zero', 'md')('padding-right: 60px;')}
+`;
+
 const NewWindowVideo = styled.a`
   opacity: 0;
   position: absolute;
@@ -65,16 +71,20 @@ const BslLeafletVideo: FunctionComponent<Props> = ({
       >
         <Space
           $h={{ size: 'sm', properties: ['padding-left'] }}
-          $v={{ size: 'sm', properties: ['padding-top', 'padding-bottom'] }}
+          $v={{
+            size: 'sm',
+            properties: ['padding-top', 'padding-bottom'],
+            overrides: { zero: '300', sm: '200', md: '200' },
+          }}
         >
-          <Space $h={{ size: 'xl', properties: ['padding-right'] }}>
+          <TitleWrapper>
             <h3
               className={typography('body', 'md', 'strong')}
               style={{ marginBottom: 0 }}
             >
               {video.title}
             </h3>
-          </Space>
+          </TitleWrapper>
         </Space>
         {isModalActive ? (
           <>

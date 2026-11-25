@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-import { commissioningEditorRoleId } from '@weco/common/data/hardcoded-ids';
+import { COMMISSIONING_EDITOR_ROLE_ID } from '@weco/common/data/hardcoded-ids';
 import { typography } from '@weco/common/utils/classnames';
 import { capitalize } from '@weco/common/utils/grammar';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
+import PipeSeparated from '@weco/common/views/components/styled/PipeSeparated';
 import Space from '@weco/common/views/components/styled/Space';
 import Standfirst from '@weco/common/views/slices/Standfirst';
 import { Article } from '@weco/content/types/articles';
@@ -17,13 +18,6 @@ const ContentTypeText = styled.p.attrs({
   className: typography('body', 'sm', 'regular'),
 })`
   margin: 0;
-`;
-
-const ContentTypeInfoSection = styled.span`
-  &:not(:first-child)::before {
-    content: ' | ';
-    margin: 0 4px;
-  }
 `;
 
 const HTMLDateWrapper = styled.span.attrs({
@@ -49,9 +43,9 @@ const ContentTypeInfo = (article: Article) => (
           {/* We don't want to show commissioning editors in the byline at the top of articles. We filter them out here, and only show them as the last contributor(s) in the Contributors component at the end of articles */}
           {article.contributors.length > 0 &&
             article.contributors
-              .filter(({ role }) => role?.id !== commissioningEditorRoleId)
+              .filter(({ role }) => role?.id !== COMMISSIONING_EDITOR_ROLE_ID)
               .map(({ contributor, role }, i) => (
-                <ContentTypeInfoSection
+                <PipeSeparated
                   data-testid="contributor-name"
                   key={contributor.id}
                 >
@@ -66,15 +60,15 @@ const ContentTypeInfo = (article: Article) => (
                   <span className={typography('body', 'sm', 'strong')}>
                     {contributor.name}
                   </span>
-                </ContentTypeInfoSection>
+                </PipeSeparated>
               ))}
           {article.readingTime ? (
-            <ContentTypeInfoSection>
+            <PipeSeparated>
               average reading time{' '}
               <span className={typography('body', 'sm', 'strong')}>
                 {article.readingTime}
               </span>
-            </ContentTypeInfoSection>
+            </PipeSeparated>
           ) : null}
           {article.contributors.length > 0 && ' '}
 

@@ -11,9 +11,9 @@ const LoadingIndicatorWrapper = styled.div.attrs({
   }
 
   #nprogress .bar {
-    background: ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
+    background: ${props => props.theme.color('pink.30')};
     position: fixed;
-    z-index: 1031;
+    z-index: ${props => props.theme.zIndex.loadingIndicator};
     top: 0;
     left: 0;
     width: 100%;
@@ -27,10 +27,8 @@ const LoadingIndicatorWrapper = styled.div.attrs({
     width: 100px;
     height: 100%;
     box-shadow:
-      0 0 10px
-        ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })},
-      0 0 5px
-        ${props => props.theme.color({ brand: 'pink.30', legacy: 'yellow' })};
+      0 0 10px ${props => props.theme.color('pink.30')},
+      0 0 5px ${props => props.theme.color('pink.30')};
     opacity: 1;
     transform: rotate(3deg) translate(0, -4px);
   }
@@ -57,9 +55,14 @@ const LoadingIndicator: FunctionComponent = () => {
   NProgress.configure({
     showSpinner: false,
     parent: '.loading-indicator-wrapper',
+    template:
+      '<div class="bar" data-nprogress-bar><div class="peg"></div></div>',
+    barSelector: '[data-nprogress-bar]',
   });
 
-  return <LoadingIndicatorWrapper data-component="loading-indicator" />;
+  return (
+    <LoadingIndicatorWrapper data-component="loading-indicator" aria-hidden />
+  );
 };
 
 export default LoadingIndicator;

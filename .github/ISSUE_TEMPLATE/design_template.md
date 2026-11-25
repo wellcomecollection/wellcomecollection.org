@@ -2,9 +2,9 @@
 name: Design template
 about: Start on a design feature
 title: ''
-labels: ['needs: design']
+labels: 'needs: design'
 assignees: ''
-projects: ['wellcomecollection/18']
+
 ---
 
 ## Description

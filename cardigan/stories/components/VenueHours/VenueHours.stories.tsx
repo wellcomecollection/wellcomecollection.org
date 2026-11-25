@@ -2,10 +2,26 @@ import { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
+import { readingRoomImageUrl } from '@weco/cardigan/stories/data/images';
 import { Venue } from '@weco/common/model/opening-hours';
 import { galleriesVenue } from '@weco/common/test/fixtures/components/galleries-venue';
 import VenueHours from '@weco/content/views/components/VenueHours';
 import Readme from '@weco/content/views/components/VenueHours/README.mdx';
+
+// Serve the image locally: Prismic re-encodes it on each request, which can
+// make Chromatic flag a one-pixel difference
+const venueWithLocalImage: Venue = {
+  ...galleriesVenue,
+  image: galleriesVenue.image && {
+    ...galleriesVenue.image,
+    contentUrl: readingRoomImageUrl,
+    width: 3200,
+    height: 1800,
+    simpleCrops: {
+      '16:9': { contentUrl: readingRoomImageUrl, width: 3200, height: 1800 },
+    },
+  },
+};
 
 const VenueHoursComponent = ({
   hasUnusualHours,
@@ -71,7 +87,7 @@ const meta: Meta<typeof VenueHours> = {
   title: 'Components/VenueHours/VenueHours',
   component: VenueHours,
   args: {
-    venue: galleriesVenue,
+    venue: venueWithLocalImage,
   },
   argTypes: {
     venue: {

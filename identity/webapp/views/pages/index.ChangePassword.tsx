@@ -204,6 +204,7 @@ const ChangePassword: FunctionComponent<ChangeDetailsModalContentProps> = ({
         <Space $v={{ size: 'md', properties: ['margin-top'] }}>
           <Button
             variant="ButtonSolid"
+            hierarchy="primary"
             type={ButtonTypes.submit}
             text="Update password"
           />

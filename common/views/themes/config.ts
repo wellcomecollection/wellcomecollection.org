@@ -20,119 +20,9 @@ type SpaceProperty = HorizontalSpaceProperty | VerticalSpaceProperty;
 export type ColumnKey =
   's' | 'm' | 'l' | 'xl' | 'shiftM' | 'shiftL' | 'shiftXl';
 
-// suggested new colors
-const colors = {
-  // Core
-  // Wrap in core? Looks better for lightYellow but worse for the others...
-  white: '#ffffff',
-  black: '#121212',
-  yellow: '#ffce3c',
-  lightYellow: '#ffebad',
-
-  // Accents
-  'accent.purple': '#724e91',
-  'accent.lightPurple': '#baa4cd',
-  'accent.turquoise': '#1dbebb',
-  'accent.lightTurquoise': '#a2eeed',
-  'accent.blue': '#27476e',
-  'accent.lightBlue': '#a4bfdf',
-  'accent.green': '#4f7d68',
-  'accent.lightGreen': '#9bc0af',
-  'accent.salmon': '#ff6f59',
-  'accent.lightSalmon': '#ff9585',
-
-  // Neutral is a greyscale. Some have a matching warm colour, which sometimes suits our core yellow best.
-  // Their HSL Lightness is commented next to them, which explains how some match warm colours.
-  'neutral.200': '#fbfaf4', // lightness: 97 - matches warmNeutral.200
-  'neutral.300': '#e8e8e8', // lightness: 91 - matches warmNeutral.300
-  'neutral.400': '#d9d9d9', // lightness: 85 - matches warmNeutral.400
-  'neutral.500': '#8f8f8f', // lightness: 56
-  'neutral.600': '#6a6a6a', // suggested: lightness: 42
-  'neutral.700': '#323232', // lightness: 20
-
-  // Warm neutrals have equivalents in neutral (see lightness), but with a tinge of yellow to match the core colour.
-  'warmNeutral.200': '#fff9e6', // lightness: 95 - matches neutral.200
-  'warmNeutral.300': '#edece4', // lightness: 91 - matches neutral.300
-  'warmNeutral.400': '#d9d8d0', // lightness: 83 - matches neutral.400
-
-  // Validation, should only be used for that purpose. Consider other colours for other purposes.
-  'validation.red': '#e01b2f',
-  'validation.green': '#0b7051',
-
-  // Focus, should only be used for that purpose.
-  'focus.yellow': '#ffea00',
-};
-
-export type LegacyColor = keyof typeof colors;
-
-const passthroughColors = {
-  transparent: 'transparent',
-  inherit: 'inherit',
-  currentColor: 'currentColor',
-} as const;
-
-type PassthroughColor = keyof typeof passthroughColors;
-
-export type PaletteColor = LegacyColor | PassthroughColor;
-
-const colorValues = { ...colors, ...passthroughColors };
-
-/** A design system colour together with the colour to keep rendering in its
- * place while the `brandUpdate` toggle is off, e.g.
- * `theme.color({ brand: 'orange.30', legacy: 'neutral.400' })`.
- */
-export type PinnedColor<T extends PaletteColor = PaletteColor> = {
-  brand: DesignSystemColor;
-  legacy: T;
-};
-
-/** Like PaletteColor, but also allows a pin. Separate so that widening a prop
- * is a deliberate choice: some components compare the colour to a name.
- * Props limited to a few names can use `Pinnable<'white' | 'black'>`.
- */
-export type Pinnable<T extends PaletteColor> = T | PinnedColor<T>;
-export type PinnableColor = Pinnable<PaletteColor>;
-
-/** The page background. Anything that needs to blend into the page (e.g. a
- * decorative edge) should use this rather than `white`.
- */
-export const pageBackgroundColor: PinnedColor<'white'> = {
-  brand: 'neutral.05',
-  legacy: 'white',
-};
-
-/** The near-black backdrop behind images and video (e.g. the viewer canvas).
- * Pinned because `black` is the brand text colour, which is lighter.
- */
-export const mediaBackgroundColor: PinnedColor<'black'> = {
-  brand: 'neutral.80',
-  legacy: 'black',
-};
-
-/** How both palettes resolve a colour, so `theme.color(...)` behaves the same
- * either way.
- */
-type ColorFunction = (name: PinnableColor) => string;
-
-const isPinnedColor = (name: PinnableColor): name is PinnedColor =>
-  typeof name === 'object';
-
-/** The current-brand name of a colour, for components that compare a colour
- * to a name (e.g. to pick a contrasting text colour).
- */
-export const legacyColorName = <T extends PaletteColor>(
-  name: Pinnable<T>
-): T => (typeof name === 'object' ? name.legacy : name);
-
-const getColor: ColorFunction = name =>
-  isPinnedColor(name) ? colorValues[name.legacy] : colorValues[name];
-
-// Design system colours, introduced behind the `brandUpdate` toggle.
-// These are derived from the design system's own colour tokens
-// (`designSystemTheme.color`) rather than hand-transcribed, so they stay in
-// sync with the package. The tokens are nested objects of tinted scales; we
-// flatten them to a `.`-separated map (e.g. `neutral.10`, `ui.blue.40`) so they
-// can be used in the same way as the existing `colors` above.
+// The design system's colour tokens (`designSystemTheme.color`) are nested
+// objects of tinted scales; we flatten them to a `.`-separated map (e.g.
+// `neutral.10`, `ui.blue.40`) so they can be named in `theme.color(...)`.
 const coreColorKeys = [
   'white',
   'black',
@@ -203,76 +93,106 @@ const designSystemColors = flattenColors(coreColorSource) as Record<
   string
 >;
 
-// Maps each existing colour to its nearest equivalent in the core design system
-// scales, mostly chosen by hex distance. Used to swap palettes when the `brandUpdate`
-// toggle is on. The `Record<keyof typeof colors, ...>` type makes this
-// exhaustive: a new entry in `colors` is a type error until it's mapped here.
+// Colour names from before the design system, kept as aliases for their
+// nearest design system colour so existing call sites still work. Prefer
+// design system names in new code. The series `color` field in Prismic stores
+// some of these names, so they can't all go.
 //
-// Some rows are flagged because the core scales are a different palette to the
-// current one, so the nearest match is a poor visual fit (the core scales have
-// no purple, turquoise or salmon). These are kept as the nearest match for now;
-// adjust deliberately if design wants something else.
-const colorToDesignSystemColor: Record<keyof typeof colors, DesignSystemColor> =
-  {
-    white: 'white',
-    black: 'neutral.70',
-    yellow: 'yellow.30', // FIXME: such yellow
-    lightYellow: 'yellow.20',
+// An alias wins where both use the same name: `black` is `neutral.70`, the
+// text colour, not the design system's black.
+//
+// Some rows are flagged because the design system has no purple, turquoise or
+// salmon, so the nearest match is a poor visual fit. Adjust deliberately if
+// design wants something else.
+const colorAliases = {
+  white: 'white',
+  black: 'neutral.70',
+  yellow: 'yellow.30', // FIXME: such yellow
+  lightYellow: 'yellow.20',
 
-    'accent.purple': 'neutral.50', // FIXME: no purple in core scales; nearest is a grey
-    'accent.lightPurple': 'ui.grey.40', // FIXME: no purple in core scales; nearest is a grey
-    'accent.turquoise': 'blue.50', // FIXME: no turquoise in core scales; nearest is a blue
-    'accent.lightTurquoise': 'blue.20', // FIXME: no turquoise in core scales; nearest is a blue
-    'accent.blue': 'indigo.60',
-    'accent.lightBlue': 'blue.30',
-    'accent.green': 'teal.40',
-    'accent.lightGreen': 'green.40',
-    'accent.salmon': 'orange.40',
-    'accent.lightSalmon': 'orange.30',
+  'accent.purple': 'neutral.50', // FIXME: no purple in core scales; nearest is a grey
+  'accent.lightPurple': 'ui.grey.40', // FIXME: no purple in core scales; nearest is a grey
+  'accent.turquoise': 'blue.50', // FIXME: no turquoise in core scales; nearest is a blue
+  'accent.lightTurquoise': 'blue.20', // FIXME: no turquoise in core scales; nearest is a blue
+  'accent.blue': 'indigo.60',
+  'accent.lightBlue': 'blue.30',
+  'accent.green': 'teal.40',
+  'accent.lightGreen': 'green.40',
+  'accent.salmon': 'orange.40',
+  'accent.lightSalmon': 'orange.30',
 
-    'neutral.200': 'neutral.05',
-    'neutral.300': 'neutral.20',
-    'neutral.400': 'neutral.20',
-    'neutral.500': 'neutral.40',
-    'neutral.600': 'neutral.50',
-    'neutral.700': 'neutral.70',
+  'neutral.200': 'neutral.05',
+  'neutral.300': 'neutral.20',
+  'neutral.400': 'neutral.20',
+  'neutral.500': 'neutral.40',
+  'neutral.600': 'neutral.50',
+  'neutral.700': 'neutral.70',
 
-    'warmNeutral.200': 'yellow.10',
-    'warmNeutral.300': 'neutral.10',
-    'warmNeutral.400': 'neutral.20',
+  'warmNeutral.200': 'yellow.10',
+  'warmNeutral.300': 'neutral.10',
+  'warmNeutral.400': 'neutral.20',
 
-    'validation.red': 'ui.red.40',
-    'validation.green': 'teal.50', // FIXME: nearest is a teal, not a green
+  'validation.red': 'ui.red.40',
+  'validation.green': 'teal.50', // FIXME: nearest is a teal, not a green
 
-    'focus.yellow': 'yellow.30',
-  };
+  'focus.yellow': 'yellow.30',
+} as const satisfies Record<string, DesignSystemColor>;
 
-// The existing `colors`, resolved to their design system equivalents. Same keys
-// as `colors`, so anything reading `theme.colors[...]` directly (rather than via
-// `color()`) also switches palettes when `brandUpdate` is on.
-const brandUpdateColors = Object.fromEntries(
-  (Object.keys(colors) as (keyof typeof colors)[]).map(name => [
+type ColorAlias = keyof typeof colorAliases;
+
+// The aliases resolved to hex values, for anything that reads
+// `theme.colors[...]` directly rather than via `color()`.
+const colors = Object.fromEntries(
+  (Object.keys(colorAliases) as ColorAlias[]).map(name => [
     name,
-    designSystemColors[colorToDesignSystemColor[name]],
+    designSystemColors[colorAliases[name]],
   ])
-) as Record<keyof typeof colors, string>;
+) as Record<ColorAlias, string>;
 
-const brandUpdateColorValues = {
-  ...brandUpdateColors,
-  ...passthroughColors,
-};
+const passthroughColors = {
+  transparent: 'transparent',
+  inherit: 'inherit',
+  currentColor: 'currentColor',
+} as const;
 
-/** A design system colour by name, for brand-only styles that have no
- * current-brand equivalent to pin to.
+type PassthroughColor = keyof typeof passthroughColors;
+
+export type PaletteColor = ColorAlias | PassthroughColor;
+
+/** Anything `theme.color(...)` accepts: an alias, a value CSS resolves itself,
+ * or a design system colour.
+ */
+export type ThemeColor = PaletteColor | DesignSystemColor;
+
+const isColorAlias = (name: ThemeColor): name is ColorAlias =>
+  name in colorAliases;
+
+const isPassthroughColor = (name: ThemeColor): name is PassthroughColor =>
+  name in passthroughColors;
+
+const getColor = (name: ThemeColor): string =>
+  isColorAlias(name)
+    ? colors[name]
+    : isPassthroughColor(name)
+      ? passthroughColors[name]
+      : designSystemColors[name];
+
+/** The page background. Anything that needs to blend into the page (e.g. a
+ * decorative edge) should use this rather than `white`.
+ */
+export const pageBackgroundColor = 'neutral.05' satisfies DesignSystemColor;
+
+/** The near-black backdrop behind images and video (e.g. the viewer canvas).
+ * Darker than `black`, which is the text colour.
+ */
+export const mediaBackgroundColor = 'neutral.80' satisfies DesignSystemColor;
+
+/** A design system colour by name, for styles outside a theme (e.g. passed to
+ * a third-party script).
  */
 export const designSystemColor = (
   name: DesignSystemColor | 'transparent'
 ): string => (name === 'transparent' ? name : designSystemColors[name]);
-
-const getBrandUpdateColor: ColorFunction = name =>
-  isPinnedColor(name)
-    ? designSystemColors[name.brand]
-    : brandUpdateColorValues[name];
 
 export const sizes = {
   zero: '0rem',
@@ -295,7 +215,6 @@ const defaultButtonColors: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
-  hierarchy: 'primary',
 };
 
 const dangerButtonColors: ButtonColors = {
@@ -307,94 +226,60 @@ const dangerButtonColors: ButtonColors = {
 // Button color naming convention: [border][Background][Text]
 // TODO: Work out and document which variants we want to use when/where/why
 // (and possibly improve naming at that point)
+// The names use the old palette's: charcoal is neutral.700, pumice is
+// warmNeutral.400 or neutral.400
 const charcoalWhiteCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
+  text: 'neutral.700',
 };
 
 const greenTransparentGreen: ButtonColors = {
   border: 'accent.green',
   background: 'transparent',
   text: 'accent.green',
-  hierarchy: 'tertiary',
 };
 
 const greenGreenWhite: ButtonColors = {
   border: 'accent.green',
   background: 'accent.green',
   text: 'white',
-  hierarchy: 'primary',
 };
 
 const whiteTransparentWhite: ButtonColors = {
   border: 'white',
   background: 'transparent',
   text: 'white',
-  hierarchy: 'tertiary',
-  isOnDark: true,
 };
 
 const pumiceTransparentCharcoal: ButtonColors = {
-  border: 'warmNeutral.400', // legacy pumice color
+  border: 'warmNeutral.400',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
+  text: 'neutral.700',
 };
 
 const charcoalTransparentCharcoal: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
+  border: 'neutral.700',
   background: 'transparent',
-  text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
-};
-
-const charcoalTransparentBlack: ButtonColors = {
-  border: 'neutral.700', // legacy charcoal color
-  background: 'transparent',
-  text: 'black',
-  hierarchy: 'tertiary',
+  text: 'neutral.700',
 };
 
 const marbleWhiteCharcoal: ButtonColors = {
-  border: 'neutral.400', // legacy pumice color
+  border: 'neutral.400',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
-  hierarchy: 'tertiary',
+  text: 'neutral.700',
 };
 
-// New button style introduction
-// If we chose to move forward with new buttons
-// Remove border prop
 const yellowYellowBlack: ButtonColors = {
   border: 'yellow',
   background: 'yellow',
   text: 'black',
-  hierarchy: 'secondary',
 };
 
 const whiteWhiteCharcoal: ButtonColors = {
   border: 'white',
   background: 'white',
-  text: 'neutral.700', // legacy charcoal color
-};
-
-const silverTransparentBlack: ButtonColors = {
-  border: 'neutral.300',
-  background: 'transparent',
-  text: 'black',
-};
-
-const slateTransparentBlack: ButtonColors = {
-  border: 'neutral.600',
-  background: 'transparent',
-  text: 'black',
-};
-
-const slateWhiteBlack: ButtonColors = {
-  border: 'neutral.600',
-  background: 'white',
-  text: 'black',
+  text: 'neutral.700',
 };
 
 type BrandButtonColor = DesignSystemColor | 'transparent';
@@ -426,7 +311,7 @@ const outlinedDisabled: BrandButtonStateColors = {
 // Button colours from the brand designs. Only tertiary changes on a dark
 // background; hover adds an underline rather than changing colour.
 export const brandButtonColors: Record<
-  ButtonHierarchy | 'tertiaryOnDark',
+  ButtonHierarchy | 'tertiaryOnDark' | 'danger',
   BrandButtonColors
 > = {
   primary: {
@@ -465,6 +350,13 @@ export const brandButtonColors: Record<
     active: { border: 'blue.40', background: 'transparent', text: 'blue.40' },
     disabled: outlinedDisabled,
   },
+  // Pure black rather than neutral.70, which doesn't have enough contrast on
+  // ui.red.40. There's no mid red, so pressing adds a darker stroke instead
+  danger: {
+    default: { border: 'ui.red.40', background: 'ui.red.40', text: 'black' },
+    active: { border: 'ui.red.60', background: 'ui.red.40', text: 'black' },
+    disabled: filledDisabled,
+  },
 };
 
 export type Size = keyof typeof sizes;
@@ -498,6 +390,11 @@ const breakpointNames = ['zero', 'sm', 'md'];
 // but not exported yet
 export const containerPadding = '5%';
 const containerPaddingVw = '5vw';
+
+// Where the content of a Container starts: half of the space left either side
+// of its max width, plus its own padding, which is a share of the parent's width
+export const containerEdge = (maxWidth: string) =>
+  `calc(max(0px, (100% - ${maxWidth}) / 2) + ${containerPadding})`;
 
 // Map current space sizes to design system responsive spacing
 // xs → space.2xs, s → space.xs, m → space.sm, l → space.lg, xl → space.xl
@@ -649,10 +546,24 @@ export const themeValues = {
   navHeight: 85,
   kioskNavigationHeight: 88, // Height of the KioskNavigation bar shown in all kiosk modes
   kioskTRBannersHeight: 172, // TR-specific top banners height (without navigation)
+  // The layers that decide what covers what, lowest to highest. Small values
+  // that only order things inside a single component stay local.
+  // viewerLoading and kioskNavigation share a value as they never show together.
+  zIndex: {
+    header: 6,
+    skipLink: 7, // Focused skip link, just above the header
+    headerMenuOpen: 10, // The fixed header while the mobile menu is open
+    apiToolbar: 100,
+    viewerLoading: 1000,
+    kioskNavigation: 1000,
+    toggleWidget: 1001,
+    modalOverlay: 1002,
+    modalWindow: 1003,
+    loadingIndicator: 1031,
+    headerSearch: 9999,
+    prismicPreviewBar: 2147483000,
+  },
   fontVerticalOffset: '0.15em',
-  // For the few brand changes a colour pin can't express, e.g. a style that
-  // only exists in the new brand
-  brandUpdate: false,
   colors,
   color: getColor,
   minCardHeight: 385,
@@ -679,35 +590,14 @@ export const themeValues = {
     whiteTransparentWhite,
     pumiceTransparentCharcoal,
     charcoalTransparentCharcoal,
-    charcoalTransparentBlack,
     marbleWhiteCharcoal,
     yellowYellowBlack,
     whiteWhiteCharcoal,
-    silverTransparentBlack,
-    slateTransparentBlack,
-    slateWhiteBlack,
     greenGreenWhite,
   },
   spacedTextTopMargin: '1.55em',
   clampLines,
   typography: designSystemTheme.typography,
 };
-
-// Builds the theme passed to ThemeProvider. When the `brandUpdate` toggle is on,
-// the palette is swapped for its nearest design system equivalents
-// (see colorToDesignSystemColor): `color()`, the raw `colors` map, and any
-// values derived from it (e.g. focusBoxShadow) all switch together so the theme
-// stays internally consistent. `color` keeps the same signature either way, so
-// all `theme.color(...)` call sites are remapped transparently.
-export const createTheme = (brandUpdate: boolean) =>
-  brandUpdate
-    ? {
-        ...themeValues,
-        brandUpdate: true,
-        colors: brandUpdateColors,
-        color: getBrandUpdateColor,
-        focusBoxShadow: `0 0 0 3px ${brandUpdateColors['focus.yellow']}`,
-      }
-    : themeValues;
 
 export type Breakpoint = keyof typeof sizes;

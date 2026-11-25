@@ -1,3 +1,5 @@
+import { Page } from '@playwright/test';
+
 import { expect, test } from './helpers/analytics-blocking';
 import { isMobile, search } from './helpers/contexts';
 import {
@@ -10,6 +12,17 @@ import {
 import { ItemViewerURLRegex } from './helpers/utils';
 
 test.describe.configure({ mode: 'parallel' });
+
+// The image details open in a modal, or in a sidebar once the imageSidebarPhases
+// toggle is public. This finds whichever is showing, so these tests pass either
+// way. Once we've moved permanently to the sidebar, the sidebar tests in
+// image-sidebar.test.ts cover the same things, so tests (2) and (3) can go.
+const imageDetails = (page: Page) =>
+  page.getByTestId('image-modal').or(
+    page.getByRole('region').filter({
+      has: page.getByRole('button', { name: 'Close image details' }),
+    })
+  );
 
 test('(1) | Search by term, filter by colour, check results, view image details, view expanded image', async ({
   page,
@@ -35,7 +48,7 @@ test('(1) | Search by term, filter by colour, check results, view image details,
   await expect(page).toHaveURL(RegExp(ItemViewerURLRegex));
 });
 
-test('(2) | Image Modal | images without contributors still show a title', async ({
+test('(2) | Image details | images without contributors still show a title', async ({
   page,
   context,
 }) => {
@@ -44,11 +57,11 @@ test('(2) | Image Modal | images without contributors still show a title', async
   await clickImageSearchResultItem(1, page);
 
   await expect(
-    page.getByTestId('image-modal').getByText('Fish. Watercolour drawing.')
+    imageDetails(page).getByText('Fish. Watercolour drawing.')
   ).toBeVisible();
 });
 
-test('(3) | Image Modal | images with contributors show both title and contributor', async ({
+test('(3) | Image details | images with contributors show both title and contributor', async ({
   page,
   context,
 }) => {
@@ -56,11 +69,11 @@ test('(3) | Image Modal | images with contributors show both title and contribut
   await searchQuerySubmitAndWait('fcmwqd5u', page);
   await clickImageSearchResultItem(1, page);
 
-  const imageModal = await page.getByTestId('image-modal');
+  const details = imageDetails(page);
   await expect(
-    imageModal.getByRole('heading', { name: 'Dr. Darwin.' })
+    details.getByRole('heading', { name: 'Dr. Darwin.' })
   ).toBeVisible();
-  await expect(imageModal).toContainText('Fortey, W. S. (William Samuel)');
+  await expect(details).toContainText('Fortey, W. S. (William Samuel)');
 });
 
 test('(4) | Search for images between dates; there is a list of results', async ({

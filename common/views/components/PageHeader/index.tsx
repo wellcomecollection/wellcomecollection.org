@@ -28,8 +28,8 @@ export const pageGridLayout: SizeMap = {
 function addFreeLabel(labelListProps) {
   const freeLabel: Label = {
     text: 'Free',
-    labelColor: { brand: 'yellow.30', legacy: 'black' },
-    textColor: { brand: 'neutral.70', legacy: 'white' },
+    labelColor: 'yellow.30',
+    textColor: 'neutral.70',
   };
   const labels = [freeLabel, ...(labelListProps?.labels ?? [])];
   return { ...(labelListProps ?? {}), labels };

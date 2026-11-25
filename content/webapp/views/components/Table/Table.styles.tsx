@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 
@@ -6,17 +6,11 @@ export const ControlsWrap = styled.div`
   position: relative;
 `;
 
-export const ScrollButtonWrap = styled.div<{
-  $isActive?: boolean;
-  $isLeft?: boolean;
-}>`
+export const ScrollButtonWrap = styled.div<{ $isLeft?: boolean }>`
   position: absolute;
   z-index: 2;
   top: 50%;
   cursor: pointer;
-  pointer-events: ${props => (props.$isActive ? 'all' : 'none')};
-  opacity: ${props => (props.$isActive ? 1 : 0.2)};
-  transition: opacity ${props => props.theme.transitionProperties};
 
   /* This hack is needed to override the spacing caused by being placed within a div with .spaced-text. */
   .spaced-text & {
@@ -25,17 +19,17 @@ export const ScrollButtonWrap = styled.div<{
 
   ${props =>
     props.$isLeft &&
-    `
-    left: 0;
-    transform: translateX(-50%) translateY(-50%) scale(0.6);
-  `}
+    css`
+      left: 0;
+      transform: translateX(-50%) translateY(-50%) scale(0.6);
+    `}
 
   ${props =>
     !props.$isLeft &&
-    `
-    right: 0;
-    transform: translateX(50%) translateY(-50%) scale(0.6);
-  `}
+    css`
+      right: 0;
+      transform: translateX(50%) translateY(-50%) scale(0.6);
+    `}
 
   ${props =>
     props.theme.media('sm')(`

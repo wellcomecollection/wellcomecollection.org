@@ -6,6 +6,8 @@ import { tokens } from '@weco/dash/views/themes/tokens';
 type ToggleDatesProps = {
   dateCreated?: string;
   dateActivated?: string;
+  /** What `dateActivated` means for this toggle, e.g. a phased flag only knows its latest phase */
+  activatedLabel?: string;
   children: ReactNode;
 };
 
@@ -85,6 +87,7 @@ const HeadingWrapper = styled.div`
 const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
   dateCreated,
   dateActivated,
+  activatedLabel = 'Activated',
   children,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -114,7 +117,7 @@ const ToggleDates: FunctionComponent<ToggleDatesProps> = ({
         )}
         {dateActivated && (
           <div>
-            <strong>Activated:</strong> {formatDate(dateActivated)} (
+            <strong>{activatedLabel}:</strong> {formatDate(dateActivated)} (
             {calculateTimeAgo(dateActivated)})
           </div>
         )}

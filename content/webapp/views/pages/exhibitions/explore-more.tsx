@@ -70,8 +70,8 @@ const ExploreMorePage: NextPage<Props> = ({
       openGraphType="website"
       siteSection="whats-on"
       image={exhibition.image}
-      isNoIndex
       apiToolbarLinks={[createPrismicLink(page.id)]}
+      isNoIndex
     >
       <PageHeader
         variant="basic"
@@ -85,12 +85,12 @@ const ExploreMorePage: NextPage<Props> = ({
           },
         ])}
         title={page.title}
-        isContentTypeInfoBeforeMedia
         ContentTypeInfo={
           page.introText && page.introText.length > 0 ? (
             <PageHeaderStandfirst html={page.introText} />
           ) : undefined
         }
+        isContentTypeInfoBeforeMedia
       />
 
       <SpacingSection>
@@ -122,7 +122,6 @@ const ExploreMorePage: NextPage<Props> = ({
           group.works.length > 0 ? (
             <div key={group.heading}>
               <ScrollContainer
-                hasWorkCards
                 CopyContent={
                   <>
                     <h3
@@ -136,6 +135,7 @@ const ExploreMorePage: NextPage<Props> = ({
                   </>
                 }
                 gridSizes={gridSize12()}
+                hasWorkCards
                 useShim
               >
                 {group.works.map((work, workIndex) => (
@@ -163,10 +163,10 @@ const ExploreMorePage: NextPage<Props> = ({
           <Space $v={{ size: 'md', properties: ['margin-top'] }}>
             <ScrollContainer
               gridSizes={gridSize12()}
-              useShim
               CopyContent={
                 <p>Find the items on display in our online catalogue.</p>
               }
+              useShim
             >
               {exhibitionWorks.map((work, index) => (
                 <ListItem key={work.id} $usesShim>

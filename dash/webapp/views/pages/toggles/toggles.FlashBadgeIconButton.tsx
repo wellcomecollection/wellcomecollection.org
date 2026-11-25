@@ -14,8 +14,7 @@ export const IconActionWrapper = styled.span`
 `;
 
 export const IconActionButton = styled.button<{
-  $color: string;
-  $hoverBackground: string;
+  $color?: string;
   $disabled?: boolean;
 }>`
   background: none;
@@ -24,13 +23,17 @@ export const IconActionButton = styled.button<{
   cursor: ${props => (props.$disabled ? 'not-allowed' : 'pointer')};
   display: inline-flex;
   align-items: center;
-  color: ${props => props.$color};
+  color: ${props => props.$color ?? tokens.colors.text.secondary};
   border-radius: ${tokens.borderRadius.small};
   position: relative;
   line-height: 1;
 
   &:hover {
-    background: ${props => (props.$disabled ? 'none' : props.$hoverBackground)};
+    background: ${props => (props.$disabled ? 'none' : tokens.colors.info.light)};
+    color: ${props =>
+      props.$disabled
+        ? (props.$color ?? tokens.colors.text.secondary)
+        : tokens.colors.info.text};
   }
 
   &:focus-visible {
@@ -39,7 +42,7 @@ export const IconActionButton = styled.button<{
   }
 `;
 
-export const FlashBadge = styled.span<{ $color: string; $background: string }>`
+export const FlashBadge = styled.span`
   position: absolute;
   bottom: calc(100% + 4px);
   left: 50%;
@@ -48,8 +51,9 @@ export const FlashBadge = styled.span<{ $color: string; $background: string }>`
   pointer-events: none;
   white-space: nowrap;
   font-size: ${tokens.typography.fontSize.small};
-  color: ${props => props.$color};
-  background: ${props => props.$background};
+  color: ${tokens.colors.black};
+  background: ${tokens.colors.white};
+  border: 1px solid ${tokens.colors.black};
   padding: 2px 6px;
   border-radius: 10px;
   animation: fade-in-out 2s ease forwards;

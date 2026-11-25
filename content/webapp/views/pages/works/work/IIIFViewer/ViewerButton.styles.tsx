@@ -1,10 +1,15 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
+import {
+  brandButtonFocusStyle,
+  brandButtonStyles,
+} from '@weco/common/views/components/Buttons';
+import { brandButtonColors } from '@weco/common/views/themes/config';
 
 export const ViewerButton = styled.button.attrs({
   className: typography('body', 'md', 'strong'),
-})<{ $isDark?: boolean }>`
+})<{ $isDark?: boolean; $isTertiary?: boolean }>`
   line-height: 1.5;
   border-radius: ${props => props.theme.borderRadiusUnit}px;
   text-decoration: none;
@@ -39,26 +44,42 @@ export const ViewerButton = styled.button.attrs({
 
   ${props =>
     props.$isDark &&
-    `
-    border: 2px solid transparent;
-    color: ${props.theme.color('white')};
-    background: transparent;
+    !props.$isTertiary &&
+    css`
+      border: 2px solid transparent;
+      color: ${props.theme.color('white')};
+      background: transparent;
 
-    &:not([disabled]):hover {
-      border: 2px solid ${props.theme.color('white')};
-    }
-  `}
+      &:not([disabled]):hover {
+        border: 2px solid ${props.theme.color('white')};
+      }
+    `}
 
   ${props =>
     !props.$isDark &&
-    `
-    background: ${props.theme.color('white')};
-    color: ${props.theme.color('accent.green')};
-    border: 1px solid ${props.theme.color('accent.green')};
+    css`
+      background: ${props.theme.color('white')};
+      color: ${props.theme.color('accent.green')};
+      border: 1px solid ${props.theme.color('accent.green')};
 
-    &:not([disabled]):hover {
-      background: ${props.theme.color('accent.green')};
-      color: ${props.theme.color('white')};
-    }
-  `}
+      &:not([disabled]):hover {
+        background: ${props.theme.color('accent.green')};
+        color: ${props.theme.color('white')};
+      }
+    `}
+`;
+
+export const TertiaryViewerButton = styled(ViewerButton).attrs({
+  $isDark: true,
+  $isTertiary: true,
+})`
+  border-radius: 0;
+  min-height: 36px;
+  padding: 0 12px;
+  line-height: 1;
+  ${brandButtonStyles(brandButtonColors.tertiaryOnDark)}
+
+  &:focus-visible {
+    ${brandButtonFocusStyle}
+  }
 `;

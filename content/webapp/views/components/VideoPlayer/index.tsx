@@ -57,11 +57,11 @@ const VideoPlayer: FunctionComponent<Props> = ({
       onEnded={trackEnded}
       onTimeUpdate={trackTimeUpdate}
       controlsList={!showDownloadOptions ? 'nodownload' : undefined}
-      controls
       preload="none"
       poster={placeholderId}
       $posterFailed={posterFailed}
       $aspectRatio={aspectRatio}
+      controls
     >
       <source src={video.id} type={video.format} />
       Sorry, your browser doesn&apos;t support embedded video.

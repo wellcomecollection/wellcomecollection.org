@@ -1,10 +1,10 @@
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { useAppContext } from '@weco/common/contexts/AppContext';
 import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { useUserContext } from '@weco/common/contexts/UserContext';
-import { chevrons, gridView, singlePage } from '@weco/common/icons';
+import { chevron, gridView, singlePage } from '@weco/common/icons';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { typography } from '@weco/common/utils/classnames';
 import { OptionalToUndefined } from '@weco/common/utils/utility-types';
@@ -19,7 +19,7 @@ import Download from '@weco/content/views/components/Download';
 import CanvasPositionIndicator from './CanvasPositionIndicator';
 import FullscreenToggleButton from './FullscreenToggleButton';
 import ToolbarSegmentedControl from './ToolbarSegmentedControl';
-import { ViewerButton } from './ViewerButton.styles';
+import { TertiaryViewerButton } from './ViewerButton.styles';
 
 const TopBar = styled.div<{
   $isZooming: boolean;
@@ -52,9 +52,9 @@ const TopBar = styled.div<{
 
   ${props =>
     !props.$isDesktopSidebarActive &&
-    `
+    css`
       grid-template-columns: [left-edge] min-content [desktop-sidebar-end main-start desktop-topbar-start] 9fr [right-edge];
-  `}
+    `}
 
   ${props =>
     !props.$isDesktopSidebarActive &&
@@ -164,33 +164,34 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
       <TopBarSidebarZone $isZooming={showZoomed}>
         {isEnhanced && !showZoomed && (
           <>
-            <ViewerButton
+            <TertiaryViewerButton
               data-gtm-trigger="toggle_side_panel"
               className="viewer-desktop"
-              $isDark
               onClick={() => {
                 setIsDesktopSidebarActive(!isDesktopSidebarActive);
               }}
             >
-              <Icon
-                icon={chevrons}
-                iconColor="white"
-                rotate={isDesktopSidebarActive ? undefined : 180}
-              />
-              <span className="visually-hidden">
-                {isDesktopSidebarActive ? 'Hide info' : 'Show info'}
-              </span>
-            </ViewerButton>
+              {isDesktopSidebarActive ? (
+                <>
+                  <Icon icon={chevron} rotate={90} />
+                  <span style={{ marginLeft: '4px' }}>Hide info</span>
+                </>
+              ) : (
+                <>
+                  <span style={{ marginRight: '4px' }}>Show info</span>
+                  <Icon icon={chevron} rotate={270} />
+                </>
+              )}
+            </TertiaryViewerButton>
 
-            <ViewerButton
+            <TertiaryViewerButton
               className="viewer-mobile"
-              $isDark
               onClick={() => {
                 setIsMobileSidebarActive(!isMobileSidebarActive);
               }}
             >
               {isMobileSidebarActive ? 'Hide info' : 'Show info'}
-            </ViewerButton>
+            </TertiaryViewerButton>
           </>
         )}
       </TopBarSidebarZone>
@@ -248,6 +249,7 @@ const ViewerTopBar: FunctionComponent<ViewerTopBarProps> = ({
                     <Download
                       ariaControlsId="itemDownloads"
                       downloadOptions={downloadOptions}
+                      hierarchy="secondary"
                       useDarkControl
                       isInline
                     />

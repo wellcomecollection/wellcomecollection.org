@@ -60,8 +60,9 @@ export function formatNumber(
   n: number,
   options?: { isCompact: boolean }
 ): string {
+  // en-US because CLDR 48 (Node 24.22+) lowercases en-GB compact suffixes (1.9k)
   const format = options?.isCompact
-    ? new Intl.NumberFormat('en-GB', {
+    ? new Intl.NumberFormat('en-US', {
         notation: 'compact',
       })
     : new Intl.NumberFormat('en-GB');

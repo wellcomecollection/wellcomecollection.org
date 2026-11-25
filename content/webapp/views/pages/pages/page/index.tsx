@@ -2,31 +2,26 @@ import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 import { ReactElement } from 'react';
 
+import { prismicPageIds } from '@weco/common/data/hardcoded-ids';
 import {
-  officialLandingPagesUid,
-  prismicPageIds,
-} from '@weco/common/data/hardcoded-ids';
-import { SiteSection } from '@weco/common/model/site-section';
+  isLandingPageSection,
+  SiteSection,
+} from '@weco/common/model/site-section';
 import { PagesDocumentDataBodySlice } from '@weco/common/prismicio-types';
 import linkResolver from '@weco/common/services/prismic/link-resolver';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { isNotUndefined } from '@weco/common/utils/type-guards';
 import { createPrismicLink } from '@weco/common/views/components/ApiToolbar';
 import { links } from '@weco/common/views/components/Header';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import HTMLDateAndTime from '@weco/common/views/components/HTMLDateAndTime';
 import { JsonLdObj } from '@weco/common/views/components/JsonLd';
-import { makeLabels } from '@weco/common/views/components/LabelsList';
 import { gridSize12, gridSize8 } from '@weco/common/views/components/Layout';
 import PageHeader from '@weco/common/views/components/PageHeader';
 import SpacingComponent from '@weco/common/views/components/styled/SpacingComponent';
 import SpacingSection from '@weco/common/views/components/styled/SpacingSection';
 import VideoEmbed from '@weco/common/views/components/VideoEmbed';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
-import { PageFormatIds } from '@weco/content/data/content-format-ids';
 import { transformEmbedSlice } from '@weco/content/services/prismic/transformers/body';
 import { isEditorialImage, isVideoEmbed } from '@weco/content/types/body';
 import { Page as PageType } from '@weco/content/types/pages';
@@ -70,16 +65,7 @@ export const PagePage: NextPage<Props> = ({
   const DateInfo = page.datePublished && (
     <HTMLDateAndTime variant="date" date={page.datePublished} />
   );
-  const hasLandingPageFormat =
-    page.format && page.format.id === PageFormatIds.Landing;
-  const labels =
-    !hasLandingPageFormat && page.format?.title
-      ? makeLabels(page.format?.title)
-      : undefined;
-
-  const backgroundTexture = hasLandingPageFormat
-    ? landingHeaderBackgroundLs
-    : headerBackgroundLs;
+  const isLandingPage = isLandingPageSection(page.uid);
 
   const featuredPicture =
     page.untransformedBody.length > 1 &&
@@ -111,10 +97,8 @@ export const PagePage: NextPage<Props> = ({
     <VideoEmbed {...transformFeaturedVideo.value} />
   ) : undefined;
 
-  const isOfficialLandingPage = officialLandingPagesUid.includes(page.uid);
-
   function getBreadcrumbText(siteSection: string): string {
-    return hasLandingPageFormat
+    return isLandingPage
       ? '\u200b'
       : links.find(link => link.siteSection === siteSection)?.title ||
           siteSection;
@@ -148,25 +132,21 @@ export const PagePage: NextPage<Props> = ({
   };
 
   const displayBackground =
-    featuredMedia && !isOfficialLandingPage ? (
-      <HeaderBackground
-        backgroundTexture={backgroundTexture}
-        hasWobblyEdge={!hasLandingPageFormat}
-      />
+    featuredMedia && !isLandingPage ? (
+      <HeaderBackground backgroundTexture={headerBackgroundLs} hasWobblyEdge />
     ) : undefined;
 
   const getHeader = () => {
     const sharedProps = {
       backgroundTexture:
-        !featuredMedia && !hasLandingPageFormat ? backgroundTexture : undefined,
-      labels,
+        !featuredMedia && !isLandingPage ? headerBackgroundLs : undefined,
       title: page.title,
       FeaturedMedia: featuredMedia,
       Background: displayBackground,
       ContentTypeInfo: DateInfo,
     };
 
-    return isOfficialLandingPage ? (
+    return isLandingPage ? (
       <PageHeader
         variant="landing"
         introText={page.introText}
@@ -262,8 +242,7 @@ export const PagePage: NextPage<Props> = ({
             introText={page.introText}
             onThisPage={page.onThisPage}
             showOnThisPage={page.showOnThisPage}
-            hasLandingPageFormat={hasLandingPageFormat}
-            isOfficialLandingPage={isOfficialLandingPage}
+            isLandingPage={isLandingPage}
             staticContent={staticContent}
             gridSizes={gridSize8()}
             bodySliceContexts={bodySliceContexts}

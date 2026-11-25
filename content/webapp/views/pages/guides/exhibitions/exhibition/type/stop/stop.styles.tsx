@@ -48,7 +48,7 @@ export const HeaderInner = styled(Space).attrs({
   align-items: center;
 `;
 
-export const prevNextHeight = '50px';
+const PREV_NEXT_HEIGHT = '50px';
 
 export const PrevNext = styled.div.attrs({
   className: typography('body', 'md', 'regular'),
@@ -57,19 +57,21 @@ export const PrevNext = styled.div.attrs({
   z-index: 2;
   bottom: 0;
   width: 100%;
-  height: ${prevNextHeight};
+  height: ${PREV_NEXT_HEIGHT};
   background: ${props => props.theme.color('neutral.700')};
+`;
+
+export const PrevNextInner = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: ${PREV_NEXT_HEIGHT};
 `;
 
 export const AudioPlayerNewWrapper = styled.div`
   position: fixed;
-  bottom: ${prevNextHeight};
+  bottom: ${PREV_NEXT_HEIGHT};
   width: 100%;
-`;
-
-export const AlignCenter = styled.div`
-  display: flex;
-  align-items: center;
 `;
 
 export const StickyPlayer = styled.div<{ $sticky: boolean }>`

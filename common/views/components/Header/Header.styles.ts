@@ -1,14 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { BorderlessButton } from '@weco/common/views/components/BorderlessClickable';
 import { Container } from '@weco/common/views/components/styled/Container';
-import { PinnedColor } from '@weco/common/views/themes/config';
 
 // A shade darker than the page, so the header reads as its own band
-export const headerBackgroundColor: PinnedColor<'white'> = {
-  brand: 'neutral.10',
-  legacy: 'white',
-};
+export const headerBackgroundColor = 'neutral.10';
 
 export const NavLoginWrapper = styled.div`
   display: flex;
@@ -30,7 +26,7 @@ export const Wrapper = styled.div<WrapperProps>`
   align-items: stretch;
   justify-content: center;
   position: relative;
-  z-index: 6;
+  z-index: ${props => props.theme.zIndex.header};
   background-color: ${props =>
     props.theme.color(
       props.$hasColorBackground ? 'accent.lightGreen' : headerBackgroundColor
@@ -48,7 +44,7 @@ export const Wrapper = styled.div<WrapperProps>`
     top: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: ${props.theme.zIndex.headerMenuOpen};
   `)}
 `}
 `;
@@ -86,22 +82,22 @@ export const BurgerTrigger = styled.a<{ $burgerMenuisActive: boolean }>`
 
     ${props =>
       props.$burgerMenuisActive &&
-      `
-      &:first-child {
-        top: 0.5rem;
-        transform: rotate(45deg);
-      }
+      css`
+        &:first-child {
+          top: 0.5rem;
+          transform: rotate(45deg);
+        }
 
-      &:nth-child(2) {
-        display: none;
-      }
+        &:nth-child(2) {
+          display: none;
+        }
 
-      &:last-child {
-        top: 0.5rem;
-        transform: rotate(-45deg);
-        bottom: auto;
-      }
-  `}
+        &:last-child {
+          top: 0.5rem;
+          transform: rotate(-45deg);
+          bottom: auto;
+        }
+      `}
   }
 `;
 
@@ -110,14 +106,13 @@ export const HeaderBrand = styled.div<{ $isMinimalHeader: boolean }>`
   flex: 1;
 
   ${props =>
-    props.$isMinimalHeader
-      ? `
-        // This is to account for the burger as we want it to be dead centre.
-        margin-left: -20px;
-        ${props.theme.media('headerMedium')(`
+    props.$isMinimalHeader &&
+    css`
+      /* This is to account for the burger as we want it to be dead centre. */
+      margin-left: -20px;
+      ${props.theme.media('headerMedium')(`
           margin-left: 0;`)};
-      `
-      : ``}
+    `}
 
   ${props => `
   ${props.theme.media('headerMedium')(`
@@ -233,8 +228,7 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
     height: 0.6rem;
     left: 0;
     width: 0;
-    background: ${props =>
-      props.theme.color({ brand: 'blue.30', legacy: 'yellow' })};
+    background: ${props => props.theme.color('blue.30')};
     z-index: -1;
     transition: width 200ms ease;
 
@@ -257,7 +251,7 @@ export const HeaderLink = styled.a.attrs<HeaderLinkProps>({
 
   ${props =>
     props.$burgerMenuisActive &&
-    `
+    css`
       &::after {
         width: 100%;
       }
@@ -270,6 +264,16 @@ export const HeaderActions = styled.div`
 
 export const SearchButton = styled(BorderlessButton)`
   margin-right: 0;
+
+  border-radius: 50%;
+  width: 44px;
+  padding: 0;
+  justify-content: center;
+
+  /* Size the inner spans to the icon, so the icon centres in the circle */
+  span:not(.icon) {
+    display: flex;
+  }
 
   ${props =>
     props.theme.media('headerMedium')(`

@@ -2,7 +2,7 @@
 name: Feature evaluation
 about: Analysis required on data from a feature
 title: ''
-labels: "data analysis"
+labels: ''
 assignees: ''
 
 ---

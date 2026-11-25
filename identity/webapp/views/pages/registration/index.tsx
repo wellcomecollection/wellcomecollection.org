@@ -19,7 +19,7 @@ import TextInput, {
   InputErrorMessage,
 } from '@weco/common/views/components/TextInput';
 import { usePageTitle } from '@weco/identity/hooks/usePageTitle';
-import { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
+import type { RegistrationInputs } from '@weco/identity/utils/jwt-codec';
 import {
   Container,
   SectionHeading,
@@ -115,7 +115,6 @@ const RegistrationPage: NextPage<Props> = ({
                           formState,
                         }) => (
                           <TextInput
-                            required
                             id={name}
                             name={name}
                             label="First name"
@@ -125,6 +124,7 @@ const RegistrationPage: NextPage<Props> = ({
                             setIsValid={() => trigger('firstName')}
                             showValidity={formState.isSubmitted}
                             errorMessage={formState.errors.firstName?.message}
+                            required
                           />
                         )}
                       />
@@ -141,7 +141,6 @@ const RegistrationPage: NextPage<Props> = ({
                           formState,
                         }) => (
                           <TextInput
-                            required
                             id={name}
                             name={name}
                             label="Last name"
@@ -151,6 +150,7 @@ const RegistrationPage: NextPage<Props> = ({
                             setIsValid={() => trigger('lastName')}
                             showValidity={formState.isSubmitted}
                             errorMessage={formState.errors.lastName?.message}
+                            required
                           />
                         )}
                       />
@@ -219,6 +219,7 @@ const RegistrationPage: NextPage<Props> = ({
                       <FullWidthButton>
                         <Button
                           variant="ButtonSolid"
+                          hierarchy="primary"
                           dataGtmProps={{
                             trigger: 'create_library_account',
                           }}

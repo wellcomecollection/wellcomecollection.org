@@ -46,7 +46,7 @@ const Dot: FunctionComponent<{
   return (
     <Space $h={{ size: 'xs', properties: ['margin-right'] }}>
       <RuleDot $isValid={isValid}>
-        {isValid && <Icon icon={check} matchText iconColor="white" />}
+        {isValid && <Icon icon={check} iconColor="white" matchText />}
       </RuleDot>
     </Space>
   );

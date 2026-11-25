@@ -9,10 +9,7 @@ import {
   image,
 } from '@weco/cardigan/stories/data/images';
 import { EmbedSlice as RawEmbedSlice } from '@weco/common/prismicio-types';
-import {
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import { typography } from '@weco/common/utils/classnames';
 import HeaderBackground from '@weco/common/views/components/HeaderBackground';
 import Layout, { gridSize8 } from '@weco/common/views/components/Layout';
@@ -44,7 +41,7 @@ const meta: Meta<typeof PageHeader> = {
     highlightHeading: false,
     fullWidth: false,
     includeAccessibilityProvision: false,
-    heroImageBgColor: 'white',
+    heroImageBgColor: 'neutral.05',
   },
   argTypes: {
     backgroundTexture: {
@@ -53,9 +50,8 @@ const meta: Meta<typeof PageHeader> = {
       mapping: {
         None: undefined,
         'Example 1': headerBackgroundLs,
-        'Example 2': landingHeaderBackgroundLs,
       },
-      options: ['None', 'Example 1', 'Example 2'],
+      options: ['None', 'Example 1'],
     },
     isContentTypeInfoBeforeMedia: {
       control: 'boolean',
@@ -179,18 +175,17 @@ export const ShortFilm: Meta<typeof PageHeader> = {
           <ContentPage
             uid="123"
             id="123"
-            isCreamy
             Header={
               <PageHeader
                 {...args}
                 variant="basic"
-                isContentTypeInfoBeforeMedia
                 ContentTypeInfo={ContentTypeInfo}
                 labels={{ labels: [{ text: 'Short film' }] }}
                 title="Audrey's archivist"
                 breadcrumbs={{
                   items: [{ text: 'Stories', url: '#' }],
                 }}
+                isContentTypeInfoBeforeMedia
               />
             }
             Body={
@@ -234,6 +229,7 @@ export const ShortFilm: Meta<typeof PageHeader> = {
                 gridSizes={gridSize8()}
               />
             }
+            isCreamy
           ></ContentPage>
         )}
         args={args}
@@ -242,8 +238,13 @@ export const ShortFilm: Meta<typeof PageHeader> = {
   },
 };
 
-export const Event: Meta<typeof PageHeader> = {
+type EventStory = ComponentProps<typeof PageHeader> & {
+  hasFeaturedMedia?: boolean;
+};
+
+export const Event: Meta<EventStory> = {
   argTypes: {
+    hasFeaturedMedia: { name: 'Has featured media', control: 'boolean' },
     variant: { table: { disable: true } },
     SerialPartNumber: { table: { disable: true } },
     backgroundTexture: { table: { disable: true } },
@@ -255,6 +256,7 @@ export const Event: Meta<typeof PageHeader> = {
     variant: 'basic',
     title: 'DNA, Diversity and Difference',
     breadcrumbs: { items: [{ text: 'Events', url: '#' }] },
+    hasFeaturedMedia: true,
     FeaturedMedia: (
       <PrismicImage
         image={image(florenceWinterfloodImageUrl('3200x1800'))}
@@ -280,9 +282,15 @@ export const Event: Meta<typeof PageHeader> = {
     ),
     isContentTypeInfoBeforeMedia: true,
     Background: (
-      <HeaderBackground hasWobblyEdge backgroundTexture={headerBackgroundLs} />
+      <HeaderBackground backgroundTexture={headerBackgroundLs} hasWobblyEdge />
     ),
   },
+  render: ({ hasFeaturedMedia, FeaturedMedia, ...args }) => (
+    <PageHeader
+      {...args}
+      FeaturedMedia={hasFeaturedMedia ? FeaturedMedia : undefined}
+    />
+  ),
 };
 
 export const Exhibition: Meta<typeof PageHeader> = {

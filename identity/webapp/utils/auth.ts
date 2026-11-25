@@ -13,7 +13,7 @@ type Token = {
 
 // This is the leeway between when the token actually expires, and the time
 // before that after which we'll request a new token
-const tokenExpiryThreshold = 30;
+const TOKEN_EXPIRY_THRESHOLD = 30;
 
 type ClientConfig = {
   baseURL?: string;
@@ -30,7 +30,7 @@ export const authenticatedInstanceFactory = (
   let expiresAt = 0;
 
   return async (): Promise<FetchClient> => {
-    const expiryCutoff = Math.ceil(Date.now() / 1000) + tokenExpiryThreshold;
+    const expiryCutoff = Math.ceil(Date.now() / 1000) + TOKEN_EXPIRY_THRESHOLD;
     const needsRefresh = Boolean(!accessToken || expiresAt <= expiryCutoff);
     if (needsRefresh || !instance) {
       try {

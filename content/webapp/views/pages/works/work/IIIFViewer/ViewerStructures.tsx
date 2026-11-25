@@ -1,7 +1,7 @@
 import { Manifest } from '@iiif/presentation-3';
 import NextLink from 'next/link';
 import { FunctionComponent } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import ConditionalWrapper from '@weco/common/views/components/ConditionalWrapper';
@@ -39,7 +39,7 @@ export const Item = styled(Space).attrs({
 
   ${props =>
     props.$isActive &&
-    `
+    css`
       background: ${props.theme.color('black')};
 
       &::before {

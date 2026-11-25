@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components';
 import { IconSvg } from '@weco/common/icons';
 import { LinkProps } from '@weco/common/model/link-props';
 import Icon from '@weco/common/views/components/Icon';
+import { designSystemColor } from '@weco/common/views/themes/config';
 
 const ControlInner = styled.div`
   display: inline-flex;
@@ -15,6 +16,53 @@ const ControlInner = styled.div`
 `;
 type ColorSchemeType = {
   $colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  $isOnDark?: boolean;
+};
+
+// The brand's round controls: dark on light backgrounds and light on dark
+// ones, inverting on hover with a thin ring
+export const brandControlStyles = (isOnDark: boolean) => {
+  const fill = designSystemColor(isOnDark ? 'neutral.10' : 'neutral.70');
+  const ink = designSystemColor(isOnDark ? 'neutral.70' : 'neutral.10');
+
+  // Swap instantly: fading inverted colours passes through a point where the
+  // icon and fill match, so the icon flickers out
+  return `
+    box-sizing: border-box;
+    background: ${fill};
+    border: 1px solid transparent;
+    transition: none;
+
+    .icon,
+    .icon__shape {
+      transition: none;
+    }
+
+    .icon__shape {
+      fill: ${ink};
+    }
+
+    &:hover {
+      background: ${ink};
+      border-color: ${fill};
+
+      .icon__shape {
+        fill: ${fill};
+      }
+    }
+
+    &[disabled] {
+      /* Pointer events back on, so the cursor shows; disabled stops clicks */
+      pointer-events: auto;
+      cursor: not-allowed;
+      background: ${designSystemColor('ui.grey.40')};
+      border-color: ${designSystemColor('ui.grey.60')};
+
+      .icon__shape {
+        fill: ${designSystemColor('ui.grey.60')};
+      }
+    }
+  `;
 };
 const ButtonStyles = css<ColorSchemeType>`
   display: inline-block;
@@ -31,100 +79,106 @@ const ButtonStyles = css<ColorSchemeType>`
 
   ${props =>
     props.$colorScheme === 'light' &&
-    `
-    background: ${props.theme.color('white')};
-    border: 2px solid ${props.theme.color('accent.green')};
+    css`
+      background: ${props.theme.color('white')};
+      border: 2px solid ${props.theme.color('accent.green')};
 
-    .icon__shape {
-      fill: ${props.theme.color('accent.green')};
-    }
+      .icon__shape {
+        fill: ${props.theme.color('accent.green')};
+      }
 
-    &:hover {
+      &:hover {
+        background: ${props.theme.color('accent.green')};
+
+        .icon__shape {
+          fill: ${props.theme.color('white')};
+        }
+      }
+
+      &[disabled] {
+        background: transparent;
+        border-color: ${props.theme.color('neutral.500')};
+
+        .icon__shape {
+          fill: ${props.theme.color('neutral.500')};
+        }
+      }
+    `}
+
+  ${props =>
+    props.$colorScheme === 'dark' &&
+    css`
+      border: 0;
       background: ${props.theme.color('accent.green')};
 
       .icon__shape {
         fill: ${props.theme.color('white')};
       }
-    }
 
-    &[disabled] {
-      background: transparent;
-      border-color: ${props.theme.color('neutral.500')};
-
-      .icon__shape {
-        fill: ${props.theme.color('neutral.500')};
+      &:hover {
+        background: ${props.theme.color('black')};
       }
-    }
-  `}
 
-  ${props =>
-    props.$colorScheme === 'dark' &&
-    `
-    border: 0;
-    background: ${props.theme.color('accent.green')};
-
-    .icon__shape {
-      fill: ${props.theme.color('white')};
-    }
-
-    &:hover {
-      background: ${props.theme.color('black')};
-    }
-
-    &[disabled] {
-      background: ${props.theme.color('neutral.500')};
-    }
-  `}
+      &[disabled] {
+        background: ${props.theme.color('neutral.500')};
+      }
+    `}
 
   ${props =>
     props.$colorScheme === 'on-black' &&
-    `
-    border: 0;
-    border-radius: 0;
-    background: #1f1f1f;
+    css`
+      border: 0;
+      border-radius: 0;
+      background: #1f1f1f;
 
-    .icon__shape {
-      fill: ${props.theme.color('white')};
-    }
-
-    &:hover {
       .icon__shape {
-        fill: ${props.theme.color('yellow')};
+        fill: ${props.theme.color('white')};
       }
-    }
 
-
-    &[disabled] {
-      .icon__shape {
-        fill: ${props.theme.color('neutral.400')};
+      &:hover {
+        .icon__shape {
+          fill: ${props.theme.color('yellow')};
+        }
       }
-    }
-  `}
+
+      &[disabled] {
+        .icon__shape {
+          fill: ${props.theme.color('neutral.400')};
+        }
+      }
+    `}
 
   ${props =>
     props.$colorScheme === 'black-on-white' &&
-    `
-    background: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-    border: none;
-
-    .icon__shape {
-      fill: ${props.theme.color('neutral.700')};
-    }
-
-    &:hover {
-      background: ${props.theme.color('yellow')};
+    css`
+      background: ${props.theme.color('neutral.10')};
+      border: none;
 
       .icon__shape {
         fill: ${props.theme.color('neutral.700')};
       }
-    }
 
-    &[disabled] {
-      .icon__shape {
-        fill: ${props.theme.color('neutral.600')};
+      &:hover {
+        background: ${props.theme.color('yellow')};
+
+        .icon__shape {
+          fill: ${props.theme.color('neutral.700')};
+        }
       }
-    }
-  `}
+
+      &[disabled] {
+        .icon__shape {
+          fill: ${props.theme.color('neutral.600')};
+        }
+      }
+    `}
+
+  ${props =>
+    (props.$colorScheme === 'light' ||
+      props.$colorScheme === 'black-on-white') &&
+    brandControlStyles(
+      !!props.$isOnDark || props.$colorScheme === 'black-on-white'
+    )}
 `;
 
 const Wrapper = styled.button.attrs<{ $extraClasses?: string }>(props => ({
@@ -147,6 +201,8 @@ type CommonProps = {
   replace?: boolean;
   prefetch?: boolean;
   colorScheme?: 'light' | 'dark' | 'on-black' | 'black-on-white';
+  // The brand needs to know, as light-scheme controls go dark on light pages
+  isOnDark?: boolean;
   extraClasses?: string;
   icon: IconSvg;
   text: string;
@@ -188,6 +244,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     prefetch,
     id,
     colorScheme,
+    isOnDark,
     extraClasses,
     icon,
     text,
@@ -213,6 +270,7 @@ const BaseControl: ForwardRefRenderFunction<HTMLButtonElement, Props> = (
     tabIndex,
     $extraClasses: extraClasses,
     $colorScheme: colorScheme,
+    $isOnDark: isOnDark,
     onClick: handleClick,
   };
 

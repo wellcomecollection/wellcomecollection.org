@@ -1,7 +1,7 @@
 import * as prismic from '@prismicio/client';
 import { NextPage } from 'next';
 
-import { homepageId } from '@weco/common/data/hardcoded-ids';
+import { HOMEPAGE_UID } from '@weco/common/data/hardcoded-ids';
 import {
   ContentListSlice,
   PagesDocument as RawPagesDocument,
@@ -56,7 +56,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   const eventsQueryPromise = fetchEvents(client, {
     period: 'current-and-coming-up',
   });
-  const pagePromise = fetchPage(client, homepageId);
+  const pagePromise = fetchPage(client, HOMEPAGE_UID);
   const exhibitionsQueryPromise = fetchExhibitions(client, {
     period: 'next-seven-days',
     order: 'asc',

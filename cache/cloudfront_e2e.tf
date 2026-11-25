@@ -54,4 +54,9 @@ module "e2e_wc_org_cloudfront_distribution" {
 
   # Proven on stage; see cloudfront_prod.tf.
   enable_unrecognised_host_block = true
+
+  # Trialling the geo consent challenge here before prod; stage's country
+  # block makes it unreachable there.
+  enable_geo_challenge              = true
+  search_challenge_immunity_seconds = 14400
 }

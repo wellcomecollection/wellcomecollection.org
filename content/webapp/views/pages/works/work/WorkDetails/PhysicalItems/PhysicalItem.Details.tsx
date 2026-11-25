@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
+import styled, { css, useTheme } from 'styled-components';
 
 import { useUserContext } from '@weco/common/contexts/UserContext';
 import { sierraAccessMethodtoNewLabel } from '@weco/common/data/microcopy';
@@ -29,9 +29,9 @@ const Wrapper = styled(Space).attrs({
 })<{ $underline: boolean }>`
   ${props =>
     props.$underline &&
-    `
-    border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
-  `}
+    css`
+      border-bottom: 1px solid ${props.theme.color('warmNeutral.400')};
+    `}
 `;
 
 type ButtonWrapperProps = {

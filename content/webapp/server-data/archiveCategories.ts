@@ -25,7 +25,7 @@ if (typeof window !== 'undefined') {
   );
 }
 
-const day = 24 * 60 * 60 * 1000;
+const DAY = 24 * 60 * 60 * 1000;
 const fileName = path.join(
   process.cwd(),
   '.server-data',
@@ -56,7 +56,7 @@ async function write(): Promise<void> {
   timer = setTimeout(() => {
     clearTimeout(timer);
     write();
-  }, day);
+  }, DAY);
 }
 
 export async function init(): Promise<void> {

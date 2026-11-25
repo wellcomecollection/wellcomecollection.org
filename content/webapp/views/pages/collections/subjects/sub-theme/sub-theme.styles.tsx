@@ -1,12 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
+import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 export const PageGrid = styled(Grid)`
-  background: ${props => props.theme.color('white')};
+  background: ${props => props.theme.color(pageBackgroundColor)};
   row-gap: 0;
 `;
 
@@ -31,18 +32,18 @@ export const StretchWrapper = styled.section<{ $hasDarkBackground?: boolean }>`
 
   ${props =>
     props.$hasDarkBackground &&
-    `
-    &::before {
-      content: '';
-      position: absolute;
-      width: calc(100vw - 100%);
-      top: 0;
-      background: ${props.theme.color('neutral.700')};
-      bottom: 0;
-      right: 100%;
-      z-index: 0;
-    }
-  `}
+    css`
+      &::before {
+        content: '';
+        position: absolute;
+        width: calc(100vw - 100%);
+        top: 0;
+        background: ${props.theme.color('neutral.700')};
+        bottom: 0;
+        right: 100%;
+        z-index: 0;
+      }
+    `}
 `;
 
 export const ThemeCardsListSection = styled(StretchWrapper)`

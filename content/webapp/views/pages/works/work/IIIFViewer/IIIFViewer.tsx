@@ -8,7 +8,10 @@ import { useKiosk } from '@weco/common/contexts/KioskContext';
 import { DigitalLocation } from '@weco/common/model/catalogue';
 import { iiifImageTemplate } from '@weco/common/utils/convert-image-uri';
 import LL from '@weco/common/views/components/styled/LL';
-import { mediaBackgroundColor } from '@weco/common/views/themes/config';
+import {
+  mediaBackgroundColor,
+  themeValues,
+} from '@weco/common/views/themes/config';
 import ItemViewerContext from '@weco/content/contexts/ItemViewerContext';
 import { SearchResults } from '@weco/content/services/iiif/types/search/v3';
 import {
@@ -62,7 +65,7 @@ const LoadingComponent = () => (
       position: 'absolute',
       width: '100%',
       height: '100%',
-      zIndex: 1000,
+      zIndex: themeValues.zIndex.viewerLoading,
     }}
   >
     <LL />
@@ -212,7 +215,6 @@ const BottomBar = styled.div`
   z-index: 6;
 `;
 
-// TODO: check that we can't reach thumbnails by keyboard/screenreader
 const ThumbnailsWrapper = styled.div<{
   $isActive: boolean;
   $isDesktopSidebarActive: boolean;
@@ -503,6 +505,10 @@ const IIIFViewer: FunctionComponent<IIIFViewerProps> = ({
 
             {hasOnlyRenderableImages && (
               <ThumbnailsWrapper
+                // When closed, the grid only slides out of view, so also take
+                // it out of the tab order and away from screen readers
+                inert={!gridVisible}
+                data-testid="grid-viewer"
                 $isActive={gridVisible}
                 $isDesktopSidebarActive={isDesktopSidebarActive}
               >

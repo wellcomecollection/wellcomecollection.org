@@ -29,7 +29,7 @@ const Wrapper = styled(Space).attrs({
 })`
   position: relative;
   background-color: ${props => props.theme.color('black')};
-  color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+  color: ${props => props.theme.color('neutral.10')};
 `;
 
 /** ************************ */
@@ -173,7 +173,7 @@ const BackToTopButton = styled.button.attrs({
   className: 'is-hidden-s',
 })`
   text-decoration: underline;
-  color: ${props => props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
+  color: ${props => props.theme.color('neutral.10')};
   padding: 0;
   cursor: pointer;
   margin-bottom: 1rem;
@@ -253,9 +253,9 @@ const Footer: FunctionComponent<Props> = ({
           <PoliciesAndSocials>
             <PoliciesContainer>
               <FooterNav
-                isInline
                 type="PoliciesNavigation"
                 ariaLabel="Policies navigation"
+                isInline
               />
             </PoliciesContainer>
 

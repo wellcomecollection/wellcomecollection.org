@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactElement } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { chevron } from '@weco/common/icons';
 import { classNames, typography } from '@weco/common/utils/classnames';
@@ -30,11 +30,7 @@ const StyledSelect = styled.div.attrs({
     appearance: none;
     padding: 8px 42px 8px 16px;
     border: ${props => `1px solid
-        ${props.theme.color(
-          props.$darkBg
-            ? 'neutral.300'
-            : { brand: 'neutral.70', legacy: 'neutral.600' }
-        )}`};
+        ${props.theme.color(props.$darkBg ? 'neutral.300' : 'neutral.70')}`};
     border-radius: ${props =>
       props.$isPill ? 20 : props.theme.borderRadiusUnit}px;
     background-color: ${props =>
@@ -44,7 +40,7 @@ const StyledSelect = styled.div.attrs({
         props.$darkBg ? 'white' : 'black'
       )}; /* This avoids the default blue links on iOS */
     width: 100%;
-    ${props => (props.$isPill ? 'line-height: 1;' : '')}
+    ${props => props.$isPill && 'line-height: 1;'}
 
     option {
       background-color: ${props => props.theme.color('white')};
@@ -59,11 +55,11 @@ const StyledSelect = styled.div.attrs({
 
     &:hover {
       ${props =>
-        props.theme.brandUpdate && props.$isPill && !props.$darkBg
-          ? `
-            background-color: ${props.theme.color({ brand: 'neutral.10', legacy: 'white' })};
-            text-decoration: underline;
-          `
+        props.$isPill && !props.$darkBg
+          ? css`
+              background-color: ${props.theme.color('neutral.10')};
+              text-decoration: underline;
+            `
           : `box-shadow: ${props.theme.focusBoxShadow};`}
     }
   }

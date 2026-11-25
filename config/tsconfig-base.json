@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
-    "target": "es6"
+    "target": "es6",
+    "useUnknownInCatchVariables": true
   },
   "exclude": ["/**/node_modules"],
   "include": ["/**/*.ts", "/**/*.tsx", "global.d.ts", "png.d.ts", "jest-dom.d.ts"]

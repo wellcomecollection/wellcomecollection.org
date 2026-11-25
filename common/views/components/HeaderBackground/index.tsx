@@ -2,23 +2,16 @@
 import { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
-import {
-  getHeaderTexture,
-  headerBackgroundLs,
-  landingHeaderBackgroundLs,
-} from '@weco/common/utils/backgrounds';
+import { headerBackgroundLs } from '@weco/common/utils/backgrounds';
 import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import { pageBackgroundColor } from '@weco/common/views/themes/config';
 
 type Props = {
   backgroundTexture?: string;
   hasWobblyEdge?: boolean;
-  useDefaultBackgroundTexture?: boolean;
 };
 
-const defaultBackgroundTexture = landingHeaderBackgroundLs;
-
-const Background = styled.div<{ $texture: string | null }>`
+const Background = styled.div<{ $texture?: string }>`
   position: absolute;
   top: 0;
   bottom: 100px;
@@ -26,19 +19,11 @@ const Background = styled.div<{ $texture: string | null }>`
   overflow: hidden;
   z-index: -1;
 
-  background-color: ${props =>
-    props.theme.color({ brand: 'neutral.70', legacy: 'warmNeutral.300' })};
-  ${props => {
-    // In the new brand, headers without a texture get the standard pattern
-    const texture =
-      props.$texture || (props.theme.brandUpdate ? headerBackgroundLs : null);
+  background-color: ${props => props.theme.color('neutral.70')};
 
-    return (
-      texture &&
-      `background-image: url("${getHeaderTexture(texture, props.theme.brandUpdate)}");
-      background-size: cover;`
-    );
-  }};
+  /* Headers without a texture get the standard pattern */
+  background-image: url('${props => props.$texture || headerBackgroundLs}');
+  background-size: cover;
 `;
 
 const WobblyEdgeContainer = styled.div`
@@ -50,14 +35,9 @@ const WobblyEdgeContainer = styled.div`
 const HeaderBackground: FunctionComponent<Props> = ({
   backgroundTexture,
   hasWobblyEdge,
-  useDefaultBackgroundTexture,
 }: Props) => {
-  const texture =
-    backgroundTexture ||
-    (useDefaultBackgroundTexture ? defaultBackgroundTexture : null);
-
   return (
-    <Background $texture={texture}>
+    <Background $texture={backgroundTexture}>
       {hasWobblyEdge && (
         <WobblyEdgeContainer>
           <DecorativeEdge
