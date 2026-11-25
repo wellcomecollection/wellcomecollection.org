@@ -53,33 +53,32 @@ const Sort: FunctionComponent<Props> = ({
   const { isEnhanced } = useAppContext();
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
-  const [sortOrder, setSortOrder] = useState(currentSortOrder);
-  const [sortType, setSortType] = useState(currentSortType);
-
-  const hasPendingChange =
-    sortOrder !== currentSortOrder || sortType !== currentSortType;
-
-  // selectedValue comes from the current page's props, so it's stale while
-  // the route change for a newly chosen option is still loading
-  const enhancedValue =
-    selectedValue !== undefined && !hasPendingChange
-      ? selectedValue
-      : sortType
-        ? `${sortType}.${sortOrder}`
-        : '';
+  // The option just chosen, shown until the route change for it finishes.
+  // Everything else comes from the URL, so the browser's Back and Forward
+  // keep the select in step with the results
+  const [pendingValue, setPendingValue] = useState<string>();
 
   useEffect(() => {
-    // Only push changes if the sort order is a new one than currently used
-    if (hasPendingChange) {
-      const queryParams = { ...router.query, sortOrder, sort: sortType };
-      const newQuery = propsToQuery(queryParams);
+    setPendingValue(undefined);
+  }, [currentSortOrder, currentSortType]);
 
-      // Reset pagination when we change the sort order
-      // as it's likely the user will want to start from page 1
-      const { page, ...rest } = newQuery;
-      router.push({ pathname: router.pathname, query: { ...rest } });
-    }
-  }, [sortOrder, sortType]);
+  const valueFromQuery = currentSortType
+    ? `${currentSortType}.${currentSortOrder}`
+    : '';
+  const enhancedValue = pendingValue ?? selectedValue ?? valueFromQuery;
+
+  const changeSort = (value: string) => {
+    if (value === enhancedValue) return;
+
+    setPendingValue(value);
+    const { sort, sortOrder } = getUrlQueryFromSortValue(value);
+    const newQuery = propsToQuery({ ...router.query, sortOrder, sort });
+
+    // Reset pagination when we change the sort order
+    // as it's likely the user will want to start from page 1
+    const { page, ...rest } = newQuery;
+    router.push({ pathname: router.pathname, query: { ...rest } });
+  };
 
   return (
     <Wrapper data-component="sort">
@@ -128,13 +127,7 @@ const Sort: FunctionComponent<Props> = ({
           form={formId}
           name="sortOrder"
           label="sort results by:"
-          onChange={e => {
-            const { sort, sortOrder } = getUrlQueryFromSortValue(
-              e.currentTarget.value
-            );
-            setSortOrder(sortOrder);
-            setSortType(sort);
-          }}
+          onChange={e => changeSort(e.currentTarget.value)}
           options={options}
           darkBg={darkBg}
           isPill
