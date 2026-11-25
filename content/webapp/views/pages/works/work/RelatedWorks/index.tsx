@@ -12,7 +12,6 @@ import {
   Work,
   WorkBasic,
 } from '@weco/content/services/wellcome/catalogue/types';
-import BetaMessage from '@weco/content/views/components/BetaMessage';
 import RelatedWorksCard from '@weco/content/views/components/RelatedWorksCard';
 import SelectableTags from '@weco/content/views/components/SelectableTags';
 
@@ -174,20 +173,6 @@ const RelatedWorks = ({
                 </GridCell>
               ))}
             </Grid>
-
-            <Space $v={{ size: 'md', properties: ['margin-top'] }}>
-              <BetaMessage
-                message={
-                  <>
-                    This feature is new.{' '}
-                    <a href="mailto:digital@wellcomecollection.org?subject=Related works">
-                      Let us know
-                    </a>{' '}
-                    if something doesn’t look right.
-                  </>
-                }
-              />
-            </Space>
           </Container>
         </Space>
       ))}

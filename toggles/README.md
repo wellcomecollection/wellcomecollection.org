@@ -190,7 +190,7 @@ The links below use the home page, but the `?toggle=` part works on any page, e.
 | A/B test (test group)                               | `https://wellcomecollection.org/?toggle={test_id}`              | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 | A/B test (control group)                            | `https://wellcomecollection.org/?toggle={test_id}:false`        | `https://wellcomecollection.org/?toggle={test_id}:reset`   |
 
-- Combine them with commas, e.g. `https://wellcomecollection.org/?toggle=largeArchiveContentsTree,imageSidebarPhases:phase2,thematicBrowsingPhases:categoryPages`
+- Combine them with commas, e.g. `https://wellcomecollection.org/?toggle={toggle_id},{toggle_id}:{phase_id},{mode_id}:{option_id}`
 - `:off` only works on experimental feature flags, and on phased flags once a phase is public. On any other toggle it's ignored, like any other invalid value
 - Kiosk mode grants analytics and marketing consent, so it can only be set or reset from the dashboard
 - `:reset` deletes the cookie rather than saving the current public value, so you'll also follow any later change to it
