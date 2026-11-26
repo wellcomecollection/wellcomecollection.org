@@ -193,11 +193,19 @@ const InPageNavigation: FunctionComponent<Props> = ({
     const root = rootRef.current;
     if (!root) return;
 
+    const navGridCell = navGridCellRef.current;
+
+    // Without a band the split's defaults give dark text throughout, so
+    // there's nothing to measure
     const band = document.querySelector('[data-in-page-nav-dark]');
-    // Without a band the edge is light on light, so there's nothing to follow
-    const edge = band
-      ? document.querySelector<HTMLElement>('[data-in-page-nav-dark-edge] > *')
-      : null;
+    if (!band) {
+      navGridCell?.setAttribute('data-in-page-nav-split', '');
+      return () => navGridCell?.removeAttribute('data-in-page-nav-split');
+    }
+
+    const edge = document.querySelector<HTMLElement>(
+      '[data-in-page-nav-dark-edge] > *'
+    );
     let frame = 0;
     let isEdgeAnimating = false;
 
@@ -206,9 +214,7 @@ const InPageNavigation: FunctionComponent<Props> = ({
 
       // Read everything first, then write, so the browser doesn't have to
       // recalculate styles part-way through
-      const bandRect = band?.getBoundingClientRect();
-      const bandTop = bandRect?.top ?? 0;
-      const bandBottom = bandRect?.bottom ?? 0;
+      const { top: bandTop, bottom: bandBottom } = band.getBoundingClientRect();
       const edgeStyle = edge && getComputedStyle(edge);
       const edgeRect =
         edge && edgeStyle?.display !== 'none'
@@ -277,11 +283,10 @@ const InPageNavigation: FunctionComponent<Props> = ({
       edge.addEventListener('transitionend', stopEdgeAnimation);
       edge.addEventListener('transitioncancel', stopEdgeAnimation);
     }
-    if (band) layoutObserver.observe(band);
+    layoutObserver.observe(band);
     layoutObserver.observe(document.body);
 
     // Only switch from the blend to the split colours once they're measured
-    const navGridCell = navGridCellRef.current;
     navGridCell?.setAttribute('data-in-page-nav-split', '');
 
     return () => {
@@ -294,6 +299,12 @@ const InPageNavigation: FunctionComponent<Props> = ({
       layoutObserver.disconnect();
       cancelAnimationFrame(frame);
       navGridCell?.removeAttribute('data-in-page-nav-split');
+      // React can reuse these elements on the next page, which may have no band
+      root.querySelectorAll<HTMLElement>('h2, a').forEach(el => {
+        el.style.removeProperty('--dark-from');
+        el.style.removeProperty('--angle');
+        el.style.removeProperty('--split');
+      });
     };
   }, [pagePath]);
 
