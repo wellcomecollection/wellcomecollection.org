@@ -1,7 +1,9 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
+  logFetchFailure,
   QueryProps,
+  readApiResponse,
   rootUris,
   wellcomeApiError,
   WellcomeApiError,
@@ -138,7 +140,7 @@ export async function getWork({
   try {
     res = await wellcomeApiFetch(url, { redirect: 'manual' });
   } catch (error) {
-    console.error(`Unable to fetch API URL: ${url}`, error);
+    logFetchFailure(url, error);
     return wellcomeApiError();
   }
 
@@ -165,21 +167,8 @@ export async function getWork({
     return notFound();
   }
 
-  try {
-    const work = (await res.json()) as Work | WellcomeApiError;
-    if (work.type === 'Error') {
-      // A 414 is usually a bot sending junk, so like wellcomeApiQuery we don't log it
-      if (work.httpStatus !== 414) {
-        console.warn(
-          `Received HTTP ${work.httpStatus} error from the API query ${url}: ${JSON.stringify(work)}`
-        );
-      }
-      return work;
-    }
-    return { ...work, url };
-  } catch {
-    return wellcomeApiError();
-  }
+  const work = (await readApiResponse(url, res)) as Work | WellcomeApiError;
+  return work.type === 'Error' ? work : { ...work, url };
 }
 
 export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
