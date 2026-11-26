@@ -44,18 +44,26 @@ export async function catalogueQuery<Params, Result extends ResultType>(
     CatalogueResultsList<Result> | WellcomeApiError;
 }
 
-// Returns true if a string is plausibly a canonical ID, false otherwise.
+// Canonical IDs are minted by the catalogue pipeline, which leaves out
+// characters that are easy to mix up (o/0, i/l/1). Keep these in step with
+// catalogue-pipeline's catalogue_graph/src/id_minter/identifiers.py.
+const ID_LETTERS = 'a-hj-km-np-z'; // a to z, without i, l and o
+const ID_DIGITS = '2-9'; // without 0 and 1
+
+// 8 characters, the first always a letter so the ID is also valid in XML
+const canonicalIdPattern = new RegExp(
+  `^[${ID_LETTERS}][${ID_LETTERS}${ID_DIGITS}]{7}$`
+);
+
+// Returns true if a string could be a canonical ID, false otherwise.
 //
-// Only the catalogue API knows which IDs exist, but every canonical ID is
-// 8 lowercase letters or digits: the pipeline's CanonicalId type requires
-// length 8 (catalogue-pipeline, identifiers/CanonicalId.scala).
-//
-// This rejects queries that are obviously malformed, which might be attempts
-// to inject malicious data into API queries, without a round trip to the API.
+// Only the catalogue API knows which IDs exist, but this rejects queries that
+// are obviously malformed, which might be attempts to inject malicious data
+// into API queries, without a round trip to the API.
 export const looksLikeCanonicalId = (
   id: string | string[] | undefined
 ): id is string => {
-  return isString(id) && /^[a-z0-9]{8}$/.test(id);
+  return isString(id) && canonicalIdPattern.test(id);
 };
 
 // Creates the YYYY-MM-DD date string we pass to the API.
