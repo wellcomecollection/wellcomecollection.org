@@ -102,6 +102,16 @@ Next.js code runs in both Node.js (server-side rendering) and the browser (clien
 
 Server-only packages that try to load in the browser will cause "Cannot find module" errors even with webpack exclusion. You need both webpack config AND runtime checks.
 
+## API Failures
+
+Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down, and how a page handles that decides what visitors see. When writing or reviewing code that calls one:
+
+- Only return "not found" (`{ notFound: true }`) when the thing really doesn't exist: a 404 from our APIs, or Prismic's `NotFoundError`/`ParsingError`. For any other failure, show the error page (`appError`) or let it throw. A 404 page carries the page's normal `cache-control`, so CloudFront keeps serving "not found" for up to an hour after the API recovers, and our only alarm is on the 5xx rate, so nobody is told
+- Wellcome API fetchers return an error object instead of throwing. Check `type === 'Error'` before reading the result, and don't assume a list has items (e.g. `results[0]` can be undefined)
+- New fetchers should go through `wellcomeApiQuery`, or log error responses the same way it does, so the API's error details end up in the server logs
+- Pass `appError` a fixed message naming the API (`'Catalogue API error'`), not the API's own `description` or `label`. That text is for us, and it's already logged
+- For a part of a page fetched in the browser, hide that part on failure rather than breaking the page, and don't leave it showing a loading state
+
 ## E2E Testing (Playwright)
 
 Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
@@ -114,7 +124,7 @@ Don't add, remove, rename or move these attributes, change their values, or rest
 
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, API failure handling, e2e analytics-blocking, GTM attribute changes).
 
 ### TODOs and Technical Debt
 
