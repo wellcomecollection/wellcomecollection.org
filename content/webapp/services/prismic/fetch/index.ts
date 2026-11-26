@@ -86,8 +86,27 @@ export type GetByTypeParams = Parameters<
   GetServerSidePropsPrismicClient['client']['getByType']
 >[1];
 
-const isNotFound = (e: unknown): boolean =>
-  e instanceof prismic.NotFoundError || e instanceof prismic.ParsingError;
+// Prismic's getByID and getByUID throw a NotFoundError when nothing matches.
+// Telling that apart from a real failure with `instanceof` didn't always work:
+// in the e2e environment a real NotFoundError got through as a failure. We
+// didn't pin down why; the server build does bundle the client more than once,
+// each copy with its own error classes. So we ask for the first match
+// ourselves: no match is `undefined`, and anything thrown is a real failure,
+// which the page shows as an error rather than a 404 (CloudFront caches 404s).
+async function getFirstOrUndefined<Document extends prismic.PrismicDocument>(
+  client: prismic.Client,
+  params: NonNullable<Parameters<prismic.Client['get']>[0]>
+): Promise<Document | undefined> {
+  try {
+    const { results } = await client.get<Document>({ ...params, pageSize: 1 });
+    return results[0];
+  } catch (e) {
+    // Junk in the URL (e.g. a `"` in the ID) breaks the query rather than
+    // matching nothing, so that's "not found" too
+    if (e instanceof prismic.ParsingError) return undefined;
+    throw e;
+  }
+}
 
 export function fetcher<Document extends prismic.PrismicDocument>(
   contentType: ContentType | ContentType[],
@@ -99,37 +118,21 @@ export function fetcher<Document extends prismic.PrismicDocument>(
       id: string,
       params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
-      try {
-        // This means that Prismic will only return the document with the given ID if
-        // it matches the content type.  So e.g. going to /events/<exhibition ID> will
-        // return a 404, rather than a 500 as we find we're missing a bunch of fields
-        // we need to render the page.
-        const filters = isString(contentType)
-          ? [prismic.filter.at('document.type', contentType)]
-          : [prismic.filter.any('document.type', contentType)];
+      // This means that Prismic will only return the document with the given ID if
+      // it matches the content type.  So e.g. going to /events/<exhibition ID> will
+      // return a 404, rather than a 500 as we find we're missing a bunch of fields
+      // we need to render the page.
+      const typeFilter = isString(contentType)
+        ? prismic.filter.at('document.type', contentType)
+        : prismic.filter.any('document.type', contentType);
+      const idFilter = prismic.filter.at('document.id', id);
 
-        return await client.getByID<Document>(
-          id,
-          params?.graphQuery
-            ? {
-                graphQuery: params?.graphQuery,
-              }
-            : {
-                fetchLinks,
-                filters,
-              }
-        );
-      } catch (e) {
-        // Only a missing document is "not found". A ParsingError counts too:
-        // it comes from junk in the URL, e.g. a `"` in the ID. Anything else
-        // (Prismic down, a bad ref) is rethrown so the page shows an error
-        // rather than a 404, which CloudFront would cache.
-        if (isNotFound(e)) {
-          console.warn(e);
-          return undefined;
-        }
-        throw e;
-      }
+      return getFirstOrUndefined<Document>(
+        client,
+        params?.graphQuery
+          ? { graphQuery: params.graphQuery, filters: [idFilter] }
+          : { fetchLinks, filters: [typeFilter, idFilter] }
+      );
     },
 
     /** Get all the documents of a given type.
@@ -180,40 +183,32 @@ export function fetcher<Document extends prismic.PrismicDocument>(
       siteSection?: SiteSection | 'orphan',
       params?: { graphQuery?: string }
     ): Promise<Document | undefined> => {
-      try {
-        const primaryContentType = toMaybeString(contentType);
+      const primaryContentType = toMaybeString(contentType);
 
-        if (!isContentType(primaryContentType)) return;
+      if (!isContentType(primaryContentType)) return;
 
-        const response = await client.getByUID<Document>(
-          primaryContentType,
-          uid,
-          params?.graphQuery
-            ? {
-                graphQuery: params?.graphQuery,
-              }
-            : {
-                fetchLinks,
-                filters: siteSection
-                  ? [
-                      prismic.filter.any(
-                        'document.tags',
-                        siteSection === 'orphan' ? [] : [siteSection]
-                      ),
-                    ]
-                  : [],
-              }
-        );
+      const uidFilters = [
+        prismic.filter.at('document.type', primaryContentType),
+        prismic.filter.at(`my.${primaryContentType}.uid`, uid),
+      ];
 
-        return response;
-      } catch (e) {
-        // A missing document is usually just a randomly inputted URL, so it
-        // isn't logged. Anything else is rethrown, as in getById.
-        if (isNotFound(e)) {
-          return undefined;
-        }
-        throw e;
-      }
+      return getFirstOrUndefined<Document>(
+        client,
+        params?.graphQuery
+          ? { graphQuery: params.graphQuery, filters: uidFilters }
+          : {
+              fetchLinks,
+              filters: siteSection
+                ? [
+                    ...uidFilters,
+                    prismic.filter.any(
+                      'document.tags',
+                      siteSection === 'orphan' ? [] : [siteSection]
+                    ),
+                  ]
+                : uidFilters,
+            }
+      );
     },
   };
 }

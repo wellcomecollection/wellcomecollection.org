@@ -2,88 +2,96 @@ import * as prismic from '@prismicio/client';
 
 import { fetcher, GetServerSidePropsPrismicClient } from '.';
 
-function clientWith(
-  methods: Partial<Record<'getByID' | 'getByUID', jest.Mock>>
-): GetServerSidePropsPrismicClient {
+function clientWithGet(get: jest.Mock): GetServerSidePropsPrismicClient {
   return {
     type: 'GetServerSidePropsPrismicClient',
-    client: methods as unknown as GetServerSidePropsPrismicClient['client'],
+    client: { get } as unknown as GetServerSidePropsPrismicClient['client'],
   };
 }
 
-const notFound = () =>
-  new prismic.NotFoundError('No documents were returned', '', undefined);
+const document = { id: 'abc', uid: 'cafe', type: 'pages' };
 
 const pagesFetcher = fetcher<prismic.PrismicDocument>('pages', []);
 
 describe('fetcher', () => {
-  beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
-  });
+  describe.each([
+    [
+      'getById',
+      (client: GetServerSidePropsPrismicClient) =>
+        pagesFetcher.getById(client, 'abc'),
+    ],
+    [
+      'getByUid',
+      (client: GetServerSidePropsPrismicClient) =>
+        pagesFetcher.getByUid(client, 'cafe'),
+    ],
+  ])('%s', (_, lookup) => {
+    it('returns the document when there is one', async () => {
+      const client = clientWithGet(
+        jest.fn().mockResolvedValue({ results: [document] })
+      );
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  describe('getById', () => {
-    it('returns undefined when the document does not exist', async () => {
-      const client = clientWith({
-        getByID: jest.fn().mockRejectedValue(notFound()),
-      });
-
-      await expect(
-        pagesFetcher.getById(client, 'abc')
-      ).resolves.toBeUndefined();
+      await expect(lookup(client)).resolves.toEqual(document);
     });
 
-    it('returns undefined when the ID breaks the Prismic query', async () => {
-      const client = clientWith({
-        getByID: jest
+    it('returns undefined when nothing matches', async () => {
+      const client = clientWithGet(
+        jest.fn().mockResolvedValue({ results: [] })
+      );
+
+      await expect(lookup(client)).resolves.toBeUndefined();
+    });
+
+    it('returns undefined when the query is broken by junk in the URL', async () => {
+      const client = clientWithGet(
+        jest
           .fn()
           .mockRejectedValue(
             new prismic.ParsingError('api_parsing_error', '', undefined)
-          ),
-      });
+          )
+      );
 
-      await expect(
-        pagesFetcher.getById(client, 'foo"bar')
-      ).resolves.toBeUndefined();
+      await expect(lookup(client)).resolves.toBeUndefined();
     });
 
-    it('throws when Prismic fails for any other reason', async () => {
-      const client = clientWith({
-        getByID: jest.fn().mockRejectedValue(new TypeError('fetch failed')),
-      });
-
-      await expect(pagesFetcher.getById(client, 'abc')).rejects.toThrow(
-        'fetch failed'
+    it('throws when Prismic fails', async () => {
+      const client = clientWithGet(
+        jest.fn().mockRejectedValue(new TypeError('fetch failed'))
       );
+
+      await expect(lookup(client)).rejects.toThrow('fetch failed');
     });
   });
 
-  describe('getByUid', () => {
-    it('returns undefined when the document does not exist', async () => {
-      const client = clientWith({
-        getByUID: jest.fn().mockRejectedValue(notFound()),
-      });
+  it('getById asks for one document of its type with that ID', async () => {
+    const get = jest.fn().mockResolvedValue({ results: [] });
 
-      await expect(
-        pagesFetcher.getByUid(client, 'cafe')
-      ).resolves.toBeUndefined();
-    });
+    await pagesFetcher.getById(clientWithGet(get), 'abc');
 
-    it('throws when Prismic fails for any other reason', async () => {
-      const client = clientWith({
-        getByUID: jest
-          .fn()
-          .mockRejectedValue(
-            new prismic.PrismicError('Internal Server Error', '', undefined)
-          ),
-      });
+    expect(get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pageSize: 1,
+        filters: [
+          prismic.filter.at('document.type', 'pages'),
+          prismic.filter.at('document.id', 'abc'),
+        ],
+      })
+    );
+  });
 
-      await expect(pagesFetcher.getByUid(client, 'cafe')).rejects.toThrow(
-        'Internal Server Error'
-      );
-    });
+  it('getByUid asks for one document of its type with that UID', async () => {
+    const get = jest.fn().mockResolvedValue({ results: [] });
+
+    await pagesFetcher.getByUid(clientWithGet(get), 'cafe');
+
+    expect(get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pageSize: 1,
+        filters: [
+          prismic.filter.at('document.type', 'pages'),
+          prismic.filter.at('my.pages.uid', 'cafe'),
+        ],
+      })
+    );
   });
 });
