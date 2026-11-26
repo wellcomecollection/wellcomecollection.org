@@ -242,3 +242,56 @@ export const MetadataWrapper = styled(Space).attrs({
 })`
   color: ${props => props.theme.color('neutral.600')};
 `;
+
+export const DetailsSection = styled(Space).attrs({
+  $v: { size: 'md', properties: ['row-gap'] },
+})`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const DetailsButtons = styled(Space).attrs({
+  $v: { size: 'sm', properties: ['row-gap'] },
+  $h: { size: 'sm', properties: ['column-gap'] },
+})`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const DetailsList = styled(Space).attrs({
+  as: 'dl',
+  className: typography('body', 'md', 'regular'),
+  $v: { size: 'sm', properties: ['row-gap'] },
+})`
+  display: grid;
+  margin: 0;
+
+  ${props =>
+    props.theme.media('sm')(`
+      grid-template-columns: fit-content(50%) minmax(0, 1fr);
+      column-gap: ${props.theme.spacingUnits['200']};
+    `)}
+`;
+
+export const DetailsGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  ${props =>
+    props.theme.media('sm')(`
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: subgrid;
+      align-items: baseline;
+    `)}
+`;
+
+export const DetailsLabel = styled.dt`
+  color: ${props => props.theme.color('neutral.600')};
+`;
+
+export const DetailsValue = styled.dd`
+  min-width: 0;
+  margin: 0;
+`;

@@ -24,8 +24,12 @@ import useImageDetails from '@weco/content/hooks/useImageDetails';
 import { readUrlHash } from '@weco/content/hooks/useUrlHash';
 import { Image } from '@weco/content/services/wellcome/catalogue/types';
 import { removeDisplayMarkupTags } from '@weco/content/utils/string';
+import { conceptOrSearchLink } from '@weco/content/utils/works';
+import { toConceptLink } from '@weco/content/views/components/ConceptLink';
 import IIIFImage from '@weco/content/views/components/IIIFImage';
+import Tags, { TagType } from '@weco/content/views/components/Tags';
 import VisuallySimilarImagesFromApi from '@weco/content/views/components/VisuallySimilarImages';
+import { toWorkLink } from '@weco/content/views/components/WorkLink';
 import { phaseIsAtLeast } from '@weco/toggles';
 
 import ImageSidebarResizeHandle, {
@@ -33,6 +37,12 @@ import ImageSidebarResizeHandle, {
 } from './ImageSidebar.ResizeHandle';
 import {
   CloseButton,
+  DetailsButtons,
+  DetailsGroup,
+  DetailsLabel,
+  DetailsList,
+  DetailsSection,
+  DetailsValue,
   LoadingWrapper,
   MetadataWrapper,
   SIDEBAR_COLUMNS,
@@ -121,6 +131,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
   const { imageSidebarPhases } = usePhasedFlags();
   const showImageSidebarPhase2 = phaseIsAtLeast(imageSidebarPhases, 'phase2');
   const showImageSidebarPhase3 = phaseIsAtLeast(imageSidebarPhases, 'phase3');
+  const showImageSidebarPhase4 = phaseIsAtLeast(imageSidebarPhases, 'phase4');
   const hasResizeHandle = showImageSidebarPhase2 && !isFullScreen;
   const hasHeaderStepButtons = showImageSidebarPhase3 && !isFullScreen;
   const hasStepBar = showImageSidebarPhase3 && isFullScreen;
@@ -164,7 +175,35 @@ const ImageSidebar: FunctionComponent<Props> = ({
     productionDates,
     displayContributor,
     displayTitle,
+    primaryContributor,
   } = useImageDetails(images, shownImage);
+
+  const contributorTags: TagType[] = primaryContributor
+    ? [
+        {
+          textParts: [primaryContributor.agent.label],
+          linkAttributes: conceptOrSearchLink({
+            id: primaryContributor.agent.id,
+            filterKey: 'contributors.agent.label',
+            filterValue: primaryContributor.agent.label,
+          }),
+        },
+      ]
+    : [];
+
+  const techniqueTags: TagType[] = (detailedWork?.genres ?? []).flatMap(
+    genre => {
+      const conceptId = genre.concepts[0]?.id;
+      return conceptId
+        ? [
+            {
+              textParts: [genre.label],
+              linkAttributes: toConceptLink({ conceptId }),
+            },
+          ]
+        : [];
+    }
+  );
 
   useEffect(() => {
     if (expandedImage && scrollerRef.current) scrollerRef.current.scrollTop = 0;
@@ -426,54 +465,157 @@ const ImageSidebar: FunctionComponent<Props> = ({
                       </ThumbnailPanel>
                     )}
 
-                    {(displayTitle || displayContributor || license) && (
+                    {showImageSidebarPhase4 ? (
                       <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                        {displayTitle && (
-                          <Title
-                            dangerouslySetInnerHTML={{ __html: displayTitle }}
-                          />
-                        )}
+                        <DetailsSection>
+                          {displayTitle && (
+                            <Title
+                              dangerouslySetInnerHTML={{ __html: displayTitle }}
+                            />
+                          )}
 
-                        {(displayContributor || productionDates.length > 0) && (
-                          <MetadataWrapper>
-                            {displayContributor && (
-                              <PipeSeparated>
-                                {displayContributor}
-                              </PipeSeparated>
+                          <DetailsButtons>
+                            {expandedImageLink && (
+                              <Button
+                                variant="ButtonSolidLink"
+                                hierarchy="primary"
+                                text="Open image"
+                                link={expandedImageLink}
+                              />
                             )}
-                            {productionDates.length > 0 && (
-                              <PipeSeparated>
-                                Date:&nbsp;{productionDates[0]}
-                              </PipeSeparated>
-                            )}
-                          </MetadataWrapper>
-                        )}
+                            <Button
+                              variant="ButtonSolidLink"
+                              hierarchy="secondary"
+                              text="Read full details"
+                              link={toWorkLink({ id: detailedWork.id })}
+                            />
+                          </DetailsButtons>
 
-                        {license && (
-                          <MetadataWrapper>
-                            Licence:&nbsp;
-                            {license.url && (
-                              <a rel="license" href={license.url}>
-                                {license.label}
-                              </a>
-                            )}
-                            {!license.url && license.label}
-                          </MetadataWrapper>
-                        )}
+                          {(productionDates.length > 0 ||
+                            detailedWork.physicalDescription ||
+                            contributorTags.length > 0 ||
+                            techniqueTags.length > 0 ||
+                            license) && (
+                            <DetailsList>
+                              {productionDates.length > 0 && (
+                                <DetailsGroup>
+                                  <DetailsLabel>Date:</DetailsLabel>
+                                  <DetailsValue>
+                                    {productionDates[0]}
+                                  </DetailsValue>
+                                </DetailsGroup>
+                              )}
+                              {detailedWork.physicalDescription && (
+                                <DetailsGroup>
+                                  <DetailsLabel>
+                                    Physical description:
+                                  </DetailsLabel>
+                                  <DetailsValue
+                                    dangerouslySetInnerHTML={{
+                                      __html: detailedWork.physicalDescription,
+                                    }}
+                                  />
+                                </DetailsGroup>
+                              )}
+                              {contributorTags.length > 0 && (
+                                <DetailsGroup>
+                                  <DetailsLabel>Contributor:</DetailsLabel>
+                                  <DetailsValue>
+                                    <Tags
+                                      tags={contributorTags}
+                                      isFirstPartBold={false}
+                                    />
+                                  </DetailsValue>
+                                </DetailsGroup>
+                              )}
+                              {techniqueTags.length > 0 && (
+                                <DetailsGroup>
+                                  <DetailsLabel>Technique:</DetailsLabel>
+                                  <DetailsValue>
+                                    <Tags
+                                      tags={techniqueTags}
+                                      isFirstPartBold={false}
+                                    />
+                                  </DetailsValue>
+                                </DetailsGroup>
+                              )}
+                              {license && (
+                                <DetailsGroup>
+                                  <DetailsLabel>Licence:</DetailsLabel>
+                                  <DetailsValue>
+                                    {license.url ? (
+                                      <a rel="license" href={license.url}>
+                                        {license.label}
+                                      </a>
+                                    ) : (
+                                      license.label
+                                    )}
+                                  </DetailsValue>
+                                </DetailsGroup>
+                              )}
+                            </DetailsList>
+                          )}
+                        </DetailsSection>
                       </Space>
-                    )}
+                    ) : (
+                      <>
+                        {(displayTitle || displayContributor || license) && (
+                          <Space
+                            $v={{ size: 'md', properties: ['margin-bottom'] }}
+                          >
+                            {displayTitle && (
+                              <Title
+                                dangerouslySetInnerHTML={{
+                                  __html: displayTitle,
+                                }}
+                              />
+                            )}
 
-                    {expandedImageLink && (
-                      <Space $v={{ size: 'md', properties: ['margin-bottom'] }}>
-                        <Button
-                          variant="ButtonSolidLink"
-                          hierarchy="primary"
-                          text="View image"
-                          icon={eye}
-                          link={expandedImageLink}
-                          ariaLabel="View expanded image"
-                        />
-                      </Space>
+                            {(displayContributor ||
+                              productionDates.length > 0) && (
+                              <MetadataWrapper>
+                                {displayContributor && (
+                                  <PipeSeparated>
+                                    {displayContributor}
+                                  </PipeSeparated>
+                                )}
+                                {productionDates.length > 0 && (
+                                  <PipeSeparated>
+                                    Date:&nbsp;{productionDates[0]}
+                                  </PipeSeparated>
+                                )}
+                              </MetadataWrapper>
+                            )}
+
+                            {license && (
+                              <MetadataWrapper>
+                                Licence:&nbsp;
+                                {license.url && (
+                                  <a rel="license" href={license.url}>
+                                    {license.label}
+                                  </a>
+                                )}
+                                {!license.url && license.label}
+                              </MetadataWrapper>
+                            )}
+                          </Space>
+                        )}
+
+                        {expandedImageLink && (
+                          <Space
+                            $v={{ size: 'md', properties: ['margin-bottom'] }}
+                          >
+                            <Button
+                              variant="ButtonSolidLink"
+                              hierarchy="primary"
+                              text="View image"
+                              icon={eye}
+                              link={expandedImageLink}
+                              ariaLabel="View expanded image"
+                            />
+                          </Space>
+                        )}
+                      </>
                     )}
 
                     {shownImage && (
