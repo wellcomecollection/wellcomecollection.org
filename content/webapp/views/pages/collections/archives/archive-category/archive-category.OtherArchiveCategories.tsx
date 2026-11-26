@@ -29,14 +29,11 @@ const OtherArchiveCategories: FunctionComponent<{
       aria-labelledby="other-archive-categories"
       $v={{ size: 'xl', properties: ['padding-bottom'] }}
     >
-      {/* Kept out of ScrollContainer's CopyContent, which would put it on the
-      same row as the Prev/Next buttons rather than above them as in the design */}
       <ContaineredLayout gridSizes={gridSize12()}>
         <Title id="other-archive-categories">Other types of archives</Title>
       </ContaineredLayout>
       <ScrollContainer gridSizes={gridSize12()} useShim>
         {archiveCategories.map((archiveCategory, i) => (
-          // $cols is each card's span out of 12 grid columns, so 3 fits four cards across, as in the design
           <ListItem key={archiveCategory.id} $cols={3} $usesShim>
             <ArchiveCategoryCard
               archiveCategory={archiveCategory}
