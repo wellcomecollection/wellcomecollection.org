@@ -90,6 +90,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       serverData,
       archiveCategory,
+      otherArchiveCategories: archiveCategories.filter(
+        category => category.id !== archiveCategory.id
+      ),
       works,
       sort,
       sortOrder,
