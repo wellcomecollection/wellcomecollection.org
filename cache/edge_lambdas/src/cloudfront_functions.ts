@@ -6,8 +6,8 @@ import vm from 'vm';
 
 // Compiles a CloudFront Function from cloudfront_functions/ with the settings
 // the release uses, and runs the JavaScript in Node so the tests exercise what
-// ships. The runtime's `cloudfront` and `crypto` imports become globals:
-// crypto is Node's, which has the same createHash API.
+// ships. The runtime's `cloudfront` and `crypto` imports become globals, and
+// crypto is Node's own, which has the same createHash API.
 
 export const functionsDir = path.resolve(__dirname, '../cloudfront_functions');
 

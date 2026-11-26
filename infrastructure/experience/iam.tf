@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "allow_ci_to_deploy_beta_test_functions" {
     resources = ["arn:aws:cloudfront::130871440101:function/beta-tests-*"]
   }
 
-  # The compiled code: main uploads it, the deployment pipeline reads it
+  # Main uploads the compiled code here, and the deployment pipeline reads it
   statement {
     actions = ["s3:GetObject", "s3:PutObject"]
 

@@ -10,8 +10,8 @@ every edge location. It then checks that a visitor who has accepted analytics
 cookies is assigned to the canary test in the stage KeyValueStore, and that a
 visitor who hasn't is not.
 
-The functions catch their own errors and serve the page unchanged, so a broken
-function passes the end-to-end tests. This check is what notices.
+The functions catch their own errors and serve pages unchanged, so the
+end-to-end tests still pass when a function is broken, and this check fails.
 DOC
 
 set -o errexit

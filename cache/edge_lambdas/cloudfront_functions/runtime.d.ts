@@ -1,5 +1,5 @@
-// Types for the CloudFront Functions runtime (cloudfront-js-2.0). Ambient, so
-// the functions can use them without importing anything at runtime.
+// Types for the CloudFront Functions runtime (cloudfront-js-2.0). They're
+// ambient, so the functions can use them without importing anything at runtime.
 
 declare module 'cloudfront' {
   type KeyValueStore = {

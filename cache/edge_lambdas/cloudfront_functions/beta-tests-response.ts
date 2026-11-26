@@ -1,11 +1,12 @@
 // Stores the visitor's beta test cookies, as decided by beta-tests-request.
 // They are set here, after the cache, so they are never stored with a page.
-// Compiled for cloudfront-js-2.0: see beta-tests-request for what it supports.
+// It's compiled for cloudfront-js-2.0, and beta-tests-request lists what that
+// supports.
 /* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^handler$" }] -- the runtime calls handler */
 
 const HANDOFF_HEADER = 'x-wc-beta-tests';
-// Replaced at deploy: the git hash of these sources, and the cookie domain
-// ('' for host-only)
+// The deploy replaces these with the git hash of these sources and the cookie
+// domain, which is empty for host-only cookies
 const VERSION = '__VERSION__';
 const COOKIE_DOMAIN = '__COOKIE_DOMAIN__';
 const SIX_MONTHS = 60 * 60 * 24 * 182;
@@ -56,7 +57,7 @@ function handler(event: CloudFrontResponseEvent): CloudFrontResponse {
       deleteCookie(response, 'wc_ab');
     }
   } catch {
-    // Fall through: the page is served without changing the visitor's cookies
+    // The page is served without changing the visitor's cookies
   }
   return response;
 }

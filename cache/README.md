@@ -10,11 +10,11 @@ We use CloudFront for the cache of wellcomecollection.org.
 
 ## Beta test functions
 
-Two CloudFront Functions assign visitors to beta tests before the cache lookup ([RFC 094](https://github.com/wellcomecollection/docs/tree/main/rfcs/094-beta-tests)). The request function reads the running tests from a KeyValueStore and writes each visitor's cohort onto the request as `toggle_ID` cookies. The response function stores the visitor's `wc_ab_bucket` and `wc_ab` cookies. Only visitors who have accepted analytics cookies are assigned, and kiosks never are.
+Two CloudFront Functions assign visitors to beta tests before the cache lookup ([RFC 094](https://github.com/wellcomecollection/docs/tree/main/rfcs/094-beta-tests)). The request function reads the running tests from a KeyValueStore and writes each visitor's cohort onto the request as `toggle_ID` cookies. The response function stores the visitor's `wc_ab_bucket` and `wc_ab` cookies. Only visitors who have accepted analytics cookies are assigned. Kiosks are never assigned, and staff can leave every test with the `betaTestsExempt` toggle.
 
 The functions are TypeScript in [`edge_lambdas/cloudfront_functions`](./edge_lambdas/cloudfront_functions), compiled to the JavaScript the CloudFront runtime supports. Their tests are in [`edge_lambdas/src/beta_tests.test.ts`](./edge_lambdas/src/beta_tests.test.ts) and run against the compiled output with the Lambda tests.
 
-Terraform ([`beta_tests.tf`](./beta_tests.tf)) creates the functions and their stores and attaches them, and ignores their code. On main, CI compiles the functions and uploads them to S3. The deployment pipeline then deploys them, stage then prod: for each function it uploads the code, runs it against the events in [`test-events`](./edge_lambdas/cloudfront_functions/test-events) and publishes it only if they all pass. On stage it then waits for the new version to be live and checks that a consenting visitor is assigned to the canary test in the stage store.
+Terraform ([`beta_tests.tf`](./beta_tests.tf)) creates the functions and their stores and attaches them, and ignores their code. On main, CI compiles the functions and uploads them to S3. The deployment pipeline then deploys them to stage and then prod. For each function it uploads the code, runs it against the events in [`test-events`](./edge_lambdas/cloudfront_functions/test-events) and publishes it only if they all pass. On stage it then waits for the new version to be live and checks that a consenting visitor is assigned to the canary test in the stage store.
 
 ## lambda@edge functions
 

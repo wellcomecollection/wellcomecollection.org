@@ -4,7 +4,7 @@ Deploys the beta test CloudFront Functions to stage or prod:
 
     deploy_beta_test_functions.sh stage|prod
 
-Terraform creates the functions; this script updates their code. It takes
+Terraform creates the functions, and this script updates their code. It takes
 the JavaScript built on main from S3, tests it against the events in
 cache/edge_lambdas/cloudfront_functions/test-events, and publishes it if
 every event passes. A function already at this version is left alone.
@@ -87,7 +87,7 @@ deploy_function() {
     if [[ -n "$error" && "$error" != "None" ]]; then
       fail "$name" "$etag" "failed on $(basename "$event"): $error"
     fi
-    # Running out of compute is the one failure the function can't catch
+    # A function can't catch running out of compute, so the deploy checks it
     if [[ ! "$compute" =~ ^[0-9]+$ ]] || (( compute > MAX_COMPUTE )); then
       fail "$name" "$etag" "used $compute% compute on $(basename "$event"), over $MAX_COMPUTE%"
     fi

@@ -390,7 +390,7 @@ describe('beta-tests-request', () => {
         (cohort, i) => cohort === 'variant' && second[i] === 'variant'
       ).length;
 
-      // Independent at 20% each: about 4% are in both variants, not 20%
+      // With independent draws at 20% each, about 4% of visitors are in both variants
       expect(inBoth / first.length).toBeCloseTo(0.04, 1);
     });
   });

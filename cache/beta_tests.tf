@@ -1,6 +1,6 @@
-# Beta tests (RFC 094 in wellcomecollection/docs). Terraform owns the
-# functions, their stores and where they are attached. CI owns the code, from
-# cache/edge_lambdas/cloudfront_functions: see
+# Beta tests (RFC 094 in wellcomecollection/docs). Terraform creates the
+# functions and their stores and attaches them to distributions. CI deploys
+# their code from cache/edge_lambdas/cloudfront_functions, using
 # .buildkite/scripts/deploy_beta_test_functions.sh.
 locals {
   beta_test_environments = toset(["stage", "prod"])
@@ -63,8 +63,9 @@ resource "aws_cloudfrontkeyvaluestore_key" "stage_canary" {
   }
 }
 
-# The functions catch their own errors, so these count only what they can't:
-# running out of compute or memory, and returning an invalid event
+# The functions catch their own errors, so these alarms count the errors they
+# can't catch, from running out of compute or memory or returning an invalid
+# event
 resource "aws_cloudwatch_metric_alarm" "prod_beta_test_function_errors" {
   for_each = {
     request  = aws_cloudfront_function.beta_tests_request["prod"].name

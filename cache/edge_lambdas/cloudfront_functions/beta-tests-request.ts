@@ -1,11 +1,12 @@
 // Assigns consenting visitors to the running beta tests before the cache
 // lookup, and writes their cohort onto the request as toggle_ID cookies.
-// Design: RFC 094 in wellcomecollection/docs.
+// The design is RFC 094 in wellcomecollection/docs.
 //
-// Compiled to JavaScript for cloudfront-js-2.0, which is ES5.1 plus some
-// later features. Keep to what it supports: const and let, arrow functions,
-// template literals and async/await are fine; object spread, optional
-// chaining and Array.prototype.flat are not. A test checks the output.
+// This is compiled to JavaScript for cloudfront-js-2.0, which is ES5.1 plus
+// some later features. It supports const and let, arrow functions, template
+// literals and async/await. It doesn't support object spread, optional
+// chaining or Array.prototype.flat, and a test checks the compiled output for
+// them.
 /* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^(handler|VERSION)$" }] -- the runtime calls handler, and the deploy reads VERSION */
 import cf from 'cloudfront';
 import crypto from 'crypto';
