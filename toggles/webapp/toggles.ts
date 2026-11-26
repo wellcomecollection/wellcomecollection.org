@@ -95,6 +95,14 @@ const toggleConfig = {
       type: 'permanent',
     },
     {
+      id: 'betaTestsExempt',
+      title: 'Leave beta tests',
+      initialValue: false,
+      description:
+        "Keeps you out of every beta test, so you aren't assigned or counted in results. You can still preview a test's versions from its own switch. Only your own switch does anything: changing the public value has no effect.",
+      type: 'permanent',
+    },
+    {
       id: 'conceptsSearch',
       title: 'Concepts search',
       initialValue: false,

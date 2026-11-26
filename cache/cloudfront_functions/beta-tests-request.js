@@ -111,6 +111,14 @@ async function handler(event) {
     delete request.headers[HANDOFF_HEADER];
     var cookies = request.cookies;
 
+    // Staff leave tests with the betaTestsExempt toggle. Only this function
+    // reads it, so it comes off the request to stay out of the cache key.
+    var isExempt = Boolean(
+      cookies.toggle_betaTestsExempt &&
+      cookies.toggle_betaTestsExempt.value === 'true'
+    );
+    delete cookies.toggle_betaTestsExempt;
+
     // Kiosks show a different version of the site to a different audience
     if (cookies.toggle_kioskMode) return request;
 
@@ -122,7 +130,7 @@ async function handler(event) {
       return request;
     }
 
-    if (tests.length === 0 || !hasAnalyticsConsent(cookies)) {
+    if (tests.length === 0 || isExempt || !hasAnalyticsConsent(cookies)) {
       request.headers[HANDOFF_HEADER] = { value: 'clear' };
       return request;
     }
