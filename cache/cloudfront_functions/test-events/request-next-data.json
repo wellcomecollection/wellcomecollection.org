@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "context": {
+    "eventType": "viewer-request"
+  },
+  "viewer": {
+    "ip": "192.0.2.1"
+  },
+  "request": {
+    "method": "GET",
+    "uri": "/_next/data/build123/works/abc.json",
+    "querystring": {},
+    "headers": {
+      "host": {
+        "value": "www-stage.wellcomecollection.org"
+      }
+    },
+    "cookies": {
+      "CookieControl": {
+        "value": "%7B%22optionalCookies%22%3A%7B%22analytics%22%3A%22accepted%22%7D%7D"
+      }
+    }
+  }
+}

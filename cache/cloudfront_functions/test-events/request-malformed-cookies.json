@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "context": {
+    "eventType": "viewer-request"
+  },
+  "viewer": {
+    "ip": "192.0.2.1"
+  },
+  "request": {
+    "method": "GET",
+    "uri": "/works",
+    "querystring": {},
+    "headers": {
+      "host": {
+        "value": "www-stage.wellcomecollection.org"
+      }
+    },
+    "cookies": {
+      "CookieControl": {
+        "value": "%7Bnot json"
+      },
+      "wc_ab_bucket": {
+        "value": "not a number"
+      },
+      "wc_ab": {
+        "value": "::|||"
+      },
+      "toggle_betaTestsCanary": {
+        "value": "junk"
+      }
+    }
+  }
+}

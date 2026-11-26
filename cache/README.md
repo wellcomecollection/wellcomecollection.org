@@ -5,7 +5,16 @@ We use CloudFront for the cache of wellcomecollection.org.
 - [lambda@edge](#lambdaedge)
   - [Redirector](#redirector)
   - [Toggler (A/B testing)](#toggler-ab-testing)
+- [Beta test functions](#beta-test-functions)
 - [WAF IP Set Updaters](#waf-ip-set-updaters)
+
+## Beta test functions
+
+Two CloudFront Functions assign visitors to beta tests before the cache lookup ([RFC 094](https://github.com/wellcomecollection/docs/tree/main/rfcs/094-beta-tests)). The request function reads the running tests from a KeyValueStore and writes each visitor's cohort onto the request as `toggle_ID` cookies. The response function stores the visitor's `wc_ab_bucket` and `wc_ab` cookies. Only visitors who have accepted analytics cookies are assigned, and kiosks never are.
+
+Terraform ([`beta_tests.tf`](./beta_tests.tf)) creates the functions and their stores and attaches them, and ignores their code. CI deploys the code from [`cloudfront_functions/`](./cloudfront_functions) through the deployment pipeline, stage then prod. For each function it uploads the code, runs it against the events in [`cloudfront_functions/test-events`](./cloudfront_functions/test-events) and publishes it only if they all pass. On stage it then waits for the new version to be live and checks that a consenting visitor is assigned to the canary test in the stage store.
+
+The tests for the functions are in [`edge_lambdas/src/beta_tests.test.ts`](./edge_lambdas/src/beta_tests.test.ts) and run with the Lambda tests.
 
 ## lambda@edge functions
 

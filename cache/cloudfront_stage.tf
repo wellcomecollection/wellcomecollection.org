@@ -20,6 +20,10 @@ module "stage_wc_org_cloudfront_distribution" {
     request  = aws_lambda_function.edge_lambda_request.qualified_arn
     response = aws_lambda_function.edge_lambda_response.qualified_arn
   }
+  function_arns = {
+    request  = aws_cloudfront_function.beta_tests_request["stage"].arn
+    response = aws_cloudfront_function.beta_tests_response["stage"].arn
+  }
 
   cache_policies    = module.cloudfront_policies.cache_policies
   request_policies  = module.cloudfront_policies.request_policies
