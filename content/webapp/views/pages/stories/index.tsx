@@ -96,40 +96,44 @@ const StoriesPage: NextPage<Props> = ({
     >
       <PageHeader variant="landing" title="Stories" introText={introText} />
 
-      <SpacingSection>
-        <ArticlesContainer className="row--has-wobbly-background">
-          <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <ContaineredLayout gridSizes={gridSize12()}>
-              <FeaturedCard
-                type="article"
-                article={firstArticle}
-                background="neutral.700"
-                textColor="neutral.10"
-                priority
-              />
-            </ContaineredLayout>
-          </Space>
-          <div className="row__wobbly-background" />
-          <StoryCardContainer>
-            <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
-              <GridScroll className="card-theme card-theme--transparent">
-                {articles.slice(1, 5).map(article => {
-                  return (
-                    <GridCellScroll
-                      key={article.id}
-                      $sizeMap={{ m: [6], l: [3], xl: [3] }}
-                    >
-                      <Space $v={{ size: 'sm', properties: ['margin-bottom'] }}>
-                        <StoryCard variant="contentApi" article={article} />
-                      </Space>
-                    </GridCellScroll>
-                  );
-                })}
-              </GridScroll>
+      {articles.length > 0 && (
+        <SpacingSection>
+          <ArticlesContainer className="row--has-wobbly-background">
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <ContaineredLayout gridSizes={gridSize12()}>
+                <FeaturedCard
+                  type="article"
+                  article={firstArticle}
+                  background="neutral.700"
+                  textColor="neutral.10"
+                  priority
+                />
+              </ContaineredLayout>
             </Space>
-          </StoryCardContainer>
-        </ArticlesContainer>
-      </SpacingSection>
+            <div className="row__wobbly-background" />
+            <StoryCardContainer>
+              <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
+                <GridScroll className="card-theme card-theme--transparent">
+                  {articles.slice(1, 5).map(article => {
+                    return (
+                      <GridCellScroll
+                        key={article.id}
+                        $sizeMap={{ m: [6], l: [3], xl: [3] }}
+                      >
+                        <Space
+                          $v={{ size: 'sm', properties: ['margin-bottom'] }}
+                        >
+                          <StoryCard variant="contentApi" article={article} />
+                        </Space>
+                      </GridCellScroll>
+                    );
+                  })}
+                </GridScroll>
+              </Space>
+            </StoryCardContainer>
+          </ArticlesContainer>
+        </SpacingSection>
+      )}
 
       <SpacingSection>
         {storiesLanding.storiesTitle && (
@@ -207,18 +211,23 @@ const StoriesPage: NextPage<Props> = ({
         </SpacingComponent>
       </SpacingSection>
 
-      <SpacingSection>
-        <SpacingComponent>
-          <SectionHeader title="You may have missed" gridSize={gridSize12()} />
-        </SpacingComponent>
-        <SpacingComponent>
-          <CardGrid
-            items={articles.slice(5, 11)}
-            itemsPerRow={3}
-            links={[{ text: 'More stories', url: '/search/stories' }]}
-          />
-        </SpacingComponent>
-      </SpacingSection>
+      {articles.length > 5 && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader
+              title="You may have missed"
+              gridSize={gridSize12()}
+            />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles.slice(5, 11)}
+              itemsPerRow={3}
+              links={[{ text: 'More stories', url: '/search/stories' }]}
+            />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
     </PageLayout>
   );
 };

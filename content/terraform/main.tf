@@ -3,7 +3,7 @@
 module "content-prod" {
   source = "./stack"
 
-  environment = data.terraform_remote_state.experience_shared.outputs.prod
+  environment               = data.terraform_remote_state.experience_shared.outputs.prod
   cloudfront_header_secrets = local.cloudfront_header_secrets
 
   desired_task_count = 6
@@ -19,7 +19,7 @@ module "content-prod" {
 module "content-stage" {
   source = "./stack"
 
-  environment = data.terraform_remote_state.experience_shared.outputs.stage
+  environment               = data.terraform_remote_state.experience_shared.outputs.stage
   cloudfront_header_secrets = local.cloudfront_header_secrets
 
   container_image = local.stage_app_image
@@ -40,7 +40,7 @@ module "content-stage" {
 module "content-e2e" {
   source = "./stack"
 
-  environment = data.terraform_remote_state.experience_shared.outputs.e2e
+  environment               = data.terraform_remote_state.experience_shared.outputs.e2e
   cloudfront_header_secrets = local.cloudfront_header_secrets
 
   container_image = local.e2e_app_image
