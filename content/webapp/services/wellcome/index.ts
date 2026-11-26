@@ -146,10 +146,32 @@ export const wellcomeApiQuery = async (url: string) => {
     const res = await wellcomeApiFetch(url);
     const json = (await res.json()) as { type: string; httpStatus: number };
 
+    // Not every failed response is in our API's error format, e.g. a 429
+    // with `{"message": ...}`. Callers only check for `type: 'Error'`, so
+    // without this they'd treat it as results and crash.
+    if (!res.ok && json.type !== 'Error') {
+      console.warn(
+        `Received HTTP ${res.status} from the API query ${url}: ${JSON.stringify(
+          json
+        )}`
+      );
+      return {
+        ...wellcomeApiError(),
+        httpStatus: res.status,
+        label: res.statusText,
+        _requestUrl: url,
+      };
+    }
+
     // In general we want to know about errors from our APIs, but
     // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an
     // automated tool trying to inject malicious data, and thus can be ignored.
-    if (json.type === 'Error' && json.httpStatus !== 414) {
+    // Nor is a 404: it means the thing doesn't exist, not that the API failed.
+    if (
+      json.type === 'Error' &&
+      json.httpStatus !== 414 &&
+      json.httpStatus !== 404
+    ) {
       console.warn(
         `Received HTTP ${json.httpStatus} error from the API query ${url}: ${JSON.stringify(
           json
