@@ -1,4 +1,6 @@
 terraform {
+  required_version = ">= 1.6"
+
   backend "s3" {
     assume_role = {
       role_arn = "arn:aws:iam::130871440101:role/experience-developer"
