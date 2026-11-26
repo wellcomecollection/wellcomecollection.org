@@ -326,6 +326,68 @@ export const NavGridCell = styled(GridCell)<{
     transition: unset;
     mix-blend-mode: difference;
 
+    &[data-in-page-nav-split] {
+      mix-blend-mode: normal;
+
+      [data-in-page-navigation] {
+        mix-blend-mode: normal;
+      }
+
+      h2,
+      a {
+        color: transparent;
+        background-image:
+          linear-gradient(
+            ${props.theme.color('black')} var(--dark-from, 0px),
+            transparent var(--dark-from, 0px)
+          ),
+          linear-gradient(
+            var(--angle, 180deg),
+            ${props.theme.color('neutral.10')} var(--split, 0px),
+            ${props.theme.color('black')} var(--split, 0px)
+          );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      a {
+        --line-color: ${props.theme.color('blue.30')};
+      }
+
+      a > span {
+        transform: none;
+      }
+
+      a::before {
+        background: ${props.theme.color('blue.30')};
+      }
+
+      li::before {
+        background: transparent;
+      }
+
+      @media print {
+        h2,
+        a {
+          color: ${props.theme.color('black')};
+          background-image: none;
+        }
+      }
+
+      /* High contrast modes can drop the background the text relies on */
+      @media (forced-colors: active) {
+        h2 {
+          color: CanvasText;
+          background-image: none;
+        }
+
+        a {
+          color: LinkText;
+          background-image: none;
+        }
+      }
+    }
+
     &::before,
     &::after {
       transition: unset;

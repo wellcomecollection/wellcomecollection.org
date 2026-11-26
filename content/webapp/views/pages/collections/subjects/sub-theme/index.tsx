@@ -186,7 +186,7 @@ const WellcomeSubThemePage: NextPage<Props> & {
             )}
 
             {hasImagesAbout && (
-              <StretchWrapper $hasDarkBackground>
+              <StretchWrapper data-in-page-nav-dark $hasDarkBackground>
                 <DarkSectionWrapper>
                   <Title id="images-about">
                     Images about {lowerCasePageTitle}
