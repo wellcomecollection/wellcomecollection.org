@@ -276,7 +276,7 @@ export const DetailsList = styled(Space).attrs({
 export const DetailsGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: ${props => props.theme.spacingUnits['050']};
 
   ${props =>
     props.theme.media('sm')(`

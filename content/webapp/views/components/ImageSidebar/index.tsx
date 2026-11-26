@@ -193,7 +193,7 @@ const ImageSidebar: FunctionComponent<Props> = ({
 
   const techniqueTags: TagType[] = (detailedWork?.genres ?? []).flatMap(
     genre => {
-      const conceptId = genre.concepts[0]?.id;
+      const conceptId = genre.concepts?.[0]?.id;
       return conceptId
         ? [
             {
