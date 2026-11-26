@@ -23,10 +23,9 @@ type Props = {
   options: Option[];
   jsLessOptions: JsLessOptions;
   defaultValues?: DefaultSortValuesType;
-  // Overrides which option is shown as selected, which otherwise comes from
-  // the URL. Needed where the page fills in or corrects the sort: e.g.
-  // ?sort=production.dates has no sortOrder, so it matches no option, but
-  // the page sorts newest first and this should show "Newest to oldest"
+  // Which option to show as selected, where the URL alone can't say: e.g.
+  // ?sort=production.dates has no sortOrder, so it matches no option, but the
+  // page sorts newest first and this should show "Newest to oldest"
   selectedValue?: string;
   darkBg?: boolean;
 };

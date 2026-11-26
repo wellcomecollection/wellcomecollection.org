@@ -80,7 +80,6 @@ const ArchiveCategoryWorksList = ({
                   ],
                 }}
                 defaultValues={{ sort, sortOrder }}
-                // Title A-Z is the default option, whose value is empty
                 selectedValue={sort === 'title' ? '' : `${sort}.${sortOrder}`}
               />
 

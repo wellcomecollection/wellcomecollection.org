@@ -274,9 +274,8 @@ const isSortOrder = (value: unknown): value is SortOrder =>
   value === 'asc' || value === 'desc';
 
 /**
- * Resolves the archive category page's sort and sortOrder query params to the
- * values to send to the API. Anything other than a date sort is title A-Z,
- * the page's default.
+ * Anything other than a date sort resolves to title A-Z, the page's default,
+ * so missing or unknown params never error.
  */
 export function getArchiveCategoryWorksSort({
   sort,
