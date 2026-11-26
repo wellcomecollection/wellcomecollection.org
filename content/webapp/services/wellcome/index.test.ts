@@ -76,11 +76,40 @@ describe('wellcomeApiQuery', () => {
     expect(console.warn).not.toHaveBeenCalled();
   });
 
-  it('returns an error when the request fails', async () => {
+  it('returns and logs an error when the request fails', async () => {
     mockFetch.mockRejectedValue(new TypeError('fetch failed'));
 
     const result = await wellcomeApiQuery('https://api.example/works');
 
     expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
+    expect(console.error).toHaveBeenCalledTimes(1);
+  });
+
+  it("returns and logs an error when the response isn't JSON", async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 502,
+      statusText: 'Bad Gateway',
+      json: async () => {
+        throw new SyntaxError('Unexpected token <');
+      },
+    } as unknown as Response);
+
+    const result = await wellcomeApiQuery('https://api.example/works');
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
+    expect(console.error).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes fetch options through', async () => {
+    respondWith(200, { type: 'ItemsList', results: [] });
+    const options = { headers: { 'x-api-key': 'key' } };
+
+    await wellcomeApiQuery('https://api.example/works/abc/items', options);
+
+    expect(mockFetch).toHaveBeenCalledWith(
+      'https://api.example/works/abc/items',
+      options
+    );
   });
 });

@@ -141,15 +141,26 @@ export type WellcomeApiError = {
   type: 'Error';
 };
 
-export const wellcomeApiQuery = async (url: string) => {
-  // In general we want to know about errors from our APIs, but
-  // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an
-  // automated tool trying to inject malicious data, and thus can be ignored.
-  // Nor is a 404: it means the thing doesn't exist, not that the API failed.
-  const shouldLog = (status: number) => status !== 414 && status !== 404;
+// In general we want to know about errors from our APIs, but not:
+// - a 404: it means the thing doesn't exist, not that the API failed
+// - a 414 URI Too Long: it's usually a sign of an automated tool trying to
+//   inject malicious data, and thus can be ignored
+const shouldLog = (status: number) => status !== 404 && status !== 414;
 
+export const logFetchFailure = (url: string, error: unknown) => {
+  console.error(`Unable to fetch API URL: ${url}`, error);
+};
+
+/**
+ * Reads a response from one of our APIs, and logs it if it's an error.
+ * Never throws: a response that isn't JSON, or a failed one that isn't in
+ * our error format, comes back as an error object.
+ *
+ * Use wellcomeApiQuery unless you need the raw response first, like
+ * getWork does for redirects.
+ */
+export const readApiResponse = async (url: string, res: Response) => {
   try {
-    const res = await wellcomeApiFetch(url);
     const json = (await res.json()) as { type: string; httpStatus: number };
 
     // Not every failed response is in our API's error format, e.g. a 429
@@ -184,7 +195,17 @@ export const wellcomeApiQuery = async (url: string) => {
       _requestUrl: url,
     };
   } catch (error) {
-    console.error(`Unable to fetch API URL: ${url}`, error);
+    console.error(`Unable to read the response from API URL: ${url}`, error);
+    return wellcomeApiError();
+  }
+};
+
+export const wellcomeApiQuery = async (url: string, options?: RequestInit) => {
+  try {
+    const res = await wellcomeApiFetch(url, options);
+    return await readApiResponse(url, res);
+  } catch (error) {
+    logFetchFailure(url, error);
     return wellcomeApiError();
   }
 };
