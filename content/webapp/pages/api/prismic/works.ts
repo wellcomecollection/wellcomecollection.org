@@ -13,6 +13,8 @@ const WorksApi = async (
   const works = await getWorks({
     params: { availabilities: ['online'], page },
     pageSize: 50,
+    // The picker only reads fields the API always returns
+    isMinimalIncludes: true,
   });
 
   res.setHeader('Content-Type', 'application/json');

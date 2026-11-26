@@ -81,7 +81,7 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
  * https://wellcomecollection.org/works?subjects.label=%22Thackrah%2C+Charles+Turner%2C+1795-1833%22
  */
 export async function getWorks(
-  props: QueryProps<CatalogueWorksApiProps>
+  props: QueryProps<CatalogueWorksApiProps> & { isMinimalIncludes?: boolean }
 ): Promise<CatalogueResultsList<Work> | WellcomeApiError> {
   const params: WorksProps = {
     ...emptyWorksProps,
@@ -100,7 +100,7 @@ export async function getWorks(
       query['production.dates.to'] as string,
       'to'
     ),
-    include: worksIncludes,
+    include: props.isMinimalIncludes ? [] : worksIncludes,
   };
 
   return catalogueQuery('works', {
