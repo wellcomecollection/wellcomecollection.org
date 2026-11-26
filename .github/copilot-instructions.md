@@ -122,9 +122,13 @@ Our analyst's GTM tags and reports depend on `data-gtm-*` attributes (`data-gtm-
 
 Don't add, remove, rename or move these attributes, change their values, or restructure the element that carries one, without flagging it to the user so they can let the analyst know. When reviewing, call out any diff that does this.
 
+## In-page navigation over dark backgrounds
+
+On desktop, the "On this page" nav (`InPageNavigation`) colours its text dark by default and light only over an element marked `data-in-page-nav-dark`, measuring that element's top and bottom as the page scrolls. If a page puts a dark background behind the nav (including one that only reaches behind the sidebar via a `::before`), mark the element that draws it, or the nav's text will be dark on dark. Where the band ends in a `WobblyEdge`, also mark the edge's wrapper `data-in-page-nav-dark-edge` so the split follows its slope (see the concept page). The marker goes on the element whose box matches the dark area. When reviewing, flag a dark background behind the nav without one.
+
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, API failure handling, e2e analytics-blocking, GTM attribute changes).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, API failure handling, e2e analytics-blocking, GTM attribute changes, in-page nav dark markers).
 
 ### TODOs and Technical Debt
 

@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.9"
+  required_version = ">= 1.6"
 
   backend "s3" {
     key            = "build-state/identity.tfstate"

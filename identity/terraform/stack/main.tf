@@ -27,7 +27,7 @@ module "identity-service-18012021" {
   }, var.env_vars)
 
   secret_env_vars = merge({
-    PRISMIC_ACCESS_TOKEN = "prismic-model/prod/access-token"
+    PRISMIC_ACCESS_TOKEN       = "prismic-model/prod/access-token"
     PRISMIC_ACCESS_TOKEN_STAGE = "prismic-model/stage/access-token"
 
     NEXT_PUBLIC_CIVICUK_API_KEY = "civicuk/api_key"

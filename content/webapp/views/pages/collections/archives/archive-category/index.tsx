@@ -7,10 +7,12 @@ import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome
 import { toArchiveCategoryLink } from '@weco/content/views/components/ArchiveCategoryLink';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
+import OtherArchiveCategories from './archive-category.OtherArchiveCategories';
 import ArchiveCategoryWorksList from './archive-category.WorksList';
 
 export type Props = {
   archiveCategory: ArchiveCategory;
+  otherArchiveCategories: ArchiveCategory[];
   works: ArchiveCategoryWorksResult;
   sort?: string;
   sortOrder?: string;
@@ -19,6 +21,7 @@ export type Props = {
 
 const ArchiveCategoryPage: NextPage<Props> = ({
   archiveCategory,
+  otherArchiveCategories,
   works,
   sort,
   sortOrder,
@@ -48,6 +51,7 @@ const ArchiveCategoryPage: NextPage<Props> = ({
         sort={sort}
         sortOrder={sortOrder}
       />
+      <OtherArchiveCategories archiveCategories={otherArchiveCategories} />
     </PageLayout>
   );
 };
