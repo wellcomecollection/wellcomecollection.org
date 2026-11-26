@@ -20,6 +20,7 @@ import Readme from '@weco/content/views/components/InPageNavigation/README.mdx';
 
 const BodyGrid = styled(Grid)`
   background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
 `;
 
 // Mirrors the concept page's images band, which the nav's split colours follow
@@ -129,6 +130,8 @@ const meta: Meta<typeof InPageNavigationInColsContext> = {
   title: 'Components/InPageNavigation',
   component: InPageNavigationInColsContext,
   args: {},
+  // The nav's full-width backgrounds only reach into the page's own gutter
+  parameters: { layout: 'fullscreen' },
 };
 
 export default meta;
