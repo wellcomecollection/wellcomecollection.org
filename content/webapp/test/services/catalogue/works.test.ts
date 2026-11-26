@@ -1,4 +1,7 @@
-import { wellcomeApiQuery } from '@weco/content/services/wellcome';
+import {
+  wellcomeApiFetch,
+  wellcomeApiQuery,
+} from '@weco/content/services/wellcome';
 import {
   getWork,
   getWorks,
@@ -8,6 +11,7 @@ import {
 jest.mock('@weco/content/services/wellcome', () => ({
   ...jest.requireActual('@weco/content/services/wellcome'),
   wellcomeApiQuery: jest.fn(),
+  wellcomeApiFetch: jest.fn(),
 }));
 
 const mockWellcomeApiQuery = wellcomeApiQuery as jest.MockedFunction<
@@ -25,6 +29,72 @@ it('returns a 404 Not Found for a work ID that’s not alphanumeric', () => {
       description: '',
       type: 'Error',
     });
+  });
+});
+
+describe('getWork: API errors', () => {
+  const mockWellcomeApiFetch = wellcomeApiFetch as jest.MockedFunction<
+    typeof wellcomeApiFetch
+  >;
+
+  // jsdom has no Response, so this stands in for one
+  const apiErrorResponse = (httpStatus: number) =>
+    ({
+      status: httpStatus,
+      json: () =>
+        Promise.resolve({
+          type: 'Error',
+          errorType: 'http',
+          httpStatus,
+          label: 'Error',
+          description: '',
+        }),
+    }) as unknown as Response;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    jest.spyOn(console, 'warn').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('returns a 500 error, and logs it, when the request fails', async () => {
+    mockWellcomeApiFetch.mockRejectedValue(new TypeError('fetch failed'));
+
+    const result = await getWork({
+      id: 'a2pjqhmz',
+      shouldUseStagingApi: false,
+    });
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  it('logs an API error', async () => {
+    mockWellcomeApiFetch.mockResolvedValue(apiErrorResponse(500));
+
+    const result = await getWork({
+      id: 'a2pjqhmz',
+      shouldUseStagingApi: false,
+    });
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
+    expect(console.warn).toHaveBeenCalled();
+  });
+
+  it('returns a 414 without logging it', async () => {
+    mockWellcomeApiFetch.mockResolvedValue(apiErrorResponse(414));
+
+    const result = await getWork({
+      id: 'a2pjqhmz',
+      shouldUseStagingApi: false,
+    });
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 414 });
+    expect(console.warn).not.toHaveBeenCalled();
   });
 });
 

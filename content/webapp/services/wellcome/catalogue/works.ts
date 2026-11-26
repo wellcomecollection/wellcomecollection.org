@@ -134,7 +134,13 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${id}?${searchParams}`;
 
-  const res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  let res: Response;
+  try {
+    res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  } catch (error) {
+    console.error(`Unable to fetch API URL: ${url}`, error);
+    return wellcomeApiError();
+  }
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
@@ -162,9 +168,12 @@ export async function getWork({
   try {
     const work = (await res.json()) as Work | WellcomeApiError;
     if (work.type === 'Error') {
-      console.warn(
-        `Received HTTP ${work.httpStatus} error from the API query ${url}: ${JSON.stringify(work)}`
-      );
+      // A 414 is usually a bot sending junk, so like wellcomeApiQuery we don't log it
+      if (work.httpStatus !== 414) {
+        console.warn(
+          `Received HTTP ${work.httpStatus} error from the API query ${url}: ${JSON.stringify(work)}`
+        );
+      }
       return work;
     }
     return { ...work, url };
