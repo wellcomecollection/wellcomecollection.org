@@ -46,18 +46,16 @@ export async function catalogueQuery<Params, Result extends ResultType>(
 
 // Returns true if a string is plausibly a canonical ID, false otherwise.
 //
-// There's no way for the front-end to know what strings are valid canonical IDs
-// (only the catalogue API knows that), but it can reject certain classes of
-// strings that it knows definitely aren't.
+// Only the catalogue API knows which IDs exist, but every canonical ID is
+// 8 lowercase letters or digits: the pipeline's CanonicalId type requires
+// length 8 (catalogue-pipeline, identifiers/CanonicalId.scala).
 //
-// e.g. any non-alphanumeric string definitely isn't a canonical ID.
-//
-// This is useful for rejecting queries that are obviously malformed, which might
-// be attempts to inject malicious data into API queries.
+// This rejects queries that are obviously malformed, which might be attempts
+// to inject malicious data into API queries, without a round trip to the API.
 export const looksLikeCanonicalId = (
   id: string | string[] | undefined
 ): id is string => {
-  return isString(id) && /^([a-z0-9]+)$/.test(id);
+  return isString(id) && /^[a-z0-9]{8}$/.test(id);
 };
 
 // Creates the YYYY-MM-DD date string we pass to the API.
