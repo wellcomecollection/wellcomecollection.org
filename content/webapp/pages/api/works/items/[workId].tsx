@@ -8,9 +8,12 @@ import {
   GlobalApiOptions,
   rootUris,
   WellcomeApiError,
-  wellcomeApiError,
+  wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
-import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
+import {
+  looksLikeCanonicalId,
+  notFound,
+} from '@weco/content/services/wellcome/catalogue';
 import { ItemsList } from '@weco/content/services/wellcome/catalogue/types';
 
 function getApiUrl(apiOptions: GlobalApiOptions, workId: string): string {
@@ -39,17 +42,12 @@ async function fetchWorkItems({
 }): Promise<ItemsList | WellcomeApiError> {
   const apiOptions = globalApiOptions(shouldUseStagingApi);
   const apiUrl = getApiUrl(apiOptions, workId);
-  try {
-    const items = await fetch(apiUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': getApiKey(apiOptions) || '',
-      },
-    }).then(resp => resp.json());
-    return items;
-  } catch {
-    return wellcomeApiError();
-  }
+  return wellcomeApiQuery(apiUrl, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': getApiKey(apiOptions) || '',
+    },
+  }) as Promise<ItemsList | WellcomeApiError>;
 }
 
 const ItemsApi = async (
@@ -61,7 +59,7 @@ const ItemsApi = async (
   const { workId } = req.query;
 
   if (!isString(workId) || !looksLikeCanonicalId(workId)) {
-    res.status(404);
+    res.status(404).json(notFound());
     return;
   }
   const response = await fetchWorkItems({
