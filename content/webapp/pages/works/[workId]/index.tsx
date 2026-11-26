@@ -8,6 +8,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { getArchiveCategories } from '@weco/content/server-data/archiveCategories';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -52,7 +53,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (workResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, workResponse.httpStatus, 'Catalogue API error');
+    return appError(
+      context,
+      workResponse.httpStatus,
+      apiErrorMessage(workResponse, 'Catalogue API error')
+    );
   }
 
   const { url, ...work } = workResponse;

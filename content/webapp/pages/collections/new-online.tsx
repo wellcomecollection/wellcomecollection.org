@@ -9,6 +9,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getPage } from '@weco/content/utils/query-params';
@@ -60,7 +61,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (works.type === 'Error') {
-    return appError(context, works.httpStatus, 'Catalogue API error');
+    return appError(
+      context,
+      works.httpStatus,
+      apiErrorMessage(works, 'Catalogue API error')
+    );
   }
 
   return {

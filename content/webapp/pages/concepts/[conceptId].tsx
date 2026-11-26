@@ -12,6 +12,7 @@ import {
 import ConceptContext from '@weco/content/contexts/ConceptPageContext';
 import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
   conceptsApiUrl,
@@ -104,7 +105,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (conceptResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, conceptResponse.httpStatus, 'Concepts API error');
+    return appError(
+      context,
+      conceptResponse.httpStatus,
+      apiErrorMessage(conceptResponse, 'Concepts API error')
+    );
   }
 
   const getConceptDocs = {
