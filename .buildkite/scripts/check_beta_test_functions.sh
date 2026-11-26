@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-<<EOF
+<<DOC
 Check the beta test functions are live and assigning visitors on stage.
 
     check_beta_test_functions.sh https://www-stage.wellcomecollection.org
@@ -12,7 +12,7 @@ visitor who hasn't is not.
 
 The functions catch their own errors and serve the page unchanged, so a broken
 function passes the end-to-end tests. This check is what notices.
-EOF
+DOC
 
 set -o errexit
 set -o nounset
@@ -23,14 +23,21 @@ VERSION="$(git rev-parse --short=12 HEAD:cache/cloudfront_functions)"
 CONSENTED='CookieControl=%7B%22optionalCookies%22%3A%7B%22analytics%22%3A%22accepted%22%7D%7D'
 TIMEOUT_SECONDS=900
 
-# The functions run on cached responses too, so any page will do
+# Until cache/ has been applied there are no functions to check
+if [[ "$(buildkite-agent meta-data get beta-test-functions-exist --default false)" != "true" ]]; then
+  echo "The beta test functions don't exist yet, skipping"
+  exit 0
+fi
+
+# The functions run on cached responses too, so any page will do. The headers
+# are captured whole before matching, so grep can't cut curl off part-way.
 headers() {
   curl --silent --show-error --output /dev/null --dump-header - \
     "$@" "$BASE_URL/works"
 }
 
 started="$(date +%s)"
-until headers | grep -qi "^x-wc-beta-tests-version: $VERSION"; do
+until [[ "$(headers)" =~ [Xx]-[Ww][Cc]-[Bb]eta-[Tt]ests-[Vv]ersion:\ $VERSION ]]; do
   if (( $(date +%s) - started > TIMEOUT_SECONDS )); then
     echo "Responses from $BASE_URL never showed beta test functions at $VERSION"
     exit 1
@@ -40,12 +47,13 @@ until headers | grep -qi "^x-wc-beta-tests-version: $VERSION"; do
 done
 echo "Beta test functions at $VERSION are live on $BASE_URL"
 
-if ! headers --cookie "$CONSENTED" | grep -qi '^set-cookie: wc_ab=betaTestsCanary:1:'; then
+consented_headers="$(headers --cookie "$CONSENTED")"
+if ! grep -qiE '^set-cookie: wc_ab=([^;]*\|)?betaTestsCanary:' <<< "$consented_headers"; then
   echo "A consenting visitor wasn't assigned to the canary test"
   exit 1
 fi
 
-if headers | grep -qi '^set-cookie: wc_ab'; then
+if grep -qi '^set-cookie: wc_ab' <<< "$(headers)"; then
   echo "A visitor without consent was given a beta test cookie"
   exit 1
 fi

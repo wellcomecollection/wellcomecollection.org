@@ -8,8 +8,9 @@ Terraform creates the functions and attaches them (cache/beta_tests.tf); this
 script owns their code. For each function it uploads the code to the
 DEVELOPMENT stage, runs it against the sample events in
 cache/cloudfront_functions/test-events, and publishes it to LIVE only if every
-event runs without an error. CloudFront will publish code that fails at
-runtime, so the test step is what stops a broken function reaching visitors.
+event runs without an error and within MAX_COMPUTE. CloudFront will publish
+code that fails at runtime, so the test step is what stops a broken function
+reaching visitors. If a test fails, the LIVE code is put back in DEVELOPMENT.
 
 The code carries a version, the git hash of cache/cloudfront_functions, which
 the viewer-response function returns in x-wc-beta-tests-version. A function
@@ -35,6 +36,9 @@ case "$ENVIRONMENT" in
     ;;
 esac
 
+# Compute utilisation is a percentage of the time a function is allowed
+MAX_COMPUTE=70
+
 WORK_DIR="$(mktemp -d)"
 trap 'rm -rf "$WORK_DIR"' EXIT
 
@@ -49,11 +53,17 @@ deploy_function() {
     "$FUNCTIONS_DIR/beta-tests-$kind.js" > "$code"
 
   # Terraform creates the function, so until it has been applied there is
-  # nothing to deploy to
-  if ! aws cloudfront describe-function --name "$name" --stage LIVE >/dev/null 2>&1; then
-    echo "$name doesn't exist yet (apply cache/ first), skipping"
-    return
+  # nothing to deploy to. Any other error fails the deploy.
+  local describe_error
+  if ! describe_error="$(aws cloudfront describe-function --name "$name" --stage LIVE 2>&1 >/dev/null)"; then
+    if [[ "$describe_error" == *NoSuchFunctionExists* ]]; then
+      echo "$name doesn't exist yet (apply cache/ first), skipping"
+      return
+    fi
+    echo "$describe_error"
+    exit 1
   fi
+  FUNCTIONS_EXIST=true
 
   aws cloudfront get-function --name "$name" --stage LIVE "$WORK_DIR/live.js" >/dev/null
   if grep -q "var VERSION = '$VERSION';" "$WORK_DIR/live.js"; then
@@ -68,31 +78,55 @@ deploy_function() {
   etag="$(aws cloudfront describe-function --name "$name" --stage DEVELOPMENT --query ETag --output text)"
 
   echo "Uploading $name at $VERSION"
-  etag="$(aws cloudfront update-function \
-    --name "$name" \
-    --if-match "$etag" \
-    --function-config "file://$WORK_DIR/config.json" \
-    --function-code "fileb://$code" \
-    --query ETag --output text)"
+  etag="$(upload "$name" "$etag" "$code")"
 
-  local event error
+  local event result error compute
   for event in "$FUNCTIONS_DIR"/test-events/"$kind"-*.json; do
-    error="$(aws cloudfront test-function \
+    result="$(aws cloudfront test-function \
       --name "$name" \
       --if-match "$etag" \
       --stage DEVELOPMENT \
       --event-object "fileb://$event" \
-      --query 'TestResult.FunctionErrorMessage' --output text)"
+      --query 'TestResult.[FunctionErrorMessage, ComputeUtilization]' --output text)"
+    IFS=$'\t' read -r error compute <<< "$result"
     if [[ -n "$error" && "$error" != "None" ]]; then
-      echo "$name failed on $(basename "$event"): $error"
-      exit 1
+      fail "$name" "$etag" "failed on $(basename "$event"): $error"
     fi
-    echo "$name passed $(basename "$event")"
+    # Running out of compute is the one failure the function can't catch
+    if [[ ! "$compute" =~ ^[0-9]+$ ]] || (( compute > MAX_COMPUTE )); then
+      fail "$name" "$etag" "used $compute% compute on $(basename "$event"), over $MAX_COMPUTE%"
+    fi
+    echo "$name passed $(basename "$event") using $compute% compute"
   done
 
   aws cloudfront publish-function --name "$name" --if-match "$etag" >/dev/null
   echo "Published $name at $VERSION"
 }
 
+upload() {
+  aws cloudfront update-function \
+    --name "$1" \
+    --if-match "$2" \
+    --function-config "file://$WORK_DIR/config.json" \
+    --function-code "fileb://$3" \
+    --query ETag --output text
+}
+
+# Puts the LIVE code back in DEVELOPMENT, so nothing that failed here can be
+# published later by another route
+fail() {
+  local name="$1" etag="$2" reason="$3"
+  echo "$name $reason"
+  upload "$name" "$etag" "$WORK_DIR/live.js" >/dev/null
+  echo "Restored the LIVE code to $name's DEVELOPMENT stage"
+  exit 1
+}
+
+FUNCTIONS_EXIST=false
 deploy_function request
 deploy_function response
+
+# The stage check skips when there was nothing to deploy to
+if command -v buildkite-agent >/dev/null; then
+  buildkite-agent meta-data set "beta-test-functions-exist" "$FUNCTIONS_EXIST"
+fi

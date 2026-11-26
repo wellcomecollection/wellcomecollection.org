@@ -2,10 +2,13 @@
 // lookup, and writes their cohort onto the request as toggle_ID cookies.
 // Design: RFC 094 in wellcomecollection/docs. Runtime: cloudfront-js-2.0,
 // which is ES5.1 plus some later features, so keep to var/const and loops.
-/* eslint no-unused-vars: ["error", { "caughtErrors": "none", "varsIgnorePattern": "^handler$" }] -- the runtime calls handler, and has no optional catch binding */
+/* eslint no-unused-vars: ["error", { "caughtErrors": "none", "varsIgnorePattern": "^(handler|VERSION)$" }] -- the runtime calls handler, and has no optional catch binding */
 import cf from 'cloudfront';
 import crypto from 'crypto';
 
+// The git hash of cache/cloudfront_functions, replaced at deploy, which the
+// deploy script reads to tell whether this code is already live
+var VERSION = '__VERSION__';
 // Passes the visitor's cookies to beta-tests-response.js
 var HANDOFF_HEADER = 'x-wc-beta-tests';
 var ENTRY_PATTERN = /^[A-Za-z0-9_-]+:[0-9]+:(variant|control|outside)$/;
@@ -104,6 +107,8 @@ async function readTests() {
 async function handler(event) {
   var request = event.request;
   try {
+    // Only this function may tell the response function what to set
+    delete request.headers[HANDOFF_HEADER];
     var cookies = request.cookies;
 
     // Kiosks show a different version of the site to a different audience

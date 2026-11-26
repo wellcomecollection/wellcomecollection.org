@@ -291,6 +291,25 @@ describe('beta-tests-request', () => {
     }
   });
 
+  it('removes a hand-off header the visitor sent, whichever way it returns', async () => {
+    const forged = { value: 'set;9999;forged:1:variant' };
+    const consentedCookies = { CookieControl: { value: consented } };
+    const cases: [RunningTest[] | Kvs, Cookies][] = [
+      [[testA], { ...consentedCookies, toggle_kioskMode: { value: 'x' } }],
+      [failingStore, consentedCookies],
+    ];
+
+    for (const [tests, cookies] of cases) {
+      const kvs = Array.isArray(tests) ? storeWith(tests) : tests;
+      const handler = loadFunction('beta-tests-request.js', { kvs });
+      const event = requestEvent('/works', cookies);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (event.request.headers as any)['x-wc-beta-tests'] = forged;
+
+      expect(handoff(await handler(event))).toBeUndefined();
+    }
+  });
+
   it('returns the request when anything else goes wrong', async () => {
     const handler = loadFunction('beta-tests-request.js', {
       kvs: storeWith([testA]),
