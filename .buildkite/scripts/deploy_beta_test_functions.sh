@@ -75,17 +75,28 @@ deploy_function() {
   echo "Uploading $name at $VERSION"
   etag="$(upload "$name" "$etag" "$code")"
 
-  local event result error compute
+  local event result error compute output wanted
   for event in "$FUNCTIONS_DIR"/test-events/"$kind"-*.json; do
-    result="$(aws cloudfront test-function \
+    if ! result="$(aws cloudfront test-function \
       --name "$name" \
       --if-match "$etag" \
       --stage DEVELOPMENT \
       --event-object "fileb://$event" \
-      --query 'TestResult.[FunctionErrorMessage, ComputeUtilization]' --output text)"
-    IFS=$'\t' read -r error compute <<< "$result"
+      --query 'TestResult.[FunctionErrorMessage, ComputeUtilization, FunctionOutput]' --output text)"; then
+      fail "$name" "$etag" "couldn't be tested with $(basename "$event")"
+    fi
+    IFS=$'\t' read -r error compute output <<< "$result"
     if [[ -n "$error" && "$error" != "None" ]]; then
       fail "$name" "$etag" "failed on $(basename "$event"): $error"
+    fi
+    # The functions catch their own errors, so an event's .expect file lists
+    # text its output must contain to show the function did its job
+    if [[ -f "${event%.json}.expect" ]]; then
+      while IFS= read -r wanted; do
+        if [[ -n "$wanted" && "$output" != *"$wanted"* ]]; then
+          fail "$name" "$etag" "output for $(basename "$event") is missing $wanted"
+        fi
+      done < "${event%.json}.expect"
     fi
     # A function can't catch running out of compute, so the deploy checks it
     if [[ ! "$compute" =~ ^[0-9]+$ ]] || (( compute > MAX_COMPUTE )); then

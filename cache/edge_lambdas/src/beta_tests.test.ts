@@ -6,7 +6,7 @@ import {
   functionsDir,
   Kvs,
   loadFunction,
-} from './cloudfront_functions';
+} from './test_cloudfront_functions';
 
 type Cookies = Record<string, { value: string }>;
 
@@ -512,7 +512,9 @@ describe('compiled output', () => {
 // The same events CI passes to `aws cloudfront test-function` before publishing
 describe('sample events', () => {
   const eventsDir = path.join(functionsDir, 'test-events');
-  const events = fs.readdirSync(eventsDir);
+  const events = fs
+    .readdirSync(eventsDir)
+    .filter(name => name.endsWith('.json'));
   const canary = storeWith([
     { id: 'betaTestsCanary', version: 1, enrolment: 100, split: 50, paths: [] },
   ]);
@@ -536,7 +538,23 @@ describe('sample events', () => {
       const event = JSON.parse(
         fs.readFileSync(path.join(eventsDir, name), 'utf-8')
       );
-      expect(handler(event).statusCode).toBe(200);
+      const output = handler(event);
+      expect(output.statusCode).toBe(200);
+
+      // The deploy checks the same .expect text in test-function's output
+      const expectFile = path.join(
+        eventsDir,
+        name.replace(/\.json$/, '.expect')
+      );
+      if (fs.existsSync(expectFile)) {
+        const lines = fs
+          .readFileSync(expectFile, 'utf-8')
+          .split('\n')
+          .filter(Boolean);
+        for (const wanted of lines) {
+          expect(JSON.stringify(output)).toContain(wanted);
+        }
+      }
     }
   );
 });

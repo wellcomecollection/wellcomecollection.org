@@ -12,6 +12,16 @@ declare module 'cloudfront' {
   export default cf;
 }
 
+// Only what the runtime's crypto module has, so Node-only APIs fail to compile
+declare module 'crypto' {
+  type Hash = {
+    update(data: string): Hash;
+    digest(encoding: 'hex' | 'base64' | 'base64url'): string;
+  };
+  const crypto: { createHash(algorithm: 'md5' | 'sha1' | 'sha256'): Hash };
+  export default crypto;
+}
+
 type CloudFrontValue = { value: string; multiValue?: CloudFrontValue[] };
 
 type CloudFrontRequest = {

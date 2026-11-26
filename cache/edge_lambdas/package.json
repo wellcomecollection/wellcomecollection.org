@@ -4,7 +4,7 @@
   "license": "MIT",
   "description": "Edge lambdas for redirecting and A/B toggling",
   "scripts": {
-    "test": "jest",
+    "test": "tsc -p cloudfront_functions --noEmit && jest",
     "build": "tsc -p tsconfig.build.json",
     "deploy": "node deploy",
     "tsc": "tsc --noEmit --skipLibCheck && tsc -p cloudfront_functions --noEmit",

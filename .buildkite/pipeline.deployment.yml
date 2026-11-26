@@ -36,6 +36,16 @@ steps:
     agents:
       queue: nano
 
+  # Its own step, so a failure here can be retried without redeploying the apps
+  - label: "Deploy beta test functions to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+    command: ".buildkite/scripts/deploy_beta_test_functions.sh $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+    agents:
+      queue: nano
+
   - wait
 
   # This step isn't soft_fail, because a broken beta test function serves

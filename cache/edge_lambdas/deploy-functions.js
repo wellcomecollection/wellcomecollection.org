@@ -3,20 +3,26 @@
 // it up from there for each environment: see
 // .buildkite/scripts/deploy_beta_test_functions.sh.
 const {
-  S3Client,
-  PutObjectCommand,
+  GetObjectCommand,
   HeadObjectCommand,
+  PutObjectCommand,
+  S3Client,
 } = require('@aws-sdk/client-s3');
 const childProcess = require('child_process');
 const fs = require('fs');
 
 const s3 = new S3Client({ region: 'us-east-1' });
-const bucket = 'weco-lambdas';
-const functions = ['beta-tests-request', 'beta-tests-response'];
+const BUCKET = 'weco-lambdas';
+const SOURCES = 'cloudfront_functions';
+const FUNCTIONS = ['beta-tests-request', 'beta-tests-response'];
+
+function git(command) {
+  return childProcess.execSync(`git ${command}`, { encoding: 'utf-8' }).trim();
+}
 
 async function exists(key) {
   try {
-    await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: key }));
+    await s3.send(new HeadObjectCommand({ Bucket: BUCKET, Key: key }));
     return true;
   } catch (error) {
     if (error.name === 'NotFound') return false;
@@ -24,29 +30,48 @@ async function exists(key) {
   }
 }
 
+async function uploaded(key) {
+  const { Body } = await s3.send(
+    new GetObjectCommand({ Bucket: BUCKET, Key: key })
+  );
+  return Body.transformToString();
+}
+
 async function main() {
-  const version = childProcess
-    .execSync(
-      'git rev-parse --short=12 HEAD:cache/edge_lambdas/cloudfront_functions',
-      {
-        encoding: 'utf-8',
-      }
-    )
-    .trim();
+  // The key is the committed hash, so the code under it must be committed too
+  if (git(`status --porcelain -- ${SOURCES}`)) {
+    throw new Error(`${SOURCES} has uncommitted changes`);
+  }
+  const version = git(
+    `rev-parse --short=12 HEAD:cache/edge_lambdas/${SOURCES}`
+  );
+  const keys = FUNCTIONS.map(name => `${SOURCES}/${version}/${name}.js`);
+
+  const missing = [];
+  for (const key of keys) {
+    if (!(await exists(key))) missing.push(key);
+  }
+  if (missing.length === 0) {
+    console.log(`Functions at ${version} are already uploaded`);
+    return;
+  }
 
   childProcess.execSync('yarn build:functions', { stdio: 'inherit' });
 
-  for (const name of functions) {
-    const key = `cloudfront_functions/${version}/${name}.js`;
-    if (await exists(key)) {
-      console.log(`${key} is already uploaded`);
+  for (const [i, key] of keys.entries()) {
+    const code = fs.readFileSync(`functions-dist/${FUNCTIONS[i]}.js`, 'utf-8');
+    if (!missing.includes(key)) {
+      // Same sources, so it should be the same code; anything else is a mistake
+      if ((await uploaded(key)) !== code) {
+        throw new Error(`${key} differs from the code compiled here`);
+      }
       continue;
     }
     await s3.send(
       new PutObjectCommand({
-        Bucket: bucket,
+        Bucket: BUCKET,
         Key: key,
-        Body: fs.readFileSync(`functions-dist/${name}.js`),
+        Body: code,
         ACL: 'private',
         ContentType: 'application/javascript',
       })

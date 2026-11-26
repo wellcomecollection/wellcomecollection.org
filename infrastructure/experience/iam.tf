@@ -33,6 +33,19 @@ data "aws_iam_policy_document" "allow_ci_to_deploy_beta_test_functions" {
     resources = ["arn:aws:s3:::weco-lambdas/cloudfront_functions/*"]
   }
 
+  # Without it, S3 answers a check for a missing key with 403 rather than 404
+  statement {
+    actions = ["s3:ListBucket"]
+
+    resources = ["arn:aws:s3:::weco-lambdas"]
+
+    condition {
+      test     = "StringLike"
+      variable = "s3:prefix"
+      values   = ["cloudfront_functions/*"]
+    }
+  }
+
   # Updating a function keeps its KeyValueStore association, which CloudFront checks
   statement {
     actions = ["cloudfront:DescribeKeyValueStore"]
