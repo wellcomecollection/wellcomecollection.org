@@ -78,6 +78,11 @@ const auth0 = new Auth0Client({
   // v4 only supports a single secret, not the v3 list of rotatable keys.
   // Rotating SESSION_KEYS now signs everybody out (sessions last 7 days max).
   secret: sessionKeys[0],
+  // Auth0 runs the post-login Actions during a refresh, and folio-sync can take
+  // several seconds. Giving up before Auth0 answers loses the rotated refresh
+  // token, which ends the session if the next refresh comes after the client's
+  // reuse leeway, so wait longer than the 5 second default.
+  httpTimeout: 10_000,
   // The origin only: the /account prefix comes from NEXT_PUBLIC_BASE_PATH,
   // which the SDK applies when building its own URLs (eg the callback URL).
   //
