@@ -267,12 +267,7 @@ export type ArchiveCategoryWorksResult = {
   requestUrl: string;
 };
 
-export const archiveCategoryWorksSortFields = [
-  'title',
-  'production.dates',
-] as const;
-export type ArchiveCategoryWorksSortField =
-  (typeof archiveCategoryWorksSortFields)[number];
+export type ArchiveCategoryWorksSortField = 'title' | 'production.dates';
 export type SortOrder = 'asc' | 'desc';
 
 const isSortOrder = (value: unknown): value is SortOrder =>
