@@ -1016,16 +1016,18 @@ resource "aws_wafv2_web_acl" "wc_org" {
     }
   }
 
-  // Caps the works.www crawler, which spreads over tens of thousands of
-  // addresses (so per-IP limits miss it) and fills geo-rate-limit-USA's
-  // shared US budget, getting real US readers 429s. It sends one stale
-  // Chrome UA with one TLS fingerprint, a pair no reader was seen sending
-  // (measured 2026-11-24). One shared budget: anyone else with exactly this
-  // pair is throttled with it. Before the US limit so it stops counting there.
+  // Caps traffic on the works.www alias, which only a crawler uses: it
+  // spreads over tens of thousands of addresses (so per-IP limits miss it)
+  // and fills geo-rate-limit-USA's shared US budget, getting real US readers
+  // 429s. Matches the alias host, and the works.www Referer its page
+  // renderer sends when fetching assets from content.www (the site's assets
+  // host, which readers use, so it is not matched itself). Measured
+  // 2026-11-25: no reader traffic on the alias. Before the US limit so the
+  // crawler stops counting there.
   dynamic "rule" {
-    for_each = var.enable_crawler_fingerprint_rate_limit ? [1] : []
+    for_each = var.enable_works_www_rate_limit ? [1] : []
     content {
-      name     = "crawler-fingerprint-rate-limit"
+      name     = "works-www-rate-limit"
       priority = 18
 
       action {
@@ -1040,42 +1042,42 @@ resource "aws_wafv2_web_acl" "wc_org" {
         rate_based_statement {
           aggregate_key_type    = "CONSTANT"
           evaluation_window_sec = 60
-          limit                 = var.crawler_fingerprint_rate_limit
+          limit                 = var.works_www_rate_limit
 
           scope_down_statement {
-            and_statement {
+            or_statement {
               statement {
                 byte_match_statement {
-                  positional_constraint = "CONTAINS"
-                  search_string         = "Chrome/142.0.0.0"
+                  positional_constraint = "STARTS_WITH"
+                  search_string         = "works.www."
 
                   field_to_match {
                     single_header {
-                      name = "user-agent"
+                      name = "host"
                     }
                   }
 
                   text_transformation {
                     priority = 0
-                    type     = "NONE"
+                    type     = "LOWERCASE"
                   }
                 }
               }
 
               statement {
                 byte_match_statement {
-                  positional_constraint = "EXACTLY"
-                  search_string         = "t13d1516h2_8daaf6152771_d8a2da3f94cd"
+                  positional_constraint = "CONTAINS"
+                  search_string         = "//works.www.wellcomecollection.org"
 
                   field_to_match {
-                    ja4_fingerprint {
-                      fallback_behavior = "NO_MATCH"
+                    single_header {
+                      name = "referer"
                     }
                   }
 
                   text_transformation {
                     priority = 0
-                    type     = "NONE"
+                    type     = "LOWERCASE"
                   }
                 }
               }
@@ -1087,7 +1089,7 @@ resource "aws_wafv2_web_acl" "wc_org" {
       visibility_config {
         cloudwatch_metrics_enabled = true
         sampled_requests_enabled   = true
-        metric_name                = "crawler-fingerprint-rate-limit-${var.namespace}"
+        metric_name                = "works-www-rate-limit-${var.namespace}"
       }
     }
   }

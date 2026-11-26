@@ -70,9 +70,9 @@ module "stage_wc_org_cloudfront_distribution" {
   # while leaving honest crawlers and user-triggered AI agents untouched.
   enable_works_fabricated_ua_block = true
 
-  # Caps the works.www crawler's UA and TLS fingerprint pair as one budget.
-  # Stage first, then prod.
-  enable_crawler_fingerprint_rate_limit = true
+  # Caps traffic on the works.www alias, which only a crawler uses, as one
+  # budget, so it stops filling the shared US rate limit.
+  enable_works_www_rate_limit = true
 
   # Lightpanda harvests item pages from rotating IPv6 proxies and solves the
   # challenge. Stage first, then prod.
