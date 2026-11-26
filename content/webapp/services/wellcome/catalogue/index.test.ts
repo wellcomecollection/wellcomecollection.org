@@ -17,7 +17,7 @@ describe('looksLikeCanonicalId', () => {
     ['containing a 1', 'a2pjqhm1'],
     ['uppercase', 'A2PJQHMZ'],
     ['not alphanumeric', 'a2pj-hmz'],
-    ['containing a hidden character', 'a2pj​qhmz'],
+    ['containing a hidden character', 'a2pj\u200Bhmz'],
     ['empty', ''],
   ])('rejects an ID %s', (_, id) => {
     expect(looksLikeCanonicalId(id)).toBe(false);
