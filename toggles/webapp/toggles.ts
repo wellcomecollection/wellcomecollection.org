@@ -99,7 +99,7 @@ const toggleConfig = {
       title: 'Leave beta tests',
       initialValue: false,
       description:
-        "Keeps you out of every beta test, so you aren't assigned or counted in results. You can still preview a test's versions from its own switch. It only works as your own switch. Turning it on for everyone with setDefaultValueFor would take nobody out of tests, because the beta test functions only read the cookie your switch sets.",
+        "Keeps you out of every beta test, so you aren't assigned or counted in results. You can still preview a test's versions from its own switch.",
       type: 'permanent',
     },
     {
