@@ -211,18 +211,23 @@ const StoriesPage: NextPage<Props> = ({
         </SpacingComponent>
       </SpacingSection>
 
-      <SpacingSection>
-        <SpacingComponent>
-          <SectionHeader title="You may have missed" gridSize={gridSize12()} />
-        </SpacingComponent>
-        <SpacingComponent>
-          <CardGrid
-            items={articles.slice(5, 11)}
-            itemsPerRow={3}
-            links={[{ text: 'More stories', url: '/search/stories' }]}
-          />
-        </SpacingComponent>
-      </SpacingSection>
+      {articles.length > 5 && (
+        <SpacingSection>
+          <SpacingComponent>
+            <SectionHeader
+              title="You may have missed"
+              gridSize={gridSize12()}
+            />
+          </SpacingComponent>
+          <SpacingComponent>
+            <CardGrid
+              items={articles.slice(5, 11)}
+              itemsPerRow={3}
+              links={[{ text: 'More stories', url: '/search/stories' }]}
+            />
+          </SpacingComponent>
+        </SpacingSection>
+      )}
     </PageLayout>
   );
 };
