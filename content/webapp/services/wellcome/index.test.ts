@@ -19,6 +19,13 @@ const respondWith = (status: number, body: unknown) =>
     json: async () => body,
   } as Response);
 
+const apiError = (httpStatus: number) => ({
+  type: 'Error',
+  errorType: 'http',
+  httpStatus,
+  label: 'Error',
+});
+
 describe('wellcomeApiQuery', () => {
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => undefined);
@@ -37,39 +44,36 @@ describe('wellcomeApiQuery', () => {
     expect(result).toMatchObject({ type: 'ResultList', results: [] });
   });
 
-  it("passes through an error in the API's own format", async () => {
-    respondWith(500, {
-      type: 'Error',
-      errorType: 'http',
-      httpStatus: 500,
-      label: 'Internal Server Error',
-    });
+  it("passes through and logs an error in the API's own format", async () => {
+    respondWith(500, apiError(500));
 
     const result = await wellcomeApiQuery('https://api.example/works');
 
     expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
+    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it("doesn't log a 404, which means the thing doesn't exist", async () => {
-    respondWith(404, {
-      type: 'Error',
-      errorType: 'http',
-      httpStatus: 404,
-      label: 'Not Found',
-    });
-
-    const result = await wellcomeApiQuery('https://api.example/images/abc');
-
-    expect(result).toMatchObject({ type: 'Error', httpStatus: 404 });
-    expect(console.warn).not.toHaveBeenCalled();
-  });
-
-  it('returns an error for a failed response in another format', async () => {
+  it('returns and logs an error for a failed response in another format', async () => {
     respondWith(429, { message: 'Too Many Requests' });
 
     const result = await wellcomeApiQuery('https://api.example/works');
 
     expect(result).toMatchObject({ type: 'Error', httpStatus: 429 });
+    expect(console.warn).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    [404, "in the API's own format", apiError(404)],
+    [404, 'in another format', { message: 'Not Found' }],
+    [414, "in the API's own format", apiError(414)],
+    [414, 'in another format', { message: 'URI Too Long' }],
+  ])("returns but doesn't log a %i %s", async (status, _, body) => {
+    respondWith(status, body);
+
+    const result = await wellcomeApiQuery('https://api.example/works/abc');
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: status });
+    expect(console.warn).not.toHaveBeenCalled();
   });
 
   it('returns an error when the request fails', async () => {
