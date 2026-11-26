@@ -82,11 +82,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (images.type === 'Error') {
-    return appError(
-      context,
-      images.httpStatus,
-      images.description || images.label || 'Images API error'
-    );
+    return appError(context, images.httpStatus, 'Catalogue API (images) error');
   }
 
   return {

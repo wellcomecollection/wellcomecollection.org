@@ -104,11 +104,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (conceptResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(
-      context,
-      conceptResponse.httpStatus,
-      conceptResponse.description
-    );
+    return appError(context, conceptResponse.httpStatus, 'Concepts API error');
   }
 
   const getConceptDocs = {

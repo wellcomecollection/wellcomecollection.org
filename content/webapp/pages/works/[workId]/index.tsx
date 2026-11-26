@@ -52,7 +52,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (workResponse.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, workResponse.httpStatus, workResponse.description);
+    return appError(context, workResponse.httpStatus, 'Catalogue API error');
   }
 
   const { url, ...work } = workResponse;

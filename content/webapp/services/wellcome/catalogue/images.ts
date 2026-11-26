@@ -3,9 +3,8 @@ import {
   globalApiOptions,
   QueryProps,
   rootUris,
-  wellcomeApiError,
   WellcomeApiError,
-  wellcomeApiFetch,
+  wellcomeApiQuery,
 } from '@weco/content/services/wellcome';
 import { toIsoDateString } from '@weco/content/services/wellcome/catalogue/index';
 import {
@@ -94,16 +93,7 @@ export async function getImage({
     rootUris[apiOptions.env.catalogue]
   }/catalogue/v2/images/${id}?${searchParams.toString()}`;
 
-  const res = await wellcomeApiFetch(url);
+  const image = (await wellcomeApiQuery(url)) as Image | WellcomeApiError;
 
-  if (res.status === 404) {
-    return { image: notFound() };
-  }
-
-  try {
-    const image = await res.json();
-    return { url, image: image as Image };
-  } catch {
-    return { url, image: wellcomeApiError() };
-  }
+  return { url, image };
 }

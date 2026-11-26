@@ -74,11 +74,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (concepts.type === 'Error') {
-    return appError(
-      context,
-      concepts.httpStatus,
-      concepts.description || concepts.label
-    );
+    return appError(context, concepts.httpStatus, 'Concepts API error');
   }
 
   return {

@@ -60,11 +60,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (works.type === 'Error') {
-    return appError(
-      context,
-      works.httpStatus,
-      works.description || works.label
-    );
+    return appError(context, works.httpStatus, 'Catalogue API error');
   }
 
   return {

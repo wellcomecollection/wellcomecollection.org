@@ -83,7 +83,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
+    return appError(context, work.httpStatus, 'Catalogue API error');
   }
 
   if (work.type === 'Redirect') {

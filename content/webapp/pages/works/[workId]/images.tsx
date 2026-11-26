@@ -65,7 +65,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (image.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, image.httpStatus, image.description);
+    return appError(context, image.httpStatus, 'Catalogue API (images) error');
   }
 
   // This is to avoid exposing a URL that has a valid `imageId` in it
@@ -87,7 +87,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (work.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, work.httpStatus, work.description);
+    return appError(context, work.httpStatus, 'Catalogue API error');
   } else if (work.type === 'Redirect') {
     return {
       redirect: {

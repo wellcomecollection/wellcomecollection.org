@@ -160,7 +160,13 @@ export async function getWork({
   }
 
   try {
-    const work = (await res.json()) as Work;
+    const work = (await res.json()) as Work | WellcomeApiError;
+    if (work.type === 'Error') {
+      console.warn(
+        `Received HTTP ${work.httpStatus} error from the API query ${url}: ${JSON.stringify(work)}`
+      );
+      return work;
+    }
     return { ...work, url };
   } catch {
     return wellcomeApiError();
