@@ -53,9 +53,7 @@ const Sort: FunctionComponent<Props> = ({
   const { isEnhanced } = useAppContext();
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
-  // The option just chosen, shown until the route change for it finishes.
-  // Everything else comes from the URL, so the browser's Back and Forward
-  // keep the select in step with the results
+  // The option just chosen, shown until the route change for it finishes
   const [pendingValue, setPendingValue] = useState<string>();
 
   useEffect(() => {
@@ -65,10 +63,14 @@ const Sort: FunctionComponent<Props> = ({
   const valueFromQuery = currentSortType
     ? `${currentSortType}.${currentSortOrder}`
     : '';
-  const enhancedValue = pendingValue ?? selectedValue ?? valueFromQuery;
+  // Which option the select shows, most specific source first: the choice just
+  // made, then the sort the page resolved, then whatever's in the URL. Taking it
+  // from the URL rather than state is what keeps the select in step through the
+  // browser's Back and Forward
+  const shownValue = pendingValue ?? selectedValue ?? valueFromQuery;
 
   const changeSort = (value: string) => {
-    if (value === enhancedValue) return;
+    if (value === shownValue) return;
 
     setPendingValue(value);
     const { sort, sortOrder } = getUrlQueryFromSortValue(value);
@@ -123,7 +125,7 @@ const Sort: FunctionComponent<Props> = ({
       {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
       {isEnhanced && (
         <Select
-          value={enhancedValue}
+          value={shownValue}
           form={formId}
           name="sortOrder"
           label="sort results by:"
