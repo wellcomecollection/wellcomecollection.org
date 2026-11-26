@@ -98,17 +98,19 @@ const StoriesPage: NextPage<Props> = ({
 
       <SpacingSection>
         <ArticlesContainer className="row--has-wobbly-background">
-          <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
-            <ContaineredLayout gridSizes={gridSize12()}>
-              <FeaturedCard
-                type="article"
-                article={firstArticle}
-                background="neutral.700"
-                textColor="neutral.10"
-                priority
-              />
-            </ContaineredLayout>
-          </Space>
+          {firstArticle && (
+            <Space $v={{ size: 'xl', properties: ['margin-bottom'] }}>
+              <ContaineredLayout gridSizes={gridSize12()}>
+                <FeaturedCard
+                  type="article"
+                  article={firstArticle}
+                  background="neutral.700"
+                  textColor="neutral.10"
+                  priority
+                />
+              </ContaineredLayout>
+            </Space>
+          )}
           <div className="row__wobbly-background" />
           <StoryCardContainer>
             <Space $v={{ size: 'md', properties: ['padding-bottom'] }}>
