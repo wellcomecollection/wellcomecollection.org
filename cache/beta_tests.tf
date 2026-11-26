@@ -1,13 +1,9 @@
 # Beta tests (RFC 094 in wellcomecollection/docs). Terraform owns the
-# functions, their stores and where they are attached. CI owns the code: see
-# .buildkite/scripts/deploy_beta_test_functions.sh, which deploys it to stage
-# and then prod through the deployment pipeline.
+# functions, their stores and where they are attached. CI owns the code, from
+# cache/edge_lambdas/cloudfront_functions: see
+# .buildkite/scripts/deploy_beta_test_functions.sh.
 locals {
-  beta_test_environments = {
-    # Host-only on stage, so stage never overwrites a visitor's prod cookies
-    stage = { cookie_domain = "" }
-    prod  = { cookie_domain = ".wellcomecollection.org" }
-  }
+  beta_test_environments = toset(["stage", "prod"])
 }
 
 resource "aws_cloudfront_key_value_store" "beta_tests" {
@@ -24,10 +20,8 @@ resource "aws_cloudfront_function" "beta_tests_request" {
   runtime = "cloudfront-js-2.0"
   comment = "Assigns visitors to beta tests before the cache"
   publish = true
-  code = replace(
-    replace(file("${path.module}/cloudfront_functions/beta-tests-request.js"), "__VERSION__", "terraform"),
-    "__COOKIE_DOMAIN__", each.value.cookie_domain
-  )
+  # Passes everything through until CI publishes the real code
+  code                         = "function handler(event) { return event.request; }"
   key_value_store_associations = [aws_cloudfront_key_value_store.beta_tests[each.key].arn]
 
   lifecycle {
@@ -42,10 +36,8 @@ resource "aws_cloudfront_function" "beta_tests_response" {
   runtime = "cloudfront-js-2.0"
   comment = "Stores visitors' beta test cookies"
   publish = true
-  code = replace(
-    replace(file("${path.module}/cloudfront_functions/beta-tests-response.js"), "__VERSION__", "terraform"),
-    "__COOKIE_DOMAIN__", each.value.cookie_domain
-  )
+  # Passes everything through until CI publishes the real code
+  code = "function handler(event) { return event.response; }"
 
   lifecycle {
     ignore_changes = [code]

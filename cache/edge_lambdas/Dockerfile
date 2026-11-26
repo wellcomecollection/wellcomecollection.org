@@ -4,8 +4,6 @@ RUN apt-get update && apt-get install -yq --no-install-recommends git
 
 ADD .git /repo/.git
 ADD cache/edge_lambdas /repo/cache/edge_lambdas
-# The beta test functions are tested alongside the Lambdas
-ADD cache/cloudfront_functions /repo/cache/cloudfront_functions
 WORKDIR /repo/cache/edge_lambdas
 
 RUN yarn && yarn build && yarn cache clean

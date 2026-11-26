@@ -1,21 +1,13 @@
 #!/usr/bin/env bash
 <<EOF
-Deploy the beta test CloudFront Functions (RFC 094) to one environment.
+Deploys the beta test CloudFront Functions to stage or prod:
 
     deploy_beta_test_functions.sh stage|prod
 
-Terraform creates the functions and attaches them (cache/beta_tests.tf); this
-script owns their code. For each function it uploads the code to the
-DEVELOPMENT stage, runs it against the sample events in
-cache/cloudfront_functions/test-events, and publishes it to LIVE only if every
-event runs without an error and within MAX_COMPUTE. CloudFront will publish
-code that fails at runtime, so the test step is what stops a broken function
-reaching visitors. If a test fails, the LIVE code is put back in DEVELOPMENT.
-
-The code carries a version, the git hash of cache/cloudfront_functions, which
-the viewer-response function returns in x-wc-beta-tests-version. A function
-whose LIVE code already has this version is left alone, so deploys that don't
-change the functions don't republish them.
+Terraform creates the functions; this script updates their code. It takes
+the JavaScript built on main from S3, tests it against the events in
+cache/edge_lambdas/cloudfront_functions/test-events, and publishes it if
+every event passes. A function already at this version is left alone.
 EOF
 
 set -o errexit
@@ -24,9 +16,10 @@ set -o pipefail
 
 ENVIRONMENT="$1"
 ROOT="$(git rev-parse --show-toplevel)"
-FUNCTIONS_DIR="$ROOT/cache/cloudfront_functions"
-VERSION="$(git rev-parse --short=12 HEAD:cache/cloudfront_functions)"
+FUNCTIONS_DIR="$ROOT/cache/edge_lambdas/cloudfront_functions"
+VERSION="$(git rev-parse --short=12 HEAD:cache/edge_lambdas/cloudfront_functions)"
 
+# Host-only on stage, so stage never overwrites a visitor's prod cookies
 case "$ENVIRONMENT" in
   stage) COOKIE_DOMAIN="" ;;
   prod) COOKIE_DOMAIN=".wellcomecollection.org" ;;
@@ -47,11 +40,6 @@ deploy_function() {
   local name="beta-tests-$kind-$ENVIRONMENT"
   local code="$WORK_DIR/$name.js"
 
-  sed \
-    -e "s/__VERSION__/$VERSION/g" \
-    -e "s/__COOKIE_DOMAIN__/$COOKIE_DOMAIN/g" \
-    "$FUNCTIONS_DIR/beta-tests-$kind.js" > "$code"
-
   # Terraform creates the function, so until it has been applied there is
   # nothing to deploy to. Any other error fails the deploy.
   local describe_error
@@ -66,10 +54,17 @@ deploy_function() {
   FUNCTIONS_EXIST=true
 
   aws cloudfront get-function --name "$name" --stage LIVE "$WORK_DIR/live.js" >/dev/null
-  if grep -q "var VERSION = '$VERSION';" "$WORK_DIR/live.js"; then
+  if grep -q "VERSION = '$VERSION';" "$WORK_DIR/live.js"; then
     echo "$name is already at $VERSION"
     return
   fi
+
+  # Built on main by cache/edge_lambdas/deploy-functions.js
+  aws s3 cp --quiet "s3://weco-lambdas/cloudfront_functions/$VERSION/beta-tests-$kind.js" "$WORK_DIR/built.js"
+  sed \
+    -e "s/__VERSION__/$VERSION/g" \
+    -e "s/__COOKIE_DOMAIN__/$COOKIE_DOMAIN/g" \
+    "$WORK_DIR/built.js" > "$code"
 
   # Keep the function's config, including its KeyValueStore, as Terraform set it
   aws cloudfront describe-function --name "$name" --stage DEVELOPMENT \

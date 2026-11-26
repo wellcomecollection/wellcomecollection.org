@@ -11,7 +11,7 @@ resource "aws_iam_role_policy" "allow_ci_to_update_e2e_cluster" {
   policy = data.aws_iam_policy_document.allow_ci_to_update_e2e_cluster.json
 }
 
-# CI deploys the beta test functions' code (.buildkite/scripts/deploy_beta_test_functions.sh).
+# CI builds and deploys the beta test functions' code (.buildkite/scripts/deploy_beta_test_functions.sh).
 # Terraform in cache/ creates them and attaches them to distributions.
 data "aws_iam_policy_document" "allow_ci_to_deploy_beta_test_functions" {
   statement {
@@ -24,6 +24,13 @@ data "aws_iam_policy_document" "allow_ci_to_deploy_beta_test_functions" {
     ]
 
     resources = ["arn:aws:cloudfront::130871440101:function/beta-tests-*"]
+  }
+
+  # The compiled code: main uploads it, the deployment pipeline reads it
+  statement {
+    actions = ["s3:GetObject", "s3:PutObject"]
+
+    resources = ["arn:aws:s3:::weco-lambdas/cloudfront_functions/*"]
   }
 
   # Updating a function keeps its KeyValueStore association, which CloudFront checks

@@ -2,8 +2,8 @@ import fs from 'fs';
 import path from 'path';
 
 import {
+  compiledFunction,
   functionsDir,
-  functionSource,
   Kvs,
   loadFunction,
 } from './cloudfront_functions';
@@ -59,7 +59,7 @@ async function runRequest(
   uri = '/works/abc'
 ) {
   const kvs = Array.isArray(tests) ? storeWith(tests) : tests;
-  const handler = loadFunction('beta-tests-request.js', { kvs });
+  const handler = loadFunction('beta-tests-request', { kvs });
   return handler(requestEvent(uri, cookies));
 }
 
@@ -334,7 +334,7 @@ describe('beta-tests-request', () => {
 
     for (const [tests, cookies] of cases) {
       const kvs = Array.isArray(tests) ? storeWith(tests) : tests;
-      const handler = loadFunction('beta-tests-request.js', { kvs });
+      const handler = loadFunction('beta-tests-request', { kvs });
       const event = requestEvent('/works', cookies);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (event.request.headers as any)['x-wc-beta-tests'] = forged;
@@ -344,7 +344,7 @@ describe('beta-tests-request', () => {
   });
 
   it('returns the request when anything else goes wrong', async () => {
-    const handler = loadFunction('beta-tests-request.js', {
+    const handler = loadFunction('beta-tests-request', {
       kvs: storeWith([testA]),
     });
     const event = requestEvent('/works', {});
@@ -356,7 +356,7 @@ describe('beta-tests-request', () => {
 
   describe('across many visitors', () => {
     async function cohorts(test: RunningTest) {
-      const handler = loadFunction('beta-tests-request.js', {
+      const handler = loadFunction('beta-tests-request', {
         kvs: storeWith([test]),
       });
       const result: string[] = [];
@@ -418,7 +418,7 @@ describe('beta-tests-response', () => {
   }
 
   it('stores the bucket and assignments for six months, host-only', () => {
-    const handler = loadFunction('beta-tests-response.js', { version: 'abc' });
+    const handler = loadFunction('beta-tests-response', { version: 'abc' });
     const response = handler(responseEvent('set;42;testA:1:variant'));
 
     expect(response.headers['x-wc-beta-tests-version'].value).toBe('abc');
@@ -430,7 +430,7 @@ describe('beta-tests-response', () => {
   });
 
   it('sets the cookie domain where one is configured', () => {
-    const handler = loadFunction('beta-tests-response.js', {
+    const handler = loadFunction('beta-tests-response', {
       cookieDomain: '.wellcomecollection.org',
     });
     const response = handler(responseEvent('set;42;testA:1:variant'));
@@ -441,7 +441,7 @@ describe('beta-tests-response', () => {
   });
 
   it('removes the list when the visitor has no assignments left', () => {
-    const handler = loadFunction('beta-tests-response.js');
+    const handler = loadFunction('beta-tests-response');
     const response = handler(
       responseEvent('set;42;', { wc_ab: { value: 'old:1:variant' } })
     );
@@ -451,7 +451,7 @@ describe('beta-tests-response', () => {
   });
 
   it("clears the visitor's cookies when asked to", () => {
-    const handler = loadFunction('beta-tests-response.js');
+    const handler = loadFunction('beta-tests-response');
     const response = handler(
       responseEvent('clear', {
         wc_ab_bucket: { value: '42' },
@@ -464,22 +464,47 @@ describe('beta-tests-response', () => {
   });
 
   it('sets no cookies when there is nothing to clear or no hand-off', () => {
-    const handler = loadFunction('beta-tests-response.js');
+    const handler = loadFunction('beta-tests-response');
 
     expect(handler(responseEvent('clear')).cookies).toEqual({});
     expect(handler(responseEvent(undefined)).cookies).toEqual({});
   });
 });
 
-describe('function size', () => {
-  it.each(['beta-tests-request.js', 'beta-tests-response.js'])(
+describe('compiled output', () => {
+  it.each(['beta-tests-request', 'beta-tests-response'])(
     '%s fits the 10 KB CloudFront Functions limit',
     name => {
-      const source = functionSource(name, {
-        version: 'a'.repeat(40),
+      const source = compiledFunction(name, {
+        version: 'a'.repeat(12),
         cookieDomain: '.wellcomecollection.org',
       });
       expect(Buffer.byteLength(source)).toBeLessThan(10 * 1024);
+    }
+  );
+
+  // cloudfront-js-2.0 has no module system beyond its own imports, and lacks
+  // the ES2018+ features TypeScript would otherwise compile to helpers for
+  it.each(['beta-tests-request', 'beta-tests-response'])(
+    '%s uses only what the runtime supports',
+    name => {
+      const source = compiledFunction(name);
+      for (const unsupported of [
+        /^export /m,
+        /\brequire\(/,
+        /\b__\w+\(/,
+        /Object\.assign/,
+        /\?\./,
+        /\?\?/,
+        /\.\.\./,
+        /\.flat(Map)?\(/,
+      ]) {
+        expect(source).not.toMatch(unsupported);
+      }
+      const imports = source.match(/^import .*$/gm) || [];
+      for (const line of imports) {
+        expect(line).toMatch(/from '(cloudfront|crypto)';$/);
+      }
     }
   );
 });
@@ -495,7 +520,7 @@ describe('sample events', () => {
   it.each(events.filter(name => name.startsWith('request-')))(
     '%s returns a request',
     async name => {
-      const handler = loadFunction('beta-tests-request.js', { kvs: canary });
+      const handler = loadFunction('beta-tests-request', { kvs: canary });
       const event = JSON.parse(
         fs.readFileSync(path.join(eventsDir, name), 'utf-8')
       );
@@ -507,7 +532,7 @@ describe('sample events', () => {
   it.each(events.filter(name => name.startsWith('response-')))(
     '%s returns a response',
     name => {
-      const handler = loadFunction('beta-tests-response.js');
+      const handler = loadFunction('beta-tests-response');
       const event = JSON.parse(
         fs.readFileSync(path.join(eventsDir, name), 'utf-8')
       );

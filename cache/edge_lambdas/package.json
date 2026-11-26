@@ -7,7 +7,9 @@
     "test": "jest",
     "build": "tsc -p tsconfig.build.json",
     "deploy": "node deploy",
-    "tsc": "tsc --noEmit --skipLibCheck"
+    "tsc": "tsc --noEmit --skipLibCheck && tsc -p cloudfront_functions --noEmit",
+    "build:functions": "tsc -p cloudfront_functions",
+    "deploy:functions": "node deploy-functions"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.804.0",

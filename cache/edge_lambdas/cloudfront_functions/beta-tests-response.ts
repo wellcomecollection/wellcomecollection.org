@@ -1,39 +1,43 @@
-// Stores the visitor's beta test cookies, as decided by beta-tests-request.js.
+// Stores the visitor's beta test cookies, as decided by beta-tests-request.
 // They are set here, after the cache, so they are never stored with a page.
-// Runtime: cloudfront-js-2.0.
+// Compiled for cloudfront-js-2.0: see beta-tests-request for what it supports.
+/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^handler$" }] -- the runtime calls handler */
 
-/* eslint no-unused-vars: ["error", { "caughtErrors": "none", "varsIgnorePattern": "^handler$" }] -- the runtime calls handler, and has no optional catch binding */
-var HANDOFF_HEADER = 'x-wc-beta-tests';
-// Replaced at deploy: the git hash of cache/cloudfront_functions, and the
-// cookie domain ('' for host-only)
-var VERSION = '__VERSION__';
-var COOKIE_DOMAIN = '__COOKIE_DOMAIN__';
-var SIX_MONTHS = 60 * 60 * 24 * 182;
+const HANDOFF_HEADER = 'x-wc-beta-tests';
+// Replaced at deploy: the git hash of these sources, and the cookie domain
+// ('' for host-only)
+const VERSION = '__VERSION__';
+const COOKIE_DOMAIN = '__COOKIE_DOMAIN__';
+const SIX_MONTHS = 60 * 60 * 24 * 182;
 
-function attributes(maxAge) {
-  var parts = ['Path=/', `Max-Age=${maxAge}`, 'Secure', 'SameSite=Lax'];
+function attributes(maxAge: number): string {
+  const parts = ['Path=/', `Max-Age=${maxAge}`, 'Secure', 'SameSite=Lax'];
   if (COOKIE_DOMAIN) parts.push(`Domain=${COOKIE_DOMAIN}`);
   return parts.join('; ');
 }
 
-function setCookie(response, name, cookieValue) {
+function setCookie(
+  response: CloudFrontResponse,
+  name: string,
+  cookieValue: string
+) {
   response.cookies[name] = {
     value: cookieValue,
     attributes: attributes(SIX_MONTHS),
   };
 }
 
-function deleteCookie(response, name) {
+function deleteCookie(response: CloudFrontResponse, name: string) {
   response.cookies[name] = { value: '', attributes: attributes(0) };
 }
 
-function handler(event) {
-  var response = event.response;
+function handler(event: CloudFrontResponseEvent): CloudFrontResponse {
+  const response = event.response;
   try {
-    var request = event.request;
+    const request = event.request;
     response.headers['x-wc-beta-tests-version'] = { value: VERSION };
 
-    var handoff = request.headers[HANDOFF_HEADER];
+    const handoff = request.headers[HANDOFF_HEADER];
     if (!handoff) return response;
 
     if (handoff.value === 'clear') {
@@ -43,7 +47,7 @@ function handler(event) {
     }
 
     // set;BUCKET;ENTRIES
-    var fields = handoff.value.split(';');
+    const fields = handoff.value.split(';');
     if (fields.length !== 3 || fields[0] !== 'set') return response;
     setCookie(response, 'wc_ab_bucket', fields[1]);
     if (fields[2]) {
@@ -51,7 +55,7 @@ function handler(event) {
     } else if (request.cookies.wc_ab) {
       deleteCookie(response, 'wc_ab');
     }
-  } catch (e) {
+  } catch {
     // Fall through: the page is served without changing the visitor's cookies
   }
   return response;
