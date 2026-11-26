@@ -109,7 +109,7 @@ Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down, and how a pag
 - Only return "not found" (`{ notFound: true }`) when the thing really doesn't exist: a 404 from our APIs, or Prismic's `NotFoundError`/`ParsingError`. For any other failure, show the error page (`appError`) or let it throw. A 404 page carries the page's normal `cache-control`, so CloudFront keeps serving "not found" for up to an hour after the API recovers, and our only alarm is on the 5xx rate, so nobody is told
 - Wellcome API fetchers return an error object instead of throwing. Check `type === 'Error'` before reading the result, and don't assume a list has items (e.g. `results[0]` can be undefined)
 - New fetchers should go through `wellcomeApiQuery`, or log error responses the same way it does, so the API's error details end up in the server logs
-- Pass `appError` a fixed message naming the API (`'Catalogue API error'`), not the API's own `description` or `label`. That text is for us, and it's already logged
+- Pass `appError` the message from `apiErrorMessage(error, '<API> API error')`. For a 4xx it's the API's own description, which tells the visitor what to change (e.g. the 10,000-result limit); for anything else the API failed, so its text is for us (it's logged) and the visitor gets the fixed message
 - For a part of a page fetched in the browser, hide that part on failure rather than breaking the page, and don't leave it showing a loading state
 
 ## E2E Testing (Playwright)
