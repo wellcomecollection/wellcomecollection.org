@@ -86,6 +86,9 @@ export type GetByTypeParams = Parameters<
   GetServerSidePropsPrismicClient['client']['getByType']
 >[1];
 
+const isNotFound = (e: unknown): boolean =>
+  e instanceof prismic.NotFoundError || e instanceof prismic.ParsingError;
+
 export function fetcher<Document extends prismic.PrismicDocument>(
   contentType: ContentType | ContentType[],
   fetchLinks: string[]
@@ -117,7 +120,15 @@ export function fetcher<Document extends prismic.PrismicDocument>(
               }
         );
       } catch (e) {
-        console.warn(e);
+        // Only a missing document is "not found". A ParsingError counts too:
+        // it comes from junk in the URL, e.g. a `"` in the ID. Anything else
+        // (Prismic down, a bad ref) is rethrown so the page shows an error
+        // rather than a 404, which CloudFront would cache.
+        if (isNotFound(e)) {
+          console.warn(e);
+          return undefined;
+        }
+        throw e;
       }
     },
 
@@ -195,10 +206,13 @@ export function fetcher<Document extends prismic.PrismicDocument>(
         );
 
         return response;
-      } catch {
-        // Ideally we would send something to our dashboard that would flag
-        // if the same error came back again and again.
-        // But we don't need this to error every time as it can just be a randomly inputted URL.
+      } catch (e) {
+        // A missing document is usually just a randomly inputted URL, so it
+        // isn't logged. Anything else is rethrown, as in getById.
+        if (isNotFound(e)) {
+          return undefined;
+        }
+        throw e;
       }
     },
   };
