@@ -19,7 +19,6 @@ set -o nounset
 set -o pipefail
 
 BASE_URL="$1"
-VERSION="$(git rev-parse --short=12 HEAD:cache/edge_lambdas/cloudfront_functions)"
 CONSENTED='CookieControl=%7B%22optionalCookies%22%3A%7B%22analytics%22%3A%22accepted%22%7D%7D'
 TIMEOUT_SECONDS=900
 
@@ -28,6 +27,7 @@ if [[ "$(buildkite-agent meta-data get beta-test-functions-exist --default false
   echo "The beta test functions don't exist yet, skipping"
   exit 0
 fi
+VERSION="$(buildkite-agent meta-data get beta-test-functions-version)"
 
 # The functions run on cached responses too, so any page will do. The headers
 # are captured whole before matching, so grep can't cut curl off part-way.

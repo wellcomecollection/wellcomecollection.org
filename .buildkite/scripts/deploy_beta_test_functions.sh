@@ -75,38 +75,45 @@ deploy_function() {
   echo "Uploading $name at $VERSION"
   etag="$(upload "$name" "$etag" "$code")"
 
-  local event result error compute output wanted
+  local event
   for event in "$FUNCTIONS_DIR"/test-events/"$kind"-*.json; do
-    if ! result="$(aws cloudfront test-function \
-      --name "$name" \
-      --if-match "$etag" \
-      --stage DEVELOPMENT \
-      --event-object "fileb://$event" \
-      --query 'TestResult.[FunctionErrorMessage, ComputeUtilization, FunctionOutput]' --output text)"; then
-      fail "$name" "$etag" "couldn't be tested with $(basename "$event")"
-    fi
-    IFS=$'\t' read -r error compute output <<< "$result"
-    if [[ -n "$error" && "$error" != "None" ]]; then
-      fail "$name" "$etag" "failed on $(basename "$event"): $error"
-    fi
-    # The functions catch their own errors, so an event's .expect file lists
-    # text its output must contain to show the function did its job
-    if [[ -f "${event%.json}.expect" ]]; then
-      while IFS= read -r wanted; do
-        if [[ -n "$wanted" && "$output" != *"$wanted"* ]]; then
-          fail "$name" "$etag" "output for $(basename "$event") is missing $wanted"
-        fi
-      done < "${event%.json}.expect"
-    fi
-    # A function can't catch running out of compute, so the deploy checks it
-    if [[ ! "$compute" =~ ^[0-9]+$ ]] || (( compute > MAX_COMPUTE )); then
-      fail "$name" "$etag" "used $compute% compute on $(basename "$event"), over $MAX_COMPUTE%"
-    fi
-    echo "$name passed $(basename "$event") using $compute% compute"
+    test_function "$name" "$etag" "$event"
   done
 
   aws cloudfront publish-function --name "$name" --if-match "$etag" >/dev/null
   echo "Published $name at $VERSION"
+}
+
+# Runs one sample event against the uploaded code, and restores LIVE if it fails
+test_function() {
+  local name="$1" etag="$2" event="$3"
+  local result error compute output wanted
+  if ! result="$(aws cloudfront test-function \
+    --name "$name" \
+    --if-match "$etag" \
+    --stage DEVELOPMENT \
+    --event-object "fileb://$event" \
+    --query 'TestResult.[FunctionErrorMessage, ComputeUtilization, FunctionOutput]' --output text)"; then
+    fail "$name" "$etag" "couldn't be tested with $(basename "$event")"
+  fi
+  IFS=$'\t' read -r error compute output <<< "$result"
+  if [[ -n "$error" && "$error" != "None" ]]; then
+    fail "$name" "$etag" "failed on $(basename "$event"): $error"
+  fi
+  # The functions catch their own errors, so an event's .expect file lists
+  # text its output must contain to show the function did its job
+  if [[ -f "${event%.json}.expect" ]]; then
+    while IFS= read -r wanted; do
+      if [[ -n "$wanted" && "$output" != *"$wanted"* ]]; then
+        fail "$name" "$etag" "output for $(basename "$event") is missing $wanted"
+      fi
+    done < "${event%.json}.expect"
+  fi
+  # A function can't catch running out of compute, so the deploy checks it
+  if [[ ! "$compute" =~ ^[0-9]+$ ]] || (( compute > MAX_COMPUTE )); then
+    fail "$name" "$etag" "used $compute% compute on $(basename "$event"), over $MAX_COMPUTE%"
+  fi
+  echo "$name passed $(basename "$event") using $compute% compute"
 }
 
 upload() {
@@ -132,7 +139,9 @@ FUNCTIONS_EXIST=false
 deploy_function request
 deploy_function response
 
-# The stage check skips when there was nothing to deploy to
+# The stage check skips when there was nothing to deploy to, and otherwise
+# waits for this version
 if command -v buildkite-agent >/dev/null; then
   buildkite-agent meta-data set "beta-test-functions-exist" "$FUNCTIONS_EXIST"
+  buildkite-agent meta-data set "beta-test-functions-version" "$VERSION"
 fi
