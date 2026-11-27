@@ -133,6 +133,18 @@ variable "enable_works_fabricated_ua_block" {
   description = "Block fabricated-browser traffic on /works*, /images* and /concepts*: a browser-posing User-Agent with no Accept-Language and no self-identification. Exempts honest crawlers, link-preview fetchers and user-triggered AI agents. Prove on stage before enabling elsewhere."
 }
 
+variable "enable_works_www_rate_limit" {
+  type        = bool
+  default     = false
+  description = "Rate-limit, as one shared budget, requests to the works.www alias or with a works.www Referer, ahead of the shared US limit."
+}
+
+variable "works_www_rate_limit" {
+  type        = number
+  default     = 300
+  description = "Requests a minute allowed in total for works-www-rate-limit before it answers 429."
+}
+
 variable "bot_control_inspection_level" {
   type        = string
   default     = "COMMON"
