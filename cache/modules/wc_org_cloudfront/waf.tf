@@ -1112,11 +1112,36 @@ resource "aws_wafv2_web_acl" "wc_org" {
         evaluation_window_sec = 60
         limit                 = 1750
 
+        # Not /_next/static/: nearly all cache hits, and counting them kept normal US traffic over the limit.
         scope_down_statement {
-          geo_match_statement {
-            country_codes = [
-              "US",
-            ]
+          and_statement {
+            statement {
+              geo_match_statement {
+                country_codes = [
+                  "US",
+                ]
+              }
+            }
+
+            statement {
+              not_statement {
+                statement {
+                  byte_match_statement {
+                    positional_constraint = "STARTS_WITH"
+                    search_string         = "/_next/static/"
+
+                    field_to_match {
+                      uri_path {}
+                    }
+
+                    text_transformation {
+                      priority = 0
+                      type     = "NONE"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
