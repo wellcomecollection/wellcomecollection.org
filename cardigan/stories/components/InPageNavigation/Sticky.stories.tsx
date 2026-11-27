@@ -5,87 +5,122 @@ import styled from 'styled-components';
 
 import { ReadmeDecorator } from '@weco/cardigan/config/decorators';
 import { links } from '@weco/cardigan/stories/components/InPageNavigation/links';
+import DecorativeEdge from '@weco/common/views/components/DecorativeEdge';
 import Footer from '@weco/common/views/components/Footer';
 import PageHeader from '@weco/common/views/components/PageHeader';
+import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
-import { PaletteColor } from '@weco/common/views/themes/config';
+import {
+  pageBackgroundColor,
+  PaletteColor,
+} from '@weco/common/views/themes/config';
 import InPageNavigation from '@weco/content/views/components/InPageNavigation';
 import Readme from '@weco/content/views/components/InPageNavigation/README.mdx';
 
-type BackgroundGridProps = {
-  $percent?: number;
-  $topColor?: PaletteColor;
-  $bottomColor?: PaletteColor;
-};
+const BodyGrid = styled(Grid)`
+  background: ${props => props.theme.color(pageBackgroundColor)};
+  row-gap: 0;
+`;
 
-const BackgroundGrid = styled(Grid)<BackgroundGridProps>`
-  padding: 0 20px;
-  background: linear-gradient(
-    5deg,
-    ${props => props.$bottomColor ?? 'white'} 0%,
-    ${props => props.$bottomColor ?? 'white'} ${props => props.$percent ?? 40}%,
-    ${props => props.theme.color(props.$topColor ?? 'black')}
-      ${props => props.$percent ?? 40}%,
-    ${props => props.theme.color(props.$topColor ?? 'black')} 100%
-  );
+// Mirrors the concept page's images band, which the nav's split colours follow
+const DarkBand = styled(Space).attrs({
+  $v: { size: 'xl', properties: ['padding-top', 'padding-bottom'] },
+})<{ $topColor: PaletteColor }>`
+  position: relative;
+  background: ${props => props.theme.color(props.$topColor)};
+  ${props => props.theme.pageGridOffset('margin-right')};
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: calc(100vw - 100%);
+    top: 0;
+    bottom: 0;
+    right: 100%;
+    background: inherit;
+  }
+`;
+
+const EdgeWrapper = styled.div`
+  position: relative;
+  margin-left: calc((100vw - 100%) * -1);
+  ${props => props.theme.pageGridOffset('margin-right')};
 `;
 
 const GreySpace = styled(Space).attrs({
   $v: { size: 'md', properties: ['height'] },
-})<{ $topColor?: PaletteColor }>`
-  background-color: ${props =>
-    props.theme.color(props.$topColor || 'neutral.700')};
+})<{ $topColor: PaletteColor }>`
+  background-color: ${props => props.theme.color(props.$topColor)};
 `;
+
+const Section: FunctionComponent<{
+  link: (typeof links)[number];
+  isOnDark?: boolean;
+}> = ({ link, isOnDark }) => (
+  <section
+    style={{
+      padding: '16px',
+      backgroundColor: isOnDark ? 'transparent' : 'white',
+      color: isOnDark ? 'white' : undefined,
+      marginBottom: '16px',
+    }}
+  >
+    <h2
+      id={link.url.replace('#', '')}
+      style={{
+        scrollMarginTop: '1rem',
+      }}
+    >
+      {link.text}
+    </h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat.
+    </p>
+  </section>
+);
 
 const InPageNavigationInColsContext: FunctionComponent<{
   topColor?: PaletteColor;
-}> = args => {
-  const fixedArgs = {
-    links,
-  };
+}> = ({ topColor = 'neutral.700' }) => {
+  const bandLinks = links.slice(0, 2);
+  const otherLinks = links.slice(2);
 
   return (
-    <div>
+    <div style={{ overflowX: 'clip' }}>
       <PageHeader variant="landing" title="Sticky On This Page Anchors" />
-      <GreySpace
-        $topColor={args.topColor}
-        $v={{ size: 'md', properties: ['height'] }}
-      />
-      <BackgroundGrid $percent={40} $topColor={args.topColor}>
-        <InPageNavigation
-          {...fixedArgs}
-          sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
-        />
+      <GreySpace $topColor={topColor} />
+      <Container>
+        <BodyGrid>
+          <InPageNavigation
+            links={links}
+            sizeMap={{ s: [12], m: [12], l: [3], xl: [3] }}
+          />
 
-        <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
-          {links.map(link => (
-            <section
-              key={link.url}
-              style={{
-                padding: '16px',
-                backgroundColor: 'white',
-                marginBottom: '16px',
-              }}
-            >
-              <h2
-                id={link.url.replace('#', '')}
-                style={{
-                  scrollMarginTop: '1rem',
-                }}
-              >
-                {link.text}
-              </h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
-              </p>
-            </section>
-          ))}
-        </GridCell>
-      </BackgroundGrid>
+          <GridCell $sizeMap={{ s: [12], m: [12], l: [9], xl: [9] }}>
+            <DarkBand $topColor={topColor} data-in-page-nav-dark>
+              {bandLinks.map(link => (
+                <Section key={link.url} link={link} isOnDark />
+              ))}
+            </DarkBand>
+            <EdgeWrapper data-in-page-nav-dark-edge>
+              <DecorativeEdge
+                variant="wobbly"
+                backgroundColor={pageBackgroundColor}
+                fixedUntil='[data-component="in-page-navigation"]'
+              />
+            </EdgeWrapper>
+            <Space $v={{ size: 'xl', properties: ['margin-top'] }}>
+              {otherLinks.map(link => (
+                <Section key={link.url} link={link} />
+              ))}
+            </Space>
+          </GridCell>
+        </BodyGrid>
+      </Container>
       <Footer venues={[]} />
     </div>
   );
@@ -95,6 +130,8 @@ const meta: Meta<typeof InPageNavigationInColsContext> = {
   title: 'Components/InPageNavigation',
   component: InPageNavigationInColsContext,
   args: {},
+  // The nav's full-width backgrounds only reach into the page's own gutter
+  parameters: { layout: 'fullscreen' },
 };
 
 export default meta;

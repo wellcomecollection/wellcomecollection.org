@@ -11,8 +11,8 @@ import {
 import { getArchiveCategories } from '@weco/content/server-data/archiveCategories';
 import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import {
-  archiveCategoryWorksSortFields,
   fetchArchiveCategoryWorks,
+  getArchiveCategoryWorksSort,
 } from '@weco/content/services/wellcome/catalogue/works';
 import { getPage } from '@weco/content/utils/query-params';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
@@ -57,20 +57,10 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return { notFound: true };
   }
 
-  const { sort: sortQuery, sortOrder: sortOrderQuery } = context.query;
-  // sortOrder alone (e.g. from a shared URL) still implies a sort field, so
-  // treat the two as explicit together rather than letting one imply a real
-  // API sort order while the other silently stays at its "no sort" default
-  const isExplicitSort =
-    archiveCategoryWorksSortFields.some(field => field === sortQuery) ||
-    sortOrderQuery === 'asc' ||
-    sortOrderQuery === 'desc';
-  const sort = isExplicitSort ? archiveCategoryWorksSortFields[0] : undefined;
-  const sortOrder = isExplicitSort
-    ? sortOrderQuery === 'asc'
-      ? 'asc'
-      : 'desc'
-    : undefined;
+  const { sort, sortOrder } = getArchiveCategoryWorksSort({
+    sort: context.query.sort,
+    sortOrder: context.query.sortOrder,
+  });
 
   const works = await fetchArchiveCategoryWorks({
     id: archiveCategory.id,
@@ -91,6 +81,9 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     props: serialiseProps<Props>({
       serverData,
       archiveCategory,
+      otherArchiveCategories: archiveCategories.filter(
+        category => category.id !== archiveCategory.id
+      ),
       works,
       sort,
       sortOrder,

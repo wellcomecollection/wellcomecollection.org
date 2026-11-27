@@ -76,8 +76,8 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   // This is to avoid exposing a URL that has a valid `imageId` in it
   // but not the correct `workId`, which would technically work,
   // but the data on the page would be incorrect. e.g:
-  // image: { id: '1234567', image.source.id: 'abcdefg' }
-  // url: /works/gfedcba/images?id=1234567
+  // image: { id: 'jueq3ffv', image.source.id: 'v57fxbug' }
+  // url: /works/a2pjqhmz/images?id=jueq3ffv
   if (image.source.id !== workId) {
     return { notFound: true };
   }

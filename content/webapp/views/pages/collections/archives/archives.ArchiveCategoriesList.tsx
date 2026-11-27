@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 import { typography } from '@weco/common/utils/classnames';
 import { pluralize } from '@weco/common/utils/grammar';
-import ImageGridCard from '@weco/common/views/components/ImageGridCard';
 import { Container } from '@weco/common/views/components/styled/Container';
 import { Grid, GridCell } from '@weco/common/views/components/styled/Grid';
 import Space from '@weco/common/views/components/styled/Space';
 import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
-import { toArchiveCategoryLink } from '@weco/content/views/components/ArchiveCategoryLink';
+import ArchiveCategoryCard from '@weco/content/views/components/ArchiveCategoryCard';
 import MoreLink from '@weco/content/views/components/MoreLink';
 import { toSearchWorksLink } from '@weco/content/views/components/SearchPagesLink/Works';
 
@@ -49,20 +48,9 @@ const ArchiveCategoriesList = ({
               key={archiveCategory.id}
               $sizeMap={{ s: [12], m: [6], l: [4], xl: [3] }}
             >
-              <ImageGridCard
-                images={[archiveCategory.image]}
-                title={`${archiveCategory.label} (${archiveCategory.id})`}
-                description={archiveCategory.shortDescription}
-                meta={pluralize(archiveCategory.count, 'archive collection')}
-                linkProps={toArchiveCategoryLink({
-                  slug: archiveCategory.slug,
-                })}
-                dataGtmProps={{
-                  trigger: 'theme_promo_card',
-                  id: archiveCategory.id,
-                  'category-label': 'Archives',
-                }}
-                hasPlainPlaceholder
+              <ArchiveCategoryCard
+                archiveCategory={archiveCategory}
+                dataGtmProps={{ 'category-label': 'Archives' }}
               />
             </GridCell>
           ))}

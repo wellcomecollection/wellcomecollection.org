@@ -1,10 +1,10 @@
 variable "environment" {
   type = object({
-    cluster_arn  = string
-    namespace_id = string
-    listener_http_arn = string
-    listener_https_arn = string
-    interservice_security_group_id = string
+    cluster_arn                      = string
+    namespace_id                     = string
+    listener_http_arn                = string
+    listener_https_arn               = string
+    interservice_security_group_id   = string
     service_egress_security_group_id = string
   })
 }
@@ -37,7 +37,7 @@ variable "cloudfront_header_secrets" {
 }
 
 variable "desired_task_count" {
-  type   = number
+  type    = number
   default = 3
 }
 

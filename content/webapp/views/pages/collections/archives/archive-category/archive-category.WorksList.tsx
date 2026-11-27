@@ -10,7 +10,11 @@ import {
 } from '@weco/common/views/components/styled/Grid';
 import PaginationWrapper from '@weco/common/views/components/styled/PaginationWrapper';
 import Space from '@weco/common/views/components/styled/Space';
-import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import type {
+  ArchiveCategoryWorksResult,
+  ArchiveCategoryWorksSortField,
+  SortOrder,
+} from '@weco/content/services/wellcome/catalogue/works';
 import ArchiveCard from '@weco/content/views/components/ArchiveCard';
 import Pagination from '@weco/content/views/components/Pagination';
 import Sort from '@weco/content/views/components/Sort';
@@ -31,8 +35,8 @@ const ArchiveCategoryWorksList = ({
 }: {
   works: ArchiveCategoryWorksResult;
   archiveCategoryLabel: string;
-  sort?: string;
-  sortOrder?: string;
+  sort: ArchiveCategoryWorksSortField;
+  sortOrder: SortOrder;
 }) => {
   const colsToSpan: StartSpan = works.works.length >= 4 ? [3] : [4];
 
@@ -52,18 +56,19 @@ const ArchiveCategoryWorksList = ({
                 formId={ARCHIVE_CATEGORY_SORT_FORM_ID}
                 options={[
                   // Default value left empty so it's not added to the URL query
-                  { value: '', text: 'Newest to oldest' },
-                  {
-                    value: 'production.dates.asc',
-                    text: 'Oldest to newest',
-                  },
+                  { value: '', text: 'Alphabetical A-Z' },
                   {
                     value: 'production.dates.desc',
                     text: 'Newest to oldest',
                   },
+                  {
+                    value: 'production.dates.asc',
+                    text: 'Oldest to newest',
+                  },
                 ]}
                 jsLessOptions={{
                   sort: [
+                    { value: 'title', text: 'Title' },
                     {
                       value: 'production.dates',
                       text: 'Production dates',
@@ -75,6 +80,7 @@ const ArchiveCategoryWorksList = ({
                   ],
                 }}
                 defaultValues={{ sort, sortOrder }}
+                selectedValue={sort === 'title' ? '' : `${sort}.${sortOrder}`}
               />
 
               {works.totalPages > 1 && (

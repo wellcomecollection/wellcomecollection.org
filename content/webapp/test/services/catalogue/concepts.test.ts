@@ -75,17 +75,20 @@ describe('getConcept: the cataloguePipeline mode toggle', () => {
   });
 
   it('adds no elasticCluster param when the mode is unset', async () => {
-    await getConcept({ id: 'abc123' });
+    await getConcept({ id: 'abcd2345' });
 
     const url = mockWellcomeApiQuery.mock.calls[0][0];
-    expect(url.endsWith('/catalogue/v2/concepts/abc123')).toBe(true);
+    expect(url.endsWith('/catalogue/v2/concepts/abcd2345')).toBe(true);
   });
 
   it('adds an elasticCluster param when the mode is set', async () => {
-    await getConcept({ id: 'abc123', pipelineCluster: 'pipeline-2026-09-30' });
+    await getConcept({
+      id: 'abcd2345',
+      pipelineCluster: 'pipeline-2026-09-30',
+    });
 
     const url = new URL(mockWellcomeApiQuery.mock.calls[0][0]);
-    expect(url.pathname).toBe('/catalogue/v2/concepts/abc123');
+    expect(url.pathname).toBe('/catalogue/v2/concepts/abcd2345');
     expect(url.searchParams.get('elasticCluster')).toBe('pipeline-2026-09-30');
   });
 });
@@ -99,13 +102,13 @@ describe('getConceptsByIds', () => {
     mockCatalogueQuery.mockResolvedValue(conceptsApiResponse);
 
     await getConceptsByIds({
-      ids: ['abc123'],
+      ids: ['abcd2345'],
       shouldUseStagingApi: false,
       pipelineCluster: 'pipeline-2026-09-30',
     });
 
     expect(mockCatalogueQuery).toHaveBeenCalledWith('concepts', {
-      params: { id: 'abc123' },
+      params: { id: 'abcd2345' },
       shouldUseStagingApi: false,
       pipelineCluster: 'pipeline-2026-09-30',
     });

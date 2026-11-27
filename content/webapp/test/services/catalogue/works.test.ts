@@ -125,3 +125,30 @@ describe('getWorks: the cataloguePipeline mode toggle', () => {
     expect(url).not.toContain('elasticCluster');
   });
 });
+
+describe('getWorks: includes', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockWellcomeApiQuery.mockResolvedValue({
+      type: 'ResultList',
+      httpStatus: 200,
+      _requestUrl: '',
+    });
+  });
+
+  it('asks for the usual includes by default', async () => {
+    await getWorks({ params: { query: 'sheep' } });
+
+    const url = new URL(mockWellcomeApiQuery.mock.calls[0][0]);
+    expect(url.searchParams.get('include')).toBe(
+      'production,contributors,partOf,collection,identifiers'
+    );
+  });
+
+  it('asks for no includes when isMinimalIncludes is set', async () => {
+    await getWorks({ params: { query: 'sheep' }, isMinimalIncludes: true });
+
+    const url = new URL(mockWellcomeApiQuery.mock.calls[0][0]);
+    expect(url.searchParams.has('include')).toBe(false);
+  });
+});
