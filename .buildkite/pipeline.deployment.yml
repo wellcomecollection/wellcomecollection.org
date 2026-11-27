@@ -36,6 +36,9 @@ steps:
     agents:
       queue: nano
 
+  # After the wait, so it runs inside the deployment lock
+  - wait
+
   # Its own step, so a failure here can be retried without redeploying the apps
   - label: "Deploy beta test functions to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
