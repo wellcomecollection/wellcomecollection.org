@@ -79,8 +79,8 @@ steps:
     agents:
       queue: scala # High parallelism for expensive tests
 
-  # Records the e2e outcome as a commit status (context e2e/<env>) so the
-  # deploy tracker can show it. Runs whether the tests passed or failed.
+  # Records the e2e outcome as a commit status (context e2e/<env>) so
+  # Backplane can show it. Runs whether the tests passed or failed.
   #
   # Deployments only, because this pipeline has four callers and only one of
   # them is deploying this repository. trigger-e2e.sh passes stage or prod.
