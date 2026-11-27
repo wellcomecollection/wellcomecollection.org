@@ -107,7 +107,8 @@ Server-only packages that try to load in the browser will cause "Cannot find mod
 Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down. When writing or reviewing code that calls one:
 
 - Only return "not found" when the thing doesn't exist: a 404 from our APIs, or no result from Prismic (`getById`/`getByUid` return `undefined`). Don't detect it by catching Prismic's `NotFoundError`: in e2e, `instanceof` missed real ones and turned missing pages into 500s (probably because the server build bundles the Prismic client more than once). Any other failure shows the error page (`appError`) or throws, because 404s are cached by CloudFront and don't trip the 5xx alarm
-- Check work, image and concept IDs with `looksLikeCanonicalId` before calling the API
+- Check IDs before calling an API: `looksLikeCanonicalId` for works, images and concepts, `looksLikePrismicId` for Prismic detail pages
+- Don't log a caught Prismic error as it is: its `url` includes the access token
 - Check `type === 'Error'` before reading a Wellcome API result, and don't assume a list has items
 - Fetch through `wellcomeApiQuery`. If you need the raw response, use `readApiResponse` and `logFetchFailure` rather than your own error handling, and pass on the `httpStatus` they return
 - Pass `appError` the message from `apiErrorMessage(error, '<API> API error')`
