@@ -229,6 +229,55 @@ describe('beta-tests-request', () => {
     expect(request.cookies.toggle_somePhasedFlag).toBeUndefined();
   });
 
+  describe('previews of a test with a flag', () => {
+    const flagTest = { ...testA, flag: 'somePhasedFlag', value: 'phase2' };
+    const preview = (value: string) => ({ toggle_testA: { value } });
+
+    it("set the flag's value for a variant preview", async () => {
+      const visitors: Cookies[] = [
+        { CookieControl: { value: consented }, ...preview('true') },
+        {
+          CookieControl: { value: consented },
+          toggle_betaTestsExempt: { value: 'true' },
+          ...preview('true'),
+        },
+        { CookieControl: { value: declined }, ...preview('true') },
+      ];
+      for (const cookies of visitors) {
+        const request = await runRequest([flagTest], cookies);
+        expect(request.cookies.toggle_somePhasedFlag.value).toBe('phase2');
+      }
+    });
+
+    it('record no assignment', async () => {
+      const request = await runRequest([flagTest], {
+        CookieControl: { value: consented },
+        ...preview('true'),
+      });
+
+      expect(entriesOf(request)).toBe('');
+    });
+
+    it('leave the flag alone on a page the test does not cover', async () => {
+      const request = await runRequest(
+        [flagTest],
+        { CookieControl: { value: consented }, ...preview('true') },
+        '/stories/abc'
+      );
+
+      expect(request.cookies.toggle_somePhasedFlag).toBeUndefined();
+    });
+
+    it('leave the flag alone for a control preview', async () => {
+      const request = await runRequest([flagTest], {
+        CookieControl: { value: declined },
+        ...preview('false'),
+      });
+
+      expect(request.cookies.toggle_somePhasedFlag).toBeUndefined();
+    });
+  });
+
   it('does not assign visitors who have not consented, and asks for their cookies to be cleared', async () => {
     const visitors: Cookies[] = [
       {},

@@ -97,6 +97,25 @@ function covers(test: RunningTest, path: string): boolean {
   return false;
 }
 
+// Staff previewing the variant get its flag value, as an assigned visitor would
+function addPreviewFlag(
+  test: RunningTest,
+  cookies: CloudFrontRequest['cookies'],
+  path: string,
+  requestCookies: Record<string, string>
+) {
+  const personal = cookies[`toggle_${test.id}`];
+  if (
+    personal &&
+    personal.value === 'true' &&
+    test.flag &&
+    test.value &&
+    covers(test, path)
+  ) {
+    requestCookies[`toggle_${test.flag}`] = test.value;
+  }
+}
+
 function isValidTest(test: unknown): test is RunningTest {
   const candidate = test as RunningTest | null;
   return Boolean(
@@ -125,6 +144,16 @@ function assign(
     drawn = numbers.split < test.split ? 'variant' : 'control';
   }
   return { version: test.version, cohort: drawn };
+}
+
+function setCookies(
+  cookies: CloudFrontRequest['cookies'],
+  values: Record<string, string>
+) {
+  const names = Object.keys(values);
+  for (let i = 0; i < names.length; i++) {
+    cookies[names[i]] = { value: values[names[i]] };
+  }
 }
 
 async function readTests(): Promise<RunningTest[]> {
@@ -161,7 +190,15 @@ async function handler(
       return request;
     }
 
+    const path = pagePath(request.uri);
+    const requestCookies: Record<string, string> = {};
+
     if (tests.length === 0 || isExempt || !hasAnalyticsConsent(cookies)) {
+      // Not enrolled, but their previews still work
+      for (let i = 0; i < tests.length; i++) {
+        addPreviewFlag(tests[i], cookies, path, requestCookies);
+      }
+      setCookies(cookies, requestCookies);
       request.headers[HANDOFF_HEADER] = { value: 'clear' };
       return request;
     }
@@ -172,10 +209,8 @@ async function handler(
         ? parseInt(bucketCookie.value, 10)
         : Math.floor(Math.random() * 10000);
     const stored = parseEntries(cookies.wc_ab);
-    const path = pagePath(request.uri);
 
     const entries: string[] = [];
-    const requestCookies: Record<string, string> = {};
     const removeCookies: string[] = [];
     for (let i = 0; i < tests.length; i++) {
       const test = tests[i];
@@ -188,6 +223,7 @@ async function handler(
       ) {
         const kept = stored[test.id];
         if (kept) entries.push(`${test.id}:${kept.version}:${kept.cohort}`);
+        addPreviewFlag(test, cookies, path, requestCookies);
         continue;
       }
 
@@ -207,10 +243,7 @@ async function handler(
     }
 
     // Applied last, so an error above leaves the request unchanged
-    const names = Object.keys(requestCookies);
-    for (let j = 0; j < names.length; j++) {
-      cookies[names[j]] = { value: requestCookies[names[j]] };
-    }
+    setCookies(cookies, requestCookies);
     for (let k = 0; k < removeCookies.length; k++) {
       delete cookies[removeCookies[k]];
     }
