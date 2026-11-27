@@ -104,13 +104,15 @@ Server-only packages that try to load in the browser will cause "Cannot find mod
 
 ## API Failures
 
-Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down, and how a page handles that decides what visitors see. When writing or reviewing code that calls one:
+Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down. When writing or reviewing code that calls one:
 
-- Only return "not found" (`{ notFound: true }`) when the thing really doesn't exist: a 404 from our APIs, or Prismic's `NotFoundError`/`ParsingError`. For any other failure, show the error page (`appError`) or let it throw. A 404 page carries the page's normal `cache-control`, so CloudFront keeps serving "not found" for up to an hour after the API recovers, and our only alarm is on the 5xx rate, so nobody is told
-- Wellcome API fetchers return an error object instead of throwing. Check `type === 'Error'` before reading the result, and don't assume a list has items (e.g. `results[0]` can be undefined)
-- New fetchers should go through `wellcomeApiQuery` (it takes fetch options, e.g. for an API key header), which logs errors and never throws. If you need the raw response first, like `getWork` does for redirects, fetch with `wellcomeApiFetch`, pass the response to `readApiResponse`, and log a failed request with `logFetchFailure`. Don't copy the error handling, so the copies can't drift
-- Pass `appError` the message from `apiErrorMessage(error, '<API> API error')`. For a 4xx it's the API's own description, which tells the visitor what to change (e.g. the 10,000-result limit); for anything else the API failed, so its text is for us (it's logged) and the visitor gets the fixed message
-- For a part of a page fetched in the browser, hide that part on failure rather than breaking the page, and don't leave it showing a loading state
+- Only return "not found" when the thing doesn't exist: a 404 from our APIs, or no result from Prismic (`getById`/`getByUid` return `undefined`). Don't detect it by catching Prismic's `NotFoundError`: in e2e, `instanceof` missed real ones and turned missing pages into 500s (probably because the server build bundles the Prismic client more than once). Any other failure shows the error page (`appError`) or throws, because 404s are cached by CloudFront and don't trip the 5xx alarm
+- Check work, image and concept IDs with `looksLikeCanonicalId` before calling the API
+- Check `type === 'Error'` before reading a Wellcome API result, and don't assume a list has items
+- Fetch through `wellcomeApiQuery`. If you need the raw response, use `readApiResponse` and `logFetchFailure` rather than your own error handling, and pass on the `httpStatus` they return
+- Pass `appError` the message from `apiErrorMessage(error, '<API> API error')`
+- A 500 from `appError` keeps the page's cache time; a thrown one is only cached briefly
+- If a part of a page fetched in the browser fails, hide it rather than breaking the page or leaving it loading
 
 ## E2E Testing (Playwright)
 
