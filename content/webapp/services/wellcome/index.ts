@@ -151,16 +151,7 @@ export const logFetchFailure = (url: string, error: unknown) => {
   console.error(`Unable to fetch API URL: ${url}`, error);
 };
 
-/**
- * Reads a response from one of our APIs, and logs it if it's an error.
- * Never throws: a failed response that isn't in our error format (or isn't
- * JSON at all) comes back as an error object with its own status, and a
- * successful one that isn't JSON as a 500.
- *
- * Use wellcomeApiQuery unless you need the raw response first, like
- * getWork does for redirects.
- */
-export const readApiResponse = async (url: string, res: Response) => {
+const readResponse = async (url: string, res: Response) => {
   try {
     const json = (await res.json()) as { type: string; httpStatus: number };
 
@@ -220,6 +211,27 @@ export const readApiResponse = async (url: string, res: Response) => {
     return wellcomeApiError();
   }
 };
+
+// A 429 means the API is throttling us, not that the visitor sent too many
+// requests, so they get a 503. The log line keeps the real 429.
+const asSeenByVisitor = <T extends { type: string; httpStatus: number }>(
+  result: T
+): T =>
+  result.type === 'Error' && result.httpStatus === 429
+    ? { ...result, httpStatus: 503, label: 'Service Unavailable' }
+    : result;
+
+/**
+ * Reads a response from one of our APIs, and logs it if it's an error.
+ * Never throws: a failed response that isn't in our error format (or isn't
+ * JSON at all) comes back as an error object with its own status (a 429 as a
+ * 503), and a successful one that isn't JSON as a 500.
+ *
+ * Use wellcomeApiQuery unless you need the raw response first, like
+ * getWork does for redirects.
+ */
+export const readApiResponse = async (url: string, res: Response) =>
+  asSeenByVisitor(await readResponse(url, res));
 
 export const wellcomeApiQuery = async (url: string, options?: RequestInit) => {
   try {
