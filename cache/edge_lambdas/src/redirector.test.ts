@@ -103,6 +103,42 @@ test('It redirects requests from the staging site to a staging page', () => {
   });
 });
 
+test.each([
+  ['works.www.wellcomecollection.org', 'www.wellcomecollection.org'],
+  [
+    'works.www-stage.wellcomecollection.org',
+    'www-stage.wellcomecollection.org',
+  ],
+  ['works.wellcomecollection.org', 'wellcomecollection.org'],
+])('It redirects %s to the same path on %s', (from, to) => {
+  const redirectedResponse = getRedirect(
+    request({
+      uri: '/works/abc123',
+      querystring: 'query=test&page=2',
+      headers: { host: [{ key: 'Host', value: from }] },
+    })
+  );
+
+  expect(redirectedResponse?.status).toEqual('301');
+  expect(redirectedResponse?.headers.location[0]).toEqual({
+    key: 'Location',
+    value: `https://${to}/works/abc123?query=test&page=2`,
+  });
+});
+
+test('It does not redirect the assets host', () => {
+  const response = getRedirect(
+    request({
+      uri: '/_next/static/chunks/main.js',
+      headers: {
+        host: [{ key: 'Host', value: 'content.www.wellcomecollection.org' }],
+      },
+    })
+  );
+
+  expect(response).toBeUndefined();
+});
+
 // We need to add some extra query redirects to test all of the desired behaviour
 jest.mock('./redirects', () => {
   const defaultRedirects = jest.requireActual('./redirects');
