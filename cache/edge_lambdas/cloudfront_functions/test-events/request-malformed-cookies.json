@@ -19,10 +19,10 @@
       "CookieControl": {
         "value": "%7Bnot json"
       },
-      "wc_ab_bucket": {
+      "beta_bucket": {
         "value": "not a number"
       },
-      "wc_ab": {
+      "beta_tests": {
         "value": "::|||"
       },
       "toggle_betaTestsCanary": {

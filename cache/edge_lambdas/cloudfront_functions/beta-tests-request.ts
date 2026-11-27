@@ -203,12 +203,12 @@ async function handler(
       return request;
     }
 
-    const bucketCookie = cookies.wc_ab_bucket;
+    const bucketCookie = cookies.beta_bucket;
     const bucket =
       bucketCookie && BUCKET_PATTERN.test(bucketCookie.value)
         ? parseInt(bucketCookie.value, 10)
         : Math.floor(Math.random() * 10000);
-    const stored = parseEntries(cookies.wc_ab);
+    const stored = parseEntries(cookies.beta_tests);
 
     const entries: string[] = [];
     const removeCookies: string[] = [];

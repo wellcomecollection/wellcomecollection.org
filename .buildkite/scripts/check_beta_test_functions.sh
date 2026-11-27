@@ -59,12 +59,12 @@ if ! both_live "$consented_headers"; then
   echo "The consenting visitor's response didn't come from both functions at $VERSION"
   exit 1
 fi
-if ! grep -qiE '^set-cookie: wc_ab=([^;]*\|)?betaTestsCanary:' <<< "$consented_headers"; then
+if ! grep -qiE '^set-cookie: beta_tests=([^;]*\|)?betaTestsCanary:' <<< "$consented_headers"; then
   echo "A consenting visitor wasn't assigned to the canary test"
   exit 1
 fi
 
-if grep -qi '^set-cookie: wc_ab' <<< "$(headers)"; then
+if grep -qiE '^set-cookie: beta_(tests|bucket)=' <<< "$(headers)"; then
   echo "A visitor without consent was given a beta test cookie"
   exit 1
 fi

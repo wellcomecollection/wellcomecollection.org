@@ -10,7 +10,7 @@ We use CloudFront for the cache of wellcomecollection.org.
 
 ## Beta test functions
 
-Two CloudFront Functions assign visitors to beta tests before the cache lookup ([RFC 094](https://github.com/wellcomecollection/docs/tree/main/rfcs/094-beta-tests)). The request function reads the running tests from a KeyValueStore and writes each visitor's cohort onto the request as `toggle_ID` cookies. The response function stores the visitor's `wc_ab_bucket` and `wc_ab` cookies. Only visitors who have accepted analytics cookies are assigned. Kiosks are never assigned, and staff can leave every test with the `betaTestsExempt` toggle.
+Two CloudFront Functions assign visitors to beta tests before the cache lookup ([RFC 094](https://github.com/wellcomecollection/docs/tree/main/rfcs/094-beta-tests)). The request function reads the running tests from a KeyValueStore and writes each visitor's cohort onto the request as `toggle_ID` cookies. The response function stores the visitor's `beta_bucket` and `beta_tests` cookies. Only visitors who have accepted analytics cookies are assigned. Kiosks are never assigned, and staff can leave every test with the `betaTestsExempt` toggle.
 
 The functions are TypeScript in [`edge_lambdas/cloudfront_functions`](./edge_lambdas/cloudfront_functions), compiled to the JavaScript the CloudFront runtime supports. Their tests are in [`edge_lambdas/src/beta_tests.test.ts`](./edge_lambdas/src/beta_tests.test.ts) and run against the compiled output with the Lambda tests.
 

@@ -50,19 +50,19 @@ function handler(event: CloudFrontResponseEvent): CloudFrontResponse {
     if (!handoff) return response;
 
     if (handoff.value === 'clear') {
-      if (request.cookies.wc_ab_bucket) deleteCookie(response, 'wc_ab_bucket');
-      if (request.cookies.wc_ab) deleteCookie(response, 'wc_ab');
+      if (request.cookies.beta_bucket) deleteCookie(response, 'beta_bucket');
+      if (request.cookies.beta_tests) deleteCookie(response, 'beta_tests');
       return response;
     }
 
     // set;BUCKET;ENTRIES
     const fields = handoff.value.split(';');
     if (fields.length !== 3 || fields[0] !== 'set') return response;
-    setCookie(response, 'wc_ab_bucket', fields[1]);
+    setCookie(response, 'beta_bucket', fields[1]);
     if (fields[2]) {
-      setCookie(response, 'wc_ab', fields[2]);
-    } else if (request.cookies.wc_ab) {
-      deleteCookie(response, 'wc_ab');
+      setCookie(response, 'beta_tests', fields[2]);
+    } else if (request.cookies.beta_tests) {
+      deleteCookie(response, 'beta_tests');
     }
   } catch {
     // The page is served without changing the visitor's cookies

@@ -19,10 +19,10 @@
       }
     },
     "cookies": {
-      "wc_ab_bucket": {
+      "beta_bucket": {
         "value": "1234"
       },
-      "wc_ab": {
+      "beta_tests": {
         "value": "betaTestsCanary:1:control"
       }
     }

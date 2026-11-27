@@ -90,7 +90,7 @@ describe('beta-tests-request', () => {
   it('records the assignment but leaves the cache key alone on a page the test does not cover', async () => {
     const request = await runRequest(
       [testA],
-      { CookieControl: { value: consented }, wc_ab_bucket: { value: '42' } },
+      { CookieControl: { value: consented }, beta_bucket: { value: '42' } },
       '/stories/abc'
     );
 
@@ -101,7 +101,7 @@ describe('beta-tests-request', () => {
   it('matches whole path segments', async () => {
     const request = await runRequest(
       [testA],
-      { CookieControl: { value: consented }, wc_ab_bucket: { value: '42' } },
+      { CookieControl: { value: consented }, beta_bucket: { value: '42' } },
       '/worksheets'
     );
 
@@ -128,7 +128,7 @@ describe('beta-tests-request', () => {
   it('gives the same visitor the same cohort on every request', async () => {
     const cookies = {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1234' },
+      beta_bucket: { value: '1234' },
     };
     const first = await runRequest([testA], { ...cookies });
     const second = await runRequest([testA], { ...cookies });
@@ -139,8 +139,8 @@ describe('beta-tests-request', () => {
   it('keeps a stored variant or control entry whatever the version', async () => {
     const request = await runRequest([{ ...testA, version: 3, enrolment: 0 }], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1' },
-      wc_ab: { value: 'testA:1:variant' },
+      beta_bucket: { value: '1' },
+      beta_tests: { value: 'testA:1:variant' },
     });
 
     expect(entriesOf(request)).toBe('testA:1:variant');
@@ -150,8 +150,8 @@ describe('beta-tests-request', () => {
   it('keeps an outside entry made under the current version', async () => {
     const request = await runRequest([{ ...testA, version: 2 }], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1' },
-      wc_ab: { value: 'testA:2:outside' },
+      beta_bucket: { value: '1' },
+      beta_tests: { value: 'testA:2:outside' },
     });
 
     expect(entriesOf(request)).toBe('testA:2:outside');
@@ -161,8 +161,8 @@ describe('beta-tests-request', () => {
   it('assigns an outside entry again when the version changes', async () => {
     const request = await runRequest([{ ...testA, version: 2 }], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1' },
-      wc_ab: { value: 'testA:1:outside' },
+      beta_bucket: { value: '1' },
+      beta_tests: { value: 'testA:1:outside' },
     });
 
     expect(entriesOf(request)).toMatch(/^testA:2:(variant|control)$/);
@@ -171,8 +171,8 @@ describe('beta-tests-request', () => {
   it('drops entries for tests that are no longer running', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1' },
-      wc_ab: { value: 'finished:1:variant|testA:1:control' },
+      beta_bucket: { value: '1' },
+      beta_tests: { value: 'finished:1:variant|testA:1:control' },
     });
 
     expect(entriesOf(request)).toBe('testA:1:control');
@@ -181,7 +181,7 @@ describe('beta-tests-request', () => {
   it('leaves a staff preview alone and does not record it', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '1' },
+      beta_bucket: { value: '1' },
       toggle_testA: { value: 'false' },
     });
 
@@ -302,7 +302,7 @@ describe('beta-tests-request', () => {
   it('leaves out staff who have turned on betaTestsExempt, and keeps the toggle on the request, where it joins the cache key like any other toggle', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
-      wc_ab: { value: 'testA:1:variant' },
+      beta_tests: { value: 'testA:1:variant' },
       toggle_betaTestsExempt: { value: 'true' },
     });
 
@@ -346,8 +346,8 @@ describe('beta-tests-request', () => {
   it('rebuilds an unreadable list and replaces an invalid bucket', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
-      wc_ab_bucket: { value: '99999' },
-      wc_ab: { value: 'testA:1:variant|not an entry' },
+      beta_bucket: { value: '99999' },
+      beta_tests: { value: 'testA:1:variant|not an entry' },
     });
 
     const [, bucket, entries] = handoff(request).split(';');
@@ -367,7 +367,7 @@ describe('beta-tests-request', () => {
     for (const kvs of [failingStore, storeWith('not a list')]) {
       const request = await runRequest(kvs, {
         CookieControl: { value: consented },
-        wc_ab: { value: 'testA:1:variant' },
+        beta_tests: { value: 'testA:1:variant' },
       });
       expect(handoff(request)).toBeUndefined();
       expect(request.cookies.toggle_testA).toBeUndefined();
@@ -442,7 +442,7 @@ describe('beta-tests-request', () => {
         const request = await handler(
           requestEvent('/works', {
             CookieControl: { value: consented },
-            wc_ab_bucket: { value: String(bucket) },
+            beta_bucket: { value: String(bucket) },
           })
         );
         result.push(entriesOf(request).split(':')[2]);
@@ -501,11 +501,11 @@ describe('beta-tests-response', () => {
     const response = handler(responseEvent('set;42;testA:1:variant'));
 
     expect(response.headers['x-wc-beta-tests-version'].value).toBe('abc');
-    expect(response.cookies.wc_ab_bucket).toEqual({
+    expect(response.cookies.beta_bucket).toEqual({
       value: '42',
       attributes: 'Path=/; Max-Age=15724800; Secure; SameSite=Lax',
     });
-    expect(response.cookies.wc_ab.value).toBe('testA:1:variant');
+    expect(response.cookies.beta_tests.value).toBe('testA:1:variant');
   });
 
   it("shows the request function's version next to its own", () => {
@@ -539,7 +539,7 @@ describe('beta-tests-response', () => {
     });
     const response = handler(responseEvent('set;42;testA:1:variant'));
 
-    expect(response.cookies.wc_ab.attributes).toContain(
+    expect(response.cookies.beta_tests.attributes).toContain(
       'Domain=.wellcomecollection.org'
     );
   });
@@ -547,24 +547,24 @@ describe('beta-tests-response', () => {
   it('removes the list when the visitor has no assignments left', () => {
     const handler = loadFunction('beta-tests-response');
     const response = handler(
-      responseEvent('set;42;', { wc_ab: { value: 'old:1:variant' } })
+      responseEvent('set;42;', { beta_tests: { value: 'old:1:variant' } })
     );
 
-    expect(response.cookies.wc_ab_bucket.value).toBe('42');
-    expect(response.cookies.wc_ab.attributes).toContain('Max-Age=0');
+    expect(response.cookies.beta_bucket.value).toBe('42');
+    expect(response.cookies.beta_tests.attributes).toContain('Max-Age=0');
   });
 
   it("clears the visitor's cookies when asked to", () => {
     const handler = loadFunction('beta-tests-response');
     const response = handler(
       responseEvent('clear', {
-        wc_ab_bucket: { value: '42' },
-        wc_ab: { value: 'testA:1:variant' },
+        beta_bucket: { value: '42' },
+        beta_tests: { value: 'testA:1:variant' },
       })
     );
 
-    expect(response.cookies.wc_ab_bucket.attributes).toContain('Max-Age=0');
-    expect(response.cookies.wc_ab.attributes).toContain('Max-Age=0');
+    expect(response.cookies.beta_bucket.attributes).toContain('Max-Age=0');
+    expect(response.cookies.beta_tests.attributes).toContain('Max-Age=0');
   });
 
   it('sets no cookies when there is nothing to clear or no hand-off', () => {
