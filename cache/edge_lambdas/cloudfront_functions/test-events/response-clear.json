@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "context": {
+    "eventType": "viewer-response"
+  },
+  "viewer": {
+    "ip": "192.0.2.1"
+  },
+  "request": {
+    "method": "GET",
+    "uri": "/works",
+    "querystring": {},
+    "headers": {
+      "host": {
+        "value": "www-stage.wellcomecollection.org"
+      },
+      "x-wc-beta-tests": {
+        "value": "clear"
+      }
+    },
+    "cookies": {
+      "beta_bucket": {
+        "value": "1234"
+      },
+      "beta_tests": {
+        "value": "betaTestsCanary:1:control"
+      }
+    }
+  },
+  "response": {
+    "statusCode": 200,
+    "statusDescription": "OK",
+    "headers": {
+      "content-type": {
+        "value": "text/html"
+      }
+    },
+    "cookies": {}
+  }
+}

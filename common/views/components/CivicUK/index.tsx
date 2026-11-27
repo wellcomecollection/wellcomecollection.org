@@ -60,7 +60,16 @@ const necessaryCookies = () => {
   ];
 };
 
-const analyticsCookies = ['_gid', '_gat', '_ga*', 'ajs_anonymous_id'];
+// The beta test cookies are set at the edge (cache/edge_lambdas), and are listed
+// here so Cookie Control keeps them once analytics is accepted
+const analyticsCookies = [
+  '_gid',
+  '_gat',
+  '_ga*',
+  'ajs_anonymous_id',
+  'beta_tests',
+  'beta_bucket',
+];
 
 const CivicUK = ({ apiKey, defer }: { apiKey: string; defer?: boolean }) => {
   const theme = useTheme();

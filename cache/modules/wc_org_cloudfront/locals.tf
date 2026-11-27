@@ -19,4 +19,16 @@ locals {
       lambda_arn = var.lambda_arns.response
     }
   ]
+
+  # Beta test assignment (RFC 094), on the behaviours that serve pages
+  function_associations = var.function_arns == null ? [] : [
+    {
+      event_type   = "viewer-request"
+      function_arn = var.function_arns.request
+    },
+    {
+      event_type   = "viewer-response"
+      function_arn = var.function_arns.response
+    }
+  ]
 }

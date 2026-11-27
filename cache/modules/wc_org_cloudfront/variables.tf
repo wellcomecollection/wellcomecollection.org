@@ -24,6 +24,15 @@ variable "lambda_arns" {
   })
 }
 
+variable "function_arns" {
+  type = object({
+    request  = string
+    response = string
+  })
+  default     = null
+  description = "Beta test CloudFront Functions (RFC 094); null leaves them off this distribution"
+}
+
 variable "certificate_arn" {
   type = string
 }

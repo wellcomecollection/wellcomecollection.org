@@ -76,6 +76,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
         lambda_arn = lambda_function_association.value.lambda_arn
       }
     }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
+      }
+    }
   }
 
   # Works
@@ -96,6 +104,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
       content {
         event_type = lambda_function_association.value.event_type
         lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
       }
     }
   }
@@ -144,6 +160,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
         lambda_arn = lambda_function_association.value.lambda_arn
       }
     }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
+      }
+    }
   }
 
   # Concepts
@@ -164,6 +188,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
       content {
         event_type = lambda_function_association.value.event_type
         lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
       }
     }
   }
@@ -188,6 +220,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
         lambda_arn = lambda_function_association.value.lambda_arn
       }
     }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
+      }
+    }
   }
 
   # This is for the data fetching routes used in NextJs's getServerSideProps
@@ -205,6 +245,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
     cache_policy_id            = var.namespace == "e2e" ? var.cache_policies[local.cache_policy_name] : var.cache_policies["weco-apps-all-params"]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
+      }
+    }
   }
 
   # Static next routes
@@ -238,6 +286,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
       }
     }
 
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
+      }
+    }
+
     cache_policy_id            = var.cache_policies[local.cache_policy_name]
     origin_request_policy_id   = var.request_policies["host-query-and-toggles"]
     response_headers_policy_id = var.response_policies["weco-security"]
@@ -262,6 +318,14 @@ resource "aws_cloudfront_distribution" "wc_org" {
       content {
         event_type = lambda_function_association.value.event_type
         lambda_arn = lambda_function_association.value.lambda_arn
+      }
+    }
+
+    dynamic "function_association" {
+      for_each = local.function_associations
+      content {
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.function_arn
       }
     }
   }

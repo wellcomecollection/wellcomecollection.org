@@ -107,7 +107,10 @@ async function main() {
   //
   // This will reduce churn in the associated Terraform stack.
   const lastGitCommit = childProcess
-    .execSync('git log -n 1 --pretty=format:%H -- .', { encoding: 'utf-8' })
+    // The CloudFront Functions are deployed separately (deploy-functions.js)
+    .execSync("git log -n 1 --pretty=format:%H -- . ':!cloudfront_functions'", {
+      encoding: 'utf-8',
+    })
     .trim();
 
   console.log(`Last Git commit to modify this package was ${lastGitCommit}`);

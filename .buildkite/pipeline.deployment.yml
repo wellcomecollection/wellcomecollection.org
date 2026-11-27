@@ -36,6 +36,29 @@ steps:
     agents:
       queue: nano
 
+  # After the wait, so it runs inside the deployment lock
+  - wait
+
+  # Its own step, so a failure here can be retried without redeploying the apps
+  - label: "Deploy beta test functions to $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco"
+    command: ".buildkite/scripts/deploy_beta_test_functions.sh $BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT"
+    plugins:
+      - wellcomecollection/aws-assume-role#v0.2.2:
+          role: "arn:aws:iam::130871440101:role/experience-ci"
+    agents:
+      queue: nano
+
+  - wait
+
+  # This step isn't soft_fail, because a broken beta test function serves
+  # pages unchanged and passes the e2e tests.
+  - label: "Check beta test functions"
+    if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco" && build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
+    command: ".buildkite/scripts/check_beta_test_functions.sh https://www-stage.wellcomecollection.org"
+    agents:
+      queue: nano
+
   - wait
 
   - label: "Trigger e2e tests"
