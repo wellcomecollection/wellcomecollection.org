@@ -299,7 +299,7 @@ describe('beta-tests-request', () => {
     expect(handoff(request)).toBe('clear');
   });
 
-  it('leaves out staff who have turned on betaTestsExempt', async () => {
+  it('leaves out staff who have turned on betaTestsExempt, and keeps the toggle on the request, where it joins the cache key like any other toggle', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
       wc_ab: { value: 'testA:1:variant' },
