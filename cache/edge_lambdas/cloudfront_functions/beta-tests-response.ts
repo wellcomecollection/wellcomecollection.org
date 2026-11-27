@@ -5,6 +5,7 @@
 /* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^handler$" }] -- the runtime calls handler */
 
 const HANDOFF_HEADER = 'x-wc-beta-tests';
+const REQUEST_VERSION_HEADER = 'x-wc-beta-tests-request-version';
 // The deploy replaces these with the git hash of these sources and the cookie
 // domain, which is empty for host-only cookies
 const VERSION = '__VERSION__';
@@ -37,6 +38,13 @@ function handler(event: CloudFrontResponseEvent): CloudFrontResponse {
   try {
     const request = event.request;
     response.headers['x-wc-beta-tests-version'] = { value: VERSION };
+    // So the stage check can see both functions are live on the same edge
+    const requestVersion = request.headers[REQUEST_VERSION_HEADER];
+    if (requestVersion) {
+      response.headers[REQUEST_VERSION_HEADER] = {
+        value: requestVersion.value,
+      };
+    }
 
     const handoff = request.headers[HANDOFF_HEADER];
     if (!handoff) return response;

@@ -7,15 +7,18 @@
 // literals and async/await. It doesn't support object spread, optional
 // chaining or Array.prototype.flat, and a test checks the compiled output for
 // them.
-/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^(handler|VERSION)$" }] -- the runtime calls handler, and the deploy reads VERSION */
+/* eslint @typescript-eslint/no-unused-vars: ["error", { "varsIgnorePattern": "^handler$" }] -- the runtime calls handler */
 import cf from 'cloudfront';
 import crypto from 'crypto';
 
-// The git hash of these sources, replaced at deploy, which the deploy script
-// reads to tell whether this code is already live
+// The git hash of these sources, replaced at deploy. The deploy script reads
+// it to tell whether this code is already live, and the stage check reads it
+// from the response.
 const VERSION = '__VERSION__';
 // Passes the visitor's cookies to beta-tests-response
 const HANDOFF_HEADER = 'x-wc-beta-tests';
+// beta-tests-response copies this onto the response
+const VERSION_HEADER = 'x-wc-beta-tests-request-version';
 const ENTRY_PATTERN = /^[A-Za-z0-9_-]+:[0-9]+:(variant|control|outside)$/;
 const BUCKET_PATTERN = /^[0-9]{1,4}$/;
 
@@ -137,6 +140,7 @@ async function handler(
   try {
     // Only this function may tell the response function what to set
     delete request.headers[HANDOFF_HEADER];
+    request.headers[VERSION_HEADER] = { value: VERSION };
     const cookies = request.cookies;
 
     // Staff leave tests with the betaTestsExempt toggle. Only this function

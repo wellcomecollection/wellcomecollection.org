@@ -2,3 +2,4 @@ wc_ab_bucket
 betaTestsCanary:1:control
 Max-Age=15724800
 x-wc-beta-tests-version
+x-wc-beta-tests-request-version

@@ -5,10 +5,10 @@ Check the beta test functions are live and assigning visitors on stage.
     check_beta_test_functions.sh https://www-stage.wellcomecollection.org
 
 Waits until responses carry the version that deploy_beta_test_functions.sh
-published, since a newly published function takes a few minutes to reach
-every edge location. It then checks that a visitor who has accepted analytics
-cookies is assigned to the canary test in the stage KeyValueStore, and that a
-visitor who hasn't is not.
+published for both functions, since a newly published function takes a few
+minutes to reach every edge location. It then checks that a visitor who has
+accepted analytics cookies is assigned to the canary test in the stage
+KeyValueStore, and that a visitor who hasn't is not.
 
 The functions catch their own errors and serve pages unchanged, so the
 end-to-end tests still pass when a function is broken, and this check fails.
@@ -36,8 +36,15 @@ headers() {
     "$@" "$BASE_URL/works"
 }
 
+# Each edge picks up the two functions separately, so both versions have to
+# be on the same response
+both_live() {
+  grep -qi "^x-wc-beta-tests-version: $VERSION" <<< "$1" &&
+    grep -qi "^x-wc-beta-tests-request-version: $VERSION" <<< "$1"
+}
+
 started="$(date +%s)"
-until [[ "$(headers)" =~ [Xx]-[Ww][Cc]-[Bb]eta-[Tt]ests-[Vv]ersion:\ $VERSION ]]; do
+until both_live "$(headers)"; do
   if (( $(date +%s) - started > TIMEOUT_SECONDS )); then
     echo "Responses from $BASE_URL never showed beta test functions at $VERSION"
     exit 1
@@ -48,6 +55,10 @@ done
 echo "Beta test functions at $VERSION are live on $BASE_URL"
 
 consented_headers="$(headers --cookie "$CONSENTED")"
+if ! both_live "$consented_headers"; then
+  echo "The consenting visitor's response didn't come from both functions at $VERSION"
+  exit 1
+fi
 if ! grep -qiE '^set-cookie: wc_ab=([^;]*\|)?betaTestsCanary:' <<< "$consented_headers"; then
   echo "A consenting visitor wasn't assigned to the canary test"
   exit 1

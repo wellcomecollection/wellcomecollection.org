@@ -16,6 +16,9 @@
       },
       "x-wc-beta-tests": {
         "value": "set;1234;betaTestsCanary:1:control"
+      },
+      "x-wc-beta-tests-request-version": {
+        "value": "0123456789ab"
       }
     },
     "cookies": {}

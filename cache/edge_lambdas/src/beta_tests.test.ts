@@ -343,6 +343,34 @@ describe('beta-tests-request', () => {
     }
   });
 
+  it('passes its own version to the response function, whatever the visitor sent', async () => {
+    const consentedCookies = { CookieControl: { value: consented } };
+    const cases: [RunningTest[] | Kvs, Cookies][] = [
+      [[testA], consentedCookies],
+      [[testA], { ...consentedCookies, toggle_kioskMode: { value: 'x' } }],
+      [failingStore, consentedCookies],
+      [[testA], {}],
+    ];
+
+    for (const [tests, cookies] of cases) {
+      const kvs = Array.isArray(tests) ? storeWith(tests) : tests;
+      const handler = loadFunction('beta-tests-request', {
+        kvs,
+        version: 'abc',
+      });
+      const event = requestEvent('/works', cookies);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (event.request.headers as any)['x-wc-beta-tests-request-version'] = {
+        value: 'forged',
+      };
+
+      const request = await handler(event);
+      expect(request.headers['x-wc-beta-tests-request-version'].value).toBe(
+        'abc'
+      );
+    }
+  });
+
   it('returns the request when anything else goes wrong', async () => {
     const handler = loadFunction('beta-tests-request', {
       kvs: storeWith([testA]),
@@ -399,7 +427,8 @@ describe('beta-tests-request', () => {
 describe('beta-tests-response', () => {
   function responseEvent(
     handoffValue: string | undefined,
-    requestCookies: Cookies = {}
+    requestCookies: Cookies = {},
+    requestHeaders: Record<string, { value: string }> = {}
   ) {
     return {
       version: '1.0',
@@ -409,8 +438,8 @@ describe('beta-tests-response', () => {
         uri: '/works',
         querystring: {},
         headers: handoffValue
-          ? { 'x-wc-beta-tests': { value: handoffValue } }
-          : {},
+          ? { ...requestHeaders, 'x-wc-beta-tests': { value: handoffValue } }
+          : requestHeaders,
         cookies: requestCookies,
       },
       response: { statusCode: 200, headers: {}, cookies: {} },
@@ -427,6 +456,31 @@ describe('beta-tests-response', () => {
       attributes: 'Path=/; Max-Age=15724800; Secure; SameSite=Lax',
     });
     expect(response.cookies.wc_ab.value).toBe('testA:1:variant');
+  });
+
+  it("shows the request function's version next to its own", () => {
+    const handler = loadFunction('beta-tests-response', { version: 'abc' });
+    const response = handler(
+      responseEvent(
+        undefined,
+        {},
+        {
+          'x-wc-beta-tests-request-version': { value: 'def' },
+        }
+      )
+    );
+
+    expect(response.headers['x-wc-beta-tests-version'].value).toBe('abc');
+    expect(response.headers['x-wc-beta-tests-request-version'].value).toBe(
+      'def'
+    );
+  });
+
+  it('shows no request version when the request function did not run', () => {
+    const handler = loadFunction('beta-tests-response');
+    const response = handler(responseEvent(undefined));
+
+    expect(response.headers['x-wc-beta-tests-request-version']).toBeUndefined();
   });
 
   it('sets the cookie domain where one is configured', () => {
@@ -515,6 +569,18 @@ describe('sample events', () => {
   const events = fs
     .readdirSync(eventsDir)
     .filter(name => name.endsWith('.json'));
+  // The deploy checks the same .expect text in test-function's output
+  function expectSampleOutput(name: string, output: unknown) {
+    const expectFile = path.join(eventsDir, name.replace(/\.json$/, '.expect'));
+    if (!fs.existsSync(expectFile)) return;
+    const lines = fs
+      .readFileSync(expectFile, 'utf-8')
+      .split('\n')
+      .filter(Boolean);
+    for (const wanted of lines) {
+      expect(JSON.stringify(output)).toContain(wanted);
+    }
+  }
   const canary = storeWith([
     { id: 'betaTestsCanary', version: 1, enrolment: 100, split: 50, paths: [] },
   ]);
@@ -528,6 +594,7 @@ describe('sample events', () => {
       );
       const result = await handler(event);
       expect(result.uri).toBe(event.request.uri);
+      expectSampleOutput(name, result);
     }
   );
 
@@ -540,21 +607,7 @@ describe('sample events', () => {
       );
       const output = handler(event);
       expect(output.statusCode).toBe(200);
-
-      // The deploy checks the same .expect text in test-function's output
-      const expectFile = path.join(
-        eventsDir,
-        name.replace(/\.json$/, '.expect')
-      );
-      if (fs.existsSync(expectFile)) {
-        const lines = fs
-          .readFileSync(expectFile, 'utf-8')
-          .split('\n')
-          .filter(Boolean);
-        for (const wanted of lines) {
-          expect(JSON.stringify(output)).toContain(wanted);
-        }
-      }
+      expectSampleOutput(name, output);
     }
   );
 });
