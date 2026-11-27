@@ -52,8 +52,7 @@ steps:
   - wait
 
   # This step isn't soft_fail, because a broken beta test function serves
-  # pages unchanged and passes the e2e tests. Prod gets this check once the
-  # functions are attached there.
+  # pages unchanged and passes the e2e tests.
   - label: "Check beta test functions"
     if: build.env("BUILDKITE_GITHUB_DEPLOYMENT_TASK") == "deploy:weco" && build.env("BUILDKITE_GITHUB_DEPLOYMENT_ENVIRONMENT") == "stage"
     command: ".buildkite/scripts/check_beta_test_functions.sh https://www-stage.wellcomecollection.org"
