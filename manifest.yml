@@ -29,7 +29,24 @@ spec:
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
-  dependsOn: [component:wellcomecollection-org-common]
+  dependsOn:
+    - component:wellcomecollection-org-common
+    - ref: component:catalogue-api-search
+      description: Works, images and site search pages
+    - ref: component:catalogue-api-concepts
+      criticality: soft
+      description: Concept pages only
+    - ref: component:catalogue-api-items
+      criticality: soft
+      description: Item availability on the work page
+    - ref: component:content-api
+      criticality: soft
+      description: Listings and site search; Prismic serves the pages
+    - ref: component:identity
+      criticality: soft
+      description: Sign-in state and requesting; pages render without it
+    - resource:prismic
+    - resource:api-wellcomecollection-org-cloudfront
   environments:
     - name: stage
       tier: staging
@@ -79,7 +96,14 @@ spec:
   lifecycle: production
   owner: team:default/digital-experience
   system: system:wellcomecollection-org
-  dependsOn: [component:wellcomecollection-org-common]
+  dependsOn:
+    - component:wellcomecollection-org-common
+    - ref: component:identity-api
+      description: Every /account/api/users/me call
+    - resource:auth0
+    - ref: resource:prismic
+      criticality: soft
+      description: Server-data globals, cached with a default
   environments:
     - name: stage
       tier: staging
