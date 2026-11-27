@@ -19,6 +19,16 @@ const respondWith = (status: number, body: unknown) =>
     json: async () => body,
   } as Response);
 
+const respondWithoutJson = (status: number, statusText: string) =>
+  mockFetch.mockResolvedValue({
+    ok: status >= 200 && status < 300,
+    status,
+    statusText,
+    json: async () => {
+      throw new SyntaxError('Unexpected token <');
+    },
+  } as unknown as Response);
+
 const apiError = (httpStatus: number) => ({
   type: 'Error',
   errorType: 'http',
@@ -44,7 +54,7 @@ describe('wellcomeApiQuery', () => {
     expect(result).toMatchObject({ type: 'ResultList', results: [] });
   });
 
-  it("passes through and logs an error in the API's own format", async () => {
+  it('passes through and logs an error in our error format', async () => {
     respondWith(500, apiError(500));
 
     const result = await wellcomeApiQuery('https://api.example/works');
@@ -53,20 +63,42 @@ describe('wellcomeApiQuery', () => {
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('returns and logs an error for a failed response in another format', async () => {
-    respondWith(429, { message: 'Too Many Requests' });
+  it("turns a failed response that isn't in our error format into an error, and logs it", async () => {
+    respondWith(500, { message: 'Internal Server Error' });
 
     const result = await wellcomeApiQuery('https://api.example/works');
 
-    expect(result).toMatchObject({ type: 'Error', httpStatus: 429 });
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
     expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
+  describe('a 429 from the API', () => {
+    it.each([
+      ['in our error format', () => respondWith(429, apiError(429))],
+      [
+        'in a different JSON format',
+        () => respondWith(429, { message: 'Too Many Requests' }),
+      ],
+      ["that isn't JSON", () => respondWithoutJson(429, 'Too Many Requests')],
+    ])('becomes a 503, %s, and is logged as a 429', async (_, respond) => {
+      respond();
+
+      const result = await wellcomeApiQuery('https://api.example/works');
+
+      expect(result).toMatchObject({
+        type: 'Error',
+        httpStatus: 503,
+        label: 'Service Unavailable',
+      });
+      expect(jest.mocked(console.warn).mock.calls[0][0]).toContain('HTTP 429');
+    });
+  });
+
   it.each([
-    [404, "in the API's own format", apiError(404)],
-    [404, 'in another format', { message: 'Not Found' }],
-    [414, "in the API's own format", apiError(414)],
-    [414, 'in another format', { message: 'URI Too Long' }],
+    [404, 'in our error format', apiError(404)],
+    [404, 'in a different JSON format', { message: 'Not Found' }],
+    [414, 'in our error format', apiError(414)],
+    [414, 'in a different JSON format', { message: 'URI Too Long' }],
   ])("returns but doesn't log a %i %s", async (status, _, body) => {
     respondWith(status, body);
 
@@ -84,16 +116,6 @@ describe('wellcomeApiQuery', () => {
     expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
     expect(console.error).toHaveBeenCalledTimes(1);
   });
-
-  const respondWithoutJson = (status: number, statusText: string) =>
-    mockFetch.mockResolvedValue({
-      ok: status >= 200 && status < 300,
-      status,
-      statusText,
-      json: async () => {
-        throw new SyntaxError('Unexpected token <');
-      },
-    } as unknown as Response);
 
   it("keeps the status of a failed response that isn't JSON, and logs it", async () => {
     respondWithoutJson(502, 'Bad Gateway');
