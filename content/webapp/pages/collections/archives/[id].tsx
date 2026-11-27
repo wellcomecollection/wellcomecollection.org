@@ -9,6 +9,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { getArchiveCategories } from '@weco/content/server-data/archiveCategories';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import {
   archiveCategoryWorksSortFields,
   fetchArchiveCategoryWorks,
@@ -82,7 +83,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(
       context,
       works.httpStatus,
-      works.description || works.label
+      apiErrorMessage(works, 'Catalogue API error')
     );
   }
 
