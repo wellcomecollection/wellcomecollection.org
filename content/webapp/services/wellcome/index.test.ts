@@ -85,20 +85,51 @@ describe('wellcomeApiQuery', () => {
     expect(console.error).toHaveBeenCalledTimes(1);
   });
 
-  it("returns and logs an error when the response isn't JSON", async () => {
+  const respondWithoutJson = (status: number, statusText: string) =>
     mockFetch.mockResolvedValue({
-      ok: false,
-      status: 502,
-      statusText: 'Bad Gateway',
+      ok: status >= 200 && status < 300,
+      status,
+      statusText,
       json: async () => {
         throw new SyntaxError('Unexpected token <');
       },
     } as unknown as Response);
 
+  it("keeps the status of a failed response that isn't JSON, and logs it", async () => {
+    respondWithoutJson(502, 'Bad Gateway');
+
+    const result = await wellcomeApiQuery('https://api.example/works');
+
+    expect(result).toMatchObject({
+      type: 'Error',
+      httpStatus: 502,
+      label: 'Bad Gateway',
+    });
+    expect(console.warn).toHaveBeenCalledWith(
+      expect.stringContaining('HTTP 502'),
+      expect.any(SyntaxError)
+    );
+  });
+
+  it("doesn't log a 404 that isn't JSON", async () => {
+    respondWithoutJson(404, 'Not Found');
+
+    const result = await wellcomeApiQuery('https://api.example/works/abc');
+
+    expect(result).toMatchObject({ type: 'Error', httpStatus: 404 });
+    expect(console.warn).not.toHaveBeenCalled();
+  });
+
+  it("returns a 500, and logs it, for a successful response that isn't JSON", async () => {
+    respondWithoutJson(200, 'OK');
+
     const result = await wellcomeApiQuery('https://api.example/works');
 
     expect(result).toMatchObject({ type: 'Error', httpStatus: 500 });
-    expect(console.error).toHaveBeenCalledTimes(1);
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringContaining('HTTP 200'),
+      expect.any(SyntaxError)
+    );
   });
 
   it('passes fetch options through', async () => {
