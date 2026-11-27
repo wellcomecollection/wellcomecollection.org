@@ -153,8 +153,9 @@ export const logFetchFailure = (url: string, error: unknown) => {
 
 /**
  * Reads a response from one of our APIs, and logs it if it's an error.
- * Never throws: a response that isn't JSON, or a failed one that isn't in
- * our error format, comes back as an error object.
+ * Never throws: a failed response that isn't in our error format (or isn't
+ * JSON at all) comes back as an error object with its own status, and a
+ * successful one that isn't JSON as a 500.
  *
  * Use wellcomeApiQuery unless you need the raw response first, like
  * getWork does for redirects.
@@ -195,7 +196,27 @@ export const readApiResponse = async (url: string, res: Response) => {
       _requestUrl: url,
     };
   } catch (error) {
-    console.error(`Unable to read the response from API URL: ${url}`, error);
+    // A failed response whose body isn't JSON, e.g. an HTML 502 from
+    // CloudFront or API Gateway, or an empty 503 or 504, keeps its status
+    if (!res.ok) {
+      if (shouldLog(res.status)) {
+        console.warn(
+          `Received HTTP ${res.status} with a body that isn't JSON from the API query ${url}`,
+          error
+        );
+      }
+      return {
+        ...wellcomeApiError(),
+        httpStatus: res.status,
+        label: res.statusText,
+        _requestUrl: url,
+      };
+    }
+
+    console.error(
+      `Unable to read the HTTP ${res.status} response from API URL: ${url}`,
+      error
+    );
     return wellcomeApiError();
   }
 };
