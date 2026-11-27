@@ -1,7 +1,9 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
+  logFetchFailure,
   QueryProps,
+  readApiResponse,
   rootUris,
   wellcomeApiError,
   WellcomeApiError,
@@ -81,7 +83,7 @@ const redirect = (id: string, status = 302): CatalogueApiRedirect => ({
  * https://wellcomecollection.org/works?subjects.label=%22Thackrah%2C+Charles+Turner%2C+1795-1833%22
  */
 export async function getWorks(
-  props: QueryProps<CatalogueWorksApiProps>
+  props: QueryProps<CatalogueWorksApiProps> & { isMinimalIncludes?: boolean }
 ): Promise<CatalogueResultsList<Work> | WellcomeApiError> {
   const params: WorksProps = {
     ...emptyWorksProps,
@@ -100,7 +102,7 @@ export async function getWorks(
       query['production.dates.to'] as string,
       'to'
     ),
-    include: worksIncludes,
+    include: props.isMinimalIncludes ? [] : worksIncludes,
   };
 
   return catalogueQuery('works', {
@@ -134,7 +136,13 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${id}?${searchParams}`;
 
-  const res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  let res: Response;
+  try {
+    res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  } catch (error) {
+    logFetchFailure(url, error);
+    return wellcomeApiError();
+  }
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
@@ -159,12 +167,8 @@ export async function getWork({
     return notFound();
   }
 
-  try {
-    const work = (await res.json()) as Work;
-    return { ...work, url };
-  } catch {
-    return wellcomeApiError();
-  }
+  const work = (await readApiResponse(url, res)) as Work | WellcomeApiError;
+  return work.type === 'Error' ? work : { ...work, url };
 }
 
 export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
@@ -267,22 +271,47 @@ export type ArchiveCategoryWorksResult = {
   requestUrl: string;
 };
 
-export const archiveCategoryWorksSortFields = ['production.dates'] as const;
-export type ArchiveCategoryWorksSortField =
-  (typeof archiveCategoryWorksSortFields)[number];
+export type ArchiveCategoryWorksSortField = 'title' | 'production.dates';
+export type SortOrder = 'asc' | 'desc';
+
+const isSortOrder = (value: unknown): value is SortOrder =>
+  value === 'asc' || value === 'desc';
+
+/**
+ * Anything other than a date sort resolves to title A-Z, the page's default,
+ * so missing or unknown params never error.
+ */
+export function getArchiveCategoryWorksSort({
+  sort,
+  sortOrder,
+}: {
+  sort?: string | string[];
+  sortOrder?: string | string[];
+}): { sort: ArchiveCategoryWorksSortField; sortOrder: SortOrder } {
+  if (sort === 'production.dates') {
+    return {
+      sort,
+      sortOrder: isSortOrder(sortOrder) ? sortOrder : 'desc',
+    };
+  }
+
+  // The sort control only offers A-Z for titles, so a Z-A request is ignored
+  // rather than showing results the control can't label
+  return { sort: 'title', sortOrder: 'asc' };
+}
 
 export async function fetchArchiveCategoryWorks({
   id,
   page,
   pageSize = 24,
-  sort = 'production.dates',
-  sortOrder = 'desc',
+  sort,
+  sortOrder,
 }: {
   id: string;
   page: number;
   pageSize?: number;
-  sort?: ArchiveCategoryWorksSortField;
-  sortOrder?: 'asc' | 'desc';
+  sort: ArchiveCategoryWorksSortField;
+  sortOrder: SortOrder;
 }): Promise<ArchiveCategoryWorksResult | WellcomeApiError> {
   const result = await catalogueQuery<unknown, Work>('works', {
     pageSize,

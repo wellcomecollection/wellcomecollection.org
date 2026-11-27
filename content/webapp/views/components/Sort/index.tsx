@@ -23,6 +23,10 @@ type Props = {
   options: Option[];
   jsLessOptions: JsLessOptions;
   defaultValues?: DefaultSortValuesType;
+  // Which option to show as selected, where the URL alone can't say: e.g.
+  // ?sort=production.dates has no sortOrder, so it matches no option, but the
+  // page sorts newest first and this should show "Newest to oldest"
+  selectedValue?: string;
   darkBg?: boolean;
 };
 
@@ -41,27 +45,41 @@ const Sort: FunctionComponent<Props> = ({
   options,
   jsLessOptions,
   defaultValues,
+  selectedValue,
   darkBg,
 }) => {
   const router = useRouter();
   const { isEnhanced } = useAppContext();
   const { sortOrder: currentSortOrder, sort: currentSortType } = router.query;
 
-  const [sortOrder, setSortOrder] = useState(currentSortOrder);
-  const [sortType, setSortType] = useState(currentSortType);
+  // The option just chosen, shown until the route change for it finishes
+  const [pendingValue, setPendingValue] = useState<string>();
 
   useEffect(() => {
-    // Only push changes if the sort order is a new one than currently used
-    if (sortOrder !== currentSortOrder || sortType !== currentSortType) {
-      const queryParams = { ...router.query, sortOrder, sort: sortType };
-      const newQuery = propsToQuery(queryParams);
+    setPendingValue(undefined);
+  }, [currentSortOrder, currentSortType]);
 
-      // Reset pagination when we change the sort order
-      // as it's likely the user will want to start from page 1
-      const { page, ...rest } = newQuery;
-      router.push({ pathname: router.pathname, query: { ...rest } });
-    }
-  }, [sortOrder, sortType]);
+  const valueFromQuery = currentSortType
+    ? `${currentSortType}.${currentSortOrder}`
+    : '';
+  // Which option the select shows, most specific source first: the choice just
+  // made, then the sort the page resolved, then whatever's in the URL. Taking it
+  // from the URL rather than state is what keeps the select in step through the
+  // browser's Back and Forward
+  const shownValue = pendingValue ?? selectedValue ?? valueFromQuery;
+
+  const changeSort = (value: string) => {
+    if (value === shownValue) return;
+
+    setPendingValue(value);
+    const { sort, sortOrder } = getUrlQueryFromSortValue(value);
+    const newQuery = propsToQuery({ ...router.query, sortOrder, sort });
+
+    // Reset pagination when we change the sort order
+    // as it's likely the user will want to start from page 1
+    const { page, ...rest } = newQuery;
+    router.push({ pathname: router.pathname, query: { ...rest } });
+  };
 
   return (
     <Wrapper data-component="sort">
@@ -106,17 +124,11 @@ const Sort: FunctionComponent<Props> = ({
       {/* If the user has JavaScript enabled, we can use a sole select input and deal with the logic with JS */}
       {isEnhanced && (
         <Select
-          value={sortType ? `${sortType}.${sortOrder}` : ''}
+          value={shownValue}
           form={formId}
           name="sortOrder"
           label="sort results by:"
-          onChange={e => {
-            const { sort, sortOrder } = getUrlQueryFromSortValue(
-              e.currentTarget.value
-            );
-            setSortOrder(sortOrder);
-            setSortType(sort);
-          }}
+          onChange={e => changeSort(e.currentTarget.value)}
           options={options}
           darkBg={darkBg}
           isPill

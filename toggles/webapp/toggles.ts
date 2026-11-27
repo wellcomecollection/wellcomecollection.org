@@ -238,6 +238,12 @@ const toggleConfig = {
           description:
             'Previous and next buttons (and arrow keys) in the sidebar, to move through the results without going back to the grid.',
         },
+        {
+          id: 'phase4',
+          label: 'Phase 4',
+          description:
+            'Labelled metadata (date, physical description, contributor, technique, licence) in the sidebar, with Open image and Read full details buttons.',
+        },
       ],
     },
   ] as const,

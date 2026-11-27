@@ -8,6 +8,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { getConcepts } from '@weco/content/services/wellcome/catalogue/concepts';
 import { cacheTTL, setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -77,7 +78,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(
       context,
       concepts.httpStatus,
-      concepts.description || concepts.label
+      apiErrorMessage(concepts, 'Concepts API error')
     );
   }
 

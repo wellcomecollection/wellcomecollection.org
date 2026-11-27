@@ -141,15 +141,40 @@ export type WellcomeApiError = {
   type: 'Error';
 };
 
-export const wellcomeApiQuery = async (url: string) => {
+// In general we want to know about errors from our APIs, but not:
+// - a 404: it means the thing doesn't exist, not that the API failed
+// - a 414 URI Too Long: it's usually a sign of an automated tool trying to
+//   inject malicious data, and thus can be ignored
+const shouldLog = (status: number) => status !== 404 && status !== 414;
+
+export const logFetchFailure = (url: string, error: unknown) => {
+  console.error(`Unable to fetch API URL: ${url}`, error);
+};
+
+const readResponse = async (url: string, res: Response) => {
   try {
-    const res = await wellcomeApiFetch(url);
     const json = (await res.json()) as { type: string; httpStatus: number };
 
-    // In general we want to know about errors from our APIs, but
-    // HTTP 414 URI Too Long isn't interesting -- it's usually a sign of an
-    // automated tool trying to inject malicious data, and thus can be ignored.
-    if (json.type === 'Error' && json.httpStatus !== 414) {
+    // Not every failed response is in our API's error format, e.g. a 429
+    // with `{"message": ...}`. Callers only check for `type: 'Error'`, so
+    // without this they'd treat it as results and crash.
+    if (!res.ok && json.type !== 'Error') {
+      if (shouldLog(res.status)) {
+        console.warn(
+          `Received HTTP ${res.status} from the API query ${url}: ${JSON.stringify(
+            json
+          )}`
+        );
+      }
+      return {
+        ...wellcomeApiError(),
+        httpStatus: res.status,
+        label: res.statusText,
+        _requestUrl: url,
+      };
+    }
+
+    if (json.type === 'Error' && shouldLog(json.httpStatus)) {
       console.warn(
         `Received HTTP ${json.httpStatus} error from the API query ${url}: ${JSON.stringify(
           json
@@ -162,7 +187,58 @@ export const wellcomeApiQuery = async (url: string) => {
       _requestUrl: url,
     };
   } catch (error) {
-    console.error(`Unable to fetch API URL: ${url}`, error);
+    // A failed response whose body isn't JSON, e.g. an HTML 502 from
+    // CloudFront or API Gateway, or an empty 503 or 504, keeps its status
+    if (!res.ok) {
+      if (shouldLog(res.status)) {
+        console.warn(
+          `Received HTTP ${res.status} with a body that isn't JSON from the API query ${url}`,
+          error
+        );
+      }
+      return {
+        ...wellcomeApiError(),
+        httpStatus: res.status,
+        label: res.statusText,
+        _requestUrl: url,
+      };
+    }
+
+    console.error(
+      `Unable to read the HTTP ${res.status} response from API URL: ${url}`,
+      error
+    );
+    return wellcomeApiError();
+  }
+};
+
+// A 429 means the API is throttling us, not that the visitor sent too many
+// requests, so they get a 503. The log line keeps the real 429.
+const asSeenByVisitor = <T extends { type: string; httpStatus: number }>(
+  result: T
+): T =>
+  result.type === 'Error' && result.httpStatus === 429
+    ? { ...result, httpStatus: 503, label: 'Service Unavailable' }
+    : result;
+
+/**
+ * Reads a response from one of our APIs, and logs it if it's an error.
+ * Never throws: a failed response that isn't in our error format (or isn't
+ * JSON at all) comes back as an error object with its own status (a 429 as a
+ * 503), and a successful one that isn't JSON as a 500.
+ *
+ * Use wellcomeApiQuery unless you need the raw response first, like
+ * getWork does for redirects.
+ */
+export const readApiResponse = async (url: string, res: Response) =>
+  asSeenByVisitor(await readResponse(url, res));
+
+export const wellcomeApiQuery = async (url: string, options?: RequestInit) => {
+  try {
+    const res = await wellcomeApiFetch(url, options);
+    return await readApiResponse(url, res);
+  } catch (error) {
+    logFetchFailure(url, error);
     return wellcomeApiError();
   }
 };

@@ -1,4 +1,4 @@
-import { wellcomeApiFetch } from '@weco/content/services/wellcome';
+import { wellcomeApiQuery } from '@weco/content/services/wellcome';
 import { catalogueQuery } from '@weco/content/services/wellcome/catalogue';
 import {
   conceptsApiUrl,
@@ -10,11 +10,11 @@ import { conceptsApiResponse } from '@weco/content/test/fixtures/catalogueApi/co
 
 jest.mock('@weco/content/services/wellcome', () => ({
   ...jest.requireActual('@weco/content/services/wellcome'),
-  wellcomeApiFetch: jest.fn(),
+  wellcomeApiQuery: jest.fn(),
 }));
 
-const mockWellcomeApiFetch = wellcomeApiFetch as jest.MockedFunction<
-  typeof wellcomeApiFetch
+const mockWellcomeApiQuery = wellcomeApiQuery as jest.MockedFunction<
+  typeof wellcomeApiQuery
 >;
 
 // Mock the catalogueQuery function
@@ -67,24 +67,28 @@ describe('getConcept', () => {
 describe('getConcept: the cataloguePipeline mode toggle', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockWellcomeApiFetch.mockResolvedValue({
-      status: 200,
-      json: async () => ({}),
-    } as Response);
+    mockWellcomeApiQuery.mockResolvedValue({
+      type: 'Concept',
+      httpStatus: 200,
+      _requestUrl: '',
+    });
   });
 
   it('adds no elasticCluster param when the mode is unset', async () => {
-    await getConcept({ id: 'abc123' });
+    await getConcept({ id: 'abcd2345' });
 
-    const url = mockWellcomeApiFetch.mock.calls[0][0] as string;
-    expect(url.endsWith('/catalogue/v2/concepts/abc123')).toBe(true);
+    const url = mockWellcomeApiQuery.mock.calls[0][0];
+    expect(url.endsWith('/catalogue/v2/concepts/abcd2345')).toBe(true);
   });
 
   it('adds an elasticCluster param when the mode is set', async () => {
-    await getConcept({ id: 'abc123', pipelineCluster: 'pipeline-2026-09-30' });
+    await getConcept({
+      id: 'abcd2345',
+      pipelineCluster: 'pipeline-2026-09-30',
+    });
 
-    const url = new URL(mockWellcomeApiFetch.mock.calls[0][0] as string);
-    expect(url.pathname).toBe('/catalogue/v2/concepts/abc123');
+    const url = new URL(mockWellcomeApiQuery.mock.calls[0][0]);
+    expect(url.pathname).toBe('/catalogue/v2/concepts/abcd2345');
     expect(url.searchParams.get('elasticCluster')).toBe('pipeline-2026-09-30');
   });
 });
@@ -98,13 +102,13 @@ describe('getConceptsByIds', () => {
     mockCatalogueQuery.mockResolvedValue(conceptsApiResponse);
 
     await getConceptsByIds({
-      ids: ['abc123'],
+      ids: ['abcd2345'],
       shouldUseStagingApi: false,
       pipelineCluster: 'pipeline-2026-09-30',
     });
 
     expect(mockCatalogueQuery).toHaveBeenCalledWith('concepts', {
-      params: { id: 'abc123' },
+      params: { id: 'abcd2345' },
       shouldUseStagingApi: false,
       pipelineCluster: 'pipeline-2026-09-30',
     });

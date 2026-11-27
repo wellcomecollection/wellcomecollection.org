@@ -102,6 +102,19 @@ Next.js code runs in both Node.js (server-side rendering) and the browser (clien
 
 Server-only packages that try to load in the browser will cause "Cannot find module" errors even with webpack exclusion. You need both webpack config AND runtime checks.
 
+## API Failures
+
+Our APIs (Content, Catalogue, Concepts, Prismic, IIIF) do go down. When writing or reviewing code that calls one:
+
+- Only return "not found" when the thing doesn't exist: a 404 from our APIs, or no result from Prismic (`getById`/`getByUid` return `undefined`). Don't detect it by catching Prismic's `NotFoundError`: in e2e, `instanceof` missed real ones and turned missing pages into 500s (probably because the server build bundles the Prismic client more than once). Any other failure shows the error page (`appError`) or throws, because 404s are cached by CloudFront and don't trip the 5xx alarm
+- Check IDs before calling an API: `looksLikeCanonicalId` for works, images and concepts, `looksLikePrismicId` for Prismic detail pages
+- Don't log a caught Prismic error as it is: its `url` includes the access token
+- Check `type === 'Error'` before reading a Wellcome API result, and don't assume a list has items
+- Fetch through `wellcomeApiQuery`. If you need the raw response, use `readApiResponse` and `logFetchFailure` rather than your own error handling, and pass on the `httpStatus` they return
+- Pass `appError` the message from `apiErrorMessage(error, '<API> API error')`
+- A 500 from `appError` keeps the page's cache time; a thrown one is only cached briefly
+- If a part of a page fetched in the browser fails, hide it rather than breaking the page or leaving it loading
+
 ## E2E Testing (Playwright)
 
 Playwright tests (`playwright/test/**/*.test.ts`) run against real environments, including prod. New test files must import `test`/`expect` from `playwright/test/helpers/analytics-blocking.ts` rather than directly from `@playwright/test` - that fixture drops GTM/GA network requests by default, so these runs don't send real traffic to analytics. Importing `@playwright/test` directly skips that protection silently: nothing fails, GTM just quietly loads for real. A test that genuinely needs the real GTM container to load can opt out for its own scope with `test.use({ blockAnalytics: false })`.
@@ -112,9 +125,13 @@ Our analyst's GTM tags and reports depend on `data-gtm-*` attributes (`data-gtm-
 
 Don't add, remove, rename or move these attributes, change their values, or restructure the element that carries one, without flagging it to the user so they can let the analyst know. When reviewing, call out any diff that does this.
 
+## In-page navigation over dark backgrounds
+
+On desktop, the "On this page" nav (`InPageNavigation`) colours its text dark by default and light only over an element marked `data-in-page-nav-dark`, measuring that element's top and bottom as the page scrolls. If a page puts a dark background behind the nav (including one that only reaches behind the sidebar via a `::before`), mark the element that draws it, or the nav's text will be dark on dark. Where the band ends in a `WobblyEdge`, also mark the edge's wrapper `data-in-page-nav-dark-edge` so the split follows its slope (see the concept page). The marker goes on the element whose box matches the dark area. When reviewing, flag a dark background behind the nav without one.
+
 ## PR Review Guidelines
 
-When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, e2e analytics-blocking, GTM attribute changes).
+When reviewing, check changes against the coding standards above (accessibility, duplication, naming, comments, Prismic conventions, API failure handling, e2e analytics-blocking, GTM attribute changes, in-page nav dark markers).
 
 ### TODOs and Technical Debt
 

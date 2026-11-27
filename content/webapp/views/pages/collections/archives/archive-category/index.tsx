@@ -3,22 +3,29 @@ import { NextPage } from 'next';
 import { ApiToolbarLink } from '@weco/common/views/components/ApiToolbar';
 import PageLayout from '@weco/common/views/layouts/PageLayout';
 import type { ArchiveCategory } from '@weco/content/services/wellcome/catalogue/archiveCategories';
-import type { ArchiveCategoryWorksResult } from '@weco/content/services/wellcome/catalogue/works';
+import type {
+  ArchiveCategoryWorksResult,
+  ArchiveCategoryWorksSortField,
+  SortOrder,
+} from '@weco/content/services/wellcome/catalogue/works';
 import { toArchiveCategoryLink } from '@weco/content/views/components/ArchiveCategoryLink';
 import CollectionsHeader from '@weco/content/views/components/CollectionsHeader';
 
+import OtherArchiveCategories from './archive-category.OtherArchiveCategories';
 import ArchiveCategoryWorksList from './archive-category.WorksList';
 
 export type Props = {
   archiveCategory: ArchiveCategory;
+  otherArchiveCategories: ArchiveCategory[];
   works: ArchiveCategoryWorksResult;
-  sort?: string;
-  sortOrder?: string;
+  sort: ArchiveCategoryWorksSortField;
+  sortOrder: SortOrder;
   apiToolbarLinks: ApiToolbarLink[];
 };
 
 const ArchiveCategoryPage: NextPage<Props> = ({
   archiveCategory,
+  otherArchiveCategories,
   works,
   sort,
   sortOrder,
@@ -48,6 +55,7 @@ const ArchiveCategoryPage: NextPage<Props> = ({
         sort={sort}
         sortOrder={sortOrder}
       />
+      <OtherArchiveCategories archiveCategories={otherArchiveCategories} />
     </PageLayout>
   );
 };

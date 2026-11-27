@@ -220,7 +220,8 @@ type Props = {
 };
 
 const ErrorPage: NextPage<Props> = ({ statusCode = 500, title }) => {
-  const errorMessage = isNotUndefined(title)
+  // An empty title (e.g. an API error with no description) gets the default too
+  const errorMessage = title
     ? title
     : statusCode in errorMessages
       ? errorMessages[statusCode]

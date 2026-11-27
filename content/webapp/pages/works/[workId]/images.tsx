@@ -12,6 +12,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { getImage } from '@weco/content/services/wellcome/catalogue/images';
 import {
@@ -65,14 +66,18 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (image.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, image.httpStatus, image.description);
+    return appError(
+      context,
+      image.httpStatus,
+      apiErrorMessage(image, 'Catalogue API (images) error')
+    );
   }
 
   // This is to avoid exposing a URL that has a valid `imageId` in it
   // but not the correct `workId`, which would technically work,
   // but the data on the page would be incorrect. e.g:
-  // image: { id: '1234567', image.source.id: 'abcdefg' }
-  // url: /works/gfedcba/images?id=1234567
+  // image: { id: 'jueq3ffv', image.source.id: 'v57fxbug' }
+  // url: /works/a2pjqhmz/images?id=jueq3ffv
   if (image.source.id !== workId) {
     return { notFound: true };
   }
@@ -87,7 +92,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     if (work.httpStatus === 404) {
       return { notFound: true };
     }
-    return appError(context, work.httpStatus, work.description);
+    return appError(
+      context,
+      work.httpStatus,
+      apiErrorMessage(work, 'Catalogue API error')
+    );
   } else if (work.type === 'Redirect') {
     return {
       redirect: {

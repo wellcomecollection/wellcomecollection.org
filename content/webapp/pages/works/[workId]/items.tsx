@@ -21,6 +21,7 @@ import { fetchCanvasOcr } from '@weco/content/services/iiif/fetch/canvasOcr';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformCanvasOcr } from '@weco/content/services/iiif/transformers/canvasOcr';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
   toWorkBasic,
@@ -83,7 +84,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
+    return appError(
+      context,
+      work.httpStatus,
+      apiErrorMessage(work, 'Catalogue API error')
+    );
   }
 
   if (work.type === 'Redirect') {

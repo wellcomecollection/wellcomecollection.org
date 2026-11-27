@@ -79,6 +79,10 @@ module "prod_wc_org_cloudfront_distribution" {
 
   # Silent challenge rather than a CAPTCHA for the geo consent rules (wc.org#13665).
   enable_geo_challenge = true
+
+  # Caps traffic on the works.www alias, which only a crawler uses, as one
+  # budget, so it stops filling the shared US rate limit.
+  enable_works_www_rate_limit = true
 }
 
 data "aws_lambda_function" "versioned_edge_lambda_request" {

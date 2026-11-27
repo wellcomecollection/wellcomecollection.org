@@ -8,6 +8,7 @@ import {
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
 import { emptyResultList } from '@weco/content/services/wellcome';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { getImages } from '@weco/content/services/wellcome/catalogue/images';
 import { setCacheControl } from '@weco/content/utils/setCacheControl';
 import { looksLikeSpam } from '@weco/content/utils/spam-detector';
@@ -85,7 +86,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(
       context,
       images.httpStatus,
-      images.description || images.label || 'Images API error'
+      apiErrorMessage(images, 'Catalogue API (images) error')
     );
   }
 

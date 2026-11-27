@@ -147,9 +147,10 @@ const runPa11y = async (browser, url) => {
         'heading-order',
         'landmark-unique',
       ],
-      // Hide InPageNavigation components from accessibility testing
-      // The component uses mix-blend-mode: difference which causes false positive
-      // contrast errors (1:1 ratio) that PA11y cannot properly evaluate
+      // axe can't measure the desktop in-page nav's text colours: it starts
+      // with mix-blend-mode: difference, then once enhanced uses transparent
+      // text over a gradient (background-clip: text), so every heading and
+      // link would come back as a contrast warning to check by hand
       hideElements: '[data-component="in-page-navigation"]',
       log: {
         debug: console.log,
