@@ -92,7 +92,8 @@ export type GetByTypeParams = Parameters<
 // didn't pin down why; the server build does bundle the client more than once,
 // each copy with its own error classes. So we ask for the first match
 // ourselves: no match is `undefined`, and anything thrown is a real failure,
-// which the page shows as an error rather than a 404 (CloudFront caches 404s).
+// which the page shows as an error rather than a 404, so it counts towards the
+// 5xx alarm.
 async function getFirstOrUndefined<Document extends prismic.PrismicDocument>(
   client: prismic.Client,
   params: NonNullable<Parameters<prismic.Client['get']>[0]>
