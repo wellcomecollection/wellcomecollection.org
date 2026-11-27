@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "allow_ci_to_deploy_beta_test_functions" {
     resources = ["arn:aws:s3:::weco-lambdas/cloudfront_functions/*"]
   }
 
-  # Without it, S3 answers a check for a missing key with 403 rather than 404
+  # Lets the upload see which versions are already in the bucket
   statement {
     actions = ["s3:ListBucket"]
 

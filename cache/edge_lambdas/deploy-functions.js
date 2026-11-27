@@ -4,7 +4,7 @@
 // .buildkite/scripts/deploy_beta_test_functions.sh.
 const {
   GetObjectCommand,
-  HeadObjectCommand,
+  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } = require('@aws-sdk/client-s3');
@@ -20,14 +20,13 @@ function git(command) {
   return childProcess.execSync(`git ${command}`, { encoding: 'utf-8' }).trim();
 }
 
-async function exists(key) {
-  try {
-    await s3.send(new HeadObjectCommand({ Bucket: BUCKET, Key: key }));
-    return true;
-  } catch (error) {
-    if (error.name === 'NotFound') return false;
-    throw error;
-  }
+// A list rather than HeadObject, because CI may only list under this prefix,
+// and without that HeadObject answers a missing key with 403
+async function uploadedKeys(prefix) {
+  const { Contents = [] } = await s3.send(
+    new ListObjectsV2Command({ Bucket: BUCKET, Prefix: prefix })
+  );
+  return Contents.map(object => object.Key);
 }
 
 async function uploaded(key) {
@@ -45,12 +44,11 @@ async function main() {
   const version = git(
     `rev-parse --short=12 HEAD:cache/edge_lambdas/${SOURCES}`
   );
-  const keys = FUNCTIONS.map(name => `${SOURCES}/${version}/${name}.js`);
+  const prefix = `${SOURCES}/${version}/`;
+  const keys = FUNCTIONS.map(name => `${prefix}${name}.js`);
 
-  const missing = [];
-  for (const key of keys) {
-    if (!(await exists(key))) missing.push(key);
-  }
+  const existing = await uploadedKeys(prefix);
+  const missing = keys.filter(key => !existing.includes(key));
   if (missing.length === 0) {
     console.log(`Functions at ${version} are already uploaded`);
     return;
