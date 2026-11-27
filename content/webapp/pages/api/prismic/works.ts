@@ -1,57 +1,48 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-async function fetchWorks(page) {
-  try {
-    const works = await fetch(
-      `https://api.wellcomecollection.org/catalogue/v2/works?availabilities=online&pageSize=50&page=${page || 1}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    ).then(resp => resp.json());
-    return works;
-  } catch {
-    return undefined;
-  }
-}
+import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 
+// Serves the works picker in Prismic, in the shape its integration field expects:
+// https://prismic.io/docs/integration#custom-api-format
 const WorksApi = async (
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void> => {
-  const { page } = req.query;
+  const page = Number(req.query.page) || 1;
 
-  const response = await fetchWorks(page);
-  // We format the response to be compatible with Prismic's integration field
-  // https://prismic.io/docs/integration#custom-api-format
-  const transformedResponse = {
-    results_size: 10000, // This is the most we can get from the catalogue API at present
-    results: response.results.map(result => {
-      const description = `${result.physicalDescription ? `${result.physicalDescription}: ` : ''} ${result.description ? result.description : ''}`;
-      return {
-        id: result.id,
-        title: result.title,
-        description,
-        image_url: result.thumbnail?.url,
-        blob: {
-          id: result.id,
-          title: result.title,
-          physicalDescription: result.physicalDescription,
-          description: result.description,
-        },
-      };
-    }),
-  };
+  const works = await getWorks({
+    params: { availabilities: ['online'], page },
+    pageSize: 50,
+    // The picker only reads fields the API always returns
+    isMinimalIncludes: true,
+  });
+
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  if (response.type === 'Error') {
-    res.status(response.httpStatus);
-  } else {
-    res.status(200);
+  if (works.type === 'Error') {
+    res.status(works.httpStatus).json({ results_size: 0, results: [] });
+    return;
   }
-  res.json(transformedResponse);
+
+  res.status(200).json({
+    results_size: 10000, // This is the most we can get from the catalogue API at present
+    results: works.results.map(work => {
+      const description = `${work.physicalDescription ? `${work.physicalDescription}: ` : ''} ${work.description ?? ''}`;
+      return {
+        id: work.id,
+        title: work.title,
+        description,
+        image_url: work.thumbnail?.url,
+        blob: {
+          id: work.id,
+          title: work.title,
+          physicalDescription: work.physicalDescription,
+          description: work.description,
+        },
+      };
+    }),
+  });
 };
 
 export default WorksApi;
