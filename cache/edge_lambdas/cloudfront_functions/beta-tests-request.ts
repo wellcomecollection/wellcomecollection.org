@@ -143,13 +143,12 @@ async function handler(
     request.headers[VERSION_HEADER] = { value: VERSION };
     const cookies = request.cookies;
 
-    // Staff leave tests with the betaTestsExempt toggle. Only this function
-    // reads it, so it comes off the request to stay out of the cache key.
+    // Staff leave tests with the betaTestsExempt toggle. It stays on the
+    // request so the toggle widget can show it, like any other toggle cookie.
     const isExempt = Boolean(
       cookies.toggle_betaTestsExempt &&
       cookies.toggle_betaTestsExempt.value === 'true'
     );
-    delete cookies.toggle_betaTestsExempt;
 
     // Kiosks show a different version of the site to a different audience
     if (cookies.toggle_kioskMode) return request;

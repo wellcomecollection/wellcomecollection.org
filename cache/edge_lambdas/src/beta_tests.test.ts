@@ -250,7 +250,7 @@ describe('beta-tests-request', () => {
     expect(handoff(request)).toBe('clear');
   });
 
-  it('leaves out staff who have turned on betaTestsExempt, and keeps the toggle out of the cache key', async () => {
+  it('leaves out staff who have turned on betaTestsExempt', async () => {
     const request = await runRequest([testA], {
       CookieControl: { value: consented },
       wc_ab: { value: 'testA:1:variant' },
@@ -259,7 +259,8 @@ describe('beta-tests-request', () => {
 
     expect(handoff(request)).toBe('clear');
     expect(request.cookies.toggle_testA).toBeUndefined();
-    expect(request.cookies.toggle_betaTestsExempt).toBeUndefined();
+    // The server reads it too, so the toggle widget shows it as on
+    expect(request.cookies.toggle_betaTestsExempt.value).toBe('true');
   });
 
   it('still lets exempt staff preview a version', async () => {
@@ -280,7 +281,7 @@ describe('beta-tests-request', () => {
     });
 
     expect(entriesOf(request)).toMatch(/^testA:1:/);
-    expect(request.cookies.toggle_betaTestsExempt).toBeUndefined();
+    expect(request.cookies.toggle_betaTestsExempt.value).toBe('false');
   });
 
   it('leaves kiosks out of every test', async () => {
