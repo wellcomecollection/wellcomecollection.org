@@ -1,6 +1,7 @@
 // This needs to be the first module loaded in the application
 /* eslint-disable @typescript-eslint/no-require-imports */
 require('@weco/common/services/apm/initApm')('identity-server');
+require('@weco/common/utils/redact-access-tokens').redactAccessTokensFromConsole();
 
 import Router from '@koa/router';
 import Koa from 'koa';
