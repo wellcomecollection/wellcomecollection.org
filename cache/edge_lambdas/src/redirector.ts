@@ -136,6 +136,8 @@ export const getRedirect = (
   // for the same reason.
   const subdomainRedirectHosts = [
     'works.wellcomecollection.org',
+    // A leftover of the removed catalogue app; www. then redirects to the apex over HTTPS.
+    'works.www.wellcomecollection.org',
     'works.www-stage.wellcomecollection.org',
     'works.www-e2e.wellcomecollection.org',
     'content.wellcomecollection.org',
