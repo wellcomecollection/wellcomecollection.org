@@ -1,6 +1,5 @@
-# Backplane (backplane/v1) description of this repository's software, read by
-# the deploy tracker and gathered into https://github.com/wellcomecollection/catalog.
-# Component names match the checkpoint names in .deploy-tracker.yml.
+# Backplane (backplane/v1) description of this repository's software, gathered
+# into https://github.com/wellcomecollection/catalog.
 apiVersion: backplane/v1
 kind: System
 metadata:
@@ -19,7 +18,6 @@ metadata:
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/content/
-    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#content
     backplane/dora-paths: content, common
   links:
     - title: Runbook
@@ -75,11 +73,6 @@ spec:
         source: cloudwatch
         good: 'RequestCount - HTTPCode_Target_5XX_Count'
         total: 'RequestCount'
-  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
-  notifications:
-    deployments:
-      labels: false
-      prComments: false
 ---
 apiVersion: backplane/v1
 kind: Component
@@ -89,7 +82,6 @@ metadata:
   annotations:
     github.com/project-slug: wellcomecollection/wellcomecollection.org
     backstage.io/source-location: url:https://github.com/wellcomecollection/wellcomecollection.org/tree/main/identity/
-    wellcomecollection.org/deploy-tracker: .deploy-tracker.yml#identity
     backplane/dora-paths: identity, common
 spec:
   type: service
@@ -132,11 +124,6 @@ spec:
         source: cloudwatch
         good: 'RequestCount - HTTPCode_Target_5XX_Count'
         total: 'RequestCount'
-  # Removed at this repo's cutover from deploy-tracker, which labels and comments on PRs until then
-  notifications:
-    deployments:
-      labels: false
-      prComments: false
 ---
 apiVersion: backplane/v1
 kind: Component
