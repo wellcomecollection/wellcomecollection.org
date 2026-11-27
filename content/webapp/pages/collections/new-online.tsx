@@ -9,6 +9,7 @@ import {
   ServerSideProps,
   ServerSidePropsOrAppError,
 } from '@weco/common/views/pages/_app';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWorks } from '@weco/content/services/wellcome/catalogue/works';
 import { getPage } from '@weco/content/utils/query-params';
@@ -63,7 +64,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(
       context,
       works.httpStatus,
-      works.description || works.label
+      apiErrorMessage(works, 'Catalogue API error')
     );
   }
 

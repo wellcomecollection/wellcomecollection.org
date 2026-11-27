@@ -12,6 +12,7 @@ import {
 import ConceptContext from '@weco/content/contexts/ConceptPageContext';
 import { makeConceptConfig } from '@weco/content/contexts/ConceptPageContext/concept.config';
 import { emptyResultList } from '@weco/content/services/wellcome';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import {
   conceptsApiUrl,
@@ -107,7 +108,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
     return appError(
       context,
       conceptResponse.httpStatus,
-      conceptResponse.description
+      apiErrorMessage(conceptResponse, 'Concepts API error')
     );
   }
 

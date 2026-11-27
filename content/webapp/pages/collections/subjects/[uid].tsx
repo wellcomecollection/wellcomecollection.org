@@ -23,6 +23,7 @@ import { createClient } from '@weco/content/services/prismic/fetch';
 import { fetchPage } from '@weco/content/services/prismic/fetch/pages';
 import { genericPageLd } from '@weco/content/services/prismic/transformers/json-ld';
 import { transformPage } from '@weco/content/services/prismic/transformers/pages';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import {
   conceptsApiUrl,
   getConcepts,
@@ -166,7 +167,7 @@ export const getServerSideProps: ServerSidePropsOrAppError<
       return appError(
         context,
         conceptResponse.httpStatus,
-        conceptResponse.description
+        apiErrorMessage(conceptResponse, 'Concepts API error')
       );
     }
 

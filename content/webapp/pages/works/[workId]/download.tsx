@@ -9,6 +9,7 @@ import {
 } from '@weco/common/views/pages/_app';
 import { fetchIIIFPresentationManifest } from '@weco/content/services/iiif/fetch/manifest';
 import { transformManifest } from '@weco/content/services/iiif/transformers/manifest';
+import { apiErrorMessage } from '@weco/content/services/wellcome/api-error-message';
 import { looksLikeCanonicalId } from '@weco/content/services/wellcome/catalogue';
 import { toWorkBasic } from '@weco/content/services/wellcome/catalogue/types';
 import { getWork } from '@weco/content/services/wellcome/catalogue/works';
@@ -44,7 +45,11 @@ export const getServerSideProps: ServerSidePropsOrAppError<
   });
 
   if (work.type === 'Error') {
-    return appError(context, work.httpStatus, work.description);
+    return appError(
+      context,
+      work.httpStatus,
+      apiErrorMessage(work, 'Catalogue API error')
+    );
   } else if (work.type === 'Redirect') {
     return {
       redirect: {

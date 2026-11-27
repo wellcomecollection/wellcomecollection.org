@@ -1,7 +1,9 @@
 import { propsToQuery } from '@weco/common/utils/routes';
 import {
   globalApiOptions,
+  logFetchFailure,
   QueryProps,
+  readApiResponse,
   rootUris,
   wellcomeApiError,
   WellcomeApiError,
@@ -134,7 +136,13 @@ export async function getWork({
   const searchParams = new URLSearchParams(propsToQuery(params)).toString();
   const url = `${rootUris[apiOptions.env.catalogue]}/catalogue/v2/works/${id}?${searchParams}`;
 
-  const res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  let res: Response;
+  try {
+    res = await wellcomeApiFetch(url, { redirect: 'manual' });
+  } catch (error) {
+    logFetchFailure(url, error);
+    return wellcomeApiError();
+  }
 
   // When records from Miro have been merged with Sierra data, we redirect the
   // latter to the former. This would happen quietly on the API request, but we
@@ -159,12 +167,8 @@ export async function getWork({
     return notFound();
   }
 
-  try {
-    const work = (await res.json()) as Work;
-    return { ...work, url };
-  } catch {
-    return wellcomeApiError();
-  }
+  const work = (await readApiResponse(url, res)) as Work | WellcomeApiError;
+  return work.type === 'Error' ? work : { ...work, url };
 }
 
 export async function getWorkClientSide(workId: string): Promise<WorkResponse> {
