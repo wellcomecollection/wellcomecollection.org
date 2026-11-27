@@ -267,22 +267,47 @@ export type ArchiveCategoryWorksResult = {
   requestUrl: string;
 };
 
-export const archiveCategoryWorksSortFields = ['production.dates'] as const;
-export type ArchiveCategoryWorksSortField =
-  (typeof archiveCategoryWorksSortFields)[number];
+export type ArchiveCategoryWorksSortField = 'title' | 'production.dates';
+export type SortOrder = 'asc' | 'desc';
+
+const isSortOrder = (value: unknown): value is SortOrder =>
+  value === 'asc' || value === 'desc';
+
+/**
+ * Anything other than a date sort resolves to title A-Z, the page's default,
+ * so missing or unknown params never error.
+ */
+export function getArchiveCategoryWorksSort({
+  sort,
+  sortOrder,
+}: {
+  sort?: string | string[];
+  sortOrder?: string | string[];
+}): { sort: ArchiveCategoryWorksSortField; sortOrder: SortOrder } {
+  if (sort === 'production.dates') {
+    return {
+      sort,
+      sortOrder: isSortOrder(sortOrder) ? sortOrder : 'desc',
+    };
+  }
+
+  // The sort control only offers A-Z for titles, so a Z-A request is ignored
+  // rather than showing results the control can't label
+  return { sort: 'title', sortOrder: 'asc' };
+}
 
 export async function fetchArchiveCategoryWorks({
   id,
   page,
   pageSize = 24,
-  sort = 'production.dates',
-  sortOrder = 'desc',
+  sort,
+  sortOrder,
 }: {
   id: string;
   page: number;
   pageSize?: number;
-  sort?: ArchiveCategoryWorksSortField;
-  sortOrder?: 'asc' | 'desc';
+  sort: ArchiveCategoryWorksSortField;
+  sortOrder: SortOrder;
 }): Promise<ArchiveCategoryWorksResult | WellcomeApiError> {
   const result = await catalogueQuery<unknown, Work>('works', {
     pageSize,
