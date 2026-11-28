@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 // This needs to be the first module loaded in the application
 require('@weco/common/services/apm/initApm')('content-server');
+require('@weco/common/utils/redact-access-tokens').redactAccessTokensFromConsole();
 import Router from '@koa/router';
 import * as prismic from '@prismicio/client';
 import Koa from 'koa';
