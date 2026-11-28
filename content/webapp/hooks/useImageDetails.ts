@@ -136,6 +136,9 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
   const productionDates = detailedWork ? getProductionDates(detailedWork) : [];
   const displayContributor = detailedWork?.contributors?.[0]?.agent?.label;
   const displayTitle = detailedWork?.title ?? '';
+  const primaryContributor = detailedWork?.contributors?.find(
+    contributor => contributor.primary
+  );
 
   return {
     detailedWork,
@@ -145,6 +148,7 @@ const useImageDetails = (images: Image[], expandedImage?: Image) => {
     productionDates,
     displayContributor,
     displayTitle,
+    primaryContributor,
   };
 };
 
